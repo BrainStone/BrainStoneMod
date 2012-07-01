@@ -1,18 +1,15 @@
-import java.util.HashMap;
+import java.io.PrintStream;
 import java.util.Random;
 import net.minecraft.client.Minecraft;
 
-public class BlockBrainLightSensor extends pb
+public class BlockBrainLightSensor extends agy
 {
   private static int textureIdUp;
   private static Minecraft mc;
-  private static BlockBrainLightSensor.StateContainer state;
 
   protected BlockBrainLightSensor(int i, int j)
   {
     super(i, 45, acn.p);
-
-    state = new BlockBrainLightSensor.StateContainer(null);
 
     textureIdUp = j;
     this.cc = -0.2F;
@@ -20,44 +17,69 @@ public class BlockBrainLightSensor extends pb
     mc = ModLoader.getMinecraftInstance();
   }
 
+  public kw u_()
+  {
+    return new TileEntityBlockBrainLightSensor();
+  }
+
   public void a(xd par1World, int par2, int par3, int par4)
   {
-    setLightLevel(8, par1World, par2, par3, par4);
-
-    state.put(new BlockBrainLightSensor.Coord(par2, par3, par4), false);
-
-    if (par1World.e(par2, par3, par4) == 0)
-    {
-      super.a(par1World, par2, par3, par4);
-    }
-
+    par1World.a(par2, par3, par4, u_());
     par1World.j(par2, par3, par4, this.bO);
+    par1World.j(par2 - 1, par3, par4, this.bO);
+    par1World.j(par2 + 1, par3, par4, this.bO);
+    par1World.j(par2, par3 - 1, par4, this.bO);
+    par1World.j(par2, par3 + 1, par4, this.bO);
+    par1World.j(par2, par3, par4 - 1, this.bO);
+    par1World.j(par2, par3, par4 + 1, this.bO);
+
     par1World.a(par2, par3, par4, this.bO, 0);
   }
 
   public void b_(xd par1World, int par2, int par3, int par4)
   {
+    par1World.q(par2, par3, par4);
     par1World.j(par2, par3, par4, this.bO);
-
-    setLightLevel(0, par1World, par2, par3, par4);
-
-    state.remove(new BlockBrainLightSensor.Coord(par2, par3, par4));
+    par1World.j(par2 - 1, par3, par4, this.bO);
+    par1World.j(par2 + 1, par3, par4, this.bO);
+    par1World.j(par2, par3 - 1, par4, this.bO);
+    par1World.j(par2, par3 + 1, par4, this.bO);
+    par1World.j(par2, par3, par4 - 1, this.bO);
+    par1World.j(par2, par3, par4 + 1, this.bO);
   }
 
   public void a(xd par1World, int par2, int par3, int par4, Random random)
   {
-    BlockBrainLightSensor.Coord coords = new BlockBrainLightSensor.Coord(par2, par3, par4);
+    TileEntityBlockBrainLightSensor tileentity = (TileEntityBlockBrainLightSensor)par1World.b(par2, par3, par4);
 
-    if (!state.containsKey(coords)) {
-      state.put(coords, false);
-    }
-    boolean tmp = state.get(coords);
-    state.put(coords, par1World.o(par2, par3 + 1, par4) > getLightLevel(par1World, par2, par3, par4));
+    if (tileentity != null)
+    {
+      boolean tmp = tileentity.getPowerOn();
+      boolean direction = tileentity.getDirection();
 
-    if (tmp != state.get(coords)) {
-      mc.C.a("random.click", 1.0F, 1.0F);
+      int lightLevel = par1World.o(par2, par3 + 1, par4);
+      int intern_lightLevel = tileentity.getLightLevel();
+
+      boolean powerOn = lightLevel <= intern_lightLevel;
+
+      if (powerOn != tmp) {
+        mc.C.a("random.click", 1.0F, 1.0F);
+      }
+      tileentity.setPowerOn(powerOn);
+
+      par1World.j(par2, par3, par4, this.bO);
+      par1World.j(par2 - 1, par3, par4, this.bO);
+      par1World.j(par2 + 1, par3, par4, this.bO);
+      par1World.j(par2, par3 - 1, par4, this.bO);
+      par1World.j(par2, par3 + 1, par4, this.bO);
+      par1World.j(par2, par3, par4 - 1, this.bO);
+      par1World.j(par2, par3, par4 + 1, this.bO);
     }
-    par1World.j(par2, par3, par4, this.bO);
+    else
+    {
+      System.out.println("Die TileEntity fehlt!");
+    }
+
     par1World.a(par2, par3, par4, this.bO, e());
   }
 
@@ -69,35 +91,9 @@ public class BlockBrainLightSensor extends pb
   public boolean b(ali par1IBlockAccess, int par2, int par3, int par4, int par5)
   {
     int i = par1IBlockAccess.e(par2, par3, par4);
-    BlockBrainLightSensor.Coord coords = new BlockBrainLightSensor.Coord(par2, par3, par4);
+    TileEntityBlockBrainLightSensor tileentity = (TileEntityBlockBrainLightSensor)par1IBlockAccess.b(par2, par3, par4);
 
-    if (!state.containsKey(coords)) {
-      return false;
-    }
-    if (!state.get(coords)) {
-      return false;
-    }
-    if ((i == 5) && (par5 == 1))
-    {
-      return false;
-    }
-
-    if ((i == 3) && (par5 == 3))
-    {
-      return false;
-    }
-
-    if ((i == 4) && (par5 == 2))
-    {
-      return false;
-    }
-
-    if ((i == 1) && (par5 == 5))
-    {
-      return false;
-    }
-
-    return (i != 2) || (par5 != 4);
+    return (tileentity != null) && (tileentity.getPowerOn());
   }
 
   public boolean e(xd par1World, int par2, int par3, int par4, int par5)
@@ -133,73 +129,56 @@ public class BlockBrainLightSensor extends pb
 
     ModLoader.openGUI(par5EntityPlayer, new GuiBrainLightSensor(this, par1World, par2, par3, par4));
 
+    par1World.j(par2, par3, par4, this.bO);
+
     return true;
   }
 
   public void setLightLevel(int lightLevel, xd world, int x, int y, int z)
   {
-    world.f(x, y, z, lightLevel);
+    TileEntityBlockBrainLightSensor tileentity = (TileEntityBlockBrainLightSensor)world.b(x, y, z);
+
+    if (tileentity == null)
+    {
+      return;
+    }
+
+    tileentity.setLightLevel(lightLevel);
+  }
+
+  public void setDirection(boolean direction, xd world, int x, int y, int z)
+  {
+    TileEntityBlockBrainLightSensor tileentity = (TileEntityBlockBrainLightSensor)world.b(x, y, z);
+
+    if (tileentity == null)
+    {
+      return;
+    }
+
+    tileentity.setDirection(direction);
   }
 
   public int getLightLevel(xd world, int x, int y, int z)
   {
-    return world.e(x, y, z);
+    TileEntityBlockBrainLightSensor tileentity = (TileEntityBlockBrainLightSensor)world.b(x, y, z);
+
+    if (tileentity == null)
+    {
+      return 8;
+    }
+
+    return tileentity.getLightLevel();
   }
 
-  private class StateContainer
+  public boolean getDirection(xd world, int x, int y, int z)
   {
-    private HashMap state = new HashMap();
+    TileEntityBlockBrainLightSensor tileentity = (TileEntityBlockBrainLightSensor)world.b(x, y, z);
 
-    private StateContainer() {
-    }
-    public void put(BlockBrainLightSensor.Coord coords, boolean flag) { HashMap depth2 = new HashMap();
-      depth2.put(Integer.valueOf(coords.z), Boolean.valueOf(flag));
-      HashMap depth1 = new HashMap();
-      depth1.put(Integer.valueOf(coords.y), depth2);
-
-      this.state.put(Integer.valueOf(coords.x), depth1);
-    }
-
-    public boolean get(BlockBrainLightSensor.Coord coords)
+    if (tileentity == null)
     {
-      return ((Boolean)((HashMap)((HashMap)this.state.get(Integer.valueOf(coords.x))).get(Integer.valueOf(coords.y))).get(Integer.valueOf(coords.z))).booleanValue();
+      return true;
     }
 
-    public boolean containsKey(BlockBrainLightSensor.Coord coords)
-    {
-      if (!this.state.containsKey(Integer.valueOf(coords.x))) {
-        return false;
-      }
-      HashMap depth1 = (HashMap)this.state.get(Integer.valueOf(coords.x));
-
-      if (!depth1.containsKey(Integer.valueOf(coords.y))) {
-        return false;
-      }
-      HashMap depth2 = (HashMap)depth1.get(Integer.valueOf(coords.y));
-
-      return depth2.containsKey(Integer.valueOf(coords.z));
-    }
-
-    public void remove(BlockBrainLightSensor.Coord coords)
-    {
-      if (!containsKey(coords)) {
-        return;
-      }
-      ((HashMap)((HashMap)this.state.get(Integer.valueOf(coords.x))).get(Integer.valueOf(coords.y))).remove(Integer.valueOf(coords.z));
-    }
-  }
-
-  private class Coord
-  {
-    public int x;
-    public int y;
-    public int z;
-
-    public Coord(int x, int y, int z)
-    {
-      this.x = x;
-      this.y = y;
-      this.z = z;
-    }
+    return tileentity.getDirection();
   }
 }

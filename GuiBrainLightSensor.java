@@ -4,11 +4,14 @@ public class GuiBrainLightSensor extends vp
 {
   private BlockBrainLightSensor Block;
   private int lightLevel;
+  private boolean direction;
   private static Minecraft p;
   private int x;
   private int y;
   private int z;
   private xd world;
+  int xSize;
+  int ySize;
 
   public GuiBrainLightSensor(BlockBrainLightSensor Block, xd world, int x, int y, int z)
   {
@@ -18,30 +21,33 @@ public class GuiBrainLightSensor extends vp
     this.world = world;
 
     this.Block = Block;
-    this.lightLevel = Block.getLightLevel(world, x, y, z);
+    this.direction = Block.getDirection(world, x, y, z);
+    setLightLevel(Block.getLightLevel(world, x, y, z));
 
     p = ModLoader.getMinecraftInstance();
+
+    this.xSize = 128;
+    this.ySize = 79;
   }
 
   public void a(int par1, int par2, float par3)
   {
-    int xSize = 160;
-    int ySize = 84;
     int t = p.p.b("/BrainStone/GuiBrainLightSensor.png");
     p.p.b(t);
-    int x = (this.q - xSize) / 2;
-    int y = (this.r - ySize) / 2;
-    b(x, y, 0, 0, xSize, ySize);
+    int x = (this.q - this.xSize) / 2;
+    int y = (this.r - this.ySize) / 2;
+    b(x, y, 0, 0, this.xSize, this.ySize);
 
-    String str = String.valueOf(this.lightLevel);
-
-    if (this.lightLevel < 10)
+    if (this.direction)
     {
-      this.u.b(str, this.q / 2 - 32, this.r / 2 - 2, 0);
+      b(x + 9, y + 8, 9, 79, 7 * (this.lightLevel + 1), 64);
     }
     else
     {
-      this.u.b(str, this.q / 2 - 35, this.r / 2 - 2, 0);
+      int redWidth = 7 * (16 - this.lightLevel);
+      int versch = 112 - redWidth;
+
+      b(x + 9 + versch, y + 8, 9 + versch, 79, redWidth, 64);
     }
   }
 
@@ -49,41 +55,33 @@ public class GuiBrainLightSensor extends vp
   {
     if ((par2 == 1) || (par2 == 18))
     {
-      p.C.a("random.click", 1.0F, 1.0F);
+      click();
       quit();
-    }
-    else if (par2 == 200)
-    {
-      p.C.a("random.click", 1.0F, 1.0F);
-      count(true);
-    }
-    else if (par2 == 208)
-    {
-      p.C.a("random.click", 1.0F, 1.0F);
-      count(false);
     }
   }
 
   protected void a(int par1, int par2, int par3)
   {
-    par1 -= this.q / 2 - 80;
-    par2 -= this.r / 2 - 42;
+    par1 -= this.q / 2 - this.xSize / 2;
+    par2 -= this.r / 2 - this.ySize / 2;
 
     if (par3 == 0)
     {
-      if (inField(par1, par2, 92, 20, 119, 39))
+      for (int i = 0; i < 16; i++)
       {
-        p.C.a("random.click", 1.0F, 1.0F);
-        count(true);
+        int i7 = 7 * i;
+        int i2 = 2 * i;
+
+        if (inField(par1, par2, 9 + i7, 38 - i2, 12 + i7, 41 + i2))
+        {
+          click();
+          setLightLevel(i);
+        }
       }
-      else if (inField(par1, par2, 92, 44, 119, 63))
+
+      if (inField(par1, par2, 120, 3, 124, 7))
       {
-        p.C.a("random.click", 1.0F, 1.0F);
-        count(false);
-      }
-      else if (inField(par1, par2, 128, 16, 147, 35))
-      {
-        p.C.a("random.click", 1.0F, 1.0F);
+        click();
         quit();
       }
     }
@@ -92,6 +90,7 @@ public class GuiBrainLightSensor extends vp
   private void quit()
   {
     this.Block.setLightLevel(this.lightLevel, this.world, this.x, this.y, this.z);
+    this.Block.setDirection(this.direction, this.world, this.x, this.y, this.z);
     p.a(null);
     p.g();
   }
@@ -101,12 +100,30 @@ public class GuiBrainLightSensor extends vp
     return (varX >= minX) && (varX <= maxX) && (varY >= minY) && (varY <= maxY);
   }
 
-  private void count(boolean up)
+  private void setLightLevel(int lightLevel)
   {
-    if ((this.lightLevel < 15) && (up)) {
-      this.lightLevel += 1;
+    lightLevel &= 15;
+
+    if ((this.direction) && (lightLevel == 15))
+    {
+      this.direction = false;
+      this.lightLevel = lightLevel;
+
+      return;
     }
-    if ((this.lightLevel > 1) && (!up))
-      this.lightLevel -= 1;
+    if ((!this.direction) && (lightLevel == 0))
+    {
+      this.direction = true;
+      this.lightLevel = lightLevel;
+
+      return;
+    }
+
+    this.lightLevel = lightLevel;
+  }
+
+  private void click()
+  {
+    p.C.a("random.click", 1.0F, 1.0F);
   }
 }
