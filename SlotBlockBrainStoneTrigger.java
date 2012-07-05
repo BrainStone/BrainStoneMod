@@ -18,7 +18,7 @@ class SlotBlockBrainStoneTrigger extends yu
     if (tmp == null) {
       return false;
     }
-    if ((ID == mod_BrainStone.brainStoneTrigger.bO) || (ID == pb.K.bO) || (ID == pb.u.bO)) {
+    if ((ID == mod_BrainStone.brainStoneTrigger.bO) || (ID == pb.K.bO)) {
       return false;
     }
     return tmp.a();

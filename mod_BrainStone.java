@@ -1,7 +1,9 @@
 import java.util.Random;
+import java.util.logging.Logger;
 
 public class mod_BrainStone extends BaseMod
 {
+  private static final Logger logger = Logger.getLogger("mod_BrainStone");
   public static pb brainStone;
   public static pb brainStoneOut;
   public static pb brainStoneOre;
@@ -67,8 +69,8 @@ public class mod_BrainStone extends BaseMod
 
     WTHIT = new aeb(1004, "What the Hell is that???", 8, 2, brainStoneDust, dp.o).d();
     itLives = new aeb(1005, "It lives!", 8, 4, brainStone, WTHIT).d();
-    intelligentBlocks = new aeb(1006, "Intelligent Blocks!", 6, 5, brainLightSensor, WTHIT).d();
-    intelligentTools = new aeb(1007, "Intelligent Tools!", 10, 5, brainStonePickaxe, WTHIT).d();
+    intelligentBlocks = new aeb(1006, "Intelligent Blocks!", 6, 5, brainLightSensor, itLives).d();
+    intelligentTools = new aeb(1007, "Intelligent Tools!", 10, 5, brainStonePickaxe, itLives).d();
 
     de = "de_DE";
 
@@ -103,6 +105,12 @@ public class mod_BrainStone extends BaseMod
     ModLoader.addAchievementDesc(intelligentBlocks, "Intelligent Blocks!", "Make usefull intelligent Blocks out of this green stone!");
     ModLoader.addAchievementDesc(intelligentTools, "Intelligent Tools!", "Make Tools out of this green stone!");
 
+    ModLoader.addLocalization("gui.brainstone.item", "Item/Object");
+    ModLoader.addLocalization("gui.brainstone.animal", "Animal");
+    ModLoader.addLocalization("gui.brainstone.monster", "Monster");
+    ModLoader.addLocalization("gui.brainstone.nether", "Nether Mob");
+    ModLoader.addLocalization("gui.brainstone.player", "Player");
+
     ModLoader.addName(brainStone, de, "Hirnstein");
     ModLoader.addName(brainStoneOut, de, "Hirnstein");
     ModLoader.addName(brainStoneOre, de, "Hirnsteinerz");
@@ -118,6 +126,17 @@ public class mod_BrainStone extends BaseMod
     ModLoader.addName(brainStonePickaxe, de, "Hirnsteinspitzhacke");
     ModLoader.addName(brainStoneAxe, de, "Hirnsteinaxt");
     ModLoader.addName(brainStoneHoe, de, "Hirnsteinfeldhacke");
+
+    addAchievementDesc(WTHIT, de, "Was zur Hölle ist das???", "Du must ein seltsames grünes Pulver finden.");
+    addAchievementDesc(itLives, de, "Es lebt!", "Craften und Schmelzen ist die Lösung!");
+    addAchievementDesc(intelligentBlocks, de, "Intilligente Blöcke!", "Stelle nützliche intilligente Blöcke aus diesem grünen Stein her!");
+    addAchievementDesc(intelligentTools, de, "Intilligente Werkzeuge", "Stelle Werkzeuge aus diesem grünen Stein her!");
+
+    ModLoader.addLocalization("gui.brainstone.item", de, "Item/Objekt");
+    ModLoader.addLocalization("gui.brainstone.animal", de, "Tier");
+    ModLoader.addLocalization("gui.brainstone.monster", de, "Monster");
+    ModLoader.addLocalization("gui.brainstone.nether", de, "Nether Wesen");
+    ModLoader.addLocalization("gui.brainstone.player", de, "Spieler");
 
     ModLoader.addRecipe(new aan(dirtyBrainStone, 1), new Object[] { "XX", "XX", Character.valueOf('X'), brainStoneDust });
 
@@ -196,8 +215,58 @@ public class mod_BrainStone extends BaseMod
     }
   }
 
+  public static void addAchievementDesc(aeb achievement, String lang, String s, String s1)
+  {
+    try
+    {
+      if (achievement.i().contains("."))
+      {
+        String[] as = achievement.i().split("\\.");
+
+        if (as.length == 2)
+        {
+          String s2 = as[1];
+          ModLoader.addLocalization("achievement." + s2, lang, s);
+          ModLoader.addLocalization("achievement." + s2 + ".desc", lang, s1);
+          ModLoader.setPrivateValue(ajw.class, achievement, 1, cy.a("achievement." + s2));
+          ModLoader.setPrivateValue(aeb.class, achievement, 3, cy.a("achievement." + s2 + ".desc"));
+        }
+        else
+        {
+          ModLoader.setPrivateValue(ajw.class, achievement, 1, s);
+          ModLoader.setPrivateValue(aeb.class, achievement, 3, s1);
+        }
+      }
+      else
+      {
+        ModLoader.setPrivateValue(ajw.class, achievement, 1, s);
+        ModLoader.setPrivateValue(aeb.class, achievement, 3, s1);
+      }
+    }
+    catch (IllegalArgumentException illegalargumentexception)
+    {
+      logger.throwing("ModLoader", "AddAchievementDesc", illegalargumentexception);
+      throwException(illegalargumentexception);
+    }
+    catch (SecurityException securityexception)
+    {
+      logger.throwing("ModLoader", "AddAchievementDesc", securityexception);
+      throwException(securityexception);
+    }
+    catch (NoSuchFieldException nosuchfieldexception)
+    {
+      logger.throwing("ModLoader", "AddAchievementDesc", nosuchfieldexception);
+      throwException(nosuchfieldexception);
+    }
+  }
+
+  private static void throwException(Throwable throwable)
+  {
+    ModLoader.throwException("Exception occured in ModLoader", throwable);
+  }
+
   public String getVersion()
   {
-    return "1.6.46 BETA release";
+    return "1.8.2 BETA release";
   }
 }

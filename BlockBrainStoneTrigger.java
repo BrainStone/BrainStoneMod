@@ -1,3 +1,4 @@
+import java.io.PrintStream;
 import java.util.List;
 import java.util.Random;
 
@@ -65,7 +66,7 @@ public class BlockBrainStoneTrigger extends agy
     TileEntityBlockBrainStoneTrigger tileentity = (TileEntityBlockBrainStoneTrigger)par1World.b(par2, par3, par4);
 
     if (tileentity != null) {
-      tileentity.mob = triggerCorrectMob(par1World, par2, par3, par4);
+      tileentity.power = triggerCorrectMob(par1World, par2, par3, par4);
     }
     par1World.h(par2, par3, par4, this.bO);
     par1World.j(par2, par3, par4, this.bO);
@@ -100,6 +101,28 @@ public class BlockBrainStoneTrigger extends agy
     return 45;
   }
 
+  public int c(ali par1IBlockAccess, int par2, int par3, int par4)
+  {
+    TileEntityBlockBrainStoneTrigger tileentity = (TileEntityBlockBrainStoneTrigger)par1IBlockAccess.b(par2, par3, par4);
+
+    if (tileentity == null) {
+      return 16777215;
+    }
+    aan tmpItemStack = tileentity.k_(0);
+
+    if (tmpItemStack == null) {
+      return 16777215;
+    }
+    int i = tmpItemStack.c;
+
+    if ((i > 255) || (i <= 0)) {
+      return 16777215;
+    }
+    pb tmp = pb.m[i];
+
+    return tmp.c(par1IBlockAccess, par2, par3, par4);
+  }
+
   public int a_(int par1)
   {
     if ((par1 == 1) || (par1 == 0))
@@ -119,7 +142,7 @@ public class BlockBrainStoneTrigger extends agy
   {
     TileEntityBlockBrainStoneTrigger tileentity = (TileEntityBlockBrainStoneTrigger)par1IBlockAccess.b(par2, par3, par4);
 
-    return (tileentity != null) && (tileentity.mob);
+    return (tileentity != null) && (tileentity.power);
   }
 
   public boolean e(xd par1World, int par2, int par3, int par4, int par5)
@@ -135,14 +158,36 @@ public class BlockBrainStoneTrigger extends agy
   private boolean triggerCorrectMob(xd par1World, int par2, int par3, int par4)
   {
     List list = par1World.b(null, wu.b(par2, par3 + 1, par4, par2 + 1, par3 + 2, par4 + 1));
+    TileEntityBlockBrainStoneTrigger tileentity = (TileEntityBlockBrainStoneTrigger)par1World.b(par2, par3, par4);
+
+    if (tileentity == null) {
+      return false;
+    }
+    boolean flag = false;
 
     for (int i = 0; i < list.size(); i++)
     {
       nn tmp = (nn)list.get(i);
 
-      if (tmp != null);
+      if (tmp == null)
+      {
+        System.out.println("Fehler! Die Entity ist nicht vorhanden!");
+      }
+      else
+      {
+        if (tileentity.getMobTriggered(0))
+          flag = (flag) || ((tmp instanceof nm)) || ((tmp instanceof ep)) || ((tmp instanceof va)) || ((tmp instanceof bt)) || ((tmp instanceof act)) || ((tmp instanceof fq)) || ((tmp instanceof ama)) || ((tmp instanceof av)) || ((tmp instanceof agg)) || ((tmp instanceof bz));
+        if (tileentity.getMobTriggered(1))
+          flag = (flag) || ((tmp instanceof bc)) || (((tmp instanceof aaa)) && (!(tmp instanceof yy)));
+        if (tileentity.getMobTriggered(2))
+          flag = (flag) || (((tmp instanceof yy)) && (!(tmp instanceof adg)) && (!(tmp instanceof ui)) && (!(tmp instanceof aic)) && (!(tmp instanceof alt)));
+        if (tileentity.getMobTriggered(3))
+          flag = (flag) || ((tmp instanceof adg)) || ((tmp instanceof ui)) || ((tmp instanceof aic)) || ((tmp instanceof alt));
+        if (tileentity.getMobTriggered(4)) {
+          flag = (flag) || ((tmp instanceof yw)) || ((tmp instanceof yw)) || ((tmp instanceof yw));
+        }
+      }
     }
-
-    return list.size() > 0;
+    return flag;
   }
 }

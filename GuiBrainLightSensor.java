@@ -53,11 +53,17 @@ public class GuiBrainLightSensor extends vp
 
   protected void a(char par1, int par2)
   {
-    if ((par2 == 1) || (par2 == 18))
-    {
-      click();
+    if ((par2 == 1) || (par2 == p.A.s.d)) {
       quit();
     }
+    if (((par2 == 200) || (par2 == 205)) && (this.lightLevel != 15)) {
+      setLightLevel(this.lightLevel + 1);
+    }
+    if (((par2 == 208) || (par2 == 203)) && (this.lightLevel != 0)) {
+      setLightLevel(this.lightLevel - 1);
+    }
+    if ((par2 == 208) || (par2 == 203) || (par2 == 200) || (par2 == 205))
+      click();
   }
 
   protected void a(int par1, int par2, int par3)
@@ -91,6 +97,7 @@ public class GuiBrainLightSensor extends vp
   {
     this.Block.setLightLevel(this.lightLevel, this.world, this.x, this.y, this.z);
     this.Block.setDirection(this.direction, this.world, this.x, this.y, this.z);
+    click();
     p.a(null);
     p.g();
   }

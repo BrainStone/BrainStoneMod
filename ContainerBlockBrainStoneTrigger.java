@@ -5,7 +5,7 @@ public class ContainerBlockBrainStoneTrigger extends dd
   public ContainerBlockBrainStoneTrigger(aak par1InventoryPlayer, TileEntityBlockBrainStoneTrigger par2TileEntity)
   {
     this.trigger = par2TileEntity;
-    a(new SlotBlockBrainStoneTrigger(this.trigger, 0, 80, 34));
+    a(new SlotBlockBrainStoneTrigger(this.trigger, 0, 115, 58));
 
     for (int i = 0; i < 3; i++)
     {
