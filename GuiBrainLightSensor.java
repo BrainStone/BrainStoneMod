@@ -2,32 +2,27 @@ import net.minecraft.client.Minecraft;
 
 public class GuiBrainLightSensor extends vp
 {
-  private BlockBrainLightSensor Block;
   private int lightLevel;
+  private int xSize;
+  private int ySize;
+  private int curLightLevel;
   private boolean direction;
   private static Minecraft p;
-  private int x;
-  private int y;
-  private int z;
-  private xd world;
-  int xSize;
-  int ySize;
+  private TileEntityBlockBrainLightSensor tileentity;
 
-  public GuiBrainLightSensor(BlockBrainLightSensor Block, xd world, int x, int y, int z)
+  public GuiBrainLightSensor(TileEntityBlockBrainLightSensor tileentity)
   {
-    this.x = x;
-    this.y = y;
-    this.z = z;
-    this.world = world;
+    this.tileentity = tileentity;
 
-    this.Block = Block;
-    this.direction = Block.getDirection(world, x, y, z);
-    setLightLevel(Block.getLightLevel(world, x, y, z));
+    this.direction = tileentity.getDirection();
+    setLightLevel(tileentity.getLightLevel());
 
     p = ModLoader.getMinecraftInstance();
 
     this.xSize = 128;
-    this.ySize = 79;
+    this.ySize = 84;
+
+    tileentity.GUIopen = true;
   }
 
   public void a(int par1, int par2, float par3)
@@ -40,15 +35,21 @@ public class GuiBrainLightSensor extends vp
 
     if (this.direction)
     {
-      b(x + 9, y + 8, 9, 79, 7 * (this.lightLevel + 1), 64);
+      b(x + 9, y + 13, 9, 84, 7 * (this.lightLevel + 1), 64);
     }
     else
     {
       int redWidth = 7 * (16 - this.lightLevel);
       int versch = 112 - redWidth;
 
-      b(x + 9 + versch, y + 8, 9 + versch, 79, redWidth, 64);
+      b(x + 9 + versch, y + 13, 9 + versch, 84, redWidth, 64);
     }
+
+    this.curLightLevel = this.tileentity.getCurLightLevel();
+
+    b(x + this.curLightLevel * 7 + 8, y + 12, 8 + 7 * this.curLightLevel, 148, 6, 66);
+
+    this.u.b(cy.a("tile.brainLightSensor.name"), x + 6, y + 6, 4210752);
   }
 
   protected void a(char par1, int par2)
@@ -68,17 +69,17 @@ public class GuiBrainLightSensor extends vp
 
   protected void a(int par1, int par2, int par3)
   {
-    par1 -= this.q / 2 - this.xSize / 2;
-    par2 -= this.r / 2 - this.ySize / 2;
-
     if (par3 == 0)
     {
+      par1 -= (this.q - this.xSize) / 2;
+      par2 -= (this.r - this.ySize) / 2;
+
       for (int i = 0; i < 16; i++)
       {
         int i7 = 7 * i;
         int i2 = 2 * i;
 
-        if (inField(par1, par2, 9 + i7, 38 - i2, 12 + i7, 41 + i2))
+        if (inField(par1, par2, 9 + i7, 43 - i2, 12 + i7, 46 + i2))
         {
           click();
           setLightLevel(i);
@@ -86,17 +87,13 @@ public class GuiBrainLightSensor extends vp
       }
 
       if (inField(par1, par2, 120, 3, 124, 7))
-      {
-        click();
         quit();
-      }
     }
   }
 
   private void quit()
   {
-    this.Block.setLightLevel(this.lightLevel, this.world, this.x, this.y, this.z);
-    this.Block.setDirection(this.direction, this.world, this.x, this.y, this.z);
+    this.tileentity.GUIopen = false;
     click();
     p.a(null);
     p.g();
@@ -115,22 +112,28 @@ public class GuiBrainLightSensor extends vp
     {
       this.direction = false;
       this.lightLevel = lightLevel;
-
-      return;
     }
-    if ((!this.direction) && (lightLevel == 0))
+    else if ((!this.direction) && (lightLevel == 0))
     {
       this.direction = true;
       this.lightLevel = lightLevel;
-
-      return;
+    }
+    else
+    {
+      this.lightLevel = lightLevel;
     }
 
-    this.lightLevel = lightLevel;
+    this.tileentity.setLightLevel(this.lightLevel);
+    this.tileentity.setDirection(this.direction);
   }
 
   private void click()
   {
     p.C.a("random.click", 1.0F, 1.0F);
+  }
+
+  public boolean b()
+  {
+    return false;
   }
 }

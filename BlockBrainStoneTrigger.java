@@ -2,11 +2,11 @@ import java.io.PrintStream;
 import java.util.List;
 import java.util.Random;
 
-public class BlockBrainStoneTrigger extends agy
+public class BlockBrainStoneTrigger extends BlockBrainStoneHiders
 {
   public BlockBrainStoneTrigger(int i, int j)
   {
-    super(i, j, acn.p);
+    super(i, j);
 
     this.cc = -0.2F;
   }
@@ -32,6 +32,13 @@ public class BlockBrainStoneTrigger extends agy
 
   public void b_(xd par1World, int par2, int par3, int par4)
   {
+    TileEntityBlockBrainStoneTrigger tileentity = (TileEntityBlockBrainStoneTrigger)par1World.b(par2, par3, par4);
+
+    if (tileentity != null)
+    {
+      tileentity.dropItems(par1World, par2, par3, par4);
+    }
+
     par1World.q(par2, par3, par4);
     par1World.j(par2, par3, par4, this.bO);
     par1World.j(par2 - 1, par3, par4, this.bO);
@@ -54,8 +61,6 @@ public class BlockBrainStoneTrigger extends agy
     if (tileentity != null)
     {
       ModLoader.openGUI(par5EntityPlayer, new GuiBrainStoneTrigger(par5EntityPlayer.ap, tileentity));
-
-      par1World.h(par2, par3, par4, this.bO);
     }
 
     return true;
@@ -65,17 +70,31 @@ public class BlockBrainStoneTrigger extends agy
   {
     TileEntityBlockBrainStoneTrigger tileentity = (TileEntityBlockBrainStoneTrigger)par1World.b(par2, par3, par4);
 
-    if (tileentity != null) {
-      tileentity.power = triggerCorrectMob(par1World, par2, par3, par4);
+    if (tileentity == null)
+    {
+      par1World.a(par2, par3, par4, this.bO, e());
+
+      return;
     }
-    par1World.h(par2, par3, par4, this.bO);
-    par1World.j(par2, par3, par4, this.bO);
-    par1World.j(par2 - 1, par3, par4, this.bO);
-    par1World.j(par2 + 1, par3, par4, this.bO);
-    par1World.j(par2, par3 - 1, par4, this.bO);
-    par1World.j(par2, par3 + 1, par4, this.bO);
-    par1World.j(par2, par3, par4 - 1, this.bO);
-    par1World.j(par2, par3, par4 + 1, this.bO);
+
+    boolean tmp = tileentity.power;
+    tileentity.power = triggerCorrectMob(par1World, par2, par3, par4);
+
+    tileentity.delay = ((byte)(tileentity.delay > 0 ? tileentity.delay - 1 : tileentity.power ? 10 : 0));
+
+    if ((tileentity.delay == 0) || ((!tmp) && (tileentity.power == true)) || (tileentity.forceUpdate))
+    {
+      par1World.h(par2, par3, par4, this.bO);
+      par1World.j(par2, par3, par4, this.bO);
+      par1World.j(par2 - 1, par3, par4, this.bO);
+      par1World.j(par2 + 1, par3, par4, this.bO);
+      par1World.j(par2, par3 - 1, par4, this.bO);
+      par1World.j(par2, par3 + 1, par4, this.bO);
+      par1World.j(par2, par3, par4 - 1, this.bO);
+      par1World.j(par2, par3, par4 + 1, this.bO);
+
+      tileentity.forceUpdate = false;
+    }
 
     par1World.a(par2, par3, par4, this.bO, e());
   }
@@ -101,28 +120,6 @@ public class BlockBrainStoneTrigger extends agy
     return 45;
   }
 
-  public int c(ali par1IBlockAccess, int par2, int par3, int par4)
-  {
-    TileEntityBlockBrainStoneTrigger tileentity = (TileEntityBlockBrainStoneTrigger)par1IBlockAccess.b(par2, par3, par4);
-
-    if (tileentity == null) {
-      return 16777215;
-    }
-    aan tmpItemStack = tileentity.k_(0);
-
-    if (tmpItemStack == null) {
-      return 16777215;
-    }
-    int i = tmpItemStack.c;
-
-    if ((i > 255) || (i <= 0)) {
-      return 16777215;
-    }
-    pb tmp = pb.m[i];
-
-    return tmp.c(par1IBlockAccess, par2, par3, par4);
-  }
-
   public int a_(int par1)
   {
     if ((par1 == 1) || (par1 == 0))
@@ -133,16 +130,11 @@ public class BlockBrainStoneTrigger extends agy
     return 45;
   }
 
-  public boolean g()
-  {
-    return true;
-  }
-
   public boolean b(ali par1IBlockAccess, int par2, int par3, int par4, int par5)
   {
     TileEntityBlockBrainStoneTrigger tileentity = (TileEntityBlockBrainStoneTrigger)par1IBlockAccess.b(par2, par3, par4);
 
-    return (tileentity != null) && (tileentity.power);
+    return (tileentity != null) && (tileentity.delay > 0);
   }
 
   public boolean e(xd par1World, int par2, int par3, int par4, int par5)
@@ -152,7 +144,7 @@ public class BlockBrainStoneTrigger extends agy
 
   public int e()
   {
-    return 2;
+    return 1;
   }
 
   private boolean triggerCorrectMob(xd par1World, int par2, int par3, int par4)
@@ -184,7 +176,7 @@ public class BlockBrainStoneTrigger extends agy
         if (tileentity.getMobTriggered(3))
           flag = (flag) || ((tmp instanceof adg)) || ((tmp instanceof ui)) || ((tmp instanceof aic)) || ((tmp instanceof alt));
         if (tileentity.getMobTriggered(4)) {
-          flag = (flag) || ((tmp instanceof yw)) || ((tmp instanceof yw)) || ((tmp instanceof yw));
+          flag = (flag) || ((tmp instanceof yw));
         }
       }
     }

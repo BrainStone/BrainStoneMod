@@ -1,19 +1,19 @@
-public class ItemToolBrainStone extends yr
+public class ItemToolBrainStone extends da
 {
   private pb[] blocksEffectiveAgainst;
-  protected float efficiencyOnProperMaterial;
+  protected float a;
   private int damageVsEntity;
-  protected EnumToolMaterialBrainStone toolMaterial;
+  protected EnumToolMaterialBrainStone b;
 
   protected ItemToolBrainStone(int i, int j, EnumToolMaterialBrainStone enumtoolmaterial, pb[] ablock)
   {
-    super(i);
-    this.efficiencyOnProperMaterial = 4.0F;
-    this.toolMaterial = enumtoolmaterial;
+    super(i, j, uk.e, ablock);
+    this.a = 4.0F;
+    this.b = enumtoolmaterial;
     this.blocksEffectiveAgainst = ablock;
     this.bR = 1;
     g(enumtoolmaterial.getMaxUses());
-    this.efficiencyOnProperMaterial = enumtoolmaterial.getEfficiencyOnProperMaterial();
+    this.a = enumtoolmaterial.getEfficiencyOnProperMaterial();
     this.damageVsEntity = (j + enumtoolmaterial.getDamageVsEntity());
   }
 
@@ -23,7 +23,7 @@ public class ItemToolBrainStone extends yr
     {
       if (this.blocksEffectiveAgainst[i] == block)
       {
-        return this.efficiencyOnProperMaterial;
+        return this.a;
       }
     }
 
@@ -54,6 +54,6 @@ public class ItemToolBrainStone extends yr
 
   public int b()
   {
-    return this.toolMaterial.getEnchantability();
+    return this.b.getEnchantability();
   }
 }

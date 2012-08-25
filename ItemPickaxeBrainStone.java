@@ -11,32 +11,32 @@ public class ItemPickaxeBrainStone extends ItemToolBrainStone
   {
     if (par1Block == pb.ap)
     {
-      return this.toolMaterial.getHarvestLevel() == 3;
+      return this.b.getHarvestLevel() == 3;
     }
 
     if ((par1Block == pb.ax) || (par1Block == pb.aw))
     {
-      return this.toolMaterial.getHarvestLevel() >= 2;
+      return this.b.getHarvestLevel() >= 2;
     }
 
     if ((par1Block == pb.ah) || (par1Block == pb.G))
     {
-      return this.toolMaterial.getHarvestLevel() >= 2;
+      return this.b.getHarvestLevel() >= 2;
     }
 
     if ((par1Block == pb.ai) || (par1Block == pb.H))
     {
-      return this.toolMaterial.getHarvestLevel() >= 1;
+      return this.b.getHarvestLevel() >= 1;
     }
 
     if ((par1Block == pb.O) || (par1Block == pb.N))
     {
-      return this.toolMaterial.getHarvestLevel() >= 1;
+      return this.b.getHarvestLevel() >= 1;
     }
 
     if ((par1Block == pb.aN) || (par1Block == pb.aO))
     {
-      return this.toolMaterial.getHarvestLevel() >= 2;
+      return this.b.getHarvestLevel() >= 2;
     }
 
     if (par1Block.cd == acn.e)
@@ -51,7 +51,7 @@ public class ItemPickaxeBrainStone extends ItemToolBrainStone
   {
     if ((par2Block != null) && ((par2Block.cd == acn.f) || (par2Block.cd == acn.e)))
     {
-      return this.efficiencyOnProperMaterial;
+      return this.a;
     }
 
     return super.a(par1ItemStack, par2Block);

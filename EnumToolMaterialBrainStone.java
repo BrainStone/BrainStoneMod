@@ -1,6 +1,6 @@
 public enum EnumToolMaterialBrainStone
 {
-  BRAINSTONE(3, 5368, 6.0F, 5, 30);
+  BRAINSTONE(3, 5368, 6.0F, 5, 25);
 
   private final int harvestLevel;
   private final int maxUses;

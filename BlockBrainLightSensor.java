@@ -60,11 +60,30 @@ public class BlockBrainLightSensor extends agy
       int lightLevel = par1World.o(par2, par3 + 1, par4);
       int intern_lightLevel = tileentity.getLightLevel();
 
+      if (tileentity.GUIopen) {
+        tileentity.setCurLightLevel(lightLevel);
+      }
       boolean powerOn = lightLevel <= intern_lightLevel;
 
-      if (powerOn != tmp) {
+      if (powerOn != tmp)
+      {
         mc.C.a("random.click", 1.0F, 1.0F);
+
+        int anz = random.nextInt(11) + 5;
+
+        for (int i = 0; i < anz; i++)
+        {
+          par1World.a("smoke", par2 + random.nextFloat() * 1.4D - 0.2D, par3 + 0.8D + random.nextFloat() * 0.6D, par4 + random.nextFloat() * 1.4D - 0.2D, 0.0D, 0.0D, 0.0D);
+        }
+
+        anz = random.nextInt(3);
+
+        for (int i = 0; i < anz; i++)
+        {
+          par1World.a("largesmoke", par2 + random.nextFloat() * 1.4D - 0.2D, par3 + 0.8D + random.nextFloat() * 0.6D, par4 + random.nextFloat() * 1.4D - 0.2D, 0.0D, 0.0D, 0.0D);
+        }
       }
+
       tileentity.setPowerOn(powerOn);
 
       par1World.j(par2, par3, par4, this.bO);
@@ -90,7 +109,6 @@ public class BlockBrainLightSensor extends agy
 
   public boolean b(ali par1IBlockAccess, int par2, int par3, int par4, int par5)
   {
-    int i = par1IBlockAccess.e(par2, par3, par4);
     TileEntityBlockBrainLightSensor tileentity = (TileEntityBlockBrainLightSensor)par1IBlockAccess.b(par2, par3, par4);
 
     return (tileentity != null) && (tileentity.getPowerOn());
@@ -117,7 +135,7 @@ public class BlockBrainLightSensor extends agy
 
   public int e()
   {
-    return 2;
+    return 1;
   }
 
   public boolean b(xd par1World, int par2, int par3, int par4, yw par5EntityPlayer)
@@ -127,58 +145,17 @@ public class BlockBrainLightSensor extends agy
       return true;
     }
 
-    ModLoader.openGUI(par5EntityPlayer, new GuiBrainLightSensor(this, par1World, par2, par3, par4));
+    TileEntityBlockBrainLightSensor tileentity = (TileEntityBlockBrainLightSensor)par1World.b(par2, par3, par4);
 
-    par1World.j(par2, par3, par4, this.bO);
+    if (tileentity == null)
+    {
+      return false;
+    }
+
+    tileentity.setCurLightLevel(par1World.o(par2, par3 + 1, par4));
+
+    ModLoader.openGUI(par5EntityPlayer, new GuiBrainLightSensor(tileentity));
 
     return true;
-  }
-
-  public void setLightLevel(int lightLevel, xd world, int x, int y, int z)
-  {
-    TileEntityBlockBrainLightSensor tileentity = (TileEntityBlockBrainLightSensor)world.b(x, y, z);
-
-    if (tileentity == null)
-    {
-      return;
-    }
-
-    tileentity.setLightLevel(lightLevel);
-  }
-
-  public void setDirection(boolean direction, xd world, int x, int y, int z)
-  {
-    TileEntityBlockBrainLightSensor tileentity = (TileEntityBlockBrainLightSensor)world.b(x, y, z);
-
-    if (tileentity == null)
-    {
-      return;
-    }
-
-    tileentity.setDirection(direction);
-  }
-
-  public int getLightLevel(xd world, int x, int y, int z)
-  {
-    TileEntityBlockBrainLightSensor tileentity = (TileEntityBlockBrainLightSensor)world.b(x, y, z);
-
-    if (tileentity == null)
-    {
-      return 8;
-    }
-
-    return tileentity.getLightLevel();
-  }
-
-  public boolean getDirection(xd world, int x, int y, int z)
-  {
-    TileEntityBlockBrainLightSensor tileentity = (TileEntityBlockBrainLightSensor)world.b(x, y, z);
-
-    if (tileentity == null)
-    {
-      return true;
-    }
-
-    return tileentity.getDirection();
   }
 }

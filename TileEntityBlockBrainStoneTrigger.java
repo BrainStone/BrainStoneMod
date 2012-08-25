@@ -1,77 +1,25 @@
-public class TileEntityBlockBrainStoneTrigger extends kw
+import java.util.Random;
+
+public class TileEntityBlockBrainStoneTrigger extends TileEntityBlockBrainStoneHiders
   implements io
 {
-  private aan[] triggerItemStacks;
   public boolean power;
   private boolean[] mobTriggered;
   private static final int mobTriggeredSize = 5;
+  public boolean forceUpdate;
+  public byte delay;
 
   public TileEntityBlockBrainStoneTrigger()
   {
-    this.triggerItemStacks = new aan[1];
+    this.ItemStacks = new aan[1];
     this.mobTriggered = new boolean[5];
     this.power = false;
+    this.forceUpdate = false;
+    this.delay = 0;
 
     for (int i = 0; i < 5; i++)
     {
       this.mobTriggered[i] = true;
-    }
-  }
-
-  public int a()
-  {
-    return this.triggerItemStacks.length;
-  }
-
-  public aan k_(int par1)
-  {
-    return this.triggerItemStacks[par1];
-  }
-
-  public aan a(int par1, int par2)
-  {
-    if (this.triggerItemStacks[par1] != null)
-    {
-      if (this.triggerItemStacks[par1].a <= par2)
-      {
-        aan itemstack = this.triggerItemStacks[par1];
-        this.triggerItemStacks[par1] = null;
-        return itemstack;
-      }
-
-      aan itemstack1 = this.triggerItemStacks[par1].a(par2);
-
-      if (this.triggerItemStacks[par1].a == 0)
-      {
-        this.triggerItemStacks[par1] = null;
-      }
-
-      return itemstack1;
-    }
-
-    return null;
-  }
-
-  public aan b(int par1)
-  {
-    if (this.triggerItemStacks[par1] != null)
-    {
-      aan itemstack = this.triggerItemStacks[par1];
-      this.triggerItemStacks[par1] = null;
-
-      return itemstack;
-    }
-
-    return null;
-  }
-
-  public void a(int par1, aan par2ItemStack)
-  {
-    this.triggerItemStacks[par1] = par2ItemStack;
-
-    if ((par2ItemStack != null) && (par2ItemStack.a > d()))
-    {
-      par2ItemStack.a = d();
     }
   }
 
@@ -80,32 +28,9 @@ public class TileEntityBlockBrainStoneTrigger extends kw
     return "container.brainstonetrigger";
   }
 
-  public int d()
-  {
-    return 1;
-  }
-
-  public boolean a_(yw par1EntityPlayer)
-  {
-    if (this.i.b(this.j, this.k, this.l) != this)
-    {
-      return false;
-    }
-
-    return par1EntityPlayer.f(this.j + 0.5D, this.k + 0.5D, this.l + 0.5D) <= 64.0D;
-  }
-
-  public void e()
-  {
-  }
-
-  public void f()
-  {
-  }
-
   public int getTextureId(ali par1IBlockAccess, int par2, int par3, int par4)
   {
-    aan tmpItemStack = this.triggerItemStacks[0];
+    aan tmpItemStack = this.ItemStacks[0];
 
     if (tmpItemStack == null) {
       return -1;
@@ -189,21 +114,40 @@ public class TileEntityBlockBrainStoneTrigger extends kw
     this.mobTriggered[index] = (this.mobTriggered[index] == 0 ? 1 : false);
   }
 
+  public void dropItems(xd par1World, int par2, int par3, int par4)
+  {
+    for (int i = 0; i < this.ItemStacks.length; i++)
+    {
+      aan itemstack = this.ItemStacks[i];
+
+      if (itemstack != null)
+      {
+        float f = 0.7F;
+        double d = par1World.r.nextFloat() * f + (1.0F - f) * 0.5D;
+        double d1 = par1World.r.nextFloat() * f + (1.0F - f) * 0.5D;
+        double d2 = par1World.r.nextFloat() * f + (1.0F - f) * 0.5D;
+        fq entityitem = new fq(par1World, par2 + d, par3 + d1, par4 + d2, itemstack);
+        entityitem.c = 10;
+        par1World.a(entityitem);
+      }
+    }
+  }
+
   public void a(ady par1NBTTagCompound)
   {
     super.a(par1NBTTagCompound);
 
     no nbttaglist = par1NBTTagCompound.n("ItemsBrainStoneTrigger");
-    this.triggerItemStacks = new aan[a()];
+    this.ItemStacks = new aan[a()];
 
     for (int i = 0; i < nbttaglist.d(); i++)
     {
       ady nbttagcompound = (ady)nbttaglist.a(i);
       byte byte0 = nbttagcompound.d("SlotBrainStoneTrigger");
 
-      if ((byte0 >= 0) && (byte0 < this.triggerItemStacks.length))
+      if ((byte0 >= 0) && (byte0 < this.ItemStacks.length))
       {
-        this.triggerItemStacks[byte0] = aan.a(nbttagcompound);
+        this.ItemStacks[byte0] = aan.a(nbttagcompound);
       }
     }
 
@@ -211,6 +155,8 @@ public class TileEntityBlockBrainStoneTrigger extends kw
     {
       this.mobTriggered[i] = par1NBTTagCompound.o(getType(i));
     }
+
+    this.delay = par1NBTTagCompound.d("BrainStoneDelay");
   }
 
   public void b(ady par1NBTTagCompound)
@@ -219,13 +165,13 @@ public class TileEntityBlockBrainStoneTrigger extends kw
 
     no nbttaglist = new no();
 
-    for (int i = 0; i < this.triggerItemStacks.length; i++)
+    for (int i = 0; i < this.ItemStacks.length; i++)
     {
-      if (this.triggerItemStacks[i] != null)
+      if (this.ItemStacks[i] != null)
       {
         ady nbttagcompound = new ady();
         nbttagcompound.a("SlotBrainStoneTrigger", (byte)i);
-        this.triggerItemStacks[i].b(nbttagcompound);
+        this.ItemStacks[i].b(nbttagcompound);
         nbttaglist.a(nbttagcompound);
       }
     }
@@ -236,5 +182,7 @@ public class TileEntityBlockBrainStoneTrigger extends kw
     {
       par1NBTTagCompound.a(getType(i), this.mobTriggered[i]);
     }
+
+    par1NBTTagCompound.a("BrainStoneDelay", this.delay);
   }
 }

@@ -1,11 +1,11 @@
-public class ItemSwordBrainStone extends yr
+public class ItemSwordBrainStone extends lx
 {
   private int weaponDamage;
   private final EnumToolMaterialBrainStone toolMaterial;
 
   public ItemSwordBrainStone(int par1, EnumToolMaterialBrainStone par2EnumToolMaterial)
   {
-    super(par1);
+    super(par1, uk.e);
     this.toolMaterial = par2EnumToolMaterial;
     this.bR = 1;
     g(par2EnumToolMaterial.getMaxUses());

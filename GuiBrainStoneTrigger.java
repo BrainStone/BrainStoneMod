@@ -17,7 +17,7 @@ public class GuiBrainStoneTrigger extends gb
 
   protected void d()
   {
-    this.u.b(cy.a("tile.brainStoneTrigger.name"), 8, 6, 4210752);
+    this.u.b(cy.a("tile.brainStoneTrigger.name"), 6, 6, 4210752);
     this.u.b(cy.a("container.inventory"), 8, this.c - 96 + 2, 4210752);
 
     if (this.tileentity == null) {
@@ -102,11 +102,11 @@ public class GuiBrainStoneTrigger extends gb
     if (this.tileentity == null) {
       return;
     }
-    par1 -= this.q / 2 - this.b / 2;
-    par2 -= this.r / 2 - this.c / 2;
-
     if (par3 == 0)
     {
+      par1 -= (this.q - this.b) / 2;
+      par2 -= (this.r - this.c) / 2;
+
       if (inField(par1, par2, 167, 4, 171, 8)) {
         quit();
       }
@@ -148,6 +148,11 @@ public class GuiBrainStoneTrigger extends gb
       quit();
   }
 
+  public boolean b()
+  {
+    return false;
+  }
+
   private boolean inField(int varX, int varY, int minX, int minY, int maxX, int maxY)
   {
     return (varX >= minX) && (varX <= maxX) && (varY >= minY) && (varY <= maxY);
@@ -163,5 +168,6 @@ public class GuiBrainStoneTrigger extends gb
     click();
     this.p.a(null);
     this.p.g();
+    this.tileentity.forceUpdate = true;
   }
 }

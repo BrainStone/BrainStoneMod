@@ -11,7 +11,7 @@ public class ItemAxeBrainStone extends ItemToolBrainStone
   {
     if ((par2Block != null) && (par2Block.cd == acn.d))
     {
-      return this.efficiencyOnProperMaterial;
+      return this.a;
     }
 
     return super.a(par1ItemStack, par2Block);
