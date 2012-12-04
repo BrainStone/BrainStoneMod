@@ -1,59 +1,70 @@
+package net.braintonemod.src;
+
+import agb;
+import amj;
+import um;
+
 public class ItemPickaxeBrainStone extends ItemToolBrainStone
 {
-  private static pb[] blocksEffectiveAgainst = { pb.w, pb.aj, pb.ak, pb.t, pb.Q, pb.ao, pb.H, pb.ai, pb.I, pb.ah, pb.G, pb.aw, pb.ax, pb.aT, pb.bb, pb.N, pb.O, pb.aN, pb.aO, pb.aG, pb.U, pb.T, mod_BrainStone.brainStone, mod_BrainStone.brainStoneOut, mod_BrainStone.brainStoneOre, mod_BrainStone.dirtyBrainStone, mod_BrainStone.brainLightSensor };
+  private static amj[] blocksEffectiveAgainst = { amj.z, amj.w, amj.T, amj.ar, amj.K, amj.al, amj.L, amj.ak, amj.J, amj.az, amj.aA, amj.aW, amj.be, amj.Q, amj.R, amj.aQ, amj.aR, amj.aJ, amj.X, amj.W, BrainStone.brainStone(), BrainStone.brainStoneOut(), BrainStone.brainStoneOre(), BrainStone.dirtyBrainStone(), BrainStone.brainLightSensor() };
 
-  protected ItemPickaxeBrainStone(int par1, EnumToolMaterialBrainStone par2EnumToolMaterial)
+  protected ItemPickaxeBrainStone(int i, EnumToolMaterialBrainStone enumtoolmaterialbrainstone)
   {
-    super(par1, 2, par2EnumToolMaterial, blocksEffectiveAgainst);
+    super(BrainStone.getId(359 + i), 2, enumtoolmaterialbrainstone, blocksEffectiveAgainst);
   }
 
-  public boolean a(pb par1Block)
+  public String getTextureFile()
   {
-    if (par1Block == pb.ap)
+    return "/BrainStone/textures.png";
+  }
+
+  public boolean a(amj block)
+  {
+    if (block == amj.as)
     {
       return this.b.getHarvestLevel() == 3;
     }
 
-    if ((par1Block == pb.ax) || (par1Block == pb.aw))
+    if ((block == amj.aA) || (block == amj.az))
     {
       return this.b.getHarvestLevel() >= 2;
     }
 
-    if ((par1Block == pb.ah) || (par1Block == pb.G))
+    if ((block == amj.ak) || (block == amj.J))
     {
       return this.b.getHarvestLevel() >= 2;
     }
 
-    if ((par1Block == pb.ai) || (par1Block == pb.H))
+    if ((block == amj.al) || (block == amj.K))
     {
       return this.b.getHarvestLevel() >= 1;
     }
 
-    if ((par1Block == pb.O) || (par1Block == pb.N))
+    if ((block == amj.R) || (block == amj.Q))
     {
       return this.b.getHarvestLevel() >= 1;
     }
 
-    if ((par1Block == pb.aN) || (par1Block == pb.aO))
+    if ((block == amj.aQ) || (block == amj.aR))
     {
       return this.b.getHarvestLevel() >= 2;
     }
 
-    if (par1Block.cd == acn.e)
+    if (block.cB == agb.e)
     {
       return true;
     }
 
-    return par1Block.cd == acn.f;
+    return block.cB == agb.f;
   }
 
-  public float a(aan par1ItemStack, pb par2Block)
+  public float a(um itemstack, amj block)
   {
-    if ((par2Block != null) && ((par2Block.cd == acn.f) || (par2Block.cd == acn.e)))
+    if ((block != null) && ((block.cB == agb.f) || (block.cB == agb.e)))
     {
       return this.a;
     }
 
-    return super.a(par1ItemStack, par2Block);
+    return super.a(itemstack, block);
   }
 }

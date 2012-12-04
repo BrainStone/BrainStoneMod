@@ -1,9 +1,21 @@
-import java.io.PrintStream;
+package net.braintonemod.src;
+
+import atj;
+import bm;
+import bq;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Side;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
+import qx;
+import xv;
 
-public class TileEntityBlockBrainLogicBlock extends kw
+public class TileEntityBlockBrainLogicBlock extends TileEntityBrainStoneSyncBase
 {
   private boolean correctConnect;
   private boolean ignoreIncorrectConnect;
@@ -12,12 +24,13 @@ public class TileEntityBlockBrainLogicBlock extends kw
   private byte direction;
   private byte GuiFocused;
   private byte mode;
-  private byte[] PinState;
+  private byte[] PinState = { 0, -1, -1, -1 };
   private byte[] PinType;
   private int data;
   private long lastUpdate;
-  private String[] Pins;
+  private String[] Pins = { "0", "1", "2", "3" };
   private Vector TASKS;
+  private Vector Users;
   public static final byte numGates = getNumGates();
 
   public TileEntityBlockBrainLogicBlock()
@@ -25,195 +38,273 @@ public class TileEntityBlockBrainLogicBlock extends kw
     this((byte)0);
   }
 
-  public TileEntityBlockBrainLogicBlock(byte dir)
+  public TileEntityBlockBrainLogicBlock(byte byte0)
   {
     this.TASKS = new Vector();
-    this.Pins = new String[] { "0", "1", "2", "3" };
-    this.PinState = new byte[] { 0, -1, -1, -1 };
     this.mode = 0;
     this.data = 0;
     this.lastUpdate = -100L;
     this.GuiFocused = 0;
+    this.Users = new Vector();
 
-    if ((dir >= 0) && (dir < 4)) {
-      this.direction = dir;
+    if ((byte0 >= 0) && (byte0 < 4))
+    {
+      this.direction = byte0;
     }
+
     modeUpdated();
   }
 
-  public void addTASKS(String TASK, String[] parameters)
+  public void addTASKS(String s, String[] as)
   {
-    String TASKtoAdd = new StringBuilder().append(TASK).append(" ").toString();
+    String s1 = new StringBuilder().append(s).append(" ").toString();
+    int i = as.length - 1;
 
-    int size = parameters.length - 1;
+    for (int j = 0; j < i; j++)
+    {
+      s1 = new StringBuilder().append(s1).append(as[j]).append(",").toString();
+    }
 
-    for (int i = 0; i < size; i++)
-      TASKtoAdd = new StringBuilder().append(TASKtoAdd).append(parameters[i]).append(",").toString();
-    TASKtoAdd = new StringBuilder().append(TASKtoAdd).append(parameters[size]).toString();
+    s1 = new StringBuilder().append(s1).append(as[i]).toString();
 
-    this.TASKS.add(TASKtoAdd);
+    addTASKS(s1);
+  }
+
+  public void addTASKS(String s)
+  {
+    Side side = FMLCommonHandler.instance().getEffectiveSide();
+    if (side == Side.SERVER)
+    {
+      this.TASKS.add(s);
+    }
+    else if (side == Side.CLIENT)
+    {
+      ByteArrayOutputStream bos = new ByteArrayOutputStream(0);
+      DataOutputStream outputStream = new DataOutputStream(bos);
+      try
+      {
+        outputStream.writeInt(this.l);
+        outputStream.writeInt(this.m);
+        outputStream.writeInt(this.n);
+
+        outputStream.writeUTF(s);
+      }
+      catch (IOException e)
+      {
+        e.printStackTrace();
+      }
+
+      BrainStonePacketHandler.sendPacketToServer("BSM.TEBBLBS", bos);
+    }
   }
 
   public void doTASKS()
   {
-    int size = this.TASKS.size();
+    int i = this.TASKS.size();
 
-    if (size != 0)
+    if (i != 0)
     {
-      print(new StringBuilder().append("doTASKS() (size: ").append(String.valueOf(size)).append(")").toString());
+      print(new StringBuilder().append("doTASKS() (size: ").append(String.valueOf(i)).append(")").toString());
 
-      for (int i = 0; i < size; i++)
+      for (int j = 0; j < i; j++)
       {
-        runTASK((String)this.TASKS.get(i));
+        runTASK((String)this.TASKS.get(j));
       }
 
       this.TASKS.clear();
     }
-  }
 
-  public void drawBoxes(GuiBrainLogicBlock gui, int x, int y)
-  {
-    byte tmp = 0;
-
-    if (this.PinState[0] != 0) {
-      gui.b(x + 20, y + 40, 176, 0, 20, 20);
-    }
-    byte state = this.PinState[1];
-    byte type = this.PinType[1];
-
-    if ((state != 0) || (type == -1))
+    try
     {
-      if (type != -1)
-      {
-        if (state == 1) {
-          tmp = 0;
-        }
-        if (state == -1)
-          tmp = 1;
-      }
-      else
-      {
-        tmp = 2;
-      }
-
-      gui.b(x + 20, y, 176, 20 * tmp, 20, 20);
+      update(false);
     }
-
-    state = this.PinState[2];
-    type = this.PinType[2];
-
-    if ((state != 0) || (type == -1))
+    catch (IOException e)
     {
-      if (type != -1)
-      {
-        if (state == 1) {
-          tmp = 0;
-        }
-        if (state == -1)
-          tmp = 1;
-      }
-      else
-      {
-        tmp = 2;
-      }
-
-      gui.b(x + 40, y + 20, 176, 20 * tmp, 20, 20);
-    }
-
-    state = this.PinState[3];
-    type = this.PinType[3];
-
-    if ((state != 0) || (type == -1))
-    {
-      if (type != -1)
-      {
-        if (state == 1) {
-          tmp = 0;
-        }
-        if (state == -1)
-          tmp = 1;
-      }
-      else
-      {
-        tmp = 2;
-      }
-
-      gui.b(x, y + 20, 176, 20 * tmp, 20, 20);
+      e.printStackTrace();
     }
   }
 
-  public void drawGates(GuiBrainLogicBlock gui, int x, int y)
+  public void drawBoxes(GuiBrainLogicBlock guibrainlogicblock, int i, int j)
   {
-    for (int i = 0; i < numGates; i++)
+    byte byte0 = 0;
+
+    if (this.PinState[0] != 0)
     {
-      gui.drawString(getGateName(i), x, y + 12 * i, i == this.mode ? 32768 : 4210752);
+      guibrainlogicblock.b(i + 20, j + 40, 176, 0, 20, 20);
     }
 
-    gui.drawSplitString(cy.a("gui.brainstone.invertOutput"), x + 85, y + 50, this.invertOutput ? 32768 : 4210752, 80);
+    byte byte1 = this.PinState[1];
+    byte byte2 = this.PinType[1];
+
+    if ((byte1 != 0) || (byte2 == -1))
+    {
+      if (byte2 != -1)
+      {
+        if (byte1 == 1)
+        {
+          byte0 = 0;
+        }
+
+        if (byte1 == -1)
+        {
+          byte0 = 1;
+        }
+      }
+      else
+      {
+        byte0 = 2;
+      }
+
+      guibrainlogicblock.b(i + 20, j, 176, 20 * byte0, 20, 20);
+    }
+
+    byte1 = this.PinState[2];
+    byte2 = this.PinType[2];
+
+    if ((byte1 != 0) || (byte2 == -1))
+    {
+      if (byte2 != -1)
+      {
+        if (byte1 == 1)
+        {
+          byte0 = 0;
+        }
+
+        if (byte1 == -1)
+        {
+          byte0 = 1;
+        }
+      }
+      else
+      {
+        byte0 = 2;
+      }
+
+      guibrainlogicblock.b(i + 40, j + 20, 176, 20 * byte0, 20, 20);
+    }
+
+    byte1 = this.PinState[3];
+    byte2 = this.PinType[3];
+
+    if ((byte1 != 0) || (byte2 == -1))
+    {
+      if (byte2 != -1)
+      {
+        if (byte1 == 1)
+        {
+          byte0 = 0;
+        }
+
+        if (byte1 == -1)
+        {
+          byte0 = 1;
+        }
+      }
+      else
+      {
+        byte0 = 2;
+      }
+
+      guibrainlogicblock.b(i, j + 20, 176, 20 * byte0, 20, 20);
+    }
+  }
+
+  public void drawGates(GuiBrainLogicBlock guibrainlogicblock, int i, int j)
+  {
+    for (int k = 0; k < numGates; k++)
+    {
+      guibrainlogicblock.drawString(getGateName(k), i, j + 12 * k, k != this.mode ? 4210752 : 32768);
+    }
+
+    guibrainlogicblock.drawSplitString(bm.a("gui.brainstone.invertOutput"), i + 85, j + 50, this.invertOutput ? 32768 : 4210752, 80);
 
     if ((!this.correctConnect) && (!this.ignoreIncorrectConnect))
-      gui.drawSplitString(cy.a("gui.brainstone.warning1"), x + 75, y + 70, 10485760, 95);
+    {
+      guibrainlogicblock.drawSplitString(bm.a("gui.brainstone.warning1"), i + 75, j + 70, 10485760, 95);
+    }
     else if (!this.correctConnect)
-      gui.drawSplitString(cy.a("gui.brainstone.warning2"), x + 75, y + 70, 10506240, 95);
+    {
+      guibrainlogicblock.drawSplitString(bm.a("gui.brainstone.warning2"), i + 75, j + 70, 10506240, 95);
+    }
   }
 
   public void invertInvertOutput()
   {
-    this.TASKS.add(new StringBuilder().append("setInvertOutput ").append(String.valueOf(!this.invertOutput)).toString());
+    addTASKS(new StringBuilder().append("setInvertOutput ").append(String.valueOf(!this.invertOutput)).toString());
   }
 
-  public void renderInOutPut(nl fontrenderer, byte index)
+  public void logIn(String user)
   {
-    index = transformDirection(index);
+    addTASKS("logInOut", new String[] { "true", user });
+  }
 
-    if (this.PinType[index] != -1)
+  public void logOut(String user)
+  {
+    addTASKS("logInOut", new String[] { "false", user });
+  }
+
+  public void renderInOutPut(atj fontrenderer, byte byte0)
+  {
+    byte0 = transformDirection(byte0);
+
+    if (this.PinType[byte0] != -1)
     {
-      byte tmp = this.PinState[index];
-
-      fontrenderer.b(this.Pins[index], -fontrenderer.a(this.Pins[index]) / 2, 4, tmp == 0 ? 328965 : tmp == -1 ? 8947848 : 12977413);
+      byte byte1 = this.PinState[byte0];
+      fontrenderer.b(this.Pins[byte0], -fontrenderer.a(this.Pins[byte0]) / 2, 4, byte1 != -1 ? 328965 : byte1 != 0 ? 12977413 : 8947848);
     }
   }
 
-  public void setDirection(byte dir)
+  public void setDirection(byte byte0)
   {
-    if ((dir >= 0) && (dir < 4))
-      this.direction = dir;
-  }
-
-  public void setDirection(int dir)
-  {
-    setDirection((byte)dir);
-  }
-
-  public void setFocused(byte focused)
-  {
-    if ((focused >= 0) && (focused < 4))
-      this.GuiFocused = focused;
-  }
-
-  public void setFocused(int focused)
-  {
-    setFocused((byte)focused);
-  }
-
-  public void setMode(byte mode)
-  {
-    this.TASKS.add(new StringBuilder().append("modeUpdated ").append(String.valueOf(mode)).toString());
-  }
-
-  public void setPinState(byte[] States)
-  {
-    if (States.length == 3)
+    if ((byte0 >= 0) && (byte0 < 4))
     {
-      System.arraycopy(States, 0, this.PinState, 1, 3);
+      this.direction = byte0;
+    }
+  }
 
+  public void setDirection(int i)
+  {
+    setDirection((byte)i);
+  }
+
+  public void setFocused(byte byte0)
+  {
+    Side side = FMLCommonHandler.instance().getEffectiveSide();
+    if (side == Side.SERVER)
+    {
+      if ((byte0 >= 0) && (byte0 < 4))
+      {
+        this.GuiFocused = byte0;
+      }
+    }
+    else if (side == Side.CLIENT)
+    {
+      addTASKS("setFocused", new String[] { String.valueOf(byte0) });
+    }
+  }
+
+  public void setFocused(int i)
+  {
+    setFocused((byte)i);
+  }
+
+  public void setMode(byte byte0)
+  {
+    addTASKS(new StringBuilder().append("modeUpdated ").append(String.valueOf(byte0)).toString());
+  }
+
+  public void setPinState(byte[] abyte0)
+  {
+    if (abyte0.length == 3)
+    {
+      System.arraycopy(abyte0, 0, this.PinState, 1, 3);
       this.PinState[0] = setOutput();
     }
   }
 
-  public void swapPosition(int pos1, int pos2)
+  public void swapPosition(int i, int j)
   {
-    this.TASKS.add(new StringBuilder().append("swapPosition ").append(String.valueOf((byte)pos1)).append(",").append(String.valueOf((byte)pos2)).toString());
+    addTASKS(new StringBuilder().append("swapPosition ").append(String.valueOf((byte)i)).append(",").append(String.valueOf((byte)j)).toString());
   }
 
   public boolean getOutput()
@@ -231,21 +322,21 @@ public class TileEntityBlockBrainLogicBlock extends kw
     return this.swapable;
   }
 
-  public boolean isUseableByPlayer(yw par1EntityPlayer)
+  public boolean isUseableByPlayer(qx entityplayer)
   {
-    if (this.i.b(this.j, this.k, this.l) != this)
+    if (this.k.q(this.l, this.m, this.n) != this)
     {
       return false;
     }
 
-    return par1EntityPlayer.f(this.j + 0.5D, this.k + 0.5D, this.l + 0.5D) <= 64.0D;
+    return entityplayer.e(this.l + 0.5D, this.m + 0.5D, this.n + 0.5D) <= 64.0D;
   }
 
-  public boolean shallDoUpdate(long worldTime)
+  public boolean shallDoUpdate(long l)
   {
-    if (worldTime > this.lastUpdate)
+    if (l > this.lastUpdate + 1L)
     {
-      this.lastUpdate = worldTime;
+      this.lastUpdate = l;
       return true;
     }
 
@@ -254,14 +345,14 @@ public class TileEntityBlockBrainLogicBlock extends kw
 
   public boolean[] shallRender()
   {
-    boolean[] render = new boolean[4];
+    boolean[] aflag = new boolean[4];
 
     for (int i = 0; i < 4; i++)
     {
-      render[i] = (this.PinType[i] != -1 ? 1 : false);
+      aflag[i] = (this.PinType[i] != -1 ? 1 : false);
     }
 
-    return render;
+    return aflag;
   }
 
   public byte getDirection()
@@ -279,146 +370,161 @@ public class TileEntityBlockBrainLogicBlock extends kw
     return this.mode;
   }
 
-  public byte reverseTransformDirection(int index)
+  public byte reverseTransformDirection(int i)
   {
     switch (this.direction)
     {
+    default:
+      break;
     case 1:
-      switch (index) {
+      switch (i)
+      {
       case 2:
-        index = 0;
+        i = 0;
         break;
       case 3:
-        index = 1;
+        i = 1;
         break;
       case 1:
-        index = 2;
+        i = 2;
         break;
       case 0:
-        index = 3;
+        i = 3;
       }
 
       break;
     case 2:
-      switch (index) {
+      switch (i)
+      {
       case 1:
-        index = 0;
+        i = 0;
         break;
       case 0:
-        index = 1;
+        i = 1;
         break;
       case 3:
-        index = 2;
+        i = 2;
         break;
       case 2:
-        index = 3;
+        i = 3;
       }
 
       break;
     case 3:
-      switch (index) {
+      switch (i)
+      {
       case 3:
-        index = 0;
+        i = 0;
         break;
       case 2:
-        index = 1;
+        i = 1;
         break;
       case 0:
-        index = 2;
+        i = 2;
         break;
       case 1:
-        index = 3;
+        i = 3;
       }
 
       break;
     }
 
-    return (byte)index;
+    return (byte)i;
   }
 
-  public byte transformDirection(int index)
+  public byte transformDirection(int i)
   {
     switch (this.direction)
     {
+    default:
+      break;
     case 1:
-      switch (index) {
+      switch (i)
+      {
       case 0:
-        index = 2;
+        i = 2;
         break;
       case 1:
-        index = 3;
+        i = 3;
         break;
       case 2:
-        index = 1;
+        i = 1;
         break;
       case 3:
-        index = 0;
+        i = 0;
       }
 
       break;
     case 2:
-      switch (index) {
+      switch (i)
+      {
       case 0:
-        index = 1;
+        i = 1;
         break;
       case 1:
-        index = 0;
+        i = 0;
         break;
       case 2:
-        index = 3;
+        i = 3;
         break;
       case 3:
-        index = 2;
+        i = 2;
       }
 
       break;
     case 3:
-      switch (index) {
+      switch (i)
+      {
       case 0:
-        index = 3;
+        i = 3;
         break;
       case 1:
-        index = 2;
+        i = 2;
         break;
       case 2:
-        index = 0;
+        i = 0;
         break;
       case 3:
-        index = 1;
+        i = 1;
       }
 
       break;
     }
 
-    return (byte)index;
+    return (byte)i;
   }
 
-  public int getPinColor(int pos)
+  public int getPinColor(int i)
   {
-    if ((pos < 0) || (pos >= 4)) {
+    if ((i < 0) || (i >= 4))
+    {
       return 0;
     }
-    byte tmp = this.PinState[pos];
 
-    return tmp == 0 ? 328965 : tmp == -1 ? 8947848 : 12977413;
+    byte byte0 = this.PinState[i];
+    return byte0 != -1 ? 328965 : byte0 != 0 ? 12977413 : 8947848;
   }
 
-  public int getPinStateBasedTexture(int index)
+  public int getPinStateBasedTexture(int i)
   {
-    if ((index < 0) || (index >= this.PinState.length)) {
-      return mod_BrainStone.brainLogicBlockNotConnectedTexture;
+    if ((i < 0) || (i >= this.PinState.length))
+    {
+      return 51;
     }
-    if (this.PinType[index] == -1) {
-      return 45;
-    }
-    byte tmp = this.PinState[index];
 
-    return tmp == 0 ? mod_BrainStone.brainLogicBlockOffTexture : tmp == -1 ? mod_BrainStone.brainLogicBlockNotConnectedTexture : mod_BrainStone.brainLogicBlockOnTexture;
+    if (this.PinType[i] == -1)
+    {
+      return 67;
+    }
+
+    byte byte0 = this.PinState[i];
+    return byte0 != -1 ? 35 : byte0 != 0 ? 19 : 51;
   }
 
-  public static String getGateName(int id)
+  public static String getGateName(int i)
   {
-    switch (id) {
+    switch (i)
+    {
     case 0:
       return "AND-Gate";
     case 1:
@@ -438,6 +544,7 @@ public class TileEntityBlockBrainLogicBlock extends kw
     case 8:
       return "JK-Flip-Flop";
     }
+
     return "";
   }
 
@@ -446,17 +553,19 @@ public class TileEntityBlockBrainLogicBlock extends kw
     return "container.brainstonetrigger";
   }
 
-  public String getPin(int pos)
+  public String getPin(int i)
   {
-    if ((pos < 0) || (pos >= 4)) {
+    if ((i < 0) || (i >= 4))
+    {
       return "";
     }
-    return this.Pins[pos];
+
+    return this.Pins[i];
   }
 
-  private void modeUpdated(byte mode)
+  private void modeUpdated(byte byte0)
   {
-    this.mode = mode;
+    this.mode = byte0;
     modeUpdated();
   }
 
@@ -473,66 +582,77 @@ public class TileEntityBlockBrainLogicBlock extends kw
     case 2:
       this.swapable = false;
       this.Pins = new String[] { "Q", "B", "A", "C" };
+
       this.PinType = new byte[] { 10, 0, 0, 0 };
+
       break;
     case 3:
       this.Pins = new String[] { "Q", "", "A", "B" };
+
       this.PinType = new byte[] { 10, -1, 1, 1 };
+
       break;
     case 4:
       this.ignoreIncorrectConnect = true;
       this.Pins = new String[] { "Q", "A", "", "" };
+
       this.PinType = new byte[] { 10, 1, -1, -1 };
+
       break;
     case 5:
       this.data = 0;
       this.ignoreIncorrectConnect = true;
       this.Pins = new String[] { "Q", "", "R", "S" };
+
       this.PinType = new byte[] { 10, -1, 1, 1 };
+
       break;
     case 6:
       this.data = 0;
       this.Pins = new String[] { "Q", "", "D", "C" };
+
       this.PinType = new byte[] { 10, -1, 1, 1 };
+
       break;
     case 7:
       this.data = 0;
       this.Pins = new String[] { "Q", "T", "", "" };
+
       this.PinType = new byte[] { 10, 1, -1, -1 };
+
       break;
     case 8:
       this.data = 0;
       this.ignoreIncorrectConnect = true;
       this.Pins = new String[] { "Q", "", "J", "K" };
+
       this.PinType = new byte[] { 10, -1, 1, 1 };
     }
   }
 
-  private void print(String str)
+  private void print(String s)
   {
-    System.out.println(str);
   }
 
-  private void printErrorInrunTASK(String TASK, String task, String[] parameters)
+  private void printErrorInrunTASK(String s, String s1, String[] as)
   {
     print("===================================================");
     print("Error Signature in \"runTASK\":");
     print("===================================================");
-    print(new StringBuilder().append("\tOriginal Task: \"").append(TASK).append("\"").toString());
-    print(new StringBuilder().append("\tCutted Task:   \"").append(task).append("\"").toString());
+    print(new StringBuilder().append("\tOriginal Task: \"").append(s).append("\"").toString());
+    print(new StringBuilder().append("\tCutted Task:   \"").append(s1).append("\"").toString());
     print("\tParameters:");
+    int i = as.length;
 
-    int size = parameters.length;
-
-    if (size == 0)
+    if (i == 0)
     {
       print("\t\tNo Parameters!!!");
     }
     else
     {
-      for (int i = 0; i < size; i++)
+      for (int j = 0; j < i; j++)
       {
-        print(new StringBuilder().append("\t\tParameter ").append(String.valueOf(i)).append(": \"").append(parameters[i]).append("\"").toString());
+        print(new StringBuilder().append("\t\tParameter ").append(String.valueOf(j)).append(": \"").append(as[j]).append("\"").toString());
       }
     }
 
@@ -541,124 +661,143 @@ public class TileEntityBlockBrainLogicBlock extends kw
     print("===================================================");
   }
 
-  private void runTASK(String TASK)
+  private void runTASK(String s)
   {
-    String[] parameters = TASK.split(" ");
-    String task = parameters[0];
-    parameters = parameters[1].split(",");
+    String[] as = s.split(" ");
+    String s1 = as[0];
+    as = as[1].split(",");
 
-    if (task.equals("swapPosition"))
+    if (s1.equals("swapPosition"))
     {
       print("!!!\tRun Task: \"swapPosition\"\t\t!!!");
 
-      if (parameters.length == 2)
+      if (as.length == 2)
       {
-        swapPosition(Byte.valueOf(parameters[0]).byteValue(), Byte.valueOf(parameters[1]).byteValue());
+        swapPosition(Byte.valueOf(as[0]).byteValue(), Byte.valueOf(as[1]).byteValue());
       }
       else
       {
         print("!!!\tError: Wrong number of parameters\t!!!\n");
-        printErrorInrunTASK(TASK, task, parameters);
-
+        printErrorInrunTASK(s, s1, as);
         throw new RuntimeException("Wrong number of parameters");
       }
     }
-    else if (task.equals("modeUpdated"))
+    else if (s1.equals("modeUpdated"))
     {
       print("!!!\tRun Task: \"modeUpdated\"\t\t\t!!!");
 
-      if (parameters.length == 1)
+      if (as.length == 1)
       {
-        modeUpdated(Byte.valueOf(parameters[0]).byteValue());
+        modeUpdated(Byte.valueOf(as[0]).byteValue());
       }
       else
       {
         print("!!!\tError: Wrong number of parameters\t!!!\n");
-        printErrorInrunTASK(TASK, task, parameters);
-
+        printErrorInrunTASK(s, s1, as);
         throw new RuntimeException("Wrong number of parameters");
       }
     }
-    else if (task.equals("setFocused"))
+    else if (s1.equals("setFocused"))
     {
       print("!!!\tRun Task: \"setFocused\"\t\t\t!!!");
 
-      if (parameters.length == 1)
+      if (as.length == 1)
       {
-        setFocused(Byte.valueOf(parameters[0]).byteValue());
+        setFocused(Byte.valueOf(as[0]).byteValue());
       }
       else
       {
         print("!!!\tError: Wrong number of parameters\t!!!\n");
-        printErrorInrunTASK(TASK, task, parameters);
-
+        printErrorInrunTASK(s, s1, as);
         throw new RuntimeException("Wrong number of parameters");
       }
     }
-    else if (task.equals("setInvertOutput"))
+    else if (s1.equals("setInvertOutput"))
     {
       print("!!!\tRun Task: \"setInvertOutput\"\t\t!!!");
 
-      if (parameters.length == 1)
+      if (as.length == 1)
       {
-        setInvertOutput(Boolean.valueOf(parameters[0]).booleanValue());
+        setInvertOutput(Boolean.valueOf(as[0]).booleanValue());
       }
       else
       {
         print("!!!\tError: Wrong number of parameters\t!!!\n");
-        printErrorInrunTASK(TASK, task, parameters);
+        printErrorInrunTASK(s, s1, as);
+        throw new RuntimeException("Wrong number of parameters");
+      }
+    }
+    else if (s1.equals("logInOut"))
+    {
+      print("!!!\tRun Task: \"logInOut\"\t\t!!!");
 
+      if (as.length == 2)
+      {
+        if (Boolean.valueOf(as[0]).booleanValue())
+        {
+          if (!this.Users.contains(as[1]))
+            this.Users.add(as[1]);
+          else {
+            print(new StringBuilder().append("User \"").append(as[1]).append("\" is already logged in!").toString());
+          }
+
+        }
+        else if (this.Users.contains(as[1]))
+          this.Users.remove(as[1]);
+        else {
+          print(new StringBuilder().append("User \"").append(as[1]).append("\" is already logged out!").toString());
+        }
+
+        if (this.Users.size() == 0)
+        {
+          setFocused(0);
+        }
+      }
+      else
+      {
+        print("!!!\tError: Wrong number of parameters\t!!!\n");
+        printErrorInrunTASK(s, s1, as);
         throw new RuntimeException("Wrong number of parameters");
       }
     }
     else
     {
       print("!!!\t\tInvalid Task\t\t\t!!!\n");
-      printErrorInrunTASK(TASK, task, parameters);
-
+      printErrorInrunTASK(s, s1, as);
       throw new RuntimeException("Invalid Task");
     }
 
     print("!!!\t\tTask Finished\t\t\t!!!\n");
   }
 
-  private void setInvertOutput(boolean invertOutput)
+  private void setInvertOutput(boolean flag)
   {
-    this.invertOutput = invertOutput;
+    this.invertOutput = flag;
   }
 
-  private void swapPosition(byte pos1, byte pos2)
+  private void swapPosition(byte byte0, byte byte1)
   {
-    if ((pos1 > 0) && (pos1 < 4) && (pos2 > 0) && (pos2 < 4) && (pos1 != pos2) && (this.swapable))
+    if ((byte0 > 0) && (byte0 < 4) && (byte1 > 0) && (byte1 < 4) && (byte0 != byte1) && (this.swapable))
     {
-      byte tmpPinType = this.PinType[pos1];
-      String tmpPins = this.Pins[pos1];
-
-      this.PinType[pos1] = this.PinType[pos2];
-      this.Pins[pos1] = this.Pins[pos2];
-
-      this.PinType[pos2] = tmpPinType;
-      this.Pins[pos2] = tmpPins;
-
-      this.GuiFocused = pos2;
+      byte byte2 = this.PinType[byte0];
+      String s = this.Pins[byte0];
+      this.PinType[byte0] = this.PinType[byte1];
+      this.Pins[byte0] = this.Pins[byte1];
+      this.PinType[byte1] = byte2;
+      this.Pins[byte1] = s;
+      this.GuiFocused = byte1;
     }
   }
 
   private static final byte getNumGates()
   {
-    byte i = 0;
-
-    while (getGateName(i) != "")
-    {
-      i = (byte)(i + 1);
-    }
-
-    return i;
+    for (byte byte0 = 0; getGateName(byte0) != ""; byte0 = (byte)(byte0 + 1));
+    return byte0;
   }
 
   private byte setOutput()
   {
-    boolean out = false;
+    boolean flag = false;
     this.correctConnect = true;
 
     for (int i = 1; i < 4; i++)
@@ -670,88 +809,90 @@ public class TileEntityBlockBrainLogicBlock extends kw
 
     if ((this.correctConnect) || (this.ignoreIncorrectConnect))
     {
-      ArrayList Inputs = new ArrayList();
-      HashMap MapedInputs = new HashMap();
+      ArrayList arraylist = new ArrayList();
+      HashMap hashmap = new HashMap();
 
-      for (int i = 1; i < 4; i++)
+      for (int j = 1; j < 4; j++)
       {
-        if ((this.PinState[i] != -1) && (this.PinType[i] != -1))
+        if ((this.PinState[j] != -1) && (this.PinType[j] != -1))
         {
-          boolean tmp;
-          Inputs.add(Boolean.valueOf(tmp = this.PinState[i] == 1 ? 1 : 0));
-          MapedInputs.put(this.Pins[i], Boolean.valueOf(tmp));
+          boolean flag1;
+          arraylist.add(Boolean.valueOf(flag1 = this.PinState[j] == 1 ? 1 : 0));
+          hashmap.put(this.Pins[j], Boolean.valueOf(flag1));
         }
 
-        if ((this.PinState[i] == -1) && (this.ignoreIncorrectConnect) && (!MapedInputs.containsKey(this.Pins[i])))
+        if ((this.PinState[j] == -1) && (this.ignoreIncorrectConnect) && (!hashmap.containsKey(this.Pins[j])))
         {
-          MapedInputs.put(this.Pins[i], Boolean.valueOf(this.PinState[i] == 1));
+          hashmap.put(this.Pins[j], Boolean.valueOf(this.PinState[j] == 1));
         }
       }
 
-      int size = Inputs.size();
+      int k = arraylist.size();
 
       switch (this.mode)
       {
+      default:
+        break;
       case 0:
-        out = size != 0;
+        flag = k != 0;
 
-        for (int i = 0; i < size; i++)
+        for (int l = 0; l < k; l++)
         {
-          out = (out) && (((Boolean)Inputs.get(i)).booleanValue());
+          flag = (flag) && (((Boolean)arraylist.get(l)).booleanValue());
         }
 
         break;
       case 1:
-        for (int i = 0; i < size; i++)
+        for (int i1 = 0; i1 < k; i1++)
         {
-          out = (out) || (((Boolean)Inputs.get(i)).booleanValue());
+          flag = (flag) || (((Boolean)arraylist.get(i1)).booleanValue());
         }
 
         break;
       case 2:
-        for (int i = 0; i < size; i++)
+        for (int j1 = 0; j1 < k; j1++)
         {
-          out ^= ((Boolean)Inputs.get(i)).booleanValue();
+          flag ^= ((Boolean)arraylist.get(j1)).booleanValue();
         }
 
         break;
       case 3:
-        if (size == 2)
-          out = (!((Boolean)Inputs.get(0)).booleanValue()) || (((Boolean)Inputs.get(1)).booleanValue()); break;
+        if (k == 2)
+        {
+          flag = (!((Boolean)arraylist.get(0)).booleanValue()) || (((Boolean)arraylist.get(1)).booleanValue()); } break;
       case 4:
-        out = !((Boolean)MapedInputs.get("A")).booleanValue();
-
+        flag = !((Boolean)hashmap.get("A")).booleanValue();
         break;
       case 5:
-        if (((Boolean)MapedInputs.get("R")).booleanValue())
+        if (((Boolean)hashmap.get("R")).booleanValue())
         {
           this.data = 0;
-          out = false;
+          flag = false;
         }
-        else if (((Boolean)MapedInputs.get("S")).booleanValue())
+        else if (((Boolean)hashmap.get("S")).booleanValue())
         {
           this.data = 1;
-          out = true;
+          flag = true;
         }
         else
         {
-          out = this.data == 1;
+          flag = this.data == 1;
         }
 
         break;
       case 6:
-        if (((Boolean)MapedInputs.get("C")).booleanValue())
+        if (((Boolean)hashmap.get("C")).booleanValue())
         {
-          this.data = ((out = ((Boolean)MapedInputs.get("D")).booleanValue()) ? 1 : 0);
+          this.data = ((flag = ((Boolean)hashmap.get("D")).booleanValue()) ? 1 : 0);
         }
         else
         {
-          out = this.data == 1;
+          flag = this.data == 1;
         }
 
         break;
       case 7:
-        if (((Boolean)MapedInputs.get("T")).booleanValue())
+        if (((Boolean)hashmap.get("T")).booleanValue())
         {
           if ((this.data & 0x2) != 2)
           {
@@ -763,82 +904,171 @@ public class TileEntityBlockBrainLogicBlock extends kw
           this.data &= 1;
         }
 
-        out = (this.data & 0x1) == 1;
-
+        flag = (this.data & 0x1) == 1;
         break;
       case 8:
         this.data = ((this.data & 0x1) << 1);
+        boolean flag2 = ((Boolean)hashmap.get("J")).booleanValue();
+        boolean flag3 = ((Boolean)hashmap.get("K")).booleanValue();
 
-        boolean j = ((Boolean)MapedInputs.get("J")).booleanValue(); boolean k = ((Boolean)MapedInputs.get("K")).booleanValue();
-
-        if ((!j) && (!k))
+        if ((!flag2) && (!flag3))
         {
           this.data |= this.data >> 1;
         }
-        else if ((j) && (k))
+        else if ((flag2) && (flag3))
         {
           this.data |= this.data >> 1 ^ 0x1;
         }
-        else if (j)
+        else if (flag2)
         {
           this.data |= 1;
         }
 
-        out = (this.data & 0x1) == 1;
+        flag = (this.data & 0x1) == 1;
       }
 
     }
 
-    return (byte)((out ^ this.invertOutput) ? 1 : 0);
+    return (byte)((flag ^ this.invertOutput) ? 1 : 0);
   }
 
-  public void a(ady par1NBTTagCompound)
+  public void a(bq nbttagcompound)
   {
-    super.a(par1NBTTagCompound);
-
-    this.direction = par1NBTTagCompound.d("Direction");
-    this.mode = par1NBTTagCompound.d("Mode");
-    this.data = par1NBTTagCompound.f("Data");
-    this.invertOutput = par1NBTTagCompound.o("InvertOutput");
+    super.a(nbttagcompound);
+    this.direction = nbttagcompound.c("Direction");
+    this.mode = nbttagcompound.c("Mode");
+    this.data = nbttagcompound.e("Data");
+    this.invertOutput = nbttagcompound.n("InvertOutput");
+    this.swapable = nbttagcompound.n("Swapable");
 
     for (int i = 0; i < 4; i++)
     {
-      this.PinState[i] = par1NBTTagCompound.d(new StringBuilder().append("State").append(String.valueOf(i)).toString());
-      this.PinType[i] = par1NBTTagCompound.d(new StringBuilder().append("Type").append(String.valueOf(i)).toString());
-      this.Pins[i] = par1NBTTagCompound.j(new StringBuilder().append("Pins").append(String.valueOf(i)).toString());
+      this.PinState[i] = nbttagcompound.c(new StringBuilder().append("State").append(String.valueOf(i)).toString());
+      this.PinType[i] = nbttagcompound.c(new StringBuilder().append("Type").append(String.valueOf(i)).toString());
+      this.Pins[i] = nbttagcompound.i(new StringBuilder().append("Pins").append(String.valueOf(i)).toString());
     }
 
-    byte size = par1NBTTagCompound.d("TASKS-Size");
+    byte byte0 = nbttagcompound.c("TASKS-Size");
 
-    for (byte i = 0; i < size; i = (byte)(i + 1))
+    for (byte byte1 = 0; byte1 < byte0; byte1 = (byte)(byte1 + 1))
     {
-      this.TASKS.add(i, par1NBTTagCompound.j(new StringBuilder().append("TASK").append(String.valueOf(i)).toString()));
+      this.TASKS.add(byte1, nbttagcompound.i(new StringBuilder().append("TASK").append(String.valueOf(byte1)).toString()));
     }
   }
 
-  public void b(ady par1NBTTagCompound)
+  public void b(bq nbttagcompound)
   {
-    super.b(par1NBTTagCompound);
-
-    par1NBTTagCompound.a("Direction", this.direction);
-    par1NBTTagCompound.a("Mode", this.mode);
-    par1NBTTagCompound.a("Data", this.data);
-    par1NBTTagCompound.a("InvertOutput", this.invertOutput);
+    super.b(nbttagcompound);
+    nbttagcompound.a("Direction", this.direction);
+    nbttagcompound.a("Mode", this.mode);
+    nbttagcompound.a("Data", this.data);
+    nbttagcompound.a("InvertOutput", this.invertOutput);
+    nbttagcompound.a("Swapable", this.swapable);
 
     for (int i = 0; i < 4; i++)
     {
-      par1NBTTagCompound.a(new StringBuilder().append("State").append(String.valueOf(i)).toString(), this.PinState[i]);
-      par1NBTTagCompound.a(new StringBuilder().append("Type").append(String.valueOf(i)).toString(), this.PinType[i]);
-      par1NBTTagCompound.a(new StringBuilder().append("Pins").append(String.valueOf(i)).toString(), this.Pins[i]);
+      nbttagcompound.a(new StringBuilder().append("State").append(String.valueOf(i)).toString(), this.PinState[i]);
+      nbttagcompound.a(new StringBuilder().append("Type").append(String.valueOf(i)).toString(), this.PinType[i]);
+      nbttagcompound.a(new StringBuilder().append("Pins").append(String.valueOf(i)).toString(), this.Pins[i]);
     }
 
-    byte size = (byte)this.TASKS.size();
+    byte byte0 = (byte)this.TASKS.size();
+    nbttagcompound.a("TASKS-Size", byte0);
 
-    par1NBTTagCompound.a("TASKS-Size", size);
-
-    for (byte i = 0; i < size; i = (byte)(i + 1))
+    for (byte byte1 = 0; byte1 < byte0; byte1 = (byte)(byte1 + 1))
     {
-      par1NBTTagCompound.a(new StringBuilder().append("TASK").append(String.valueOf(i)).toString(), (String)this.TASKS.get(i));
+      nbttagcompound.a(new StringBuilder().append("TASK").append(String.valueOf(byte1)).toString(), (String)this.TASKS.get(byte1));
+    }
+  }
+
+  public void readFromInputStream(DataInputStream inputStream)
+    throws IOException
+  {
+    this.correctConnect = inputStream.readBoolean();
+    this.ignoreIncorrectConnect = inputStream.readBoolean();
+    this.invertOutput = inputStream.readBoolean();
+    this.swapable = inputStream.readBoolean();
+    this.direction = inputStream.readByte();
+    this.GuiFocused = inputStream.readByte();
+    this.mode = inputStream.readByte();
+
+    int size = inputStream.readInt();
+    for (int i = 0; i < size; i++)
+    {
+      this.PinState[i] = inputStream.readByte();
+    }
+
+    size = inputStream.readInt();
+    for (int i = 0; i < size; i++)
+    {
+      this.PinType[i] = inputStream.readByte();
+    }
+
+    this.data = inputStream.readInt();
+    this.lastUpdate = inputStream.readLong();
+
+    size = inputStream.readInt();
+    for (int i = 0; i < size; i++)
+    {
+      this.Pins[i] = inputStream.readUTF();
+    }
+  }
+
+  protected void generateOutputStream(DataOutputStream outputStream)
+    throws IOException
+  {
+    outputStream.writeInt(this.l);
+    outputStream.writeInt(this.m);
+    outputStream.writeInt(this.n);
+
+    outputStream.writeBoolean(this.correctConnect);
+    outputStream.writeBoolean(this.ignoreIncorrectConnect);
+    outputStream.writeBoolean(this.invertOutput);
+    outputStream.writeBoolean(this.swapable);
+    outputStream.writeByte(this.direction);
+    outputStream.writeByte(this.GuiFocused);
+    outputStream.writeByte(this.mode);
+
+    int size = this.PinState.length;
+    outputStream.writeInt(size);
+    for (int i = 0; i < size; i++)
+    {
+      outputStream.writeByte(this.PinState[i]);
+    }
+
+    size = this.PinType.length;
+    outputStream.writeInt(size);
+    for (int i = 0; i < size; i++)
+    {
+      outputStream.writeByte(this.PinType[i]);
+    }
+
+    outputStream.writeInt(this.data);
+    outputStream.writeLong(this.lastUpdate);
+
+    size = this.Pins.length;
+    outputStream.writeInt(size);
+    for (int i = 0; i < size; i++)
+    {
+      outputStream.writeUTF(this.Pins[i]);
+    }
+  }
+
+  public void update(boolean sendToServer)
+    throws IOException
+  {
+    ByteArrayOutputStream bos = new ByteArrayOutputStream(0);
+    DataOutputStream outputStream = new DataOutputStream(bos);
+
+    generateOutputStream(outputStream);
+
+    if (sendToServer)
+    {
+      BrainStonePacketHandler.sendPacketToServer("BSM.TEBBLBS", bos);
+    }
+    else
+    {
+      BrainStonePacketHandler.sendPacketToClosestPlayers(this, "BSM.TEBBLBC", bos);
     }
   }
 }

@@ -1,57 +1,82 @@
-import java.util.Random;
+package net.braintonemod.src;
 
-public class BlockBrainStone extends pb
+import agb;
+import amj;
+import java.util.Random;
+import th;
+import xv;
+
+public class BlockBrainStone extends amj
 {
   private final boolean powered;
 
-  public BlockBrainStone(int i, int j, boolean powered)
+  public BlockBrainStone(int i, boolean flag)
   {
-    super(i, j, acn.e);
+    super(BrainStone.getId(i), flag ? 16 : 0, agb.e);
+    c(3.0F);
+    b(1.0F);
 
-    this.powered = powered;
-    this.cc = -0.2F;
+    if (flag)
+    {
+      a(0.0F);
+      b("brainStoneOut");
+    }
+    else
+    {
+      a(1.0F);
+      b("brainStone");
+      a(th.b);
+    }
+
+    this.powered = flag;
+    this.cA = -0.2F;
   }
 
-  public void a(xd par1World, int par2, int par3, int par4)
+  public String getTextureFile()
   {
-    if (!par1World.F)
+    return "/BrainStone/textures.png";
+  }
+
+  public void g(xv world, int i, int j, int k)
+  {
+    if (!world.J)
     {
-      if ((this.powered) && (!par1World.x(par2, par3, par4)))
+      if ((this.powered) && (!world.B(i, j, k)))
       {
-        par1World.a(par2, par3, par4, this.bO, 4);
+        world.a(i, j, k, this.cm, 4);
       }
-      else if ((!this.powered) && (par1World.x(par2, par3, par4)))
+      else if ((!this.powered) && (world.B(i, j, k)))
       {
-        par1World.g(par2, par3, par4, mod_BrainStone.brainStoneOut.bO);
+        world.e(i, j, k, BrainStone.brainStoneOut().cm);
       }
     }
   }
 
-  public void a(xd par1World, int par2, int par3, int par4, int par5)
+  public void a(xv world, int i, int j, int k, int l)
   {
-    if (!par1World.F)
+    if (!world.J)
     {
-      if ((this.powered) && (!par1World.x(par2, par3, par4)))
+      if ((this.powered) && (!world.B(i, j, k)))
       {
-        par1World.a(par2, par3, par4, this.bO, 4);
+        world.a(i, j, k, this.cm, 4);
       }
-      else if ((!this.powered) && (par1World.x(par2, par3, par4)))
+      else if ((!this.powered) && (world.B(i, j, k)))
       {
-        par1World.g(par2, par3, par4, mod_BrainStone.brainStoneOut.bO);
+        world.e(i, j, k, BrainStone.brainStoneOut().cm);
       }
     }
   }
 
-  public void a(xd par1World, int par2, int par3, int par4, Random par5Random)
+  public void b(xv world, int i, int j, int k, Random random)
   {
-    if ((!par1World.F) && (this.powered) && (!par1World.x(par2, par3, par4)))
+    if ((!world.J) && (this.powered) && (!world.B(i, j, k)))
     {
-      par1World.g(par2, par3, par4, mod_BrainStone.brainStone.bO);
+      world.e(i, j, k, BrainStone.brainStone().cm);
     }
   }
 
   public int a(int i, Random random, int j)
   {
-    return mod_BrainStone.dirtyBrainStone.bO;
+    return BrainStone.dirtyBrainStone().cm;
   }
 }

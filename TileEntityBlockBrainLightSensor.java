@@ -1,4 +1,12 @@
-public class TileEntityBlockBrainLightSensor extends kw
+package net.braintonemod.src;
+
+import bq;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+
+public class TileEntityBlockBrainLightSensor extends TileEntityBrainStoneSyncBase
 {
   private int lightLevel;
   private boolean direction;
@@ -35,37 +43,79 @@ public class TileEntityBlockBrainLightSensor extends kw
     return this.curLightLevel;
   }
 
-  public void setLightLevel(int lightLevel)
+  public void setLightLevel(int i)
   {
-    this.lightLevel = lightLevel;
+    this.lightLevel = i;
   }
 
-  public void setDirection(boolean direction)
+  public void setDirection(boolean flag)
   {
-    this.direction = direction;
+    this.direction = flag;
   }
 
-  public void setPowerOn(boolean powerOn)
+  public void setPowerOn(boolean flag)
   {
-    this.powerOn = powerOn;
+    this.powerOn = flag;
   }
 
-  public void setCurLightLevel(int curLightLevel)
+  public void setCurLightLevel(int i)
   {
-    this.curLightLevel = curLightLevel;
+    this.curLightLevel = i;
   }
 
-  public void a(ady par1NBTTagCompound)
+  public void a(bq nbttagcompound)
   {
-    super.a(par1NBTTagCompound);
-    this.lightLevel = par1NBTTagCompound.d("TEBBLS_lightLevel");
-    this.direction = par1NBTTagCompound.o("TEBBLS_direction");
+    super.a(nbttagcompound);
+    this.lightLevel = nbttagcompound.c("TEBBLS_lightLevel");
+    this.direction = nbttagcompound.n("TEBBLS_direction");
   }
 
-  public void b(ady par1NBTTagCompound)
+  public void b(bq nbttagcompound)
   {
-    super.b(par1NBTTagCompound);
-    par1NBTTagCompound.a("TEBBLS_lightLevel", (byte)this.lightLevel);
-    par1NBTTagCompound.a("TEBBLS_direction", this.direction);
+    super.b(nbttagcompound);
+    nbttagcompound.a("TEBBLS_lightLevel", (byte)this.lightLevel);
+    nbttagcompound.a("TEBBLS_direction", this.direction);
+  }
+
+  public void readFromInputStream(DataInputStream inputStream)
+    throws IOException
+  {
+    this.lightLevel = inputStream.readInt();
+    this.direction = inputStream.readBoolean();
+    this.powerOn = inputStream.readBoolean();
+    this.curLightLevel = inputStream.readInt();
+    this.GUIopen = inputStream.readBoolean();
+  }
+
+  protected void generateOutputStream(DataOutputStream outputStream)
+    throws IOException
+  {
+    outputStream.writeInt(this.l);
+    outputStream.writeInt(this.m);
+    outputStream.writeInt(this.n);
+
+    outputStream.writeInt(this.lightLevel);
+    outputStream.writeBoolean(this.direction);
+    outputStream.writeBoolean(this.powerOn);
+    outputStream.writeInt(this.curLightLevel);
+    outputStream.writeBoolean(this.GUIopen);
+  }
+
+  public void update(boolean sendToServer)
+    throws IOException
+  {
+    ByteArrayOutputStream bos = new ByteArrayOutputStream(0);
+    DataOutputStream outputStream = new DataOutputStream(bos);
+
+    generateOutputStream(outputStream);
+
+    if (sendToServer)
+    {
+      BrainStonePacketHandler.sendPacketToServer("BSM.TEBBLSS", bos);
+    }
+    else
+    {
+      BrainStonePacketHandler.sendPacketToClosestPlayers(this, "BSM.TEBBLSC", bos);
+    }
   }
 }

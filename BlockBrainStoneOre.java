@@ -1,10 +1,28 @@
-import java.util.Random;
+package net.braintonemod.src;
 
-public class BlockBrainStoneOre extends pb
+import agb;
+import amj;
+import java.util.Random;
+import th;
+import uk;
+
+public class BlockBrainStoneOre extends amj
 {
-  public BlockBrainStoneOre(int par1, int par2)
+  public BlockBrainStoneOre(int i)
   {
-    super(par1, par2, acn.e);
+    super(BrainStone.getId(i), 32, agb.e);
+
+    c(2.0F);
+    b("brainStoneOre");
+    b(0.25F);
+    a(0.3F);
+    a(th.b);
+    this.cA = 0.2F;
+  }
+
+  public String getTextureFile()
+  {
+    return "/BrainStone/textures.png";
   }
 
   public int a(Random random)
@@ -14,12 +32,13 @@ public class BlockBrainStoneOre extends pb
 
   public int a(int i, Random random, int j)
   {
-    return mod_BrainStone.brainStoneDust.bQ;
+    return BrainStone.brainStoneDust().cg;
   }
 
   public int a(int i, Random random)
   {
     int j = random.nextInt(i + 2) - 1;
+
     if (j < 0)
     {
       j = 0;

@@ -1,36 +1,44 @@
+package net.braintonemod.src;
+
+import bq;
 import java.util.Random;
+import la;
+import px;
+import qx;
+import um;
+import xv;
 
-public abstract class TileEntityBlockBrainStoneHiders extends kw
-  implements io
+public abstract class TileEntityBlockBrainStoneHiders extends TileEntityBrainStoneSyncBase
+  implements la
 {
-  protected aan[] ItemStacks;
+  protected um[] ItemStacks;
 
-  public int a()
+  public int k_()
   {
     return this.ItemStacks.length;
   }
 
-  public aan k_(int par1)
+  public um a(int i)
   {
-    return this.ItemStacks[par1];
+    return this.ItemStacks[i];
   }
 
-  public aan a(int par1, int par2)
+  public um a(int i, int j)
   {
-    if (this.ItemStacks[par1] != null)
+    if (this.ItemStacks[i] != null)
     {
-      if (this.ItemStacks[par1].a <= par2)
+      if (this.ItemStacks[i].a <= j)
       {
-        aan itemstack = this.ItemStacks[par1];
-        this.ItemStacks[par1] = null;
+        um itemstack = this.ItemStacks[i];
+        this.ItemStacks[i] = null;
         return itemstack;
       }
 
-      aan itemstack1 = this.ItemStacks[par1].a(par2);
+      um itemstack1 = this.ItemStacks[i].a(j);
 
-      if (this.ItemStacks[par1].a == 0)
+      if (this.ItemStacks[i].a == 0)
       {
-        this.ItemStacks[par1] = null;
+        this.ItemStacks[i] = null;
       }
 
       return itemstack1;
@@ -39,45 +47,44 @@ public abstract class TileEntityBlockBrainStoneHiders extends kw
     return null;
   }
 
-  public aan b(int par1)
+  public um a_(int i)
   {
-    if (this.ItemStacks[par1] != null)
+    if (this.ItemStacks[i] != null)
     {
-      aan itemstack = this.ItemStacks[par1];
-      this.ItemStacks[par1] = null;
-
+      um itemstack = this.ItemStacks[i];
+      this.ItemStacks[i] = null;
       return itemstack;
     }
 
     return null;
   }
 
-  public void a(int par1, aan par2ItemStack)
+  public void a(int i, um itemstack)
   {
-    this.ItemStacks[par1] = par2ItemStack;
+    this.ItemStacks[i] = itemstack;
 
-    if ((par2ItemStack != null) && (par2ItemStack.a > d()))
+    if ((itemstack != null) && (itemstack.a > c()))
     {
-      par2ItemStack.a = d();
+      itemstack.a = c();
     }
   }
 
-  public int d()
+  public int c()
   {
     return 1;
   }
 
-  public boolean a_(yw par1EntityPlayer)
+  public boolean a_(qx entityplayer)
   {
-    if (this.i.b(this.j, this.k, this.l) != this)
+    if (this.k.q(this.l, this.m, this.n) != this)
     {
       return false;
     }
 
-    return par1EntityPlayer.f(this.j + 0.5D, this.k + 0.5D, this.l + 0.5D) <= 64.0D;
+    return entityplayer.e(this.l + 0.5D, this.m + 0.5D, this.n + 0.5D) <= 64.0D;
   }
 
-  public void e()
+  public void l_()
   {
   }
 
@@ -85,32 +92,32 @@ public abstract class TileEntityBlockBrainStoneHiders extends kw
   {
   }
 
-  public void dropItems(xd par1World, int par2, int par3, int par4)
+  public void dropItems(xv world, int i, int j, int k)
   {
-    for (int i = 0; i < this.ItemStacks.length; i++)
+    for (int l = 0; l < this.ItemStacks.length; l++)
     {
-      aan itemstack = this.ItemStacks[i];
+      um itemstack = this.ItemStacks[l];
 
       if (itemstack != null)
       {
         float f = 0.7F;
-        double d = par1World.r.nextFloat() * f + (1.0F - f) * 0.5D;
-        double d1 = par1World.r.nextFloat() * f + (1.0F - f) * 0.5D;
-        double d2 = par1World.r.nextFloat() * f + (1.0F - f) * 0.5D;
-        fq entityitem = new fq(par1World, par2 + d, par3 + d1, par4 + d2, itemstack);
+        double d = world.u.nextFloat() * f + (1.0F - f) * 0.5D;
+        double d1 = world.u.nextFloat() * f + (1.0F - f) * 0.5D;
+        double d2 = world.u.nextFloat() * f + (1.0F - f) * 0.5D;
+        px entityitem = new px(world, i + d, j + d1, k + d2, itemstack);
         entityitem.c = 10;
-        par1World.a(entityitem);
+        world.d(entityitem);
       }
     }
   }
 
-  public void a(ady par1NBTTagCompound)
+  public void a(bq nbttagcompound)
   {
-    super.a(par1NBTTagCompound);
+    super.a(nbttagcompound);
   }
 
-  public void b(ady par1NBTTagCompound)
+  public void b(bq nbttagcompound)
   {
-    super.b(par1NBTTagCompound);
+    super.b(nbttagcompound);
   }
 }

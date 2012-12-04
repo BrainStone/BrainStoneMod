@@ -1,23 +1,32 @@
-public class ItemToolBrainStone extends da
+package net.braintonemod.src;
+
+import amj;
+import lq;
+import md;
+import tu;
+import ul;
+import um;
+
+public class ItemToolBrainStone extends tu
 {
-  private pb[] blocksEffectiveAgainst;
+  private amj[] blocksEffectiveAgainst;
   protected float a;
-  private int damageVsEntity;
+  private int cl;
   protected EnumToolMaterialBrainStone b;
 
-  protected ItemToolBrainStone(int i, int j, EnumToolMaterialBrainStone enumtoolmaterial, pb[] ablock)
+  protected ItemToolBrainStone(int i, int j, EnumToolMaterialBrainStone enumtoolmaterialbrainstone, amj[] ablock)
   {
-    super(i, j, uk.e, ablock);
+    super(i, j, ul.e, ablock);
     this.a = 4.0F;
-    this.b = enumtoolmaterial;
+    this.b = enumtoolmaterialbrainstone;
     this.blocksEffectiveAgainst = ablock;
-    this.bR = 1;
-    g(enumtoolmaterial.getMaxUses());
-    this.a = enumtoolmaterial.getEfficiencyOnProperMaterial();
-    this.damageVsEntity = (j + enumtoolmaterial.getDamageVsEntity());
+    this.ch = 1;
+    e(enumtoolmaterialbrainstone.getMaxUses());
+    this.a = enumtoolmaterialbrainstone.getEfficiencyOnProperMaterial();
+    this.cl = (j + enumtoolmaterialbrainstone.getDamageVsEntity());
   }
 
-  public float a(aan itemstack, pb block)
+  public float a(um itemstack, amj block)
   {
     for (int i = 0; i < this.blocksEffectiveAgainst.length; i++)
     {
@@ -30,29 +39,29 @@ public class ItemToolBrainStone extends da
     return 1.0F;
   }
 
-  public boolean a(aan itemstack, acq entityliving, acq entityliving1)
+  public boolean a(um itemstack, md entityliving, md entityliving1)
   {
     itemstack.a(2, entityliving1);
     return true;
   }
 
-  public boolean a(aan itemstack, int i, int j, int k, int l, acq entityliving)
+  public boolean onBlockDestroyed(um itemstack, int i, int j, int k, int l, md entityliving)
   {
     itemstack.a(1, entityliving);
     return true;
   }
 
-  public int a(nn entity)
+  public int a(lq entity)
   {
-    return this.damageVsEntity;
+    return this.cl;
   }
 
-  public boolean a()
+  public boolean n_()
   {
     return true;
   }
 
-  public int b()
+  public int c()
   {
     return this.b.getEnchantability();
   }

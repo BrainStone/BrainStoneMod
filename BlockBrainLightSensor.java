@@ -1,161 +1,174 @@
+package net.braintonemod.src;
+
+import agb;
+import aju;
+import anq;
+import bek;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Random;
 import net.minecraft.client.Minecraft;
+import qx;
+import th;
+import xv;
+import yf;
 
-public class BlockBrainLightSensor extends agy
+public class BlockBrainLightSensor extends aju
 {
-  private static int textureIdUp;
-  private static Minecraft mc;
-
-  protected BlockBrainLightSensor(int i, int j)
+  protected BlockBrainLightSensor(int i)
   {
-    super(i, 45, acn.p);
+    super(BrainStone.getId(i), agb.q);
 
-    textureIdUp = j;
-    this.cc = -0.2F;
+    c(2.4F);
+    b(0.5F);
+    b("brainLightSensor");
+    a(th.d);
 
-    mc = ModLoader.getMinecraftInstance();
+    this.cA = -0.2F;
   }
 
-  public kw u_()
+  public String getTextureFile()
+  {
+    return "/BrainStone/textures.png";
+  }
+
+  public anq a(xv world)
   {
     return new TileEntityBlockBrainLightSensor();
   }
 
-  public void a(xd par1World, int par2, int par3, int par4)
+  public void g(xv world, int i, int j, int k)
   {
-    par1World.a(par2, par3, par4, u_());
-    par1World.j(par2, par3, par4, this.bO);
-    par1World.j(par2 - 1, par3, par4, this.bO);
-    par1World.j(par2 + 1, par3, par4, this.bO);
-    par1World.j(par2, par3 - 1, par4, this.bO);
-    par1World.j(par2, par3 + 1, par4, this.bO);
-    par1World.j(par2, par3, par4 - 1, this.bO);
-    par1World.j(par2, par3, par4 + 1, this.bO);
-
-    par1World.a(par2, par3, par4, this.bO, 0);
+    world.a(i, j, k, a(world));
+    world.h(i, j, k, this.cm);
+    world.h(i - 1, j, k, this.cm);
+    world.h(i + 1, j, k, this.cm);
+    world.h(i, j - 1, k, this.cm);
+    world.h(i, j + 1, k, this.cm);
+    world.h(i, j, k - 1, this.cm);
+    world.h(i, j, k + 1, this.cm);
+    world.a(i, j, k, this.cm, 0);
   }
 
-  public void b_(xd par1World, int par2, int par3, int par4)
+  public void a(xv world, int i, int j, int k, int par5, int par6)
   {
-    par1World.q(par2, par3, par4);
-    par1World.j(par2, par3, par4, this.bO);
-    par1World.j(par2 - 1, par3, par4, this.bO);
-    par1World.j(par2 + 1, par3, par4, this.bO);
-    par1World.j(par2, par3 - 1, par4, this.bO);
-    par1World.j(par2, par3 + 1, par4, this.bO);
-    par1World.j(par2, par3, par4 - 1, this.bO);
-    par1World.j(par2, par3, par4 + 1, this.bO);
+    world.r(i, j, k);
+    world.h(i, j, k, this.cm);
+    world.h(i - 1, j, k, this.cm);
+    world.h(i + 1, j, k, this.cm);
+    world.h(i, j - 1, k, this.cm);
+    world.h(i, j + 1, k, this.cm);
+    world.h(i, j, k - 1, this.cm);
+    world.h(i, j, k + 1, this.cm);
   }
 
-  public void a(xd par1World, int par2, int par3, int par4, Random random)
+  public void b(xv world, int i, int j, int k, Random random)
   {
-    TileEntityBlockBrainLightSensor tileentity = (TileEntityBlockBrainLightSensor)par1World.b(par2, par3, par4);
+    TileEntityBlockBrainLightSensor tileentityblockbrainlightsensor = (TileEntityBlockBrainLightSensor)world.q(i, j, k);
 
-    if (tileentity != null)
+    if (tileentityblockbrainlightsensor != null)
     {
-      boolean tmp = tileentity.getPowerOn();
-      boolean direction = tileentity.getDirection();
+      boolean flag = tileentityblockbrainlightsensor.getPowerOn();
+      boolean flag1 = tileentityblockbrainlightsensor.getDirection();
+      int l = world.m(i, j + 1, k);
+      int i1 = tileentityblockbrainlightsensor.getLightLevel();
 
-      int lightLevel = par1World.o(par2, par3 + 1, par4);
-      int intern_lightLevel = tileentity.getLightLevel();
+      tileentityblockbrainlightsensor.setCurLightLevel(l);
 
-      if (tileentity.GUIopen) {
-        tileentity.setCurLightLevel(lightLevel);
-      }
-      boolean powerOn = lightLevel <= intern_lightLevel;
+      boolean flag2 = l <= i1;
 
-      if (powerOn != tmp)
+      if (flag2 != flag)
       {
-        mc.C.a("random.click", 1.0F, 1.0F);
+        BrainStone.proxy.getClient().A.a("random.click", 1.0F, 1.0F);
+        int j1 = random.nextInt(11) + 5;
 
-        int anz = random.nextInt(11) + 5;
-
-        for (int i = 0; i < anz; i++)
+        for (int k1 = 0; k1 < j1; k1++)
         {
-          par1World.a("smoke", par2 + random.nextFloat() * 1.4D - 0.2D, par3 + 0.8D + random.nextFloat() * 0.6D, par4 + random.nextFloat() * 1.4D - 0.2D, 0.0D, 0.0D, 0.0D);
+          world.a("smoke", i + random.nextFloat() * 1.4D - 0.2D, j + 0.8D + random.nextFloat() * 0.6D, k + random.nextFloat() * 1.4D - 0.2D, 0.0D, 0.0D, 0.0D);
         }
 
-        anz = random.nextInt(3);
+        j1 = random.nextInt(3);
 
-        for (int i = 0; i < anz; i++)
+        for (int l1 = 0; l1 < j1; l1++)
         {
-          par1World.a("largesmoke", par2 + random.nextFloat() * 1.4D - 0.2D, par3 + 0.8D + random.nextFloat() * 0.6D, par4 + random.nextFloat() * 1.4D - 0.2D, 0.0D, 0.0D, 0.0D);
+          world.a("largesmoke", i + random.nextFloat() * 1.4D - 0.2D, j + 0.8D + random.nextFloat() * 0.6D, k + random.nextFloat() * 1.4D - 0.2D, 0.0D, 0.0D, 0.0D);
         }
       }
 
-      tileentity.setPowerOn(powerOn);
-
-      par1World.j(par2, par3, par4, this.bO);
-      par1World.j(par2 - 1, par3, par4, this.bO);
-      par1World.j(par2 + 1, par3, par4, this.bO);
-      par1World.j(par2, par3 - 1, par4, this.bO);
-      par1World.j(par2, par3 + 1, par4, this.bO);
-      par1World.j(par2, par3, par4 - 1, this.bO);
-      par1World.j(par2, par3, par4 + 1, this.bO);
+      tileentityblockbrainlightsensor.setPowerOn(flag2);
+      world.i(i, j, k);
+      world.h(i, j, k, this.cm);
+      world.h(i - 1, j, k, this.cm);
+      world.h(i + 1, j, k, this.cm);
+      world.h(i, j - 1, k, this.cm);
+      world.h(i, j + 1, k, this.cm);
+      world.h(i, j, k - 1, this.cm);
+      world.h(i, j, k + 1, this.cm);
+      try
+      {
+        tileentityblockbrainlightsensor.update(false);
+      }
+      catch (IOException e)
+      {
+        e.printStackTrace();
+      }
     }
     else
     {
       System.out.println("Die TileEntity fehlt!");
     }
 
-    par1World.a(par2, par3, par4, this.bO, e());
+    world.a(i, j, k, this.cm, r_());
   }
 
-  public boolean g()
+  public boolean i()
   {
     return true;
   }
 
-  public boolean b(ali par1IBlockAccess, int par2, int par3, int par4, int par5)
+  public boolean c(yf iblockaccess, int i, int j, int k, int l)
   {
-    TileEntityBlockBrainLightSensor tileentity = (TileEntityBlockBrainLightSensor)par1IBlockAccess.b(par2, par3, par4);
-
-    return (tileentity != null) && (tileentity.getPowerOn());
+    TileEntityBlockBrainLightSensor tileentityblockbrainlightsensor = (TileEntityBlockBrainLightSensor)iblockaccess.q(i, j, k);
+    return (tileentityblockbrainlightsensor != null) && (tileentityblockbrainlightsensor.getPowerOn());
   }
 
-  public boolean e(xd par1World, int par2, int par3, int par4, int par5)
+  public boolean b(yf iblockaccess, int i, int j, int k, int l)
   {
-    return b(par1World, par2, par3, par4, par5);
+    return c(iblockaccess, i, j, k, l);
   }
 
-  public int a_(int i)
+  public int a(int i)
   {
     if (i == 1)
     {
-      return textureIdUp;
+      return 1;
     }
+
     if (i == 0)
     {
-      return 62;
+      return 33;
     }
 
-    return this.bN;
+    return 17;
   }
 
-  public int e()
+  public int r_()
   {
-    return 1;
+    return 2;
   }
 
-  public boolean b(xd par1World, int par2, int par3, int par4, yw par5EntityPlayer)
+  public boolean a(xv world, int i, int j, int k, qx entityplayer, int unknown, float px, float py, float pz)
   {
-    if (par1World.F)
-    {
-      return true;
-    }
+    TileEntityBlockBrainLightSensor tileentityblockbrainlightsensor = (TileEntityBlockBrainLightSensor)world.q(i, j, k);
 
-    TileEntityBlockBrainLightSensor tileentity = (TileEntityBlockBrainLightSensor)par1World.b(par2, par3, par4);
-
-    if (tileentity == null)
+    if (tileentityblockbrainlightsensor == null)
     {
+      System.out.println("The TileEntity is null!");
+
       return false;
     }
 
-    tileentity.setCurLightLevel(par1World.o(par2, par3 + 1, par4));
-
-    ModLoader.openGUI(par5EntityPlayer, new GuiBrainLightSensor(tileentity));
-
+    entityplayer.openGui(BrainStone.instance, 0, world, i, j, k);
     return true;
   }
 }

@@ -1,66 +1,83 @@
-public class ItemSwordBrainStone extends lx
+package net.braintonemod.src;
+
+import amj;
+import lq;
+import md;
+import qx;
+import ul;
+import um;
+import vn;
+import vp;
+import xv;
+
+public class ItemSwordBrainStone extends vp
 {
   private int weaponDamage;
   private final EnumToolMaterialBrainStone toolMaterial;
 
-  public ItemSwordBrainStone(int par1, EnumToolMaterialBrainStone par2EnumToolMaterial)
+  public ItemSwordBrainStone(int i, EnumToolMaterialBrainStone enumtoolmaterialbrainstone)
   {
-    super(par1, uk.e);
-    this.toolMaterial = par2EnumToolMaterial;
-    this.bR = 1;
-    g(par2EnumToolMaterial.getMaxUses());
-    this.weaponDamage = (4 + par2EnumToolMaterial.getDamageVsEntity());
+    super(BrainStone.getId(359 + i), ul.e);
+    this.toolMaterial = enumtoolmaterialbrainstone;
+    this.ch = 1;
+    e(enumtoolmaterialbrainstone.getMaxUses());
+    this.weaponDamage = (4 + enumtoolmaterialbrainstone.getDamageVsEntity());
   }
 
-  public float a(aan par1ItemStack, pb par2Block)
+  public String getTextureFile()
   {
-    return par2Block.bO != pb.W.bO ? 1.5F : 15.0F;
+    return "/BrainStone/textures.png";
   }
 
-  public boolean a(aan par1ItemStack, acq par2EntityLiving, acq par3EntityLiving)
+  public float a(um itemstack, amj block)
   {
-    par1ItemStack.a(1, par3EntityLiving);
+    return block.cm == amj.Z.cm ? 15.0F : 1.5F;
+  }
+
+  public boolean a(um itemstack, md entityliving, md entityliving1)
+  {
+    itemstack.a(1, entityliving1);
     return true;
   }
 
-  public boolean a(aan par1ItemStack, int par2, int par3, int par4, int par5, acq par6EntityLiving)
+  public boolean onBlockDestroyed(um itemstack, int i, int j, int k, int l, md entityliving)
   {
-    par1ItemStack.a(2, par6EntityLiving);
+    itemstack.a(2, entityliving);
     return true;
   }
 
-  public int a(nn par1Entity)
+  public int a(lq entity)
   {
     return this.weaponDamage;
   }
 
-  public boolean a()
+  public boolean n_()
   {
     return true;
   }
 
-  public aaq c(aan par1ItemStack)
+  public vn d_(um itemstack)
   {
-    return aaq.d;
+    return vn.d;
   }
 
-  public int b(aan par1ItemStack)
+  public int a(um itemstack)
   {
     return 72000;
   }
 
-  public aan a(aan par1ItemStack, xd par2World, yw par3EntityPlayer)
+  public um a(um itemstack, xv world, qx entityplayer)
   {
-    par3EntityPlayer.c(par1ItemStack, b(par1ItemStack));
-    return par1ItemStack;
+    entityplayer.a(itemstack, a(itemstack));
+    return itemstack;
   }
 
-  public boolean a(pb par1Block)
+  public boolean a(amj block)
   {
-    return par1Block.bO == pb.W.bO;
+    return block.cm == amj.Z.cm;
   }
 
-  public int b()
+  public int c()
   {
     return this.toolMaterial.getEnchantability();
   }

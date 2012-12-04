@@ -1,27 +1,40 @@
-class SlotBlockBrainStoneTrigger extends yu
+package net.braintonemod.src;
+
+import akm;
+import amj;
+import sq;
+import um;
+
+class SlotBlockBrainStoneTrigger extends sq
 {
-  public SlotBlockBrainStoneTrigger(TileEntityBlockBrainStoneTrigger par1Container, int par3, int par4, int par5)
+  public SlotBlockBrainStoneTrigger(TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger, int i, int j, int k)
   {
-    super(par1Container, par3, par4, par5);
+    super(tileentityblockbrainstonetrigger, i, j, k);
   }
 
-  public boolean a(aan par1ItemStack)
+  public boolean a(um itemstack)
   {
-    int i = par1ItemStack.c;
+    int i = itemstack.c;
 
-    if ((i > 255) || (i <= 0)) {
+    if ((i > amj.p.length) || (i <= 0))
+    {
       return false;
     }
-    pb tmp = pb.m[i];
-    int ID = tmp.bO;
 
-    if (tmp == null) {
+    amj block = amj.p[i];
+    int j = block.cm;
+
+    if (block == null)
+    {
       return false;
     }
-    if ((ID == mod_BrainStone.brainStoneTrigger.bO) || (ID == pb.K.bO)) {
+
+    if ((j == BrainStone.brainStoneTrigger().cm) || (j == amj.N.cm))
+    {
       return false;
     }
-    return tmp.a();
+
+    return block.c();
   }
 
   public int a()

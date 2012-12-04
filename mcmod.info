@@ -1,8 +1,8 @@
 [
 {
-  "modid" : "mod_BrainStone",
+  "modid" : "BrainStoneMod",
   "name" : "Brain Stone Mod",
-  "version" : "v 1.48.27 BETA release",
+  "version" : "v2.10.9 BETA release",
   "url" : "http://minecraft.de/showthread.php?89926",
   "credits" : "Thanks to all Users of the minecraft.de-forum, that had those brilliant ideas!!",
   "authors": [

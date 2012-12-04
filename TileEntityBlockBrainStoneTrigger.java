@@ -1,7 +1,24 @@
+package net.braintonemod.src;
+
+import amj;
+import bq;
+import by;
+import ce;
+import eg;
+import fh;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.Random;
+import la;
+import px;
+import um;
+import xv;
+import yf;
 
 public class TileEntityBlockBrainStoneTrigger extends TileEntityBlockBrainStoneHiders
-  implements io
+  implements la
 {
   public boolean power;
   private boolean[] mobTriggered;
@@ -11,7 +28,7 @@ public class TileEntityBlockBrainStoneTrigger extends TileEntityBlockBrainStoneH
 
   public TileEntityBlockBrainStoneTrigger()
   {
-    this.ItemStacks = new aan[1];
+    this.ItemStacks = new um[1];
     this.mobTriggered = new boolean[5];
     this.power = false;
     this.forceUpdate = false;
@@ -23,166 +40,286 @@ public class TileEntityBlockBrainStoneTrigger extends TileEntityBlockBrainStoneH
     }
   }
 
-  public String c()
+  public String b()
   {
     return "container.brainstonetrigger";
   }
 
-  public int getTextureId(ali par1IBlockAccess, int par2, int par3, int par4)
+  public eg l()
   {
-    aan tmpItemStack = this.ItemStacks[0];
-
-    if (tmpItemStack == null) {
-      return -1;
-    }
-    int i = tmpItemStack.c;
-
-    if ((i > 255) || (i <= 0)) {
-      return -1;
-    }
-    pb tmp = pb.m[i];
-
-    if (tmp == null) {
-      return -1;
-    }
-    return tmp.d(par1IBlockAccess, par2, par3, par4, 1);
+    bq tag = new bq();
+    b(tag);
+    return new fh(this.l, this.m, this.n, 1, tag);
   }
 
-  public int getIndex(String type)
+  public void onDataPacket(ce net, fh packet)
   {
-    if (type == "item")
+    bq tag = packet.e;
+    a(tag);
+  }
+
+  public int getTextureId(yf iblockaccess, int i, int j, int k)
+  {
+    um itemstack = this.ItemStacks[0];
+
+    if (itemstack == null)
+    {
+      return -1;
+    }
+
+    int l = itemstack.c;
+
+    if ((l > amj.p.length) || (l <= 0))
+    {
+      return -1;
+    }
+
+    amj block = amj.p[l];
+
+    if (block == null)
+    {
+      return -1;
+    }
+
+    return block.d(iblockaccess, i, j, k, 1);
+  }
+
+  public String getTextureFile()
+  {
+    um itemstack = this.ItemStacks[0];
+
+    if (itemstack == null)
+    {
+      return "";
+    }
+
+    int l = itemstack.c;
+
+    if ((l > amj.p.length) || (l <= 0))
+    {
+      return "";
+    }
+
+    amj block = amj.p[l];
+
+    if (block == null)
+    {
+      return "";
+    }
+
+    return block.getTextureFile();
+  }
+
+  public int getIndex(String s)
+  {
+    if (s == "item")
+    {
       return 0;
-    if (type == "animal")
-      return 1;
-    if (type == "monster")
-      return 2;
-    if (type == "nether")
-      return 3;
-    if (type == "player") {
-      return 4;
     }
-    return -1;
+
+    if (s == "animal")
+    {
+      return 1;
+    }
+
+    if (s == "monster")
+    {
+      return 2;
+    }
+
+    if (s == "nether")
+    {
+      return 3;
+    }
+
+    return s != "player" ? -1 : 4;
   }
 
-  public String getType(int index)
+  public String getType(int i)
   {
-    if (index == 0)
+    if (i == 0)
+    {
       return "item";
-    if (index == 1)
+    }
+
+    if (i == 1)
+    {
       return "animal";
-    if (index == 2)
+    }
+
+    if (i == 2)
+    {
       return "monster";
-    if (index == 3)
+    }
+
+    if (i == 3)
+    {
       return "nether";
-    if (index == 4) {
+    }
+
+    if (i == 4)
+    {
       return "player";
     }
+
     return "";
   }
 
-  public boolean getMobTriggered(String type)
+  public boolean getMobTriggered(String s)
   {
-    return getMobTriggered(getIndex(type));
+    return getMobTriggered(getIndex(s));
   }
 
-  public boolean getMobTriggered(int index)
+  public boolean getMobTriggered(int i)
   {
-    if ((index >= 5) || (index < 0)) {
+    if ((i >= 5) || (i < 0))
+    {
       return false;
     }
-    return this.mobTriggered[index];
+
+    return this.mobTriggered[i];
   }
 
-  public void setMobTriggered(String type, boolean flag)
+  public void setMobTriggered(String s, boolean flag)
   {
-    setMobTriggered(getIndex(type), flag);
+    setMobTriggered(getIndex(s), flag);
   }
 
-  public void setMobTriggered(int index, boolean flag)
+  public void setMobTriggered(int i, boolean flag)
   {
-    if ((index >= 5) || (index < 0)) {
-      return;
-    }
-    this.mobTriggered[index] = flag;
-  }
-
-  public void invertMobTriggered(int index)
-  {
-    if ((index >= 5) || (index < 0)) {
-      return;
-    }
-    this.mobTriggered[index] = (this.mobTriggered[index] == 0 ? 1 : false);
-  }
-
-  public void dropItems(xd par1World, int par2, int par3, int par4)
-  {
-    for (int i = 0; i < this.ItemStacks.length; i++)
+    if ((i >= 5) || (i < 0))
     {
-      aan itemstack = this.ItemStacks[i];
+      return;
+    }
+
+    this.mobTriggered[i] = flag;
+  }
+
+  public void invertMobTriggered(int i)
+  {
+    if ((i >= 5) || (i < 0))
+    {
+      return;
+    }
+
+    this.mobTriggered[i] = (this.mobTriggered[i] == 0 ? 1 : false);
+  }
+
+  public void dropItems(xv world, int i, int j, int k)
+  {
+    for (int l = 0; l < this.ItemStacks.length; l++)
+    {
+      um itemstack = this.ItemStacks[l];
 
       if (itemstack != null)
       {
         float f = 0.7F;
-        double d = par1World.r.nextFloat() * f + (1.0F - f) * 0.5D;
-        double d1 = par1World.r.nextFloat() * f + (1.0F - f) * 0.5D;
-        double d2 = par1World.r.nextFloat() * f + (1.0F - f) * 0.5D;
-        fq entityitem = new fq(par1World, par2 + d, par3 + d1, par4 + d2, itemstack);
+        double d = world.u.nextFloat() * f + (1.0F - f) * 0.5D;
+        double d1 = world.u.nextFloat() * f + (1.0F - f) * 0.5D;
+        double d2 = world.u.nextFloat() * f + (1.0F - f) * 0.5D;
+        px entityitem = new px(world, i + d, j + d1, k + d2, itemstack);
         entityitem.c = 10;
-        par1World.a(entityitem);
+        world.d(entityitem);
       }
     }
   }
 
-  public void a(ady par1NBTTagCompound)
+  public void a(bq nbttagcompound)
   {
-    super.a(par1NBTTagCompound);
+    super.a(nbttagcompound);
+    by nbttaglist = nbttagcompound.m("ItemsBrainStoneTrigger");
+    this.ItemStacks = new um[k_()];
 
-    no nbttaglist = par1NBTTagCompound.n("ItemsBrainStoneTrigger");
-    this.ItemStacks = new aan[a()];
-
-    for (int i = 0; i < nbttaglist.d(); i++)
+    for (int i = 0; i < nbttaglist.c(); i++)
     {
-      ady nbttagcompound = (ady)nbttaglist.a(i);
-      byte byte0 = nbttagcompound.d("SlotBrainStoneTrigger");
+      bq nbttagcompound1 = (bq)nbttaglist.b(i);
+      byte byte0 = nbttagcompound1.c("SlotBrainStoneTrigger");
 
       if ((byte0 >= 0) && (byte0 < this.ItemStacks.length))
       {
-        this.ItemStacks[byte0] = aan.a(nbttagcompound);
+        this.ItemStacks[byte0] = um.a(nbttagcompound1);
       }
     }
 
-    for (int i = 0; i < 5; i++)
+    for (int j = 0; j < 5; j++)
     {
-      this.mobTriggered[i] = par1NBTTagCompound.o(getType(i));
+      this.mobTriggered[j] = nbttagcompound.n(getType(j));
     }
 
-    this.delay = par1NBTTagCompound.d("BrainStoneDelay");
+    this.delay = nbttagcompound.c("BrainStoneDelay");
   }
 
-  public void b(ady par1NBTTagCompound)
+  public void b(bq nbttagcompound)
   {
-    super.b(par1NBTTagCompound);
-
-    no nbttaglist = new no();
+    super.b(nbttagcompound);
+    by nbttaglist = new by();
 
     for (int i = 0; i < this.ItemStacks.length; i++)
     {
       if (this.ItemStacks[i] != null)
       {
-        ady nbttagcompound = new ady();
-        nbttagcompound.a("SlotBrainStoneTrigger", (byte)i);
-        this.ItemStacks[i].b(nbttagcompound);
-        nbttaglist.a(nbttagcompound);
+        bq nbttagcompound1 = new bq();
+        nbttagcompound1.a("SlotBrainStoneTrigger", (byte)i);
+        this.ItemStacks[i].b(nbttagcompound1);
+        nbttaglist.a(nbttagcompound1);
       }
     }
 
-    par1NBTTagCompound.a("ItemsBrainStoneTrigger", nbttaglist);
+    nbttagcompound.a("ItemsBrainStoneTrigger", nbttaglist);
+
+    for (int j = 0; j < 5; j++)
+    {
+      nbttagcompound.a(getType(j), this.mobTriggered[j]);
+    }
+
+    nbttagcompound.a("BrainStoneDelay", this.delay);
+  }
+
+  public void readFromInputStream(DataInputStream inputStream)
+    throws IOException
+  {
+    this.power = inputStream.readBoolean();
+    this.forceUpdate = inputStream.readBoolean();
+    this.delay = inputStream.readByte();
 
     for (int i = 0; i < 5; i++)
     {
-      par1NBTTagCompound.a(getType(i), this.mobTriggered[i]);
+      this.mobTriggered[i] = inputStream.readBoolean();
     }
+  }
 
-    par1NBTTagCompound.a("BrainStoneDelay", this.delay);
+  protected void generateOutputStream(DataOutputStream outputStream)
+    throws IOException
+  {
+    outputStream.writeInt(this.l);
+    outputStream.writeInt(this.m);
+    outputStream.writeInt(this.n);
+
+    outputStream.writeBoolean(this.power);
+    outputStream.writeBoolean(this.forceUpdate);
+    outputStream.writeByte(this.delay);
+
+    for (int i = 0; i < 5; i++)
+    {
+      outputStream.writeBoolean(this.mobTriggered[i]);
+    }
+  }
+
+  public void update(boolean sendToServer)
+    throws IOException
+  {
+    ByteArrayOutputStream bos = new ByteArrayOutputStream(0);
+    DataOutputStream outputStream = new DataOutputStream(bos);
+
+    generateOutputStream(outputStream);
+
+    if (sendToServer)
+    {
+      BrainStonePacketHandler.sendPacketToServer("BSM.TEBBSTS", bos);
+    }
+    else
+    {
+      BrainStonePacketHandler.sendPacketToClosestPlayers(this, "BSM.TEBBSTC", bos);
+    }
   }
 }

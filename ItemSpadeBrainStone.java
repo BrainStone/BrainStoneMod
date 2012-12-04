@@ -1,19 +1,28 @@
+package net.braintonemod.src;
+
+import amj;
+
 public class ItemSpadeBrainStone extends ItemToolBrainStone
 {
-  private static pb[] blocksEffectiveAgainst = { pb.u, pb.v, pb.E, pb.F, pb.aS, pb.aU, pb.aW, pb.aA, pb.bc, pb.by };
+  private static amj[] blocksEffectiveAgainst = { amj.x, amj.y, amj.H, amj.I, amj.aV, amj.aX, amj.aZ, amj.aD, amj.bf, amj.bB };
 
-  public ItemSpadeBrainStone(int par1, EnumToolMaterialBrainStone par2EnumToolMaterial)
+  public ItemSpadeBrainStone(int i, EnumToolMaterialBrainStone enumtoolmaterialbrainstone)
   {
-    super(par1, 1, par2EnumToolMaterial, blocksEffectiveAgainst);
+    super(BrainStone.getId(359 + i), 1, enumtoolmaterialbrainstone, blocksEffectiveAgainst);
   }
 
-  public boolean a(pb par1Block)
+  public String getTextureFile()
   {
-    if (par1Block == pb.aS)
+    return "/BrainStone/textures.png";
+  }
+
+  public boolean a(amj block)
+  {
+    if (block == amj.aV)
     {
       return true;
     }
 
-    return par1Block == pb.aU;
+    return block == amj.aX;
   }
 }

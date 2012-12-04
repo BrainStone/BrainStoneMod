@@ -1,228 +1,239 @@
+package net.braintonemod.src;
+
+import agb;
+import ahq;
+import aju;
+import alo;
+import amj;
+import anq;
 import java.util.Random;
+import ke;
+import md;
+import qx;
+import th;
+import xv;
+import yf;
 
-public class BlockBrainLogicBlock extends agy
+public class BlockBrainLogicBlock extends aju
 {
-  public BlockBrainLogicBlock(int i, int j)
+  protected BlockBrainLogicBlock(int i)
   {
-    super(i, j, acn.p);
+    super(BrainStone.getId(i), agb.q);
 
-    this.cc = 0.0F;
-    a(true);
+    c(3.0F);
+    b(1.0F);
+    b("brainLogicBlock");
+    r();
+    a(th.d);
+
+    b(true);
+
+    this.cA = 0.0F;
   }
 
-  public kw u_()
+  public String getTextureFile()
+  {
+    return "/BrainStone/textures.png";
+  }
+
+  public anq a(xv world)
   {
     return new TileEntityBlockBrainLogicBlock();
   }
 
-  public void a(xd par1World, int par2, int par3, int par4)
+  public void g(xv world, int i, int j, int k)
   {
-    super.a(par1World, par2, par3, par4);
-    par1World.j(par2, par3, par4, this.bO);
-    par1World.j(par2 - 1, par3, par4, this.bO);
-    par1World.j(par2 + 1, par3, par4, this.bO);
-    par1World.j(par2, par3 - 1, par4, this.bO);
-    par1World.j(par2, par3 + 1, par4, this.bO);
-    par1World.j(par2, par3, par4 - 1, this.bO);
-    par1World.j(par2, par3, par4 + 1, this.bO);
-
-    par1World.a(par2, par3, par4, this.bO, e());
+    super.g(world, i, j, k);
+    world.h(i, j, k, this.cm);
+    world.h(i - 1, j, k, this.cm);
+    world.h(i + 1, j, k, this.cm);
+    world.h(i, j - 1, k, this.cm);
+    world.h(i, j + 1, k, this.cm);
+    world.h(i, j, k - 1, this.cm);
+    world.h(i, j, k + 1, this.cm);
+    world.a(i, j, k, this.cm, r_());
   }
 
-  public void b_(xd par1World, int par2, int par3, int par4)
+  public void a(xv world, int i, int j, int k, int par5, int par6)
   {
-    super.b_(par1World, par2, par3, par4);
-    par1World.j(par2, par3, par4, this.bO);
-    par1World.j(par2 - 1, par3, par4, this.bO);
-    par1World.j(par2 + 1, par3, par4, this.bO);
-    par1World.j(par2, par3 - 1, par4, this.bO);
-    par1World.j(par2, par3 + 1, par4, this.bO);
-    par1World.j(par2, par3, par4 - 1, this.bO);
-    par1World.j(par2, par3, par4 + 1, this.bO);
+    super.a(world, i, j, k, par5, par6);
+    world.h(i, j, k, this.cm);
+    world.h(i - 1, j, k, this.cm);
+    world.h(i + 1, j, k, this.cm);
+    world.h(i, j - 1, k, this.cm);
+    world.h(i, j + 1, k, this.cm);
+    world.h(i, j, k - 1, this.cm);
+    world.h(i, j, k + 1, this.cm);
   }
 
-  public void a(xd world, int i, int j, int k, Random random)
+  public void b(xv world, int i, int j, int k, Random random)
   {
-    super.a(world, i, j, k, random);
+    super.b(world, i, j, k, random);
+    TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock = (TileEntityBlockBrainLogicBlock)world.q(i, j, k);
 
-    TileEntityBlockBrainLogicBlock tileentity = (TileEntityBlockBrainLogicBlock)world.b(i, j, k);
-
-    if (tileentity != null)
+    if (tileentityblockbrainlogicblock != null)
     {
-      tileentity.doTASKS();
+      tileentityblockbrainlogicblock.doTASKS();
 
-      if (tileentity.shallDoUpdate(world.B().f()))
+      if (tileentityblockbrainlogicblock.shallDoUpdate(world.K().g()))
       {
-        byte[] tmp = { -1, -1, -1 };
+        byte[] abyte0 = { -1, -1, -1 };
 
-        for (byte dir = 1; dir < 4; dir = (byte)(dir + 1))
+        for (byte byte0 = 1; byte0 < 4; byte0 = (byte)(byte0 + 1))
         {
-          tmp[(dir - 1)] = checkState(world, i, j, k, tileentity.reverseTransformDirection(dir));
+          abyte0[(byte0 - 1)] = checkState(world, i, j, k, tileentityblockbrainlogicblock.reverseTransformDirection(byte0));
         }
 
-        tileentity.setPinState(tmp);
-
-        world.h(i, j, k, this.bO);
-        world.j(i, j, k, this.bO);
-        world.j(i - 1, j, k, this.bO);
-        world.j(i + 1, j, k, this.bO);
-        world.j(i, j - 1, k, this.bO);
-        world.j(i, j + 1, k, this.bO);
-        world.j(i, j, k - 1, this.bO);
-        world.j(i, j, k + 1, this.bO);
-
-        world.a(i, j, k, this.bO, e());
+        tileentityblockbrainlogicblock.setPinState(abyte0);
+        BrainStonePacketHandler.sendReRenderBlockAtPacket(i, j, k, world);
+        world.f(i, j, k, this.cm);
+        world.h(i, j, k, this.cm);
+        world.h(i - 1, j, k, this.cm);
+        world.h(i + 1, j, k, this.cm);
+        world.h(i, j - 1, k, this.cm);
+        world.h(i, j + 1, k, this.cm);
+        world.h(i, j, k - 1, this.cm);
+        world.h(i, j, k + 1, this.cm);
+        world.a(i, j, k, this.cm, r_());
       }
     }
   }
 
-  public int a_(int par1)
+  public int a(int i)
   {
-    par1 -= 2;
-
-    switch (par1) {
+    i -= 2; switch (i)
+    {
     case 0:
-      return mod_BrainStone.brainLogicBlockOnTexture;
+      return 19;
     case 1:
-      return mod_BrainStone.brainLogicBlockOnTexture;
+      return 35;
     case 2:
-      return mod_BrainStone.brainLogicBlockOffTexture;
+      return 19;
     case 3:
-      return mod_BrainStone.brainLogicBlockOffTexture;
+      return 35;
     }
 
-    return this.bN;
+    return 3;
   }
 
-  public int d(ali par1IBlockAccess, int par2, int par3, int par4, int par5)
+  public int d(yf iblockaccess, int i, int j, int k, int l)
   {
-    if (par5 < 2) {
-      return this.bN;
+    if (l < 2)
+    {
+      return 3;
     }
-    TileEntityBlockBrainLogicBlock tileentity = (TileEntityBlockBrainLogicBlock)par1IBlockAccess.b(par2, par3, par4);
 
-    if (tileentity == null) {
-      return this.bN;
+    TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock = (TileEntityBlockBrainLogicBlock)iblockaccess.q(i, j, k);
+
+    if (tileentityblockbrainlogicblock == null)
+    {
+      return 3;
     }
-    return tileentity.getPinStateBasedTexture(tileentity.transformDirection(par5 - 2));
+
+    return tileentityblockbrainlogicblock.getPinStateBasedTexture(tileentityblockbrainlogicblock.transformDirection(l - 2));
   }
 
-  public void a(xd par1World, int par2, int par3, int par4, acq par5EntityLiving)
+  public void a(xv world, int i, int j, int k, md entityliving)
   {
-    TileEntityBlockBrainLogicBlock tileentity = (TileEntityBlockBrainLogicBlock)par1World.b(par2, par3, par4);
+    TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock = (TileEntityBlockBrainLogicBlock)world.q(i, j, k);
 
-    if (tileentity != null)
-      tileentity.setDirection(gk.c(par5EntityLiving.u * 4.0F / 360.0F + 0.5D) & 0x3);
+    if (tileentityblockbrainlogicblock != null)
+    {
+      tileentityblockbrainlogicblock.setDirection(ke.c(entityliving.z * 4.0F / 360.0F + 0.5D) & 0x3);
+    }
   }
 
-  public boolean b(ali par1IBlockAccess, int par2, int par3, int par4, int side)
+  public boolean c(yf iblockaccess, int i, int j, int k, int l)
   {
-    TileEntityBlockBrainLogicBlock tileentity = (TileEntityBlockBrainLogicBlock)par1IBlockAccess.b(par2, par3, par4);
+    TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock = (TileEntityBlockBrainLogicBlock)iblockaccess.q(i, j, k);
 
-    if ((tileentity != null) && (tileentity.getDirection() == transformDirection(side - 2))) {
-      return tileentity.getOutput();
+    if ((tileentityblockbrainlogicblock != null) && (tileentityblockbrainlogicblock.getDirection() == transformDirection(l - 2)))
+    {
+      return tileentityblockbrainlogicblock.getOutput();
     }
+
     return false;
   }
 
-  public boolean e(xd par1World, int par2, int par3, int par4, int side)
+  public boolean b(yf iblockaccess, int i, int j, int k, int l)
   {
-    return b(par1World, par2, par3, par4, side);
+    return c(iblockaccess, i, j, k, l);
   }
 
-  public boolean g()
+  public boolean i()
   {
     return true;
   }
 
-  public int e()
+  public int r_()
   {
     return 2;
   }
 
-  public boolean b(xd par1World, int par2, int par3, int par4, yw par5EntityPlayer)
+  public boolean a(xv world, int i, int j, int k, qx entityplayer, int unknown, float px, float py, float pz)
   {
-    if (par1World.F)
+    TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock = (TileEntityBlockBrainLogicBlock)world.q(i, j, k);
+
+    if (tileentityblockbrainlogicblock == null)
     {
-      return true;
-    }
-
-    TileEntityBlockBrainLogicBlock tileentity = (TileEntityBlockBrainLogicBlock)par1World.b(par2, par3, par4);
-
-    if (tileentity == null) {
       return false;
     }
-    ModLoader.openGUI(par5EntityPlayer, new GuiBrainLogicBlock(tileentity));
 
-    par1World.j(par2, par3, par4, this.bO);
-
+    entityplayer.openGui(BrainStone.instance, 2, world, i, j, k);
+    world.h(i, j, k, this.cm);
     return true;
   }
 
-  private byte checkState(xd world, int par2, int par3, int par4, byte direction)
+  private byte checkState(xv world, int i, int j, int k, byte byte0)
   {
-    switch (direction)
+    switch (byte0)
     {
     case 3:
-      par2++;
+      i++;
       break;
     case 2:
-      par2--;
+      i--;
       break;
     case 1:
-      par4++;
+      k++;
       break;
     case 0:
-      par4--;
+      k--;
     }
 
-    int tmp = world.a(par2, par3, par4);
+    int l = world.a(i, j, k);
 
-    if (tmp == 0) {
+    if (l == 0)
+    {
       return -1;
     }
-    byte state = -1;
-    pb block;
-    if ((block = pb.m[tmp]).g())
+
+    byte byte1 = -1;
+    amj block;
+    if ((block = amj.p[l]).i())
     {
-      if ((block instanceof ahi))
+      if ((block instanceof alo))
       {
-        state = (byte)(world.e(par2, par3, par4) > 0 ? 1 : 0);
+        byte1 = (byte)(world.h(i, j, k) <= 0 ? 0 : 1);
       }
       else
       {
-        direction = (byte)(direction + 2);
-        state = (byte)((block.b(world, par2, par3, par4, direction)) || (block.e(world, par2, par3, par4, direction)) ? 1 : 0);
+        byte0 = (byte)(byte0 + 2);
+        byte1 = (byte)((!block.b(world, i, j, k, byte0)) && (!block.c(world, i, j, k, byte0)) ? 0 : 1);
       }
-
     }
-    else if (g(tmp))
+    else if (i(l))
     {
-      state = (byte)(world.x(par2, par3, par4) ? 1 : 0);
+      byte1 = (byte)(world.B(i, j, k) ? 1 : 0);
     }
 
-    return state;
+    return byte1;
   }
 
-  private byte switchDirection(byte direction)
+  private int transformDirection(int i)
   {
-    switch (direction) {
-    case 0:
-      return 1;
-    case 1:
-      return 0;
-    case 2:
-      return 3;
-    case 3:
-      return 2;
-    }
-
-    return 0;
-  }
-
-  private int transformDirection(int direction)
-  {
-    switch (direction) {
+    switch (i)
+    {
     case 0:
       return 2;
     case 1:

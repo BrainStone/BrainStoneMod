@@ -1,3 +1,5 @@
+package net.braintonemod.src;
+
 public enum EnumToolMaterialBrainStone
 {
   BRAINSTONE(3, 5368, 6.0F, 5, 25);
@@ -8,11 +10,13 @@ public enum EnumToolMaterialBrainStone
   private final int damageVsEntity;
   private final int enchantability;
 
-  private EnumToolMaterialBrainStone(int par3, int par4, float par5, int par6, int par7) { this.harvestLevel = par3;
-    this.maxUses = par4;
-    this.efficiencyOnProperMaterial = par5;
-    this.damageVsEntity = par6;
-    this.enchantability = par7;
+  private EnumToolMaterialBrainStone(int j, int k, float f, int l, int i1)
+  {
+    this.harvestLevel = j;
+    this.maxUses = k;
+    this.efficiencyOnProperMaterial = f;
+    this.damageVsEntity = l;
+    this.enchantability = i1;
   }
 
   public int getMaxUses()

@@ -1,223 +1,315 @@
+package net.braintonemod.src;
+
+import ahq;
+import arn;
+import asl;
+import ast;
+import atj;
+import auy;
+import ayk;
+import bap;
+import bek;
+import bm;
 import java.util.List;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
+import xv;
 
-public class GuiBrainLogicBlock extends vp
+public class GuiBrainLogicBlock extends auy
 {
   private byte focused;
   private int globalX;
   private int globalY;
-  private final int xSize;
-  private final int ySize;
+  private static final int b = 176;
+  private static final int c = 166;
   private float factor;
   private TileEntityBlockBrainLogicBlock tileentity;
+  private String username;
+  private boolean help;
+  private static final int helpYSize = 90;
+  private static final int stringWidth = 156;
+  private String HelpText;
 
-  public GuiBrainLogicBlock(TileEntityBlockBrainLogicBlock tileentity)
+  public GuiBrainLogicBlock(TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock)
   {
-    this.tileentity = tileentity;
-    this.xSize = 176;
-    this.ySize = 166;
-    this.focused = 0;
+    super(new ContainerBlockBrainLightSensor());
+    this.username = BrainStone.proxy.getPlayer().bQ;
+    this.tileentity = tileentityblockbrainlogicblock;
+    this.tileentity.logIn(this.username);
+    this.focused = this.tileentity.getFocused();
+    this.help = false;
   }
 
-  public void a(int par1, int par2, float par3)
+  public void a(float f, int i, int j)
   {
-    this.factor = 1.0F;
+    int k = this.f.o.b("/BrainStone/GuiBrainLogicBlock.png");
+    this.f.o.b(k);
 
-    int t = this.p.p.b("/BrainStone/GuiBrainLogicBlock.png");
-    this.p.p.b(t);
-    int x = this.globalX = (this.q - this.xSize) / 2;
-    int y = this.globalY = (this.r - this.ySize) / 2;
-    b(x, y, 0, 0, this.xSize, this.ySize);
-
-    this.tileentity.drawBoxes(this, x + 104, y + 7);
-
-    this.focused = this.tileentity.getFocused();
-
-    if (this.focused != 0)
+    if (this.help)
     {
-      switch (this.focused)
+      int l = (this.g - 176) / 2;
+      int i1 = (this.h - 90) / 2;
+      b(l, i1, 0, 166, 176, 90);
+      this.l.a(this.HelpText, l + 10, i1 + 10, 156, 15658734);
+    }
+    else
+    {
+      this.factor = 1.0F;
+      int l = this.globalX = (this.g - 176) / 2;
+      int i1 = this.globalY = (this.h - 166) / 2;
+      b(l, i1, 0, 0, 176, 166);
+      this.tileentity.drawBoxes(this, l + 104, i1 + 7);
+      this.focused = this.tileentity.getFocused();
+
+      if (this.focused != 0)
       {
-      case 1:
-        drawFocus(x + 124, y + 7);
-        break;
-      case 2:
-        drawFocus(x + 144, y + 27);
-        break;
-      case 3:
-        drawFocus(x + 104, y + 27);
+        switch (this.focused)
+        {
+        case 1:
+          drawFocus(l + 124, i1 + 7);
+          break;
+        case 2:
+          drawFocus(l + 144, i1 + 27);
+          break;
+        case 3:
+          drawFocus(l + 104, i1 + 27);
+        }
+
       }
 
+      GL11.glPushMatrix();
+      GL11.glScalef(this.factor, this.factor, this.factor);
+      this.tileentity.drawGates(this, l + 6, i1 + 20);
+      drawString(bm.a("tile.brainLogicBlock.name"), l + 6, i1 + 6, 0);
+      boolean[] aflag = this.tileentity.shallRender();
+
+      if (aflag[0] != 0)
+      {
+        drawString(this.tileentity.getPin(0), 130, 50, this.tileentity.getPinColor(0), 2.0F);
+      }
+
+      if (aflag[1] != 0)
+      {
+        drawString(this.tileentity.getPin(1), 130, 10, this.tileentity.getPinColor(1), 2.0F);
+      }
+
+      if (aflag[2] != 0)
+      {
+        drawString(this.tileentity.getPin(2), 150, 30, this.tileentity.getPinColor(2), 2.0F);
+      }
+
+      if (aflag[3] != 0)
+      {
+        drawString(this.tileentity.getPin(3), 110, 30, this.tileentity.getPinColor(3), 2.0F);
+      }
+
+      GL11.glPopMatrix();
+      A_();
     }
-
-    GL11.glPushMatrix();
-    GL11.glScalef(this.factor, this.factor, this.factor);
-
-    this.tileentity.drawGates(this, x + 6, y + 20);
-
-    drawString(cy.a("tile.brainLogicBlock.name"), x + 6, y + 6, 0);
-
-    boolean[] render = this.tileentity.shallRender();
-
-    if (render[0] != 0)
-      drawString(this.tileentity.getPin(0), 130, 50, this.tileentity.getPinColor(0), 2.0F);
-    if (render[1] != 0)
-      drawString(this.tileentity.getPin(1), 130, 10, this.tileentity.getPinColor(1), 2.0F);
-    if (render[2] != 0)
-      drawString(this.tileentity.getPin(2), 150, 30, this.tileentity.getPinColor(2), 2.0F);
-    if (render[3] != 0) {
-      drawString(this.tileentity.getPin(3), 110, 30, this.tileentity.getPinColor(3), 2.0F);
-    }
-    GL11.glPopMatrix();
-
-    c();
-    super.a(par1, par2, par3);
   }
 
-  public void drawString(String str, int x, int y, int color)
+  public void drawString(String s, int i, int j, int k)
   {
-    this.u.b(str, (int)(x / this.factor), (int)(y / this.factor), color);
+    this.l.b(s, (int)(i / this.factor), (int)(j / this.factor), k);
   }
 
-  public void drawSplitString(String str, int x, int y, int color, int lenght)
+  public void drawSplitString(String s, int i, int j, int k, int l)
   {
-    this.u.a(str, (int)(x / this.factor), (int)(y / this.factor), lenght, color);
+    this.l.a(s, (int)(i / this.factor), (int)(j / this.factor), l, k);
   }
 
-  public void c()
+  public void A_()
   {
-    this.s.clear();
-    this.s.add(new abp(0, this.globalX + 10, this.globalY + 140, 156, 20, cy.a("gui.brainstone.help")));
+    this.i.clear();
+    this.i.add(new ast(0, this.globalX + 10, this.globalY + 140, 156, 20, bm.a("gui.brainstone.help")));
   }
 
-  public boolean b()
+  public boolean f()
   {
     return false;
   }
 
-  protected void a(abp guibutton)
+  protected void a(ast guibutton)
   {
     if (guibutton.f == 0)
-      ModLoader.openGUI(ModLoader.getMinecraftInstance().h, new GuiBrainLogicBlockHelp(cy.a("gui.brainstone.help.gate" + String.valueOf(this.tileentity.getMode())), this));
-  }
-
-  protected void a(char par1, int par2)
-  {
-    if ((par2 == 1) || (par2 == this.p.A.s.d)) {
-      quit();
-    }
-    if (par1 == 'h') {
-      this.tileentity.swapPosition(1, 2);
-    }
-    if (par2 == 205) {
-      swap(true);
-    }
-    if (par2 == 203) {
-      swap(false);
-    }
-    if (par2 == 54) {
-      rotate(true);
-    }
-    if (par2 == 42) {
-      rotate(false);
-    }
-    if ((par2 == 42) || (par2 == 54) || (par2 == 203) || (par2 == 205))
-      click();
-  }
-
-  protected void a(int par1, int par2, int par3)
-  {
-    super.a(par1, par2, par3);
-
-    if (par3 == 0)
     {
-      par1 -= (this.q - this.xSize) / 2;
-      par2 -= (this.r - this.ySize) / 2;
+      this.HelpText = bm.a("gui.brainstone.help.gate" + String.valueOf(this.tileentity.getMode()));
 
-      if (inField(par1, par2, 168, 3, 172, 7)) {
+      this.help = true;
+      this.i.clear();
+      this.tileentity.logOut(this.username);
+    }
+  }
+
+  protected void a(char c, int i)
+  {
+    if (this.help)
+    {
+      closeHelpGui();
+    }
+    else
+    {
+      if ((i == 1) || (i == this.f.y.G.d))
+      {
         quit();
       }
 
-      for (byte i = 0; i < TileEntityBlockBrainLogicBlock.numGates; i = (byte)(i + 1))
+      if (i == 205)
       {
-        int tmp = 12 * i;
+        swap(true);
+      }
 
-        if (inField(par1, par2, 5, 18 + tmp, 75, 32 + tmp)) {
-          this.tileentity.setMode(i);
+      if (i == 203)
+      {
+        swap(false);
+      }
+
+      if (i == 54)
+      {
+        rotate(true);
+      }
+
+      if (i == 42)
+      {
+        rotate(false);
+      }
+
+      if ((i == 42) || (i == 54) || (i == 203) || (i == 205))
+      {
+        click();
+      }
+    }
+  }
+
+  protected void a(int i, int j, int k)
+  {
+    boolean flag = this.help;
+
+    super.a(i, j, k);
+
+    if ((k != 0) || (flag != this.help))
+    {
+      return;
+    }
+
+    if (this.help)
+    {
+      closeHelpGui();
+    }
+    else
+    {
+      i -= (this.g - 176) / 2;
+      j -= (this.h - 166) / 2;
+
+      if (inField(i, j, 168, 3, 172, 7))
+      {
+        quit();
+
+        return;
+      }
+
+      for (byte byte0 = 0; byte0 < TileEntityBlockBrainLogicBlock.numGates; byte0 = (byte)(byte0 + 1))
+      {
+        int l = 12 * byte0;
+
+        if (inField(i, j, 5, 18 + l, 75, 32 + l))
+        {
+          this.tileentity.setMode(byte0);
         }
       }
-      if (inField(par1, par2, 76, 68, 168, 90)) {
+
+      if (inField(i, j, 76, 68, 168, 90))
+      {
         this.tileentity.invertInvertOutput();
       }
+
       if (!this.tileentity.isSwapable())
-        this.tileentity.setFocused(0);
-      else if (inField(par1, par2, 124, 7, 143, 26))
       {
-        if (this.focused != 1)
-          this.tileentity.setFocused(1);
-        else
-          this.tileentity.setFocused(0);
+        this.tileentity.setFocused(0);
       }
-      else if (inField(par1, par2, 144, 27, 163, 46))
+      else if (inField(i, j, 124, 7, 143, 26))
+      {
+        this.focused = this.tileentity.getFocused();
+
+        if (this.focused != 1)
+        {
+          this.tileentity.setFocused(1);
+        }
+        else
+        {
+          this.tileentity.setFocused(0);
+        }
+      }
+      else if (inField(i, j, 144, 27, 163, 46))
       {
         if (this.focused != 2)
+        {
           this.tileentity.setFocused(2);
+        }
         else
+        {
           this.tileentity.setFocused(0);
+        }
       }
-      else if (inField(par1, par2, 104, 27, 123, 46))
+      else if (inField(i, j, 104, 27, 123, 46))
       {
         if (this.focused != 3)
+        {
           this.tileentity.setFocused(3);
+        }
         else
+        {
           this.tileentity.setFocused(0);
+        }
       }
       else
+      {
         this.tileentity.setFocused(0);
+      }
     }
   }
 
   private void click()
   {
-    this.p.C.a("random.click", 1.0F, 1.0F);
+    this.f.A.a("random.click", 1.0F, 1.0F);
   }
 
-  private void drawFocus(int x, int y)
+  private void drawFocus(int i, int j)
   {
-    int tmp = (int)(ModLoader.getMinecraftInstance().f.B().f() & 1L) * 20;
-
-    b(x, y, 196, tmp, 20, 20);
+    int k = (int)(BrainStone.proxy.getClientWorld().K().g() & 1L) * 20;
+    b(i, j, 196, k, 20, 20);
   }
 
-  private void drawString(String str, int x, int y, int color, float fact)
+  private void drawString(String s, int i, int j, int k, float f)
   {
-    if (fact != this.factor)
+    if (f != this.factor)
     {
-      this.factor = fact;
-
+      this.factor = f;
       GL11.glPopMatrix();
-
       GL11.glPushMatrix();
-      if (this.factor == 2.0F) {
+
+      if (this.factor == 2.0F)
+      {
         GL11.glTranslatef(this.globalX - 1.0F, this.globalY, 0.0F);
       }
+
       GL11.glScalef(this.factor, this.factor, this.factor);
     }
 
-    this.u.b(str, (int)(x / this.factor), (int)(y / this.factor), color);
+    this.l.b(s, (int)(i / this.factor), (int)(j / this.factor), k);
   }
 
   private void quit()
   {
     click();
-    this.tileentity.setFocused(0);
-    this.p.a(null);
-    this.p.g();
+    this.tileentity.logOut(this.username);
+    this.f.a(null);
+    this.f.h();
   }
 
-  private void rotate(boolean right)
+  private void rotate(boolean flag)
   {
-    if (right)
+    if (flag)
     {
       this.tileentity.swapPosition(1, 2);
       this.tileentity.swapPosition(1, 3);
@@ -231,9 +323,11 @@ public class GuiBrainLogicBlock extends vp
     }
   }
 
-  private void swap(boolean right)
+  private void swap(boolean flag)
   {
-    if (right)
+    this.focused = this.tileentity.getFocused();
+
+    if (flag)
     {
       switch (this.focused)
       {
@@ -254,23 +348,25 @@ public class GuiBrainLogicBlock extends vp
       {
       case 1:
         this.tileentity.swapPosition(1, 3);
-        this.focused = 3;
-
         break;
       case 2:
         this.tileentity.swapPosition(2, 1);
-        this.focused = 1;
-
         break;
       case 3:
         this.tileentity.swapPosition(3, 2);
-        this.focused = 2;
       }
     }
   }
 
-  private boolean inField(int varX, int varY, int minX, int minY, int maxX, int maxY)
+  private boolean inField(int i, int j, int k, int l, int i1, int j1)
   {
-    return (varX >= minX) && (varX <= maxX) && (varY >= minY) && (varY <= maxY);
+    return (i >= k) && (i <= i1) && (j >= l) && (j <= j1);
+  }
+
+  private void closeHelpGui()
+  {
+    click();
+    this.help = false;
+    this.tileentity.logIn(this.username);
   }
 }
