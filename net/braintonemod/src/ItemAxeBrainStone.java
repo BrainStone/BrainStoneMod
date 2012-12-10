@@ -15,7 +15,7 @@ public class ItemAxeBrainStone extends ItemToolBrainStone
 
   public String getTextureFile()
   {
-    return "/BrainStone/textures.png";
+    return "/BrainStoneTextures/textures.png";
   }
 
   public float a(um itemstack, amj block)

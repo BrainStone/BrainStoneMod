@@ -6,7 +6,7 @@ import xv;
 
 public class CommonProxy
 {
-  public static final String textureFile = "/BrainStone/textures.png";
+  public static final String textureFile = "/BrainStoneTextures/textures.png";
 
   public void registerRenderInformation()
   {

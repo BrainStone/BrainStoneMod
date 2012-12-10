@@ -11,7 +11,7 @@ public abstract class BlockBrainStoneHiders extends aju
     super(BrainStone.getId(i), agb.q);
 
     a(th.d);
-    setTextureFile("/BrainStone/textures.png");
+    setTextureFile("/BrainStoneTextures/textures.png");
   }
 
   public boolean c()

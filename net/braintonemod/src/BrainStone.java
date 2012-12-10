@@ -15,17 +15,36 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 import jg;
 import jh;
+import lq;
+import lv;
+import lz;
+import md;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.Property;
+import pv;
+import px;
+import py;
+import pz;
+import qx;
+import qz;
+import ra;
+import rb;
+import rc;
+import rh;
 import th;
 import uk;
 import um;
+import xv;
 
-@Mod(modid="BrainStoneMod", name="Brain Stone Mod", version="v2.10.9 BETA release")
+@Mod(modid="BrainStoneMod", name="Brain Stone Mod", version="v2.12.1 BETA release")
 @NetworkMod(clientSideRequired=true, serverSideRequired=true, channels={"BSM", "BSM.TEBBSTS", "BSM.TEBBSTC", "BSM.TEBBLSS", "BSM.TEBBLSC", "BSM.TEBBLBS", "BSM.TEBBLBC", "BSM.UPAS", "BSM.RRBAC"}, packetHandler=BrainStonePacketHandler.class)
 public class BrainStone
 {
@@ -33,7 +52,8 @@ public class BrainStone
   public static final int startBlockId = 1258;
   public static final int startItemId = 359;
   public static final int startAchievementId = 3698;
-  public static final String spriteName = "/BrainStone/textures.png";
+  public static final String spriteFolder = "/BrainStoneTextures";
+  public static final String spriteName = "/BrainStoneTextures/textures.png";
   private static final String de = "de_DE";
 
   @Mod.Instance("BrainStoneMod")
@@ -90,6 +110,58 @@ public class BrainStone
   @Mod.PostInit
   public void postInit(FMLPostInitializationEvent event)
   {
+    LinkedHashMap brainStoneTriggerEntities = new LinkedHashMap();
+
+    brainStoneTriggerEntities.put("gui.brainstone.player", new Class[] { qx.class });
+    brainStoneTriggerEntities.put("gui.brainstone.item", new Class[] { pv.class, rc.class, px.class, py.class, pz.class, lz.class });
+
+    brainStoneTriggerEntities.put("gui.brainstone.projectile", new Class[] { qz.class, rh.class, ra.class, rb.class });
+
+    Map allEntities = lv.d;
+    int length = allEntities.size();
+    Object[] keys = allEntities.keySet().toArray(new Object[length]);
+
+    for (int i = 0; i < length; i++)
+    {
+      Object key = keys[i];
+      Class value = (Class)allEntities.get(key);
+
+      if ((value != null) && (md.class.isAssignableFrom(value)) && (!md.class.equals(value)))
+      {
+        try
+        {
+          brainStoneTriggerEntities.put("entity." + lv.b((lq)value.getDeclaredConstructor(new Class[] { xv.class }).newInstance(new Object[] { null })) + ".name", new Class[] { value });
+        }
+        catch (InstantiationException e)
+        {
+          e.printStackTrace();
+        }
+        catch (IllegalAccessException e)
+        {
+          e.printStackTrace();
+        }
+        catch (IllegalArgumentException e)
+        {
+          e.printStackTrace();
+        }
+        catch (InvocationTargetException e)
+        {
+          e.printStackTrace();
+        }
+        catch (NoSuchMethodException e)
+        {
+          e.printStackTrace();
+        }
+        catch (SecurityException e)
+        {
+          e.printStackTrace();
+        }
+      }
+    }
+
+    BlockBrainStoneTrigger.triggerEntities = brainStoneTriggerEntities;
+    GuiBrainStoneTrigger.triggerEntities = brainStoneTriggerEntities;
+    TileEntityBlockBrainStoneTrigger.triggerEntities = brainStoneTriggerEntities;
   }
 
   private static void getIds(FMLPreInitializationEvent event)
@@ -116,15 +188,15 @@ public class BrainStone
     blocks.put(Integer.valueOf(0), new BlockBrainStone(0, false));
     blocks.put(Integer.valueOf(1), new BlockBrainStone(1, true));
     blocks.put(Integer.valueOf(2), new BlockBrainStoneOre(2));
-    blocks.put(Integer.valueOf(3), new amj(getId(3), 48, agb.e).c(2.4F).b("dirtyBrainStone").b(0.5F).a(0.5F).a(th.b).setTextureFile("/BrainStone/textures.png"));
+    blocks.put(Integer.valueOf(3), new amj(getId(3), 48, agb.e).c(2.4F).b("dirtyBrainStone").b(0.5F).a(0.5F).a(th.b).setTextureFile("/BrainStoneTextures/textures.png"));
     ((amj)blocks.get(Integer.valueOf(3))).cA = -0.1F;
     blocks.put(Integer.valueOf(4), new BlockBrainLightSensor(4));
     blocks.put(Integer.valueOf(5), new BlockBrainStoneTrigger(5));
     blocks.put(Integer.valueOf(6), new BlockBrainLogicBlock(6));
 
-    items.put(Integer.valueOf(359), new uk(getId(359)).b(0, 8).b("brainStoneDust").a(th.l).setTextureFile("/BrainStone/textures.png"));
-    items.put(Integer.valueOf(360), new uk(getId(360)).b(0, 9).b("coalBriquette").a(th.f).setTextureFile("/BrainStone/textures.png"));
-    items.put(Integer.valueOf(361), new uk(getId(361)).b(0, 10).b("brainProcessor").a(th.f).setTextureFile("/BrainStone/textures.png"));
+    items.put(Integer.valueOf(359), new uk(getId(359)).b(0, 8).b("brainStoneDust").a(th.l).setTextureFile("/BrainStoneTextures/textures.png"));
+    items.put(Integer.valueOf(360), new uk(getId(360)).b(0, 9).b("coalBriquette").a(th.f).setTextureFile("/BrainStoneTextures/textures.png"));
+    items.put(Integer.valueOf(361), new uk(getId(361)).b(0, 10).b("brainProcessor").a(th.f).setTextureFile("/BrainStoneTextures/textures.png"));
     items.put(Integer.valueOf(362), new ItemSwordBrainStone(3, EnumToolMaterialBrainStone.BRAINSTONE).b(1, 8).b("brainStoneSword"));
     items.put(Integer.valueOf(363), new ItemSpadeBrainStone(4, EnumToolMaterialBrainStone.BRAINSTONE).b(1, 9).b("brainStoneShovel"));
     items.put(Integer.valueOf(364), new ItemPickaxeBrainStone(5, EnumToolMaterialBrainStone.BRAINSTONE).b(1, 10).b("brainStonePickaxe"));
@@ -404,10 +476,8 @@ public class BrainStone
     localizations_en = new HashMap();
 
     localizations_en.put("gui.brainstone.item", "Item/Object");
-    localizations_en.put("gui.brainstone.animal", "Animal");
-    localizations_en.put("gui.brainstone.monster", "Monster");
-    localizations_en.put("gui.brainstone.nether", "Nether Mob");
     localizations_en.put("gui.brainstone.player", "Player");
+    localizations_en.put("gui.brainstone.projectile", "Projectile");
     localizations_en.put("gui.brainstone.help", "Help");
     localizations_en.put("gui.brainstone.invertOutput", "Invert Output");
     localizations_en.put("gui.brainstone.warning1", "This gate will not operate until it is wired correctly!");
@@ -425,10 +495,8 @@ public class BrainStone
     localizations_de = new HashMap();
 
     localizations_de.put("gui.brainstone.item", "Item/Objekt");
-    localizations_de.put("gui.brainstone.animal", "Tier");
-    localizations_de.put("gui.brainstone.monster", "Monster");
-    localizations_de.put("gui.brainstone.nether", "Nether Wesen");
     localizations_de.put("gui.brainstone.player", "Spieler");
+    localizations_de.put("gui.brainstone.projectile", "Projektil");
     localizations_de.put("gui.brainstone.help", "Hilfe");
     localizations_de.put("gui.brainstone.invertOutput", "Ausgang invertieren");
     localizations_de.put("gui.brainstone.warning1", "Dieses Gate wird nicht arbeiten, bis es korrekt angeschlossen ist!");

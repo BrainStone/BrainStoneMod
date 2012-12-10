@@ -15,7 +15,7 @@ public class ItemPickaxeBrainStone extends ItemToolBrainStone
 
   public String getTextureFile()
   {
-    return "/BrainStone/textures.png";
+    return "/BrainStoneTextures/textures.png";
   }
 
   public boolean a(amj block)

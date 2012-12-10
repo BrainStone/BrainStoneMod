@@ -31,7 +31,7 @@ public class GuiBrainLightSensor extends auy
 
   protected void a(float f, int i, int j)
   {
-    int k = this.f.o.b("/BrainStone/GuiBrainLightSensor.png");
+    int k = this.f.o.b("/BrainStoneTextures/GuiBrainLightSensor.png");
     this.f.o.b(k);
     int l = (this.g - 128) / 2;
     int i1 = (this.h - 84) / 2;

@@ -34,7 +34,7 @@ public class BlockBrainStone extends amj
 
   public String getTextureFile()
   {
-    return "/BrainStone/textures.png";
+    return "/BrainStoneTextures/textures.png";
   }
 
   public void g(xv world, int i, int j, int k)

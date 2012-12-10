@@ -19,7 +19,7 @@ public class ItemHoeBrainStone extends uk
 
   public String getTextureFile()
   {
-    return "/BrainStone/textures.png";
+    return "/BrainStoneTextures/textures.png";
   }
 
   public boolean onItemUse(um itemstack, qx entityplayer, xv world, int i, int j, int k, int l)

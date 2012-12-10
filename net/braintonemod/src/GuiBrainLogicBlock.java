@@ -42,7 +42,7 @@ public class GuiBrainLogicBlock extends auy
 
   public void a(float f, int i, int j)
   {
-    int k = this.f.o.b("/BrainStone/GuiBrainLogicBlock.png");
+    int k = this.f.o.b("/BrainStoneTextures/GuiBrainLogicBlock.png");
     this.f.o.b(k);
 
     if (this.help)

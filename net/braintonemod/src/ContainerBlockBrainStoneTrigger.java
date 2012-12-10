@@ -12,7 +12,7 @@ public class ContainerBlockBrainStoneTrigger extends rp
   public ContainerBlockBrainStoneTrigger(qw inventoryplayer, TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger)
   {
     this.trigger = tileentityblockbrainstonetrigger;
-    a(new SlotBlockBrainStoneTrigger(this.trigger, 0, 115, 58));
+    a(new SlotBlockBrainStoneTrigger(this.trigger, 0, 148, 29));
 
     for (int i = 0; i < 3; i++)
     {

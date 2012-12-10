@@ -33,7 +33,7 @@ public class BlockBrainLogicBlock extends aju
 
   public String getTextureFile()
   {
-    return "/BrainStone/textures.png";
+    return "/BrainStoneTextures/textures.png";
   }
 
   public anq a(xv world)

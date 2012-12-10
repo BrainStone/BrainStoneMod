@@ -10,7 +10,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Random;
+import java.util.Set;
 import la;
 import px;
 import um;
@@ -20,23 +23,29 @@ import yf;
 public class TileEntityBlockBrainStoneTrigger extends TileEntityBlockBrainStoneHiders
   implements la
 {
+  public static LinkedHashMap triggerEntities;
   public boolean power;
-  private boolean[] mobTriggered;
+  private HashMap mobTriggered;
   private static final int mobTriggeredSize = 5;
   public boolean forceUpdate;
   public byte delay;
+  public byte max_delay;
 
   public TileEntityBlockBrainStoneTrigger()
   {
     this.ItemStacks = new um[1];
-    this.mobTriggered = new boolean[5];
+    this.mobTriggered = new HashMap();
     this.power = false;
     this.forceUpdate = false;
     this.delay = 0;
+    this.max_delay = 4;
 
-    for (int i = 0; i < 5; i++)
+    int length = triggerEntities.size();
+    String[] keys = (String[])triggerEntities.keySet().toArray(new String[length]);
+
+    for (int i = 0; i < length; i++)
     {
-      this.mobTriggered[i] = true;
+      this.mobTriggered.put(keys[i], Boolean.valueOf(true));
     }
   }
 
@@ -110,99 +119,30 @@ public class TileEntityBlockBrainStoneTrigger extends TileEntityBlockBrainStoneH
     return block.getTextureFile();
   }
 
-  public int getIndex(String s)
-  {
-    if (s == "item")
-    {
-      return 0;
-    }
-
-    if (s == "animal")
-    {
-      return 1;
-    }
-
-    if (s == "monster")
-    {
-      return 2;
-    }
-
-    if (s == "nether")
-    {
-      return 3;
-    }
-
-    return s != "player" ? -1 : 4;
-  }
-
-  public String getType(int i)
-  {
-    if (i == 0)
-    {
-      return "item";
-    }
-
-    if (i == 1)
-    {
-      return "animal";
-    }
-
-    if (i == 2)
-    {
-      return "monster";
-    }
-
-    if (i == 3)
-    {
-      return "nether";
-    }
-
-    if (i == 4)
-    {
-      return "player";
-    }
-
-    return "";
-  }
-
   public boolean getMobTriggered(String s)
   {
-    return getMobTriggered(getIndex(s));
-  }
-
-  public boolean getMobTriggered(int i)
-  {
-    if ((i >= 5) || (i < 0))
+    if (this.mobTriggered.containsKey(s))
     {
-      return false;
+      return ((Boolean)this.mobTriggered.get(s)).booleanValue();
     }
 
-    return this.mobTriggered[i];
+    return false;
   }
 
   public void setMobTriggered(String s, boolean flag)
   {
-    setMobTriggered(getIndex(s), flag);
+    if (this.mobTriggered.containsKey(s))
+    {
+      this.mobTriggered.put(s, Boolean.valueOf(flag));
+    }
   }
 
-  public void setMobTriggered(int i, boolean flag)
+  public void invertMobTriggered(String s)
   {
-    if ((i >= 5) || (i < 0))
+    if (this.mobTriggered.containsKey(s))
     {
-      return;
+      this.mobTriggered.put(s, Boolean.valueOf(!((Boolean)this.mobTriggered.get(s)).booleanValue()));
     }
-
-    this.mobTriggered[i] = flag;
-  }
-
-  public void invertMobTriggered(int i)
-  {
-    if ((i >= 5) || (i < 0))
-    {
-      return;
-    }
-
-    this.mobTriggered[i] = (this.mobTriggered[i] == 0 ? 1 : false);
   }
 
   public void dropItems(xv world, int i, int j, int k)
@@ -241,12 +181,17 @@ public class TileEntityBlockBrainStoneTrigger extends TileEntityBlockBrainStoneH
       }
     }
 
-    for (int j = 0; j < 5; j++)
+    int length = nbttagcompound.e("TriggerSize");
+
+    for (int i = 0; i < length; i++)
     {
-      this.mobTriggered[j] = nbttagcompound.n(getType(j));
+      String trigger = "Trigger" + String.valueOf(i);
+
+      this.mobTriggered.put(nbttagcompound.i(trigger + "Key"), Boolean.valueOf(nbttagcompound.n(trigger)));
     }
 
     this.delay = nbttagcompound.c("BrainStoneDelay");
+    this.max_delay = nbttagcompound.c("BrainStoneMaxDelay");
   }
 
   public void b(bq nbttagcompound)
@@ -267,12 +212,21 @@ public class TileEntityBlockBrainStoneTrigger extends TileEntityBlockBrainStoneH
 
     nbttagcompound.a("ItemsBrainStoneTrigger", nbttaglist);
 
-    for (int j = 0; j < 5; j++)
+    int length = triggerEntities.size();
+    nbttagcompound.a("TriggerSize", length);
+    String[] keys = (String[])triggerEntities.keySet().toArray(new String[length]);
+
+    for (int i = 0; i < length; i++)
     {
-      nbttagcompound.a(getType(j), this.mobTriggered[j]);
+      String key = keys[i];
+      String trigger = "Trigger" + String.valueOf(i);
+
+      nbttagcompound.a(trigger + "Key", key);
+      nbttagcompound.a(trigger, ((Boolean)this.mobTriggered.get(key)).booleanValue());
     }
 
     nbttagcompound.a("BrainStoneDelay", this.delay);
+    nbttagcompound.a("BrainStoneMaxDelay", this.max_delay);
   }
 
   public void readFromInputStream(DataInputStream inputStream)
@@ -281,10 +235,13 @@ public class TileEntityBlockBrainStoneTrigger extends TileEntityBlockBrainStoneH
     this.power = inputStream.readBoolean();
     this.forceUpdate = inputStream.readBoolean();
     this.delay = inputStream.readByte();
+    this.max_delay = inputStream.readByte();
 
-    for (int i = 0; i < 5; i++)
+    int length = inputStream.readInt();
+
+    for (int i = 0; i < length; i++)
     {
-      this.mobTriggered[i] = inputStream.readBoolean();
+      this.mobTriggered.put(inputStream.readUTF(), Boolean.valueOf(inputStream.readBoolean()));
     }
   }
 
@@ -298,10 +255,19 @@ public class TileEntityBlockBrainStoneTrigger extends TileEntityBlockBrainStoneH
     outputStream.writeBoolean(this.power);
     outputStream.writeBoolean(this.forceUpdate);
     outputStream.writeByte(this.delay);
+    outputStream.writeByte(this.max_delay);
 
-    for (int i = 0; i < 5; i++)
+    int length = triggerEntities.size();
+    outputStream.writeInt(length);
+    String[] keys = (String[])triggerEntities.keySet().toArray(new String[length]);
+
+    for (int i = 0; i < length; i++)
     {
-      outputStream.writeBoolean(this.mobTriggered[i]);
+      String key = keys[i];
+      String trigger = "Trigger" + String.valueOf(i);
+
+      outputStream.writeUTF(key);
+      outputStream.writeBoolean(((Boolean)this.mobTriggered.get(key)).booleanValue());
     }
   }
 

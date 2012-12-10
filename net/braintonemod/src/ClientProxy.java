@@ -11,7 +11,7 @@ public class ClientProxy extends CommonProxy
 {
   public void registerRenderInformation()
   {
-    MinecraftForgeClient.preloadTexture("/BrainStone/textures.png");
+    MinecraftForgeClient.preloadTexture("/BrainStoneTextures/textures.png");
     ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBlockBrainLogicBlock.class, new TileEntityBlockBrainLogicBlockRenderer());
   }
 

@@ -3,32 +3,19 @@ package net.braintonemod.src;
 import anq;
 import anw;
 import java.io.PrintStream;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import lq;
-import lz;
-import mi;
-import ox;
-import pv;
-import px;
-import py;
-import pz;
-import qa;
-import qg;
-import qi;
-import qj;
-import qk;
 import qx;
-import qz;
-import ra;
-import rb;
-import rc;
-import rh;
 import xv;
 import yf;
 
 public class BlockBrainStoneTrigger extends BlockBrainStoneHiders
 {
+  public static LinkedHashMap triggerEntities;
+
   public BlockBrainStoneTrigger(int i)
   {
     super(i);
@@ -37,6 +24,7 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders
     b(0.5F);
     b("brainStoneTrigger");
     r();
+    setTextureFile("/BrainStoneTextures/textures.png");
 
     this.cA = -0.2F;
   }
@@ -107,7 +95,7 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders
 
     boolean flag = tileentityblockbrainstonetrigger.power;
     tileentityblockbrainstonetrigger.power = triggerCorrectMob(world, i, j, k);
-    tileentityblockbrainstonetrigger.delay = ((byte)(tileentityblockbrainstonetrigger.delay <= 0 ? 0 : tileentityblockbrainstonetrigger.power ? 5 : tileentityblockbrainstonetrigger.delay - 1));
+    tileentityblockbrainstonetrigger.delay = ((byte)(tileentityblockbrainstonetrigger.delay <= 0 ? 0 : tileentityblockbrainstonetrigger.power ? tileentityblockbrainstonetrigger.max_delay : tileentityblockbrainstonetrigger.delay - 1));
 
     if (((!flag) && (tileentityblockbrainstonetrigger.power)) || (tileentityblockbrainstonetrigger.forceUpdate))
     {
@@ -130,8 +118,6 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders
 
   public int d(yf iblockaccess, int i, int j, int k, int l)
   {
-    setTextureFile("/BrainStone/textures.png");
-
     if (l == 1)
     {
       TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBlockBrainStoneTrigger)iblockaccess.q(i, j, k);
@@ -142,8 +128,6 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders
       }
 
       int i1 = tileentityblockbrainstonetrigger.getTextureId(iblockaccess, i, j, k);
-
-      setTextureFile(tileentityblockbrainstonetrigger.getTextureFile());
 
       return i1 != -1 ? i1 : 2;
     }
@@ -198,9 +182,9 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders
 
     boolean flag = false;
 
-    for (int l = 0; l < list.size(); l++)
+    for (int l = 0; (l < list.size()) && (!flag); l++)
     {
-      lq entity = (lq)list.get(l);
+      Class entity = ((lq)list.get(l)).getClass();
 
       if (entity == null)
       {
@@ -208,29 +192,27 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders
       }
       else
       {
-        if (tileentityblockbrainstonetrigger.getMobTriggered(0))
-        {
-          flag = (flag) || ((entity instanceof qz)) || ((entity instanceof pv)) || ((entity instanceof ra)) || ((entity instanceof rb)) || ((entity instanceof rc)) || ((entity instanceof px)) || ((entity instanceof py)) || ((entity instanceof rh)) || ((entity instanceof pz)) || ((entity instanceof lz));
-        }
+        int length = triggerEntities.size();
+        String[] keys = (String[])triggerEntities.keySet().toArray(new String[length]);
 
-        if (tileentityblockbrainstonetrigger.getMobTriggered(1))
+        for (int count = 0; (count < length) && (!flag); count++)
         {
-          flag = (flag) || ((entity instanceof ox)) || (((entity instanceof mi)) && (!(entity instanceof qj)));
-        }
+          String key = keys[count];
 
-        if (tileentityblockbrainstonetrigger.getMobTriggered(2))
-        {
-          flag = (flag) || (((entity instanceof qj)) && (!(entity instanceof qa)) && (!(entity instanceof qg)) && (!(entity instanceof qi)) && (!(entity instanceof qk)));
-        }
+          if (tileentityblockbrainstonetrigger.getMobTriggered(key))
+          {
+            Class[] classes = (Class[])triggerEntities.get(key);
 
-        if (tileentityblockbrainstonetrigger.getMobTriggered(3))
-        {
-          flag = (flag) || ((entity instanceof qa)) || ((entity instanceof qg)) || ((entity instanceof qi)) || ((entity instanceof qk));
-        }
+            for (int a = 0; a < classes.length; a++)
+            {
+              if (classes[a].isAssignableFrom(entity))
+              {
+                flag = true;
 
-        if (tileentityblockbrainstonetrigger.getMobTriggered(4))
-        {
-          flag = (flag) || ((entity instanceof qx));
+                break;
+              }
+            }
+          }
         }
       }
     }
