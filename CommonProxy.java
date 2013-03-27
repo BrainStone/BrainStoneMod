@@ -1,29 +1,27 @@
-package brainstone;
+package mods.brainstone;
 
-import ays;
+import bdp;
 import net.minecraft.client.Minecraft;
-import yc;
+import zv;
 
 public class CommonProxy
 {
-  public static final String textureFile = "/brainstone/BrainStoneTextures/textures.png";
-
-  public void registerRenderInformation()
-  {
-  }
-
-  public yc getClientWorld()
-  {
-    return null;
-  }
-
   public Minecraft getClient()
   {
     return null;
   }
 
-  public ays getPlayer()
+  public zv getClientWorld()
   {
     return null;
+  }
+
+  public bdp getPlayer()
+  {
+    return null;
+  }
+
+  public void registerRenderInformation()
+  {
   }
 }

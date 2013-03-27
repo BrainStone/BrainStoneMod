@@ -1,32 +1,32 @@
-package brainstone;
+package mods.brainstone;
 
-import ays;
+import bdp;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
+import mods.brainstone.tileentities.TileEntityBlockBrainLogicBlock;
+import mods.brainstone.tileentities.TileEntityBlockBrainLogicBlockRenderer;
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.client.MinecraftForgeClient;
-import yc;
+import zv;
 
 public class ClientProxy extends CommonProxy
 {
-  public void registerRenderInformation()
-  {
-    MinecraftForgeClient.preloadTexture("/brainstone/BrainStoneTextures/textures.png");
-    ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBlockBrainLogicBlock.class, new TileEntityBlockBrainLogicBlockRenderer());
-  }
-
-  public yc getClientWorld()
-  {
-    return getClient().e;
-  }
-
   public Minecraft getClient()
   {
     return FMLClientHandler.instance().getClient();
   }
 
-  public ays getPlayer()
+  public zv getClientWorld()
+  {
+    return getClient().e;
+  }
+
+  public bdp getPlayer()
   {
     return getClient().g;
+  }
+
+  public void registerRenderInformation()
+  {
+    ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBlockBrainLogicBlock.class, new TileEntityBlockBrainLogicBlockRenderer());
   }
 }
