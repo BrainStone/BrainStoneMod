@@ -1,15 +1,22 @@
 package mods.brainstone.items;
 
+import apa;
 import ly;
 import mods.brainstone.BrainStone;
-import wf;
-import xl;
+import wl;
+import wm;
+import xr;
 
-public class ItemSwordBrainStone extends xl
+public class ItemSwordBrainStone extends xr
 {
-  public ItemSwordBrainStone(int i, wf enumtoolmaterial)
+  public ItemSwordBrainStone(int i, wl enumtoolmaterial)
   {
     super(BrainStone.getId(359 + i), enumtoolmaterial);
+  }
+
+  public boolean a(wm tool, wm material)
+  {
+    return material.c == BrainStone.brainStone().cz;
   }
 
   public void a(ly par1IconRegister)

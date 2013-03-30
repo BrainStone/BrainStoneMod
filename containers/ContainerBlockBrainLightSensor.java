@@ -1,11 +1,11 @@
 package mods.brainstone.containers;
 
-import sk;
-import td;
+import sq;
+import tj;
 
-public class ContainerBlockBrainLightSensor extends td
+public class ContainerBlockBrainLightSensor extends tj
 {
-  public boolean a(sk entityplayer)
+  public boolean a(sq entityplayer)
   {
     return true;
   }

@@ -1,33 +1,33 @@
 package mods.brainstone.tileentities;
 
+import aab;
 import bs;
 import java.util.Random;
 import lt;
 import mods.brainstone.templates.TileEntityBrainStoneSyncBase;
-import rb;
-import sk;
-import wg;
-import zv;
+import rh;
+import sq;
+import wm;
 
 public abstract class TileEntityBlockBrainStoneHiders extends TileEntityBrainStoneSyncBase
   implements lt
 {
-  protected wg[] ItemStacks;
+  protected wm[] ItemStacks;
 
   public void g()
   {
   }
 
-  public wg a(int i, int j)
+  public wm a(int i, int j)
   {
     if (this.ItemStacks[i] != null) {
       if (this.ItemStacks[i].a <= j) {
-        wg itemstack = this.ItemStacks[i];
+        wm itemstack = this.ItemStacks[i];
         this.ItemStacks[i] = null;
         return itemstack;
       }
 
-      wg itemstack1 = this.ItemStacks[i].a(j);
+      wm itemstack1 = this.ItemStacks[i].a(j);
 
       if (this.ItemStacks[i].a == 0) {
         this.ItemStacks[i] = null;
@@ -38,9 +38,9 @@ public abstract class TileEntityBlockBrainStoneHiders extends TileEntityBrainSto
     return null;
   }
 
-  public void dropItems(zv world, int i, int j, int k) {
+  public void dropItems(aab world, int i, int j, int k) {
     for (int l = 0; l < this.ItemStacks.length; l++) {
-      wg itemstack = this.ItemStacks[l];
+      wm itemstack = this.ItemStacks[l];
 
       if (itemstack != null) {
         float f = 0.7F;
@@ -50,7 +50,7 @@ public abstract class TileEntityBlockBrainStoneHiders extends TileEntityBrainSto
 
         double d2 = world.s.nextFloat() * 0.7F + 0.1500000059604645D;
 
-        rb entityitem = new rb(world, i + d, j + d1, k + d2, itemstack);
+        rh entityitem = new rh(world, i + d, j + d1, k + d2, itemstack);
 
         entityitem.b = 10;
         world.d(entityitem);
@@ -68,22 +68,22 @@ public abstract class TileEntityBlockBrainStoneHiders extends TileEntityBrainSto
     return this.ItemStacks.length;
   }
 
-  public wg a(int i)
+  public wm a(int i)
   {
     return this.ItemStacks[i];
   }
 
-  public wg b(int i)
+  public wm b(int i)
   {
     if (this.ItemStacks[i] != null) {
-      wg itemstack = this.ItemStacks[i];
+      wm itemstack = this.ItemStacks[i];
       this.ItemStacks[i] = null;
       return itemstack;
     }
     return null;
   }
 
-  public boolean a(sk entityplayer)
+  public boolean a(sq entityplayer)
   {
     if (this.k.r(this.l, this.m, this.n) != this) {
       return false;
@@ -100,7 +100,7 @@ public abstract class TileEntityBlockBrainStoneHiders extends TileEntityBrainSto
     super.a(nbttagcompound);
   }
 
-  public void a(int i, wg itemstack)
+  public void a(int i, wm itemstack)
   {
     this.ItemStacks[i] = itemstack;
 

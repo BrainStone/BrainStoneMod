@@ -1,13 +1,13 @@
 package mods.brainstone.blocks;
 
-import aou;
+import aab;
+import apa;
 import java.util.Random;
 import kx;
 import mods.brainstone.BrainStone;
 import mods.brainstone.templates.BlockBrainStoneOreBase;
-import uy;
-import we;
-import zv;
+import ve;
+import wk;
 
 public class BlockBrainStoneOre extends BlockBrainStoneOreBase
 {
@@ -19,11 +19,11 @@ public class BlockBrainStoneOre extends BlockBrainStoneOreBase
     c("brainStoneOre");
     b(0.25F);
     a(0.3F);
-    a(uy.b);
+    a(ve.b);
     this.cN = 0.2F;
   }
 
-  public void a(zv par1World, int par2, int par3, int par4, int par5, float par6, int par7)
+  public void a(aab par1World, int par2, int par3, int par4, int par5, float par6, int par7)
   {
     super.a(par1World, par2, par3, par4, par5, par6, par7);
 

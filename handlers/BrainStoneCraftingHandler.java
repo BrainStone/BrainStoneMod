@@ -1,17 +1,17 @@
 package mods.brainstone.handlers;
 
-import aou;
+import apa;
 import cpw.mods.fml.common.ICraftingHandler;
 import lt;
 import mods.brainstone.BrainStone;
-import sk;
-import we;
-import wg;
+import sq;
+import wk;
+import wm;
 
 public class BrainStoneCraftingHandler
   implements ICraftingHandler
 {
-  public void onCrafting(sk player, wg item, lt craftMatrix)
+  public void onCrafting(sq player, wm item, lt craftMatrix)
   {
     int i = item.c;
 
@@ -25,7 +25,7 @@ public class BrainStoneCraftingHandler
       player.a(BrainStone.logicBlock(), 1);
   }
 
-  public void onSmelting(sk player, wg item)
+  public void onSmelting(sq player, wm item)
   {
     if (item.c == BrainStone.brainStone().cz)
       player.a(BrainStone.itLives(), 1);

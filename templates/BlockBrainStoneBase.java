@@ -1,12 +1,12 @@
 package mods.brainstone.templates;
 
-import ahz;
-import aou;
+import aif;
+import apa;
 import ly;
 
-public class BlockBrainStoneBase extends aou
+public class BlockBrainStoneBase extends apa
 {
-  public BlockBrainStoneBase(int par1, ahz par2Material)
+  public BlockBrainStoneBase(int par1, aif par2Material)
   {
     super(par1, par2Material);
   }

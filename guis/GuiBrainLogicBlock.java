@@ -1,12 +1,13 @@
 package mods.brainstone.guis;
 
-import ajp;
-import auu;
-import avs;
-import awa;
-import awp;
-import bdp;
-import bjw;
+import aab;
+import ajv;
+import ava;
+import avy;
+import awg;
+import awv;
+import bdw;
+import bkd;
 import bo;
 import mods.brainstone.BrainStone;
 import mods.brainstone.ClientProxy;
@@ -15,7 +16,6 @@ import mods.brainstone.templates.GuiBrainStoneBase;
 import mods.brainstone.tileentities.TileEntityBlockBrainLogicBlock;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
-import zv;
 
 public class GuiBrainLogicBlock extends GuiBrainStoneBase
 {
@@ -42,7 +42,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase
     this.help = false;
   }
 
-  protected void a(awa guibutton)
+  protected void a(awg guibutton)
   {
     if (guibutton.f == 0) {
       this.HelpText = bo.a("gui.brainstone.help.gate" + String.valueOf(this.tileentity.getMode()));

@@ -2,20 +2,20 @@ package mods.brainstone.templates;
 
 import java.util.HashMap;
 import java.util.Set;
-import wg;
-import yt;
-import yv;
+import wm;
+import yz;
+import zb;
 
-public abstract class BrainStoneEnchantmentHelper extends yv
+public abstract class BrainStoneEnchantmentHelper extends zb
 {
-  public static final wg addEnchantment(wg item, yt enchantment, int level)
+  public static final wm addEnchantment(wm item, yz enchantment, int level)
   {
     return addEnchantment(item, enchantment.z, level);
   }
 
-  public static final wg addEnchantment(wg item, int enchantment, int level)
+  public static final wm addEnchantment(wm item, int enchantment, int level)
   {
-    HashMap enchantments = (HashMap)yv.a(item);
+    HashMap enchantments = (HashMap)zb.a(item);
 
     int size = enchantments.size();
     Integer[] keys = (Integer[])enchantments.keySet().toArray(new Integer[size]);
@@ -39,14 +39,14 @@ public abstract class BrainStoneEnchantmentHelper extends yv
         enchantments.put(Integer.valueOf(key), Integer.valueOf(tmp));
       }
     } else {
-      yt newEnchantment = getEnchantment(enchantment);
+      yz newEnchantment = getEnchantment(enchantment);
 
       if (!canEnchantItem(newEnchantment, item)) {
         return item;
       }
 
       for (int i = 0; i < size; i++) {
-        yt tmpEnch = getEnchantment(keys[i].intValue());
+        yz tmpEnch = getEnchantment(keys[i].intValue());
 
         if (!canApplyTogether(newEnchantment, tmpEnch)) {
           return item;
@@ -57,22 +57,22 @@ public abstract class BrainStoneEnchantmentHelper extends yv
       enchantments.put(Integer.valueOf(enchantment), Integer.valueOf(level > maxLevel ? maxLevel : level));
     }
 
-    yv.a(enchantments, item);
+    zb.a(enchantments, item);
 
     return item;
   }
 
-  public static final boolean canApplyTogether(yt enchantment1, yt enchantment2)
+  public static final boolean canApplyTogether(yz enchantment1, yz enchantment2)
   {
     return (enchantment1.a(enchantment2)) && (enchantment2.a(enchantment1));
   }
 
-  public static final boolean canApplyTogether(yt enchantment1, int enchantment2)
+  public static final boolean canApplyTogether(yz enchantment1, int enchantment2)
   {
     return canApplyTogether(enchantment1, getEnchantment(enchantment2));
   }
 
-  public static final boolean canApplyTogether(int enchantment1, yt enchantment2)
+  public static final boolean canApplyTogether(int enchantment1, yz enchantment2)
   {
     return canApplyTogether(getEnchantment(enchantment1), enchantment2);
   }
@@ -82,27 +82,27 @@ public abstract class BrainStoneEnchantmentHelper extends yv
     return canApplyTogether(getEnchantment(enchantment1), getEnchantment(enchantment2));
   }
 
-  public static final boolean canEnchantItem(yt enchantment, wg item)
+  public static final boolean canEnchantItem(yz enchantment, wm item)
   {
     return enchantment.a(item);
   }
 
-  public static final boolean canEnchantItem(int enchantment, wg item) {
+  public static final boolean canEnchantItem(int enchantment, wm item) {
     return canEnchantItem(getEnchantment(enchantment), item);
   }
 
-  public static final yt getEnchantment(int enchantmentId) {
-    return yt.b[enchantmentId];
+  public static final yz getEnchantment(int enchantmentId) {
+    return yz.b[enchantmentId];
   }
 
-  public static final wg setEnchantment(wg item, yt enchantment, int level)
+  public static final wm setEnchantment(wm item, yz enchantment, int level)
   {
     return setEnchantment(item, enchantment.z, level);
   }
 
-  public static final wg setEnchantment(wg item, int enchantment, int level)
+  public static final wm setEnchantment(wm item, int enchantment, int level)
   {
-    HashMap enchantments = (HashMap)yv.a(item);
+    HashMap enchantments = (HashMap)zb.a(item);
 
     int size = enchantments.size();
     Integer[] keys = (Integer[])enchantments.keySet().toArray(new Integer[size]);
@@ -124,14 +124,14 @@ public abstract class BrainStoneEnchantmentHelper extends yv
         enchantments.put(Integer.valueOf(key), Integer.valueOf(tmp));
       }
     } else {
-      yt newEnchantment = getEnchantment(enchantment);
+      yz newEnchantment = getEnchantment(enchantment);
 
       if (!canEnchantItem(newEnchantment, item)) {
         return item;
       }
 
       for (int i = 0; i < size; i++) {
-        yt tmpEnch = getEnchantment(keys[i].intValue());
+        yz tmpEnch = getEnchantment(keys[i].intValue());
 
         if (!canApplyTogether(newEnchantment, tmpEnch)) {
           return item;
@@ -142,7 +142,7 @@ public abstract class BrainStoneEnchantmentHelper extends yv
       enchantments.put(Integer.valueOf(enchantment), Integer.valueOf(level > maxLevel ? maxLevel : level));
     }
 
-    yv.a(enchantments, item);
+    zb.a(enchantments, item);
 
     return item;
   }

@@ -1,9 +1,9 @@
 package mods.brainstone.templates;
 
 import ly;
-import we;
+import wk;
 
-public class ItemBrainStoneBase extends we
+public class ItemBrainStoneBase extends wk
 {
   public ItemBrainStoneBase(int par1)
   {

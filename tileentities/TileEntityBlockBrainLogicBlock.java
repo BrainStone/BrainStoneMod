@@ -1,6 +1,7 @@
 package mods.brainstone.tileentities;
 
-import awp;
+import aab;
+import awv;
 import bo;
 import bs;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -16,8 +17,7 @@ import mods.brainstone.guis.GuiBrainLogicBlock;
 import mods.brainstone.handlers.BrainStonePacketHandler;
 import mods.brainstone.templates.BSP;
 import mods.brainstone.templates.TileEntityBrainStoneSyncBase;
-import sk;
-import zv;
+import sq;
 
 public class TileEntityBlockBrainLogicBlock extends TileEntityBrainStoneSyncBase
 {
@@ -134,7 +134,28 @@ public class TileEntityBlockBrainLogicBlock extends TileEntityBrainStoneSyncBase
     addTASKS(s1);
   }
 
-  public void doTASKS() {
+  public boolean connectToRedstone(int side) {
+    return this.PinType[convertRedstoneDirections(side)] != -1;
+  }
+
+  private int convertRedstoneDirections(int side)
+  {
+    switch ((side + ((this.direction & 0x1) == 1 ? this.direction ^ 0x2 : this.direction)) % 4) {
+    case 0:
+      return 0;
+    case 1:
+      return 3;
+    case 2:
+      return 1;
+    case 3:
+      return 2;
+    }
+
+    return 0;
+  }
+
+  public void doTASKS()
+  {
     int i = this.TASKS.size();
 
     if (i != 0) {
@@ -344,7 +365,7 @@ public class TileEntityBlockBrainLogicBlock extends TileEntityBrainStoneSyncBase
     return this.swapable;
   }
 
-  public boolean isUseableByPlayer(sk entityplayer) {
+  public boolean isUseableByPlayer(sq entityplayer) {
     if (this.k.r(this.l, this.m, this.n) != this) {
       return false;
     }
@@ -495,7 +516,7 @@ public class TileEntityBlockBrainLogicBlock extends TileEntityBrainStoneSyncBase
       this.TASKS.add(byte1, nbttagcompound.i(new StringBuilder().append("TASK").append(String.valueOf(byte1)).toString()));
   }
 
-  public void renderInOutPut(awp fontrenderer, byte byte0)
+  public void renderInOutPut(awv fontrenderer, byte byte0)
   {
     byte0 = transformDirection(byte0);
 

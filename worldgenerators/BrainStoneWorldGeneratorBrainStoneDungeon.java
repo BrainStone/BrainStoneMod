@@ -1,24 +1,24 @@
 package mods.brainstone.worldgenerators;
 
-import add;
-import ahz;
-import aou;
-import aps;
+import aab;
+import adj;
+import aif;
+import apa;
+import apy;
 import java.util.Random;
 import kx;
 import mods.brainstone.BrainStone;
 import mods.brainstone.templates.BSP;
-import we;
-import wg;
-import yv;
-import zv;
+import wk;
+import wm;
+import zb;
 
-public class BrainStoneWorldGeneratorBrainStoneDungeon extends add
+public class BrainStoneWorldGeneratorBrainStoneDungeon extends adj
 {
   private int x;
   private int y;
   private int z;
-  private zv world;
+  private aab world;
   private Random random;
   private final int[] Options;
 
@@ -131,7 +131,7 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends add
     return false;
   }
 
-  public boolean a(zv world, Random random, int x, int y, int z)
+  public boolean a(aab world, Random random, int x, int y, int z)
   {
     this.world = world;
     this.random = random;
@@ -245,7 +245,7 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends add
     height--;
 
     setBlock(this.x + 6, this.y - height, this.z + 1, 54);
-    aps chest = (aps)this.world.r(this.x + 6, this.y - height, this.z + 1);
+    apy chest = (apy)this.world.r(this.x + 6, this.y - height, this.z + 1);
 
     int rand1 = this.random.nextInt(9) + 2;
 
@@ -254,7 +254,7 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends add
     }
 
     setBlock(this.x + 7, this.y - height, this.z + 1, 54);
-    chest = (aps)this.world.r(this.x + 7, this.y - height, this.z + 1);
+    chest = (apy)this.world.r(this.x + 7, this.y - height, this.z + 1);
 
     rand1 = this.random.nextInt(9) + 2;
     int rand2 = this.random.nextInt(3);
@@ -264,7 +264,7 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends add
     }
 
     setBlock(this.x + 6, this.y - height, this.z + 3, 54);
-    chest = (aps)this.world.r(this.x + 6, this.y - height, this.z + 3);
+    chest = (apy)this.world.r(this.x + 6, this.y - height, this.z + 3);
 
     rand1 = this.random.nextInt(9) + 2;
     rand2 = this.random.nextInt(3);
@@ -274,7 +274,7 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends add
     }
 
     setBlock(this.x + 7, this.y - height, this.z + 3, 54);
-    chest = (aps)this.world.r(this.x + 7, this.y - height, this.z + 3);
+    chest = (apy)this.world.r(this.x + 7, this.y - height, this.z + 3);
 
     rand1 = this.random.nextInt(9) + 2;
 
@@ -369,7 +369,7 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends add
     int chunkZ = new int[] { 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 1, 2, 3 }[rand];
 
     setBlock(this.x + chunkX, this.y + 3, this.z + chunkZ, 54);
-    aps chest = (aps)this.world.r(this.x + chunkX, this.y + 3, this.z + chunkZ);
+    apy chest = (apy)this.world.r(this.x + chunkX, this.y + 3, this.z + chunkZ);
 
     rand = this.random.nextInt(9) + 2;
 
@@ -471,21 +471,21 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends add
         setBlock(this.x + i, this.y - height, this.z + j, 4);
   }
 
-  private wg getLoot(int lootId)
+  private wm getLoot(int lootId)
   {
     Object[][] loots = (Object[][])null;
 
     switch (lootId) {
     case 0:
-      loots = new Object[][] { { new wg(BrainStone.brainStone()), Float.valueOf(0.1F), Integer.valueOf(1), Integer.valueOf(4), Integer.valueOf(5) }, { new wg(BrainStone.dirtyBrainStone()), Float.valueOf(1.0F), Integer.valueOf(1), Integer.valueOf(4), Integer.valueOf(5) }, { new wg(BrainStone.brainStoneDust()), Float.valueOf(2.0F), Integer.valueOf(1), Integer.valueOf(6), Integer.valueOf(7) }, { new wg(BrainStone.pulsatingBrainStone()), Float.valueOf(0.05F), Integer.valueOf(1), Integer.valueOf(1), Integer.valueOf(2) }, { new wg(we.o), Float.valueOf(0.75F), Integer.valueOf(1), Integer.valueOf(4), Integer.valueOf(5) }, { new wg(we.bI), Float.valueOf(0.5F), Integer.valueOf(1), Integer.valueOf(4), Integer.valueOf(5) } };
+      loots = new Object[][] { { new wm(BrainStone.brainStone()), Float.valueOf(0.1F), Integer.valueOf(1), Integer.valueOf(4), Integer.valueOf(5) }, { new wm(BrainStone.dirtyBrainStone()), Float.valueOf(1.0F), Integer.valueOf(1), Integer.valueOf(4), Integer.valueOf(5) }, { new wm(BrainStone.brainStoneDust()), Float.valueOf(2.0F), Integer.valueOf(1), Integer.valueOf(6), Integer.valueOf(7) }, { new wm(BrainStone.pulsatingBrainStone()), Float.valueOf(0.05F), Integer.valueOf(1), Integer.valueOf(1), Integer.valueOf(2) }, { new wm(wk.o), Float.valueOf(0.75F), Integer.valueOf(1), Integer.valueOf(4), Integer.valueOf(5) }, { new wm(wk.bI), Float.valueOf(0.5F), Integer.valueOf(1), Integer.valueOf(4), Integer.valueOf(5) } };
 
       break;
     case 1:
-      loots = new Object[][] { { new wg(BrainStone.brainStoneDust()), Float.valueOf(0.1F), Integer.valueOf(1), Integer.valueOf(5), Integer.valueOf(6) }, { new wg(we.aD), Float.valueOf(1.0F), Integer.valueOf(3), Integer.valueOf(5), Integer.valueOf(7) }, { new wg(aou.L), Float.valueOf(1.0F), Integer.valueOf(3), Integer.valueOf(2), Integer.valueOf(5) }, { new wg(we.aX, 1, 4), Float.valueOf(1.0F), Integer.valueOf(3), Integer.valueOf(5), Integer.valueOf(7) }, { new wg(aou.K), Float.valueOf(1.0F), Integer.valueOf(1), Integer.valueOf(1), Integer.valueOf(4) }, { new wg(we.o), Float.valueOf(0.2F), Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(2) }, { new wg(we.aX, 1, 3), Float.valueOf(1.0F), Integer.valueOf(3), Integer.valueOf(5), Integer.valueOf(7) }, { new wg(we.aB), Float.valueOf(0.2F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { new wg(we.au), Float.valueOf(0.1F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { new wg(we.au, 1, 1), Float.valueOf(0.01F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) } };
+      loots = new Object[][] { { new wm(BrainStone.brainStoneDust()), Float.valueOf(0.1F), Integer.valueOf(1), Integer.valueOf(5), Integer.valueOf(6) }, { new wm(wk.aD), Float.valueOf(1.0F), Integer.valueOf(3), Integer.valueOf(5), Integer.valueOf(7) }, { new wm(apa.L), Float.valueOf(1.0F), Integer.valueOf(3), Integer.valueOf(2), Integer.valueOf(5) }, { new wm(wk.aX, 1, 4), Float.valueOf(1.0F), Integer.valueOf(3), Integer.valueOf(5), Integer.valueOf(7) }, { new wm(apa.K), Float.valueOf(1.0F), Integer.valueOf(1), Integer.valueOf(1), Integer.valueOf(4) }, { new wm(wk.o), Float.valueOf(0.2F), Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(2) }, { new wm(wk.aX, 1, 3), Float.valueOf(1.0F), Integer.valueOf(3), Integer.valueOf(5), Integer.valueOf(7) }, { new wm(wk.aB), Float.valueOf(0.2F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { new wm(wk.au), Float.valueOf(0.1F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { new wm(wk.au, 1, 1), Float.valueOf(0.01F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) } };
 
       break;
     case 2:
-      loots = new Object[][] { { new wg(aou.as), Float.valueOf(1.0F), Integer.valueOf(1), Integer.valueOf(19), Integer.valueOf(20) }, { new wg(aou.bh), Float.valueOf(1.0F), Integer.valueOf(1), Integer.valueOf(9), Integer.valueOf(10) }, { new wg(aou.bj), Float.valueOf(1.0F), Integer.valueOf(1), Integer.valueOf(9), Integer.valueOf(10) }, { new wg(aou.aX), Float.valueOf(1.0F), Integer.valueOf(1), Integer.valueOf(19), Integer.valueOf(20) }, { new wg(aou.bP), Float.valueOf(1.0F), Integer.valueOf(1), Integer.valueOf(9), Integer.valueOf(10) }, { new wg(aou.bO), Float.valueOf(0.01F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { new wg(we.bs), Float.valueOf(1.0F), Integer.valueOf(1), Integer.valueOf(9), Integer.valueOf(10) }, { new wg(we.aN), Float.valueOf(1.0F), Integer.valueOf(1), Integer.valueOf(9), Integer.valueOf(10) }, { new wg(we.aM), Float.valueOf(1.0F), Integer.valueOf(1), Integer.valueOf(9), Integer.valueOf(10) }, { new wg(we.bp), Float.valueOf(1.0F), Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(2) }, { new wg(we.bo), Float.valueOf(1.0F), Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(2) }, { new wg(BrainStone.brainStoneAxe(), 1, this.random.nextInt(5368)), Float.valueOf(0.1F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { new wg(BrainStone.brainStonePickaxe(), 1, this.random.nextInt(5368)), Float.valueOf(0.1F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { new wg(BrainStone.brainStoneShovel(), 1, this.random.nextInt(5368)), Float.valueOf(0.1F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { new wg(BrainStone.brainStoneHoe(), 1, this.random.nextInt(5368)), Float.valueOf(0.1F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { new wg(BrainStone.brainStoneSword(), 1, this.random.nextInt(5368)), Float.valueOf(0.1F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { new wg(BrainStone.brainStoneHelmet(), 1, this.random.nextInt(1824)), Float.valueOf(0.1F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { new wg(BrainStone.brainStonePlate(), 1, this.random.nextInt(1824)), Float.valueOf(0.1F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { new wg(BrainStone.brainStoneLeggings(), 1, this.random.nextInt(1824)), Float.valueOf(0.1F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { new wg(BrainStone.brainStoneBoots(), 1, this.random.nextInt(1824)), Float.valueOf(0.1F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { yv.a(this.random, new wg(BrainStone.brainStoneAxe(), 1, this.random.nextInt(5368)), 10), Float.valueOf(0.05F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { yv.a(this.random, new wg(BrainStone.brainStonePickaxe(), 1, this.random.nextInt(5368)), 10), Float.valueOf(0.05F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { yv.a(this.random, new wg(BrainStone.brainStoneShovel(), 1, this.random.nextInt(5368)), 10), Float.valueOf(0.05F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { yv.a(this.random, new wg(BrainStone.brainStoneSword(), 1, this.random.nextInt(5368)), 10), Float.valueOf(0.05F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { yv.a(this.random, new wg(BrainStone.brainStoneHelmet(), 1, this.random.nextInt(1824)), 10), Float.valueOf(0.05F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { yv.a(this.random, new wg(BrainStone.brainStonePlate(), 1, this.random.nextInt(1824)), 10), Float.valueOf(0.05F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { yv.a(this.random, new wg(BrainStone.brainStoneLeggings(), 1, this.random.nextInt(1824)), 10), Float.valueOf(0.05F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { yv.a(this.random, new wg(BrainStone.brainStoneBoots(), 1, this.random.nextInt(1824)), 10), Float.valueOf(0.05F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) } };
+      loots = new Object[][] { { new wm(apa.as), Float.valueOf(1.0F), Integer.valueOf(1), Integer.valueOf(19), Integer.valueOf(20) }, { new wm(apa.bh), Float.valueOf(1.0F), Integer.valueOf(1), Integer.valueOf(9), Integer.valueOf(10) }, { new wm(apa.bj), Float.valueOf(1.0F), Integer.valueOf(1), Integer.valueOf(9), Integer.valueOf(10) }, { new wm(apa.aX), Float.valueOf(1.0F), Integer.valueOf(1), Integer.valueOf(19), Integer.valueOf(20) }, { new wm(apa.bP), Float.valueOf(1.0F), Integer.valueOf(1), Integer.valueOf(9), Integer.valueOf(10) }, { new wm(apa.bO), Float.valueOf(0.01F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { new wm(wk.bs), Float.valueOf(1.0F), Integer.valueOf(1), Integer.valueOf(9), Integer.valueOf(10) }, { new wm(wk.aN), Float.valueOf(1.0F), Integer.valueOf(1), Integer.valueOf(9), Integer.valueOf(10) }, { new wm(wk.aM), Float.valueOf(1.0F), Integer.valueOf(1), Integer.valueOf(9), Integer.valueOf(10) }, { new wm(wk.bp), Float.valueOf(1.0F), Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(2) }, { new wm(wk.bo), Float.valueOf(1.0F), Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(2) }, { new wm(BrainStone.brainStoneAxe(), 1, this.random.nextInt(5368)), Float.valueOf(0.1F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { new wm(BrainStone.brainStonePickaxe(), 1, this.random.nextInt(5368)), Float.valueOf(0.1F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { new wm(BrainStone.brainStoneShovel(), 1, this.random.nextInt(5368)), Float.valueOf(0.1F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { new wm(BrainStone.brainStoneHoe(), 1, this.random.nextInt(5368)), Float.valueOf(0.1F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { new wm(BrainStone.brainStoneSword(), 1, this.random.nextInt(5368)), Float.valueOf(0.1F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { new wm(BrainStone.brainStoneHelmet(), 1, this.random.nextInt(1824)), Float.valueOf(0.1F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { new wm(BrainStone.brainStonePlate(), 1, this.random.nextInt(1824)), Float.valueOf(0.1F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { new wm(BrainStone.brainStoneLeggings(), 1, this.random.nextInt(1824)), Float.valueOf(0.1F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { new wm(BrainStone.brainStoneBoots(), 1, this.random.nextInt(1824)), Float.valueOf(0.1F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { zb.a(this.random, new wm(BrainStone.brainStoneAxe(), 1, this.random.nextInt(5368)), 10), Float.valueOf(0.05F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { zb.a(this.random, new wm(BrainStone.brainStonePickaxe(), 1, this.random.nextInt(5368)), 10), Float.valueOf(0.05F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { zb.a(this.random, new wm(BrainStone.brainStoneShovel(), 1, this.random.nextInt(5368)), 10), Float.valueOf(0.05F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { zb.a(this.random, new wm(BrainStone.brainStoneSword(), 1, this.random.nextInt(5368)), 10), Float.valueOf(0.05F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { zb.a(this.random, new wm(BrainStone.brainStoneHelmet(), 1, this.random.nextInt(1824)), 10), Float.valueOf(0.05F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { zb.a(this.random, new wm(BrainStone.brainStonePlate(), 1, this.random.nextInt(1824)), 10), Float.valueOf(0.05F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { zb.a(this.random, new wm(BrainStone.brainStoneLeggings(), 1, this.random.nextInt(1824)), 10), Float.valueOf(0.05F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) }, { zb.a(this.random, new wm(BrainStone.brainStoneBoots(), 1, this.random.nextInt(1824)), 10), Float.valueOf(0.05F), Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(0) } };
     }
 
     if (loots == null) {
@@ -493,7 +493,7 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends add
     }
     float sum = 0.0F;
 
-    wg loot = null;
+    wm loot = null;
 
     int size = loots.length;
 
@@ -508,10 +508,10 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends add
       float tmpChance = ((Float)tmpLoot[1]).floatValue();
 
       if (rand < tmpChance) {
-        loot = (wg)tmpLoot[0];
+        loot = (wm)tmpLoot[0];
         loot.a = (((Integer)tmpLoot[2]).intValue() + this.random.nextInt(((Integer)tmpLoot[3]).intValue() + 1) + this.random.nextInt(((Integer)tmpLoot[4]).intValue() + 1));
 
-        if (loot.c != aou.bO.cz) break;
+        if (loot.c != apa.bO.cz) break;
         BSP.println("Dragon Egg!!!!"); break;
       }
 

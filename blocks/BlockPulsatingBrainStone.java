@@ -1,9 +1,10 @@
 package mods.brainstone.blocks;
 
-import ahz;
-import ajp;
-import aqr;
-import aqu;
+import aab;
+import aif;
+import ajv;
+import aqx;
+import ara;
 import cpw.mods.fml.common.network.Player;
 import java.util.List;
 import java.util.Random;
@@ -15,12 +16,11 @@ import mods.brainstone.handlers.BrainStonePacketHandler;
 import mods.brainstone.templates.BSP;
 import mods.brainstone.templates.BlockBrainStoneBase;
 import ng;
-import si;
-import sk;
-import uy;
-import we;
-import wg;
-import zv;
+import so;
+import sq;
+import ve;
+import wk;
+import wm;
 
 public class BlockPulsatingBrainStone extends BlockBrainStoneBase
 {
@@ -30,7 +30,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase
 
   public BlockPulsatingBrainStone(int i, boolean effect)
   {
-    super(BrainStone.getId(i), ahz.e);
+    super(BrainStone.getId(i), aif.e);
 
     this.effect = effect;
 
@@ -43,7 +43,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase
       hasEffectId = this.cz;
     } else {
       c("pulsatingBrainStone");
-      a(uy.b);
+      a(ve.b);
       hasNoEffectId = this.cz;
     }
 
@@ -55,9 +55,9 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase
     return false;
   }
 
-  public wg getPickBlock(aqu target, zv world, int x, int y, int z)
+  public wm getPickBlock(ara target, aab world, int x, int y, int z)
   {
-    return new wg(BrainStone.pulsatingBrainStone(), 1);
+    return new wm(BrainStone.pulsatingBrainStone(), 1);
   }
 
   private int getRandomPotion(Random random)
@@ -75,18 +75,18 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase
     return hasNoEffectId;
   }
 
-  public void a(zv world, int i, int j, int k)
+  public void a(aab world, int i, int j, int k)
   {
     super.a(world, i, j, k);
     world.a(i, j, k, this.cz, (int)world.G() % a(world));
   }
 
-  public int a(zv par1World)
+  public int a(aab par1World)
   {
     return 2;
   }
 
-  public void a(zv world, int x, int y, int z, Random random)
+  public void a(aab world, int x, int y, int z, Random random)
   {
     int metaData = (int)(world.L().g() / a(world) % 16L);
 
@@ -95,17 +95,15 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase
         if (random.nextInt(2) == 0) {
           world.f(x, y, z, hasNoEffectId, 0, 2);
         }
-
       }
       else if (random.nextInt(4) == 0) {
         world.f(x, y, z, hasEffectId, 0, 2);
       }
-
     }
     else if ((metaData == 8) && (this.effect)) {
       BSP.debugOnly_println("Effect Time!");
 
-      List list = world.b(null, aqr.a(x - 10, y - 10, z - 10, x + 11, y + 11, z + 11));
+      List list = world.b(null, aqx.a(x - 10, y - 10, z - 10, x + 11, y + 11, z + 11));
 
       int size = list.size();
 
@@ -114,8 +112,8 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase
 
         BSP.debugOnly_println(tmpEntity.getClass().getName());
 
-        if ((tmpEntity instanceof sk)) {
-          wg[] playerArmor = ((sk)tmpEntity).bK.b;
+        if ((tmpEntity instanceof sq)) {
+          wm[] playerArmor = ((sq)tmpEntity).bK.b;
 
           if ((playerArmor[3] != null) && (playerArmor[2] != null) && (playerArmor[1] != null) && (playerArmor[0] != null) && (playerArmor[3].c == BrainStone.brainStoneHelmet().cp) && (playerArmor[2].c == BrainStone.brainStonePlate().cp) && (playerArmor[1].c == BrainStone.brainStoneLeggings().cp) && (playerArmor[0].c == BrainStone.brainStoneBoots().cp))
           {
@@ -147,7 +145,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase
 
               double z1 = kx.a(random, -1.5D, 1.5D);
 
-              if ((tmpEntity instanceof sk)) {
+              if ((tmpEntity instanceof sq)) {
                 BrainStonePacketHandler.sendPlayerUpdateMovementPacket((Player)entity, x1, y1, z1);
               }
               else

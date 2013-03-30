@@ -1,24 +1,30 @@
 package mods.brainstone.templates;
 
-import ahz;
-import akt;
+import aab;
+import aif;
+import akz;
 import ly;
-import zv;
+import net.minecraftforge.common.ForgeDirection;
 
-public abstract class BlockBrainStoneContainerBase extends akt
+public abstract class BlockBrainStoneContainerBase extends akz
 {
-  protected BlockBrainStoneContainerBase(int par1, ahz par2Material)
+  protected BlockBrainStoneContainerBase(int par1, aif par2Material)
   {
     super(par1, par2Material);
   }
 
-  public void a(ly par1IconRegister)
-  {
-    this.cQ = par1IconRegister.a("brainstone:" + a().substring(5));
-  }
-
-  public boolean isBlockNormalCube(zv world, int x, int y, int z)
+  public boolean f()
   {
     return true;
+  }
+
+  public boolean isBlockSolidOnSide(aab world, int x, int y, int z, ForgeDirection side)
+  {
+    return true;
+  }
+
+  public void a(ly par1IconRegister)
+  {
+    this.cQ = par1IconRegister.a("brainstone:" + a().replaceFirst("tile.", ""));
   }
 }

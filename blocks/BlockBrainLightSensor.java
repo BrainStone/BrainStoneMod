@@ -1,9 +1,10 @@
 package mods.brainstone.blocks;
 
-import aae;
-import ahz;
-import aqj;
-import bjw;
+import aab;
+import aak;
+import aif;
+import aqp;
+import bkd;
 import java.io.IOException;
 import java.util.Random;
 import lx;
@@ -14,9 +15,8 @@ import mods.brainstone.templates.BSP;
 import mods.brainstone.templates.BlockBrainStoneContainerBase;
 import mods.brainstone.tileentities.TileEntityBlockBrainLightSensor;
 import net.minecraft.client.Minecraft;
-import sk;
-import uy;
-import zv;
+import sq;
+import ve;
 
 public class BlockBrainLightSensor extends BlockBrainStoneContainerBase
 {
@@ -24,17 +24,17 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase
 
   public BlockBrainLightSensor(int i)
   {
-    super(BrainStone.getId(i), ahz.e);
+    super(BrainStone.getId(i), aif.e);
 
     c(2.4F);
     b(0.5F);
     c("brainLightSensor");
-    a(uy.d);
+    a(ve.d);
 
     this.cN = -0.2F;
   }
 
-  public void a(zv world, int i, int j, int k, int par5, int par6)
+  public void a(aab world, int i, int j, int k, int par5, int par6)
   {
     world.s(i, j, k);
     world.f(i, j, k, this.cz);
@@ -46,19 +46,9 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase
     world.f(i, j, k + 1, this.cz);
   }
 
-  public boolean f()
-  {
-    return true;
-  }
-
-  public aqj b(zv world)
+  public aqp b(aab world)
   {
     return new TileEntityBlockBrainLightSensor();
-  }
-
-  public void a(ly IconReg)
-  {
-    textures = new lx[] { IconReg.a("brainstone:brainLightSensor"), IconReg.a("furnace_side"), IconReg.a("furnace_top") };
   }
 
   public lx a(int i, int meta)
@@ -71,19 +61,19 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase
     return textures[1];
   }
 
-  public int c(aae iblockaccess, int i, int j, int k, int l)
+  public int c(aak iblockaccess, int i, int j, int k, int l)
   {
     TileEntityBlockBrainLightSensor tileentityblockbrainlightsensor = (TileEntityBlockBrainLightSensor)iblockaccess.r(i, j, k);
 
     return (tileentityblockbrainlightsensor != null) && (tileentityblockbrainlightsensor.getPowerOn()) ? 15 : 0;
   }
 
-  public int b(aae iblockaccess, int i, int j, int k, int l)
+  public int b(aak iblockaccess, int i, int j, int k, int l)
   {
     return c(iblockaccess, i, j, k, l);
   }
 
-  public boolean a(zv world, int i, int j, int k, sk entityplayer, int unknown, float px, float py, float pz)
+  public boolean a(aab world, int i, int j, int k, sq entityplayer, int unknown, float px, float py, float pz)
   {
     TileEntityBlockBrainLightSensor tileentityblockbrainlightsensor = (TileEntityBlockBrainLightSensor)world.r(i, j, k);
 
@@ -96,7 +86,7 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase
     return true;
   }
 
-  public void a(zv world, int i, int j, int k)
+  public void a(aab world, int i, int j, int k)
   {
     world.a(i, j, k, b(world));
     world.f(i, j, k, this.cz);
@@ -109,12 +99,17 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase
     world.a(i, j, k, this.cz, (int)world.G() % a(world));
   }
 
-  public int a(zv par1World)
+  public void a(ly IconReg)
+  {
+    textures = new lx[] { IconReg.a("brainstone:brainLightSensor"), IconReg.a("furnace_side"), IconReg.a("furnace_top") };
+  }
+
+  public int a(aab par1World)
   {
     return 2;
   }
 
-  public void a(zv world, int i, int j, int k, Random random)
+  public void a(aab world, int i, int j, int k, Random random)
   {
     TileEntityBlockBrainLightSensor tileentityblockbrainlightsensor = (TileEntityBlockBrainLightSensor)world.r(i, j, k);
 

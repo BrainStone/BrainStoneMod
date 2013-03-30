@@ -1,12 +1,12 @@
 package mods.brainstone.blocks;
 
-import ahz;
-import aou;
+import aab;
+import aif;
+import apa;
 import java.util.Random;
 import mods.brainstone.BrainStone;
 import mods.brainstone.templates.BlockBrainStoneBase;
-import uy;
-import zv;
+import ve;
 
 public class BlockBrainStone extends BlockBrainStoneBase
 {
@@ -14,7 +14,7 @@ public class BlockBrainStone extends BlockBrainStoneBase
 
   public BlockBrainStone(int i, boolean flag)
   {
-    super(BrainStone.getId(i), ahz.e);
+    super(BrainStone.getId(i), aif.e);
     c(3.0F);
     b(1.0F);
 
@@ -24,7 +24,7 @@ public class BlockBrainStone extends BlockBrainStoneBase
     } else {
       a(1.0F);
       c("brainStone");
-      a(uy.b);
+      a(ve.b);
     }
 
     this.powered = flag;
@@ -36,24 +36,22 @@ public class BlockBrainStone extends BlockBrainStoneBase
     return BrainStone.dirtyBrainStone().cz;
   }
 
-  public void a(zv world, int i, int j, int k)
+  public void a(aab world, int i, int j, int k)
   {
     if (!world.I)
-      if ((this.powered) && (!world.C(i, j, k))) {
+      if ((this.powered) && (!world.C(i, j, k)))
         world.f(i, j, k, BrainStone.brainStone().cz, 0, 2);
-      }
       else if ((!this.powered) && (world.C(i, j, k)))
       {
         world.f(i, j, k, BrainStone.brainStoneOut().cz, 0, 2);
       }
   }
 
-  public void a(zv world, int i, int j, int k, int l)
+  public void a(aab world, int i, int j, int k, int l)
   {
     if (!world.I)
-      if ((this.powered) && (!world.C(i, j, k))) {
+      if ((this.powered) && (!world.C(i, j, k)))
         world.f(i, j, k, BrainStone.brainStone().cz, 0, 2);
-      }
       else if ((!this.powered) && (world.C(i, j, k)))
       {
         world.f(i, j, k, BrainStone.brainStoneOut().cz, 0, 2);

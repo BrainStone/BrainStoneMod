@@ -1,7 +1,8 @@
 package mods.brainstone.handlers;
 
-import ajp;
-import aqj;
+import aab;
+import ajv;
+import aqp;
 import cg;
 import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -19,8 +20,7 @@ import mods.brainstone.templates.BSP;
 import mods.brainstone.templates.TileEntityBrainStoneSyncBase;
 import mods.brainstone.tileentities.TileEntityBlockBrainLogicBlock;
 import net.minecraft.server.MinecraftServer;
-import sk;
-import zv;
+import sq;
 
 public class BrainStonePacketHandler
   implements IPacketHandler
@@ -30,9 +30,9 @@ public class BrainStonePacketHandler
   private Player player;
   private DataInputStream inputStream;
   private boolean handled;
-  private aqj tileEntity;
+  private aqp tileEntity;
 
-  public static void sendPacketToClosestPlayers(int x, int y, int z, zv world, String channel, ByteArrayOutputStream data)
+  public static void sendPacketToClosestPlayers(int x, int y, int z, aab world, String channel, ByteArrayOutputStream data)
   {
     dk pkt = new dk();
     pkt.a = channel;
@@ -43,7 +43,7 @@ public class BrainStonePacketHandler
     PacketDispatcher.sendPacketToAllAround(x, y, z, 256.0D, world.L().j(), pkt);
   }
 
-  public static void sendPacketToClosestPlayers(aqj te, String channel, ByteArrayOutputStream data)
+  public static void sendPacketToClosestPlayers(aqp te, String channel, ByteArrayOutputStream data)
   {
     dk pkt = new dk();
     pkt.a = channel;
@@ -103,7 +103,7 @@ public class BrainStonePacketHandler
     sendPacketToServer("BSM.PUAS", bos);
   }
 
-  public static void sendReRenderBlockAtPacket(int x, int y, int z, zv world)
+  public static void sendReRenderBlockAtPacket(int x, int y, int z, aab world)
   {
     ByteArrayOutputStream bos = new ByteArrayOutputStream(0);
     DataOutputStream outputStream = new DataOutputStream(bos);
@@ -119,7 +119,7 @@ public class BrainStonePacketHandler
     sendPacketToClosestPlayers(x, y, z, world, "BSM.RRBAC", bos);
   }
 
-  public static void sendUpdateOptions(aqj te)
+  public static void sendUpdateOptions(aqp te)
   {
     if ((te instanceof TileEntityBrainStoneSyncBase))
       try {
@@ -168,7 +168,7 @@ public class BrainStonePacketHandler
   private void handleServerPacket()
   {
     this.inputStream = new DataInputStream(new ByteArrayInputStream(this.packet.c));
-    sk sender = (sk)this.player;
+    sq sender = (sq)this.player;
     try
     {
       this.tileEntity = MinecraftServer.D().a(sender.ar).r(this.inputStream.readInt(), this.inputStream.readInt(), this.inputStream.readInt());
@@ -233,7 +233,7 @@ public class BrainStonePacketHandler
       double y = this.inputStream.readDouble();
       double z = this.inputStream.readDouble();
 
-      ((sk)this.player).g(x, y, z);
+      ((sq)this.player).g(x, y, z);
     } catch (IOException ex) {
       BSP.printException(ex);
     }

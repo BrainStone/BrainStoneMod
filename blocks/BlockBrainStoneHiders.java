@@ -1,21 +1,21 @@
 package mods.brainstone.blocks;
 
-import aae;
-import ahz;
-import aou;
+import aak;
+import aif;
+import apa;
 import mods.brainstone.BrainStone;
 import mods.brainstone.templates.BlockBrainStoneContainerBase;
 import mods.brainstone.tileentities.TileEntityBlockBrainStoneHiders;
-import uy;
-import wg;
+import ve;
+import wm;
 
 public abstract class BlockBrainStoneHiders extends BlockBrainStoneContainerBase
 {
   public BlockBrainStoneHiders(int i)
   {
-    super(BrainStone.getId(i), ahz.e);
+    super(BrainStone.getId(i), aif.e);
 
-    a(uy.d);
+    a(ve.d);
   }
 
   public boolean f()
@@ -23,28 +23,28 @@ public abstract class BlockBrainStoneHiders extends BlockBrainStoneContainerBase
     return true;
   }
 
-  public int c(aae iblockaccess, int i, int j, int k)
+  public int c(aak iblockaccess, int i, int j, int k)
   {
     TileEntityBlockBrainStoneHiders tileentityblockbrainstonehiders = (TileEntityBlockBrainStoneHiders)iblockaccess.r(i, j, k);
 
     if (tileentityblockbrainstonehiders == null) {
       return 16777215;
     }
-    wg itemstack = tileentityblockbrainstonehiders.a(0);
+    wm itemstack = tileentityblockbrainstonehiders.a(0);
 
     if (itemstack == null) {
       return 16777215;
     }
     int l = itemstack.c;
 
-    if ((l >= aou.r.length) || (l < 0)) {
+    if ((l >= apa.r.length) || (l < 0)) {
       return 16777215;
     }
-    aou block = aou.r[l];
+    apa block = apa.r[l];
 
     if (block == null) {
       return 16777215;
     }
-    return aou.r[l].c(iblockaccess, i, j, k);
+    return apa.r[l].c(iblockaccess, i, j, k);
   }
 }

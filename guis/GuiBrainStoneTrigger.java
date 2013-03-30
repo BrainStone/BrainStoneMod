@@ -1,9 +1,9 @@
 package mods.brainstone.guis;
 
-import auu;
-import avs;
-import awp;
-import bjw;
+import ava;
+import avy;
+import awv;
+import bkd;
 import bo;
 import java.util.LinkedHashMap;
 import java.util.Set;
@@ -14,7 +14,8 @@ import mods.brainstone.templates.BrainStoneGuiButton;
 import mods.brainstone.templates.GuiBrainStoneBase;
 import mods.brainstone.tileentities.TileEntityBlockBrainStoneTrigger;
 import net.minecraft.client.Minecraft;
-import si;
+import org.lwjgl.opengl.GL11;
+import so;
 
 public class GuiBrainStoneTrigger extends GuiBrainStoneBase
 {
@@ -27,7 +28,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase
   private final String[] Mobs;
   private final BrainStoneGuiButton buttons;
 
-  public GuiBrainStoneTrigger(si inventoryplayer, TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger)
+  public GuiBrainStoneTrigger(so inventoryplayer, TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger)
   {
     super(new ContainerBlockBrainStoneTrigger(inventoryplayer, tileentityblockbrainstonetrigger));
 
@@ -113,6 +114,8 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase
 
   protected void b(int par1, int par2)
   {
+    GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+
     if (this.tileentity == null)
       return;
     String tmp;
@@ -137,6 +140,8 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase
 
   protected void a(char c, int i)
   {
+    super.a(c, i);
+
     if ((i == 1) || (i == this.f.z.N.d))
       quit();
   }
@@ -158,14 +163,13 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase
         quit();
       }
 
-      this.tileentity.forceUpdate = true;
       BrainStonePacketHandler.sendUpdateOptions(this.tileentity);
     }
   }
 
   protected void b(int i, int l, int i1)
   {
-    super.b(i, this.j, i1);
+    super.b(i, l, i1);
 
     this.buttons.hover();
   }

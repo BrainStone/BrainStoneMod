@@ -1,13 +1,13 @@
 package mods.brainstone.blocks;
 
-import aae;
-import aqj;
-import aqr;
+import aab;
+import aak;
+import aqp;
+import aqx;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
-import lt;
 import lx;
 import ly;
 import mods.brainstone.BrainStone;
@@ -15,9 +15,7 @@ import mods.brainstone.handlers.BrainStonePacketHandler;
 import mods.brainstone.templates.BSP;
 import mods.brainstone.tileentities.TileEntityBlockBrainStoneTrigger;
 import mp;
-import sk;
-import td;
-import zv;
+import sq;
 
 public class BlockBrainStoneTrigger extends BlockBrainStoneHiders
 {
@@ -35,7 +33,7 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders
     this.cN = -0.2F;
   }
 
-  public void a(zv world, int i, int j, int k, int par5, int par6)
+  public void a(aab world, int i, int j, int k, int par5, int par6)
   {
     TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBlockBrainStoneTrigger)world.r(i, j, k);
 
@@ -53,22 +51,12 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders
     world.f(i, j, k + 1, this.cz);
   }
 
-  public aqj b(zv world)
+  public aqp b(aab world)
   {
     return new TileEntityBlockBrainStoneTrigger();
   }
 
-  public int b_(zv par1World, int par2, int par3, int par4, int par5)
-  {
-    return td.b((lt)par1World.r(par2, par3, par4));
-  }
-
-  public void a(ly IconReg)
-  {
-    textures = new lx[] { IconReg.a("brainstone:brainStoneTrigger"), IconReg.a("furnace_side"), IconReg.a("furnace_top") };
-  }
-
-  public lx b_(aae iblockaccess, int i, int j, int k, int l)
+  public lx b_(aak iblockaccess, int i, int j, int k, int l)
   {
     if (l == 1) {
       TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBlockBrainStoneTrigger)iblockaccess.r(i, j, k);
@@ -95,19 +83,19 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders
     return textures[1];
   }
 
-  public int c(aae iblockaccess, int i, int j, int k, int l)
+  public int c(aak iblockaccess, int i, int j, int k, int l)
   {
     TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBlockBrainStoneTrigger)iblockaccess.r(i, j, k);
 
     return (tileentityblockbrainstonetrigger != null) && (tileentityblockbrainstonetrigger.delay > 0) ? 15 : 0;
   }
 
-  public int b(aae iblockaccess, int i, int j, int k, int l)
+  public int b(aak iblockaccess, int i, int j, int k, int l)
   {
     return c(iblockaccess, i, j, k, l);
   }
 
-  public boolean a(zv world, int i, int j, int k, sk entityplayer, int par6, float par7, float par8, float par9)
+  public boolean a(aab world, int i, int j, int k, sq entityplayer, int par6, float par7, float par8, float par9)
   {
     if (world.I) {
       return true;
@@ -121,7 +109,7 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders
     return true;
   }
 
-  public void a(zv world, int i, int j, int k)
+  public void a(aab world, int i, int j, int k)
   {
     world.a(i, j, k, b(world));
     world.f(i, j, k, this.cz);
@@ -135,14 +123,19 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders
     world.a(i, j, k, this.cz, (int)world.G() % a(world));
   }
 
-  public int a(zv par1World)
+  public void a(ly IconReg)
+  {
+    textures = new lx[] { IconReg.a("brainstone:brainStoneTrigger"), IconReg.a("furnace_side"), IconReg.a("furnace_top") };
+  }
+
+  public int a(aab par1World)
   {
     return 2;
   }
 
-  private boolean triggerCorrectMob(zv world, int i, int j, int k)
+  private boolean triggerCorrectMob(aab world, int i, int j, int k)
   {
-    List list = world.b(null, aqr.a(i, j + 1, k, i + 1, j + 2, k + 1));
+    List list = world.b(null, aqx.a(i, j + 1, k, i + 1, j + 2, k + 1));
 
     TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBlockBrainStoneTrigger)world.r(i, j, k);
 
@@ -182,7 +175,7 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders
     return flag;
   }
 
-  public void a(zv world, int i, int j, int k, Random random)
+  public void a(aab world, int i, int j, int k, Random random)
   {
     TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBlockBrainStoneTrigger)world.r(i, j, k);
 
@@ -191,19 +184,15 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders
       return;
     }
 
-    boolean flag = tileentityblockbrainstonetrigger.power;
     tileentityblockbrainstonetrigger.power = triggerCorrectMob(world, i, j, k);
 
     tileentityblockbrainstonetrigger.delay = ((byte)(tileentityblockbrainstonetrigger.delay <= 0 ? 0 : tileentityblockbrainstonetrigger.power ? tileentityblockbrainstonetrigger.max_delay : tileentityblockbrainstonetrigger.delay - 1));
 
-    if (((!flag) && (tileentityblockbrainstonetrigger.power)) || (tileentityblockbrainstonetrigger.forceUpdate))
-    {
+    if (tileentityblockbrainstonetrigger.checkForSlotChange()) {
+      world.j(i, j, k);
       BrainStonePacketHandler.sendReRenderBlockAtPacket(i, j, k, world);
-
-      tileentityblockbrainstonetrigger.forceUpdate = false;
     }
 
-    world.j(i, j, k);
     world.f(i, j, k, this.cz);
     world.f(i - 1, j, k, this.cz);
     world.f(i + 1, j, k, this.cz);

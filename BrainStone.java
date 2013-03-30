@@ -1,8 +1,9 @@
 package mods.brainstone;
 
 import ModLoader;
-import ahz;
-import aou;
+import aab;
+import aif;
+import apa;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
@@ -18,6 +19,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -54,47 +56,47 @@ import net.minecraftforge.common.EnumHelper;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Property;
 import ng;
-import qz;
-import rb;
-import rc;
-import rl;
-import sk;
-import sm;
-import sn;
-import so;
+import rf;
+import rh;
+import ri;
+import rr;
 import sq;
-import sv;
-import uk;
-import uy;
-import we;
-import wf;
-import wg;
-import zv;
+import ss;
+import st;
+import su;
+import sw;
+import tb;
+import uq;
+import ve;
+import wk;
+import wl;
+import wm;
 
-@Mod(modid="BrainStoneMod", name="Brain Stone Mod", version="v2.18.123 BETA Pre-release")
+@Mod(modid="BrainStoneMod", name="Brain Stone Mod", version="v2.19.97 BETA release")
 @NetworkMod(clientSideRequired=true, serverSideRequired=true, channels={"BSM", "BSM.TEBBSTS", "BSM.TEBBSTC", "BSM.TEBBLSS", "BSM.TEBBLSC", "BSM.TEBBLBS", "BSM.TEBBLBC", "BSM.UPAS", "BSM.RRBAC", "BSM.UPMC"}, packetHandler=BrainStonePacketHandler.class)
 public class BrainStone
 {
-  public static final boolean release = ((Mod)BrainStone.class.getAnnotation(Mod.class)).version().toLowerCase().contains("release");
+  private static Mod annotation = null;
 
-  public static final boolean debug = ((Mod)BrainStone.class.getAnnotation(Mod.class)).version().toLowerCase().contains("debug");
+  public static final boolean release = getModAnnotation().version().toLowerCase().contains("release");
+
+  public static final boolean debug = getModAnnotation().version().toLowerCase().contains("debug");
   public static final int startBlockId = 1258;
   public static final int startItemId = 359;
   public static final int startAchievementId = 3698;
   private static final String de = "de_DE";
-  public static final String basePath = "/" + BrainStone.class.getPackage().getName().replaceAll("\\.", "/") + "/";
-
-  public static final String guiPath = basePath + "textures/gui/";
-  public static final String armorPath = basePath + "textures/armor/";
+  public static final String basePath = "/mods/brainstone/";
+  public static final String guiPath = "/mods/brainstone/textures/gui/";
+  public static final String armorPath = "/mods/brainstone/textures/armor/";
 
   @Mod.Instance("BrainStoneMod")
   public static BrainStone instance;
 
   @SidedProxy(clientSide="mods.brainstone.ClientProxy", serverSide="mods.brainstone.CommonProxy")
   public static ClientProxy proxy;
-  public static wf toolBRAINSTONE = EnumHelper.addToolMaterial("BRAINSTONE", 3, 5368, 6.0F, 5, 25);
+  public static wl toolBRAINSTONE = EnumHelper.addToolMaterial("BRAINSTONE", 3, 5368, 6.0F, 5, 25);
 
-  public static uk armorBRAINSTONE = EnumHelper.addArmorMaterial("BRAINSTONE", 114, new int[] { 2, 6, 5, 2 }, 25);
+  public static uq armorBRAINSTONE = EnumHelper.addArmorMaterial("BRAINSTONE", 114, new int[] { 2, 6, 5, 2 }, 25);
 
   private static HashMap ids = new HashMap();
 
@@ -114,9 +116,13 @@ public class BrainStone
   @Mod.PreInit
   public void preInit(FMLPreInitializationEvent event)
   {
+    generateMcModInfoFile(event);
+
     getIds(event);
 
     generateObjects();
+
+    proxy.registerTextures();
   }
 
   @Mod.Init
@@ -144,6 +150,8 @@ public class BrainStone
     MinecraftForge.setBlockHarvestLevel(brainStoneOut(), "pickaxe", 2);
     MinecraftForge.setBlockHarvestLevel(dirtyBrainStone(), "pickaxe", 2);
     MinecraftForge.setBlockHarvestLevel(brainStoneOre(), "pickaxe", 2);
+
+    proxy.registerOre();
   }
 
   @Mod.PostInit
@@ -151,6 +159,21 @@ public class BrainStone
     throws Throwable
   {
     fillTriggerEntities();
+  }
+
+  private static void generateMcModInfoFile(FMLPreInitializationEvent event)
+  {
+    event.getModMetadata().modId = getModAnnotation().modid();
+    event.getModMetadata().name = getModAnnotation().name();
+    event.getModMetadata().version = getModAnnotation().version();
+    event.getModMetadata().url = "http://minecraft.de/showthread.php?89926";
+    event.getModMetadata().credits = "The_BrainStone(Code, Textures, Ideas), Jobbel(Name), TheStarman(Textures)";
+    event.getModMetadata().authorList = Arrays.asList(new String[] { "The_BrainStone" });
+    event.getModMetadata().description = "The Brain Stone Mod adds a new block type. It is called Brain Stone. It is very rare but you can make many different intelligent sensor blocks! An example is the BrainStoneTrigger. It's a block that triggers if an entity is on top. All these intelligent blocks are highly adjustable! There are also tools. The are as fast as iron tools but you can havrest more than 5,368 blocks! (Diamond tools only 1,561). The latest feature is the PulsatingBrainStoneBlock. It is the craziest block you have ever seen! It will throw you and animals through the air or will add random potion effects! You acan make yourself immune to these effect by wearing the full set of the newly adden BrainStoneArmor.\nBut see by yourself and enjoy!\n\n\nAnd thanks for downloading and supporting this mod!\n\n\n\nIf you think this mod caused a game crash (what should not happen by the way XD) send an email with the error log to yannick@tedworld.de!\n\nThank you!";
+    event.getModMetadata().logoFile = "";
+    event.getModMetadata().updateUrl = "http://minecraft.de/showthread.php?89926";
+    event.getModMetadata().parent = "";
+    event.getModMetadata().screenshots = new String[0];
   }
 
   private static void addLocalizations()
@@ -205,55 +228,55 @@ public class BrainStone
 
   private static void addRecipes()
   {
-    GameRegistry.addRecipe(new wg(dirtyBrainStone(), 1), new Object[] { "XX", "XX", Character.valueOf('X'), brainStoneDust() });
+    GameRegistry.addRecipe(new wm(dirtyBrainStone(), 1), new Object[] { "XX", "XX", Character.valueOf('X'), brainStoneDust() });
 
     for (int i = 0; i <= 9; i++) {
-      GameRegistry.addShapelessRecipe(new wg(coalBriquette(), 1), new Object[] { new wg(we.n, 1, i <= 0 ? 0 : 1), new wg(we.n, 1, i <= 1 ? 0 : 1), new wg(we.n, 1, i <= 2 ? 0 : 1), new wg(we.n, 1, i <= 3 ? 0 : 1), new wg(we.n, 1, i <= 4 ? 0 : 1), new wg(we.n, 1, i <= 5 ? 0 : 1), new wg(we.n, 1, i <= 6 ? 0 : 1), new wg(we.n, 1, i <= 7 ? 0 : 1), new wg(we.n, 1, i <= 8 ? 0 : 1) });
+      GameRegistry.addShapelessRecipe(new wm(coalBriquette(), 1), new Object[] { new wm(wk.n, 1, i <= 0 ? 0 : 1), new wm(wk.n, 1, i <= 1 ? 0 : 1), new wm(wk.n, 1, i <= 2 ? 0 : 1), new wm(wk.n, 1, i <= 3 ? 0 : 1), new wm(wk.n, 1, i <= 4 ? 0 : 1), new wm(wk.n, 1, i <= 5 ? 0 : 1), new wm(wk.n, 1, i <= 6 ? 0 : 1), new wm(wk.n, 1, i <= 7 ? 0 : 1), new wm(wk.n, 1, i <= 8 ? 0 : 1) });
     }
 
-    GameRegistry.addRecipe(new wg(brainLightSensor(), 1), new Object[] { "XGX", "XBX", "XRX", Character.valueOf('X'), aou.x, Character.valueOf('G'), aou.Q, Character.valueOf('B'), brainStone(), Character.valueOf('R'), we.aD });
+    GameRegistry.addRecipe(new wm(brainLightSensor(), 1), new Object[] { "XGX", "XBX", "XRX", Character.valueOf('X'), apa.x, Character.valueOf('G'), apa.Q, Character.valueOf('B'), brainStone(), Character.valueOf('R'), wk.aD });
 
-    GameRegistry.addRecipe(new wg(brainStoneTrigger(), 1), new Object[] { "XXX", "RRR", "XBX", Character.valueOf('X'), aou.x, Character.valueOf('B'), brainStone(), Character.valueOf('R'), we.aD });
+    GameRegistry.addRecipe(new wm(brainStoneTrigger(), 1), new Object[] { "XXX", "RRR", "XBX", Character.valueOf('X'), apa.x, Character.valueOf('B'), brainStone(), Character.valueOf('R'), wk.aD });
 
-    GameRegistry.addRecipe(new wg(brainLogicBlock(), 1), new Object[] { "SRS", "RPR", "SRS", Character.valueOf('S'), aou.x, Character.valueOf('P'), brainProcessor(), Character.valueOf('R'), we.aD });
+    GameRegistry.addRecipe(new wm(brainLogicBlock(), 1), new Object[] { "SRS", "RPR", "SRS", Character.valueOf('S'), apa.x, Character.valueOf('P'), brainProcessor(), Character.valueOf('R'), wk.aD });
 
-    GameRegistry.addRecipe(new wg(pulsatingBrainStone(), 1), new Object[] { "dBd", "BDB", "dBd", Character.valueOf('d'), brainStoneDust(), Character.valueOf('B'), brainStone(), Character.valueOf('D'), we.o });
+    GameRegistry.addRecipe(new wm(pulsatingBrainStone(), 1), new Object[] { "dBd", "BDB", "dBd", Character.valueOf('d'), brainStoneDust(), Character.valueOf('B'), brainStone(), Character.valueOf('D'), wk.o });
 
-    GameRegistry.addRecipe(new wg(brainStoneSword(), 1), new Object[] { "B", "B", "S", Character.valueOf('S'), we.E, Character.valueOf('B'), brainStone() });
+    GameRegistry.addRecipe(new wm(brainStoneSword(), 1), new Object[] { "B", "B", "S", Character.valueOf('S'), wk.E, Character.valueOf('B'), brainStone() });
 
-    GameRegistry.addRecipe(new wg(brainStoneShovel(), 1), new Object[] { "B", "S", "S", Character.valueOf('S'), we.E, Character.valueOf('B'), brainStone() });
+    GameRegistry.addRecipe(new wm(brainStoneShovel(), 1), new Object[] { "B", "S", "S", Character.valueOf('S'), wk.E, Character.valueOf('B'), brainStone() });
 
-    GameRegistry.addRecipe(new wg(brainStonePickaxe(), 1), new Object[] { "BBB", " S ", " S ", Character.valueOf('S'), we.E, Character.valueOf('B'), brainStone() });
+    GameRegistry.addRecipe(new wm(brainStonePickaxe(), 1), new Object[] { "BBB", " S ", " S ", Character.valueOf('S'), wk.E, Character.valueOf('B'), brainStone() });
 
-    GameRegistry.addRecipe(new wg(brainStoneAxe(), 1), new Object[] { "BB", "BS", " S", Character.valueOf('S'), we.E, Character.valueOf('B'), brainStone() });
+    GameRegistry.addRecipe(new wm(brainStoneAxe(), 1), new Object[] { "BB", "BS", " S", Character.valueOf('S'), wk.E, Character.valueOf('B'), brainStone() });
 
-    GameRegistry.addRecipe(new wg(brainStoneHoe(), 1), new Object[] { "BB", " S", " S", Character.valueOf('S'), we.E, Character.valueOf('B'), brainStone() });
+    GameRegistry.addRecipe(new wm(brainStoneHoe(), 1), new Object[] { "BB", " S", " S", Character.valueOf('S'), wk.E, Character.valueOf('B'), brainStone() });
 
-    GameRegistry.addRecipe(new wg(brainProcessor(), 4), new Object[] { "TRT", "SBS", "TRT", Character.valueOf('B'), brainStone(), Character.valueOf('S'), we.aD, Character.valueOf('T'), aou.aU, Character.valueOf('R'), we.bc });
+    GameRegistry.addRecipe(new wm(brainProcessor(), 4), new Object[] { "TRT", "SBS", "TRT", Character.valueOf('B'), brainStone(), Character.valueOf('S'), wk.aD, Character.valueOf('T'), apa.aU, Character.valueOf('R'), wk.bc });
 
-    GameRegistry.addRecipe(new wg(brainStoneHelmet(), 1), new Object[] { "BBB", "B B", Character.valueOf('B'), brainStone() });
+    GameRegistry.addRecipe(new wm(brainStoneHelmet(), 1), new Object[] { "BBB", "B B", Character.valueOf('B'), brainStone() });
 
-    GameRegistry.addRecipe(new wg(brainStonePlate(), 1), new Object[] { "B B", "BBB", "BBB", Character.valueOf('B'), brainStone() });
+    GameRegistry.addRecipe(new wm(brainStonePlate(), 1), new Object[] { "B B", "BBB", "BBB", Character.valueOf('B'), brainStone() });
 
-    GameRegistry.addRecipe(new wg(brainStoneLeggings(), 1), new Object[] { "BBB", "B B", "B B", Character.valueOf('B'), brainStone() });
+    GameRegistry.addRecipe(new wm(brainStoneLeggings(), 1), new Object[] { "BBB", "B B", "B B", Character.valueOf('B'), brainStone() });
 
-    GameRegistry.addRecipe(new wg(brainStoneBoots(), 1), new Object[] { "B B", "B B", Character.valueOf('B'), brainStone() });
+    GameRegistry.addRecipe(new wm(brainStoneBoots(), 1), new Object[] { "B B", "B B", Character.valueOf('B'), brainStone() });
   }
 
   private static void addSmeltings()
   {
-    GameRegistry.addSmelting(dirtyBrainStone().cz, new wg(brainStone(), 1, 0), 3.0F);
+    GameRegistry.addSmelting(dirtyBrainStone().cz, new wm(brainStone(), 1, 0), 3.0F);
   }
 
   private static void fillTriggerEntities() throws Throwable
   {
     LinkedHashMap brainStoneTriggerEntities = new LinkedHashMap();
 
-    brainStoneTriggerEntities.put("gui.brainstone.player", new Class[] { sk.class });
+    brainStoneTriggerEntities.put("gui.brainstone.player", new Class[] { sq.class });
 
-    brainStoneTriggerEntities.put("gui.brainstone.item", new Class[] { qz.class, sq.class, rb.class, rc.class, rl.class, nc.class });
+    brainStoneTriggerEntities.put("gui.brainstone.item", new Class[] { rf.class, sw.class, rh.class, ri.class, rr.class, nc.class });
 
-    brainStoneTriggerEntities.put("gui.brainstone.projectile", new Class[] { sm.class, sv.class, sn.class, so.class });
+    brainStoneTriggerEntities.put("gui.brainstone.projectile", new Class[] { ss.class, tb.class, st.class, su.class });
 
     Map allEntities = mv.d;
     int length = allEntities.size();
@@ -266,7 +289,7 @@ public class BrainStone
       if ((value != null) && (ng.class.isAssignableFrom(value)) && (!ng.class.equals(value))) {
         try
         {
-          brainStoneTriggerEntities.put("entity." + mv.b((mp)value.getDeclaredConstructor(new Class[] { zv.class }).newInstance(new Object[] { null })) + ".name", new Class[] { value });
+          brainStoneTriggerEntities.put("entity." + mv.b((mp)value.getDeclaredConstructor(new Class[] { aab.class }).newInstance(new Object[] { null })) + ".name", new Class[] { value });
         }
         catch (InstantiationException e)
         {
@@ -309,20 +332,20 @@ public class BrainStone
     blocks.put(Integer.valueOf(0), new BlockBrainStone(0, false));
     blocks.put(Integer.valueOf(1), new BlockBrainStone(1, true));
     blocks.put(Integer.valueOf(2), new BlockBrainStoneOre(2));
-    blocks.put(Integer.valueOf(3), new BlockBrainStoneBase(getId(3), ahz.e).c(2.4F).c("dirtyBrainStone").b(0.5F).a(0.5F).a(uy.b));
+    blocks.put(Integer.valueOf(3), new BlockBrainStoneBase(getId(3), aif.e).c(2.4F).c("dirtyBrainStone").b(0.5F).a(0.5F).a(ve.b));
 
-    ((aou)blocks.get(Integer.valueOf(3))).cN = -0.1F;
+    ((apa)blocks.get(Integer.valueOf(3))).cN = -0.1F;
     blocks.put(Integer.valueOf(4), new BlockBrainLightSensor(4));
     blocks.put(Integer.valueOf(5), new BlockBrainStoneTrigger(5));
     blocks.put(Integer.valueOf(6), new BlockBrainLogicBlock(6));
     blocks.put(Integer.valueOf(7), new BlockPulsatingBrainStone(7, false));
     blocks.put(Integer.valueOf(8), new BlockPulsatingBrainStone(8, true));
 
-    items.put(Integer.valueOf(359), new ItemBrainStoneBase(getId(359)).b("brainStoneDust").a(uy.l));
+    items.put(Integer.valueOf(359), new ItemBrainStoneBase(getId(359)).b("brainStoneDust").a(ve.l));
 
-    items.put(Integer.valueOf(360), new ItemBrainStoneBase(getId(360)).b("coalBriquette").a(uy.f));
+    items.put(Integer.valueOf(360), new ItemBrainStoneBase(getId(360)).b("coalBriquette").a(ve.f));
 
-    items.put(Integer.valueOf(361), new ItemBrainStoneBase(getId(361)).b("brainProcessor").a(uy.f));
+    items.put(Integer.valueOf(361), new ItemBrainStoneBase(getId(361)).b("brainProcessor").a(ve.f));
 
     items.put(Integer.valueOf(362), new ItemSwordBrainStone(3, toolBRAINSTONE).b("brainStoneSword"));
 
@@ -388,7 +411,7 @@ public class BrainStone
     Integer[] keys = (Integer[])blocks.keySet().toArray(new Integer[length]);
 
     for (int i = 0; i < length; i++)
-      GameRegistry.registerBlock((aou)blocks.get(keys[i]));
+      GameRegistry.registerBlock((apa)blocks.get(keys[i]));
   }
 
   private static final void registerTileEntitys()
@@ -400,99 +423,107 @@ public class BrainStone
     GameRegistry.registerTileEntity(TileEntityBlockBrainLogicBlock.class, "TileEntityBlockBrainLogicBlock");
   }
 
-  public static final aou brainLightSensor()
+  private static Mod getModAnnotation()
   {
-    return (aou)blocks.get(Integer.valueOf(4));
+    if (annotation == null) {
+      return BrainStone.annotation = (Mod)BrainStone.class.getAnnotation(Mod.class);
+    }
+    return annotation;
   }
 
-  public static final aou brainLogicBlock()
+  public static final apa brainLightSensor()
   {
-    return (aou)blocks.get(Integer.valueOf(6));
+    return (apa)blocks.get(Integer.valueOf(4));
   }
 
-  public static final we brainProcessor()
+  public static final apa brainLogicBlock()
   {
-    return (we)items.get(Integer.valueOf(361));
+    return (apa)blocks.get(Integer.valueOf(6));
   }
 
-  public static final aou brainStone()
+  public static final wk brainProcessor()
   {
-    return (aou)blocks.get(Integer.valueOf(0));
+    return (wk)items.get(Integer.valueOf(361));
   }
 
-  public static final we brainStoneAxe()
+  public static final apa brainStone()
   {
-    return (we)items.get(Integer.valueOf(365));
+    return (apa)blocks.get(Integer.valueOf(0));
   }
 
-  public static final we brainStoneBoots()
+  public static final wk brainStoneAxe()
   {
-    return (we)items.get(Integer.valueOf(370));
+    return (wk)items.get(Integer.valueOf(365));
   }
 
-  public static final we brainStoneDust()
+  public static final wk brainStoneBoots()
   {
-    return (we)items.get(Integer.valueOf(359));
+    return (wk)items.get(Integer.valueOf(370));
   }
 
-  public static final we brainStoneHelmet()
+  public static final wk brainStoneDust()
   {
-    return (we)items.get(Integer.valueOf(367));
+    return (wk)items.get(Integer.valueOf(359));
   }
 
-  public static final we brainStoneHoe()
+  public static final wk brainStoneHelmet()
   {
-    return (we)items.get(Integer.valueOf(366));
+    return (wk)items.get(Integer.valueOf(367));
   }
 
-  public static final we brainStoneLeggings()
+  public static final wk brainStoneHoe()
   {
-    return (we)items.get(Integer.valueOf(369));
+    return (wk)items.get(Integer.valueOf(366));
   }
 
-  public static final aou brainStoneOre()
+  public static final wk brainStoneLeggings()
   {
-    return (aou)blocks.get(Integer.valueOf(2));
+    return (wk)items.get(Integer.valueOf(369));
   }
 
-  public static final aou brainStoneOut()
+  public static final apa brainStoneOre()
   {
-    return (aou)blocks.get(Integer.valueOf(1));
+    return (apa)blocks.get(Integer.valueOf(2));
   }
 
-  public static final we brainStonePickaxe()
+  public static final apa brainStoneOut()
   {
-    return (we)items.get(Integer.valueOf(364));
+    return (apa)blocks.get(Integer.valueOf(1));
   }
 
-  public static final we brainStonePlate()
+  public static final wk brainStonePickaxe()
   {
-    return (we)items.get(Integer.valueOf(368));
+    return (wk)items.get(Integer.valueOf(364));
   }
 
-  public static final we brainStoneShovel()
+  public static final wk brainStonePlate()
   {
-    return (we)items.get(Integer.valueOf(363));
+    return (wk)items.get(Integer.valueOf(368));
   }
 
-  public static final we brainStoneSword()
+  public static final wk brainStoneShovel()
   {
-    return (we)items.get(Integer.valueOf(362));
+    return (wk)items.get(Integer.valueOf(363));
   }
 
-  public static final aou brainStoneTrigger()
+  public static final wk brainStoneSword()
   {
-    return (aou)blocks.get(Integer.valueOf(5));
+    return (wk)items.get(Integer.valueOf(362));
   }
 
-  public static final we coalBriquette()
+  public static final apa brainStoneTrigger()
   {
-    return (we)items.get(Integer.valueOf(360));
+    return (apa)blocks.get(Integer.valueOf(5));
   }
 
-  public static final aou dirtyBrainStone()
+  public static final wk coalBriquette()
   {
-    return (aou)blocks.get(Integer.valueOf(3));
+    return (wk)items.get(Integer.valueOf(360));
+  }
+
+  public static final apa dirtyBrainStone()
+  {
+    return (apa)blocks.get(Integer.valueOf(3));
   }
 
   public static final int getId(int id)
@@ -520,14 +551,14 @@ public class BrainStone
     return (ju)achievements.get(Integer.valueOf(3702));
   }
 
-  public static final aou pulsatingBrainStone()
+  public static final apa pulsatingBrainStone()
   {
-    return (aou)blocks.get(Integer.valueOf(7));
+    return (apa)blocks.get(Integer.valueOf(7));
   }
 
-  public static final aou pulsatingBrainStoneEffect()
+  public static final apa pulsatingBrainStoneEffect()
   {
-    return (aou)blocks.get(Integer.valueOf(8));
+    return (apa)blocks.get(Integer.valueOf(8));
   }
 
   public static final ju WTHIT()

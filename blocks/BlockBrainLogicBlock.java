@@ -1,11 +1,12 @@
 package mods.brainstone.blocks;
 
-import aae;
-import ahz;
-import ajp;
-import any;
-import aou;
-import aqj;
+import aab;
+import aak;
+import aif;
+import ajv;
+import aoe;
+import apa;
+import aqp;
 import java.util.Random;
 import kx;
 import lx;
@@ -15,10 +16,9 @@ import mods.brainstone.handlers.BrainStonePacketHandler;
 import mods.brainstone.templates.BlockBrainStoneContainerBase;
 import mods.brainstone.tileentities.TileEntityBlockBrainLogicBlock;
 import ng;
-import sk;
-import uy;
-import wg;
-import zv;
+import sq;
+import ve;
+import wm;
 
 public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase
 {
@@ -26,19 +26,19 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase
 
   public BlockBrainLogicBlock(int i)
   {
-    super(BrainStone.getId(i), ahz.e);
+    super(BrainStone.getId(i), aif.e);
 
     c(3.0F);
     b(1.0F);
     c("brainLogicBlock");
-    a(uy.d);
+    a(ve.d);
 
     b(true);
 
     this.cN = 0.0F;
   }
 
-  public void a(zv world, int i, int j, int k, int par5, int par6)
+  public void a(aab world, int i, int j, int k, int par5, int par6)
   {
     super.a(world, i, j, k, par5, par6);
     world.f(i, j, k, this.cz);
@@ -50,12 +50,20 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase
     world.f(i, j, k + 1, this.cz);
   }
 
-  public boolean f()
+  public boolean canConnectRedstone(aak world, int x, int y, int z, int side)
   {
-    return true;
+    if (side == -1) {
+      return false;
+    }
+    TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock = (TileEntityBlockBrainLogicBlock)world.r(x, y, z);
+
+    if (tileentityblockbrainlogicblock == null) {
+      return false;
+    }
+    return tileentityblockbrainlogicblock.connectToRedstone(side);
   }
 
-  private byte checkState(zv world, int i, int j, int k, byte byte0)
+  private byte checkState(aab world, int i, int j, int k, byte byte0)
   {
     switch (byte0) {
     case 3:
@@ -77,9 +85,9 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase
       return -1;
     }
     byte byte1 = -1;
-    aou block;
-    if ((block = aou.r[l]).f()) {
-      if ((block instanceof any)) {
+    apa block;
+    if ((block = apa.r[l]).f()) {
+      if ((block instanceof aoe)) {
         byte1 = (byte)(world.h(i, j, k) <= 0 ? 0 : 1);
       } else {
         byte0 = (byte)(byte0 + 2);
@@ -94,17 +102,12 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase
     return byte1;
   }
 
-  public aqj b(zv world)
+  public aqp b(aab world)
   {
     return new TileEntityBlockBrainLogicBlock();
   }
 
-  public void a(ly IconReg)
-  {
-    textures = new lx[] { IconReg.a("brainstone:brainLogicBlockNotConnected"), IconReg.a("brainstone:brainLogicBlockOff"), IconReg.a("brainstone:brainLogicBlockOn"), IconReg.a("furnace_side"), IconReg.a("furnace_top"), IconReg.a("brainstone:brainLogicBlockNotConnectedA"), IconReg.a("brainstone:brainLogicBlockOffC"), IconReg.a("brainstone:brainLogicBlockOnQ"), IconReg.a("brainstone:brainLogicBlockOnB") };
-  }
-
-  public lx b_(aae iblockaccess, int i, int j, int k, int l)
+  public lx b_(aak iblockaccess, int i, int j, int k, int l)
   {
     if (l < 2) {
       return textures[4];
@@ -125,7 +128,7 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase
     return textures[4];
   }
 
-  public int c(aae iblockaccess, int i, int j, int k, int l)
+  public int c(aak iblockaccess, int i, int j, int k, int l)
   {
     TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock = (TileEntityBlockBrainLogicBlock)iblockaccess.r(i, j, k);
 
@@ -136,12 +139,12 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase
     return 0;
   }
 
-  public int b(aae iblockaccess, int i, int j, int k, int l)
+  public int b(aak iblockaccess, int i, int j, int k, int l)
   {
     return c(iblockaccess, i, j, k, l);
   }
 
-  public boolean a(zv world, int i, int j, int k, sk entityplayer, int unknown, float px, float py, float pz)
+  public boolean a(aab world, int i, int j, int k, sq entityplayer, int unknown, float px, float py, float pz)
   {
     TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock = (TileEntityBlockBrainLogicBlock)world.r(i, j, k);
 
@@ -153,7 +156,7 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase
     return true;
   }
 
-  public void a(zv world, int i, int j, int k)
+  public void a(aab world, int i, int j, int k)
   {
     world.a(i, j, k, b(world));
     world.f(i, j, k, this.cz);
@@ -166,12 +169,17 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase
     world.a(i, j, k, this.cz, (int)world.G() % a(world));
   }
 
-  public void a(zv par1World, int par2, int par3, int par4, ng par5EntityLiving, wg par6ItemStack)
+  public void a(aab par1World, int par2, int par3, int par4, ng par5EntityLiving, wm par6ItemStack)
   {
     ((TileEntityBlockBrainLogicBlock)par1World.r(par2, par3, par4)).setDirection((byte)kx.c(par5EntityLiving.A * 4.0F / 360.0F + 0.5D) & 0x3);
   }
 
-  public int a(zv par1World)
+  public void a(ly IconReg)
+  {
+    textures = new lx[] { IconReg.a("brainstone:brainLogicBlockNotConnected"), IconReg.a("brainstone:brainLogicBlockOff"), IconReg.a("brainstone:brainLogicBlockOn"), IconReg.a("furnace_side"), IconReg.a("furnace_top"), IconReg.a("brainstone:brainLogicBlockNotConnectedA"), IconReg.a("brainstone:brainLogicBlockOffC"), IconReg.a("brainstone:brainLogicBlockOnQ"), IconReg.a("brainstone:brainLogicBlockOnB") };
+  }
+
+  public int a(aab par1World)
   {
     return 2;
   }
@@ -192,7 +200,7 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase
     return 0;
   }
 
-  public void a(zv world, int i, int j, int k, Random random)
+  public void a(aab world, int i, int j, int k, Random random)
   {
     super.a(world, i, j, k, random);
     TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock = (TileEntityBlockBrainLogicBlock)world.r(i, j, k);

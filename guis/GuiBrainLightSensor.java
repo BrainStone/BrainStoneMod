@@ -1,9 +1,9 @@
 package mods.brainstone.guis;
 
-import auu;
-import avs;
-import awp;
-import bjw;
+import ava;
+import avy;
+import awv;
+import bkd;
 import bo;
 import mods.brainstone.containers.ContainerBlockBrainLightSensor;
 import mods.brainstone.handlers.BrainStonePacketHandler;

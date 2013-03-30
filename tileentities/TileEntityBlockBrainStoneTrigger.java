@@ -1,7 +1,8 @@
 package mods.brainstone.tileentities;
 
-import aae;
-import aou;
+import aab;
+import aak;
+import apa;
 import bs;
 import ca;
 import cg;
@@ -18,9 +19,9 @@ import java.util.Set;
 import lt;
 import lx;
 import mods.brainstone.handlers.BrainStonePacketHandler;
-import rb;
-import wg;
-import zv;
+import mods.brainstone.slots.SlotBlockBrainStoneTrigger;
+import rh;
+import wm;
 
 public class TileEntityBlockBrainStoneTrigger extends TileEntityBlockBrainStoneHiders
   implements lt
@@ -28,16 +29,15 @@ public class TileEntityBlockBrainStoneTrigger extends TileEntityBlockBrainStoneH
   public static LinkedHashMap triggerEntities;
   public boolean power;
   private final HashMap mobTriggered;
-  public boolean forceUpdate;
   public byte delay;
   public byte max_delay;
+  private wm oldStack;
 
   public TileEntityBlockBrainStoneTrigger()
   {
-    this.ItemStacks = new wg[1];
+    this.ItemStacks = new wm[1];
     this.mobTriggered = new HashMap();
     this.power = false;
-    this.forceUpdate = false;
     this.delay = 0;
     this.max_delay = 4;
 
@@ -48,10 +48,15 @@ public class TileEntityBlockBrainStoneTrigger extends TileEntityBlockBrainStoneH
       this.mobTriggered.put(keys[i], Boolean.valueOf(true));
   }
 
-  public void dropItems(zv world, int i, int j, int k)
+  public boolean checkForSlotChange()
+  {
+    return this.oldStack != (this.oldStack = a(0));
+  }
+
+  public void dropItems(aab world, int i, int j, int k)
   {
     for (int l = 0; l < this.ItemStacks.length; l++) {
-      wg itemstack = this.ItemStacks[l];
+      wm itemstack = this.ItemStacks[l];
 
       if (itemstack != null) {
         float f = 0.7F;
@@ -61,22 +66,12 @@ public class TileEntityBlockBrainStoneTrigger extends TileEntityBlockBrainStoneH
 
         double d2 = world.s.nextFloat() * 0.7F + 0.1500000059604645D;
 
-        rb entityitem = new rb(world, i + d, j + d1, k + d2, itemstack);
+        rh entityitem = new rh(world, i + d, j + d1, k + d2, itemstack);
 
         entityitem.b = 10;
         world.d(entityitem);
       }
     }
-  }
-
-  public boolean b(int i, wg itemstack)
-  {
-    return true;
-  }
-
-  public boolean c()
-  {
-    return true;
   }
 
   protected void generateOutputStream(DataOutputStream outputStream)
@@ -85,9 +80,9 @@ public class TileEntityBlockBrainStoneTrigger extends TileEntityBlockBrainStoneH
     outputStream.writeInt(this.l);
     outputStream.writeInt(this.m);
     outputStream.writeInt(this.n);
+    outputStream.writeInt(this.oldStack == null ? 0 : this.oldStack.c);
 
     outputStream.writeBoolean(this.power);
-    outputStream.writeBoolean(this.forceUpdate);
     outputStream.writeByte(this.delay);
     outputStream.writeByte(this.max_delay);
 
@@ -122,18 +117,18 @@ public class TileEntityBlockBrainStoneTrigger extends TileEntityBlockBrainStoneH
     return false;
   }
 
-  public lx getTextureId(aae iblockaccess, int i, int j, int k) {
-    wg itemstack = this.ItemStacks[0];
+  public lx getTextureId(aak iblockaccess, int i, int j, int k) {
+    wm itemstack = this.ItemStacks[0];
 
     if (itemstack == null) {
       return mods.brainstone.blocks.BlockBrainStoneTrigger.textures[0];
     }
     int l = itemstack.c;
 
-    if ((l > aou.r.length) || (l <= 0)) {
+    if ((l > apa.r.length) || (l <= 0)) {
       return mods.brainstone.blocks.BlockBrainStoneTrigger.textures[0];
     }
-    aou block = aou.r[l];
+    apa block = apa.r[l];
 
     if (block == null) {
       return mods.brainstone.blocks.BlockBrainStoneTrigger.textures[0];
@@ -146,6 +141,16 @@ public class TileEntityBlockBrainStoneTrigger extends TileEntityBlockBrainStoneH
       this.mobTriggered.put(s, Boolean.valueOf(!((Boolean)this.mobTriggered.get(s)).booleanValue()));
   }
 
+  public boolean c()
+  {
+    return false;
+  }
+
+  public boolean b(int i, wm itemstack)
+  {
+    return SlotBlockBrainStoneTrigger.staticIsItemValid(itemstack);
+  }
+
   public void onDataPacket(cg net, fn packet)
   {
     bs tag = packet.e;
@@ -155,8 +160,9 @@ public class TileEntityBlockBrainStoneTrigger extends TileEntityBlockBrainStoneH
   public void readFromInputStream(DataInputStream inputStream)
     throws IOException
   {
+    this.oldStack = new wm(inputStream.readInt(), 1, 0);
+
     this.power = inputStream.readBoolean();
-    this.forceUpdate = inputStream.readBoolean();
     this.delay = inputStream.readByte();
     this.max_delay = inputStream.readByte();
 
@@ -171,7 +177,7 @@ public class TileEntityBlockBrainStoneTrigger extends TileEntityBlockBrainStoneH
     super.a(nbttagcompound);
     ca nbttaglist = nbttagcompound.m("ItemsBrainStoneTrigger");
 
-    this.ItemStacks = new wg[j_()];
+    this.ItemStacks = new wm[j_()];
 
     for (int i = 0; i < nbttaglist.c(); i++) {
       bs nbttagcompound1 = (bs)nbttaglist.b(i);
@@ -179,7 +185,7 @@ public class TileEntityBlockBrainStoneTrigger extends TileEntityBlockBrainStoneH
       byte byte0 = nbttagcompound1.c("SlotBrainStoneTrigger");
 
       if ((byte0 >= 0) && (byte0 < this.ItemStacks.length)) {
-        this.ItemStacks[byte0] = wg.a(nbttagcompound1);
+        this.ItemStacks[byte0] = wm.a(nbttagcompound1);
       }
 
     }

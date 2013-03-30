@@ -2,13 +2,13 @@ package mods.brainstone.handlers;
 
 import cpw.mods.fml.common.IFuelHandler;
 import mods.brainstone.BrainStone;
-import we;
-import wg;
+import wk;
+import wm;
 
 public class BrainStoneFuelHandler
   implements IFuelHandler
 {
-  public int getBurnTime(wg fuel)
+  public int getBurnTime(wm fuel)
   {
     int id = fuel.c;
 

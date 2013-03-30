@@ -1,13 +1,13 @@
 package mods.brainstone.worldgenerators;
 
-import abn;
-import ach;
-import adp;
-import aou;
+import aab;
+import abt;
+import acn;
+import adv;
+import apa;
 import cpw.mods.fml.common.IWorldGenerator;
 import java.util.Random;
 import mods.brainstone.BrainStone;
-import zv;
 
 public class BrainStoneWorldGenerator
   implements IWorldGenerator
@@ -15,7 +15,7 @@ public class BrainStoneWorldGenerator
   private Random random;
   private int chunkX;
   private int chunkZ;
-  private zv world;
+  private aab world;
 
   private void genBrainStoneDungeon()
   {
@@ -26,7 +26,7 @@ public class BrainStoneWorldGenerator
     }
   }
 
-  public void generate(Random random, int chunkX, int chunkZ, zv world, abn chunkGenerator, abn chunkProvider)
+  public void generate(Random random, int chunkX, int chunkZ, aab world, abt chunkGenerator, abt chunkProvider)
   {
     this.random = random;
     this.chunkX = (chunkX * 16);
@@ -57,7 +57,7 @@ public class BrainStoneWorldGenerator
       int randPosY = low + this.random.nextInt(high - low);
       int randPosZ = this.random.nextInt(16) + this.chunkZ;
 
-      new adp(blockId, size).a(this.world, this.random, randPosX, randPosY, randPosZ);
+      new adv(blockId, size).a(this.world, this.random, randPosX, randPosY, randPosZ);
     }
   }
 }

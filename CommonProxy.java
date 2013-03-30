@@ -1,8 +1,9 @@
 package mods.brainstone;
 
-import bdp;
+import aab;
+import bdw;
 import net.minecraft.client.Minecraft;
-import zv;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class CommonProxy
 {
@@ -11,17 +12,25 @@ public class CommonProxy
     return null;
   }
 
-  public zv getClientWorld()
+  public aab getClientWorld()
   {
     return null;
   }
 
-  public bdp getPlayer()
+  public bdw getPlayer()
   {
     return null;
+  }
+
+  public void registerOre() {
+    OreDictionary.registerOre("brainstoneore", BrainStone.brainStoneOre());
   }
 
   public void registerRenderInformation()
+  {
+  }
+
+  public void registerTextures()
   {
   }
 }

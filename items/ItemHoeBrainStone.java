@@ -2,17 +2,17 @@ package mods.brainstone.items;
 
 import ly;
 import mods.brainstone.BrainStone;
-import uy;
-import wd;
-import wf;
+import ve;
+import wj;
+import wl;
 
-public class ItemHoeBrainStone extends wd
+public class ItemHoeBrainStone extends wj
 {
-  public ItemHoeBrainStone(int i, wf enumtoolmaterial)
+  public ItemHoeBrainStone(int i, wl enumtoolmaterial)
   {
     super(BrainStone.getId(359 + i), enumtoolmaterial);
 
-    a(uy.i);
+    a(ve.i);
   }
 
   public void a(ly par1IconRegister)
