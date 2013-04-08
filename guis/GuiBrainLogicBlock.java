@@ -1,307 +1,341 @@
 package mods.brainstone.guis;
 
-import aab;
-import ajv;
-import ava;
-import avy;
-import awg;
-import awv;
-import bdw;
-import bkd;
-import bo;
 import mods.brainstone.BrainStone;
-import mods.brainstone.ClientProxy;
 import mods.brainstone.containers.ContainerBlockBrainLightSensor;
 import mods.brainstone.templates.GuiBrainStoneBase;
 import mods.brainstone.tileentities.TileEntityBlockBrainLogicBlock;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.util.StatCollector;
+
 import org.lwjgl.opengl.GL11;
 
-public class GuiBrainLogicBlock extends GuiBrainStoneBase
-{
-  private byte focused;
-  private int globalX;
-  private int globalY;
-  private static final int b = 176;
-  private static final int c = 166;
-  private float factor;
-  private final TileEntityBlockBrainLogicBlock tileentity;
-  private final String username;
-  private boolean help;
-  private static final int helpYSize = 90;
-  private static final int stringWidth = 156;
-  private String HelpText;
+public class GuiBrainLogicBlock extends GuiBrainStoneBase {
+	private byte focused;
+	private int globalX;
+	private int globalY;
+	private static final int xSize = 176;
+	private static final int ySize = 166;
+	private float factor;
+	private final TileEntityBlockBrainLogicBlock tileentity;
+	private final String username;
+	private boolean help;
 
-  public GuiBrainLogicBlock(TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock)
-  {
-    super(new ContainerBlockBrainLightSensor());
-    this.username = BrainStone.proxy.getPlayer().bS;
-    this.tileentity = tileentityblockbrainlogicblock;
-    this.tileentity.logIn(this.username);
-    this.focused = this.tileentity.getFocused();
-    this.help = false;
-  }
+	private final static int helpYSize = 256 - ySize;
+	private final static int stringWidth = xSize - 20;
+	private String HelpText;
 
-  protected void a(awg guibutton)
-  {
-    if (guibutton.f == 0) {
-      this.HelpText = bo.a("gui.brainstone.help.gate" + String.valueOf(this.tileentity.getMode()));
+	public GuiBrainLogicBlock(
+			TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock) {
+		super(new ContainerBlockBrainLightSensor());
+		username = BrainStone.proxy.getPlayer().username;
+		tileentity = tileentityblockbrainlogicblock;
+		tileentity.logIn(username);
+		focused = tileentity.getFocused();
+		help = false;
+	}
 
-      this.help = true;
+	/**
+	 * Fired when a control is clicked. This is the equivalent of
+	 * ActionListener.actionPerformed(ActionEvent e).
+	 */
+	@Override
+	protected void actionPerformed(GuiButton guibutton) {
+		if (guibutton.id == 0) {
+			HelpText = StatCollector.translateToLocal((new StringBuilder())
+					.append("gui.brainstone.help.gate")
+					.append(String.valueOf(tileentity.getMode())).toString());
 
-      this.tileentity.logOut(this.username);
-    }
-  }
+			help = true;
+			// controlList.clear();
+			tileentity.logOut(username);
+		}
+	}
 
-  private void click() {
-    this.f.B.a("random.click", 1.0F, 1.0F);
-  }
+	private void click() {
+		mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
+	}
 
-  private void closeHelpGui() {
-    click();
-    this.help = false;
-    this.tileentity.logIn(this.username);
-  }
+	private void closeHelpGui() {
+		this.click();
+		help = false;
+		tileentity.logIn(username);
+	}
 
-  public boolean f()
-  {
-    return false;
-  }
+	/**
+	 * Returns true if this GUI should pause the game when it is displayed in
+	 * single-player
+	 */
+	@Override
+	public boolean doesGuiPauseGame() {
+		return false;
+	}
 
-  private void drawFocus(int i, int j) {
-    int k = (int)(BrainStone.proxy.getClientWorld().L().g() & 1L) * 20;
+	private void drawFocus(int i, int j) {
+		final int k = (int) (BrainStone.proxy.getClientWorld().getWorldInfo()
+				.getWorldTime() & 1L) * 20;
+		this.drawTexturedModalRect(i, j, 196, k, 20, 20);
+	}
 
-    b(i, j, 196, k, 20, 20);
-  }
+	/**
+	 * Draws the screen and all the components in it.
+	 */
+	@Override
+	public void drawGuiContainerBackgroundLayer(float f, int i, int j) {
+		this.registerTexture();
 
-  public void a(float f, int i, int j)
-  {
-    registerTexture();
+		if (help) {
+			final int l = (width - xSize) / 2;
+			final int i1 = (height - helpYSize) / 2;
+			this.drawTexturedModalRect(l, i1, 0, ySize, xSize, helpYSize);
+			fontRenderer.drawSplitString(HelpText, l + 10, i1 + 10,
+					stringWidth, 0xeeeeee);
+		} else {
+			factor = 1.0F;
+			final int l = globalX = (width - xSize) / 2;
+			final int i1 = globalY = (height - ySize) / 2;
+			this.drawTexturedModalRect(l, i1, 0, 0, xSize, ySize);
+			tileentity.drawBoxes(this, l + 104, i1 + 7);
+			focused = tileentity.getFocused();
 
-    if (this.help) {
-      int l = (this.g - 176) / 2;
-      int i1 = (this.h - 90) / 2;
-      b(l, i1, 0, 166, 176, 90);
-      this.l.a(this.HelpText, l + 10, i1 + 10, 156, 15658734);
-    }
-    else {
-      this.factor = 1.0F;
-      int l = this.globalX = (this.g - 176) / 2;
-      int i1 = this.globalY = (this.h - 166) / 2;
-      b(l, i1, 0, 0, 176, 166);
-      this.tileentity.drawBoxes(this, l + 104, i1 + 7);
-      this.focused = this.tileentity.getFocused();
+			if (focused != 0) {
+				switch (focused) {
+				case 1:
+					this.drawFocus(l + 124, i1 + 7);
+					break;
 
-      if (this.focused != 0) {
-        switch (this.focused) {
-        case 1:
-          drawFocus(l + 124, i1 + 7);
-          break;
-        case 2:
-          drawFocus(l + 144, i1 + 27);
-          break;
-        case 3:
-          drawFocus(l + 104, i1 + 27);
-        }
+				case 2:
+					this.drawFocus(l + 144, i1 + 27);
+					break;
 
-      }
+				case 3:
+					this.drawFocus(l + 104, i1 + 27);
+					break;
+				}
+			}
 
-      GL11.glPushMatrix();
-      GL11.glScalef(this.factor, this.factor, this.factor);
-      this.tileentity.drawGates(this, l + 6, i1 + 20);
-      drawString(bo.a("tile.brainLogicBlock.name"), l + 6, i1 + 6, 0);
+			GL11.glPushMatrix();
+			GL11.glScalef(factor, factor, factor);
+			tileentity.drawGates(this, l + 6, i1 + 20);
+			this.drawString(
+					StatCollector.translateToLocal("tile.brainLogicBlock.name"),
+					l + 6, i1 + 6, 0);
+			final boolean aflag[] = tileentity.shallRender();
 
-      boolean[] aflag = this.tileentity.shallRender();
+			if (aflag[0]) {
+				this.drawString(tileentity.getPin(0), 130, 50,
+						tileentity.getPinColor(0), 2.0F);
+			}
 
-      if (aflag[0] != 0) {
-        drawString(this.tileentity.getPin(0), 130, 50, this.tileentity.getPinColor(0), 2.0F);
-      }
+			if (aflag[1]) {
+				this.drawString(tileentity.getPin(1), 130, 10,
+						tileentity.getPinColor(1), 2.0F);
+			}
 
-      if (aflag[1] != 0) {
-        drawString(this.tileentity.getPin(1), 130, 10, this.tileentity.getPinColor(1), 2.0F);
-      }
+			if (aflag[2]) {
+				this.drawString(tileentity.getPin(2), 150, 30,
+						tileentity.getPinColor(2), 2.0F);
+			}
 
-      if (aflag[2] != 0) {
-        drawString(this.tileentity.getPin(2), 150, 30, this.tileentity.getPinColor(2), 2.0F);
-      }
+			if (aflag[3]) {
+				this.drawString(tileentity.getPin(3), 110, 30,
+						tileentity.getPinColor(3), 2.0F);
+			}
 
-      if (aflag[3] != 0) {
-        drawString(this.tileentity.getPin(3), 110, 30, this.tileentity.getPinColor(3), 2.0F);
-      }
+			GL11.glPopMatrix();
+			this.initGui();
+		}
+	}
 
-      GL11.glPopMatrix();
-      A_();
-    }
-  }
+	public void drawSplitString(String s, int i, int j, int k, int l) {
+		fontRenderer.drawSplitString(s, (int) (i / factor), (int) (j / factor),
+				l, k);
+	}
 
-  public void drawSplitString(String s, int i, int j, int k, int l) {
-    this.l.a(s, (int)(i / this.factor), (int)(j / this.factor), l, k);
-  }
+	public void drawString(String s, int i, int j, int k) {
+		fontRenderer.drawString(s, (int) (i / factor), (int) (j / factor), k);
+	}
 
-  public void drawString(String s, int i, int j, int k)
-  {
-    this.l.b(s, (int)(i / this.factor), (int)(j / this.factor), k);
-  }
+	private void drawString(String s, int i, int j, int k, float f) {
+		if (f != factor) {
+			factor = f;
+			GL11.glPopMatrix();
+			GL11.glPushMatrix();
 
-  private void drawString(String s, int i, int j, int k, float f) {
-    if (f != this.factor) {
-      this.factor = f;
-      GL11.glPopMatrix();
-      GL11.glPushMatrix();
+			if (factor == 2.0F) {
+				GL11.glTranslatef(globalX - 1.0F, globalY, 0.0F);
+			}
 
-      if (this.factor == 2.0F) {
-        GL11.glTranslatef(this.globalX - 1.0F, this.globalY, 0.0F);
-      }
+			GL11.glScalef(factor, factor, factor);
+		}
 
-      GL11.glScalef(this.factor, this.factor, this.factor);
-    }
+		fontRenderer.drawString(s, (int) (i / factor), (int) (j / factor), k);
+	}
 
-    this.l.b(s, (int)(i / this.factor), (int)(j / this.factor), k);
-  }
+	private boolean inField(int i, int j, int k, int l, int i1, int j1) {
+		return (i >= k) && (i <= i1) && (j >= l) && (j <= j1);
+	}
 
-  private boolean inField(int i, int j, int k, int l, int i1, int j1) {
-    return (i >= k) && (i <= i1) && (j >= l) && (j <= j1);
-  }
+	/**
+	 * Adds the buttons (and other controls) to the screen in question.
+	 */
+	@Override
+	public void initGui() {
+		/*
+		 * controlList.clear(); controlList.add(new GuiButton(0, globalX + 10,
+		 * globalY + 140, 156, 20,
+		 * StatCollector.translateToLocal("gui.brainstone.help")));
+		 */
+	}
 
-  public void A_()
-  {
-  }
+	/**
+	 * Fired when a key is typed. This is the equivalent of
+	 * KeyListener.keyTyped(KeyEvent e).
+	 */
+	@Override
+	protected void keyTyped(char c, int i) {
+		if (help) {
+			this.closeHelpGui();
+		} else {
+			if ((i == 1) || (i == mc.gameSettings.keyBindInventory.keyCode)) {
+				this.quit();
+			}
 
-  protected void a(char c, int i)
-  {
-    if (this.help) {
-      closeHelpGui();
-    } else {
-      if ((i == 1) || (i == this.f.z.N.d)) {
-        quit();
-      }
+			if (i == 205) {
+				this.swap(true);
+			}
 
-      if (i == 205) {
-        swap(true);
-      }
+			if (i == 203) {
+				this.swap(false);
+			}
 
-      if (i == 203) {
-        swap(false);
-      }
+			if (i == 54) {
+				this.rotate(true);
+			}
 
-      if (i == 54) {
-        rotate(true);
-      }
+			if (i == 42) {
+				this.rotate(false);
+			}
 
-      if (i == 42) {
-        rotate(false);
-      }
+			if ((i == 42) || (i == 54) || (i == 203) || (i == 205)) {
+				this.click();
+			}
+		}
+	}
 
-      if ((i == 42) || (i == 54) || (i == 203) || (i == 205))
-        click();
-    }
-  }
+	/**
+	 * Called when the mouse is clicked.
+	 */
+	@Override
+	protected void mouseClicked(int i, int j, int k) {
+		final boolean flag = help;
 
-  protected void a(int i, int j, int k)
-  {
-    boolean flag = this.help;
+		super.mouseClicked(i, j, k);
 
-    super.a(i, j, k);
+		if ((k != 0) || (flag != help))
+			return;
 
-    if ((k != 0) || (flag != this.help)) {
-      return;
-    }
-    if (this.help) {
-      closeHelpGui();
-    } else {
-      i -= (this.g - 176) / 2;
-      j -= (this.h - 166) / 2;
+		if (help) {
+			this.closeHelpGui();
+		} else {
+			i -= (width - xSize) / 2;
+			j -= (height - ySize) / 2;
 
-      if (inField(i, j, 168, 3, 172, 7)) {
-        quit();
+			if (this.inField(i, j, 168, 3, 172, 7)) {
+				this.quit();
 
-        return;
-      }
+				return;
+			}
 
-      for (byte byte0 = 0; byte0 < TileEntityBlockBrainLogicBlock.numGates; byte0 = (byte)(byte0 + 1)) {
-        int l = 12 * byte0;
+			for (byte byte0 = 0; byte0 < TileEntityBlockBrainLogicBlock.numGates; byte0++) {
+				final int l = 12 * byte0;
 
-        if (inField(i, j, 5, 18 + l, 75, 32 + l)) {
-          this.tileentity.setMode(byte0);
-        }
-      }
+				if (this.inField(i, j, 5, 18 + l, 75, 32 + l)) {
+					tileentity.setMode(byte0);
+				}
+			}
 
-      if (inField(i, j, 76, 68, 168, 90)) {
-        this.tileentity.invertInvertOutput();
-      }
+			if (this.inField(i, j, 76, 68, 168, 90)) {
+				tileentity.invertInvertOutput();
+			}
 
-      if (!this.tileentity.isSwapable()) {
-        this.tileentity.setFocused(0);
-      } else if (inField(i, j, 124, 7, 143, 26)) {
-        this.focused = this.tileentity.getFocused();
+			if (!tileentity.isSwapable()) {
+				tileentity.setFocused(0);
+			} else if (this.inField(i, j, 124, 7, 143, 26)) {
+				focused = tileentity.getFocused();
 
-        if (this.focused != 1)
-          this.tileentity.setFocused(1);
-        else
-          this.tileentity.setFocused(0);
-      }
-      else if (inField(i, j, 144, 27, 163, 46)) {
-        if (this.focused != 2)
-          this.tileentity.setFocused(2);
-        else
-          this.tileentity.setFocused(0);
-      }
-      else if (inField(i, j, 104, 27, 123, 46)) {
-        if (this.focused != 3)
-          this.tileentity.setFocused(3);
-        else
-          this.tileentity.setFocused(0);
-      }
-      else {
-        this.tileentity.setFocused(0);
-      }
-    }
-  }
+				if (focused != 1) {
+					tileentity.setFocused(1);
+				} else {
+					tileentity.setFocused(0);
+				}
+			} else if (this.inField(i, j, 144, 27, 163, 46)) {
+				if (focused != 2) {
+					tileentity.setFocused(2);
+				} else {
+					tileentity.setFocused(0);
+				}
+			} else if (this.inField(i, j, 104, 27, 123, 46)) {
+				if (focused != 3) {
+					tileentity.setFocused(3);
+				} else {
+					tileentity.setFocused(0);
+				}
+			} else {
+				tileentity.setFocused(0);
+			}
+		}
+	}
 
-  private void quit() {
-    click();
-    this.tileentity.logOut(this.username);
-    this.f.a(null);
-    this.f.h();
-  }
+	private void quit() {
+		this.click();
+		tileentity.logOut(username);
+		mc.displayGuiScreen(null);
+		mc.setIngameFocus();
+	}
 
-  private void rotate(boolean flag) {
-    if (flag) {
-      this.tileentity.swapPosition(1, 2);
-      this.tileentity.swapPosition(1, 3);
-      this.tileentity.addTASKS("setFocused", new String[] { "0" });
-    } else {
-      this.tileentity.swapPosition(1, 3);
-      this.tileentity.swapPosition(1, 2);
-      this.tileentity.addTASKS("setFocused", new String[] { "0" });
-    }
-  }
+	private void rotate(boolean flag) {
+		if (flag) {
+			tileentity.swapPosition(1, 2);
+			tileentity.swapPosition(1, 3);
+			tileentity.addTASKS("setFocused", new String[] { "0" });
+		} else {
+			tileentity.swapPosition(1, 3);
+			tileentity.swapPosition(1, 2);
+			tileentity.addTASKS("setFocused", new String[] { "0" });
+		}
+	}
 
-  private void swap(boolean flag) {
-    this.focused = this.tileentity.getFocused();
+	private void swap(boolean flag) {
+		focused = tileentity.getFocused();
 
-    if (flag) {
-      switch (this.focused) {
-      case 1:
-        this.tileentity.swapPosition(1, 2);
-        break;
-      case 2:
-        this.tileentity.swapPosition(2, 3);
-        break;
-      case 3:
-        this.tileentity.swapPosition(3, 1);
-      }
-    }
-    else
-      switch (this.focused) {
-      case 1:
-        this.tileentity.swapPosition(1, 3);
-        break;
-      case 2:
-        this.tileentity.swapPosition(2, 1);
-        break;
-      case 3:
-        this.tileentity.swapPosition(3, 2);
-      }
-  }
+		if (flag) {
+			switch (focused) {
+			case 1:
+				tileentity.swapPosition(1, 2);
+				break;
+
+			case 2:
+				tileentity.swapPosition(2, 3);
+				break;
+
+			case 3:
+				tileentity.swapPosition(3, 1);
+				break;
+			}
+		} else {
+			switch (focused) {
+			case 1:
+				tileentity.swapPosition(1, 3);
+				break;
+
+			case 2:
+				tileentity.swapPosition(2, 1);
+				break;
+
+			case 3:
+				tileentity.swapPosition(3, 2);
+				break;
+			}
+		}
+	}
 }

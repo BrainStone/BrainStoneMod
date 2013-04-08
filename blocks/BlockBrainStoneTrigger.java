@@ -1,206 +1,251 @@
 package mods.brainstone.blocks;
 
-import aab;
-import aak;
-import aqp;
-import aqx;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
-import lx;
-import ly;
+
 import mods.brainstone.BrainStone;
 import mods.brainstone.handlers.BrainStonePacketHandler;
 import mods.brainstone.templates.BSP;
 import mods.brainstone.tileentities.TileEntityBlockBrainStoneTrigger;
-import mp;
-import sq;
+import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Icon;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 
-public class BlockBrainStoneTrigger extends BlockBrainStoneHiders
-{
-  public static LinkedHashMap triggerEntities;
-  public static lx[] textures;
+public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
+	public static LinkedHashMap<String, Class[]> triggerEntities;
+	public static Icon[] textures;
 
-  public BlockBrainStoneTrigger(int i)
-  {
-    super(i);
+	/**
+	 * Constructor of the block. Registers all properties and sets the id and
+	 * the material
+	 * 
+	 * @param i
+	 *            The internal BrainStone id
+	 */
+	public BlockBrainStoneTrigger(int i) {
+		super(i);
 
-    c(2.4F);
-    b(0.5F);
-    c("brainStoneTrigger");
+		this.setHardness(2.4F);
+		this.setResistance(0.5F);
+		this.setUnlocalizedName("brainStoneTrigger");
+		// setRequiresSelfNotify();
 
-    this.cN = -0.2F;
-  }
+		blockParticleGravity = -0.2F;
+	}
 
-  public void a(aab world, int i, int j, int k, int par5, int par6)
-  {
-    TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBlockBrainStoneTrigger)world.r(i, j, k);
+	@Override
+	public void breakBlock(World world, int i, int j, int k, int par5, int par6) {
+		final TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBlockBrainStoneTrigger) world
+				.getBlockTileEntity(i, j, k);
 
-    if (tileentityblockbrainstonetrigger != null) {
-      tileentityblockbrainstonetrigger.dropItems(world, i, j, k);
-    }
+		if (tileentityblockbrainstonetrigger != null) {
+			tileentityblockbrainstonetrigger.dropItems(world, i, j, k);
+		}
 
-    world.s(i, j, k);
-    world.f(i, j, k, this.cz);
-    world.f(i - 1, j, k, this.cz);
-    world.f(i + 1, j, k, this.cz);
-    world.f(i, j - 1, k, this.cz);
-    world.f(i, j + 1, k, this.cz);
-    world.f(i, j, k - 1, this.cz);
-    world.f(i, j, k + 1, this.cz);
-  }
+		world.removeBlockTileEntity(i, j, k);
+		world.notifyBlocksOfNeighborChange(i, j, k, blockID);
+		world.notifyBlocksOfNeighborChange(i - 1, j, k, blockID);
+		world.notifyBlocksOfNeighborChange(i + 1, j, k, blockID);
+		world.notifyBlocksOfNeighborChange(i, j - 1, k, blockID);
+		world.notifyBlocksOfNeighborChange(i, j + 1, k, blockID);
+		world.notifyBlocksOfNeighborChange(i, j, k - 1, blockID);
+		world.notifyBlocksOfNeighborChange(i, j, k + 1, blockID);
+	}
 
-  public aqp b(aab world)
-  {
-    return new TileEntityBlockBrainStoneTrigger();
-  }
+	@Override
+	public TileEntity createNewTileEntity(World world) {
+		return new TileEntityBlockBrainStoneTrigger();
+	}
 
-  public lx b_(aak iblockaccess, int i, int j, int k, int l)
-  {
-    if (l == 1) {
-      TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBlockBrainStoneTrigger)iblockaccess.r(i, j, k);
+	@Override
+	public Icon getBlockTexture(IBlockAccess iblockaccess, int i, int j, int k,
+			int l) {
+		if (l == 1) {
+			final TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBlockBrainStoneTrigger) iblockaccess
+					.getBlockTileEntity(i, j, k);
 
-      if (tileentityblockbrainstonetrigger == null) {
-        return textures[0];
-      }
-      return tileentityblockbrainstonetrigger.getTextureId(iblockaccess, i, j, k);
-    }
+			if (tileentityblockbrainstonetrigger == null)
+				return textures[0];
+			else
+				return tileentityblockbrainstonetrigger.getTextureId(
+						iblockaccess, i, j, k);
+		}
 
-    if (l == 0) {
-      return textures[2];
-    }
-    return textures[1];
-  }
+		if (l == 0)
+			return textures[2];
+		else
+			return textures[1];
+	}
 
-  public lx a(int i, int meta)
-  {
-    if (i == 1)
-      return textures[0];
-    if (i == 0) {
-      return textures[2];
-    }
-    return textures[1];
-  }
+	@Override
+	public Icon getBlockTextureFromSideAndMetadata(int i, int meta) {
+		if (i == 1)
+			return textures[0];
+		else if (i == 0)
+			return textures[2];
+		else
+			return textures[1];
+	}
 
-  public int c(aak iblockaccess, int i, int j, int k, int l)
-  {
-    TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBlockBrainStoneTrigger)iblockaccess.r(i, j, k);
+	@Override
+	public int isProvidingStrongPower(IBlockAccess iblockaccess, int i, int j,
+			int k, int l) {
+		final TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBlockBrainStoneTrigger) iblockaccess
+				.getBlockTileEntity(i, j, k);
+		return ((tileentityblockbrainstonetrigger != null) && (tileentityblockbrainstonetrigger.delay > 0)) ? tileentityblockbrainstonetrigger.output_buffered
+				: 0;
+	}
 
-    return (tileentityblockbrainstonetrigger != null) && (tileentityblockbrainstonetrigger.delay > 0) ? 15 : 0;
-  }
+	@Override
+	public int isProvidingWeakPower(IBlockAccess iblockaccess, int i, int j,
+			int k, int l) {
+		return this.isProvidingStrongPower(iblockaccess, i, j, k, l);
+	}
 
-  public int b(aak iblockaccess, int i, int j, int k, int l)
-  {
-    return c(iblockaccess, i, j, k, l);
-  }
+	@Override
+	public boolean onBlockActivated(World world, int i, int j, int k,
+			EntityPlayer entityplayer, int par6, float par7, float par8,
+			float par9) {
+		if (world.isRemote)
+			return true;
 
-  public boolean a(aab world, int i, int j, int k, sq entityplayer, int par6, float par7, float par8, float par9)
-  {
-    if (world.I) {
-      return true;
-    }
-    TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBlockBrainStoneTrigger)world.r(i, j, k);
+		final TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBlockBrainStoneTrigger) world
+				.getBlockTileEntity(i, j, k);
 
-    if (tileentityblockbrainstonetrigger != null) {
-      entityplayer.openGui(BrainStone.instance, 1, world, i, j, k);
-    }
+		if (tileentityblockbrainstonetrigger != null) {
+			entityplayer.openGui(BrainStone.instance, 1, world, i, j, k);
+		}
 
-    return true;
-  }
+		return true;
+	}
 
-  public void a(aab world, int i, int j, int k)
-  {
-    world.a(i, j, k, b(world));
-    world.f(i, j, k, this.cz);
-    world.f(i - 1, j, k, this.cz);
-    world.f(i + 1, j, k, this.cz);
-    world.f(i, j - 1, k, this.cz);
-    world.f(i, j + 1, k, this.cz);
-    world.f(i, j, k - 1, this.cz);
-    world.f(i, j, k + 1, this.cz);
+	@Override
+	public void onBlockAdded(World world, int i, int j, int k) {
+		world.setBlockTileEntity(i, j, k, this.createNewTileEntity(world));
+		world.notifyBlocksOfNeighborChange(i, j, k, blockID);
+		world.notifyBlocksOfNeighborChange(i - 1, j, k, blockID);
+		world.notifyBlocksOfNeighborChange(i + 1, j, k, blockID);
+		world.notifyBlocksOfNeighborChange(i, j - 1, k, blockID);
+		world.notifyBlocksOfNeighborChange(i, j + 1, k, blockID);
+		world.notifyBlocksOfNeighborChange(i, j, k - 1, blockID);
+		world.notifyBlocksOfNeighborChange(i, j, k + 1, blockID);
 
-    world.a(i, j, k, this.cz, (int)world.G() % a(world));
-  }
+		world.scheduleBlockUpdate(i, j, k, blockID,
+				(int) world.getTotalWorldTime() % this.tickRate(world));
+	}
 
-  public void a(ly IconReg)
-  {
-    textures = new lx[] { IconReg.a("brainstone:brainStoneTrigger"), IconReg.a("furnace_side"), IconReg.a("furnace_top") };
-  }
+	@Override
+	public void registerIcons(IconRegister IconReg) {
+		textures = new Icon[] {
+				IconReg.registerIcon("brainstone:brainStoneTrigger"),
+				IconReg.registerIcon("furnace_side"),
+				IconReg.registerIcon("furnace_top") };
+	}
 
-  public int a(aab par1World)
-  {
-    return 2;
-  }
+	@Override
+	public int tickRate(World par1World) {
+		return 2;
+	}
 
-  private boolean triggerCorrectMob(aab world, int i, int j, int k)
-  {
-    List list = world.b(null, aqx.a(i, j + 1, k, i + 1, j + 2, k + 1));
+	/**
+	 * Checks if there are mobs to trigger on top of this block.
+	 * 
+	 * @param world
+	 *            The world. Needed to access the blocks
+	 * @param i
+	 *            x-coordinate
+	 * @param j
+	 *            y-coordinate
+	 * @param k
+	 *            z-coordinate
+	 * @return True if there is at least one mob to trigger on top of this
+	 *         block, false if not.
+	 */
+	private byte triggerCorrectMob(World world, int i, int j, int k) {
+		final List list = world.getEntitiesWithinAABBExcludingEntity(null,
+				AxisAlignedBB.getBoundingBox(i, j + 1, k, i + 1, j + 2, k + 1));
+		final TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBlockBrainStoneTrigger) world
+				.getBlockTileEntity(i, j, k);
 
-    TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBlockBrainStoneTrigger)world.r(i, j, k);
+		if (tileentityblockbrainstonetrigger == null)
+			return 0;
 
-    if (tileentityblockbrainstonetrigger == null) {
-      return false;
-    }
-    boolean flag = false;
+		byte count = 0;
 
-    for (int l = 0; (l < list.size()) && (!flag); l++) {
-      Class entity = ((mp)list.get(l)).getClass();
+		for (int l = 0; (l < list.size()) && (count < 15); l++) {
+			final Class entity = ((Entity) list.get(l)).getClass();
 
-      if (entity == null) {
-        BSP.println("Fehler! Die Entity ist nicht vorhanden!");
-      }
-      else
-      {
-        int length = triggerEntities.size();
-        String[] keys = (String[])triggerEntities.keySet().toArray(new String[length]);
+			if (entity == null) {
+				BSP.println("Fehler! Die Entity ist nicht vorhanden!");
+				continue;
+			}
 
-        for (int count = 0; (count < length) && (!flag); count++) {
-          String key = keys[count];
+			final int length = triggerEntities.size();
+			final String[] keys = triggerEntities.keySet().toArray(
+					new String[length]);
+			String key;
+			Class[] classes;
 
-          if (tileentityblockbrainstonetrigger.getMobTriggered(key)) {
-            Class[] classes = (Class[])triggerEntities.get(key);
+			for (int count1 = 0; (count1 < length) && (count < 15); count1++) {
+				key = keys[count1];
 
-            for (int a = 0; a < classes.length; a++) {
-              if (classes[a].isAssignableFrom(entity)) {
-                flag = true;
+				if (tileentityblockbrainstonetrigger.getMobTriggered(key)) {
+					classes = triggerEntities.get(key);
 
-                break;
-              }
-            }
-          }
-        }
-      }
-    }
-    return flag;
-  }
+					for (int a = 0; a < classes.length; a++) {
+						if (classes[a].isAssignableFrom(entity)) {
+							count += tileentityblockbrainstonetrigger
+									.getMobPower(key);
 
-  public void a(aab world, int i, int j, int k, Random random)
-  {
-    TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBlockBrainStoneTrigger)world.r(i, j, k);
+							break;
+						}
+					}
+				}
+			}
+		}
 
-    if (tileentityblockbrainstonetrigger == null) {
-      world.a(i, j, k, this.cz, a(world));
-      return;
-    }
+		return (count > 15) ? 15 : count;
+	}
 
-    tileentityblockbrainstonetrigger.power = triggerCorrectMob(world, i, j, k);
+	@Override
+	public void updateTick(World world, int i, int j, int k, Random random) {
+		final TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBlockBrainStoneTrigger) world
+				.getBlockTileEntity(i, j, k);
 
-    tileentityblockbrainstonetrigger.delay = ((byte)(tileentityblockbrainstonetrigger.delay <= 0 ? 0 : tileentityblockbrainstonetrigger.power ? tileentityblockbrainstonetrigger.max_delay : tileentityblockbrainstonetrigger.delay - 1));
+		if (tileentityblockbrainstonetrigger == null) {
+			world.scheduleBlockUpdate(i, j, k, blockID, this.tickRate(world));
+			return;
+		}
 
-    if (tileentityblockbrainstonetrigger.checkForSlotChange()) {
-      world.j(i, j, k);
-      BrainStonePacketHandler.sendReRenderBlockAtPacket(i, j, k, world);
-    }
+		tileentityblockbrainstonetrigger.output = this.triggerCorrectMob(world,
+				i, j, k);
+		if (tileentityblockbrainstonetrigger.output > 0) {
+			tileentityblockbrainstonetrigger.output_buffered = tileentityblockbrainstonetrigger.output;
+		}
 
-    world.f(i, j, k, this.cz);
-    world.f(i - 1, j, k, this.cz);
-    world.f(i + 1, j, k, this.cz);
-    world.f(i, j - 1, k, this.cz);
-    world.f(i, j + 1, k, this.cz);
-    world.f(i, j, k - 1, this.cz);
-    world.f(i, j, k + 1, this.cz);
+		tileentityblockbrainstonetrigger.delay = (byte) ((tileentityblockbrainstonetrigger.output > 0) ? tileentityblockbrainstonetrigger.max_delay
+				: tileentityblockbrainstonetrigger.delay <= 0 ? 0
+						: tileentityblockbrainstonetrigger.delay - 1);
 
-    world.a(i, j, k, this.cz, a(world));
-  }
+		if (tileentityblockbrainstonetrigger.checkForSlotChange()) {
+			world.markBlockForUpdate(i, j, k);
+			BrainStonePacketHandler.sendReRenderBlockAtPacket(i, j, k, world);
+		}
+
+		world.notifyBlocksOfNeighborChange(i, j, k, blockID);
+		world.notifyBlocksOfNeighborChange(i - 1, j, k, blockID);
+		world.notifyBlocksOfNeighborChange(i + 1, j, k, blockID);
+		world.notifyBlocksOfNeighborChange(i, j - 1, k, blockID);
+		world.notifyBlocksOfNeighborChange(i, j + 1, k, blockID);
+		world.notifyBlocksOfNeighborChange(i, j, k - 1, blockID);
+		world.notifyBlocksOfNeighborChange(i, j, k + 1, blockID);
+
+		world.scheduleBlockUpdate(i, j, k, blockID, this.tickRate(world));
+	}
 }

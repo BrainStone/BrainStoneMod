@@ -1,117 +1,152 @@
 package mods.brainstone.tileentities;
 
-import aab;
-import bs;
-import java.util.Random;
-import lt;
 import mods.brainstone.templates.TileEntityBrainStoneSyncBase;
-import rh;
-import sq;
-import wm;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 
-public abstract class TileEntityBlockBrainStoneHiders extends TileEntityBrainStoneSyncBase
-  implements lt
-{
-  protected wm[] ItemStacks;
+public abstract class TileEntityBlockBrainStoneHiders extends
+		TileEntityBrainStoneSyncBase implements IInventory {
+	protected ItemStack ItemStacks[];
 
-  public void g()
-  {
-  }
+	public TileEntityBlockBrainStoneHiders() {
+	}
 
-  public wm a(int i, int j)
-  {
-    if (this.ItemStacks[i] != null) {
-      if (this.ItemStacks[i].a <= j) {
-        wm itemstack = this.ItemStacks[i];
-        this.ItemStacks[i] = null;
-        return itemstack;
-      }
+	@Override
+	public void closeChest() {
+	}
 
-      wm itemstack1 = this.ItemStacks[i].a(j);
+	/**
+	 * Decrease the size of the stack in slot (first int arg) by the amount of
+	 * the second int arg. Returns the new stack.
+	 */
+	@Override
+	public ItemStack decrStackSize(int i, int j) {
+		if (ItemStacks[i] != null) {
+			if (ItemStacks[i].stackSize <= j) {
+				final ItemStack itemstack = ItemStacks[i];
+				ItemStacks[i] = null;
+				return itemstack;
+			}
 
-      if (this.ItemStacks[i].a == 0) {
-        this.ItemStacks[i] = null;
-      }
+			final ItemStack itemstack1 = ItemStacks[i].splitStack(j);
 
-      return itemstack1;
-    }
-    return null;
-  }
+			if (ItemStacks[i].stackSize == 0) {
+				ItemStacks[i] = null;
+			}
 
-  public void dropItems(aab world, int i, int j, int k) {
-    for (int l = 0; l < this.ItemStacks.length; l++) {
-      wm itemstack = this.ItemStacks[l];
+			return itemstack1;
+		} else
+			return null;
+	}
 
-      if (itemstack != null) {
-        float f = 0.7F;
-        double d = world.s.nextFloat() * 0.7F + 0.1500000059604645D;
+	public void dropItems(World world, int i, int j, int k) {
+		for (int l = 0; l < ItemStacks.length; l++) {
+			final ItemStack itemstack = ItemStacks[l];
 
-        double d1 = world.s.nextFloat() * 0.7F + 0.1500000059604645D;
+			if (itemstack != null) {
+				final float f = 0.7F;
+				final double d = (world.rand.nextFloat() * f)
+						+ ((1.0F - f) * 0.5D);
+				final double d1 = (world.rand.nextFloat() * f)
+						+ ((1.0F - f) * 0.5D);
+				final double d2 = (world.rand.nextFloat() * f)
+						+ ((1.0F - f) * 0.5D);
+				final EntityItem entityitem = new EntityItem(world, i + d, j
+						+ d1, k + d2, itemstack);
+				entityitem.delayBeforeCanPickup = 10;
+				world.spawnEntityInWorld(entityitem);
+			}
+		}
+	}
 
-        double d2 = world.s.nextFloat() * 0.7F + 0.1500000059604645D;
+	/**
+	 * Returns the maximum stack size for a inventory slot. Seems to always be
+	 * 64, possibly will be extended. *Isn't this more of a set than a get?*
+	 */
+	@Override
+	public int getInventoryStackLimit() {
+		return 1;
+	}
 
-        rh entityitem = new rh(world, i + d, j + d1, k + d2, itemstack);
+	/**
+	 * Returns the number of slots in the inventory.
+	 */
+	@Override
+	public int getSizeInventory() {
+		return ItemStacks.length;
+	}
 
-        entityitem.b = 10;
-        world.d(entityitem);
-      }
-    }
-  }
+	/**
+	 * Returns the stack in slot i
+	 */
+	@Override
+	public ItemStack getStackInSlot(int i) {
+		return ItemStacks[i];
+	}
 
-  public int d()
-  {
-    return 1;
-  }
+	/**
+	 * When some containers are closed they call this on each slot, then drop
+	 * whatever it returns as an EntityItem - like when you close a workbench
+	 * GUI.
+	 */
+	@Override
+	public ItemStack getStackInSlotOnClosing(int i) {
+		if (ItemStacks[i] != null) {
+			final ItemStack itemstack = ItemStacks[i];
+			ItemStacks[i] = null;
+			return itemstack;
+		} else
+			return null;
+	}
 
-  public int j_()
-  {
-    return this.ItemStacks.length;
-  }
+	/**
+	 * Do not make give this method the name canInteractWith because it clashes
+	 * with Container
+	 */
+	@Override
+	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
+		if (worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) != this)
+			return false;
+		else
+			return entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D,
+					zCoord + 0.5D) <= 64D;
+	}
 
-  public wm a(int i)
-  {
-    return this.ItemStacks[i];
-  }
+	@Override
+	public void openChest() {
+	}
 
-  public wm b(int i)
-  {
-    if (this.ItemStacks[i] != null) {
-      wm itemstack = this.ItemStacks[i];
-      this.ItemStacks[i] = null;
-      return itemstack;
-    }
-    return null;
-  }
+	/**
+	 * Reads a tile entity from NBT.
+	 */
+	@Override
+	public void readFromNBT(NBTTagCompound nbttagcompound) {
+		super.readFromNBT(nbttagcompound);
+	}
 
-  public boolean a(sq entityplayer)
-  {
-    if (this.k.r(this.l, this.m, this.n) != this) {
-      return false;
-    }
-    return entityplayer.e(this.l + 0.5D, this.m + 0.5D, this.n + 0.5D) <= 64.0D;
-  }
+	/**
+	 * Sets the given item stack to the specified slot in the inventory (can be
+	 * crafting or armor sections).
+	 */
+	@Override
+	public void setInventorySlotContents(int i, ItemStack itemstack) {
+		ItemStacks[i] = itemstack;
 
-  public void f()
-  {
-  }
+		if ((itemstack != null)
+				&& (itemstack.stackSize > this.getInventoryStackLimit())) {
+			itemstack.stackSize = this.getInventoryStackLimit();
+		}
+	}
 
-  public void a(bs nbttagcompound)
-  {
-    super.a(nbttagcompound);
-  }
-
-  public void a(int i, wm itemstack)
-  {
-    this.ItemStacks[i] = itemstack;
-
-    if ((itemstack != null) && (itemstack.a > d()))
-    {
-      itemstack.a = d();
-    }
-  }
-
-  public void b(bs nbttagcompound)
-  {
-    super.b(nbttagcompound);
-  }
+	/**
+	 * Writes a tile entity to NBT.
+	 */
+	@Override
+	public void writeToNBT(NBTTagCompound nbttagcompound) {
+		super.writeToNBT(nbttagcompound);
+	}
 }

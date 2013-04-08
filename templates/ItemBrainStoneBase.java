@@ -1,17 +1,17 @@
 package mods.brainstone.templates;
 
-import ly;
-import wk;
+import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.item.Item;
 
-public class ItemBrainStoneBase extends wk
-{
-  public ItemBrainStoneBase(int par1)
-  {
-    super(par1);
-  }
+public class ItemBrainStoneBase extends Item {
 
-  public void a(ly par1IconRegister)
-  {
-    this.ct = par1IconRegister.a("brainstone:" + a().replaceFirst("item.", ""));
-  }
+	public ItemBrainStoneBase(int par1) {
+		super(par1);
+	}
+
+	@Override
+	public void updateIcons(IconRegister par1IconRegister) {
+		iconIndex = par1IconRegister.registerIcon("brainstone:"
+				+ this.getUnlocalizedName().replaceFirst("item.", ""));
+	}
 }

@@ -1,20 +1,24 @@
 package mods.brainstone.handlers;
 
-import cpw.mods.fml.common.IFuelHandler;
 import mods.brainstone.BrainStone;
-import wk;
-import wm;
+import net.minecraft.item.ItemStack;
+import cpw.mods.fml.common.IFuelHandler;
 
-public class BrainStoneFuelHandler
-  implements IFuelHandler
-{
-  public int getBurnTime(wm fuel)
-  {
-    int id = fuel.c;
+public class BrainStoneFuelHandler implements IFuelHandler {
+	/**
+	 * Calculates the fuel time of an itemstack.
+	 * 
+	 * @param fuel
+	 *            the item that is the fuel
+	 * @return The time in ticks, that a fuel will burn
+	 */
+	@Override
+	public int getBurnTime(ItemStack fuel) {
+		final int id = fuel.itemID;
 
-    if (id == BrainStone.coalBriquette().cp) {
-      return 16000;
-    }
-    return 0;
-  }
+		if (id == BrainStone.coalBriquette().itemID)
+			return 16000; // = 80 Items
+
+		return 0;
+	}
 }

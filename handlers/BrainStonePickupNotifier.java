@@ -1,18 +1,15 @@
 package mods.brainstone.handlers;
 
-import cpw.mods.fml.common.IPickupNotifier;
 import mods.brainstone.BrainStone;
-import rh;
-import sq;
-import wk;
-import wm;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
+import cpw.mods.fml.common.IPickupNotifier;
 
-public class BrainStonePickupNotifier
-  implements IPickupNotifier
-{
-  public void notifyPickup(rh item, sq player)
-  {
-    if (item.d().c == BrainStone.brainStoneDust().cp)
-      player.a(BrainStone.WTHIT(), 1);
-  }
+public class BrainStonePickupNotifier implements IPickupNotifier {
+	@Override
+	public void notifyPickup(EntityItem item, EntityPlayer player) {
+		if (item.getEntityItem().itemID == BrainStone.brainStoneDust().itemID) {
+			player.addStat(BrainStone.WTHIT(), 1);
+		}
+	}
 }

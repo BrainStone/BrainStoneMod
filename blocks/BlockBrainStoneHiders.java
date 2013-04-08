@@ -1,50 +1,60 @@
 package mods.brainstone.blocks;
 
-import aak;
-import aif;
-import apa;
 import mods.brainstone.BrainStone;
 import mods.brainstone.templates.BlockBrainStoneContainerBase;
 import mods.brainstone.tileentities.TileEntityBlockBrainStoneHiders;
-import ve;
-import wm;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.IBlockAccess;
 
-public abstract class BlockBrainStoneHiders extends BlockBrainStoneContainerBase
-{
-  public BlockBrainStoneHiders(int i)
-  {
-    super(BrainStone.getId(i), aif.e);
+public abstract class BlockBrainStoneHiders extends
+		BlockBrainStoneContainerBase {
+	// protected boolean renderGrass;
 
-    a(ve.d);
-  }
+	/**
+	 * Constructor of the block. Registers all properties and sets the id and
+	 * the material
+	 * 
+	 * @param i
+	 *            The internal BrainStone id
+	 */
+	public BlockBrainStoneHiders(int i) {
+		super(BrainStone.getId(i), Material.rock);
 
-  public boolean f()
-  {
-    return true;
-  }
+		this.setCreativeTab(CreativeTabs.tabRedstone);
+	}
 
-  public int c(aak iblockaccess, int i, int j, int k)
-  {
-    TileEntityBlockBrainStoneHiders tileentityblockbrainstonehiders = (TileEntityBlockBrainStoneHiders)iblockaccess.r(i, j, k);
+	@Override
+	public boolean canProvidePower() {
+		return true;
+	}
 
-    if (tileentityblockbrainstonehiders == null) {
-      return 16777215;
-    }
-    wm itemstack = tileentityblockbrainstonehiders.a(0);
+	@Override
+	public int colorMultiplier(IBlockAccess iblockaccess, int i, int j, int k) {
+		final TileEntityBlockBrainStoneHiders tileentityblockbrainstonehiders = (TileEntityBlockBrainStoneHiders) iblockaccess
+				.getBlockTileEntity(i, j, k);
 
-    if (itemstack == null) {
-      return 16777215;
-    }
-    int l = itemstack.c;
+		if (tileentityblockbrainstonehiders == null)
+			return 0xffffff;
 
-    if ((l >= apa.r.length) || (l < 0)) {
-      return 16777215;
-    }
-    apa block = apa.r[l];
+		final ItemStack itemstack = tileentityblockbrainstonehiders
+				.getStackInSlot(0);
 
-    if (block == null) {
-      return 16777215;
-    }
-    return apa.r[l].c(iblockaccess, i, j, k);
-  }
+		if (itemstack == null)
+			return 0xffffff;
+
+		final int l = itemstack.itemID;
+
+		if ((l >= Block.blocksList.length) || (l < 0))
+			return 0xffffff;
+
+		final Block block = Block.blocksList[l];
+
+		if (block == null)
+			return 0xffffff;
+		else
+			return Block.blocksList[l].colorMultiplier(iblockaccess, i, j, k);
+	}
 }

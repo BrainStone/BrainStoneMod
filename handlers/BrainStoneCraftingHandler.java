@@ -1,33 +1,35 @@
 package mods.brainstone.handlers;
 
-import apa;
-import cpw.mods.fml.common.ICraftingHandler;
-import lt;
 import mods.brainstone.BrainStone;
-import sq;
-import wk;
-import wm;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
+import cpw.mods.fml.common.ICraftingHandler;
 
-public class BrainStoneCraftingHandler
-  implements ICraftingHandler
-{
-  public void onCrafting(sq player, wm item, lt craftMatrix)
-  {
-    int i = item.c;
+public class BrainStoneCraftingHandler implements ICraftingHandler {
+	@Override
+	public void onCrafting(EntityPlayer player, ItemStack item,
+			IInventory craftMatrix) {
+		final int i = item.itemID;
 
-    if ((i == BrainStone.brainLightSensor().cz) || (i == BrainStone.brainStoneTrigger().cz))
-    {
-      player.a(BrainStone.intelligentBlocks(), 1);
-    } else if ((i == BrainStone.brainStoneSword().cp) || (i == BrainStone.brainStoneShovel().cp) || (i == BrainStone.brainStonePickaxe().cp) || (i == BrainStone.brainStoneAxe().cp) || (i == BrainStone.brainStoneHoe().cp))
-    {
-      player.a(BrainStone.intelligentTools(), 1);
-    } else if (i == BrainStone.brainLogicBlock().cz)
-      player.a(BrainStone.logicBlock(), 1);
-  }
+		if ((i == BrainStone.brainLightSensor().blockID)
+				|| (i == BrainStone.brainStoneTrigger().blockID)) {
+			player.addStat(BrainStone.intelligentBlocks(), 1);
+		} else if ((i == BrainStone.brainStoneSword().itemID)
+				|| (i == BrainStone.brainStoneShovel().itemID)
+				|| (i == BrainStone.brainStonePickaxe().itemID)
+				|| (i == BrainStone.brainStoneAxe().itemID)
+				|| (i == BrainStone.brainStoneHoe().itemID)) {
+			player.addStat(BrainStone.intelligentTools(), 1);
+		} else if (i == BrainStone.brainLogicBlock().blockID) {
+			player.addStat(BrainStone.logicBlock(), 1);
+		}
+	}
 
-  public void onSmelting(sq player, wm item)
-  {
-    if (item.c == BrainStone.brainStone().cz)
-      player.a(BrainStone.itLives(), 1);
-  }
+	@Override
+	public void onSmelting(EntityPlayer player, ItemStack item) {
+		if (item.itemID == BrainStone.brainStone().blockID) {
+			player.addStat(BrainStone.itLives(), 1);
+		}
+	}
 }

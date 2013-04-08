@@ -1,149 +1,159 @@
 package mods.brainstone.templates;
 
 import java.util.HashMap;
-import java.util.Set;
-import wm;
-import yz;
-import zb;
 
-public abstract class BrainStoneEnchantmentHelper extends zb
-{
-  public static final wm addEnchantment(wm item, yz enchantment, int level)
-  {
-    return addEnchantment(item, enchantment.z, level);
-  }
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.item.ItemStack;
 
-  public static final wm addEnchantment(wm item, int enchantment, int level)
-  {
-    HashMap enchantments = (HashMap)zb.a(item);
+public abstract class BrainStoneEnchantmentHelper extends EnchantmentHelper {
+	public static final ItemStack addEnchantment(ItemStack item,
+			Enchantment enchantment, int level) {
+		return addEnchantment(item, enchantment.effectId, level);
+	}
 
-    int size = enchantments.size();
-    Integer[] keys = (Integer[])enchantments.keySet().toArray(new Integer[size]);
+	public static final ItemStack addEnchantment(ItemStack item,
+			int enchantment, int level) {
+		final HashMap<Integer, Integer> enchantments = (HashMap) EnchantmentHelper
+				.getEnchantments(item);
+		final int size = enchantments.size();
+		final Integer[] keys = enchantments.keySet().toArray(new Integer[size]);
 
-    if (enchantments.containsKey(Integer.valueOf(enchantment)))
-    {
-      for (int i = 0; i < size; i++) {
-        int key = keys[i].intValue();
+		if (enchantments.containsKey(enchantment)) {
+			int key;
+			int tmp;
 
-        int tmp = ((Integer)enchantments.get(Integer.valueOf(key))).intValue();
-        enchantments.remove(Integer.valueOf(key));
+			for (int i = 0; i < size; i++) {
+				key = keys[i];
 
-        if (key == enchantment) {
-          int maxLevel = getEnchantment(enchantment).b();
+				tmp = enchantments.get(key);
+				enchantments.remove(key);
 
-          level += tmp;
+				if (key == enchantment) {
+					final int maxLevel = getEnchantment(enchantment)
+							.getMaxLevel();
+					level += tmp;
 
-          tmp = level > maxLevel ? maxLevel : level;
-        }
+					tmp = (level > maxLevel) ? maxLevel : level;
+				}
 
-        enchantments.put(Integer.valueOf(key), Integer.valueOf(tmp));
-      }
-    } else {
-      yz newEnchantment = getEnchantment(enchantment);
+				enchantments.put(key, tmp);
+			}
+		} else {
+			final Enchantment newEnchantment = getEnchantment(enchantment);
 
-      if (!canEnchantItem(newEnchantment, item)) {
-        return item;
-      }
+			if (!canEnchantItem(newEnchantment, item))
+				return item;
 
-      for (int i = 0; i < size; i++) {
-        yz tmpEnch = getEnchantment(keys[i].intValue());
+			Enchantment tmpEnch;
 
-        if (!canApplyTogether(newEnchantment, tmpEnch)) {
-          return item;
-        }
-      }
-      int maxLevel = newEnchantment.b();
+			for (int i = 0; i < size; i++) {
+				tmpEnch = getEnchantment(keys[i]);
 
-      enchantments.put(Integer.valueOf(enchantment), Integer.valueOf(level > maxLevel ? maxLevel : level));
-    }
+				if (!canApplyTogether(newEnchantment, tmpEnch))
+					return item;
+			}
 
-    zb.a(enchantments, item);
+			final int maxLevel = newEnchantment.getMaxLevel();
 
-    return item;
-  }
+			enchantments
+					.put(enchantment, (level > maxLevel) ? maxLevel : level);
+		}
 
-  public static final boolean canApplyTogether(yz enchantment1, yz enchantment2)
-  {
-    return (enchantment1.a(enchantment2)) && (enchantment2.a(enchantment1));
-  }
+		EnchantmentHelper.setEnchantments(enchantments, item);
 
-  public static final boolean canApplyTogether(yz enchantment1, int enchantment2)
-  {
-    return canApplyTogether(enchantment1, getEnchantment(enchantment2));
-  }
+		return item;
+	}
 
-  public static final boolean canApplyTogether(int enchantment1, yz enchantment2)
-  {
-    return canApplyTogether(getEnchantment(enchantment1), enchantment2);
-  }
+	public static final boolean canApplyTogether(Enchantment enchantment1,
+			Enchantment enchantment2) {
+		return enchantment1.canApplyTogether(enchantment2)
+				&& enchantment2.canApplyTogether(enchantment1);
+	}
 
-  public static final boolean canApplyTogether(int enchantment1, int enchantment2)
-  {
-    return canApplyTogether(getEnchantment(enchantment1), getEnchantment(enchantment2));
-  }
+	public static final boolean canApplyTogether(Enchantment enchantment1,
+			int enchantment2) {
+		return canApplyTogether(enchantment1, getEnchantment(enchantment2));
+	}
 
-  public static final boolean canEnchantItem(yz enchantment, wm item)
-  {
-    return enchantment.a(item);
-  }
+	public static final boolean canApplyTogether(int enchantment1,
+			Enchantment enchantment2) {
+		return canApplyTogether(getEnchantment(enchantment1), enchantment2);
+	}
 
-  public static final boolean canEnchantItem(int enchantment, wm item) {
-    return canEnchantItem(getEnchantment(enchantment), item);
-  }
+	public static final boolean canApplyTogether(int enchantment1,
+			int enchantment2) {
+		return canApplyTogether(getEnchantment(enchantment1),
+				getEnchantment(enchantment2));
+	}
 
-  public static final yz getEnchantment(int enchantmentId) {
-    return yz.b[enchantmentId];
-  }
+	public static final boolean canEnchantItem(Enchantment enchantment,
+			ItemStack item) {
+		return enchantment.func_92089_a(item);
+	}
 
-  public static final wm setEnchantment(wm item, yz enchantment, int level)
-  {
-    return setEnchantment(item, enchantment.z, level);
-  }
+	public static final boolean canEnchantItem(int enchantment, ItemStack item) {
+		return canEnchantItem(getEnchantment(enchantment), item);
+	}
 
-  public static final wm setEnchantment(wm item, int enchantment, int level)
-  {
-    HashMap enchantments = (HashMap)zb.a(item);
+	public static final Enchantment getEnchantment(int enchantmentId) {
+		return Enchantment.enchantmentsList[enchantmentId];
+	}
 
-    int size = enchantments.size();
-    Integer[] keys = (Integer[])enchantments.keySet().toArray(new Integer[size]);
+	public static final ItemStack setEnchantment(ItemStack item,
+			Enchantment enchantment, int level) {
+		return setEnchantment(item, enchantment.effectId, level);
+	}
 
-    if (enchantments.containsKey(Integer.valueOf(enchantment)))
-    {
-      for (int i = 0; i < size; i++) {
-        int key = keys[i].intValue();
+	public static final ItemStack setEnchantment(ItemStack item,
+			int enchantment, int level) {
+		final HashMap<Integer, Integer> enchantments = (HashMap) EnchantmentHelper
+				.getEnchantments(item);
+		final int size = enchantments.size();
+		final Integer[] keys = enchantments.keySet().toArray(new Integer[size]);
 
-        int tmp = ((Integer)enchantments.get(Integer.valueOf(key))).intValue();
-        enchantments.remove(Integer.valueOf(key));
+		if (enchantments.containsKey(enchantment)) {
+			int key;
+			int tmp;
 
-        if (key == enchantment) {
-          int maxLevel = getEnchantment(enchantment).b();
+			for (int i = 0; i < size; i++) {
+				key = keys[i];
 
-          tmp = level > maxLevel ? maxLevel : level;
-        }
+				tmp = enchantments.get(key);
+				enchantments.remove(key);
 
-        enchantments.put(Integer.valueOf(key), Integer.valueOf(tmp));
-      }
-    } else {
-      yz newEnchantment = getEnchantment(enchantment);
+				if (key == enchantment) {
+					final int maxLevel = getEnchantment(enchantment)
+							.getMaxLevel();
 
-      if (!canEnchantItem(newEnchantment, item)) {
-        return item;
-      }
+					tmp = (level > maxLevel) ? maxLevel : level;
+				}
 
-      for (int i = 0; i < size; i++) {
-        yz tmpEnch = getEnchantment(keys[i].intValue());
+				enchantments.put(key, tmp);
+			}
+		} else {
+			final Enchantment newEnchantment = getEnchantment(enchantment);
 
-        if (!canApplyTogether(newEnchantment, tmpEnch)) {
-          return item;
-        }
-      }
-      int maxLevel = newEnchantment.b();
+			if (!canEnchantItem(newEnchantment, item))
+				return item;
 
-      enchantments.put(Integer.valueOf(enchantment), Integer.valueOf(level > maxLevel ? maxLevel : level));
-    }
+			Enchantment tmpEnch;
 
-    zb.a(enchantments, item);
+			for (int i = 0; i < size; i++) {
+				tmpEnch = getEnchantment(keys[i]);
 
-    return item;
-  }
+				if (!canApplyTogether(newEnchantment, tmpEnch))
+					return item;
+			}
+
+			final int maxLevel = newEnchantment.getMaxLevel();
+
+			enchantments
+					.put(enchantment, (level > maxLevel) ? maxLevel : level);
+		}
+
+		EnchantmentHelper.setEnchantments(enchantments, item);
+
+		return item;
+	}
 }

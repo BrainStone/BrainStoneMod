@@ -1,50 +1,57 @@
 package mods.brainstone.slots;
 
-import ana;
-import apa;
 import mods.brainstone.BrainStone;
 import mods.brainstone.tileentities.TileEntityBlockBrainStoneTrigger;
-import ul;
-import wm;
-import xn;
+import net.minecraft.block.Block;
+import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 
-public class SlotBlockBrainStoneTrigger extends ul
-{
-  public static boolean staticIsItemValid(wm itemstack)
-  {
-    if (!(itemstack.b() instanceof xn)) {
-      return false;
-    }
-    int i = itemstack.c;
+public class SlotBlockBrainStoneTrigger extends Slot {
+	@SuppressWarnings("unused")
+	public static boolean staticIsItemValid(ItemStack itemstack) {
+		if (!(itemstack.getItem() instanceof ItemBlock))
+			return false;
 
-    if ((i > apa.r.length) || (i <= 0)) {
-      return false;
-    }
-    apa block = apa.r[i];
-    int j = block.cz;
+		final int i = itemstack.itemID;
 
-    if (block == null) {
-      return false;
-    }
-    if ((j == BrainStone.brainStoneTrigger().cz) || (j == apa.O.cz))
-    {
-      return false;
-    }
-    return block.c();
-  }
+		if ((i > Block.blocksList.length) || (i <= 0))
+			return false;
 
-  public SlotBlockBrainStoneTrigger(TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger, int i, int j, int k)
-  {
-    super(tileentityblockbrainstonetrigger, i, j, k);
-  }
+		final Block block = Block.blocksList[i];
+		final int j = block.blockID;
 
-  public int a()
-  {
-    return 1;
-  }
+		if (block == null)
+			return false;
 
-  public boolean a(wm itemstack)
-  {
-    return staticIsItemValid(itemstack);
-  }
+		if ((j == BrainStone.brainStoneTrigger().blockID)
+				|| (j == Block.leaves.blockID))
+			return false;
+		else
+			return block.isOpaqueCube();
+	}
+
+	public SlotBlockBrainStoneTrigger(
+			TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger,
+			int i, int j, int k) {
+		super(tileentityblockbrainstonetrigger, i, j, k);
+	}
+
+	/**
+	 * Returns the maximum stack size for a given slot (usually the same as
+	 * getInventoryStackLimit(), but 1 in the case of armor slots)
+	 */
+	@Override
+	public int getSlotStackLimit() {
+		return 1;
+	}
+
+	/**
+	 * Check if the stack is a valid item for this slot. Always true beside for
+	 * the armor slots.
+	 */
+	@Override
+	public boolean isItemValid(ItemStack itemstack) {
+		return staticIsItemValid(itemstack);
+	}
 }

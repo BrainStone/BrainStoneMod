@@ -1,60 +1,76 @@
 package mods.brainstone.blocks;
 
-import aab;
-import aif;
-import apa;
 import java.util.Random;
+
 import mods.brainstone.BrainStone;
 import mods.brainstone.templates.BlockBrainStoneBase;
-import ve;
+import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.world.World;
 
-public class BlockBrainStone extends BlockBrainStoneBase
-{
-  private final boolean powered;
+public class BlockBrainStone extends BlockBrainStoneBase {
+	/**
+	 * Saves the state given in the constructor named flag.<br>
+	 * Will be used in the code. Cannot be changed.
+	 */
+	private final boolean powered;
 
-  public BlockBrainStone(int i, boolean flag)
-  {
-    super(BrainStone.getId(i), aif.e);
-    c(3.0F);
-    b(1.0F);
+	/**
+	 * Constructor of the block. Registers all properties and sets the id and
+	 * the material
+	 * 
+	 * @param i
+	 *            The internal BrainStone id
+	 * @param flag
+	 *            Is the block powered by Redstone? If true the block does not
+	 *            emit light, if yes it does
+	 */
+	public BlockBrainStone(int i, boolean flag) {
+		super(BrainStone.getId(i), Material.rock);
+		this.setHardness(3.0F);
+		this.setResistance(1.0F);
 
-    if (flag) {
-      a(0.0F);
-      c("brainStoneOut");
-    } else {
-      a(1.0F);
-      c("brainStone");
-      a(ve.b);
-    }
+		if (flag) {
+			this.setLightValue(0.0F);
+			this.setUnlocalizedName("brainStoneOut");
+		} else {
+			this.setLightValue(1.0F);
+			this.setUnlocalizedName("brainStone");
+			this.setCreativeTab(CreativeTabs.tabBlock);
+		}
 
-    this.powered = flag;
-    this.cN = -0.2F;
-  }
+		powered = flag;
+		blockParticleGravity = -0.2F;
+	}
 
-  public int a(int i, Random random, int j)
-  {
-    return BrainStone.dirtyBrainStone().cz;
-  }
+	@Override
+	public int idDropped(int i, Random random, int j) {
+		return BrainStone.dirtyBrainStone().blockID;
+	}
 
-  public void a(aab world, int i, int j, int k)
-  {
-    if (!world.I)
-      if ((this.powered) && (!world.C(i, j, k)))
-        world.f(i, j, k, BrainStone.brainStone().cz, 0, 2);
-      else if ((!this.powered) && (world.C(i, j, k)))
-      {
-        world.f(i, j, k, BrainStone.brainStoneOut().cz, 0, 2);
-      }
-  }
+	@Override
+	public void onBlockAdded(World world, int i, int j, int k) {
+		if (!world.isRemote) {
+			if (powered && !world.isBlockIndirectlyGettingPowered(i, j, k)) {
+				world.setBlock(i, j, k, BrainStone.brainStone().blockID, 0, 2);
+			} else if (!powered
+					&& world.isBlockIndirectlyGettingPowered(i, j, k)) {
+				world.setBlock(i, j, k, BrainStone.brainStoneOut().blockID, 0,
+						2);
+			}
+		}
+	}
 
-  public void a(aab world, int i, int j, int k, int l)
-  {
-    if (!world.I)
-      if ((this.powered) && (!world.C(i, j, k)))
-        world.f(i, j, k, BrainStone.brainStone().cz, 0, 2);
-      else if ((!this.powered) && (world.C(i, j, k)))
-      {
-        world.f(i, j, k, BrainStone.brainStoneOut().cz, 0, 2);
-      }
-  }
+	@Override
+	public void onNeighborBlockChange(World world, int i, int j, int k, int l) {
+		if (!world.isRemote) {
+			if (powered && !world.isBlockIndirectlyGettingPowered(i, j, k)) {
+				world.setBlock(i, j, k, BrainStone.brainStone().blockID, 0, 2);
+			} else if (!powered
+					&& world.isBlockIndirectlyGettingPowered(i, j, k)) {
+				world.setBlock(i, j, k, BrainStone.brainStoneOut().blockID, 0,
+						2);
+			}
+		}
+	}
 }

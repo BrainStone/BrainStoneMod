@@ -1,22 +1,21 @@
 package mods.brainstone.items;
 
-import ly;
 import mods.brainstone.BrainStone;
-import ve;
-import wj;
-import wl;
+import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.EnumToolMaterial;
+import net.minecraft.item.ItemHoe;
 
-public class ItemHoeBrainStone extends wj
-{
-  public ItemHoeBrainStone(int i, wl enumtoolmaterial)
-  {
-    super(BrainStone.getId(359 + i), enumtoolmaterial);
+public class ItemHoeBrainStone extends ItemHoe {
+	public ItemHoeBrainStone(int i, EnumToolMaterial enumtoolmaterial) {
+		super(BrainStone.getId(BrainStone.startItemId + i), enumtoolmaterial);
 
-    a(ve.i);
-  }
+		this.setCreativeTab(CreativeTabs.tabTools);
+	}
 
-  public void a(ly par1IconRegister)
-  {
-    this.ct = par1IconRegister.a("brainstone:" + a().replaceFirst("item.", ""));
-  }
+	@Override
+	public void updateIcons(IconRegister par1IconRegister) {
+		iconIndex = par1IconRegister.registerIcon("brainstone:"
+				+ this.getUnlocalizedName().replaceFirst("item.", ""));
+	}
 }

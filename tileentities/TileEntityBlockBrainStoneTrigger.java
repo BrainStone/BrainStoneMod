@@ -1,255 +1,298 @@
 package mods.brainstone.tileentities;
 
-import aab;
-import aak;
-import apa;
-import bs;
-import ca;
-import cg;
-import ei;
-import fn;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Random;
-import java.util.Set;
-import lt;
-import lx;
+
+import mods.brainstone.blocks.BlockBrainStoneTrigger;
 import mods.brainstone.handlers.BrainStonePacketHandler;
 import mods.brainstone.slots.SlotBlockBrainStoneTrigger;
-import rh;
-import wm;
+import net.minecraft.block.Block;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.INetworkManager;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.util.Icon;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 
-public class TileEntityBlockBrainStoneTrigger extends TileEntityBlockBrainStoneHiders
-  implements lt
-{
-  public static LinkedHashMap triggerEntities;
-  public boolean power;
-  private final HashMap mobTriggered;
-  public byte delay;
-  public byte max_delay;
-  private wm oldStack;
+public class TileEntityBlockBrainStoneTrigger extends
+		TileEntityBlockBrainStoneHiders implements IInventory {
+	public static LinkedHashMap<String, Class[]> triggerEntities;
+	private final HashMap<String, Integer> mobTriggered;
+	public byte delay, max_delay, output, output_buffered;
+	private ItemStack oldStack;
 
-  public TileEntityBlockBrainStoneTrigger()
-  {
-    this.ItemStacks = new wm[1];
-    this.mobTriggered = new HashMap();
-    this.power = false;
-    this.delay = 0;
-    this.max_delay = 4;
+	public TileEntityBlockBrainStoneTrigger() {
+		ItemStacks = new ItemStack[1];
+		mobTriggered = new HashMap<String, Integer>();
+		delay = 0;
+		max_delay = 4;
+		output = 0;
 
-    int length = triggerEntities.size();
-    String[] keys = (String[])triggerEntities.keySet().toArray(new String[length]);
+		final int length = triggerEntities.size();
+		final String[] keys = triggerEntities.keySet().toArray(
+				new String[length]);
 
-    for (int i = 0; i < length; i++)
-      this.mobTriggered.put(keys[i], Boolean.valueOf(true));
-  }
+		for (int i = 0; i < length; i++) {
+			mobTriggered.put(keys[i], 15);
+		}
+	}
 
-  public boolean checkForSlotChange()
-  {
-    return this.oldStack != (this.oldStack = a(0));
-  }
+	public boolean checkForSlotChange() {
+		return oldStack != (oldStack = this.getStackInSlot(0));
+	}
 
-  public void dropItems(aab world, int i, int j, int k)
-  {
-    for (int l = 0; l < this.ItemStacks.length; l++) {
-      wm itemstack = this.ItemStacks[l];
+	@Override
+	public void dropItems(World world, int i, int j, int k) {
+		for (int l = 0; l < ItemStacks.length; l++) {
+			final ItemStack itemstack = ItemStacks[l];
 
-      if (itemstack != null) {
-        float f = 0.7F;
-        double d = world.s.nextFloat() * 0.7F + 0.1500000059604645D;
+			if (itemstack != null) {
+				final float f = 0.7F;
+				final double d = (world.rand.nextFloat() * f)
+						+ ((1.0F - f) * 0.5D);
+				final double d1 = (world.rand.nextFloat() * f)
+						+ ((1.0F - f) * 0.5D);
+				final double d2 = (world.rand.nextFloat() * f)
+						+ ((1.0F - f) * 0.5D);
+				final EntityItem entityitem = new EntityItem(world, i + d, j
+						+ d1, k + d2, itemstack);
+				entityitem.delayBeforeCanPickup = 10;
+				world.spawnEntityInWorld(entityitem);
+			}
+		}
+	}
 
-        double d1 = world.s.nextFloat() * 0.7F + 0.1500000059604645D;
+	@Override
+	protected void generateOutputStream(DataOutputStream outputStream)
+			throws IOException {
+		outputStream.writeInt(xCoord);
+		outputStream.writeInt(yCoord);
+		outputStream.writeInt(zCoord);
+		outputStream.writeInt((oldStack == null) ? 0 : oldStack.itemID);
 
-        double d2 = world.s.nextFloat() * 0.7F + 0.1500000059604645D;
+		outputStream.writeByte(output);
+		outputStream.writeByte(delay);
+		outputStream.writeByte(max_delay);
 
-        rh entityitem = new rh(world, i + d, j + d1, k + d2, itemstack);
+		final int length = triggerEntities.size();
+		outputStream.writeInt(length);
+		final String[] keys = triggerEntities.keySet().toArray(
+				new String[length]);
+		String key;
 
-        entityitem.b = 10;
-        world.d(entityitem);
-      }
-    }
-  }
+		for (int i = 0; i < length; i++) {
+			key = keys[i];
 
-  protected void generateOutputStream(DataOutputStream outputStream)
-    throws IOException
-  {
-    outputStream.writeInt(this.l);
-    outputStream.writeInt(this.m);
-    outputStream.writeInt(this.n);
-    outputStream.writeInt(this.oldStack == null ? 0 : this.oldStack.c);
+			outputStream.writeUTF(key);
+			outputStream.writeInt(mobTriggered.get(key));
+		}
+	}
 
-    outputStream.writeBoolean(this.power);
-    outputStream.writeByte(this.delay);
-    outputStream.writeByte(this.max_delay);
+	@Override
+	public Packet getDescriptionPacket() {
+		final NBTTagCompound tag = new NBTTagCompound();
+		this.writeToNBT(tag);
+		return new Packet132TileEntityData(xCoord, yCoord, zCoord, 1, tag);
+	}
 
-    int length = triggerEntities.size();
-    outputStream.writeInt(length);
-    String[] keys = (String[])triggerEntities.keySet().toArray(new String[length]);
+	/**
+	 * Returns the name of the inventory.
+	 */
+	@Override
+	public String getInvName() {
+		return "container.brainstonetrigger";
+	}
 
-    for (int i = 0; i < length; i++) {
-      String key = keys[i];
+	public byte getMobPower(String mob) {
+		byte tmp;
 
-      outputStream.writeUTF(key);
-      outputStream.writeBoolean(((Boolean)this.mobTriggered.get(key)).booleanValue());
-    }
-  }
+		if (mobTriggered.containsKey(mob)
+				&& ((tmp = (byte) ((int) mobTriggered.get(mob))) > 0))
+			return tmp;
+		else
+			return 0;
+	}
 
-  public ei m()
-  {
-    bs tag = new bs();
-    b(tag);
-    return new fn(this.l, this.m, this.n, 1, tag);
-  }
+	public boolean getMobTriggered(String s) {
+		if (mobTriggered.containsKey(s))
+			return mobTriggered.get(s) > 0;
+		else
+			return false;
+	}
 
-  public String b()
-  {
-    return "container.brainstonetrigger";
-  }
+	public Icon getTextureId(IBlockAccess iblockaccess, int i, int j, int k) {
+		final ItemStack itemstack = ItemStacks[0];
 
-  public boolean getMobTriggered(String s) {
-    if (this.mobTriggered.containsKey(s)) {
-      return ((Boolean)this.mobTriggered.get(s)).booleanValue();
-    }
-    return false;
-  }
+		if (itemstack == null)
+			return BlockBrainStoneTrigger.textures[0];
 
-  public lx getTextureId(aak iblockaccess, int i, int j, int k) {
-    wm itemstack = this.ItemStacks[0];
+		final int l = itemstack.itemID;
 
-    if (itemstack == null) {
-      return mods.brainstone.blocks.BlockBrainStoneTrigger.textures[0];
-    }
-    int l = itemstack.c;
+		if ((l > Block.blocksList.length) || (l <= 0))
+			return BlockBrainStoneTrigger.textures[0];
 
-    if ((l > apa.r.length) || (l <= 0)) {
-      return mods.brainstone.blocks.BlockBrainStoneTrigger.textures[0];
-    }
-    apa block = apa.r[l];
+		final Block block = Block.blocksList[l];
 
-    if (block == null) {
-      return mods.brainstone.blocks.BlockBrainStoneTrigger.textures[0];
-    }
-    return block.b_(iblockaccess, i, j, k, 1);
-  }
+		if (block == null)
+			return BlockBrainStoneTrigger.textures[0];
+		else
+			return block.getBlockTexture(iblockaccess, i, j, k, 1);
+	}
 
-  public void invertMobTriggered(String s) {
-    if (this.mobTriggered.containsKey(s))
-      this.mobTriggered.put(s, Boolean.valueOf(!((Boolean)this.mobTriggered.get(s)).booleanValue()));
-  }
+	public void invertMobTriggered(String s) {
+		if (mobTriggered.containsKey(s)) {
+			mobTriggered.put(s, -1 * mobTriggered.get(s));
+		}
+	}
 
-  public boolean c()
-  {
-    return false;
-  }
+	@Override
+	public boolean isInvNameLocalized() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
-  public boolean b(int i, wm itemstack)
-  {
-    return SlotBlockBrainStoneTrigger.staticIsItemValid(itemstack);
-  }
+	@Override
+	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
+		return SlotBlockBrainStoneTrigger.staticIsItemValid(itemstack);
+	}
 
-  public void onDataPacket(cg net, fn packet)
-  {
-    bs tag = packet.e;
-    a(tag);
-  }
+	@Override
+	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet) {
+		final NBTTagCompound tag = packet.customParam1;
+		this.readFromNBT(tag);
+	}
 
-  public void readFromInputStream(DataInputStream inputStream)
-    throws IOException
-  {
-    this.oldStack = new wm(inputStream.readInt(), 1, 0);
+	@Override
+	public void readFromInputStream(DataInputStream inputStream)
+			throws IOException {
+		oldStack = new ItemStack(inputStream.readInt(), 1, 0);
 
-    this.power = inputStream.readBoolean();
-    this.delay = inputStream.readByte();
-    this.max_delay = inputStream.readByte();
+		output = inputStream.readByte();
+		delay = inputStream.readByte();
+		max_delay = inputStream.readByte();
 
-    int length = inputStream.readInt();
+		final int length = inputStream.readInt();
 
-    for (int i = 0; i < length; i++)
-      this.mobTriggered.put(inputStream.readUTF(), Boolean.valueOf(inputStream.readBoolean()));
-  }
+		for (int i = 0; i < length; i++) {
+			mobTriggered.put(inputStream.readUTF(), inputStream.readInt());
+		}
+	}
 
-  public void a(bs nbttagcompound)
-  {
-    super.a(nbttagcompound);
-    ca nbttaglist = nbttagcompound.m("ItemsBrainStoneTrigger");
+	/**
+	 * Reads a tile entity from NBT.
+	 */
+	@Override
+	public void readFromNBT(NBTTagCompound nbttagcompound) {
+		super.readFromNBT(nbttagcompound);
+		final NBTTagList nbttaglist = nbttagcompound
+				.getTagList("ItemsBrainStoneTrigger");
+		ItemStacks = new ItemStack[this.getSizeInventory()];
 
-    this.ItemStacks = new wm[j_()];
+		for (int i = 0; i < nbttaglist.tagCount(); i++) {
+			final NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist
+					.tagAt(i);
+			final byte byte0 = nbttagcompound1.getByte("SlotBrainStoneTrigger");
 
-    for (int i = 0; i < nbttaglist.c(); i++) {
-      bs nbttagcompound1 = (bs)nbttaglist.b(i);
+			if ((byte0 >= 0) && (byte0 < ItemStacks.length)) {
+				ItemStacks[byte0] = ItemStack
+						.loadItemStackFromNBT(nbttagcompound1);
+			}
+		}
 
-      byte byte0 = nbttagcompound1.c("SlotBrainStoneTrigger");
+		final int length = nbttagcompound.getInteger("TriggerSize");
+		String trigger;
 
-      if ((byte0 >= 0) && (byte0 < this.ItemStacks.length)) {
-        this.ItemStacks[byte0] = wm.a(nbttagcompound1);
-      }
+		for (int i = 0; i < length; i++) {
+			trigger = "Trigger" + String.valueOf(i);
 
-    }
+			try {
+				mobTriggered.put(nbttagcompound.getString(trigger + "Key"),
+						nbttagcompound.getInteger(trigger));
+			} catch (final Exception e) {
+				try {
+					mobTriggered.put(nbttagcompound.getString(trigger + "Key"),
+							nbttagcompound.getBoolean(trigger) ? 15 : 1);
+				} catch (final Exception e1) {
+					try {
+						mobTriggered.put(
+								nbttagcompound.getString(trigger + "Key"),
+								(int) (nbttagcompound.getByte(trigger)));
+					} catch (final Exception e2) {
+						mobTriggered.put(
+								nbttagcompound.getString(trigger + "Key"), 15);
+					}
+				}
+			}
+		}
 
-    int length = nbttagcompound.e("TriggerSize");
+		delay = nbttagcompound.getByte("BrainStoneDelay");
+		max_delay = nbttagcompound.getByte("BrainStoneMaxDelay");
+	}
 
-    for (int i = 0; i < length; i++) {
-      String trigger = "Trigger" + String.valueOf(i);
+	public void setMobTriggered(String s, int value) {
+		if (mobTriggered.containsKey(s)) {
+			mobTriggered.put(s, value);
+		}
+	}
 
-      this.mobTriggered.put(nbttagcompound.i(trigger + "Key"), Boolean.valueOf(nbttagcompound.n(trigger)));
-    }
+	@Override
+	public void update(boolean sendToServer) throws IOException {
+		final ByteArrayOutputStream bos = new ByteArrayOutputStream(0);
+		final DataOutputStream outputStream = new DataOutputStream(bos);
 
-    this.delay = nbttagcompound.c("BrainStoneDelay");
-    this.max_delay = nbttagcompound.c("BrainStoneMaxDelay");
-  }
+		this.generateOutputStream(outputStream);
 
-  public void setMobTriggered(String s, boolean flag) {
-    if (this.mobTriggered.containsKey(s))
-      this.mobTriggered.put(s, Boolean.valueOf(flag));
-  }
+		if (sendToServer) {
+			BrainStonePacketHandler.sendPacketToServer("BSM.TEBBSTS", bos);
+		} else {
+			BrainStonePacketHandler.sendPacketToClosestPlayers(this,
+					"BSM.TEBBSTC", bos);
+		}
+	}
 
-  public void update(boolean sendToServer)
-    throws IOException
-  {
-    ByteArrayOutputStream bos = new ByteArrayOutputStream(0);
-    DataOutputStream outputStream = new DataOutputStream(bos);
+	/**
+	 * Writes a tile entity to NBT.
+	 */
+	@Override
+	public void writeToNBT(NBTTagCompound nbttagcompound) {
+		super.writeToNBT(nbttagcompound);
+		final NBTTagList nbttaglist = new NBTTagList();
 
-    generateOutputStream(outputStream);
+		for (int i = 0; i < ItemStacks.length; i++) {
+			if (ItemStacks[i] != null) {
+				final NBTTagCompound nbttagcompound1 = new NBTTagCompound();
+				nbttagcompound1.setByte("SlotBrainStoneTrigger", (byte) i);
+				ItemStacks[i].writeToNBT(nbttagcompound1);
+				nbttaglist.appendTag(nbttagcompound1);
+			}
+		}
 
-    if (sendToServer)
-      BrainStonePacketHandler.sendPacketToServer("BSM.TEBBSTS", bos);
-    else
-      BrainStonePacketHandler.sendPacketToClosestPlayers(this, "BSM.TEBBSTC", bos);
-  }
+		nbttagcompound.setTag("ItemsBrainStoneTrigger", nbttaglist);
 
-  public void b(bs nbttagcompound)
-  {
-    super.b(nbttagcompound);
-    ca nbttaglist = new ca();
+		final int length = triggerEntities.size();
+		nbttagcompound.setInteger("TriggerSize", length);
+		final String[] keys = triggerEntities.keySet().toArray(
+				new String[length]);
+		String trigger, key;
 
-    for (int i = 0; i < this.ItemStacks.length; i++) {
-      if (this.ItemStacks[i] != null) {
-        bs nbttagcompound1 = new bs();
-        nbttagcompound1.a("SlotBrainStoneTrigger", (byte)i);
-        this.ItemStacks[i].b(nbttagcompound1);
-        nbttaglist.a(nbttagcompound1);
-      }
-    }
+		for (int i = 0; i < length; i++) {
+			key = keys[i];
+			trigger = "Trigger" + String.valueOf(i);
 
-    nbttagcompound.a("ItemsBrainStoneTrigger", nbttaglist);
+			nbttagcompound.setString(trigger + "Key", key);
+			nbttagcompound.setInteger(trigger, mobTriggered.get(key));
+		}
 
-    int length = triggerEntities.size();
-    nbttagcompound.a("TriggerSize", length);
-    String[] keys = (String[])triggerEntities.keySet().toArray(new String[length]);
-
-    for (int i = 0; i < length; i++) {
-      String key = keys[i];
-      String trigger = "Trigger" + String.valueOf(i);
-
-      nbttagcompound.a(trigger + "Key", key);
-      nbttagcompound.a(trigger, ((Boolean)this.mobTriggered.get(key)).booleanValue());
-    }
-
-    nbttagcompound.a("BrainStoneDelay", this.delay);
-    nbttagcompound.a("BrainStoneMaxDelay", this.max_delay);
-  }
+		nbttagcompound.setByte("BrainStoneDelay", delay);
+		nbttagcompound.setByte("BrainStoneMaxDelay", max_delay);
+	}
 }

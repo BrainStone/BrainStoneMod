@@ -1,26 +1,24 @@
 package mods.brainstone.items;
 
-import apa;
-import ly;
 import mods.brainstone.BrainStone;
-import wl;
-import wm;
-import xr;
+import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.item.EnumToolMaterial;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
 
-public class ItemSwordBrainStone extends xr
-{
-  public ItemSwordBrainStone(int i, wl enumtoolmaterial)
-  {
-    super(BrainStone.getId(359 + i), enumtoolmaterial);
-  }
+public class ItemSwordBrainStone extends ItemSword {
+	public ItemSwordBrainStone(int i, EnumToolMaterial enumtoolmaterial) {
+		super(BrainStone.getId(BrainStone.startItemId + i), enumtoolmaterial);
+	}
 
-  public boolean a(wm tool, wm material)
-  {
-    return material.c == BrainStone.brainStone().cz;
-  }
+	@Override
+	public boolean getIsRepairable(ItemStack tool, ItemStack material) {
+		return material.itemID == BrainStone.brainStone().blockID;
+	}
 
-  public void a(ly par1IconRegister)
-  {
-    this.ct = par1IconRegister.a("brainstone:" + a().replaceFirst("item.", ""));
-  }
+	@Override
+	public void updateIcons(IconRegister par1IconRegister) {
+		iconIndex = par1IconRegister.registerIcon("brainstone:"
+				+ this.getUnlocalizedName().replaceFirst("item.", ""));
+	}
 }
