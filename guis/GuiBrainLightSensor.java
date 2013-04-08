@@ -74,7 +74,7 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 				StatCollector.translateToLocal("gui.brainstone.classic"),
 				l + 6, i1 + 3, 0x404040);
 		fontRenderer.drawString(
-				StatCollector.translateToLocal("gui.brainstone.new"),
+				StatCollector.translateToLocal("gui.brainstone.advanced"),
 				l + 51, i1 + 3, 0x404040);
 	}
 
