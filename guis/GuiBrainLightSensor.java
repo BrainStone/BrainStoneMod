@@ -50,6 +50,8 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
+		String tmp;
+		
 		this.registerTexture("GuiBrainLightSensorClassic");
 		final int l = (width - xSize) / 2;
 		final int i1 = (height - ySize) / 2;
@@ -71,11 +73,11 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 				StatCollector.translateToLocal("tile.brainLightSensor.name"),
 				l + 6, i1 + 16, 0x404040);
 		fontRenderer.drawString(
-				StatCollector.translateToLocal("gui.brainstone.classic"),
-				l + 6, i1 + 3, 0x404040);
+				tmp = StatCollector.translateToLocal("gui.brainstone.classic"),
+				l + 32 - (fontRenderer.getStringWidth(tmp) / 2), i1 + 3, 0x404040);
 		fontRenderer.drawString(
-				StatCollector.translateToLocal("gui.brainstone.advanced"),
-				l + 51, i1 + 3, 0x404040);
+				tmp = StatCollector.translateToLocal("gui.brainstone.advanced"),
+				l + 96 - (fontRenderer.getStringWidth(tmp) / 2), i1 + 3, 0x404040);
 	}
 
 	/**
