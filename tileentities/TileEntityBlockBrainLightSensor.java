@@ -14,6 +14,7 @@ public class TileEntityBlockBrainLightSensor extends
 	private int lightLevel;
 	private boolean direction;
 	private boolean powerOn;
+	private boolean state;
 	private int curLightLevel;
 	public boolean GUIopen;
 
@@ -23,6 +24,10 @@ public class TileEntityBlockBrainLightSensor extends
 		powerOn = false;
 		GUIopen = false;
 		curLightLevel = lightLevel;
+	}
+
+	public void changeState() {
+		state = !state;
 	}
 
 	@Override
@@ -37,6 +42,7 @@ public class TileEntityBlockBrainLightSensor extends
 		outputStream.writeBoolean(powerOn);
 		outputStream.writeInt(curLightLevel);
 		outputStream.writeBoolean(GUIopen);
+		outputStream.writeBoolean(state);
 	}
 
 	public int getCurLightLevel() {
@@ -55,6 +61,10 @@ public class TileEntityBlockBrainLightSensor extends
 		return powerOn;
 	}
 
+	public boolean getState() {
+		return state;
+	}
+
 	@Override
 	public void readFromInputStream(DataInputStream inputStream)
 			throws IOException {
@@ -63,6 +73,7 @@ public class TileEntityBlockBrainLightSensor extends
 		powerOn = inputStream.readBoolean();
 		curLightLevel = inputStream.readInt();
 		GUIopen = inputStream.readBoolean();
+		state = inputStream.readBoolean();
 	}
 
 	/**
@@ -73,6 +84,7 @@ public class TileEntityBlockBrainLightSensor extends
 		super.readFromNBT(nbttagcompound);
 		lightLevel = nbttagcompound.getByte("TEBBLS_lightLevel");
 		direction = nbttagcompound.getBoolean("TEBBLS_direction");
+		state = nbttagcompound.getBoolean("TEBBLS_state");
 	}
 
 	public void setCurLightLevel(int i) {
@@ -89,6 +101,10 @@ public class TileEntityBlockBrainLightSensor extends
 
 	public void setPowerOn(boolean flag) {
 		powerOn = flag;
+	}
+
+	public void setState(boolean state) {
+		this.state = state;
 	}
 
 	@Override
@@ -114,5 +130,6 @@ public class TileEntityBlockBrainLightSensor extends
 		super.writeToNBT(nbttagcompound);
 		nbttagcompound.setByte("TEBBLS_lightLevel", (byte) lightLevel);
 		nbttagcompound.setBoolean("TEBBLS_direction", direction);
+		nbttagcompound.setBoolean("TEBBLS_state", state);
 	}
 }

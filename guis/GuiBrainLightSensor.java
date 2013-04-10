@@ -9,10 +9,14 @@ import net.minecraft.util.StatCollector;
 public class GuiBrainLightSensor extends GuiBrainStoneBase {
 	/** The temporary storage of the light level (red bars) */
 	private int lightLevel;
-	/** The the vertical size of the Gui */
-	private static final int xSize = 128;
-	/** The the horizontal size of the Gui */
-	private static final int ySize = 94;
+	/** The the vertical size of the Classic Gui */
+	private static final int xSizeClassic = 128;
+	/** The the horizontal size of the Classic Gui */
+	private static final int ySizeClassic = 94;
+	/** The the vertical size of the New Gui */
+	private static final int xSizeMore = 176;
+	/** The the horizontal size of the New Gui */
+	private static final int ySizeMore = 176;
 	/** The temporary storage of the current light level (yellow box) */
 	private int curLightLevel;
 	/**
@@ -52,34 +56,45 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
 		String tmp;
 
-		this.registerTexture("GuiBrainLightSensorClassic");
-		final int l = (width - xSize) / 2;
-		final int i1 = (height - ySize) / 2;
-		this.drawTexturedModalRect(l, i1, 0, 0, xSize, ySize);
+		if (tileentity.getState()) {
+			this.registerTexture("GuiBrainLightSensorClassic");
+			final int x = (width - xSizeClassic) / 2;
+			final int y = (height - ySizeClassic) / 2;
+			this.drawTexturedModalRect(x, y, 0, 0, xSizeClassic, ySizeClassic);
 
-		if (direction) {
-			this.drawTexturedModalRect(l + 9, i1 + 23, 9, 94,
-					7 * (lightLevel + 1), 64);
+			if (direction) {
+				this.drawTexturedModalRect(x + 9, y + 23, 9, 94,
+						7 * (lightLevel + 1), 64);
+			} else {
+				final int j1 = 7 * (16 - lightLevel);
+				final int k1 = 112 - j1;
+				this.drawTexturedModalRect(x + 9 + k1, y + 23, 9 + k1, 94, j1,
+						64);
+			}
+
+			curLightLevel = tileentity.getCurLightLevel();
+			this.drawTexturedModalRect(x + (curLightLevel * 7) + 8, y + 22,
+					8 + (7 * curLightLevel), 158, 6, 66);
+			fontRenderer.drawString(StatCollector
+					.translateToLocal("tile.brainLightSensor.name"), x + 6,
+					y + 16, 0x404040);
+			fontRenderer.drawString(
+					tmp = StatCollector
+							.translateToLocal("gui.brainstone.classic"),
+					(x + 32) - (fontRenderer.getStringWidth(tmp) / 2), y + 3,
+					0x404040);
+			fontRenderer
+					.drawString(
+							tmp = StatCollector
+									.translateToLocal("gui.brainstone.more"),
+							(x + 96) - (fontRenderer.getStringWidth(tmp) / 2),
+							y + 3, 0x404040);
 		} else {
-			final int j1 = 7 * (16 - lightLevel);
-			final int k1 = 112 - j1;
-			this.drawTexturedModalRect(l + 9 + k1, i1 + 23, 9 + k1, 94, j1, 64);
+			this.registerTexture("GuiBrainLightSensorNew");
+			final int x = (width - xSizeMore) / 2;
+			final int y = (height - ySizeMore) / 2;
+			this.drawTexturedModalRect(x, y, 0, 0, xSizeMore, ySizeMore);
 		}
-
-		curLightLevel = tileentity.getCurLightLevel();
-		this.drawTexturedModalRect(l + (curLightLevel * 7) + 8, i1 + 22,
-				8 + (7 * curLightLevel), 158, 6, 66);
-		fontRenderer.drawString(
-				StatCollector.translateToLocal("tile.brainLightSensor.name"),
-				l + 6, i1 + 16, 0x404040);
-		fontRenderer.drawString(
-				tmp = StatCollector.translateToLocal("gui.brainstone.classic"),
-				(l + 32) - (fontRenderer.getStringWidth(tmp) / 2), i1 + 3,
-				0x404040);
-		fontRenderer.drawString(
-				tmp = StatCollector.translateToLocal("gui.brainstone.more"),
-				(l + 96) - (fontRenderer.getStringWidth(tmp) / 2), i1 + 3,
-				0x404040);
 	}
 
 	/**
