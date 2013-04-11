@@ -76,6 +76,13 @@ public abstract class Gate {
 		return classes.toArray(new Class[classes.size()]);
 	}
 
+	/**
+	 * This function checks for all gates in mods.brainstone.logicgates.gates.
+	 * 
+	 * @return all gates in mods.brainstone.logicgates.gates mapped to their ID
+	 *         and checks if it already exists. <small>(Should not
+	 *         happen!)</small>
+	 */
 	final public static HashMap<Long, Gate> getGates() {
 		final HashMap<Long, Gate> Gates = new HashMap<Long, Gate>();
 
@@ -85,6 +92,11 @@ public abstract class Gate {
 			for (final Class gate : getClasses("mods.brainstone.logicgates.gates")) {
 				try {
 					Gates.put((tmp = (Gate) gate.newInstance()).ID, tmp);
+
+					if (Gates.containsKey(tmp.ID)) {
+						BSP.throwIllegalArgumentException("Well, that should NOT have happenend! This IS a HUGE problem if you notice this please report it to yannick@tedworld.de.\nThanks!\n\nDeveloper Information:\nThere is a NOT unique ID for the gates: "
+								+ tmp.ID);
+					}
 				} catch (final InstantiationException e) {
 					BSP.force_printException(
 							e,
