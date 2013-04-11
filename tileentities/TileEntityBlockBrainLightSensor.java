@@ -33,16 +33,21 @@ public class TileEntityBlockBrainLightSensor extends
 	@Override
 	protected void generateOutputStream(DataOutputStream outputStream)
 			throws IOException {
-		outputStream.writeInt(xCoord);
-		outputStream.writeInt(yCoord);
-		outputStream.writeInt(zCoord);
-
-		outputStream.writeInt(lightLevel);
-		outputStream.writeBoolean(direction);
-		outputStream.writeBoolean(powerOn);
-		outputStream.writeInt(curLightLevel);
-		outputStream.writeBoolean(GUIopen);
 		outputStream.writeBoolean(state);
+
+		if (state) {
+			outputStream.writeInt(xCoord);
+			outputStream.writeInt(yCoord);
+			outputStream.writeInt(zCoord);
+
+			outputStream.writeInt(lightLevel);
+			outputStream.writeBoolean(direction);
+			outputStream.writeBoolean(powerOn);
+			outputStream.writeInt(curLightLevel);
+			outputStream.writeBoolean(GUIopen);
+		} else {
+			;
+		}
 	}
 
 	public int getCurLightLevel() {
@@ -68,12 +73,15 @@ public class TileEntityBlockBrainLightSensor extends
 	@Override
 	public void readFromInputStream(DataInputStream inputStream)
 			throws IOException {
-		lightLevel = inputStream.readInt();
-		direction = inputStream.readBoolean();
-		powerOn = inputStream.readBoolean();
-		curLightLevel = inputStream.readInt();
-		GUIopen = inputStream.readBoolean();
-		state = inputStream.readBoolean();
+		if (state = inputStream.readBoolean()) {
+			lightLevel = inputStream.readInt();
+			direction = inputStream.readBoolean();
+			powerOn = inputStream.readBoolean();
+			curLightLevel = inputStream.readInt();
+			GUIopen = inputStream.readBoolean();
+		} else {
+			;
+		}
 	}
 
 	/**
@@ -82,9 +90,12 @@ public class TileEntityBlockBrainLightSensor extends
 	@Override
 	public void readFromNBT(NBTTagCompound nbttagcompound) {
 		super.readFromNBT(nbttagcompound);
-		lightLevel = nbttagcompound.getByte("TEBBLS_lightLevel");
-		direction = nbttagcompound.getBoolean("TEBBLS_direction");
-		state = nbttagcompound.getBoolean("TEBBLS_state");
+		if (state = nbttagcompound.getBoolean("TEBBLS_state")) {
+			lightLevel = nbttagcompound.getByte("TEBBLS_lightLevel");
+			direction = nbttagcompound.getBoolean("TEBBLS_direction");
+		} else {
+			;
+		}
 	}
 
 	public void setCurLightLevel(int i) {
@@ -128,8 +139,14 @@ public class TileEntityBlockBrainLightSensor extends
 	@Override
 	public void writeToNBT(NBTTagCompound nbttagcompound) {
 		super.writeToNBT(nbttagcompound);
-		nbttagcompound.setByte("TEBBLS_lightLevel", (byte) lightLevel);
-		nbttagcompound.setBoolean("TEBBLS_direction", direction);
 		nbttagcompound.setBoolean("TEBBLS_state", state);
+
+		if (state) {
+			nbttagcompound.setByte("TEBBLS_lightLevel", (byte) lightLevel);
+			nbttagcompound.setBoolean("TEBBLS_direction", direction);
+			nbttagcompound.setBoolean("TEBBLS_state", state);
+		} else {
+			;
+		}
 	}
 }

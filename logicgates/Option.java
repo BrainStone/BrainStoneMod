@@ -1,5 +1,5 @@
 package mods.brainstone.logicgates;
 
-public abstract class Option {
+public class Option {
 
 }

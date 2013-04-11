@@ -61,7 +61,9 @@ public class ClientProxy extends CommonProxy {
 				+ "brainstone_armor_2.png");
 
 		MinecraftForgeClient.preloadTexture(BrainStone.guiPath
-				+ "GuiBrainLightSensor.png");
+				+ "GuiBrainLightSensorClassic.png");
+		MinecraftForgeClient.preloadTexture(BrainStone.guiPath
+				+ "GuiBrainLightSensorMore.png");
 		MinecraftForgeClient.preloadTexture(BrainStone.guiPath
 				+ "GuiBrainLogicBlock.png");
 		MinecraftForgeClient.preloadTexture(BrainStone.guiPath

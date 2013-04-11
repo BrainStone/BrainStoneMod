@@ -22,6 +22,7 @@ import mods.brainstone.items.ItemArmorBrainStone;
 import mods.brainstone.items.ItemHoeBrainStone;
 import mods.brainstone.items.ItemSwordBrainStone;
 import mods.brainstone.items.ItemToolBrainStone;
+import mods.brainstone.logicgates.Gate;
 import mods.brainstone.templates.BSP;
 import mods.brainstone.templates.BlockBrainStoneBase;
 import mods.brainstone.templates.ItemBrainStoneBase;
@@ -57,7 +58,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.EnumHelper;
 import net.minecraftforge.common.MinecraftForge;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
@@ -77,7 +77,7 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.21.13 BETA")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.21.16 BETA")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
@@ -379,6 +379,8 @@ public class BrainStone {
 	 */
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event) {
+		BSP.println("TEST!", Gate.getID("This is a test"), Gate.getID(this.getClass().getName()), Gate.getID(this.getClass().getSimpleName()), "END!");
+		
 		generateMcModInfoFile(event);
 		
 		getIds(event);
