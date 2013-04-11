@@ -77,7 +77,7 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.21.18 BETA")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.21.19 BETA")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
@@ -93,12 +93,15 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 public class BrainStone {
 	/** The "Mod" annotation */
 	private static Mod annotation = null;
-	
+
 	/** States if the current mod version is a release version or not */
-	public static final boolean release = getModAnnotation().version().toLowerCase()
-			.contains("release");
-	/** If turned on, every single suppressed text will be printed to the console */
-	public static final boolean debug = getModAnnotation().version().toLowerCase().contains("debug");
+	public static final boolean release = getModAnnotation().version()
+			.toLowerCase().contains("release");
+	/**
+	 * If turned on, every single suppressed text will be printed to the console
+	 */
+	public static final boolean debug = getModAnnotation().version()
+			.toLowerCase().contains("debug");
 
 	/** The standard id blocks start with */
 	public static final int startBlockId = 1258;
@@ -379,14 +382,17 @@ public class BrainStone {
 	 */
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event) {
-		BSP.println("TEST!", Gate.getID("This is a test"), Gate.getID(this.getClass().getName()), Gate.getID(this.getClass().getSimpleName()), "END!");
-		
+		if ((Gate.Gates == null) || Gate.Gates.isEmpty()) {
+			BSP.throwNullPointerException("Well, that should NOT have happenend! This IS a HUGE problem if you notice this please report it to yannick@tedworld.de.\nThanks!\n\nDeveloper Information:\nThe Map of the Gates is EMPTY!\nIs gates null: "
+					+ (Gate.Gates == null));
+		}
+
 		generateMcModInfoFile(event);
-		
+
 		getIds(event);
 
 		generateObjects();
-		
+
 		proxy.registerTextures();
 	}
 
@@ -423,7 +429,7 @@ public class BrainStone {
 		MinecraftForge.setBlockHarvestLevel(brainStoneOut(), "pickaxe", 2);
 		MinecraftForge.setBlockHarvestLevel(dirtyBrainStone(), "pickaxe", 2);
 		MinecraftForge.setBlockHarvestLevel(brainStoneOre(), "pickaxe", 2);
-		
+
 		proxy.registerOre();
 	}
 
@@ -438,9 +444,10 @@ public class BrainStone {
 	public void postInit(FMLPostInitializationEvent event) throws Throwable {
 		fillTriggerEntities();
 	}
-	
+
 	/**
-	 * Generates the mcmod.info file. Uses the "Mod" annotation to detect some values. Others are fixed
+	 * Generates the mcmod.info file. Uses the "Mod" annotation to detect some
+	 * values. Others are fixed
 	 */
 	private static void generateMcModInfoFile(FMLPreInitializationEvent event) {
 		event.getModMetadata().modId = getModAnnotation().modid();
@@ -448,7 +455,8 @@ public class BrainStone {
 		event.getModMetadata().version = getModAnnotation().version();
 		event.getModMetadata().url = "http://minecraft.de/showthread.php?89926";
 		event.getModMetadata().credits = "The_BrainStone(Code, Textures, Ideas), Jobbel(Name), TheStarman(Textures)";
-		event.getModMetadata().authorList = Arrays.asList(new String[] {"The_BrainStone"});
+		event.getModMetadata().authorList = Arrays
+				.asList(new String[] { "The_BrainStone" });
 		event.getModMetadata().description = "The Brain Stone Mod adds a new block type. It is called Brain Stone. It is very rare but you can make many different intelligent sensor blocks! An example is the BrainStoneTrigger. It's a block that triggers if an entity is on top. All these intelligent blocks are highly adjustable! There are also tools. The are as fast as iron tools but you can havrest more than 5,368 blocks! (Diamond tools only 1,561). The latest feature is the PulsatingBrainStoneBlock. It is the craziest block you have ever seen! It will throw you and animals through the air or will add random potion effects! You acan make yourself immune to these effect by wearing the full set of the newly adden BrainStoneArmor.\nBut see by yourself and enjoy!\n\n\nAnd thanks for downloading and supporting this mod!\n\n\n\nIf you think this mod caused a game crash (what should not happen by the way XD) send an email with the error log to yannick@tedworld.de!\n\nThank you!";
 		event.getModMetadata().logoFile = "";
 		event.getModMetadata().updateUrl = "http://minecraft.de/showthread.php?89926";
@@ -841,11 +849,11 @@ public class BrainStone {
 		GameRegistry.registerTileEntity(TileEntityBlockBrainLogicBlock.class,
 				"TileEntityBlockBrainLogicBlock");
 	}
-	
+
 	private static Mod getModAnnotation() {
-		if(annotation == null)
+		if (annotation == null)
 			return (annotation = BrainStone.class.getAnnotation(Mod.class));
-		
+
 		return annotation;
 	}
 
