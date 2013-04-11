@@ -77,13 +77,41 @@ public abstract class Gate {
 	}
 
 	/**
-	 * This function checks for all gates in mods.brainstone.logicgates.gates.
+	 * This returns a new instance of the gate<br>
+	 * <b>This function cannot be overwritten!</b>
+	 * 
+	 * @param ID
+	 *            The ID to get the Gate from
+	 * @return A new instance of the gate
+	 */
+	final public static Gate getGate(long ID) {
+		if (Gates.containsKey(ID)) {
+			try {
+				return (Gate) Gates.get(ID).clone();
+			} catch (final CloneNotSupportedException e) {
+				BSP.force_printException(
+						e,
+						"This is fatal! You must report this!\nThanks!\n\nDeveloper Information:\nCannot clone Gate: \""
+								+ Gates.get(ID).getClass().getName()
+								+ "\" ID: \"" + ID + "\"");
+
+				return null;
+			}
+		}
+
+		BSP.print_error("The ID: \"" + ID + "\" was not recongnized!");
+
+		return null;
+	}
+
+	/**
+	 * This function checks for all gates in mods.brainstone.logicgates.gates.<br>
 	 * 
 	 * @return all gates in mods.brainstone.logicgates.gates mapped to their ID
 	 *         and checks if it already exists. <small>(Should not
 	 *         happen!)</small>
 	 */
-	final public static HashMap<Long, Gate> getGates() {
+	private static HashMap<Long, Gate> getGates() {
 		final HashMap<Long, Gate> Gates = new HashMap<Long, Gate>();
 
 		try {
@@ -135,7 +163,7 @@ public abstract class Gate {
 	 *            The class name that will be turned into a unique long
 	 * @return A unique long
 	 */
-	final public static long getID(String Name) {
+	final protected static long getID(String Name) {
 		MessageDigest md5;
 		byte[] result;
 		try {
@@ -162,13 +190,11 @@ public abstract class Gate {
 	public Pin[] Pins = new Pin[6];
 	public Option[] Options;
 	public final long ID = getID(this.getClass().getSimpleName());
-
 	public final String Name = this.getClass().getSimpleName();
-
 	protected int tickRate;
 
 	public boolean canSwapWith(Pin pin1, Pin pin2) {
-		return false;
+		return pin1.Movable && pin2.Movable;
 	}
 
 	/**

@@ -77,7 +77,7 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.21.20 BETA")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.21.21 BETA")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
