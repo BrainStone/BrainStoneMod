@@ -90,10 +90,22 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 							(x + 96) - (fontRenderer.getStringWidth(tmp) / 2),
 							y + 3, 0x404040);
 		} else {
-			this.registerTexture("GuiBrainLightSensorNew");
+			this.registerTexture("GuiBrainLightSensorMore");
 			final int x = (width - xSizeMore) / 2;
 			final int y = (height - ySizeMore) / 2;
 			this.drawTexturedModalRect(x, y, 0, 0, xSizeMore, ySizeMore);
+			
+			fontRenderer.drawString(
+					tmp = StatCollector
+							.translateToLocal("gui.brainstone.classic"),
+					(x + 44) - (fontRenderer.getStringWidth(tmp) / 2), y + 3,
+					0x404040);
+			fontRenderer
+					.drawString(
+							tmp = StatCollector
+									.translateToLocal("gui.brainstone.more"),
+							(x + 132) - (fontRenderer.getStringWidth(tmp) / 2),
+							y + 3, 0x404040);
 		}
 	}
 
@@ -138,23 +150,40 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 	}
 
 	@Override
-	protected void mouseClicked(int i, int j, int k) {
-		if (k == 0) {
-			i -= (width - xSize) / 2;
-			j -= (height - ySize) / 2;
+	protected void mouseClicked(int x, int y, int mouseButton) {
+		if (mouseButton == 0) {
+			if (tileentity.getState()) {
+				x -= (width - xSizeClassic) / 2;
+				y -= (height - ySizeClassic) / 2;
 
-			for (int l = 0; l < 16; l++) {
-				final int i1 = 7 * l;
-				final int j1 = 2 * l;
+				for (int l = 0; l < 16; l++) {
+					final int i1 = 7 * l;
+					final int j1 = 2 * l;
 
-				if (this.inField(i, j, 9 + i1, 53 - j1, 12 + i1, 56 + j1)) {
-					this.click();
-					this.setLightLevel(l);
+					if (this.inField(x, y, 9 + i1, 53 - j1, 12 + i1, 56 + j1)) {
+						this.click();
+						this.setLightLevel(l);
+					}
 				}
-			}
 
-			if (this.inField(i, j, 120, 3, 124, 7)) {
-				this.quit();
+				if (this.inField(x, y, 63, 0, 127, 9)) {
+					tileentity.changeState();
+				}
+
+				if (this.inField(x, y, 120, 13, 124, 17)) {
+					this.quit();
+				}
+			} else {
+				x -= (width - xSizeMore) / 2;
+				y -= (height - ySizeMore) / 2;
+				
+				if (this.inField(x, y, 0, 0, 87, 9)) {
+					tileentity.changeState();
+				}
+
+				if (this.inField(x, y, 168, 13, 172, 17)) {
+					this.quit();
+				}
 			}
 		}
 	}

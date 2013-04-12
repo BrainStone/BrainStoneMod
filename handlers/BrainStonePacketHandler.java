@@ -424,6 +424,8 @@ public class BrainStonePacketHandler implements IPacketHandler {
 			((TileEntityBrainStoneSyncBase) tileEntity).update(false);
 		} catch (final IOException e) {
 			BSP.printException(e);
+		} catch(final NullPointerException e) {
+			BSP.debugOnly_printException(e, "I guess this block just got removed!");
 		}
 	}
 

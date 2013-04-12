@@ -77,7 +77,7 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.21.21 BETA")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.21.24 BETA")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
@@ -382,10 +382,10 @@ public class BrainStone {
 	 */
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event) {
-		if ((Gate.Gates == null) || Gate.Gates.isEmpty()) {
+		/*if ((Gate.Gates == null) || Gate.Gates.isEmpty()) {
 			BSP.throwNullPointerException("Well, that should NOT have happenend! This IS a HUGE problem if you notice this please report it to yannick@tedworld.de.\nThanks!\n\nDeveloper Information:\nThe Map of the Gates is EMPTY!\nIs gates null: "
 					+ (Gate.Gates == null));
-		}
+		}*/
 
 		generateMcModInfoFile(event);
 

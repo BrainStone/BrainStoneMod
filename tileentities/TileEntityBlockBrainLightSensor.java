@@ -24,6 +24,7 @@ public class TileEntityBlockBrainLightSensor extends
 		powerOn = false;
 		GUIopen = false;
 		curLightLevel = lightLevel;
+		state = false;
 	}
 
 	public void changeState() {
@@ -33,13 +34,13 @@ public class TileEntityBlockBrainLightSensor extends
 	@Override
 	protected void generateOutputStream(DataOutputStream outputStream)
 			throws IOException {
+		outputStream.writeInt(xCoord);
+		outputStream.writeInt(yCoord);
+		outputStream.writeInt(zCoord);
+		
 		outputStream.writeBoolean(state);
 
 		if (state) {
-			outputStream.writeInt(xCoord);
-			outputStream.writeInt(yCoord);
-			outputStream.writeInt(zCoord);
-
 			outputStream.writeInt(lightLevel);
 			outputStream.writeBoolean(direction);
 			outputStream.writeBoolean(powerOn);
