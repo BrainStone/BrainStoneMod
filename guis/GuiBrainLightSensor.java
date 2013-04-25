@@ -177,11 +177,11 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 				x -= (width - xSizeMore) / 2;
 				y -= (height - ySizeMore) / 2;
 
-				if (this.inField(x, y, 0, 0, 87, 9)) {
+				if (this.inField(x, y, 0, 0, 77, 9)) {
 					tileentity.changeState();
 				}
 
-				if (this.inField(x, y, 168, 13, 172, 17)) {
+				if (this.inField(x, y, 148, 13, 152, 17)) {
 					this.quit();
 				}
 			}
