@@ -37,7 +37,7 @@ public class TileEntityBlockBrainLightSensor extends
 		outputStream.writeInt(xCoord);
 		outputStream.writeInt(yCoord);
 		outputStream.writeInt(zCoord);
-		
+
 		outputStream.writeBoolean(state);
 
 		if (state) {

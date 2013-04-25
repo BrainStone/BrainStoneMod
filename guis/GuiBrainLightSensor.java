@@ -14,9 +14,9 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 	/** The the horizontal size of the Classic Gui */
 	private static final int ySizeClassic = 94;
 	/** The the vertical size of the New Gui */
-	private static final int xSizeMore = 176;
+	private static final int xSizeMore = 156;
 	/** The the horizontal size of the New Gui */
-	private static final int ySizeMore = 176;
+	private static final int ySizeMore = 156;
 	/** The temporary storage of the current light level (yellow box) */
 	private int curLightLevel;
 	/**
@@ -94,17 +94,17 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 			final int x = (width - xSizeMore) / 2;
 			final int y = (height - ySizeMore) / 2;
 			this.drawTexturedModalRect(x, y, 0, 0, xSizeMore, ySizeMore);
-			
+
 			fontRenderer.drawString(
 					tmp = StatCollector
 							.translateToLocal("gui.brainstone.classic"),
-					(x + 44) - (fontRenderer.getStringWidth(tmp) / 2), y + 3,
+					(x + 39) - (fontRenderer.getStringWidth(tmp) / 2), y + 3,
 					0x404040);
 			fontRenderer
 					.drawString(
 							tmp = StatCollector
 									.translateToLocal("gui.brainstone.more"),
-							(x + 132) - (fontRenderer.getStringWidth(tmp) / 2),
+							(x + 117) - (fontRenderer.getStringWidth(tmp) / 2),
 							y + 3, 0x404040);
 		}
 	}
@@ -176,7 +176,7 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 			} else {
 				x -= (width - xSizeMore) / 2;
 				y -= (height - ySizeMore) / 2;
-				
+
 				if (this.inField(x, y, 0, 0, 87, 9)) {
 					tileentity.changeState();
 				}

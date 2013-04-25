@@ -49,6 +49,39 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 		world.notifyBlocksOfNeighborChange(x, y, z + 1, blockID);
 	}
 
+	/**
+	 * Determine if this block can make a redstone connection on the side
+	 * provided, Useful to control which sides are inputs and outputs for
+	 * redstone wires.
+	 * 
+	 * Side: -1: UP 0: NORTH 1: EAST 2: SOUTH 3: WEST
+	 * 
+	 * @param world
+	 *            The current world
+	 * @param x
+	 *            X Position
+	 * @param y
+	 *            Y Position
+	 * @param z
+	 *            Z Position
+	 * @param side
+	 *            The side that is trying to make the connection
+	 * @return True to make the connection
+	 */
+	@Override
+	public boolean canConnectRedstone(IBlockAccess world, int x, int y, int z,
+			int side) {
+		if (side == -1)
+			return false;
+
+		return true;
+	}
+
+	@Override
+	public boolean canProvidePower() {
+		return true;
+	}
+
 	@Override
 	public TileEntity createNewTileEntity(World world) {
 		return new TileEntityBlockBrainLightSensor();
@@ -187,12 +220,11 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 				} catch (final IOException e) {
 					BSP.printException(e);
 				}
-
-				world.scheduleBlockUpdate(x, y, z, blockID,
-						this.tickRate(world));
 			} else {
 				;
 			}
+
+			world.scheduleBlockUpdate(x, y, z, blockID, this.tickRate(world));
 		} else {
 			BSP.println("Die TileEntity fehlt!");
 		}
