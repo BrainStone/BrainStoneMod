@@ -78,7 +78,7 @@ import cpw.mods.fml.relauncher.RelaunchLibraryManager;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.21.36 BETA")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.22.15 BETA DEV")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
@@ -281,6 +281,8 @@ public class BrainStone {
 						"--------JK-Flip-Flop-------\nIf the input J = 1 and the input K = 0, the output Q = 1. When J = 0 and K = 1, the output Q = 0. If both J and K are 0, then the JK flip-flop maintains its previous state. If both are 1, the output will complement itself.");
 		localizations_en.put("gui.brainstone.classic", "Classic");
 		localizations_en.put("gui.brainstone.simple", "Simple");
+		localizations_en.put("gui.brainstone.proportional", "Proportional");
+		localizations_en.put("gui.brainstone.inverted", "Inverted");
 	}
 
 	/**
@@ -331,6 +333,8 @@ public class BrainStone {
 						"--------JK-Flip-Flop-------\nWenn der Eingang J = 1 and der Eingang K = 0, wird der Ausgang Q = 1. Wenn J = 0 and K = 1, dann wird Q = 0. Wenn J und K 0 sind, dann beh\u00E4lt das Gate seinen Zustand. Wenn beide 1 sind, dann kehrt sich der Ausgang um.");
 		localizations_de.put("gui.brainstone.classic", "Klassik");
 		localizations_de.put("gui.brainstone.simple", "Einfach");
+		localizations_de.put("gui.brainstone.proportional", "Proportional");
+		localizations_de.put("gui.brainstone.inverted", "Invertiert");
 	}
 
 	/**

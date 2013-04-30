@@ -1,7 +1,10 @@
 package mods.brainstone.guis;
 
+import java.io.IOException;
+
 import mods.brainstone.containers.ContainerBlockBrainLightSensor;
 import mods.brainstone.handlers.BrainStonePacketHandler;
+import mods.brainstone.templates.BSP;
 import mods.brainstone.templates.GuiBrainStoneBase;
 import mods.brainstone.tileentities.TileEntityBlockBrainLightSensor;
 import net.minecraft.util.StatCollector;
@@ -13,10 +16,10 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 	private static final int xSizeClassic = 128;
 	/** The the horizontal size of the Classic Gui */
 	private static final int ySizeClassic = 94;
-	/** The the vertical size of the New Gui */
-	private static final int xSizeMore = 128;
-	/** The the horizontal size of the New Gui */
-	private static final int ySizeMore = 52;
+	/** The the vertical size of the Simple Gui */
+	private static final int xSizeSimple = 128;
+	/** The the horizontal size of the Simple Gui */
+	private static final int ySizeSimple = 52;
 	/** The temporary storage of the current light level (yellow box) */
 	private int curLightLevel;
 	/**
@@ -90,9 +93,10 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 					0x404040);
 		} else {
 			this.registerTexture("GuiBrainLightSensorSimple");
-			final int x = (width - xSizeMore) / 2;
-			final int y = (height - ySizeMore) / 2;
-			this.drawTexturedModalRect(x, y, 0, 0, xSizeMore, ySizeMore);
+			final int x = (width - xSizeSimple) / 2;
+			final int y = (height - ySizeSimple) / 2;
+			this.drawTexturedModalRect(x, y, 0, 0, xSizeSimple, ySizeSimple);
+			this.drawTexturedModalRect(x + 8, y + ((tileentity.getDirection()) ? 18 : 36), 8, 52, 8, 8);
 
 			fontRenderer.drawString(
 					tmp = StatCollector
@@ -103,6 +107,12 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 					tmp = StatCollector
 							.translateToLocal("gui.brainstone.simple"),
 					(x + 96) - (fontRenderer.getStringWidth(tmp) / 2), y + 3,
+					0x404040);
+			fontRenderer.drawString(StatCollector.translateToLocal("gui.brainstone.proportional"),
+					x + 20, y + 18,
+					0x404040);
+			fontRenderer.drawString(StatCollector.translateToLocal("gui.brainstone.inverted"),
+					x + 20, y + 36,
 					0x404040);
 		}
 	}
@@ -170,17 +180,37 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 
 				if (this.inField(x, y, 63, 0, 127, 9)) {
 					tileentity.changeState();
+					try {
+						tileentity.update(true);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 
 				if (this.inField(x, y, 120, 13, 124, 17)) {
 					this.quit();
 				}
 			} else {
-				x -= (width - xSizeMore) / 2;
-				y -= (height - ySizeMore) / 2;
-
+				x -= (width - xSizeSimple) / 2;
+				y -= (height - ySizeSimple) / 2;
+				
 				if (this.inField(x, y, 0, 0, 63, 9)) {
 					tileentity.changeState();
+					try {
+						tileentity.update(true);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				
+				if (inField(x, y, 8, 18, 15, 25))
+				{
+					tileentity.setDirection(true);
+				}
+						
+				if (inField(x, y, 8, 36, 15, 43))
+				{
+					tileentity.setDirection(false);
 				}
 
 				if (this.inField(x, y, 120, 13, 104, 17)) {

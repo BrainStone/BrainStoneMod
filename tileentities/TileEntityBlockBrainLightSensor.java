@@ -17,6 +17,7 @@ public class TileEntityBlockBrainLightSensor extends
 	private boolean state;
 	private int curLightLevel;
 	public boolean GUIopen;
+	private short power;
 
 	public TileEntityBlockBrainLightSensor() {
 		lightLevel = 8;
@@ -47,7 +48,8 @@ public class TileEntityBlockBrainLightSensor extends
 			outputStream.writeInt(curLightLevel);
 			outputStream.writeBoolean(GUIopen);
 		} else {
-			;
+			outputStream.writeBoolean(direction);
+			outputStream.writeShort(power);
 		}
 	}
 
@@ -61,6 +63,10 @@ public class TileEntityBlockBrainLightSensor extends
 
 	public int getLightLevel() {
 		return lightLevel;
+	}
+
+	public short getPower() {
+		return power;
 	}
 
 	public boolean getPowerOn() {
@@ -81,7 +87,8 @@ public class TileEntityBlockBrainLightSensor extends
 			curLightLevel = inputStream.readInt();
 			GUIopen = inputStream.readBoolean();
 		} else {
-			;
+			direction = inputStream.readBoolean();
+			power = inputStream.readShort();
 		}
 	}
 
@@ -95,7 +102,7 @@ public class TileEntityBlockBrainLightSensor extends
 			lightLevel = nbttagcompound.getByte("TEBBLS_lightLevel");
 			direction = nbttagcompound.getBoolean("TEBBLS_direction");
 		} else {
-			;
+			direction = nbttagcompound.getBoolean("TEBBLS_direction");
 		}
 	}
 
@@ -109,6 +116,12 @@ public class TileEntityBlockBrainLightSensor extends
 
 	public void setLightLevel(int i) {
 		lightLevel = i;
+	}
+
+	public void setPower(short Power) {
+		if ((Power >= 0) && (Power <= 15)) {
+			power = Power;
+		}
 	}
 
 	public void setPowerOn(boolean flag) {
@@ -147,7 +160,7 @@ public class TileEntityBlockBrainLightSensor extends
 			nbttagcompound.setBoolean("TEBBLS_direction", direction);
 			nbttagcompound.setBoolean("TEBBLS_state", state);
 		} else {
-			;
+			nbttagcompound.setBoolean("TEBBLS_direction", direction);
 		}
 	}
 }
