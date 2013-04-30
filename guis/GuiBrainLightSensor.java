@@ -14,9 +14,9 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 	/** The the horizontal size of the Classic Gui */
 	private static final int ySizeClassic = 94;
 	/** The the vertical size of the New Gui */
-	private static final int xSizeMore = 156;
+	private static final int xSizeMore = 128;
 	/** The the horizontal size of the New Gui */
-	private static final int ySizeMore = 156;
+	private static final int ySizeMore = 52;
 	/** The temporary storage of the current light level (yellow box) */
 	private int curLightLevel;
 	/**
@@ -96,15 +96,14 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 
 			fontRenderer.drawString(
 					tmp = StatCollector
-							.translateToLocal("gui.brainstone.simple"),
-					(x + 39) - (fontRenderer.getStringWidth(tmp) / 2), y + 3,
+							.translateToLocal("gui.brainstone.classic"),
+					(x + 32) - (fontRenderer.getStringWidth(tmp) / 2), y + 3,
 					0x404040);
-			fontRenderer
-					.drawString(
-							tmp = StatCollector
-									.translateToLocal("gui.brainstone.more"),
-							(x + 117) - (fontRenderer.getStringWidth(tmp) / 2),
-							y + 3, 0x404040);
+			fontRenderer.drawString(
+					tmp = StatCollector
+							.translateToLocal("gui.brainstone.simple"),
+					(x + 96) - (fontRenderer.getStringWidth(tmp) / 2), y + 3,
+					0x404040);
 		}
 	}
 
@@ -135,16 +134,20 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 			this.quit();
 		}
 
-		if (((i == 200) || (i == 205)) && (lightLevel != 15)) {
-			this.setLightLevel(lightLevel + 1);
-		}
+		if (tileentity.getState()) {
+			if (((i == 200) || (i == 205)) && (lightLevel != 15)) {
+				this.setLightLevel(lightLevel + 1);
+			}
 
-		if (((i == 208) || (i == 203)) && (lightLevel != 0)) {
-			this.setLightLevel(lightLevel - 1);
-		}
+			if (((i == 208) || (i == 203)) && (lightLevel != 0)) {
+				this.setLightLevel(lightLevel - 1);
+			}
 
-		if ((i == 208) || (i == 203) || (i == 200) || (i == 205)) {
-			this.click();
+			if ((i == 208) || (i == 203) || (i == 200) || (i == 205)) {
+				this.click();
+			}
+		} else {
+			;
 		}
 	}
 
@@ -176,11 +179,11 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 				x -= (width - xSizeMore) / 2;
 				y -= (height - ySizeMore) / 2;
 
-				if (this.inField(x, y, 0, 0, 77, 9)) {
+				if (this.inField(x, y, 0, 0, 63, 9)) {
 					tileentity.changeState();
 				}
 
-				if (this.inField(x, y, 148, 13, 152, 17)) {
+				if (this.inField(x, y, 120, 13, 104, 17)) {
 					this.quit();
 				}
 			}
