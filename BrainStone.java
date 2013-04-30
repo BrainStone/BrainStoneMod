@@ -1,5 +1,6 @@
 package mods.brainstone;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -22,7 +23,6 @@ import mods.brainstone.items.ItemArmorBrainStone;
 import mods.brainstone.items.ItemHoeBrainStone;
 import mods.brainstone.items.ItemSwordBrainStone;
 import mods.brainstone.items.ItemToolBrainStone;
-import mods.brainstone.logicgates.Gate;
 import mods.brainstone.templates.BSP;
 import mods.brainstone.templates.BlockBrainStoneBase;
 import mods.brainstone.templates.ItemBrainStoneBase;
@@ -71,13 +71,14 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
+import cpw.mods.fml.relauncher.RelaunchLibraryManager;
 
 /**
  * The main file of the mod
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.21.33 BETA")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.21.36 BETA")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
@@ -279,7 +280,7 @@ public class BrainStone {
 				.put("gui.brainstone.help.gate8",
 						"--------JK-Flip-Flop-------\nIf the input J = 1 and the input K = 0, the output Q = 1. When J = 0 and K = 1, the output Q = 0. If both J and K are 0, then the JK flip-flop maintains its previous state. If both are 1, the output will complement itself.");
 		localizations_en.put("gui.brainstone.classic", "Classic");
-		localizations_en.put("gui.brainstone.more", "Simple");
+		localizations_en.put("gui.brainstone.simple", "Simple");
 	}
 
 	/**
@@ -329,7 +330,7 @@ public class BrainStone {
 				.put("gui.brainstone.help.gate8",
 						"--------JK-Flip-Flop-------\nWenn der Eingang J = 1 and der Eingang K = 0, wird der Ausgang Q = 1. Wenn J = 0 and K = 1, dann wird Q = 0. Wenn J und K 0 sind, dann beh\u00E4lt das Gate seinen Zustand. Wenn beide 1 sind, dann kehrt sich der Ausgang um.");
 		localizations_de.put("gui.brainstone.classic", "Klassik");
-		localizations_de.put("gui.brainstone.more", "Einfach");
+		localizations_de.put("gui.brainstone.simple", "Einfach");
 	}
 
 	/**
@@ -382,7 +383,28 @@ public class BrainStone {
 	 */
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event) {
-		/*if ((Gate.Gates == null) || Gate.Gates.isEmpty()) {
+		/*Field f;
+		try {
+			f = RelaunchLibraryManager.class.getDeclaredField("deobfuscatedEnvironment");
+			f.setAccessible(true);
+			boolean test = (Boolean) f.get(null);
+			if(test)
+				BSP.println("Deobf");
+		} catch (NoSuchFieldException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if ((Gate.Gates == null) || Gate.Gates.isEmpty()) {
 			BSP.throwNullPointerException("Well, that should NOT have happenend! This IS a HUGE problem if you notice this please report it to yannick@tedworld.de.\nThanks!\n\nDeveloper Information:\nThe Map of the Gates is EMPTY!\nIs gates null: "
 					+ (Gate.Gates == null));
 		}*/

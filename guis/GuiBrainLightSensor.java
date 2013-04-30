@@ -83,21 +83,20 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 							.translateToLocal("gui.brainstone.classic"),
 					(x + 32) - (fontRenderer.getStringWidth(tmp) / 2), y + 3,
 					0x404040);
-			fontRenderer
-					.drawString(
-							tmp = StatCollector
-									.translateToLocal("gui.brainstone.more"),
-							(x + 96) - (fontRenderer.getStringWidth(tmp) / 2),
-							y + 3, 0x404040);
+			fontRenderer.drawString(
+					tmp = StatCollector
+							.translateToLocal("gui.brainstone.simple"),
+					(x + 96) - (fontRenderer.getStringWidth(tmp) / 2), y + 3,
+					0x404040);
 		} else {
-			this.registerTexture("GuiBrainLightSensorMore");
+			this.registerTexture("GuiBrainLightSensorSimple");
 			final int x = (width - xSizeMore) / 2;
 			final int y = (height - ySizeMore) / 2;
 			this.drawTexturedModalRect(x, y, 0, 0, xSizeMore, ySizeMore);
 
 			fontRenderer.drawString(
 					tmp = StatCollector
-							.translateToLocal("gui.brainstone.classic"),
+							.translateToLocal("gui.brainstone.simple"),
 					(x + 39) - (fontRenderer.getStringWidth(tmp) / 2), y + 3,
 					0x404040);
 			fontRenderer
