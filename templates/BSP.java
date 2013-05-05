@@ -1,6 +1,13 @@
 package mods.brainstone.templates;
 
+import java.util.logging.Filter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import mods.brainstone.BrainStone;
+import mods.brainstone.templates.bsp_filters.DebugFilter;
+import mods.brainstone.templates.bsp_filters.DefaultFilter;
+import mods.brainstone.templates.bsp_filters.ReleaseFilter;
 
 /**
  * <center><b><u>B</u>rain<u>S</u>tone<u>P</u>rinter</b></center><br>
@@ -9,7 +16,7 @@ import mods.brainstone.BrainStone;
  * right conditions. Exceptions will be thrown here as well.
  * 
  * @author Yannick Schinko (alias The_BrainStone)
- * @version 1.0.0
+ * @version 2.0.0
  * @category Print
  */
 public abstract class BSP {
@@ -29,368 +36,80 @@ public abstract class BSP {
 			+ "==================================================\n"
 			+ "==================================================\n";
 
-	/** Is the debug mode on */
-	public static final boolean debug = BrainStone.debug;
-
-	/** Should anything be printed */
-	public static final boolean notRelease = !BrainStone.release || debug;
+	/**
+	 * This is the logger for the BSM. Will be initialized in the BrainStone
+	 * class
+	 */
+	private static Logger logger;
 
 	/**
-	 * Prints the given object to stdout only if debug mode is on
+	 * <b>A</b>dd<b>N</b>ew<b>L</b>ine<b>I</b>f<b>N</b>ecessary<br>
+	 * This function adds a new line in front of a string if necessary.
 	 * 
-	 * @param obj
-	 *            The object to be printed
+	 * @param str
+	 *            String to be processed
+	 * @return If the String is no empty, a new line will be added in front of
+	 *         str
 	 */
-	public static final boolean debugOnly_print(Object obj) {
-		if (debug) {
-			System.out.print(obj);
+	private static final String ANLIN(String str) {
+		return (str.isEmpty()) ? str : "\n" + str;
+	}
+
+	/**
+	 * Logs all Objects to the console with the level to be logged
+	 * 
+	 * @param level
+	 *            the level the objects will be logged
+	 * @param obj
+	 *            the objects to be logged
+	 * @return Return whether the log was logged or not
+	 */
+	public static final boolean print(Level level, Object... obj) {
+		for (final Object log : obj) {
+			logger.log(level, log.toString());
 		}
 
-		return debug;
+		return logger.isLoggable(level);
 	}
 
 	/**
-	 * Prints the given object to stderr only if debug mode is on
+	 * Logs all Objects to the console with the normal INFO level
 	 * 
 	 * @param obj
-	 *            The object to be printed
+	 *            the objects to be logged
+	 * @return Return whether the log was logged or not
 	 */
-	public static final boolean debugOnly_print_error(Object obj) {
-		if (debug) {
-			System.err.print(obj);
-		}
-
-		return debug;
-	}
-
-	/**
-	 * Prints the standard error message addon with the given exception to
-	 * stderr only if debug mode is on
-	 * 
-	 * @param exception
-	 *            the exception to be printed
-	 */
-	public static final boolean debugOnly_printException(Throwable exception) {
-		return debugOnly_printException_noAddon(exception, errorMessageAddon);
-	}
-
-	/**
-	 * Prints the standard error message addon and an additional message with
-	 * the given exception to stderr only if debug mode is on
-	 * 
-	 * @param exception
-	 *            the exception to be printed
-	 * @param additionalMessage
-	 *            the message to be printed after the standard error message
-	 *            addon
-	 */
-	public static final boolean debugOnly_printException(Throwable exception,
-			String additionalMessage) {
-		return debugOnly_printException_noAddon(exception, errorMessageAddon
-				+ "\n" + additionalMessage);
-	}
-
-	/**
-	 * Prints the given exception to stderr only if debug mode is on
-	 * 
-	 * @param exception
-	 *            the exception to be printed
-	 */
-	public static final boolean debugOnly_printException_noAddon(
-			Throwable exception) {
-		if (debug) {
-			exception.printStackTrace();
-		}
-
-		return debug;
-	}
-
-	/**
-	 * Prints the additional message and the given exception to stderr only if
-	 * debug mode is on or the mod is not
-	 * 
-	 * @param exception
-	 *            the exception to be printed
-	 * @param additionalMessage
-	 *            the message to be printed in front of the exception
-	 */
-	public static final boolean debugOnly_printException_noAddon(
-			Throwable exception, String additionalMessage) {
-		debugOnly_println_error(additionalMessage);
-
-		return debugOnly_printException_noAddon(exception);
-	}
-
-	/**
-	 * Prints the given object to stdout with a linewarp only if debug mode is
-	 * on
-	 * 
-	 * @param obj
-	 *            The object to be printed
-	 */
-	public static final boolean debugOnly_println(Object obj) {
-		if (debug) {
-			System.out.println(obj);
-		}
-
-		return debug;
-	}
-
-	/**
-	 * Prints the given object to stderr with a linewarp only if debug mode is
-	 * on
-	 * 
-	 * @param obj
-	 *            The object to be printed
-	 */
-	public static final boolean debugOnly_println_error(Object obj) {
-		if (debug) {
-			System.err.println(obj);
-		}
-
-		return debug;
-	}
-
-	/**
-	 * Prints the given object always to stdout
-	 * 
-	 * @param obj
-	 *            The object to be printed
-	 */
-	public static final boolean force_print(Object obj) {
-		System.out.print(obj);
-
-		return true;
-	}
-
-	/**
-	 * Prints the given object always to stderr
-	 * 
-	 * @param obj
-	 *            The object to be printed
-	 */
-	public static final boolean force_print_error(Object obj) {
-		System.err.print(obj);
-
-		return true;
-	}
-
-	/**
-	 * Prints the standard error message addon with the given exception always
-	 * to stderr
-	 * 
-	 * @param exception
-	 *            the exception to be printed
-	 */
-	public static final boolean force_printException(Throwable exception) {
-		return force_printException_noAddon(exception, errorMessageAddon);
-	}
-
-	/**
-	 * Prints the standard error message addon and an additional message with
-	 * the given exception always to stderr
-	 * 
-	 * @param exception
-	 *            the exception to be printed
-	 * @param additionalMessage
-	 *            the message to be printed after the standard error message
-	 *            addon
-	 */
-	public static final boolean force_printException(Throwable exception,
-			String additionalMessage) {
-		return force_printException_noAddon(exception, errorMessageAddon + "\n"
-				+ additionalMessage);
-	}
-
-	/**
-	 * Prints the given exception always to stderr
-	 * 
-	 * @param exception
-	 *            the exception to be printed
-	 */
-	public static final boolean force_printException_noAddon(Throwable exception) {
-		exception.printStackTrace();
-
-		return true;
-	}
-
-	/**
-	 * Prints the additional message and the given exception always to stderr
-	 * 
-	 * @param exception
-	 *            the exception to be printed
-	 * @param additionalMessage
-	 *            the message to be printed in front of the exception
-	 */
-	public static final boolean force_printException_noAddon(
-			Throwable exception, String additionalMessage) {
-		force_println_error(additionalMessage);
-
-		return force_printException_noAddon(exception);
-	}
-
-	/**
-	 * PPrints the given object always to stdout with a linewarp
-	 * 
-	 * @param obj
-	 *            The object to be printed
-	 */
-	public static final boolean force_println(Object obj) {
-		System.out.println(obj);
-
-		return true;
-	}
-
-	/**
-	 * Prints the given object always to stderr with a linewarp
-	 * 
-	 * @param obj
-	 *            The object to be printed
-	 */
-	public static final boolean force_println_error(Object obj) {
-		System.err.println(obj);
-
-		return true;
-	}
-
-	/**
-	 * Prints the given object to stdout if debug mode is on or the mod is not
-	 * released
-	 * 
-	 * @param obj
-	 *            The object to be printed
-	 */
-	public static final boolean print(Object obj) {
-		if (notRelease) {
-			System.out.print(obj);
-		}
-
-		return notRelease;
-	}
-
 	public static final boolean print(Object... obj) {
-		final int length = obj.length;
-
-		for (int i = 0; i < length; i++) {
-			print(obj[i]);
+		for (final Object log : obj) {
+			logger.info(log.toString());
 		}
 
-		return notRelease;
+		return logger.isLoggable(Level.INFO);
 	}
 
 	/**
-	 * Prints the given object to stderr if debug mode is on or the mod is not
-	 * released
+	 * Sets up the logger and also sets up the corresponding filter
 	 * 
-	 * @param obj
-	 *            The object to be printed
+	 * @param logger
+	 *            - the logger for this class
 	 */
-	public static final boolean print_error(Object obj) {
-		if (notRelease) {
-			System.err.print(obj);
+	public static void setUpLogger(Logger logger) {
+		BSP.logger = logger;
+
+		Filter filter;
+
+		if (BrainStone.debug) {
+			filter = new DebugFilter();
+		} else if (BrainStone.release) {
+			filter = new ReleaseFilter();
+		} else {
+			filter = new DefaultFilter();
 		}
 
-		return notRelease;
+		BSP.logger.setFilter(filter);
 	}
 
-	/**
-	 * Prints the standard error message addon with the given exception to
-	 * stderr if debug mode is on or the mod is not released
-	 * 
-	 * @param exception
-	 *            the exception to be printed
-	 */
-	public static final boolean printException(Throwable exception) {
-		return printException_noAddon(exception, errorMessageAddon);
-	}
-
-	/**
-	 * Prints the standard error message addon and an additional message with
-	 * the given exception to stderr if debug mode is on or the mod is not
-	 * released
-	 * 
-	 * @param exception
-	 *            the exception to be printed
-	 * @param additionalMessage
-	 *            the message to be printed after the standard error message
-	 *            addon
-	 */
-	public static final boolean printException(Throwable exception,
-			String additionalMessage) {
-		return printException_noAddon(exception, errorMessageAddon + "\n"
-				+ additionalMessage);
-	}
-
-	/**
-	 * Prints the given exception to stderr if debug mode is on or the mod is
-	 * not released
-	 * 
-	 * @param exception
-	 *            the exception to be printed
-	 */
-	public static final boolean printException_noAddon(Throwable exception) {
-		if (notRelease) {
-			exception.printStackTrace();
-		}
-
-		return notRelease;
-	}
-
-	/**
-	 * Prints the additional message and the given exception to stderr if debug
-	 * mode is on or the mod is not
-	 * 
-	 * @param exception
-	 *            the exception to be printed
-	 * @param additionalMessage
-	 *            the message to be printed in front of the exception
-	 */
-	public static final boolean printException_noAddon(Throwable exception,
-			String additionalMessage) {
-		println_error(additionalMessage);
-
-		return printException_noAddon(exception);
-	}
-
-	/**
-	 * Prints the given object to stdout with a linewarp if debug mode is on or
-	 * the mod is not released
-	 * 
-	 * @param obj
-	 *            The object to be printed
-	 */
-	public static final boolean println(Object obj) {
-		if (notRelease) {
-			System.out.println(obj);
-		}
-
-		return notRelease;
-	}
-
-	public static final boolean println(Object... obj) {
-		final int length = obj.length;
-
-		for (int i = 0; i < length; i++) {
-			println(obj[i]);
-		}
-
-		return notRelease;
-	}
-
-	/**
-	 * Prints the given object to stderr with a linewarp if debug mode is on or
-	 * the mod is not released
-	 * 
-	 * @param obj
-	 *            The object to be printed
-	 */
-	public static final boolean println_error(Object obj) {
-		if (notRelease) {
-			System.err.println(obj);
-		}
-
-		return notRelease;
-	}
+	// ============================ Throw-Functions ============================
 
 	/**
 	 * Throws a ArithmeticException with the error message addon
@@ -407,8 +126,7 @@ public abstract class BSP {
 	 */
 	public static final void throwArithmeticException(String additionalMessage) {
 		throw new ArithmeticException(errorMessageAddon
-				+ ((additionalMessage.equals("")) ? "" : "\n"
-						+ additionalMessage));
+				+ ANLIN(additionalMessage));
 	}
 
 	/**
@@ -427,8 +145,7 @@ public abstract class BSP {
 	public static final void throwArrayIndexOutOfBoundsException(
 			String additionalMessage) {
 		throw new ArrayIndexOutOfBoundsException(errorMessageAddon
-				+ ((additionalMessage.equals("")) ? "" : "\n"
-						+ additionalMessage));
+				+ ANLIN(additionalMessage));
 	}
 
 	/**
@@ -446,8 +163,7 @@ public abstract class BSP {
 	 */
 	public static final void throwArrayStoreException(String additionalMessage) {
 		throw new ArrayStoreException(errorMessageAddon
-				+ ((additionalMessage.equals("")) ? "" : "\n"
-						+ additionalMessage));
+				+ ANLIN(additionalMessage));
 	}
 
 	/**
@@ -465,8 +181,7 @@ public abstract class BSP {
 	 */
 	public static final void throwClassCastException(String additionalMessage) {
 		throw new ClassCastException(errorMessageAddon
-				+ ((additionalMessage.equals("")) ? "" : "\n"
-						+ additionalMessage));
+				+ ANLIN(additionalMessage));
 	}
 
 	/**
@@ -489,8 +204,7 @@ public abstract class BSP {
 	public static final void throwClassNotFoundException(
 			String additionalMessage) throws ClassNotFoundException {
 		throw new ClassNotFoundException(errorMessageAddon
-				+ ((additionalMessage.equals("")) ? "" : "\n"
-						+ additionalMessage));
+				+ ANLIN(additionalMessage));
 	}
 
 	/**
@@ -565,13 +279,10 @@ public abstract class BSP {
 	 */
 	public static final <E extends Throwable> void throwException(E exception,
 			String additionalMessage) throws E {
-		throw (E) new Throwable("("
-				+ exception.getClass().getName()
-				+ ")"
-				+ BSP.errorMessageAddon
-				+ ((additionalMessage.equals("")) ? "" : "\n"
-						+ additionalMessage + "\n") + "\nOriginal message: \""
-				+ exception.getMessage() + "\"\n", exception);
+		throw (E) new Throwable("(" + exception.getClass().getName() + ")"
+				+ BSP.errorMessageAddon + ANLIN(additionalMessage + "\n")
+				+ "\nOriginal message: \"" + exception.getMessage() + "\"\n",
+				exception);
 	}
 
 	/**
@@ -585,13 +296,10 @@ public abstract class BSP {
 	 */
 	public static final <E extends RuntimeException> void throwException(
 			E exception, String additionalMessage) {
-		throw (E) new RuntimeException("("
-				+ exception.getClass().getName()
-				+ ")"
-				+ errorMessageAddon
-				+ ((additionalMessage.equals("")) ? "" : "\n"
-						+ additionalMessage + "\n") + "\nOriginal message: \""
-				+ exception.getMessage() + "\"\n", exception);
+		throw (E) new RuntimeException("(" + exception.getClass().getName()
+				+ ")" + errorMessageAddon + ANLIN(additionalMessage + "\n")
+				+ "\nOriginal message: \"" + exception.getMessage() + "\"\n",
+				exception);
 	}
 
 	/**
@@ -603,9 +311,7 @@ public abstract class BSP {
 	 */
 	public static final void throwException(String additionalMessage)
 			throws Exception {
-		throw new Exception(errorMessageAddon
-				+ ((additionalMessage.equals("")) ? "" : "\n"
-						+ additionalMessage));
+		throw new Exception(errorMessageAddon + ANLIN(additionalMessage));
 	}
 
 	/**
@@ -628,8 +334,7 @@ public abstract class BSP {
 	public static final void throwIllegalAccessException(
 			String additionalMessage) throws IllegalAccessException {
 		throw new IllegalAccessException(errorMessageAddon
-				+ ((additionalMessage.equals("")) ? "" : "\n"
-						+ additionalMessage));
+				+ ANLIN(additionalMessage));
 	}
 
 	/**
@@ -648,8 +353,7 @@ public abstract class BSP {
 	public static final void throwIllegalArgumentException(
 			String additionalMessage) {
 		throw new IllegalArgumentException(errorMessageAddon
-				+ ((additionalMessage.equals("")) ? "" : "\n"
-						+ additionalMessage));
+				+ ANLIN(additionalMessage));
 	}
 
 	/**
@@ -668,8 +372,7 @@ public abstract class BSP {
 	public static final void throwIllegalMonitorStateException(
 			String additionalMessage) {
 		throw new IllegalMonitorStateException(errorMessageAddon
-				+ ((additionalMessage.equals("")) ? "" : "\n"
-						+ additionalMessage));
+				+ ANLIN(additionalMessage));
 	}
 
 	/**
@@ -688,8 +391,7 @@ public abstract class BSP {
 	public static final void throwIllegalThreadStateException(
 			String additionalMessage) {
 		throw new IllegalThreadStateException(errorMessageAddon
-				+ ((additionalMessage.equals("")) ? "" : "\n"
-						+ additionalMessage));
+				+ ANLIN(additionalMessage));
 	}
 
 	/**
@@ -708,8 +410,7 @@ public abstract class BSP {
 	public static final void throwIndexOutOfBoundsException(
 			String additionalMessage) {
 		throw new IndexOutOfBoundsException(errorMessageAddon
-				+ ((additionalMessage.equals("")) ? "" : "\n"
-						+ additionalMessage));
+				+ ANLIN(additionalMessage));
 	}
 
 	/**
@@ -732,8 +433,7 @@ public abstract class BSP {
 	public static final void throwInstantiationException(
 			String additionalMessage) throws InstantiationException {
 		throw new InstantiationException(errorMessageAddon
-				+ ((additionalMessage.equals("")) ? "" : "\n"
-						+ additionalMessage));
+				+ ANLIN(additionalMessage));
 	}
 
 	/**
@@ -756,8 +456,7 @@ public abstract class BSP {
 	public static final void throwInterruptedException(String additionalMessage)
 			throws InterruptedException {
 		throw new InterruptedException(errorMessageAddon
-				+ ((additionalMessage.equals("")) ? "" : "\n"
-						+ additionalMessage));
+				+ ANLIN(additionalMessage));
 	}
 
 	/**
@@ -776,8 +475,7 @@ public abstract class BSP {
 	public static final void throwNegativeArraySizeException(
 			String additionalMessage) {
 		throw new NegativeArraySizeException(errorMessageAddon
-				+ ((additionalMessage.equals("")) ? "" : "\n"
-						+ additionalMessage));
+				+ ANLIN(additionalMessage));
 	}
 
 	/**
@@ -800,8 +498,7 @@ public abstract class BSP {
 	public static final void throwNoSuchMethodException(String additionalMessage)
 			throws NoSuchMethodException {
 		throw new NoSuchMethodException(errorMessageAddon
-				+ ((additionalMessage.equals("")) ? "" : "\n"
-						+ additionalMessage));
+				+ ANLIN(additionalMessage));
 	}
 
 	/**
@@ -819,8 +516,7 @@ public abstract class BSP {
 	 */
 	public static final void throwNullPointerException(String additionalMessage) {
 		throw new NullPointerException(errorMessageAddon
-				+ ((additionalMessage.equals("")) ? "" : "\n"
-						+ additionalMessage));
+				+ ANLIN(additionalMessage));
 	}
 
 	/**
@@ -838,8 +534,7 @@ public abstract class BSP {
 	 */
 	public static final void throwNumberFormatException(String additionalMessage) {
 		throw new NumberFormatException(errorMessageAddon
-				+ ((additionalMessage.equals("")) ? "" : "\n"
-						+ additionalMessage));
+				+ ANLIN(additionalMessage));
 	}
 
 	/**
@@ -856,9 +551,7 @@ public abstract class BSP {
 	 *            a additional message added after the addon
 	 */
 	public static final void throwRuntimeException(String additionalMessage) {
-		throw new RuntimeException(errorMessageAddon
-				+ ((additionalMessage.equals("")) ? "" : "\n"
-						+ additionalMessage));
+		throw new RuntimeException(errorMessageAddon + ANLIN(additionalMessage));
 	}
 
 	/**
@@ -876,8 +569,7 @@ public abstract class BSP {
 	 */
 	public static final void throwSecurityException(String additionalMessage) {
 		throw new SecurityException(errorMessageAddon
-				+ ((additionalMessage.equals("")) ? "" : "\n"
-						+ additionalMessage));
+				+ ANLIN(additionalMessage));
 	}
 
 	/**
@@ -896,8 +588,7 @@ public abstract class BSP {
 	public static final void throwStringIndexOutOfBoundsException(
 			String additionalMessage) {
 		throw new StringIndexOutOfBoundsException(errorMessageAddon
-				+ ((additionalMessage.equals("")) ? "" : "\n"
-						+ additionalMessage));
+				+ ANLIN(additionalMessage));
 	}
 
 	/**
@@ -918,8 +609,6 @@ public abstract class BSP {
 	 */
 	public static final void throwThrowable(String additionalMessage)
 			throws Throwable {
-		throw new Throwable(errorMessageAddon
-				+ ((additionalMessage.equals("")) ? "" : "\n"
-						+ additionalMessage));
+		throw new Throwable(errorMessageAddon + ANLIN(additionalMessage));
 	}
 }
