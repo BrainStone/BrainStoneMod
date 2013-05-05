@@ -172,7 +172,7 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	}
 
 	@Override
-	public Icon getBlockTextureFromSideAndMetadata(int i, int meta) {
+	public Icon getIcon(int i, int meta) {
 
 		if (i >= 2)
 			return textures[3 + i];

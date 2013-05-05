@@ -89,7 +89,7 @@ public abstract class BrainStoneEnchantmentHelper extends EnchantmentHelper {
 
 	public static final boolean canEnchantItem(Enchantment enchantment,
 			ItemStack item) {
-		return enchantment.func_92089_a(item);
+		return enchantment.canApply(item);
 	}
 
 	public static final boolean canEnchantItem(int enchantment, ItemStack item) {

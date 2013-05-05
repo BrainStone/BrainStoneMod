@@ -17,8 +17,8 @@ public class ItemSwordBrainStone extends ItemSword {
 	}
 
 	@Override
-	public void updateIcons(IconRegister par1IconRegister) {
-		iconIndex = par1IconRegister.registerIcon("brainstone:"
+	public void registerIcons(IconRegister par1IconRegister) {
+		itemIcon = par1IconRegister.registerIcon("brainstone:"
 				+ this.getUnlocalizedName().replaceFirst("item.", ""));
 	}
 }

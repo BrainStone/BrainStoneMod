@@ -84,7 +84,7 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 	}
 
 	@Override
-	public Icon getBlockTextureFromSideAndMetadata(int i, int meta) {
+	public Icon getIcon(int i, int meta) {
 		if (i == 1)
 			return textures[0];
 		else if (i == 0)
