@@ -5,11 +5,23 @@ import mods.brainstone.tileentities.TileEntityBlockBrainLogicBlockRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.world.World;
-import net.minecraftforge.client.MinecraftForgeClient;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy {
+	/**
+	 * Adds some armor.
+	 * 
+	 * @param armor
+	 *            The armor name
+	 * @return the Armor-Renderer-Prefix
+	 */
+	@Override
+	public int addArmor(String armor) {
+		return RenderingRegistry.addNewArmourRendererPrefix(armor);
+	}
+
 	/**
 	 * Returns the Client Minecraft Instance.
 	 * 
@@ -48,25 +60,5 @@ public class ClientProxy extends CommonProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(
 				TileEntityBlockBrainLogicBlock.class,
 				new TileEntityBlockBrainLogicBlockRenderer());
-	}
-
-	/**
-	 * Registers all the textures.<br>
-	 */
-	@Override
-	public void registerTextures() {
-		MinecraftForgeClient.preloadTexture(BrainStone.armorPath
-				+ "brainstone_armor_1.png");
-		MinecraftForgeClient.preloadTexture(BrainStone.armorPath
-				+ "brainstone_armor_2.png");
-
-		MinecraftForgeClient.preloadTexture(BrainStone.guiPath
-				+ "GuiBrainLightSensorClassic.png");
-		MinecraftForgeClient.preloadTexture(BrainStone.guiPath
-				+ "GuiBrainLightSensorSimple.png");
-		MinecraftForgeClient.preloadTexture(BrainStone.guiPath
-				+ "GuiBrainLogicBlock.png");
-		MinecraftForgeClient.preloadTexture(BrainStone.guiPath
-				+ "GuiBrainStoneTrigger.png");
 	}
 }

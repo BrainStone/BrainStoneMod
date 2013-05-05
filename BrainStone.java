@@ -1,6 +1,5 @@
 package mods.brainstone;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -51,13 +50,13 @@ import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.src.ModLoader;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.EnumHelper;
 import net.minecraftforge.common.MinecraftForge;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
@@ -71,14 +70,14 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
-import cpw.mods.fml.relauncher.RelaunchLibraryManager;
+import cpw.mods.fml.relauncher.Side;
 
 /**
  * The main file of the mod
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.23.2 BETA DEV")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.23.10 BETA DEV")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
@@ -123,7 +122,7 @@ public class BrainStone {
 
 	/** The client proxy */
 	@SidedProxy(clientSide = "mods.brainstone.ClientProxy", serverSide = "mods.brainstone.CommonProxy")
-	public static ClientProxy proxy;
+	public static CommonProxy proxy;
 
 	/** The BrainStone Tool Material */
 	public static EnumToolMaterial toolBRAINSTONE = EnumHelper.addToolMaterial(
@@ -387,39 +386,27 @@ public class BrainStone {
 	 */
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event) {
-		/*Field f;
-		try {
-			f = RelaunchLibraryManager.class.getDeclaredField("deobfuscatedEnvironment");
-			f.setAccessible(true);
-			boolean test = (Boolean) f.get(null);
-			if(test)
-				BSP.println("Deobf");
-		} catch (NoSuchFieldException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		if ((Gate.Gates == null) || Gate.Gates.isEmpty()) {
-			BSP.throwNullPointerException("Well, that should NOT have happenend! This IS a HUGE problem if you notice this please report it to yannick@tedworld.de.\nThanks!\n\nDeveloper Information:\nThe Map of the Gates is EMPTY!\nIs gates null: "
-					+ (Gate.Gates == null));
-		}*/
+		/*
+		 * Field f; try { f =
+		 * RelaunchLibraryManager.class.getDeclaredField("deobfuscatedEnvironment"
+		 * ); f.setAccessible(true); boolean test = (Boolean) f.get(null);
+		 * if(test) BSP.println("Deobf"); } catch (NoSuchFieldException e) {
+		 * e.printStackTrace(); } catch (SecurityException e) {
+		 * e.printStackTrace(); } catch (IllegalArgumentException e) {
+		 * e.printStackTrace(); } catch (IllegalAccessException e) {
+		 * e.printStackTrace(); }
+		 * 
+		 * if ((Gate.Gates == null) || Gate.Gates.isEmpty()) {
+		 * BSP.throwNullPointerException(
+		 * "Well, that should NOT have happenend! This IS a HUGE problem if you notice this please report it to yannick@tedworld.de.\nThanks!\n\nDeveloper Information:\nThe Map of the Gates is EMPTY!\nIs gates null: "
+		 * + (Gate.Gates == null)); }
+		 */
 
 		generateMcModInfoFile(event);
 
 		getIds(event);
 
 		generateObjects();
-
-		proxy.registerTextures();
 	}
 
 	/**
@@ -533,7 +520,7 @@ public class BrainStone {
 
 				LanguageRegistry.instance().addNameForObject(obj, de,
 						get_name_de(key));
-			} else {
+			} else if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
 				key2 = key - startAchievementId;
 
 				final Achievement tmp = (Achievement) obj;
@@ -709,8 +696,11 @@ public class BrainStone {
 		}
 
 		BlockBrainStoneTrigger.triggerEntities = brainStoneTriggerEntities;
-		GuiBrainStoneTrigger.triggerEntities = brainStoneTriggerEntities;
 		TileEntityBlockBrainStoneTrigger.triggerEntities = brainStoneTriggerEntities;
+
+		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
+			GuiBrainStoneTrigger.triggerEntities = brainStoneTriggerEntities;
+		}
 	}
 
 	// Items
@@ -762,16 +752,16 @@ public class BrainStone {
 		items.put(startItemId + 7, (new ItemHoeBrainStone(7, toolBRAINSTONE))
 				.setUnlocalizedName("brainStoneHoe"));
 		items.put(startItemId + 8, (new ItemArmorBrainStone(8, armorBRAINSTONE,
-				ModLoader.addArmor("brainstone"), 0))
+				proxy.addArmor("brainstone"), 0))
 				.setUnlocalizedName("brainStoneHelmet"));
 		items.put(startItemId + 9, (new ItemArmorBrainStone(9, armorBRAINSTONE,
-				ModLoader.addArmor("brainstone"), 1))
+				proxy.addArmor("brainstone"), 1))
 				.setUnlocalizedName("brainStonePlate"));
 		items.put(startItemId + 10, (new ItemArmorBrainStone(10,
-				armorBRAINSTONE, ModLoader.addArmor("brainstone"), 2))
+				armorBRAINSTONE, proxy.addArmor("brainstone"), 2))
 				.setUnlocalizedName("brainStoneLeggings"));
 		items.put(startItemId + 11, (new ItemArmorBrainStone(11,
-				armorBRAINSTONE, ModLoader.addArmor("brainstone"), 3))
+				armorBRAINSTONE, proxy.addArmor("brainstone"), 3))
 				.setUnlocalizedName("brainStoneBoots"));
 
 		// Achievements

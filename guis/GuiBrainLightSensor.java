@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import mods.brainstone.containers.ContainerBlockBrainLightSensor;
 import mods.brainstone.handlers.BrainStonePacketHandler;
-import mods.brainstone.templates.BSP;
 import mods.brainstone.templates.GuiBrainStoneBase;
 import mods.brainstone.tileentities.TileEntityBlockBrainLightSensor;
 import net.minecraft.util.StatCollector;
@@ -96,7 +95,8 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 			final int x = (width - xSizeSimple) / 2;
 			final int y = (height - ySizeSimple) / 2;
 			this.drawTexturedModalRect(x, y, 0, 0, xSizeSimple, ySizeSimple);
-			this.drawTexturedModalRect(x + 8, y + ((tileentity.getDirection()) ? 18 : 36), 8, 52, 8, 8);
+			this.drawTexturedModalRect(x + 8, y
+					+ ((tileentity.getDirection()) ? 18 : 36), 8, 52, 8, 8);
 
 			fontRenderer.drawString(
 					tmp = StatCollector
@@ -108,12 +108,12 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 							.translateToLocal("gui.brainstone.simple"),
 					(x + 96) - (fontRenderer.getStringWidth(tmp) / 2), y + 3,
 					0x404040);
-			fontRenderer.drawString(StatCollector.translateToLocal("gui.brainstone.proportional"),
-					x + 20, y + 18,
-					0x404040);
-			fontRenderer.drawString(StatCollector.translateToLocal("gui.brainstone.inverted"),
-					x + 20, y + 36,
-					0x404040);
+			fontRenderer.drawString(StatCollector
+					.translateToLocal("gui.brainstone.proportional"), x + 20,
+					y + 18, 0x404040);
+			fontRenderer.drawString(
+					StatCollector.translateToLocal("gui.brainstone.inverted"),
+					x + 20, y + 36, 0x404040);
 		}
 	}
 
@@ -182,7 +182,7 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 					tileentity.changeState();
 					try {
 						tileentity.update(true);
-					} catch (IOException e) {
+					} catch (final IOException e) {
 						e.printStackTrace();
 					}
 				}
@@ -193,23 +193,21 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 			} else {
 				x -= (width - xSizeSimple) / 2;
 				y -= (height - ySizeSimple) / 2;
-				
+
 				if (this.inField(x, y, 0, 0, 63, 9)) {
 					tileentity.changeState();
 					try {
 						tileentity.update(true);
-					} catch (IOException e) {
+					} catch (final IOException e) {
 						e.printStackTrace();
 					}
 				}
-				
-				if (inField(x, y, 8, 18, 15, 25))
-				{
+
+				if (this.inField(x, y, 8, 18, 15, 25)) {
 					tileentity.setDirection(true);
 				}
-						
-				if (inField(x, y, 8, 36, 15, 43))
-				{
+
+				if (this.inField(x, y, 8, 36, 15, 43)) {
 					tileentity.setDirection(false);
 				}
 

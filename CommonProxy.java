@@ -7,6 +7,18 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class CommonProxy {
 	/**
+	 * Adds some armor.<br>
+	 * <b><u>!!! Will do nothing !!! This is the server proxy !!!</u></b>
+	 * 
+	 * @param armor
+	 *            The armor name
+	 * @return the Armor-Renderer-Prefix
+	 */
+	public int addArmor(String armor) {
+		return 0;
+	}
+
+	/**
 	 * Returns the Client Minecraft Instance.<br>
 	 * <b><u>!!! Will do nothing !!! This is the server proxy !!!</u></b>
 	 * 
@@ -39,6 +51,9 @@ public class CommonProxy {
 		return null;
 	}
 
+	/**
+	 * Registers the ore(s) in the OreDictionary
+	 */
 	public void registerOre() {
 		OreDictionary.registerOre("brainstoneore", BrainStone.brainStoneOre());
 	}
@@ -48,12 +63,5 @@ public class CommonProxy {
 	 * <b><u>!!! Will do nothing !!! This is the server proxy !!!</u></b>
 	 */
 	public void registerRenderInformation() {
-	}
-
-	/**
-	 * Registers all the textures.<br>
-	 * <b><u>!!! Will do nothing !!! This is the server proxy !!!</u></b>
-	 */
-	public void registerTextures() {
 	}
 }
