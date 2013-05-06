@@ -484,7 +484,7 @@ public class TileEntityBlockBrainLogicBlock extends
 	}
 
 	private void print(Object obj) {
-		if (!BSP.println(obj) && PrintErrorBuffActive) {
+		if (!BSP.print(obj) && PrintErrorBuffActive) {
 			PrintErrorBuff.add(obj.toString());
 		}
 	}

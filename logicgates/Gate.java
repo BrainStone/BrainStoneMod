@@ -99,7 +99,7 @@ public abstract class Gate {
 			}
 		}
 
-		BSP.print_error("The ID: \"" + ID + "\" was not recongnized!");
+		BSP.severe("The ID: \"" + ID + "\" was not recongnized!");
 
 		return null;
 	}

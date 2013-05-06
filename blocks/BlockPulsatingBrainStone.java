@@ -100,7 +100,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 				}
 			}
 		} else if ((metaData == 8) && (effect)) {
-			BSP.debugOnly_println("Effect Time!");
+			BSP.finer("Effect Time!");
 
 			double radius;
 			int taskRand;
@@ -115,7 +115,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 			for (int i = 0; i < size; i++) {
 				tmpEntity = list.get(i);
 
-				BSP.debugOnly_println(tmpEntity.getClass().getName());
+				BSP.finer(tmpEntity.getClass().getName());
 
 				if (tmpEntity instanceof EntityPlayer) {
 					final ItemStack[] playerArmor = ((EntityPlayer) tmpEntity).inventory.armorInventory;
@@ -132,7 +132,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 									.brainStoneLeggings().itemID)
 							&& (playerArmor[0].itemID == BrainStone
 									.brainStoneBoots().itemID)) {
-						BSP.debugOnly_println("Player wears armor! No effect!");
+						BSP.finer("Player wears armor! No effect!");
 
 						continue;
 					}
@@ -148,13 +148,13 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 						taskRand = random.nextInt(10);
 
 						if ((taskRand >= 0) && (taskRand < 6)) {
-							BSP.debugOnly_println("Potion Effect");
+							BSP.finer("Potion Effect");
 
 							entity.addPotionEffect(new PotionEffect(this
 									.getRandomPotion(random), random
 									.nextInt(5980) + 20, random.nextInt(4)));
 						} else if ((taskRand >= 6) && (taskRand < 10)) {
-							BSP.debugOnly_println("Kick");
+							BSP.finer("Kick");
 
 							final double x1 = MathHelper
 									.getRandomDoubleInRange(random, -1.5, 1.5);

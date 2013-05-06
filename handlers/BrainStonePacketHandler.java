@@ -314,10 +314,9 @@ public class BrainStonePacketHandler implements IPacketHandler {
 	}
 
 	private void handleUnknownPacket() {
-		BSP.println("The packet's channel \"" + channel
-				+ "\" was not regonized!");
-		BSP.println("Content of the packet:");
-		BSP.println(packet.data);
+		BSP.print(
+				"The packet's channel \"" + channel + "\" was not regonized!",
+				"Content of the packet:", packet.data);
 
 		this.handled();
 	}
@@ -425,8 +424,7 @@ public class BrainStonePacketHandler implements IPacketHandler {
 		} catch (final IOException e) {
 			BSP.printException(e);
 		} catch (final NullPointerException e) {
-			BSP.debugOnly_printException(e,
-					"I guess this block just got removed!");
+			BSP.finer(e, "I guess this block just got removed!");
 		}
 	}
 

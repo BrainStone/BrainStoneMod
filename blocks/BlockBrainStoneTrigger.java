@@ -182,7 +182,7 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 			final Class entity = ((Entity) list.get(l)).getClass();
 
 			if (entity == null) {
-				BSP.println("Fehler! Die Entity ist nicht vorhanden!");
+				BSP.severe("Fehler! Die Entity ist nicht vorhanden!");
 				continue;
 			}
 

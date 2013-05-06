@@ -139,13 +139,7 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 		this.y = world.getHeightValue(x, z);
 		this.z = z;
 
-		BSP.print("Trying at ");
-		BSP.print(x);
-		BSP.print(", ");
-		BSP.print(this.y);
-		BSP.print(", ");
-		BSP.print(z);
-		BSP.println("!");
+		BSP.finest("Trying at " + x + ", " + this.y + ", " + z + "!");
 
 		int counter = 0;
 		int direction = 0;
@@ -197,7 +191,7 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 			}
 
 			if (counter >= 10000) {
-				BSP.println("Failed");
+				BSP.finest("Failed");
 
 				return false;
 			}
@@ -212,13 +206,7 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 
 		this.generateSecretRoom();
 
-		BSP.print("Placed at ");
-		BSP.print(this.x);
-		BSP.print(", ");
-		BSP.print(this.y);
-		BSP.print(", ");
-		BSP.print(this.z);
-		BSP.println("!");
+		BSP.finest("Placed at " + x + ", " + this.y + ", " + z + "!");
 
 		return true;
 	}
@@ -685,7 +673,7 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 						+ random.nextInt((Integer) tmpLoot[4] + 1);
 
 				if (loot.itemID == Block.dragonEgg.blockID) {
-					BSP.println("Dragon Egg!!!!");
+					BSP.finest("Dragon Egg!!!!");
 				}
 
 				break;
