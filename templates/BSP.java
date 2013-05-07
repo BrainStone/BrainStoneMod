@@ -56,6 +56,87 @@ public abstract class BSP {
 	}
 
 	/**
+	 * Logs all Objects to the console with the normal CONFIG level
+	 * 
+	 * @param obj
+	 *            the objects to be logged
+	 * @return Return whether the log was logged or not
+	 * @see public static final boolean print(Level.CONFIG, Object... obj)
+	 */
+	public static final boolean config(Object... obj) {
+		for (final Object log : obj) {
+			logger.config(log.toString());
+		}
+
+		return logger.isLoggable(Level.CONFIG);
+	}
+
+	/**
+	 * Logs all Objects to the console with the normal FINE level
+	 * 
+	 * @param obj
+	 *            the objects to be logged
+	 * @return Return whether the log was logged or not
+	 * @see public static final boolean print(Level.FINE, Object... obj)
+	 */
+	public static final boolean fine(Object... obj) {
+		for (final Object log : obj) {
+			logger.fine(log.toString());
+		}
+
+		return logger.isLoggable(Level.FINE);
+	}
+
+	/**
+	 * Logs all Objects to the console with the normal FINER level
+	 * 
+	 * @param obj
+	 *            the objects to be logged
+	 * @return Return whether the log was logged or not
+	 * @see public static final boolean print(Level.FINER, Object... obj)
+	 */
+	public static final boolean finer(Object... obj) {
+		for (final Object log : obj) {
+			logger.finer(log.toString());
+		}
+
+		return logger.isLoggable(Level.FINER);
+	}
+
+	/**
+	 * Logs all Objects to the console with the normal FINEST level
+	 * 
+	 * @param obj
+	 *            the objects to be logged
+	 * @return Return whether the log was logged or not
+	 * @see public static final boolean print(Level.FINEST, Object... obj)
+	 */
+	public static final boolean finest(Object... obj) {
+		for (final Object log : obj) {
+			logger.finest(log.toString());
+		}
+
+		return logger.isLoggable(Level.FINEST);
+	}
+
+	/**
+	 * Logs all Objects to the console with the normal INFO level
+	 * 
+	 * @param obj
+	 *            the objects to be logged
+	 * @return Return whether the log was logged or not
+	 * @see public static final boolean print(Object... obj)
+	 * @see public static final boolean print(Level.INFO, Object... obj)
+	 */
+	public static final boolean info(Object... obj) {
+		for (final Object log : obj) {
+			logger.info(log.toString());
+		}
+
+		return logger.isLoggable(Level.INFO);
+	}
+
+	/**
 	 * Logs all Objects to the console with the level to be logged
 	 * 
 	 * @param level
@@ -78,6 +159,8 @@ public abstract class BSP {
 	 * @param obj
 	 *            the objects to be logged
 	 * @return Return whether the log was logged or not
+	 * @see public static final boolean info(Object... obj)
+	 * @see public static final boolean print(Level.INFO, Object... obj)
 	 */
 	public static final boolean print(Object... obj) {
 		for (final Object log : obj) {
@@ -109,7 +192,21 @@ public abstract class BSP {
 		BSP.logger.setFilter(filter);
 	}
 
-	// ============================ Throw-Functions ============================
+	/**
+	 * Logs all Objects to the console with the normal SEVERE level
+	 * 
+	 * @param obj
+	 *            the objects to be logged
+	 * @return Return whether the log was logged or not
+	 * @see public static final boolean print(Level.SEVERE, Object... obj)
+	 */
+	public static final boolean severe(Object... obj) {
+		for (final Object log : obj) {
+			logger.severe(log.toString());
+		}
+
+		return logger.isLoggable(Level.SEVERE);
+	}
 
 	/**
 	 * Throws a ArithmeticException with the error message addon
@@ -117,6 +214,8 @@ public abstract class BSP {
 	public static final void throwArithmeticException() {
 		throwArithmeticException("");
 	}
+
+	// ============================ Throw-Functions ============================
 
 	/**
 	 * Throws a ArithmeticException with the error message addon
@@ -610,5 +709,21 @@ public abstract class BSP {
 	public static final void throwThrowable(String additionalMessage)
 			throws Throwable {
 		throw new Throwable(errorMessageAddon + ANLIN(additionalMessage));
+	}
+
+	/**
+	 * Logs all Objects to the console with the normal WARNING level
+	 * 
+	 * @param obj
+	 *            the objects to be logged
+	 * @return Return whether the log was logged or not
+	 * @see public static final boolean print(Level.WARNING, Object... obj)
+	 */
+	public static final boolean warning(Object... obj) {
+		for (final Object log : obj) {
+			logger.warning(log.toString());
+		}
+
+		return logger.isLoggable(Level.WARNING);
 	}
 }
