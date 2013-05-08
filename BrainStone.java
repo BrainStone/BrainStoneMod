@@ -70,14 +70,16 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
+import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * The main file of the mod
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.25.0 BETA DEV")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.25.11 BETA")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
@@ -130,6 +132,9 @@ public class BrainStone {
 	/** The BrainStone Tool Material */
 	public static EnumArmorMaterial armorBRAINSTONE = EnumHelper
 			.addArmorMaterial("BRAINSTONE", 114, new int[] { 2, 6, 5, 2 }, 25);
+
+	@SideOnly(Side.CLIENT)
+	public static boolean called_onPlayerJoin;
 
 	/**
 	 * A HashMap with the ids of the blocks and items.<br>
@@ -436,6 +441,9 @@ public class BrainStone {
 		GameRegistry.registerCraftingHandler(new BrainStoneCraftingHandler());
 		// Pickup Handler
 		GameRegistry.registerPickupHandler(new BrainStonePickupNotifier());
+		// Tick Handler
+		TickRegistry.registerTickHandler(new BrainStoneTickHandler(),
+				Side.CLIENT);
 		addLocalizations();
 
 		MinecraftForge.setBlockHarvestLevel(brainStone(), "pickaxe", 2);
@@ -456,6 +464,11 @@ public class BrainStone {
 	@PostInit
 	public void postInit(FMLPostInitializationEvent event) throws Throwable {
 		fillTriggerEntities();
+	}
+
+	@SideOnly(Side.CLIENT)
+	public static void onPlayerJoin() {
+		BrainStone.proxy.getPlayer().sendChatToPlayer("You joined!");
 	}
 
 	/**
@@ -874,24 +887,14 @@ public class BrainStone {
 	}
 
 	/**
-	 * @return the instance of BrainLightSensor
+	 * Returns the ingame id of block or a items from this mod.
+	 * 
+	 * @param id
+	 *            The internal id
+	 * @return The ingame id of the block or the item
 	 */
-	public static final Block brainLightSensor() {
-		return blocks.get(4);
-	}
-
-	/**
-	 * @return the instance of BrainLogicBlock
-	 */
-	public static final Block brainLogicBlock() {
-		return blocks.get(6);
-	}
-
-	/**
-	 * @return the instance of BrainProcessor
-	 */
-	public static final Item brainProcessor() {
-		return items.get(startItemId + 2);
+	public static final int getId(int id) {
+		return (ids.containsKey(id)) ? ids.get(id) : 0;
 	}
 
 	/**
@@ -902,45 +905,10 @@ public class BrainStone {
 	}
 
 	/**
-	 * @return the instance of BrainStoneAxe
+	 * @return the instance of BrainStoneOut
 	 */
-	public static final Item brainStoneAxe() {
-		return items.get(startItemId + 6);
-	}
-
-	/**
-	 * @return the instance of BrainStoneBoots
-	 */
-	public static final Item brainStoneBoots() {
-		return items.get(startItemId + 11);
-	}
-
-	/**
-	 * @return the instance of BrainStoneDust
-	 */
-	public static final Item brainStoneDust() {
-		return items.get(startItemId);
-	}
-
-	/**
-	 * @return the instance of BrainStoneHelmet
-	 */
-	public static final Item brainStoneHelmet() {
-		return items.get(startItemId + 8);
-	}
-
-	/**
-	 * @return the instance of BrainStoneHoe
-	 */
-	public static final Item brainStoneHoe() {
-		return items.get(startItemId + 7);
-	}
-
-	/**
-	 * @return the instance of BrainStoneLeggings
-	 */
-	public static final Item brainStoneLeggings() {
-		return items.get(startItemId + 10);
+	public static final Block brainStoneOut() {
+		return blocks.get(1);
 	}
 
 	/**
@@ -950,41 +918,18 @@ public class BrainStone {
 		return blocks.get(2);
 	}
 
-	// Blocks
-
 	/**
-	 * @return the instance of BrainStoneOut
+	 * @return the instance of DirtyBrainStone
 	 */
-	public static final Block brainStoneOut() {
-		return blocks.get(1);
+	public static final Block dirtyBrainStone() {
+		return blocks.get(3);
 	}
 
 	/**
-	 * @return the instance of BrainStonePickaxe
+	 * @return the instance of BrainLightSensor
 	 */
-	public static final Item brainStonePickaxe() {
-		return items.get(startItemId + 5);
-	}
-
-	/**
-	 * @return the instance of BrainStonePlate
-	 */
-	public static final Item brainStonePlate() {
-		return items.get(startItemId + 9);
-	}
-
-	/**
-	 * @return the instance of BrainStoneShovel
-	 */
-	public static final Item brainStoneShovel() {
-		return items.get(startItemId + 4);
-	}
-
-	/**
-	 * @return the instance of BrainStoneSword
-	 */
-	public static final Item brainStoneSword() {
-		return items.get(startItemId + 3);
+	public static final Block brainLightSensor() {
+		return blocks.get(4);
 	}
 
 	/**
@@ -995,6 +940,34 @@ public class BrainStone {
 	}
 
 	/**
+	 * @return the instance of BrainLogicBlock
+	 */
+	public static final Block brainLogicBlock() {
+		return blocks.get(6);
+	}
+
+	/**
+	 * @return the instance of BrainLogicBlock
+	 */
+	public static final Block pulsatingBrainStone() {
+		return blocks.get(7);
+	}
+
+	/**
+	 * @return the instance of BrainLogicBlock
+	 */
+	public static final Block pulsatingBrainStoneEffect() {
+		return blocks.get(8);
+	}
+
+	/**
+	 * @return the instance of BrainStoneDust
+	 */
+	public static final Item brainStoneDust() {
+		return items.get(startItemId);
+	}
+
+	/**
 	 * @return the instance of CoalBriquette
 	 */
 	public static final Item coalBriquette() {
@@ -1002,23 +975,87 @@ public class BrainStone {
 	}
 
 	/**
-	 * @return the instance of DirtyBrainStone
+	 * @return the instance of BrainProcessor
 	 */
-	public static final Block dirtyBrainStone() {
-		return blocks.get(3);
+	public static final Item brainProcessor() {
+		return items.get(startItemId + 2);
 	}
 
-	// Items
+	/**
+	 * @return the instance of BrainStoneSword
+	 */
+	public static final Item brainStoneSword() {
+		return items.get(startItemId + 3);
+	}
 
 	/**
-	 * Returns the ingame id of block or a items from this mod.
-	 * 
-	 * @param id
-	 *            The internal id
-	 * @return The ingame id of the block or the item
+	 * @return the instance of BrainStoneShovel
 	 */
-	public static final int getId(int id) {
-		return (ids.containsKey(id)) ? ids.get(id) : 0;
+	public static final Item brainStoneShovel() {
+		return items.get(startItemId + 4);
+	}
+
+	/**
+	 * @return the instance of BrainStonePickaxe
+	 */
+	public static final Item brainStonePickaxe() {
+		return items.get(startItemId + 5);
+	}
+
+	/**
+	 * @return the instance of BrainStoneAxe
+	 */
+	public static final Item brainStoneAxe() {
+		return items.get(startItemId + 6);
+	}
+
+	/**
+	 * @return the instance of BrainStoneHoe
+	 */
+	public static final Item brainStoneHoe() {
+		return items.get(startItemId + 7);
+	}
+
+	/**
+	 * @return the instance of BrainStoneHelmet
+	 */
+	public static final Item brainStoneHelmet() {
+		return items.get(startItemId + 8);
+	}
+
+	/**
+	 * @return the instance of BrainStonePlate
+	 */
+	public static final Item brainStonePlate() {
+		return items.get(startItemId + 9);
+	}
+
+	/**
+	 * @return the instance of BrainStoneLeggings
+	 */
+	public static final Item brainStoneLeggings() {
+		return items.get(startItemId + 10);
+	}
+
+	/**
+	 * @return the instance of BrainStoneBoots
+	 */
+	public static final Item brainStoneBoots() {
+		return items.get(startItemId + 11);
+	}
+
+	/**
+	 * @return the instance of WTHIT
+	 */
+	public static final Achievement WTHIT() {
+		return achievements.get(startAchievementId);
+	}
+
+	/**
+	 * @return the instance of itLives
+	 */
+	public static final Achievement itLives() {
+		return achievements.get(startAchievementId + 1);
 	}
 
 	/**
@@ -1036,39 +1073,9 @@ public class BrainStone {
 	}
 
 	/**
-	 * @return the instance of itLives
-	 */
-	public static final Achievement itLives() {
-		return achievements.get(startAchievementId + 1);
-	}
-
-	/**
 	 * @return the instance of logicBlock
 	 */
 	public static final Achievement logicBlock() {
 		return achievements.get(startAchievementId + 4);
-	}
-
-	/**
-	 * @return the instance of BrainLogicBlock
-	 */
-	public static final Block pulsatingBrainStone() {
-		return blocks.get(7);
-	}
-
-	/**
-	 * @return the instance of BrainLogicBlock
-	 */
-	public static final Block pulsatingBrainStoneEffect() {
-		return blocks.get(8);
-	}
-
-	// Achievements
-
-	/**
-	 * @return the instance of WTHIT
-	 */
-	public static final Achievement WTHIT() {
-		return achievements.get(startAchievementId);
 	}
 }
