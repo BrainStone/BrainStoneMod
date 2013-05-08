@@ -77,7 +77,7 @@ import cpw.mods.fml.relauncher.Side;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.24.27 BETA")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.25.0 BETA DEV")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
@@ -403,7 +403,7 @@ public class BrainStone {
 		 */
 
 		BSP.setUpLogger(event.getModLog());
-		
+
 		generateMcModInfoFile(event);
 		getIds(event);
 		generateObjects();
@@ -641,12 +641,12 @@ public class BrainStone {
 															new Object[] { null })))
 									+ ".name", new Class[] { value });
 				} catch (final InstantiationException e) {
-					BSP.debugOnly_printException_noAddon(
+					BSP.finestException_noAddon(
 							e,
 							"This is normal and is NOT a problem. ("
 									+ value.getName() + ")");
 				} catch (final IllegalArgumentException e) {
-					BSP.force_printException(
+					BSP.severeException(
 							e,
 							"This is very unexpected! Actually, it should never happen!\nIt could be bad programming in the BrainStoneMod (I don't think so...) or in the "
 									+ value.getName()
@@ -658,7 +658,7 @@ public class BrainStone {
 									+ value.getName()
 									+ ".class. But just report that to me. I'll take care of everything!");
 				} catch (final IllegalAccessException e) {
-					BSP.force_printException_noAddon(
+					BSP.severeException_noAddon(
 							e,
 							"This is caused by bad programming of the programmer of the "
 									+ value.getName()
@@ -668,7 +668,7 @@ public class BrainStone {
 
 					throw new IllegalAccessException(e.getMessage());
 				} catch (final NoSuchMethodException e) {
-					BSP.force_printException_noAddon(
+					BSP.severeException_noAddon(
 							e,
 							"This is caused by bad programming of the programmer of the "
 									+ value.getName()
@@ -678,14 +678,14 @@ public class BrainStone {
 
 					throw new NoSuchMethodException(e.getMessage());
 				} catch (final InvocationTargetException e) {
-					BSP.force_printException_noAddon(e,
+					BSP.severeException_noAddon(e,
 							"This is caused by bad programming of the programmer of the "
 									+ value.getName()
 									+ ".class. Please report this to them!");
 
 					throw new InvocationTargetException(e);
 				} catch (final SecurityException e) {
-					BSP.force_printException_noAddon(e,
+					BSP.severeException_noAddon(e,
 							"This is caused by bad programming of the programmer of the "
 									+ value.getName()
 									+ ".class. Please report this to them!");

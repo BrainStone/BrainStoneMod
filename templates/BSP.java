@@ -72,6 +72,73 @@ public abstract class BSP {
 	}
 
 	/**
+	 * This logs an error to the console with the CONFIG level and appends the
+	 * errorMessageAddon
+	 * 
+	 * @param ex
+	 *            the exception to be logged
+	 * @return Return whether the log was logged or not
+	 * @see printException(Level.CONFIG, Exception ex)
+	 * @see printException(Exception ex)
+	 */
+	public static final boolean configException(Exception ex) {
+		return configException(ex, "");
+	}
+
+	/**
+	 * This logs an error to the console with the CONFIG level and appends the
+	 * errorMessageAddon and an additional message
+	 * 
+	 * @param ex
+	 *            the exception to be logged
+	 * @param additionalMessage
+	 *            a message appended to the standard error message addon
+	 * @return Return whether the log was logged or not
+	 * @see printException(Level.CONFIG, Exception ex, String additionalMessage)
+	 * @see printException(Exception ex, String additionalMessage)
+	 */
+	public static final boolean configException(Exception ex,
+			String additionalMessage) {
+		logger.log(Level.CONFIG, errorMessageAddon + ANLIN(additionalMessage),
+				ex);
+
+		return logger.isLoggable(Level.CONFIG);
+	}
+
+	/**
+	 * This logs an error to the console with the CONFIG level
+	 * 
+	 * @param ex
+	 *            the exception to be logged
+	 * @return Return whether the log was logged or not
+	 *         printException_noAddon(Level.CONFIG, Exception ex)
+	 * @see printException_noAddon(Exception ex)
+	 */
+	public static final boolean configException_noAddon(Exception ex) {
+		return configException_noAddon(ex, "");
+	}
+
+	/**
+	 * This logs an error to the console with the CONFIG level and an additional
+	 * message
+	 * 
+	 * @param ex
+	 *            the exception to be logged
+	 * @param additionalMessage
+	 *            a message put in front of the error log
+	 * @return Return whether the log was logged or not
+	 * @see printException_noAddon(Level.CONFIG, Exception ex, String
+	 *      additionalMessage)
+	 * @see printException_noAddon(Exception ex, String additionalMessage)
+	 */
+	public static final boolean configException_noAddon(Exception ex,
+			String additionalMessage) {
+		logger.log(Level.CONFIG, additionalMessage, ex);
+
+		return logger.isLoggable(Level.CONFIG);
+	}
+
+	/**
 	 * Logs all Objects to the console with the normal FINE level
 	 * 
 	 * @param obj
@@ -83,6 +150,72 @@ public abstract class BSP {
 		for (final Object log : obj) {
 			logger.fine(log.toString());
 		}
+
+		return logger.isLoggable(Level.FINE);
+	}
+
+	/**
+	 * This logs an error to the console with the FINE level and appends the
+	 * errorMessageAddon
+	 * 
+	 * @param ex
+	 *            the exception to be logged
+	 * @return Return whether the log was logged or not
+	 * @see printException(Level.FINE, Exception ex)
+	 * @see printException(Exception ex)
+	 */
+	public static final boolean fineException(Exception ex) {
+		return fineException(ex, "");
+	}
+
+	/**
+	 * This logs an error to the console with the FINE level and appends the
+	 * errorMessageAddon and an additional message
+	 * 
+	 * @param ex
+	 *            the exception to be logged
+	 * @param additionalMessage
+	 *            a message appended to the standard error message addon
+	 * @return Return whether the log was logged or not
+	 * @see printException(Level.FINE, Exception ex, String additionalMessage)
+	 * @see printException(Exception ex, String additionalMessage)
+	 */
+	public static final boolean fineException(Exception ex,
+			String additionalMessage) {
+		logger.log(Level.FINE, errorMessageAddon + ANLIN(additionalMessage), ex);
+
+		return logger.isLoggable(Level.FINE);
+	}
+
+	/**
+	 * This logs an error to the console with the FINE level
+	 * 
+	 * @param ex
+	 *            the exception to be logged
+	 * @return Return whether the log was logged or not
+	 *         printException_noAddon(Level.FINE, Exception ex)
+	 * @see printException_noAddon(Exception ex)
+	 */
+	public static final boolean fineException_noAddon(Exception ex) {
+		return fineException_noAddon(ex, "");
+	}
+
+	/**
+	 * This logs an error to the console with the FINE level and an additional
+	 * message
+	 * 
+	 * @param ex
+	 *            the exception to be logged
+	 * @param additionalMessage
+	 *            a message put in front of the error log
+	 * @return Return whether the log was logged or not
+	 * @see printException_noAddon(Level.FINE, Exception ex, String
+	 *      additionalMessage)
+	 * @see printException_noAddon(Exception ex, String additionalMessage)
+	 */
+	public static final boolean fineException_noAddon(Exception ex,
+			String additionalMessage) {
+		logger.log(Level.FINE, additionalMessage, ex);
 
 		return logger.isLoggable(Level.FINE);
 	}
@@ -104,6 +237,73 @@ public abstract class BSP {
 	}
 
 	/**
+	 * This logs an error to the console with the FINER level and appends the
+	 * errorMessageAddon
+	 * 
+	 * @param ex
+	 *            the exception to be logged
+	 * @return Return whether the log was logged or not
+	 * @see printException(Level.FINER, Exception ex)
+	 * @see printException(Exception ex)
+	 */
+	public static final boolean finerException(Exception ex) {
+		return finerException(ex, "");
+	}
+
+	/**
+	 * This logs an error to the console with the FINER level and appends the
+	 * errorMessageAddon and an additional message
+	 * 
+	 * @param ex
+	 *            the exception to be logged
+	 * @param additionalMessage
+	 *            a message appended to the standard error message addon
+	 * @return Return whether the log was logged or not
+	 * @see printException(Level.FINER, Exception ex, String additionalMessage)
+	 * @see printException(Exception ex, String additionalMessage)
+	 */
+	public static final boolean finerException(Exception ex,
+			String additionalMessage) {
+		logger.log(Level.FINER, errorMessageAddon + ANLIN(additionalMessage),
+				ex);
+
+		return logger.isLoggable(Level.FINER);
+	}
+
+	/**
+	 * This logs an error to the console with the FINER level
+	 * 
+	 * @param ex
+	 *            the exception to be logged
+	 * @return Return whether the log was logged or not
+	 *         printException_noAddon(Level.FINER, Exception ex)
+	 * @see printException_noAddon(Exception ex)
+	 */
+	public static final boolean finerException_noAddon(Exception ex) {
+		return finerException_noAddon(ex, "");
+	}
+
+	/**
+	 * This logs an error to the console with the FINER level and an additional
+	 * message
+	 * 
+	 * @param ex
+	 *            the exception to be logged
+	 * @param additionalMessage
+	 *            a message put in front of the error log
+	 * @return Return whether the log was logged or not
+	 * @see printException_noAddon(Level.FINER, Exception ex, String
+	 *      additionalMessage)
+	 * @see printException_noAddon(Exception ex, String additionalMessage)
+	 */
+	public static final boolean finerException_noAddon(Exception ex,
+			String additionalMessage) {
+		logger.log(Level.FINER, additionalMessage, ex);
+
+		return logger.isLoggable(Level.FINER);
+	}
+
+	/**
 	 * Logs all Objects to the console with the normal FINEST level
 	 * 
 	 * @param obj
@@ -115,6 +315,73 @@ public abstract class BSP {
 		for (final Object log : obj) {
 			logger.finest(log.toString());
 		}
+
+		return logger.isLoggable(Level.FINEST);
+	}
+
+	/**
+	 * This logs an error to the console with the FINEST level and appends the
+	 * errorMessageAddon
+	 * 
+	 * @param ex
+	 *            the exception to be logged
+	 * @return Return whether the log was logged or not
+	 * @see printException(Level.FINEST, Exception ex)
+	 * @see printException(Exception ex)
+	 */
+	public static final boolean finestException(Exception ex) {
+		return finestException(ex, "");
+	}
+
+	/**
+	 * This logs an error to the console with the FINEST level and appends the
+	 * errorMessageAddon and an additional message
+	 * 
+	 * @param ex
+	 *            the exception to be logged
+	 * @param additionalMessage
+	 *            a message appended to the standard error message addon
+	 * @return Return whether the log was logged or not
+	 * @see printException(Level.FINEST, Exception ex, String additionalMessage)
+	 * @see printException(Exception ex, String additionalMessage)
+	 */
+	public static final boolean finestException(Exception ex,
+			String additionalMessage) {
+		logger.log(Level.FINEST, errorMessageAddon + ANLIN(additionalMessage),
+				ex);
+
+		return logger.isLoggable(Level.FINEST);
+	}
+
+	/**
+	 * This logs an error to the console with the FINEST level
+	 * 
+	 * @param ex
+	 *            the exception to be logged
+	 * @return Return whether the log was logged or not
+	 *         printException_noAddon(Level.FINEST, Exception ex)
+	 * @see printException_noAddon(Exception ex)
+	 */
+	public static final boolean finestException_noAddon(Exception ex) {
+		return finestException_noAddon(ex, "");
+	}
+
+	/**
+	 * This logs an error to the console with the FINEST level and an additional
+	 * message
+	 * 
+	 * @param ex
+	 *            the exception to be logged
+	 * @param additionalMessage
+	 *            a message put in front of the error log
+	 * @return Return whether the log was logged or not
+	 * @see printException_noAddon(Level.FINEST, Exception ex, String
+	 *      additionalMessage)
+	 * @see printException_noAddon(Exception ex, String additionalMessage)
+	 */
+	public static final boolean finestException_noAddon(Exception ex,
+			String additionalMessage) {
+		logger.log(Level.FINEST, additionalMessage, ex);
 
 		return logger.isLoggable(Level.FINEST);
 	}
@@ -132,6 +399,72 @@ public abstract class BSP {
 		for (final Object log : obj) {
 			logger.info(log.toString());
 		}
+
+		return logger.isLoggable(Level.INFO);
+	}
+
+	/**
+	 * This logs an error to the console with the normal INFO level and appends
+	 * the errorMessageAddon
+	 * 
+	 * @param ex
+	 *            the exception to be logged
+	 * @return Return whether the log was logged or not
+	 * @see printException(Level.INFO, Exception ex)
+	 * @see printException(Exception ex)
+	 */
+	public static final boolean infoException(Exception ex) {
+		return infoException(ex, "");
+	}
+
+	/**
+	 * This logs an error to the console with the normal INFO level and appends
+	 * the errorMessageAddon and an additional message
+	 * 
+	 * @param ex
+	 *            the exception to be logged
+	 * @param additionalMessage
+	 *            a message appended to the standard error message addon
+	 * @return Return whether the log was logged or not
+	 * @see printException(Level.INFO, Exception ex, String additionalMessage)
+	 * @see printException(Exception ex, String additionalMessage)
+	 */
+	public static final boolean infoException(Exception ex,
+			String additionalMessage) {
+		logger.log(Level.INFO, errorMessageAddon + ANLIN(additionalMessage), ex);
+
+		return logger.isLoggable(Level.INFO);
+	}
+
+	/**
+	 * This logs an error to the console with the normal INFO level
+	 * 
+	 * @param ex
+	 *            the exception to be logged
+	 * @return Return whether the log was logged or not
+	 *         printException_noAddon(Level.INFO, Exception ex)
+	 * @see printException_noAddon(Exception ex)
+	 */
+	public static final boolean infoException_noAddon(Exception ex) {
+		return infoException_noAddon(ex, "");
+	}
+
+	/**
+	 * This logs an error to the console with the normal INFO level and an
+	 * additional message
+	 * 
+	 * @param ex
+	 *            the exception to be logged
+	 * @param additionalMessage
+	 *            a message put in front of the error log
+	 * @return Return whether the log was logged or not
+	 * @see printException_noAddon(Level.INFO, Exception ex, String
+	 *      additionalMessage)
+	 * @see printException_noAddon(Exception ex, String additionalMessage)
+	 */
+	public static final boolean infoException_noAddon(Exception ex,
+			String additionalMessage) {
+		logger.log(Level.INFO, additionalMessage, ex);
 
 		return logger.isLoggable(Level.INFO);
 	}
@@ -168,6 +501,136 @@ public abstract class BSP {
 		}
 
 		return logger.isLoggable(Level.INFO);
+	}
+
+	/**
+	 * This logs an error to the console with the normal INFO level and appends
+	 * the errorMessageAddon
+	 * 
+	 * @param ex
+	 *            the exception to be logged
+	 * @return Return whether the log was logged or not
+	 * @see printException(Level.INFO, Exception ex)
+	 * @see infoException(Exception ex)
+	 */
+	public static final boolean printException(Exception ex) {
+		return printException(ex, "");
+	}
+
+	/**
+	 * This logs an error to the console with the normal INFO level and appends
+	 * the errorMessageAddon and an additional message
+	 * 
+	 * @param ex
+	 *            the exception to be logged
+	 * @param additionalMessage
+	 *            a message appended to the standard error message addon
+	 * @return Return whether the log was logged or not
+	 * @see printException(Level.INFO, Exception ex, String additionalMessage)
+	 * @see infoException(Exception ex, String additionalMessage)
+	 */
+	public static final boolean printException(Exception ex,
+			String additionalMessage) {
+		logger.log(Level.INFO, errorMessageAddon + ANLIN(additionalMessage), ex);
+
+		return logger.isLoggable(Level.INFO);
+	}
+
+	/**
+	 * This logs an error to the console with the level to be logged
+	 * 
+	 * @param level
+	 *            the level the objects will be logged
+	 * @param ex
+	 *            the exception to be logged
+	 * @return Return whether the log was logged or not
+	 */
+	public static final boolean printException(Level level, Exception ex) {
+		return printException(level, ex, "");
+	}
+
+	/**
+	 * This logs an error to the console with an additional message and the
+	 * level to be logged
+	 * 
+	 * @param level
+	 *            the level the objects will be logged
+	 * @param ex
+	 *            the exception to be logged
+	 * @param additionalMessage
+	 *            a message appended to the standard error message addon
+	 * @return Return whether the log was logged or not
+	 */
+	public static final boolean printException(Level level, Exception ex,
+			String additionalMessage) {
+		logger.log(level, errorMessageAddon + ANLIN(additionalMessage), ex);
+
+		return logger.isLoggable(level);
+	}
+
+	/**
+	 * This logs an error to the console with the normal INFO level
+	 * 
+	 * @param ex
+	 *            the exception to be logged
+	 * @return Return whether the log was logged or not
+	 *         printException_noAddon(Level.INFO, Exception ex)
+	 * @see infoException_noAddon(Exception ex)
+	 */
+	public static final boolean printException_noAddon(Exception ex) {
+		return printException_noAddon(ex, "");
+	}
+
+	/**
+	 * This logs an error to the console with the normal INFO level and an
+	 * additional message
+	 * 
+	 * @param ex
+	 *            the exception to be logged
+	 * @param additionalMessage
+	 *            a message put in front of the error log
+	 * @return Return whether the log was logged or not
+	 * @see printException_noAddon(Level.INFO, Exception ex, String
+	 *      additionalMessage)
+	 * @see infoException_noAddon(Exception ex, String additionalMessage)
+	 */
+	public static final boolean printException_noAddon(Exception ex,
+			String additionalMessage) {
+		logger.log(Level.INFO, additionalMessage, ex);
+
+		return logger.isLoggable(Level.INFO);
+	}
+
+	/**
+	 * This logs an error to the console with the level to be logged
+	 * 
+	 * @param level
+	 *            the level the objects will be logged
+	 * @param ex
+	 *            the exception to be logged
+	 * @return Return whether the log was logged or not
+	 */
+	public static final boolean printException_noAddon(Level level, Exception ex) {
+		return printException_noAddon(level, ex, "");
+	}
+
+	/**
+	 * This logs an error to the console with an additional message and the
+	 * level to be logged
+	 * 
+	 * @param level
+	 *            the level the objects will be logged
+	 * @param ex
+	 *            the exception to be logged
+	 * @param additionalMessage
+	 *            a message put in front of the error log
+	 * @return Return whether the log was logged or not
+	 */
+	public static final boolean printException_noAddon(Level level,
+			Exception ex, String additionalMessage) {
+		logger.log(level, additionalMessage, ex);
+
+		return logger.isLoggable(level);
 	}
 
 	/**
@@ -209,13 +672,78 @@ public abstract class BSP {
 	}
 
 	/**
+	 * This logs an error to the console with the SEVERE level and appends the
+	 * errorMessageAddon
+	 * 
+	 * @param ex
+	 *            the exception to be logged
+	 * @return Return whether the log was logged or not
+	 * @see printException(Level.SEVERE, Exception ex)
+	 * @see printException(Exception ex)
+	 */
+	public static final boolean severeException(Exception ex) {
+		return severeException(ex, "");
+	}
+
+	/**
+	 * This logs an error to the console with the SEVERE level and appends the
+	 * errorMessageAddon and an additional message
+	 * 
+	 * @param ex
+	 *            the exception to be logged
+	 * @param additionalMessage
+	 *            a message appended to the standard error message addon
+	 * @return Return whether the log was logged or not
+	 * @see printException(Level.SEVERE, Exception ex, String additionalMessage)
+	 * @see printException(Exception ex, String additionalMessage)
+	 */
+	public static final boolean severeException(Exception ex,
+			String additionalMessage) {
+		logger.log(Level.SEVERE, errorMessageAddon + ANLIN(additionalMessage),
+				ex);
+
+		return logger.isLoggable(Level.SEVERE);
+	}
+
+	/**
+	 * This logs an error to the console with the SEVERE level
+	 * 
+	 * @param ex
+	 *            the exception to be logged
+	 * @return Return whether the log was logged or not
+	 *         printException_noAddon(Level.SEVERE, Exception ex)
+	 * @see printException_noAddon(Exception ex)
+	 */
+	public static final boolean severeException_noAddon(Exception ex) {
+		return severeException_noAddon(ex, "");
+	}
+
+	/**
+	 * This logs an error to the console with the SEVERE level and an additional
+	 * message
+	 * 
+	 * @param ex
+	 *            the exception to be logged
+	 * @param additionalMessage
+	 *            a message put in front of the error log
+	 * @return Return whether the log was logged or not
+	 * @see printException_noAddon(Level.SEVERE, Exception ex, String
+	 *      additionalMessage)
+	 * @see printException_noAddon(Exception ex, String additionalMessage)
+	 */
+	public static final boolean severeException_noAddon(Exception ex,
+			String additionalMessage) {
+		logger.log(Level.SEVERE, additionalMessage, ex);
+
+		return logger.isLoggable(Level.SEVERE);
+	}
+
+	/**
 	 * Throws a ArithmeticException with the error message addon
 	 */
 	public static final void throwArithmeticException() {
 		throwArithmeticException("");
 	}
-
-	// ============================ Throw-Functions ============================
 
 	/**
 	 * Throws a ArithmeticException with the error message addon
@@ -723,6 +1251,74 @@ public abstract class BSP {
 		for (final Object log : obj) {
 			logger.warning(log.toString());
 		}
+
+		return logger.isLoggable(Level.WARNING);
+	}
+
+	/**
+	 * This logs an error to the console with the WARNING level and appends the
+	 * errorMessageAddon
+	 * 
+	 * @param ex
+	 *            the exception to be logged
+	 * @return Return whether the log was logged or not
+	 * @see printException(Level.WARNING, Exception ex)
+	 * @see printException(Exception ex)
+	 */
+	public static final boolean warningException(Exception ex) {
+		return warningException(ex, "");
+	}
+
+	/**
+	 * This logs an error to the console with the WARNING level and appends the
+	 * errorMessageAddon and an additional message
+	 * 
+	 * @param ex
+	 *            the exception to be logged
+	 * @param additionalMessage
+	 *            a message appended to the standard error message addon
+	 * @return Return whether the log was logged or not
+	 * @see printException(Level.WARNING, Exception ex, String
+	 *      additionalMessage)
+	 * @see printException(Exception ex, String additionalMessage)
+	 */
+	public static final boolean warningException(Exception ex,
+			String additionalMessage) {
+		logger.log(Level.WARNING, errorMessageAddon + ANLIN(additionalMessage),
+				ex);
+
+		return logger.isLoggable(Level.WARNING);
+	}
+
+	/**
+	 * This logs an error to the console with the WARNING level
+	 * 
+	 * @param ex
+	 *            the exception to be logged
+	 * @return Return whether the log was logged or not
+	 *         printException_noAddon(Level.WARNING, Exception ex)
+	 * @see printException_noAddon(Exception ex)
+	 */
+	public static final boolean warningException_noAddon(Exception ex) {
+		return warningException_noAddon(ex, "");
+	}
+
+	/**
+	 * This logs an error to the console with the WARNING level and an
+	 * additional message
+	 * 
+	 * @param ex
+	 *            the exception to be logged
+	 * @param additionalMessage
+	 *            a message put in front of the error log
+	 * @return Return whether the log was logged or not
+	 * @see printException_noAddon(Level.WARNING, Exception ex, String
+	 *      additionalMessage)
+	 * @see printException_noAddon(Exception ex, String additionalMessage)
+	 */
+	public static final boolean warningException_noAddon(Exception ex,
+			String additionalMessage) {
+		logger.log(Level.WARNING, additionalMessage, ex);
 
 		return logger.isLoggable(Level.WARNING);
 	}

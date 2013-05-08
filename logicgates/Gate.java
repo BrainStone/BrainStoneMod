@@ -89,7 +89,7 @@ public abstract class Gate {
 			try {
 				return (Gate) Gates.get(ID).clone();
 			} catch (final CloneNotSupportedException e) {
-				BSP.force_printException(
+				BSP.severeException(
 						e,
 						"This is fatal! You must report this!\nThanks!\n\nDeveloper Information:\nCannot clone Gate: \""
 								+ Gates.get(ID).getClass().getName()
@@ -126,23 +126,23 @@ public abstract class Gate {
 								+ tmp.ID);
 					}
 				} catch (final InstantiationException e) {
-					BSP.force_printException(
+					BSP.severeException(
 							e,
 							"Well, that should NOT have happenend! But it is not a big problem. Just report it to yannick@tedworld.de.\nThanks!");
 				} catch (final IllegalAccessException e) {
-					BSP.force_printException(
+					BSP.severeException(
 							e,
 							"Well, that should NOT have happenend! But it is not a big problem. Just report it to yannick@tedworld.de.\nThanks!");
 				}
 			}
 		} catch (final IOException e) {
-			BSP.force_printException(
+			BSP.severeException(
 					e,
 					"Well, that should NOT have happenend! This IS a HUGE problem if you notice this please report it to yannick@tedworld.de.\nThanks!");
 
 			return null;
 		} catch (final ClassNotFoundException e) {
-			BSP.force_printException(
+			BSP.severeException(
 					e,
 					"Well, that should NOT have happenend! This IS a HUGE problem if you notice this please report it to yannick@tedworld.de.\nThanks!");
 
