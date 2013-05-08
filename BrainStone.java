@@ -86,7 +86,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.26.35 BETA")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.26.41 BETA")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
@@ -524,8 +524,6 @@ public class BrainStone {
 
 			break;
 		}
-
-		sendToPlayer(String.valueOf(updateNotification));
 	}
 
 	private static void sendToPlayer(String message) {
@@ -623,7 +621,11 @@ public class BrainStone {
 				+ recommendedVersion
 				+ "\n    latest:            " + latestVersion;
 		event.getModMetadata().logoFile = "";
-		event.getModMetadata().updateUrl = (updateNotification == -1) ? "" : ("https://raw.github.com/BrainStone/brainstone/master/builds/" + ((updateNotification == 0) ? "release" : ((updateNotification == 1) ? "recommended" : "latest")) + "/BrainStoneMod.zip");
+		event.getModMetadata().updateUrl = (updateNotification == -1) ? ""
+				: ("https://raw.github.com/BrainStone/brainstone/master/builds/"
+						+ ((updateNotification == 0) ? "release"
+								: ((updateNotification == 1) ? "recommended"
+										: "latest")) + "/BrainStoneMod.zip");
 		event.getModMetadata().parent = "";
 		event.getModMetadata().screenshots = new String[] {};
 	}
@@ -991,9 +993,9 @@ public class BrainStone {
 		String str = config.get("DisplayUpdates", "DisplayUpdates",
 				DEV ? "recommended" : (release ? "release" : "latest"))
 				.getString();
-		updateNotification = (byte) ((str == "none" || str == "off") ? -1
-				: ((str == "recommended") ? 1
-						: ((str == "recommended") ? 2 : 0)));
+		updateNotification = (byte) ((str.equals("none") || str.equals("off")) ? -1
+				: (str.equals("recommended") ? 1 : (str.equals("latest") ? 2
+						: 0)));
 
 		config.save();
 	}
@@ -1009,8 +1011,6 @@ public class BrainStone {
 			GameRegistry.registerBlock(blocks.get(keys[i]));
 		}
 	}
-
-	// Achievements
 
 	/**
 	 * Registers all the TileEntiys.
