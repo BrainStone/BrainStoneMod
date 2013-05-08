@@ -86,7 +86,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.26.41 BETA")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.26.42 BETA")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
@@ -491,19 +491,19 @@ public class BrainStone {
 		switch (updateNotification) {
 		case 0:
 			if (isHigherVersion(version, releaseVersion)) {
-				sendToPlayer("§aA new Version of the Brain Stone Mod is available!\n==== §l§c"
-						+ releaseVersion + " ====");
+				sendToPlayer("§aA new Version of the BSM is available!\n§l§c========== "
+						+ releaseVersion + " ==========");
 			}
 
 			break;
 		case 1:
 			if (isHigherVersion(version, releaseVersion)
 					&& !isHigherVersion(releaseVersion, recommendedVersion)) {
-				sendToPlayer("§aA new Version of the Brain Stone Mod is available!\n==== §l§c"
-						+ releaseVersion + " ====");
+				sendToPlayer("§aA new Version of the BSM is available!\n§l§c========== "
+						+ releaseVersion + " ==========");
 			} else if (isHigherVersion(version, recommendedVersion)) {
-				sendToPlayer("§aA new recommended DEV Version of the Brain Stone Mod is available!\n==== §l§c"
-						+ recommendedVersion + " ====");
+				sendToPlayer("§aA new recommended DEV Version of the BSM is available!\n§l§c========== "
+						+ recommendedVersion + " ==========");
 			}
 
 			break;
@@ -511,15 +511,15 @@ public class BrainStone {
 			if (isHigherVersion(version, releaseVersion)
 					&& !isHigherVersion(releaseVersion, recommendedVersion)
 					&& !isHigherVersion(releaseVersion, latestVersion)) {
-				sendToPlayer("§aA new Version of the Brain Stone Mod is available!\n==== §l§c"
-						+ releaseVersion + " ====");
+				sendToPlayer("§aA new Version of the BSM is available!\n§l§c========== "
+						+ releaseVersion + " ==========");
 			} else if (isHigherVersion(version, recommendedVersion)
 					&& !isHigherVersion(recommendedVersion, latestVersion)) {
-				sendToPlayer("§aA new recommended DEV Version of the Brain Stone Mod is available!\n==== §l§c"
-						+ recommendedVersion + " ====");
+				sendToPlayer("§aA new recommended DEV Version of the BSM is available!\n§l§c========== "
+						+ recommendedVersion + " ==========");
 			} else if (isHigherVersion(version, latestVersion)) {
-				sendToPlayer("§aA new DEV Version of the Brain Stone Mod is available!\n==== §l§c"
-						+ latestVersion + " ====");
+				sendToPlayer("§aA new DEV Version of the BSM is available!\n§l§c========== "
+						+ latestVersion + " ==========");
 			}
 
 			break;
