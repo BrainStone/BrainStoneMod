@@ -86,7 +86,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.26.3 BETA")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.26.4 BETA")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
@@ -111,7 +111,7 @@ public class BrainStone {
 			.toLowerCase().contains("debug");
 	/** States if the current mod version is a DEV version or not */
 	public static final boolean DEV = getModAnnotation().version()
-			.toLowerCase().contains("DEV");
+			.toLowerCase().contains("dev");
 
 	/** The standard id blocks start with */
 	public static final int startBlockId = 1258;
@@ -500,7 +500,7 @@ public class BrainStone {
 					.openConnection());
 
 			latestVersion = get_content((HttpsURLConnection) new URL(
-					"https://raw.github.com/BrainStone/brainstone/master/latest/recommended/.version")
+					"https://raw.github.com/BrainStone/brainstone/master/builds/latest/.version")
 					.openConnection());
 
 		} catch (MalformedURLException e) {
