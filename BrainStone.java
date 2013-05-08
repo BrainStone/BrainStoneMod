@@ -86,7 +86,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.26.4 BETA")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.26.35 BETA")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
@@ -426,10 +426,10 @@ public class BrainStone {
 
 		BSP.setUpLogger(event.getModLog());
 
-		generateMcModInfoFile(event);
 		getIds(event);
-		generateObjects();
 		retriveCurrentVersions();
+		generateMcModInfoFile(event);
+		generateObjects();
 	}
 
 	/**
@@ -486,7 +486,72 @@ public class BrainStone {
 
 	@SideOnly(Side.CLIENT)
 	public static void onPlayerJoin() {
-		BrainStone.proxy.getPlayer().sendChatToPlayer("You joined!");
+		String version = getModAnnotation().version();
+
+		switch (updateNotification) {
+		case 0:
+			if (isHigherVersion(version, releaseVersion)) {
+				sendToPlayer("§aA new Version of the Brain Stone Mod is available!\n==== §l§c"
+						+ releaseVersion + " ====");
+			}
+
+			break;
+		case 1:
+			if (isHigherVersion(version, releaseVersion)
+					&& !isHigherVersion(releaseVersion, recommendedVersion)) {
+				sendToPlayer("§aA new Version of the Brain Stone Mod is available!\n==== §l§c"
+						+ releaseVersion + " ====");
+			} else if (isHigherVersion(version, recommendedVersion)) {
+				sendToPlayer("§aA new recommended DEV Version of the Brain Stone Mod is available!\n==== §l§c"
+						+ recommendedVersion + " ====");
+			}
+
+			break;
+		case 2:
+			if (isHigherVersion(version, releaseVersion)
+					&& !isHigherVersion(releaseVersion, recommendedVersion)
+					&& !isHigherVersion(releaseVersion, latestVersion)) {
+				sendToPlayer("§aA new Version of the Brain Stone Mod is available!\n==== §l§c"
+						+ releaseVersion + " ====");
+			} else if (isHigherVersion(version, recommendedVersion)
+					&& !isHigherVersion(recommendedVersion, latestVersion)) {
+				sendToPlayer("§aA new recommended DEV Version of the Brain Stone Mod is available!\n==== §l§c"
+						+ recommendedVersion + " ====");
+			} else if (isHigherVersion(version, latestVersion)) {
+				sendToPlayer("§aA new DEV Version of the Brain Stone Mod is available!\n==== §l§c"
+						+ latestVersion + " ====");
+			}
+
+			break;
+		}
+
+		sendToPlayer(String.valueOf(updateNotification));
+	}
+
+	private static void sendToPlayer(String message) {
+		proxy.getPlayer().sendChatToPlayer(message);
+	}
+
+	private static boolean isHigherVersion(String currentVersion,
+			String newVersion) {
+		int[] _current = splitVersion(currentVersion);
+		int[] _new = splitVersion(newVersion);
+
+		return (_current[0] < _new[0])
+				|| ((_current[0] == _new[0]) && (_current[1] < _new[1]))
+				|| ((_current[0] == _new[0]) && (_current[1] == _new[1]) && (_current[2] < _new[2]));
+	}
+
+	private static int[] splitVersion(String Version) {
+		String[] tmp = Version.substring(1).split(" ")[0].split("\\.");
+		int size = tmp.length;
+		int out[] = new int[size];
+
+		for (int i = 0; i < size; i++) {
+			out[i] = Integer.parseInt(tmp[i]);
+		}
+
+		return out;
 	}
 
 	private static void retriveCurrentVersions() {
@@ -531,7 +596,7 @@ public class BrainStone {
 			String input;
 
 			while ((input = br.readLine()) != null) {
-				output += input;
+				output = output + input;
 			}
 			br.close();
 		}
@@ -552,14 +617,13 @@ public class BrainStone {
 		event.getModMetadata().authorList = Arrays
 				.asList(new String[] { "The_BrainStone" });
 		event.getModMetadata().description = "The Brain Stone Mod adds a new block type. It is called Brain Stone. It is very rare but you can make many different intelligent sensor blocks! An example is the BrainStoneTrigger. It's a block that triggers if an entity is on top. All these intelligent blocks are highly adjustable! There are also tools. The are as fast as iron tools but you can havrest more than 5,368 blocks! (Diamond tools only 1,561). The latest feature is the PulsatingBrainStoneBlock. It is the craziest block you have ever seen! It will throw you and animals through the air or will add random potion effects! You acan make yourself immune to these effect by wearing the full set of the newly adden BrainStoneArmor.\nBut see by yourself and enjoy!\n\n\nAnd thanks for downloading and supporting this mod!\n\n\n\nIf you think this mod caused a game crash (what should not happen by the way XD) send an email with the error log to yannick@tedworld.de!\n\nThank you!"
-				+ "\nCurrent Versions:\n\trelease:\t"
+				+ "\n\n\n\nCurrent Versions:\n    release:          "
 				+ releaseVersion
-				+ "\n\trecommended:\t"
+				+ "\n    recommended:   "
 				+ recommendedVersion
-				+ "\n\tlatest:\t"
-				+ latestVersion;
+				+ "\n    latest:            " + latestVersion;
 		event.getModMetadata().logoFile = "";
-		event.getModMetadata().updateUrl = "http://minecraft.de/showthread.php?89926";
+		event.getModMetadata().updateUrl = (updateNotification == -1) ? "" : ("https://raw.github.com/BrainStone/brainstone/master/builds/" + ((updateNotification == 0) ? "release" : ((updateNotification == 1) ? "recommended" : "latest")) + "/BrainStoneMod.zip");
 		event.getModMetadata().parent = "";
 		event.getModMetadata().screenshots = new String[] {};
 	}
