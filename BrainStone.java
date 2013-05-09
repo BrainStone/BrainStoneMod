@@ -56,6 +56,7 @@ import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
@@ -86,7 +87,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.26.45 BETA")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.26.46 BETA release")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
@@ -1010,7 +1011,8 @@ public class BrainStone {
 		final Integer[] keys = blocks.keySet().toArray(new Integer[length]);
 
 		for (int i = 0; i < length; i++) {
-			GameRegistry.registerBlock(blocks.get(keys[i]));
+			GameRegistry.registerBlock(blocks.get(keys[i]), ItemBlock.class,
+					null);
 		}
 	}
 
