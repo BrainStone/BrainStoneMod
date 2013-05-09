@@ -86,7 +86,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.26.43 BETA prerelease")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.26.45 BETA")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
@@ -238,7 +238,7 @@ public class BrainStone {
 		name_de.put(3, "Dreckiger Hirnstein");
 		name_de.put(4, "Hirnlichtsensor");
 		name_de.put(5, "Hirnsteinausl\u00F6ser");
-		name_de.put(6, "Hirnlogiblock");
+		name_de.put(6, "Hirnlogikblock");
 		name_de.put(7, "Pulsierender Hirnstein");
 		name_de.put(8, "Pulsierender Hirnstein-Effekt");
 

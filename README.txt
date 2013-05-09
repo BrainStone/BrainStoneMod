@@ -14,4 +14,4 @@ If you are looking for any other build, have a look in builds/all versions
 If you report issues, please metion the version the issue occured
 If you have ideas, please open a issue and mark it as enhancement
 
-Please remember: ONLY versions labled as "DEV" will have a build!
+Please remember: ONLY versions labled as "DEV", "prerelease" or "release" will have a build!

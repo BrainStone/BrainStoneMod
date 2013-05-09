@@ -46,7 +46,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 					.append(String.valueOf(tileentity.getMode())).toString());
 
 			help = true;
-			// controlList.clear();
+			buttonList.clear();
 			tileentity.logOut(username);
 		}
 	}
@@ -180,11 +180,9 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	 */
 	@Override
 	public void initGui() {
-		/*
-		 * controlList.clear(); controlList.add(new GuiButton(0, globalX + 10,
-		 * globalY + 140, 156, 20,
-		 * StatCollector.translateToLocal("gui.brainstone.help")));
-		 */
+		buttonList.clear();
+		buttonList.add(new GuiButton(0, globalX + 10, globalY + 140, 156, 20,
+				StatCollector.translateToLocal("gui.brainstone.help")));
 	}
 
 	/**
