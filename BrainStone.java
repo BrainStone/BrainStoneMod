@@ -86,7 +86,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.26.42 BETA")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.26.43 BETA prerelease")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
@@ -111,7 +111,9 @@ public class BrainStone {
 			.toLowerCase().contains("debug");
 	/** States if the current mod version is a DEV version or not */
 	public static final boolean DEV = getModAnnotation().version()
-			.toLowerCase().contains("dev");
+			.toLowerCase().contains("dev")
+			|| getModAnnotation().version().toLowerCase()
+					.contains("prerelease");
 
 	/** The standard id blocks start with */
 	public static final int startBlockId = 1258;
@@ -491,7 +493,7 @@ public class BrainStone {
 		switch (updateNotification) {
 		case 0:
 			if (isHigherVersion(version, releaseVersion)) {
-				sendToPlayer("§aA new Version of the BSM is available!\n§l§c========== "
+				sendToPlayer("Â§aA new Version of the BSM is available!\nÂ§lÂ§c========== "
 						+ releaseVersion + " ==========");
 			}
 
@@ -499,10 +501,10 @@ public class BrainStone {
 		case 1:
 			if (isHigherVersion(version, releaseVersion)
 					&& !isHigherVersion(releaseVersion, recommendedVersion)) {
-				sendToPlayer("§aA new Version of the BSM is available!\n§l§c========== "
+				sendToPlayer("Â§aA new Version of the BSM is available!\nÂ§lÂ§c========== "
 						+ releaseVersion + " ==========");
 			} else if (isHigherVersion(version, recommendedVersion)) {
-				sendToPlayer("§aA new recommended DEV Version of the BSM is available!\n§l§c========== "
+				sendToPlayer("Â§aA new recommended DEV Version of the BSM is available!\nÂ§lÂ§c========== "
 						+ recommendedVersion + " ==========");
 			}
 
@@ -511,14 +513,14 @@ public class BrainStone {
 			if (isHigherVersion(version, releaseVersion)
 					&& !isHigherVersion(releaseVersion, recommendedVersion)
 					&& !isHigherVersion(releaseVersion, latestVersion)) {
-				sendToPlayer("§aA new Version of the BSM is available!\n§l§c========== "
+				sendToPlayer("Â§aA new Version of the BSM is available!\nÂ§lÂ§c========== "
 						+ releaseVersion + " ==========");
 			} else if (isHigherVersion(version, recommendedVersion)
 					&& !isHigherVersion(recommendedVersion, latestVersion)) {
-				sendToPlayer("§aA new recommended DEV Version of the BSM is available!\n§l§c========== "
+				sendToPlayer("Â§aA new recommended DEV Version of the BSM is available!\nÂ§lÂ§c========== "
 						+ recommendedVersion + " ==========");
 			} else if (isHigherVersion(version, latestVersion)) {
-				sendToPlayer("§aA new DEV Version of the BSM is available!\n§l§c========== "
+				sendToPlayer("Â§aA new DEV Version of the BSM is available!\nÂ§lÂ§c========== "
 						+ latestVersion + " ==========");
 			}
 
