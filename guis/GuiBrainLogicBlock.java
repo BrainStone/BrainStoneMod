@@ -14,7 +14,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	private int globalX;
 	private int globalY;
 	private static final int xSizeMain = 176;
-	private static final int ySizeMain = 166;
+	private static final int ySizeMain = 200;
 	private static final int xSizeHelp = 256;
 	private float factor;
 	private final TileEntityBlockBrainLogicBlock tileentity;
@@ -82,25 +82,27 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	@Override
 	public void drawGuiContainerBackgroundLayer(float f, int i, int j) {
 		if (help) {
-			registerTexture("GuiBrainLogicBlockhelp");
-			
+			this.registerTexture("GuiBrainLogicBlockhelp");
+
 			final int rows = this.getLines(HelpText);
 			final int ySizeHelp = 20 + (9 * rows);
-			
+
 			final int x = (width - xSizeHelp) / 2;
 			final int y = (height - ySizeHelp) / 2;
 			this.drawTexturedModalRect(x, y, 0, 0, xSizeHelp, 10);
-			this.drawTexturedModalRect(x, y + ySizeHelp - 10, 0, 19, xSizeHelp, 10);
-			
-			for(int row = 0; row < rows; row++) {
-				this.drawTexturedModalRect(x, y + 10 + (row * 9), 0, 10, xSizeHelp, 9);
+			this.drawTexturedModalRect(x, (y + ySizeHelp) - 10, 0, 19,
+					xSizeHelp, 10);
+
+			for (int row = 0; row < rows; row++) {
+				this.drawTexturedModalRect(x, y + 10 + (row * 9), 0, 10,
+						xSizeHelp, 9);
 			}
-			
-			fontRenderer.drawSplitString(HelpText, x + 10, y + 10,
-					stringWidth, 0xeeeeee);
+
+			fontRenderer.drawSplitString(HelpText, x + 10, y + 10, stringWidth,
+					0xeeeeee);
 		} else {
 			this.registerTexture();
-			
+
 			factor = 1.0F;
 			final int x = globalX = (width - xSizeMain) / 2;
 			final int y = globalY = (height - ySizeMain) / 2;

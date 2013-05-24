@@ -88,7 +88,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.27.5 BETA")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.27.8 BETA debug")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
@@ -279,7 +279,7 @@ public class BrainStone {
 						"You should wire all inputs to make sure the gate works properly!");
 		localizations_en
 				.put("gui.brainstone.help.gate0",
-						"---------AND-Gate---------\nA device where the output is on when all inputs are on.");
+						"-------------AND-Gate-------------\nA device where the output is on when all inputs are on.");
 		localizations_en
 				.put("gui.brainstone.help.gate1",
 						"----------OR-Gate---------\nA device where the output is on when at least one of the inputs are on.");
@@ -490,7 +490,7 @@ public class BrainStone {
 
 	@SideOnly(Side.CLIENT)
 	public static void onPlayerJoin() {
-		String version = getModAnnotation().version();
+		final String version = getModAnnotation().version();
 
 		switch (updateNotification) {
 		case 0:
@@ -536,8 +536,8 @@ public class BrainStone {
 
 	private static boolean isHigherVersion(String currentVersion,
 			String newVersion) {
-		int[] _current = splitVersion(currentVersion);
-		int[] _new = splitVersion(newVersion);
+		final int[] _current = splitVersion(currentVersion);
+		final int[] _new = splitVersion(newVersion);
 
 		return (_current[0] < _new[0])
 				|| ((_current[0] == _new[0]) && (_current[1] < _new[1]))
@@ -545,9 +545,9 @@ public class BrainStone {
 	}
 
 	private static int[] splitVersion(String Version) {
-		String[] tmp = Version.substring(1).split(" ")[0].split("\\.");
-		int size = tmp.length;
-		int out[] = new int[size];
+		final String[] tmp = Version.substring(1).split(" ")[0].split("\\.");
+		final int size = tmp.length;
+		final int out[] = new int[size];
 
 		for (int i = 0; i < size; i++) {
 			out[i] = Integer.parseInt(tmp[i]);
@@ -570,14 +570,14 @@ public class BrainStone {
 					"https://raw.github.com/BrainStone/brainstone/master/builds/latest/.version")
 					.openConnection());
 
-		} catch (MalformedURLException e) {
+		} catch (final MalformedURLException e) {
 			BSP.warningException_noAddon(e,
 					"The Versions will be empty. No internet connection!");
 
 			releaseVersion = "";
 			recommendedVersion = "";
 			latestVersion = "";
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			BSP.warningException_noAddon(e,
 					"The Versions will be empty. No internet connection!");
 
@@ -592,7 +592,7 @@ public class BrainStone {
 		String output = "";
 
 		if (con != null) {
-			BufferedReader br = new BufferedReader(new InputStreamReader(
+			final BufferedReader br = new BufferedReader(new InputStreamReader(
 					con.getInputStream()));
 
 			String input;
@@ -994,7 +994,7 @@ public class BrainStone {
 							name, startBlockId + key).getInt());
 		}
 
-		String str = config.get("DisplayUpdates", "DisplayUpdates",
+		final String str = config.get("DisplayUpdates", "DisplayUpdates",
 				DEV ? "recommended" : (release ? "release" : "latest"))
 				.getString();
 		updateNotification = (byte) ((str.equals("none") || str.equals("off")) ? -1
@@ -1013,7 +1013,7 @@ public class BrainStone {
 
 		for (int i = 0; i < length; i++) {
 			GameRegistry.registerBlock(blocks.get(keys[i]), ItemBlock.class,
-					"BrainStoneMod");
+					null);
 		}
 	}
 
