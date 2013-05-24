@@ -1,6 +1,8 @@
-package mods.brainstone;
+package mods.brainstone.handlers;
 
 import java.util.EnumSet;
+
+import mods.brainstone.BrainStone;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.FMLCommonHandler;

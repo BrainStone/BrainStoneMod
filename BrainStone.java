@@ -25,6 +25,7 @@ import mods.brainstone.handlers.BrainStoneFuelHandler;
 import mods.brainstone.handlers.BrainStoneGuiHandler;
 import mods.brainstone.handlers.BrainStonePacketHandler;
 import mods.brainstone.handlers.BrainStonePickupNotifier;
+import mods.brainstone.handlers.BrainStoneTickHandler;
 import mods.brainstone.items.ItemArmorBrainStone;
 import mods.brainstone.items.ItemHoeBrainStone;
 import mods.brainstone.items.ItemSwordBrainStone;
@@ -87,7 +88,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.26.46 BETA release")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.27.5 BETA")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
@@ -1012,7 +1013,7 @@ public class BrainStone {
 
 		for (int i = 0; i < length; i++) {
 			GameRegistry.registerBlock(blocks.get(keys[i]), ItemBlock.class,
-					null);
+					"BrainStoneMod");
 		}
 	}
 

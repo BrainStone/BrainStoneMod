@@ -13,15 +13,15 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	private byte focused;
 	private int globalX;
 	private int globalY;
-	private static final int xSize = 176;
-	private static final int ySize = 166;
+	private static final int xSizeMain = 176;
+	private static final int ySizeMain = 166;
+	private static final int xSizeHelp = 256;
 	private float factor;
 	private final TileEntityBlockBrainLogicBlock tileentity;
 	private final String username;
 	private boolean help;
 
-	private final static int helpYSize = 256 - ySize;
-	private final static int stringWidth = xSize - 20;
+	private final static int stringWidth = xSizeHelp - 20;
 	private String HelpText;
 
 	public GuiBrainLogicBlock(
@@ -81,44 +81,55 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	 */
 	@Override
 	public void drawGuiContainerBackgroundLayer(float f, int i, int j) {
-		this.registerTexture();
-
 		if (help) {
-			final int l = (width - xSize) / 2;
-			final int i1 = (height - helpYSize) / 2;
-			this.drawTexturedModalRect(l, i1, 0, ySize, xSize, helpYSize);
-			fontRenderer.drawSplitString(HelpText, l + 10, i1 + 10,
+			registerTexture("GuiBrainLogicBlockhelp");
+			
+			final int rows = this.getLines(HelpText);
+			final int ySizeHelp = 20 + (9 * rows);
+			
+			final int x = (width - xSizeHelp) / 2;
+			final int y = (height - ySizeHelp) / 2;
+			this.drawTexturedModalRect(x, y, 0, 0, xSizeHelp, 10);
+			this.drawTexturedModalRect(x, y + ySizeHelp - 10, 0, 19, xSizeHelp, 10);
+			
+			for(int row = 0; row < rows; row++) {
+				this.drawTexturedModalRect(x, y + 10 + (row * 9), 0, 10, xSizeHelp, 9);
+			}
+			
+			fontRenderer.drawSplitString(HelpText, x + 10, y + 10,
 					stringWidth, 0xeeeeee);
 		} else {
+			this.registerTexture();
+			
 			factor = 1.0F;
-			final int l = globalX = (width - xSize) / 2;
-			final int i1 = globalY = (height - ySize) / 2;
-			this.drawTexturedModalRect(l, i1, 0, 0, xSize, ySize);
-			tileentity.drawBoxes(this, l + 104, i1 + 7);
+			final int x = globalX = (width - xSizeMain) / 2;
+			final int y = globalY = (height - ySizeMain) / 2;
+			this.drawTexturedModalRect(x, y, 0, 0, xSizeMain, ySizeMain);
+			tileentity.drawBoxes(this, x + 104, y + 7);
 			focused = tileentity.getFocused();
 
 			if (focused != 0) {
 				switch (focused) {
 				case 1:
-					this.drawFocus(l + 124, i1 + 7);
+					this.drawFocus(x + 124, y + 7);
 					break;
 
 				case 2:
-					this.drawFocus(l + 144, i1 + 27);
+					this.drawFocus(x + 144, y + 27);
 					break;
 
 				case 3:
-					this.drawFocus(l + 104, i1 + 27);
+					this.drawFocus(x + 104, y + 27);
 					break;
 				}
 			}
 
 			GL11.glPushMatrix();
 			GL11.glScalef(factor, factor, factor);
-			tileentity.drawGates(this, l + 6, i1 + 20);
+			tileentity.drawGates(this, x + 6, y + 20);
 			this.drawString(
 					StatCollector.translateToLocal("tile.brainLogicBlock.name"),
-					l + 6, i1 + 6, 0);
+					x + 6, y + 6, 0);
 			final boolean aflag[] = tileentity.shallRender();
 
 			if (aflag[0]) {
@@ -169,6 +180,10 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		}
 
 		fontRenderer.drawString(s, (int) (i / factor), (int) (j / factor), k);
+	}
+
+	private int getLines(String str) {
+		return fontRenderer.listFormattedStringToWidth(str, stringWidth).size();
 	}
 
 	private boolean inField(int i, int j, int k, int l, int i1, int j1) {
@@ -235,8 +250,8 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		if (help) {
 			this.closeHelpGui();
 		} else {
-			i -= (width - xSize) / 2;
-			j -= (height - ySize) / 2;
+			i -= (width - xSizeMain) / 2;
+			j -= (height - ySizeMain) / 2;
 
 			if (this.inField(i, j, 168, 3, 172, 7)) {
 				this.quit();
