@@ -61,18 +61,24 @@ public abstract class Gate {
 			throws ClassNotFoundException, IOException {
 		final ClassLoader classLoader = Thread.currentThread()
 				.getContextClassLoader();
+
 		assert classLoader != null;
+
 		final String path = packageName.replace('.', '/');
 		final Enumeration<URL> resources = classLoader.getResources(path);
 		final List<File> dirs = new ArrayList<File>();
+
 		while (resources.hasMoreElements()) {
 			final URL resource = resources.nextElement();
 			dirs.add(new File(resource.getFile()));
 		}
+
 		final ArrayList<Class> classes = new ArrayList<Class>();
+
 		for (final File directory : dirs) {
 			classes.addAll(findClasses(directory, packageName));
 		}
+
 		return classes.toArray(new Class[classes.size()]);
 	}
 
@@ -119,12 +125,12 @@ public abstract class Gate {
 
 			for (final Class gate : getClasses("mods.brainstone.logicgates.gates")) {
 				try {
-					Gates.put((tmp = (Gate) gate.newInstance()).ID, tmp);
-
-					if (Gates.containsKey(tmp.ID)) {
+					if (Gates.containsKey((tmp = (Gate) gate.newInstance()).ID)) {
 						BSP.throwIllegalArgumentException("Well, that should NOT have happenend! This IS a HUGE problem if you notice this please report it to yannick@tedworld.de.\nThanks!\n\nDeveloper Information:\nThere is a NOT unique ID for the gates: "
 								+ tmp.ID);
 					}
+
+					Gates.put(tmp.ID, tmp);
 				} catch (final InstantiationException e) {
 					BSP.severeException(
 							e,
@@ -187,10 +193,41 @@ public abstract class Gate {
 		return output;
 	}
 
+	/**
+	 * <b>Indices</b><br>
+	 * <br>
+	 * 
+	 * <table>
+	 * <tr>
+	 * <td>0:</td>
+	 * <td>Up</td>
+	 * </tr>
+	 * <tr>
+	 * <td>1:</td>
+	 * <td>Down</td>
+	 * </tr>
+	 * <tr>
+	 * <td>2:</td>
+	 * <td>North</td>
+	 * </tr>
+	 * <tr>
+	 * <td>3:</td>
+	 * <td>East</td>
+	 * </tr>
+	 * <tr>
+	 * <td>4:</td>
+	 * <td>South</td>
+	 * </tr>
+	 * <tr>
+	 * <td>5:</td>
+	 * <td>West</td>
+	 * </tr>
+	 * </table>
+	 */
 	public Pin[] Pins = new Pin[6];
 	public Option[] Options;
-	public final long ID = getID(this.getClass().getSimpleName());
 	public final String Name = this.getClass().getSimpleName();
+	public final long ID = getID(Name);
 	protected int tickRate;
 
 	public boolean canSwapWith(Pin pin1, Pin pin2) {
@@ -206,6 +243,34 @@ public abstract class Gate {
 	final public int getTickRate() {
 		return tickRate;
 	}
+
+	/**
+	 * <b>Directions</b><br>
+	 * <br>
+	 * 
+	 * <table>
+	 * <tr>
+	 * <td>0:</td>
+	 * <td>North</td>
+	 * </tr>
+	 * <tr>
+	 * <td>1:</td>
+	 * <td>East</td>
+	 * </tr>
+	 * <tr>
+	 * <td>2:</td>
+	 * <td>South</td>
+	 * </tr>
+	 * <tr>
+	 * <td>3:</td>
+	 * <td>West</td>
+	 * </tr>
+	 * </table>
+	 * 
+	 * @param direction
+	 *            The direction the player is looking
+	 */
+	public abstract void onGateChange(int direction);
 
 	public abstract void onOptionsChange();
 

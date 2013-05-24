@@ -30,6 +30,7 @@ import mods.brainstone.items.ItemArmorBrainStone;
 import mods.brainstone.items.ItemHoeBrainStone;
 import mods.brainstone.items.ItemSwordBrainStone;
 import mods.brainstone.items.ItemToolBrainStone;
+import mods.brainstone.logicgates.Gate;
 import mods.brainstone.templates.BSP;
 import mods.brainstone.templates.BlockBrainStoneBase;
 import mods.brainstone.templates.ItemBrainStoneBase;
@@ -88,7 +89,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.27.8 BETA debug")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.28.13 BETA")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
@@ -412,21 +413,10 @@ public class BrainStone {
 	 */
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event) {
-		/*
-		 * Field f; try { f =
-		 * RelaunchLibraryManager.class.getDeclaredField("deobfuscatedEnvironment"
-		 * ); f.setAccessible(true); boolean test = (Boolean) f.get(null);
-		 * if(test) BSP.println("Deobf"); } catch (NoSuchFieldException e) {
-		 * e.printStackTrace(); } catch (SecurityException e) {
-		 * e.printStackTrace(); } catch (IllegalArgumentException e) {
-		 * e.printStackTrace(); } catch (IllegalAccessException e) {
-		 * e.printStackTrace(); }
-		 * 
-		 * if ((Gate.Gates == null) || Gate.Gates.isEmpty()) {
-		 * BSP.throwNullPointerException(
-		 * "Well, that should NOT have happenend! This IS a HUGE problem if you notice this please report it to yannick@tedworld.de.\nThanks!\n\nDeveloper Information:\nThe Map of the Gates is EMPTY!\nIs gates null: "
-		 * + (Gate.Gates == null)); }
-		 */
+		if ((Gate.Gates == null) || Gate.Gates.isEmpty()) {
+			BSP.throwNullPointerException("Well, that should NOT have happenend! This IS a HUGE problem if you notice this please report it to yannick@tedworld.de.\nThanks!\n\nDeveloper Information:\nThe Map of the Gates is EMPTY!\nIs gates null: "
+					+ (Gate.Gates == null));
+		}
 
 		BSP.setUpLogger(event.getModLog());
 

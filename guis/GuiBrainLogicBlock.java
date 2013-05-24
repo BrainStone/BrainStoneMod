@@ -7,6 +7,7 @@ import mods.brainstone.tileentities.TileEntityBlockBrainLogicBlock;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.util.StatCollector;
 
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 public class GuiBrainLogicBlock extends GuiBrainStoneBase {
@@ -186,6 +187,20 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 
 	private int getLines(String str) {
 		return fontRenderer.listFormattedStringToWidth(str, stringWidth).size();
+	}
+
+	/**
+	 * Handles mouse input.
+	 */
+	@Override
+	public void handleMouseInput() {
+		if (Mouse.getEventButton() == -1) {
+			this.mouseMovedOrUp((Mouse.getEventX() * width) / mc.displayWidth,
+					height - ((Mouse.getEventY() * height) / mc.displayHeight)
+							- 1, Mouse.getEventButton());
+		}
+
+		super.handleMouseInput();
 	}
 
 	private boolean inField(int i, int j, int k, int l, int i1, int j1) {
