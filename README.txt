@@ -15,3 +15,22 @@ If you report issues, please metion the version the issue occured
 If you have ideas, please open a issue and mark it as enhancement
 
 Please remember: ONLY versions labled as "DEV", "prerelease" or "release" will have a build!
+
+To recive more build updates simply go to the config file and change the "S:DisplayUpdates" value to:
+  - "latest":       To get ALL builds
+  - "recommended":  To get all recommended and release builds
+  - "release":      To only get the release builds
+  
+Example:
+
+-----------------------------------------------------------------------------------------
+
+####################
+# displayupdates
+####################
+
+displayupdates {
+    S:DisplayUpdates=recommended
+}
+
+-----------------------------------------------------------------------------------------
