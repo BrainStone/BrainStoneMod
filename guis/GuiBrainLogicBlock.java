@@ -2,6 +2,7 @@ package mods.brainstone.guis;
 
 import mods.brainstone.BrainStone;
 import mods.brainstone.containers.ContainerBlockBrainLightSensor;
+import mods.brainstone.logicgates.Gate;
 import mods.brainstone.templates.GuiBrainStoneBase;
 import mods.brainstone.tileentities.TileEntityBlockBrainLogicBlock;
 import net.minecraft.client.gui.GuiButton;
@@ -25,6 +26,10 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	private final static int stringWidth = xSizeHelp - 20;
 	private String HelpText;
 
+	private int scrollbarPos;
+	private static final int rowsToScroll = Gate.NumberGates - 6;
+	private static final float pixelPerRow = 99.0F / rowsToScroll;
+
 	public GuiBrainLogicBlock(
 			TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock) {
 		super(new ContainerBlockBrainLightSensor());
@@ -33,6 +38,8 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		tileentity.logIn(username);
 		focused = tileentity.getFocused();
 		help = false;
+
+		scrollbarPos = 0;
 	}
 
 	/**
@@ -104,59 +111,71 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		} else {
 			this.registerTexture();
 
+			GL11.glPushMatrix();
+
 			factor = 1.0F;
 			final int x = globalX = (width - xSizeMain) / 2;
 			final int y = globalY = (height - ySizeMain) / 2;
 			this.drawTexturedModalRect(x, y, 0, 0, xSizeMain, ySizeMain);
-			tileentity.drawBoxes(this, x + 104, y + 7);
-			focused = tileentity.getFocused();
 
-			if (focused != 0) {
-				switch (focused) {
-				case 1:
-					this.drawFocus(x + 124, y + 7);
-					break;
-
-				case 2:
-					this.drawFocus(x + 144, y + 27);
-					break;
-
-				case 3:
-					this.drawFocus(x + 104, y + 27);
-					break;
-				}
+			if (rowsToScroll < 1) {
+				this.drawTexturedModalRect(x + 157, y + 78, 244, 0, 12, 15);
+			} else {
+				this.drawTexturedModalRect(x + 157, y + 78
+						+ ((int) (scrollbarPos * pixelPerRow)), 232, 0, 12, 15);
 			}
 
-			GL11.glPushMatrix();
-			GL11.glScalef(factor, factor, factor);
-			tileentity.drawGates(this, x + 6, y + 20);
-			this.drawString(
-					StatCollector.translateToLocal("tile.brainLogicBlock.name"),
-					x + 6, y + 6, 0);
-			final boolean aflag[] = tileentity.shallRender();
+			scrollbarPos = 1 * scrollbarPos;
 
-			if (aflag[0]) {
-				this.drawString(tileentity.getPin(0), 130, 50,
-						tileentity.getPinColor(0), 2.0F);
-			}
-
-			if (aflag[1]) {
-				this.drawString(tileentity.getPin(1), 130, 10,
-						tileentity.getPinColor(1), 2.0F);
-			}
-
-			if (aflag[2]) {
-				this.drawString(tileentity.getPin(2), 150, 30,
-						tileentity.getPinColor(2), 2.0F);
-			}
-
-			if (aflag[3]) {
-				this.drawString(tileentity.getPin(3), 110, 30,
-						tileentity.getPinColor(3), 2.0F);
-			}
+			// tileentity.drawBoxes(this, x + 104, y + 7);
+			// focused = tileentity.getFocused();
+			//
+			// if (focused != 0) {
+			// switch (focused) {
+			// case 1:
+			// this.drawFocus(x + 124, y + 7);
+			// break;
+			//
+			// case 2:
+			// this.drawFocus(x + 144, y + 27);
+			// break;
+			//
+			// case 3:
+			// this.drawFocus(x + 104, y + 27);
+			// break;
+			// }
+			// }
+			//
+			// GL11.glPushMatrix();
+			// GL11.glScalef(factor, factor, factor);
+			// tileentity.drawGates(this, x + 6, y + 20);
+			// this.drawString(
+			// StatCollector.translateToLocal("tile.brainLogicBlock.name"),
+			// x + 6, y + 6, 0);
+			// final boolean aflag[] = tileentity.shallRender();
+			//
+			// if (aflag[0]) {
+			// this.drawString(tileentity.getPin(0), 130, 50,
+			// tileentity.getPinColor(0), 2.0F);
+			// }
+			//
+			// if (aflag[1]) {
+			// this.drawString(tileentity.getPin(1), 130, 10,
+			// tileentity.getPinColor(1), 2.0F);
+			// }
+			//
+			// if (aflag[2]) {
+			// this.drawString(tileentity.getPin(2), 150, 30,
+			// tileentity.getPinColor(2), 2.0F);
+			// }
+			//
+			// if (aflag[3]) {
+			// this.drawString(tileentity.getPin(3), 110, 30,
+			// tileentity.getPinColor(3), 2.0F);
+			// }
 
 			GL11.glPopMatrix();
-			this.initGui();
+			// this.initGui();
 		}
 	}
 

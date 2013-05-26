@@ -3,8 +3,6 @@ package mods.brainstone.logicgates;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -13,7 +11,8 @@ import java.util.List;
 import mods.brainstone.templates.BSP;
 
 public abstract class Gate {
-	public static final HashMap<Long, Gate> Gates = getGates();
+	public static final HashMap<String, Gate> Gates = getGates();
+	public static final int NumberGates = Gates.size();
 
 	/**
 	 * Recursive method used to find all classes in a given directory and
@@ -90,22 +89,22 @@ public abstract class Gate {
 	 *            The ID to get the Gate from
 	 * @return A new instance of the gate
 	 */
-	final public static Gate getGate(long ID) {
-		if (Gates.containsKey(ID)) {
+	final public static Gate getGate(String Name) {
+		if (Gates.containsKey(Name)) {
 			try {
-				return (Gate) Gates.get(ID).clone();
+				return (Gate) Gates.get(Name).clone();
 			} catch (final CloneNotSupportedException e) {
 				BSP.severeException(
 						e,
 						"This is fatal! You must report this!\nThanks!\n\nDeveloper Information:\nCannot clone Gate: \""
-								+ Gates.get(ID).getClass().getName()
-								+ "\" ID: \"" + ID + "\"");
+								+ Gates.get(Name).getClass().getName()
+								+ "\" ID: \"" + Name + "\"");
 
 				return null;
 			}
 		}
 
-		BSP.severe("The ID: \"" + ID + "\" was not recongnized!");
+		BSP.severe("The name: \"" + Name + "\" was not recongnized!");
 
 		return null;
 	}
@@ -117,20 +116,21 @@ public abstract class Gate {
 	 *         and checks if it already exists. <small>(Should not
 	 *         happen!)</small>
 	 */
-	private static HashMap<Long, Gate> getGates() {
-		final HashMap<Long, Gate> Gates = new HashMap<Long, Gate>();
+	private static HashMap<String, Gate> getGates() {
+		final HashMap<String, Gate> Gates = new HashMap<String, Gate>();
 
 		try {
 			Gate tmp;
 
 			for (final Class gate : getClasses("mods.brainstone.logicgates.gates")) {
 				try {
-					if (Gates.containsKey((tmp = (Gate) gate.newInstance()).ID)) {
+					if (Gates
+							.containsKey((tmp = (Gate) gate.newInstance()).Name)) {
 						BSP.throwIllegalArgumentException("Well, that should NOT have happenend! This IS a HUGE problem if you notice this please report it to yannick@tedworld.de.\nThanks!\n\nDeveloper Information:\nThere is a NOT unique ID for the gates: "
-								+ tmp.ID);
+								+ tmp.Name);
 					}
 
-					Gates.put(tmp.ID, tmp);
+					Gates.put(tmp.Name, tmp);
 				} catch (final InstantiationException e) {
 					BSP.severeException(
 							e,
@@ -156,41 +156,6 @@ public abstract class Gate {
 		}
 
 		return Gates;
-	}
-
-	/**
-	 * Statically generates a (usually) unique ID from a String.<br>
-	 * <small>The chance that it is NOT unique is about
-	 * 1:18,446,744,073,709,551,616 since there are so many
-	 * possibilities!</small><br>
-	 * <b>This function cannot be overwritten!</b>
-	 * 
-	 * @param Name
-	 *            The class name that will be turned into a unique long
-	 * @return A unique long
-	 */
-	final protected static long getID(String Name) {
-		MessageDigest md5;
-		byte[] result;
-		try {
-			md5 = MessageDigest.getInstance("MD5");
-			md5.reset();
-			md5.update(Name.getBytes());
-			result = md5.digest();
-		} catch (final NoSuchAlgorithmException e) {
-			e.printStackTrace();
-			return 0;
-		}
-
-		long output = 0;
-		int i = 0;
-
-		for (final byte tmp : result) {
-			output ^= ((long) tmp) << ((i % 8) * 8);
-			i++;
-		}
-
-		return output;
 	}
 
 	/**
@@ -227,7 +192,6 @@ public abstract class Gate {
 	public Pin[] Pins = new Pin[6];
 	public Option[] Options;
 	public final String Name = this.getClass().getSimpleName();
-	public final long ID = getID(Name);
 	protected int tickRate;
 
 	public boolean canSwapWith(Pin pin1, Pin pin2) {
