@@ -103,24 +103,27 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 				this.drawTexturedModalRect(x + 157, y + 78, 244, 0, 12, 15);
 			} else {
 				this.drawTexturedModalRect(x + 157, y + 78
-						+ ((int) (scrollbarPos * pixelPerRow)), 232, 0, 143, 15);
+						+ ((int) (scrollbarPos * pixelPerRow)), 232, 0, 12, 15);
 			}
 
 			if (Gate.NumberGates < 6) {
 				for (int i = 0; i < 6; i++) {
 					if (i >= Gate.NumberGates) {
 						this.drawTexturedModalRect(x + 8, y + 78 + (19 * i), 8,
-								200, 12, 19);
+								200, 143, 19);
 					}
 				}
 			}
-
-			final float factorConstant = 13.0F / 7.0F;
+			
+			// END of Textures!
+			// BEGIN of Strings!
+			
+			GL11.glTranslatef(globalX, globalY, 0.0F);
 
 			for (int i = 0; i < 6; i++) {
 				if (i < Gate.NumberGates) {
-					this.drawString(Gate.GateNames[i + scrollbarPos], 11,
-							81 + (19 * i), 0, factorConstant);
+					this.drawString(Gate.GateNames[i + scrollbarPos], 14,
+							84 + (19 * i), 0);
 				}
 			}
 
@@ -145,9 +148,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 			GL11.glPopMatrix();
 			GL11.glPushMatrix();
 
-			// if (factor == 2.0F) {
-			GL11.glTranslatef(globalX - 1.0F, globalY, 0.0F);
-			// }
+			GL11.glTranslatef(globalX, globalY, 0.0F);
 
 			GL11.glScalef(factor, factor, factor);
 		}
