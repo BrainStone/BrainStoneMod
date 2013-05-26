@@ -13,6 +13,8 @@ import mods.brainstone.templates.BSP;
 public abstract class Gate {
 	public static final HashMap<String, Gate> Gates = getGates();
 	public static final int NumberGates = Gates.size();
+	public static final String[] GateNames = Gates.keySet().toArray(
+			new String[NumberGates]);
 
 	/**
 	 * Recursive method used to find all classes in a given directory and
