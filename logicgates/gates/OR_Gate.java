@@ -4,7 +4,7 @@ import mods.brainstone.logicgates.Gate;
 import mods.brainstone.logicgates.Pin;
 import mods.brainstone.logicgates.PinState;
 
-public class AND_Gate extends Gate {
+public class OR_Gate extends Gate {
 	@Override
 	public void onGateChange(int direction) {
 		Pins[0] = Pin.MovableNullPin;
@@ -24,16 +24,15 @@ public class AND_Gate extends Gate {
 
 	@Override
 	public void onTick() {
-		boolean out = true;
-		boolean connected = false;
-		PinState tmp;
+		boolean out = false;
 
 		for (int i = 0; i < 6; i++) {
-			connected = (tmp = Pins[i].State).isValid() || connected;
-			out = tmp.isValid() ? (out && tmp.isPowered()) : out;
+			if (Pins[i].State.isPowered()) {
+				out = true;
+				break;
+			}
 		}
 
-		this.setPinState('Q', (out && connected) ? PinState.Powered
-				: PinState.Unpowered);
+		this.setPinState('Q', (out) ? PinState.Powered : PinState.Unpowered);
 	}
 }

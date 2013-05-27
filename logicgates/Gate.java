@@ -200,6 +200,24 @@ public abstract class Gate {
 		return pin1.Movable && pin2.Movable;
 	}
 
+	public final Pin getPin(char gateName) {
+		for (int i = 0; i < 6; i++) {
+			if (Pins[i].Name == gateName)
+				return Pins[i];
+		}
+
+		return null;
+	}
+
+	public final PinState getPinState(char gateName) {
+		final Pin tmp = this.getPin(gateName);
+
+		if (tmp == null)
+			return PinState.NotExisting;
+
+		return tmp.State;
+	}
+
 	/**
 	 * This function return the tickRate of the Gate.<br>
 	 * <b>This function cannot be overwritten!</b>
@@ -211,6 +229,9 @@ public abstract class Gate {
 	}
 
 	/**
+	 * This function is called when the gate changed or the block is placed.<br>
+	 * <br>
+	 * 
 	 * <b>Directions</b><br>
 	 * <br>
 	 * 
@@ -241,4 +262,20 @@ public abstract class Gate {
 	public abstract void onOptionsChange();
 
 	public abstract void onTick();
+
+	public final void setPin(char gateName, Pin pin) {
+		for (int i = 0; i < 6; i++) {
+			if (Pins[i].Name == gateName) {
+				Pins[i] = pin;
+			}
+		}
+	}
+
+	public final void setPinState(char gateName, PinState state) {
+		for (int i = 0; i < 6; i++) {
+			if (Pins[i].Name == gateName) {
+				Pins[i].State = state;
+			}
+		}
+	}
 }

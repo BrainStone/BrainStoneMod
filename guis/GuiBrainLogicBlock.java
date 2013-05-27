@@ -114,10 +114,10 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 					}
 				}
 			}
-			
+
 			// END of Textures!
 			// BEGIN of Strings!
-			
+
 			GL11.glTranslatef(globalX, globalY, 0.0F);
 
 			for (int i = 0; i < 6; i++) {
