@@ -128,10 +128,10 @@ public class TileEntityBlockBrainLogicBlock extends
 
 	public void changeGate(String string) {
 		ActiveGate = Gate.getGate(string);
-
+		
 		if (ActiveGate != null) {
 			for (int i = 0; i < Gate.NumberGates; i++) {
-				if (Gate.GateNames[i] == string) {
+				if (Gate.GateNames[i].equals(string)) {
 					GatePos = i;
 
 					return;
@@ -193,6 +193,10 @@ public class TileEntityBlockBrainLogicBlock extends
 		final Pin pin = ActiveGate.Pins[MCToInternalDirection(MC_Direction)];
 
 		return pin.Output ? pin.State.getPowerLevel() : 0;
+	}
+	
+	public int getGatePos() {
+		return GatePos;
 	}
 
 	private String getPrintErrorBuff() {

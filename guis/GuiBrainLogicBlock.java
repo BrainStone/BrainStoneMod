@@ -25,6 +25,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	private String HelpText;
 
 	private int scrollbarPos;
+	private byte mousePos;
 	private static final int rowsToScroll = Gate.NumberGates - 6;
 	private static final float pixelPerRow = 99.0F / rowsToScroll;
 
@@ -37,6 +38,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		help = false;
 
 		scrollbarPos = 0;
+		mousePos = -1;
 	}
 
 	private void click() {
@@ -58,26 +60,62 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		return false;
 	}
 
-	private void drawFocus(int i, int j) {
-		final int k = (int) (BrainStone.proxy.getClientWorld().getWorldInfo()
-				.getWorldTime() & 1L) * 20;
-		this.drawTexturedModalRect(i, j, 196, k, 20, 20);
-	}
-
 	/**
 	 * Draws the screen and all the components in it.
 	 */
 	@Override
 	public void drawGuiContainerBackgroundLayer(float par1Float,
 			int par2Integer, int par3Integer) {
+		this.registerTexture();
+
+		GL11.glPushMatrix();
+
+		factor = 1.0F;
+		int x = globalX = (width - xSizeMain) / 2;
+		int y = globalY = (height - ySizeMain) / 2;
+		this.drawTexturedModalRect(x, y, 0, 0, xSizeMain, ySizeMain);
+
+		if (rowsToScroll < 1) {
+			this.drawTexturedModalRect(x + 157, y + 78, 244, 0, 12, 15);
+		} else {
+			this.drawTexturedModalRect(x + 157, y + 78
+					+ ((int) (scrollbarPos * pixelPerRow)), 232, 0, 12, 15);
+		}
+
+		for (int i = 0; i < 6; i++) {
+			if ((Gate.NumberGates >= 6) || (i < Gate.NumberGates)) {
+				this.drawTexturedModalRect(x + 8, y + 78 + (19 * i), 8,
+						((i + scrollbarPos) == tileentity.getGatePos()) ? 219
+								: 200, 143, 19, i == mousePos);
+			}
+		}
+
+		// END of Textures!
+		// BEGIN of Strings!
+
+		GL11.glTranslatef(globalX, globalY, 0.0F);
+
+		for (int i = 0; i < 6; i++) {
+			if (i < Gate.NumberGates) {
+				this.drawString(Gate.GateNames[i + scrollbarPos], 14,
+						84 + (19 * i), 0);
+			}
+		}
+
+		scrollbarPos = 1 * scrollbarPos;
+
+		GL11.glPopMatrix();
+
+		// Help Screen!
+
 		if (help) {
 			this.registerTexture("GuiBrainLogicBlockhelp");
 
 			final int rows = this.getLines(HelpText);
 			final int ySizeHelp = 20 + (9 * rows);
 
-			final int x = (width - xSizeHelp) / 2;
-			final int y = (height - ySizeHelp) / 2;
+			x = (width - xSizeHelp) / 2;
+			y = (height - ySizeHelp) / 2;
 			this.drawTexturedModalRect(x, y, 0, 0, xSizeHelp, 10);
 			this.drawTexturedModalRect(x, (y + ySizeHelp) - 10, 0, 19,
 					xSizeHelp, 10);
@@ -89,47 +127,6 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 
 			fontRenderer.drawSplitString(HelpText, x + 10, y + 10, stringWidth,
 					0xeeeeee);
-		} else {
-			this.registerTexture();
-
-			GL11.glPushMatrix();
-
-			factor = 1.0F;
-			final int x = globalX = (width - xSizeMain) / 2;
-			final int y = globalY = (height - ySizeMain) / 2;
-			this.drawTexturedModalRect(x, y, 0, 0, xSizeMain, ySizeMain);
-
-			if (rowsToScroll < 1) {
-				this.drawTexturedModalRect(x + 157, y + 78, 244, 0, 12, 15);
-			} else {
-				this.drawTexturedModalRect(x + 157, y + 78
-						+ ((int) (scrollbarPos * pixelPerRow)), 232, 0, 12, 15);
-			}
-
-			if (Gate.NumberGates < 6) {
-				for (int i = 0; i < 6; i++) {
-					if (i >= Gate.NumberGates) {
-						this.drawTexturedModalRect(x + 8, y + 78 + (19 * i), 8,
-								200, 143, 19);
-					}
-				}
-			}
-
-			// END of Textures!
-			// BEGIN of Strings!
-
-			GL11.glTranslatef(globalX, globalY, 0.0F);
-
-			for (int i = 0; i < 6; i++) {
-				if (i < Gate.NumberGates) {
-					this.drawString(Gate.GateNames[i + scrollbarPos], 14,
-							84 + (19 * i), 0);
-				}
-			}
-
-			scrollbarPos = 1 * scrollbarPos;
-
-			GL11.glPopMatrix();
 		}
 	}
 
@@ -156,6 +153,20 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		fontRenderer.drawString(s, (int) (i / factor), (int) (j / factor), k);
 	}
 
+	private void drawTexturedModalRect(int x, int y, int u, int v, int width,
+			int height, boolean inverted) {
+		if (inverted) {
+			GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
+
+			this.drawTexturedModalRect(-x - width, -y - height, u, v, width,
+					height);
+
+			GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
+		} else {
+			this.drawTexturedModalRect(x, y, u, v, width, height);
+		}
+	}
+
 	private int getLines(String str) {
 		return fontRenderer.listFormattedStringToWidth(str, stringWidth).size();
 	}
@@ -178,10 +189,6 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		return (i >= k) && (i <= i1) && (j >= l) && (j <= j1);
 	}
 
-	/**
-	 * Fired when a key is typed. This is the equivalent of
-	 * KeyListener.keyTyped(KeyEvent e).
-	 */
 	@Override
 	protected void keyTyped(char c, int i) {
 		if (help) {
@@ -214,20 +221,17 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		}
 	}
 
-	/**
-	 * Called when the mouse is clicked.
-	 */
 	@Override
-	protected void mouseClicked(int i, int j, int k) {
-		super.mouseClicked(i, j, k);
+	protected void mouseClicked(int mouseX, int mouseY, int which) {
+		super.mouseClicked(mouseX, mouseY, which);
 
 		if (help) {
 			this.closeHelpGui();
 		} else {
-			i -= (width - xSizeMain) / 2;
-			j -= (height - ySizeMain) / 2;
+			mouseX -= globalX;
+			mouseY -= globalY;
 
-			if (this.inField(i, j, 168, 3, 172, 7)) {
+			if (this.inField(mouseX, mouseY, 168, 3, 172, 7)) {
 				this.quit();
 
 				return;
@@ -271,6 +275,26 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 			// } else {
 			// tileentity.setFocused(0);
 			// }
+		}
+	}
+
+	@Override
+	protected void mouseMovedOrUp(int mouseX, int mouseY, int which) {
+		if (!help) {
+			mouseX -= globalX;
+			mouseY -= globalY;
+
+			if (which == -1) {
+				mousePos = -1;
+				for (int i = 0; i < 6; i++) {
+					if (this.inField(mouseX, mouseY, 8, 78 + (19 * i), 150,
+							96 + (19 * i))) {
+						mousePos = (byte) i;
+
+						break;
+					}
+				}
+			}
 		}
 	}
 
