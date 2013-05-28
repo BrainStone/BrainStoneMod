@@ -87,14 +87,14 @@ public abstract class Gate {
 	 * This returns a new instance of the gate<br>
 	 * <b>This function cannot be overwritten!</b>
 	 * 
-	 * @param ID
-	 *            The ID to get the Gate from
+	 * @param Name
+	 *            The Name to get the Gate from
 	 * @return A new instance of the gate
 	 */
 	final public static Gate getGate(String Name) {
 		if (Gates.containsKey(Name)) {
 			try {
-				return (Gate) Gates.get(Name).clone();
+				return Gates.get(Name).clone();
 			} catch (final CloneNotSupportedException e) {
 				BSP.severeException(
 						e,
@@ -192,12 +192,28 @@ public abstract class Gate {
 	 * </table>
 	 */
 	public Pin[] Pins = new Pin[6];
+
 	public Option[] Options;
 	public final String Name = this.getClass().getSimpleName();
 	protected int tickRate;
 
 	public boolean canSwapWith(Pin pin1, Pin pin2) {
 		return pin1.Movable && pin2.Movable;
+	}
+
+	@Override
+	final public Gate clone() throws CloneNotSupportedException {
+		try {
+			return this.getClass().newInstance();
+		} catch (final InstantiationException e) {
+			BSP.severeException(e);
+			BSP.throwCloneNotSupportedException("An InstantiationException occured!");
+		} catch (final IllegalAccessException e) {
+			BSP.severeException(e);
+			BSP.throwCloneNotSupportedException("An IllegalAccessException occured!");
+		}
+
+		return null;
 	}
 
 	public final Pin getPin(char gateName) {

@@ -24,12 +24,11 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	public static Icon[] textures;
 
 	/**
-	 * Transforms directions from Minecraft directions (need to be decreased by
-	 * 2) to TileEntityBlockBrainLogicBlock directions
+	 * Inverts the Minecraft direction. Up turns into down etc.
 	 * 
 	 * @param i
 	 *            Minecraft direction
-	 * @return TileEntityBlockBrainLogicBlock direction
+	 * @return Inverted direction
 	 */
 	private static int invertDirection(int i) {
 		return i ^ 1;
@@ -70,9 +69,10 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	/**
 	 * Determine if this block can make a redstone connection on the side
 	 * provided, Useful to control which sides are inputs and outputs for
-	 * redstone wires.
+	 * redstone wires.<br>
 	 * 
-	 * Side: -1: UP 0: NORTH 1: EAST 2: SOUTH 3: WEST
+	 * Side:<br>
+	 * -1: UP 0: NORTH 1: EAST 2: SOUTH 3: WEST
 	 * 
 	 * @param world
 	 *            The current world
@@ -185,35 +185,31 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 		return new TileEntityBlockBrainLogicBlock();
 	}
 
-	// @Override
-	// public int isProvidingStrongPower(IBlockAccess iblockaccess, int x, int
-	// y,
-	// int z, int side) {
-	// final TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock =
-	// (TileEntityBlockBrainLogicBlock) iblockaccess
-	// .getBlockTileEntity(x, y, z);
-	//
-	// if ((tileentityblockbrainlogicblock != null)
-	// && (tileentityblockbrainlogicblock.getDirection() == this
-	// .transformDirection(side - 2)))
-	// return tileentityblockbrainlogicblock.getOutput() ? 15 : 0;
-	// else
-	// return 0;
-	// }
-	//
-	// @Override
-	// public int isProvidingWeakPower(IBlockAccess iblockaccess, int i, int j,
-	// int k, int l) {
-	// return this.isProvidingStrongPower(iblockaccess, i, j, k, l);
-	// }
-
 	@Override
 	public Icon getIcon(int i, int meta) {
-
 		if (i >= 2)
 			return textures[3 + i];
 
 		return textures[4];
+	}
+
+	@Override
+	public int isProvidingStrongPower(IBlockAccess iblockaccess, int x, int y,
+			int z, int side) {
+		final TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock = (TileEntityBlockBrainLogicBlock) iblockaccess
+				.getBlockTileEntity(x, y, z);
+
+		if (tileentityblockbrainlogicblock != null)
+			return tileentityblockbrainlogicblock
+					.getPowerOutputLevel((byte) invertDirection(side));
+		else
+			return 0;
+	}
+
+	@Override
+	public int isProvidingWeakPower(IBlockAccess iblockaccess, int i, int j,
+			int k, int l) {
+		return this.isProvidingStrongPower(iblockaccess, i, j, k, l);
 	}
 
 	@Override

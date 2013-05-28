@@ -25,14 +25,50 @@ public class TileEntityBlockBrainLogicBlock extends
 		return "container.brainstonetrigger";
 	}
 
+	public static byte InternalToMCDirection(byte Internal_Direction) {
+		switch (Internal_Direction) {
+		case 0:
+		case 1:
+			return (byte) (Internal_Direction ^ 1);
+		case 2:
+			return Internal_Direction;
+		case 3:
+			return (byte) (Internal_Direction + 2);
+		case 4:
+		case 5:
+			return (byte) (Internal_Direction - 1);
+		}
+
+		return -1;
+	}
+
+	public static byte MCToInternalDirection(byte MC_Direction) {
+		switch (MC_Direction) {
+		case 0:
+		case 1:
+			return (byte) (MC_Direction ^ 1);
+		case 2:
+			return MC_Direction;
+		case 3:
+		case 4:
+			return (byte) (MC_Direction + 1);
+		case 5:
+			return (byte) (MC_Direction - 2);
+		}
+
+		return -1;
+	}
+
 	private byte GuiFocused;
 	private long lastUpdate;
 	private final Vector TASKS;
 	private final Vector Users;
+
 	private ArrayList<String> PrintErrorBuff;
 	private boolean PrintErrorBuffActive;
 
 	private Gate ActiveGate;
+
 	private int GatePos;
 
 	public TileEntityBlockBrainLogicBlock() {
@@ -151,6 +187,12 @@ public class TileEntityBlockBrainLogicBlock extends
 
 	public byte getFocused() {
 		return GuiFocused;
+	}
+
+	public byte getPowerOutputLevel(byte MC_Direction) {
+		final Pin pin = ActiveGate.Pins[MCToInternalDirection(MC_Direction)];
+
+		return pin.Output ? pin.State.getPowerLevel() : 0;
 	}
 
 	private String getPrintErrorBuff() {
