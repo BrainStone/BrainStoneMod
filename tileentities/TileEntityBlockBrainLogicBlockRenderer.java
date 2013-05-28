@@ -12,13 +12,18 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 	public TileEntityBlockBrainLogicBlockRenderer() {
 	}
 
-	private void renderInOutPut(TileEntity tileentity, byte byte0) {
+	private void renderGate(TileEntity tileentity, int pos) {
 		if (tileentity instanceof TileEntityBlockBrainLogicBlock) {
 			final TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock = (TileEntityBlockBrainLogicBlock) tileentity;
-			final FontRenderer fontrenderer = this.getFontRenderer();
-			GL11.glDepthMask(false);
-			tileentityblockbrainlogicblock.renderInOutPut(fontrenderer, byte0);
-			GL11.glDepthMask(true);
+
+			if (tileentityblockbrainlogicblock != null) {
+				final FontRenderer fontrenderer = this.getFontRenderer();
+				GL11.glDepthMask(false);
+
+				tileentityblockbrainlogicblock.renderGate(fontrenderer, pos);
+
+				GL11.glDepthMask(true);
+			}
 		}
 	}
 
@@ -34,8 +39,9 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 					(float) d2 + 1.0F + f1);
 			GL11.glScalef(f2, -f2, f2);
 			GL11.glNormal3f(0.0F, 0.0F, -1F * f1);
-			this.renderInOutPut(tileentity, (byte) 1);
+			this.renderGate(tileentity, 1);
 			GL11.glPopMatrix();
+
 			GL11.glPushMatrix();
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			GL11.glTranslatef((float) d + 1.0F + f1, (float) d1 + 1.4375F,
@@ -43,8 +49,9 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 			GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
 			GL11.glScalef(f2, -f2, f2);
 			GL11.glNormal3f(0.0F, 0.0F, -1F * f1);
-			this.renderInOutPut(tileentity, (byte) 3);
+			this.renderGate(tileentity, 3);
 			GL11.glPopMatrix();
+
 			GL11.glPushMatrix();
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			GL11.glTranslatef((float) d + 0.4375F, (float) d1 + 1.4375F,
@@ -52,8 +59,9 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 			GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
 			GL11.glScalef(f2, -f2, f2);
 			GL11.glNormal3f(0.0F, 0.0F, 1.0F * f1);
-			this.renderInOutPut(tileentity, (byte) 0);
+			this.renderGate(tileentity, 0);
 			GL11.glPopMatrix();
+
 			GL11.glPushMatrix();
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			GL11.glTranslatef((float) d - f1, (float) d1 + 1.4375F,
@@ -61,7 +69,7 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 			GL11.glRotatef(270F, 0.0F, 1.0F, 0.0F);
 			GL11.glScalef(f2, -f2, f2);
 			GL11.glNormal3f(0.0F, 0.0F, -1F * f1);
-			this.renderInOutPut(tileentity, (byte) 2);
+			this.renderGate(tileentity, 2);
 			GL11.glPopMatrix();
 		} catch (final Exception exception) {
 			BSP.printException(exception,

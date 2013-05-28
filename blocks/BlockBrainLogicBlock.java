@@ -24,6 +24,18 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	public static Icon[] textures;
 
 	/**
+	 * Transforms directions from Minecraft directions (need to be decreased by
+	 * 2) to TileEntityBlockBrainLogicBlock directions
+	 * 
+	 * @param i
+	 *            Minecraft direction
+	 * @return TileEntityBlockBrainLogicBlock direction
+	 */
+	private static int invertDirection(int i) {
+		return i ^ 1;
+	}
+
+	/**
 	 * Constructor of the block. Registers all properties and sets the id and
 	 * the material
 	 * 
@@ -148,28 +160,52 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 		return byte1;
 	}
 
+	// @Override
+	// public Icon getBlockTexture(IBlockAccess iblockaccess, int i, int j, int
+	// k,
+	// int l) {
+	//
+	// if (l < 2)
+	// return textures[4];
+	//
+	// final TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock =
+	// (TileEntityBlockBrainLogicBlock) iblockaccess
+	// .getBlockTileEntity(i, j, k);
+	//
+	// if (tileentityblockbrainlogicblock == null)
+	// return textures[4];
+	// else
+	// return textures[tileentityblockbrainlogicblock
+	// .getPinStateBasedTextureIndex(tileentityblockbrainlogicblock
+	// .transformDirection(l - 2))];
+	// }
+
 	@Override
 	public TileEntity createNewTileEntity(World world) {
 		return new TileEntityBlockBrainLogicBlock();
 	}
 
-	@Override
-	public Icon getBlockTexture(IBlockAccess iblockaccess, int i, int j, int k,
-			int l) {
-
-		if (l < 2)
-			return textures[4];
-
-		final TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock = (TileEntityBlockBrainLogicBlock) iblockaccess
-				.getBlockTileEntity(i, j, k);
-
-		if (tileentityblockbrainlogicblock == null)
-			return textures[4];
-		else
-			return textures[tileentityblockbrainlogicblock
-					.getPinStateBasedTextureIndex(tileentityblockbrainlogicblock
-							.transformDirection(l - 2))];
-	}
+	// @Override
+	// public int isProvidingStrongPower(IBlockAccess iblockaccess, int x, int
+	// y,
+	// int z, int side) {
+	// final TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock =
+	// (TileEntityBlockBrainLogicBlock) iblockaccess
+	// .getBlockTileEntity(x, y, z);
+	//
+	// if ((tileentityblockbrainlogicblock != null)
+	// && (tileentityblockbrainlogicblock.getDirection() == this
+	// .transformDirection(side - 2)))
+	// return tileentityblockbrainlogicblock.getOutput() ? 15 : 0;
+	// else
+	// return 0;
+	// }
+	//
+	// @Override
+	// public int isProvidingWeakPower(IBlockAccess iblockaccess, int i, int j,
+	// int k, int l) {
+	// return this.isProvidingStrongPower(iblockaccess, i, j, k, l);
+	// }
 
 	@Override
 	public Icon getIcon(int i, int meta) {
@@ -178,26 +214,6 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 			return textures[3 + i];
 
 		return textures[4];
-	}
-
-	@Override
-	public int isProvidingStrongPower(IBlockAccess iblockaccess, int i, int j,
-			int k, int l) {
-		final TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock = (TileEntityBlockBrainLogicBlock) iblockaccess
-				.getBlockTileEntity(i, j, k);
-
-		if ((tileentityblockbrainlogicblock != null)
-				&& (tileentityblockbrainlogicblock.getDirection() == this
-						.transformDirection(l - 2)))
-			return tileentityblockbrainlogicblock.getOutput() ? 15 : 0;
-		else
-			return 0;
-	}
-
-	@Override
-	public int isProvidingWeakPower(IBlockAccess iblockaccess, int i, int j,
-			int k, int l) {
-		return this.isProvidingStrongPower(iblockaccess, i, j, k, l);
 	}
 
 	@Override
@@ -237,7 +253,7 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 			EntityLiving par5EntityLiving, ItemStack par6ItemStack) {
 		((TileEntityBlockBrainLogicBlock) par1World.getBlockTileEntity(par2,
 				par3, par4))
-				.setDirection((byte) MathHelper
+				.changeGate(MathHelper
 						.floor_double(((par5EntityLiving.rotationYaw * 4.0F) / 360.0F) + 0.5D) & 3);
 	}
 
@@ -260,32 +276,6 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 		return 2;
 	}
 
-	/**
-	 * Transforms directions from Minecraft directions (need to be decreased by
-	 * 2) to TileEntityBlockBrainLogicBlock directions
-	 * 
-	 * @param i
-	 *            Minecraft direction
-	 * @return TileEntityBlockBrainLogicBlock direction
-	 */
-	private int transformDirection(int i) {
-		switch (i) {
-		case 0:
-			return 2;
-
-		case 1:
-			return 0;
-
-		case 2:
-			return 1;
-
-		case 3:
-			return 3;
-		}
-
-		return 0;
-	}
-
 	@Override
 	public void updateTick(World world, int i, int j, int k, Random random) {
 		super.updateTick(world, i, j, k, random);
@@ -297,15 +287,16 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 
 			if (tileentityblockbrainlogicblock.shallDoUpdate(world
 					.getWorldInfo().getWorldTime())) {
-				final byte abyte0[] = { -1, -1, -1 };
+				// final byte abyte0[] = { -1, -1, -1 };
+				//
+				// for (byte byte0 = 1; byte0 < 4; byte0++) {
+				// abyte0[byte0 - 1] = this.checkState(world, i, j, k,
+				// tileentityblockbrainlogicblock
+				// .reverseTransformDirection(byte0));
+				// }
+				//
+				// tileentityblockbrainlogicblock.setPinState(abyte0);
 
-				for (byte byte0 = 1; byte0 < 4; byte0++) {
-					abyte0[byte0 - 1] = this.checkState(world, i, j, k,
-							tileentityblockbrainlogicblock
-									.reverseTransformDirection(byte0));
-				}
-
-				tileentityblockbrainlogicblock.setPinState(abyte0);
 				BrainStonePacketHandler.sendReRenderBlockAtPacket(i, j, k,
 						world);
 				world.notifyBlockChange(i, j, k, blockID);

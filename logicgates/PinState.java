@@ -12,6 +12,45 @@ public enum PinState {
 			(byte) 12), Level13((byte) 13), Level14((byte) 14), Level15(
 			(byte) 15);
 
+	public static PinState getPinState(byte powerLevel) {
+		switch (powerLevel) {
+		case 15:
+			return Level15;
+		case 14:
+			return Level14;
+		case 13:
+			return Level13;
+		case 12:
+			return Level12;
+		case 11:
+			return Level11;
+		case 10:
+			return Level10;
+		case 9:
+			return Level9;
+		case 8:
+			return Level8;
+		case 7:
+			return Level7;
+		case 6:
+			return Level6;
+		case 5:
+			return Level5;
+		case 4:
+			return Level4;
+		case 3:
+			return Level3;
+		case 2:
+			return Level2;
+		case 1:
+			return Level1;
+		case 0:
+			return Level0;
+		default:
+			return NotConnected;
+		}
+	}
+
 	private final byte PowerLevel;
 
 	private PinState(byte PowerLevel) {
@@ -32,5 +71,9 @@ public enum PinState {
 
 	public boolean isValid() {
 		return (this != NotConnected) && (this != NotExisting);
+	}
+
+	public boolean shallRender() {
+		return this != NotExisting;
 	}
 }
