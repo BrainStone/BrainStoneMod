@@ -3,6 +3,7 @@ package mods.brainstone.blocks;
 import java.util.Random;
 
 import mods.brainstone.BrainStone;
+import mods.brainstone.ClientProxy;
 import mods.brainstone.handlers.BrainStonePacketHandler;
 import mods.brainstone.templates.BlockBrainStoneContainerBase;
 import mods.brainstone.tileentities.TileEntityBlockBrainLogicBlock;
@@ -101,6 +102,13 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 		return tileentityblockbrainlogicblock.connectToRedstone(side);
 	}
 
+	@Override
+	public boolean canRenderInPass(int pass) {
+		ClientProxy.renderPass = pass;
+		
+		return true;
+	}
+
 	/**
 	 * Checks the current state of a pin.
 	 * 
@@ -160,37 +168,39 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 		return byte1;
 	}
 
-	// @Override
-	// public Icon getBlockTexture(IBlockAccess iblockaccess, int i, int j, int
-	// k,
-	// int l) {
-	//
-	// if (l < 2)
-	// return textures[4];
-	//
-	// final TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock =
-	// (TileEntityBlockBrainLogicBlock) iblockaccess
-	// .getBlockTileEntity(i, j, k);
-	//
-	// if (tileentityblockbrainlogicblock == null)
-	// return textures[4];
-	// else
-	// return textures[tileentityblockbrainlogicblock
-	// .getPinStateBasedTextureIndex(tileentityblockbrainlogicblock
-	// .transformDirection(l - 2))];
-	// }
-
 	@Override
 	public TileEntity createNewTileEntity(World world) {
 		return new TileEntityBlockBrainLogicBlock();
 	}
 
 	@Override
+	public Icon getBlockTexture(IBlockAccess iblockaccess, int x, int y, int z,
+			int side) {
+		if (ClientProxy.renderPass == 0) {
+			if (side < 2)
+				return textures[2];
+
+			return textures[1];
+		} else
+			return textures[0];
+	}
+
+	@Override
 	public Icon getIcon(int i, int meta) {
 		if (i >= 2)
-			return textures[3 + i];
+			return textures[1 + i];
 
-		return textures[4];
+		return textures[2];
+	}
+
+	@Override
+	public int getRenderBlockPass() {
+		return 1;
+	}
+
+	@Override
+	public int getRenderType() {
+		return ClientProxy.BrainLogicBlockRenderType;
 	}
 
 	@Override
@@ -256,15 +266,18 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	@Override
 	public void registerIcons(IconRegister IconReg) {
 		textures = new Icon[] {
-				IconReg.registerIcon("brainstone:brainLogicBlockNotConnected"),
-				IconReg.registerIcon("brainstone:brainLogicBlockOff"),
-				IconReg.registerIcon("brainstone:brainLogicBlockOn"),
+				IconReg.registerIcon("brainstone:brainLogicBlockPin"),
 				IconReg.registerIcon("furnace_side"),
 				IconReg.registerIcon("furnace_top"),
 				IconReg.registerIcon("brainstone:brainLogicBlockNotConnectedA"),
 				IconReg.registerIcon("brainstone:brainLogicBlockOffC"),
 				IconReg.registerIcon("brainstone:brainLogicBlockOnQ"),
 				IconReg.registerIcon("brainstone:brainLogicBlockOnB") };
+	}
+
+	@Override
+	public boolean renderAsNormalBlock() {
+		return false;
 	}
 
 	@Override

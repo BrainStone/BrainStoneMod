@@ -1,5 +1,6 @@
 package mods.brainstone;
 
+import mods.brainstone.handlers.BrainStoneRenderBrainLogicBlockHandler;
 import mods.brainstone.tileentities.TileEntityBlockBrainLogicBlock;
 import mods.brainstone.tileentities.TileEntityBlockBrainLogicBlockRenderer;
 import net.minecraft.client.Minecraft;
@@ -10,6 +11,9 @@ import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy {
+	public static int BrainLogicBlockRenderType;
+    public static int renderPass;
+	
 	/**
 	 * Adds some armor.
 	 * 
@@ -60,5 +64,9 @@ public class ClientProxy extends CommonProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(
 				TileEntityBlockBrainLogicBlock.class,
 				new TileEntityBlockBrainLogicBlockRenderer());
+		
+		BrainLogicBlockRenderType = RenderingRegistry.getNextAvailableRenderId();
+		
+		RenderingRegistry.registerBlockHandler(new BrainStoneRenderBrainLogicBlockHandler());
 	}
 }

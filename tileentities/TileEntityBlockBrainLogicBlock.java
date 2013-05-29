@@ -13,6 +13,7 @@ import mods.brainstone.logicgates.Pin;
 import mods.brainstone.templates.BSP;
 import mods.brainstone.templates.TileEntityBrainStoneSyncBase;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -128,7 +129,7 @@ public class TileEntityBlockBrainLogicBlock extends
 
 	public void changeGate(String string) {
 		ActiveGate = Gate.getGate(string);
-		
+
 		if (ActiveGate != null) {
 			for (int i = 0; i < Gate.NumberGates; i++) {
 				if (Gate.GateNames[i].equals(string)) {
@@ -185,18 +186,71 @@ public class TileEntityBlockBrainLogicBlock extends
 		outputStream.writeLong(lastUpdate);
 	}
 
+	public float getFactorForPinBlue(byte direction) {
+		final float powerLevel = ActiveGate.Pins[direction].State
+				.getPowerLevel();
+		final int color = (powerLevel != -1) ? ((int) (0xC60505 * (powerLevel / 15.0F)))
+				: 0x888888;
+
+		final float blue = (color & 255) / 255.0F;
+
+		if (EntityRenderer.anaglyphEnable) {
+			final float red = ((color >> 16) & 255) / 255.0F;
+			final float green = ((color >> 8) & 255) / 255.0F;
+
+			return ((red * 30.0F) + (green * 70.0F)) / 100.0F;
+		}
+
+		return blue;
+	}
+
+	public float getFactorForPinGreen(byte direction) {
+		final float powerLevel = ActiveGate.Pins[direction].State
+				.getPowerLevel();
+		final int color = (powerLevel != -1) ? ((int) (0xC60505 * (powerLevel / 15.0F)))
+				: 0x888888;
+
+		final float green = ((color >> 8) & 255) / 255.0F;
+
+		if (EntityRenderer.anaglyphEnable) {
+			final float red = ((color >> 16) & 255) / 255.0F;
+
+			return ((red * 30.0F) + (green * 70.0F)) / 100.0F;
+		}
+
+		return green;
+	}
+
+	public float getFactorForPinRed(byte direction) {
+		final float powerLevel = ActiveGate.Pins[direction].State
+				.getPowerLevel();
+		final int color = (powerLevel != -1) ? ((int) (0xC60505 * (powerLevel / 15.0F)))
+				: 0x888888;
+
+		final float red = ((color >> 16) & 255) / 255.0F;
+
+		if (EntityRenderer.anaglyphEnable) {
+			final float green = ((color >> 8) & 255) / 255.0F;
+			final float blue = (color & 255) / 255.0F;
+
+			return ((red * 30.0F) + (green * 59.0F) + (blue * 11.0F)) / 100.0F;
+		}
+
+		return red;
+	}
+
 	public byte getFocused() {
 		return GuiFocused;
+	}
+
+	public int getGatePos() {
+		return GatePos;
 	}
 
 	public byte getPowerOutputLevel(byte MC_Direction) {
 		final Pin pin = ActiveGate.Pins[MCToInternalDirection(MC_Direction)];
 
 		return pin.Output ? pin.State.getPowerLevel() : 0;
-	}
-	
-	public int getGatePos() {
-		return GatePos;
 	}
 
 	private String getPrintErrorBuff() {
@@ -381,6 +435,10 @@ public class TileEntityBlockBrainLogicBlock extends
 			return true;
 		} else
 			return false;
+	}
+
+	public boolean shallRenderPin(byte direction) {
+		return ActiveGate.Pins[direction].State.shallRender();
 	}
 
 	private void startPrintErrorBuff() {
