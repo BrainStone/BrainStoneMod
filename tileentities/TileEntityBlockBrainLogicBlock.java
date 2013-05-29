@@ -314,7 +314,7 @@ public class TileEntityBlockBrainLogicBlock extends
 							tmp,
 							-fontrenderer.getStringWidth(tmp) / 2,
 							4,
-							(powerLevel != -1) ? (0x50505 + ((int) (0x760000 * (powerLevel / 15.0F))))
+							(powerLevel != -1) ? ((int) (0xC60505 * (powerLevel / 15.0F)))
 									: 0x888888);
 		}
 	}
