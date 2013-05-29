@@ -186,11 +186,15 @@ public class TileEntityBlockBrainLogicBlock extends
 		outputStream.writeLong(lastUpdate);
 	}
 
-	public float getFactorForPinBlue(byte direction) {
+	public int getGateColor(byte direction) {
 		final float powerLevel = ActiveGate.Pins[direction].State
 				.getPowerLevel();
-		final int color = (powerLevel != -1) ? ((int) (0xC60505 * (powerLevel / 15.0F)))
+		return (powerLevel != -1) ? ((int) (0xC60505 * (powerLevel / 15.0F)))
 				: 0x888888;
+	}
+
+	public float getFactorForPinBlue(byte direction) {
+		int color = getGateColor(direction);
 
 		final float blue = (color & 255) / 255.0F;
 
@@ -205,10 +209,7 @@ public class TileEntityBlockBrainLogicBlock extends
 	}
 
 	public float getFactorForPinGreen(byte direction) {
-		final float powerLevel = ActiveGate.Pins[direction].State
-				.getPowerLevel();
-		final int color = (powerLevel != -1) ? ((int) (0xC60505 * (powerLevel / 15.0F)))
-				: 0x888888;
+		int color = getGateColor(direction);
 
 		final float green = ((color >> 8) & 255) / 255.0F;
 
@@ -222,10 +223,7 @@ public class TileEntityBlockBrainLogicBlock extends
 	}
 
 	public float getFactorForPinRed(byte direction) {
-		final float powerLevel = ActiveGate.Pins[direction].State
-				.getPowerLevel();
-		final int color = (powerLevel != -1) ? ((int) (0xC60505 * (powerLevel / 15.0F)))
-				: 0x888888;
+		int color = getGateColor(direction);
 
 		final float red = ((color >> 16) & 255) / 255.0F;
 
@@ -356,7 +354,7 @@ public class TileEntityBlockBrainLogicBlock extends
 		}
 	}
 
-	public void renderGate(FontRenderer fontrenderer, int pos) {
+	public void renderGate(FontRenderer fontrenderer, byte pos) {
 		final Pin pin = ActiveGate.Pins[pos];
 
 		if (pin.State.shallRender()) {
@@ -368,8 +366,7 @@ public class TileEntityBlockBrainLogicBlock extends
 							tmp,
 							-fontrenderer.getStringWidth(tmp) / 2,
 							4,
-							(powerLevel != -1) ? ((int) (0xC60505 * (powerLevel / 15.0F)))
-									: 0x888888);
+							getGateColor(pos));
 		}
 	}
 

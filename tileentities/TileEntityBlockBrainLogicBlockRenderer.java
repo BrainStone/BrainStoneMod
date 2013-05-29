@@ -20,7 +20,7 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 				final FontRenderer fontrenderer = this.getFontRenderer();
 				GL11.glDepthMask(false);
 
-				tileentityblockbrainlogicblock.renderGate(fontrenderer, pos);
+				tileentityblockbrainlogicblock.renderGate(fontrenderer, (byte) pos);
 
 				GL11.glDepthMask(true);
 			}
