@@ -105,7 +105,7 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	@Override
 	public boolean canRenderInPass(int pass) {
 		ClientProxy.renderPass = pass;
-		
+
 		return true;
 	}
 
@@ -166,6 +166,20 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 		}
 
 		return byte1;
+	}
+
+	@Override
+	public int colorMultiplier(IBlockAccess world, int x, int y, int z) {
+		if (ClientProxy.renderPass == 1) {
+			final TileEntityBlockBrainLogicBlock tileEntity = (TileEntityBlockBrainLogicBlock) world
+					.getBlockTileEntity(x, y, z);
+
+			if (tileEntity != null)
+				return tileEntity
+						.getGateColor(tileEntity.currentRenderDirection);
+		}
+
+		return 16777215;
 	}
 
 	@Override
@@ -294,17 +308,12 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 		if (tileentityblockbrainlogicblock != null) {
 			tileentityblockbrainlogicblock.doTASKS();
 
-			if (tileentityblockbrainlogicblock.shallDoUpdate(world
+			long time;
+
+			if (tileentityblockbrainlogicblock.shallDoUpdate(time = world
 					.getWorldInfo().getWorldTime())) {
-				// final byte abyte0[] = { -1, -1, -1 };
-				//
-				// for (byte byte0 = 1; byte0 < 4; byte0++) {
-				// abyte0[byte0 - 1] = this.checkState(world, i, j, k,
-				// tileentityblockbrainlogicblock
-				// .reverseTransformDirection(byte0));
-				// }
-				//
-				// tileentityblockbrainlogicblock.setPinState(abyte0);
+
+				tileentityblockbrainlogicblock.tickGate(time);
 
 				BrainStonePacketHandler.sendReRenderBlockAtPacket(i, j, k,
 						world);

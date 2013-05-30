@@ -1,5 +1,7 @@
 package mods.brainstone.logicgates;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -160,6 +162,19 @@ public abstract class Gate {
 		return Gates;
 	}
 
+	public final static Gate readFromInputStream(DataInputStream inputStream)
+			throws IOException {
+		final Gate out = Gate.getGate(inputStream.readUTF());
+
+		for (int i = 0; i < 6; i++) {
+			out.Pins[i] = Pin.readFromInputStream(inputStream);
+		}
+
+		// Options go here!
+
+		return out;
+	}
+
 	/**
 	 * <b>Indices</b><br>
 	 * <br>
@@ -192,10 +207,10 @@ public abstract class Gate {
 	 * </table>
 	 */
 	public Pin[] Pins = new Pin[6];
-
 	public Option[] Options;
 	public final String Name = this.getClass().getSimpleName();
-	protected int tickRate;
+
+	protected int tickRate = 1;
 
 	public boolean canSwapWith(Pin pin1, Pin pin2) {
 		return pin1.Movable && pin2.Movable;
@@ -235,7 +250,8 @@ public abstract class Gate {
 	}
 
 	/**
-	 * This function return the tickRate of the Gate.<br>
+	 * This function returns the tickRate of the Gate in Redstone ticks (2 game
+	 * ticks!).<br>
 	 * <b>This function cannot be overwritten!</b>
 	 * 
 	 * @return tickRate
@@ -293,5 +309,17 @@ public abstract class Gate {
 				Pins[i].State = state;
 			}
 		}
+	}
+
+	public final void writeToOutputStream(DataOutputStream outputStream)
+			throws IOException {
+		outputStream.writeUTF(Name);
+		outputStream.writeInt(tickRate);
+
+		for (int i = 0; i < 6; i++) {
+			Pins[i].writeToOutputStream(outputStream);
+		}
+
+		// Options go here!
 	}
 }

@@ -71,6 +71,7 @@ public class TileEntityBlockBrainLogicBlock extends
 	private Gate ActiveGate;
 
 	private int GatePos;
+	public byte currentRenderDirection;
 
 	public TileEntityBlockBrainLogicBlock() {
 		TASKS = new Vector();
@@ -184,17 +185,12 @@ public class TileEntityBlockBrainLogicBlock extends
 
 		outputStream.writeByte(GuiFocused);
 		outputStream.writeLong(lastUpdate);
-	}
 
-	public int getGateColor(byte direction) {
-		final float powerLevel = ActiveGate.Pins[direction].State
-				.getPowerLevel();
-		return (powerLevel != -1) ? ((int) (0xC60505 * (powerLevel / 15.0F)))
-				: 0x888888;
+		ActiveGate.writeToOutputStream(outputStream);
 	}
 
 	public float getFactorForPinBlue(byte direction) {
-		int color = getGateColor(direction);
+		final int color = this.getGateColor(direction);
 
 		final float blue = (color & 255) / 255.0F;
 
@@ -209,7 +205,7 @@ public class TileEntityBlockBrainLogicBlock extends
 	}
 
 	public float getFactorForPinGreen(byte direction) {
-		int color = getGateColor(direction);
+		final int color = this.getGateColor(direction);
 
 		final float green = ((color >> 8) & 255) / 255.0F;
 
@@ -223,7 +219,7 @@ public class TileEntityBlockBrainLogicBlock extends
 	}
 
 	public float getFactorForPinRed(byte direction) {
-		int color = getGateColor(direction);
+		final int color = this.getGateColor(direction);
 
 		final float red = ((color >> 16) & 255) / 255.0F;
 
@@ -239,6 +235,13 @@ public class TileEntityBlockBrainLogicBlock extends
 
 	public byte getFocused() {
 		return GuiFocused;
+	}
+
+	public int getGateColor(byte direction) {
+		final float powerLevel = ActiveGate.Pins[direction].State
+				.getPowerLevel();
+		return (powerLevel != -1.0F) ? ((int) (0xC60505 * (powerLevel / 15.0F)))
+				: 0x888888;
 	}
 
 	public int getGatePos() {
@@ -320,6 +323,8 @@ public class TileEntityBlockBrainLogicBlock extends
 			throws IOException {
 		GuiFocused = inputStream.readByte();
 		lastUpdate = inputStream.readLong();
+
+		ActiveGate = Gate.readFromInputStream(inputStream);
 	}
 
 	/**
@@ -361,12 +366,8 @@ public class TileEntityBlockBrainLogicBlock extends
 			final String tmp = String.valueOf(pin.Name);
 			final float powerLevel = pin.State.getPowerLevel();
 
-			fontrenderer
-					.drawString(
-							tmp,
-							-fontrenderer.getStringWidth(tmp) / 2,
-							4,
-							getGateColor(pos));
+			fontrenderer.drawString(tmp, -fontrenderer.getStringWidth(tmp) / 2,
+					4, this.getGateColor(pos));
 		}
 	}
 
@@ -446,6 +447,17 @@ public class TileEntityBlockBrainLogicBlock extends
 	private void stopPrintErrorBuff() {
 		PrintErrorBuffActive = false;
 		PrintErrorBuff = null;
+	}
+
+	public void tickGate(long time) {
+		final Side side = FMLCommonHandler.instance().getEffectiveSide();
+		if (side != Side.CLIENT) {
+			time /= 2;
+
+			if ((time % ActiveGate.getTickRate()) == 0) {
+				ActiveGate.onTick();
+			}
+		}
 	}
 
 	@Override
