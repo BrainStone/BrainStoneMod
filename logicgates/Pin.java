@@ -4,6 +4,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import net.minecraft.nbt.NBTTagCompound;
+
 public class Pin {
 	public static final Pin NullPin = new Pin('\0', false, false, false,
 			PinState.NotExisting);
@@ -15,6 +17,14 @@ public class Pin {
 		return new Pin(inputStream.readChar(), inputStream.readBoolean(),
 				inputStream.readBoolean(), inputStream.readBoolean(),
 				PinState.valueOf(inputStream.readUTF()));
+	}
+
+	public final static Pin readFromNBT(NBTTagCompound nbttagcompound) {
+		return new Pin(nbttagcompound.getString("Name").charAt(0),
+				nbttagcompound.getBoolean("Movable"),
+				nbttagcompound.getBoolean("Output"),
+				nbttagcompound.getBoolean("Inverted"),
+				PinState.valueOf(nbttagcompound.getString("State")));
 	}
 
 	public final char Name;
@@ -56,5 +66,13 @@ public class Pin {
 		outputStream.writeBoolean(Output);
 		outputStream.writeBoolean(Inverted);
 		outputStream.writeUTF(State.name());
+	}
+
+	public final void writeToNBT(NBTTagCompound nbttagcompound) {
+		nbttagcompound.setString("Name", String.valueOf(Name));
+		nbttagcompound.setBoolean("Movable", Movable);
+		nbttagcompound.setBoolean("Output", Output);
+		nbttagcompound.setBoolean("Inverted", Inverted);
+		nbttagcompound.setString("State", State.name());
 	}
 }

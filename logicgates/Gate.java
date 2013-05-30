@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import mods.brainstone.templates.BSP;
+import net.minecraft.nbt.NBTTagCompound;
 
 public abstract class Gate {
 	public static final HashMap<String, Gate> Gates = getGates();
@@ -165,9 +166,26 @@ public abstract class Gate {
 	public final static Gate readFromInputStream(DataInputStream inputStream)
 			throws IOException {
 		final Gate out = Gate.getGate(inputStream.readUTF());
+		out.tickRate = inputStream.readInt();
 
 		for (int i = 0; i < 6; i++) {
 			out.Pins[i] = Pin.readFromInputStream(inputStream);
+		}
+
+		// Options go here!
+
+		return out;
+	}
+
+	public final static Gate readFromNBT(NBTTagCompound nbttagcompound) {
+		final Gate out = Gate.getGate(nbttagcompound.getString("Name"));
+		out.tickRate = nbttagcompound.getInteger("tickRate");
+
+		NBTTagCompound currentPin;
+
+		for (int i = 0; i < 6; i++) {
+			currentPin = nbttagcompound.getCompoundTag("Pin" + i);
+			out.Pins[i] = Pin.readFromNBT(currentPin);
 		}
 
 		// Options go here!
@@ -318,6 +336,22 @@ public abstract class Gate {
 
 		for (int i = 0; i < 6; i++) {
 			Pins[i].writeToOutputStream(outputStream);
+		}
+
+		// Options go here!
+	}
+
+	public final void writeToNBT(NBTTagCompound nbttagcompound) {
+		nbttagcompound.setString("Name", Name);
+		nbttagcompound.setInteger("tickRate", tickRate);
+
+		NBTTagCompound currentPin;
+
+		for (int i = 0; i < 6; i++) {
+			currentPin = new NBTTagCompound();
+			Pins[i].writeToNBT(currentPin);
+
+			nbttagcompound.setCompoundTag("Pin" + i, currentPin);
 		}
 
 		// Options go here!

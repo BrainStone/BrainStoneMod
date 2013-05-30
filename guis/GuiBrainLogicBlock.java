@@ -38,7 +38,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		help = false;
 
 		scrollbarPos = 0;
-		mousePos = -1;
+		mousePos = 0;
 	}
 
 	private void click() {

@@ -12,7 +12,6 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy {
 	public static int BrainLogicBlockRenderType;
-	public static int renderPass;
 
 	/**
 	 * Adds some armor.

@@ -126,6 +126,7 @@ public class TileEntityBlockBrainLogicBlock extends
 
 	public void changeGate(int direction) {
 		ActiveGate.onGateChange(direction);
+		ActiveGate.onTick();
 	}
 
 	public void changeGate(String string) {
@@ -348,6 +349,8 @@ public class TileEntityBlockBrainLogicBlock extends
 		// .append("Pins").append(String.valueOf(i)).toString());
 		// }
 
+		ActiveGate = Gate.readFromNBT(nbttagcompound);
+
 		final byte byte0 = nbttagcompound.getByte("TASKS-Size");
 
 		for (byte byte1 = 0; byte1 < byte0; byte1++) {
@@ -496,6 +499,8 @@ public class TileEntityBlockBrainLogicBlock extends
 		// nbttagcompound.setString((new StringBuilder()).append("Pins")
 		// .append(String.valueOf(i)).toString(), Pins[i]);
 		// }
+
+		ActiveGate.writeToNBT(nbttagcompound);
 
 		final byte byte0 = (byte) TASKS.size();
 		nbttagcompound.setByte("TASKS-Size", byte0);

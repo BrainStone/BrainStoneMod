@@ -102,13 +102,6 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 		return tileentityblockbrainlogicblock.connectToRedstone(side);
 	}
 
-	@Override
-	public boolean canRenderInPass(int pass) {
-		ClientProxy.renderPass = pass;
-
-		return true;
-	}
-
 	/**
 	 * Checks the current state of a pin.
 	 * 
@@ -170,14 +163,11 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 
 	@Override
 	public int colorMultiplier(IBlockAccess world, int x, int y, int z) {
-		if (ClientProxy.renderPass == 1) {
-			final TileEntityBlockBrainLogicBlock tileEntity = (TileEntityBlockBrainLogicBlock) world
-					.getBlockTileEntity(x, y, z);
+		final TileEntityBlockBrainLogicBlock tileEntity = (TileEntityBlockBrainLogicBlock) world
+				.getBlockTileEntity(x, y, z);
 
-			if (tileEntity != null)
-				return tileEntity
-						.getGateColor(tileEntity.currentRenderDirection);
-		}
+		if ((tileEntity != null) && (tileEntity.currentRenderDirection != -1))
+			return tileEntity.getGateColor(tileEntity.currentRenderDirection);
 
 		return 16777215;
 	}
@@ -190,13 +180,10 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	@Override
 	public Icon getBlockTexture(IBlockAccess iblockaccess, int x, int y, int z,
 			int side) {
-		if (ClientProxy.renderPass == 0) {
-			if (side < 2)
-				return textures[2];
+		if (side < 2)
+			return textures[2];
 
-			return textures[1];
-		} else
-			return textures[0];
+		return textures[1];
 	}
 
 	@Override
@@ -205,11 +192,6 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 			return textures[1 + i];
 
 		return textures[2];
-	}
-
-	@Override
-	public int getRenderBlockPass() {
-		return 1;
 	}
 
 	@Override

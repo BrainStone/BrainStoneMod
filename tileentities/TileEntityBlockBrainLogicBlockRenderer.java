@@ -32,7 +32,7 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 	public void renderTileEntityAt(TileEntity tileentity, double x, double y,
 			double z, float f) {
 		try {
-			final float f1 = 0.01F;
+			final float f1 = 0.0005F;
 			final float f2 = 0.125F;
 
 			GL11.glPushMatrix();
@@ -40,7 +40,7 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 
 			// Top Face
 			GL11.glPushMatrix();
-			GL11.glTranslatef((float) x + 0.5625F, (float) y + 1.01F,
+			GL11.glTranslatef((float) x + 0.5625F, (float) y + 1.0F + f1,
 					(float) z - 0.4375F);
 			GL11.glRotatef(-90F, 1.0F, 0.0F, 0.0F);
 			GL11.glScalef(f2, -f2, f2);
@@ -52,7 +52,7 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 
 			// Bottom Face
 			GL11.glPushMatrix();
-			GL11.glTranslatef((float) x + 0.4375F, (float) y - 0.01F,
+			GL11.glTranslatef((float) x + 0.4375F, (float) y - f1,
 					(float) z - 0.4375F);
 			GL11.glRotatef(-90F, 1.0F, 0.0F, 0.0F);
 			GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);

@@ -1,6 +1,7 @@
 package mods.brainstone.handlers;
 
 import mods.brainstone.ClientProxy;
+import mods.brainstone.blocks.BlockBrainLogicBlock;
 import mods.brainstone.tileentities.TileEntityBlockBrainLogicBlock;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -62,89 +63,90 @@ public class BrainStoneRenderBrainLogicBlockHandler implements
 		GL11.glTranslatef(0.5F, 0.5F, 0.5F);
 	}
 
-	private void renderPins(IBlockAccess world, RenderBlocks renderer,
-			Block block, int x, int y, int z) {
-		final TileEntityBlockBrainLogicBlock tileEntity = (TileEntityBlockBrainLogicBlock) renderer.blockAccess
-				.getBlockTileEntity(x, y, z);
+	private void renderPins(TileEntityBlockBrainLogicBlock tileEntity,
+			IBlockAccess world, RenderBlocks renderer, Block block, int x,
+			int y, int z) {
+		renderer.setOverrideBlockTexture(BlockBrainLogicBlock.textures[0]);
 
-		if (tileEntity != null) {
+		// Top Face
 
-			// Top Face
+		tileEntity.currentRenderDirection++;
 
-			tileEntity.currentRenderDirection = 0;
-
-			if (tileEntity.shallRenderPin(tileEntity.currentRenderDirection)) {
-				renderer.setRenderBounds(0.0F, 0.9F, 0.0F, 1.0F, 1.0F, 1.0F);
-				renderer.renderStandardBlock(block, x, y, z);
-			}
-
-			// Bottom Face
-
-			tileEntity.currentRenderDirection++;
-
-			if (tileEntity.shallRenderPin(tileEntity.currentRenderDirection)) {
-				renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.1F, 1.0F);
-				renderer.renderStandardBlock(block, x, y, z);
-			}
-
-			// North Face
-
-			tileEntity.currentRenderDirection++;
-
-			if (tileEntity.shallRenderPin(tileEntity.currentRenderDirection)) {
-				renderer.setRenderBounds(0.0F, 0.0F, 0.9F, 1.0F, 1.0F, 1.0F);
-				renderer.renderStandardBlock(block, x, y, z);
-			}
-
-			// East Face
-
-			tileEntity.currentRenderDirection++;
-
-			if (tileEntity.shallRenderPin(tileEntity.currentRenderDirection)) {
-				renderer.setRenderBounds(0.9F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-				renderer.renderStandardBlock(block, x, y, z);
-			}
-
-			// South Face
-
-			tileEntity.currentRenderDirection++;
-
-			if (tileEntity.shallRenderPin(tileEntity.currentRenderDirection)) {
-				renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.1F);
-				renderer.renderStandardBlock(block, x, y, z);
-			}
-
-			// West Face
-
-			tileEntity.currentRenderDirection++;
-
-			if (tileEntity.shallRenderPin(tileEntity.currentRenderDirection)) {
-				renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 0.1F, 1.0F, 1.0F);
-				renderer.renderStandardBlock(block, x, y, z);
-			}
-
-			// Reset Render Bounds
-
-			renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+		if (tileEntity.shallRenderPin(tileEntity.currentRenderDirection)) {
+			renderer.setRenderBounds(0.0F, 0.9F, 0.0F, 1.0F, 1.0F, 1.0F);
+			renderer.renderStandardBlock(block, x, y, z);
 		}
+
+		// Bottom Face
+
+		tileEntity.currentRenderDirection++;
+
+		if (tileEntity.shallRenderPin(tileEntity.currentRenderDirection)) {
+			renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.1F, 1.0F);
+			renderer.renderStandardBlock(block, x, y, z);
+		}
+
+		// North Face
+
+		tileEntity.currentRenderDirection++;
+
+		if (tileEntity.shallRenderPin(tileEntity.currentRenderDirection)) {
+			renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.1F);
+			renderer.renderStandardBlock(block, x, y, z);
+		}
+
+		// East Face
+
+		tileEntity.currentRenderDirection++;
+
+		if (tileEntity.shallRenderPin(tileEntity.currentRenderDirection)) {
+			renderer.setRenderBounds(0.9F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+			renderer.renderStandardBlock(block, x, y, z);
+		}
+
+		// South Face
+
+		tileEntity.currentRenderDirection++;
+
+		if (tileEntity.shallRenderPin(tileEntity.currentRenderDirection)) {
+			renderer.setRenderBounds(0.0F, 0.0F, 0.9F, 1.0F, 1.0F, 1.0F);
+			renderer.renderStandardBlock(block, x, y, z);
+		}
+
+		// West Face
+
+		tileEntity.currentRenderDirection++;
+
+		if (tileEntity.shallRenderPin(tileEntity.currentRenderDirection)) {
+			renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 0.1F, 1.0F, 1.0F);
+			renderer.renderStandardBlock(block, x, y, z);
+		}
+
+		// Reset Render Bounds
+
+		renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+
+		renderer.clearOverrideBlockTexture();
 	}
 
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z,
 			Block block, int modelId, RenderBlocks renderer) {
+		final TileEntityBlockBrainLogicBlock tileEntity = (TileEntityBlockBrainLogicBlock) renderer.blockAccess
+				.getBlockTileEntity(x, y, z);
 
-		if (ClientProxy.renderPass == 0) {
-			// we are on the solid block render pass
+		if (tileEntity != null) {
+			tileEntity.currentRenderDirection = -1;
 
 			renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 			renderer.renderStandardBlock(block, x, y, z);
-		} else {
-			// we are on the alpha render pass, draw the ice around the diamond
 
-			this.renderPins(world, renderer, block, x, y, z);
+			this.renderPins(tileEntity, world, renderer, block, x, y, z);
+
+			return true;
 		}
 
-		return true;
+		return false;
 	}
 
 	@Override
