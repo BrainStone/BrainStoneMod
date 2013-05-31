@@ -59,6 +59,14 @@ public class Pin {
 		State = state;
 	}
 
+	public final void writeToNBT(NBTTagCompound nbttagcompound) {
+		nbttagcompound.setString("Name", String.valueOf(Name));
+		nbttagcompound.setBoolean("Movable", Movable);
+		nbttagcompound.setBoolean("Output", Output);
+		nbttagcompound.setBoolean("Inverted", Inverted);
+		nbttagcompound.setString("State", State.name());
+	}
+
 	public final void writeToOutputStream(DataOutputStream outputStream)
 			throws IOException {
 		outputStream.writeChar(Name);
@@ -66,13 +74,5 @@ public class Pin {
 		outputStream.writeBoolean(Output);
 		outputStream.writeBoolean(Inverted);
 		outputStream.writeUTF(State.name());
-	}
-
-	public final void writeToNBT(NBTTagCompound nbttagcompound) {
-		nbttagcompound.setString("Name", String.valueOf(Name));
-		nbttagcompound.setBoolean("Movable", Movable);
-		nbttagcompound.setBoolean("Output", Output);
-		nbttagcompound.setBoolean("Inverted", Inverted);
-		nbttagcompound.setString("State", State.name());
 	}
 }

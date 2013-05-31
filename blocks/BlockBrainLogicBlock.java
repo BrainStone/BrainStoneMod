@@ -73,7 +73,11 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	 * redstone wires.<br>
 	 * 
 	 * Side:<br>
-	 * -1: UP 0: NORTH 1: EAST 2: SOUTH 3: WEST
+	 * -1: UP<br>
+	 * 0: NORTH<br>
+	 * 1: EAST<br>
+	 * 2: SOUTH<br>
+	 * 3: WEST
 	 * 
 	 * @param world
 	 *            The current world
@@ -93,13 +97,13 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 		if (side == -1)
 			return false;
 
-		final TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock = (TileEntityBlockBrainLogicBlock) world
+		final TileEntityBlockBrainLogicBlock tileEntity = (TileEntityBlockBrainLogicBlock) world
 				.getBlockTileEntity(x, y, z);
 
-		if (tileentityblockbrainlogicblock == null)
+		if (tileEntity == null)
 			return false;
 
-		return tileentityblockbrainlogicblock.connectToRedstone(side);
+		return tileEntity.connectToRedstone(side);
 	}
 
 	/**

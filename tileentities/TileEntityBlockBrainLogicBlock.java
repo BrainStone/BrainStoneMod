@@ -151,9 +151,7 @@ public class TileEntityBlockBrainLogicBlock extends
 	}
 
 	public boolean connectToRedstone(int side) {
-		// return PinType[this.convertRedstoneDirections(side)] != -1;
-
-		return false;
+		return ActiveGate.Pins[side + 2].State.canConnectRedstone();
 	}
 
 	public void doTASKS() {

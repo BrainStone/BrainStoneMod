@@ -329,18 +329,6 @@ public abstract class Gate {
 		}
 	}
 
-	public final void writeToOutputStream(DataOutputStream outputStream)
-			throws IOException {
-		outputStream.writeUTF(Name);
-		outputStream.writeInt(tickRate);
-
-		for (int i = 0; i < 6; i++) {
-			Pins[i].writeToOutputStream(outputStream);
-		}
-
-		// Options go here!
-	}
-
 	public final void writeToNBT(NBTTagCompound nbttagcompound) {
 		nbttagcompound.setString("Name", Name);
 		nbttagcompound.setInteger("tickRate", tickRate);
@@ -352,6 +340,18 @@ public abstract class Gate {
 			Pins[i].writeToNBT(currentPin);
 
 			nbttagcompound.setCompoundTag("Pin" + i, currentPin);
+		}
+
+		// Options go here!
+	}
+
+	public final void writeToOutputStream(DataOutputStream outputStream)
+			throws IOException {
+		outputStream.writeUTF(Name);
+		outputStream.writeInt(tickRate);
+
+		for (int i = 0; i < 6; i++) {
+			Pins[i].writeToOutputStream(outputStream);
 		}
 
 		// Options go here!

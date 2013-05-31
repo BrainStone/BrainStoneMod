@@ -57,6 +57,10 @@ public enum PinState {
 		this.PowerLevel = PowerLevel;
 	}
 
+	public boolean canConnectRedstone() {
+		return this != NotExisting;
+	}
+
 	public byte getPowerLevel() {
 		return PowerLevel;
 	}

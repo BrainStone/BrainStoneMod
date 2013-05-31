@@ -38,7 +38,10 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		help = false;
 
 		scrollbarPos = 0;
-		mousePos = 0;
+
+		this.mouseMovedOrUp((Mouse.getEventX() * width) / mc.displayWidth,
+				height - ((Mouse.getEventY() * height) / mc.displayHeight) - 1,
+				-1);
 	}
 
 	private void click() {
@@ -179,7 +182,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		if (Mouse.getEventButton() == -1) {
 			this.mouseMovedOrUp((Mouse.getEventX() * width) / mc.displayWidth,
 					height - ((Mouse.getEventY() * height) / mc.displayHeight)
-							- 1, Mouse.getEventButton());
+							- 1, -1);
 		}
 
 		super.handleMouseInput();
