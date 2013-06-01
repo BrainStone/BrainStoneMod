@@ -38,10 +38,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		help = false;
 
 		scrollbarPos = 0;
-
-		this.mouseMovedOrUp((Mouse.getEventX() * width) / mc.displayWidth,
-				height - ((Mouse.getEventY() * height) / mc.displayHeight) - 1,
-				-1);
+		mousePos = -2;
 	}
 
 	private void click() {
@@ -69,6 +66,12 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	@Override
 	public void drawGuiContainerBackgroundLayer(float par1Float,
 			int par2Integer, int par3Integer) {
+		if (mousePos == -2) {
+			this.mouseMovedOrUp((Mouse.getEventX() * width) / mc.displayWidth,
+					height - ((Mouse.getEventY() * height) / mc.displayHeight)
+							- 1, -1);
+		}
+
 		this.registerTexture();
 
 		GL11.glPushMatrix();

@@ -26,8 +26,8 @@ public class OR_Gate extends Gate {
 	public void onTick() {
 		boolean out = false;
 
-		for (int i = 0; i < 6; i++) {
-			if (Pins[i].State.isPowered()) {
+		for (char i = 'A'; i <= 'C'; i++) {
+			if (this.getPinState(i).isPowered()) {
 				out = true;
 				break;
 			}

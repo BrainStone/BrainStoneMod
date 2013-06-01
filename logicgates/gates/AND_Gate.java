@@ -28,8 +28,8 @@ public class AND_Gate extends Gate {
 		boolean connected = false;
 		PinState tmp;
 
-		for (int i = 0; i < 6; i++) {
-			connected = (tmp = Pins[i].State).isValid() || connected;
+		for (char i = 'A'; i <= 'C'; i++) {
+			connected = (tmp = this.getPinState(i)).isValid() || connected;
 			out = tmp.isValid() ? (out && tmp.isPowered()) : out;
 		}
 

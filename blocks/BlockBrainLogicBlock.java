@@ -286,10 +286,10 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	}
 
 	@Override
-	public void updateTick(World world, int i, int j, int k, Random random) {
-		super.updateTick(world, i, j, k, random);
+	public void updateTick(World world, int x, int y, int z, Random random) {
+		super.updateTick(world, x, y, z, random);
 		final TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock = (TileEntityBlockBrainLogicBlock) world
-				.getBlockTileEntity(i, j, k);
+				.getBlockTileEntity(x, y, z);
 
 		if (tileentityblockbrainlogicblock != null) {
 			tileentityblockbrainlogicblock.doTASKS();
@@ -299,19 +299,19 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 			if (tileentityblockbrainlogicblock.shallDoUpdate(time = world
 					.getWorldInfo().getWorldTime())) {
 
-				tileentityblockbrainlogicblock.tickGate(time);
+				tileentityblockbrainlogicblock.tickGate(world, x, y, z, time);
 
-				BrainStonePacketHandler.sendReRenderBlockAtPacket(i, j, k,
+				BrainStonePacketHandler.sendReRenderBlockAtPacket(x, y, z,
 						world);
-				world.notifyBlockChange(i, j, k, blockID);
-				world.notifyBlocksOfNeighborChange(i, j, k, blockID);
-				world.notifyBlocksOfNeighborChange(i - 1, j, k, blockID);
-				world.notifyBlocksOfNeighborChange(i + 1, j, k, blockID);
-				world.notifyBlocksOfNeighborChange(i, j - 1, k, blockID);
-				world.notifyBlocksOfNeighborChange(i, j + 1, k, blockID);
-				world.notifyBlocksOfNeighborChange(i, j, k - 1, blockID);
-				world.notifyBlocksOfNeighborChange(i, j, k + 1, blockID);
-				world.scheduleBlockUpdate(i, j, k, blockID,
+				world.notifyBlockChange(x, y, z, blockID);
+				world.notifyBlocksOfNeighborChange(x, y, z, blockID);
+				world.notifyBlocksOfNeighborChange(x - 1, y, z, blockID);
+				world.notifyBlocksOfNeighborChange(x + 1, y, z, blockID);
+				world.notifyBlocksOfNeighborChange(x, y - 1, z, blockID);
+				world.notifyBlocksOfNeighborChange(x, y + 1, z, blockID);
+				world.notifyBlocksOfNeighborChange(x, y, z - 1, blockID);
+				world.notifyBlocksOfNeighborChange(x, y, z + 1, blockID);
+				world.scheduleBlockUpdate(x, y, z, blockID,
 						this.tickRate(world));
 			}
 		}

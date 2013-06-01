@@ -10,12 +10,14 @@ import java.util.Vector;
 import mods.brainstone.handlers.BrainStonePacketHandler;
 import mods.brainstone.logicgates.Gate;
 import mods.brainstone.logicgates.Pin;
+import mods.brainstone.logicgates.PinState;
 import mods.brainstone.templates.BSP;
 import mods.brainstone.templates.TileEntityBrainStoneSyncBase;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 
@@ -239,7 +241,9 @@ public class TileEntityBlockBrainLogicBlock extends
 	public int getGateColor(byte direction) {
 		final float powerLevel = ActiveGate.Pins[direction].State
 				.getPowerLevel();
-		return (powerLevel != -1.0F) ? ((int) (0xC60505 * (powerLevel / 15.0F)))
+		final float ratio = powerLevel / 15.0F;
+		return (powerLevel != -1.0F) ? ((((int) (0xC6 * ratio)) << 16)
+				+ (((int) (0x05 * ratio)) << 8) + ((int) (0x05 * ratio)))
 				: 0x888888;
 	}
 
@@ -450,12 +454,29 @@ public class TileEntityBlockBrainLogicBlock extends
 		PrintErrorBuff = null;
 	}
 
-	public void tickGate(long time) {
+	public void tickGate(World world, int x, int y, int z, long time) {
 		final Side side = FMLCommonHandler.instance().getEffectiveSide();
 		if (side != Side.CLIENT) {
 			time /= 2;
 
 			if ((time % ActiveGate.getTickRate()) == 0) {
+				final int xShift[] = new int[] { 0, 0, 0, 1, 0, -1 };
+				final int yShift[] = new int[] { 1, -1, 0, 0, 0, 0 };
+				final int zShift[] = new int[] { 0, 0, -1, 0, 1, 0 };
+
+				for (int i = 0; i < 6; i++) {
+					if (ActiveGate.Pins[i].State.canConnectRedstone()
+							&& !ActiveGate.Pins[i].Output) {
+						ActiveGate.Pins[i].State = PinState
+								.getPinState((byte) world
+										.getIndirectPowerLevelTo(
+												x + xShift[i],
+												y + yShift[i],
+												z + zShift[i],
+												InternalToMCDirection((byte) i) ^ 1));
+					}
+				}
+
 				ActiveGate.onTick();
 			}
 		}
