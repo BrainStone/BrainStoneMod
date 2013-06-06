@@ -13,6 +13,7 @@ import mods.brainstone.logicgates.Pin;
 import mods.brainstone.logicgates.PinState;
 import mods.brainstone.templates.BSP;
 import mods.brainstone.templates.TileEntityBrainStoneSyncBase;
+import net.minecraft.block.Block;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -463,17 +464,39 @@ public class TileEntityBlockBrainLogicBlock extends
 				final int xShift[] = new int[] { 0, 0, 0, 1, 0, -1 };
 				final int yShift[] = new int[] { 1, -1, 0, 0, 0, 0 };
 				final int zShift[] = new int[] { 0, 0, -1, 0, 1, 0 };
+				int tmpX, tmpY, tmpZ;
+				Block tmp;
 
 				for (int i = 0; i < 6; i++) {
 					if (ActiveGate.Pins[i].State.canConnectRedstone()
 							&& !ActiveGate.Pins[i].Output) {
-						ActiveGate.Pins[i].State = PinState
-								.getPinState((byte) world
-										.getIndirectPowerLevelTo(
-												x + xShift[i],
-												y + yShift[i],
-												z + zShift[i],
-												InternalToMCDirection((byte) i) ^ 1));
+						tmpX = x + xShift[i];
+						tmpY = y + yShift[i];
+						tmpZ = z + zShift[i];
+
+						tmp = Block.blocksList[world.getBlockId(tmpX, tmpY,
+								tmpZ)];
+
+						if ((tmp != null)
+								&& ((tmp.canProvidePower() && ((i >= 2) && tmp
+										.canConnectRedstone(
+												world,
+												tmpX,
+												tmpY,
+												tmpZ,
+												MCToInternalDirection((byte) (InternalToMCDirection((byte) i) ^ 1)) - 2))) || world
+										.getBlockMaterial(tmpX, tmpY, tmpZ)
+										.isSolid())) {
+							ActiveGate.Pins[i].State = PinState
+									.getPinState((byte) world
+											.getIndirectPowerLevelTo(
+													tmpX,
+													tmpY,
+													tmpZ,
+													InternalToMCDirection((byte) i) ^ 1));
+						} else {
+							ActiveGate.Pins[i].State = PinState.NotConnected;
+						}
 					}
 				}
 
