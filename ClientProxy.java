@@ -1,8 +1,8 @@
 package mods.brainstone;
 
-import mods.brainstone.handlers.BrainStoneRenderBrainLogicBlockHandler;
+import mods.brainstone.render.BrainStoneRenderBrainLogicBlockHandler;
+import mods.brainstone.render.TileEntityBlockBrainLogicBlockRenderer;
 import mods.brainstone.tileentities.TileEntityBlockBrainLogicBlock;
-import mods.brainstone.tileentities.TileEntityBlockBrainLogicBlockRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.world.World;

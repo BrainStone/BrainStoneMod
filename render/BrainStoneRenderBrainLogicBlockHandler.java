@@ -1,4 +1,4 @@
-package mods.brainstone.handlers;
+package mods.brainstone.render;
 
 import mods.brainstone.ClientProxy;
 import mods.brainstone.blocks.BlockBrainLogicBlock;

@@ -1,6 +1,7 @@
-package mods.brainstone.tileentities;
+package mods.brainstone.render;
 
 import mods.brainstone.templates.BSP;
+import mods.brainstone.tileentities.TileEntityBlockBrainLogicBlock;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
