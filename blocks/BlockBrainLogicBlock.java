@@ -25,17 +25,6 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	public static Icon[] textures;
 
 	/**
-	 * Inverts the Minecraft direction. Up turns into down etc.
-	 * 
-	 * @param i
-	 *            Minecraft direction
-	 * @return Inverted direction
-	 */
-	private static int invertDirection(int i) {
-		return i ^ 1;
-	}
-
-	/**
 	 * Constructor of the block. Registers all properties and sets the id and
 	 * the material
 	 * 
@@ -211,7 +200,7 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 
 		if (tileentityblockbrainlogicblock != null)
 			return tileentityblockbrainlogicblock
-					.getPowerOutputLevel((byte) invertDirection(side));
+					.getPowerOutputLevel((byte) (side ^ 1));
 		else
 			return 0;
 	}

@@ -464,7 +464,7 @@ public class TileEntityBlockBrainLogicBlock extends
 				final int xShift[] = new int[] { 0, 0, 0, 1, 0, -1 };
 				final int yShift[] = new int[] { 1, -1, 0, 0, 0, 0 };
 				final int zShift[] = new int[] { 0, 0, -1, 0, 1, 0 };
-				int tmpX, tmpY, tmpZ;
+				int tmpX, tmpY, tmpZ, blockId;
 				Block tmp;
 
 				for (int i = 0; i < 6; i++) {
@@ -474,17 +474,20 @@ public class TileEntityBlockBrainLogicBlock extends
 						tmpY = y + yShift[i];
 						tmpZ = z + zShift[i];
 
-						tmp = Block.blocksList[world.getBlockId(tmpX, tmpY,
-								tmpZ)];
+						blockId = world.getBlockId(tmpX, tmpY, tmpZ);
+						tmp = Block.blocksList[blockId];
 
 						if ((tmp != null)
-								&& ((tmp.canProvidePower() && ((i >= 2) && tmp
-										.canConnectRedstone(
-												world,
-												tmpX,
-												tmpY,
-												tmpZ,
-												MCToInternalDirection((byte) (InternalToMCDirection((byte) i) ^ 1)) - 2))) || world
+								&& ((tmp.canProvidePower()
+										&& ((i < 2) || tmp
+												.canConnectRedstone(
+														world,
+														tmpX,
+														tmpY,
+														tmpZ,
+														MCToInternalDirection((byte) (InternalToMCDirection((byte) i) ^ 1)) - 2)) && (((blockId != 93)
+										&& (blockId != 93) && (blockId != 149) && (blockId != 150)) || ((world
+										.getBlockMetadata(tmpX, tmpY, tmpZ) & 3) == (i & 3)))) || world
 										.getBlockMaterial(tmpX, tmpY, tmpZ)
 										.isSolid())) {
 							ActiveGate.Pins[i].State = PinState
