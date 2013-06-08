@@ -236,6 +236,7 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 	 * @param i
 	 *            the level to what the light level is going to be set
 	 */
+	@SideOnly(SIDE.Client)
 	private void setLightLevel(int i) {
 		i &= 0xf;
 
