@@ -157,7 +157,7 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 	}
 
 	private void smoke(World world, int x, int y, int z, Random random) {
-		BrainStone.proxy.getClient().sndManager.playSoundFX("random.click",
+		/*BrainStone.proxy.getClient().sndManager.playSoundFX("random.click",
 				1.0F, 1.0F);
 		int randInt = random.nextInt(11) + 5;
 
@@ -182,7 +182,7 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 							+ (random.nextFloat() * 0.59999999999999998D),
 					(z + (random.nextFloat() * 1.3999999999999999D)) - 0.20000000000000001D,
 					0.0D, 0.0D, 0.0D);
-		}
+		}*/
 	}
 
 	@Override
