@@ -89,7 +89,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.29.0 BETA release")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.29.4 BETA")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
@@ -629,7 +629,7 @@ public class BrainStone {
 				+ "\n    recommended:   "
 				+ recommendedVersion
 				+ "\n    latest:            " + latestVersion;
-		event.getModMetadata().logoFile = "";
+		event.getModMetadata().logoFile = "/mods/brainstone/textures/Logo_500x200.png";
 		event.getModMetadata().updateUrl = (updateNotification == -1) ? ""
 				: ("https://raw.github.com/BrainStone/brainstone/master/builds/"
 						+ ((updateNotification == 0) ? "release"
