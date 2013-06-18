@@ -89,7 +89,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.29.16 BETA")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.29.18 BETA")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
@@ -487,25 +487,25 @@ public class BrainStone {
 			switch (updateNotification) {
 			case 0:
 				if (isHigherVersion(version, releaseVersion)) {
-					sendToPlayer("&aA new Version of the BSM is available!\n&l&c========== &4"
+					sendToPlayer("§aA new Version of the BSM is available!\n§l§c========== §4"
 							+ releaseVersion
-							+ "&c =========="
-							+ "&9Download it at &1http://adf.ly/2002096/release &9or &1https://github.com/BrainStone/brainstone&9!");
+							+ "§c ==========\n"
+							+ "§9Download it at §1http://adf.ly/2002096/release §9or §1https://github.com/BrainStone/brainstone§9!");
 				}
 
 				break;
 			case 1:
 				if (isHigherVersion(version, releaseVersion)
 						&& !isHigherVersion(releaseVersion, recommendedVersion)) {
-					sendToPlayer("&aA new Version of the BSM is available!\n&l&c========== &4"
+					sendToPlayer("§aA new Version of the BSM is available!\n§l§c========== §4"
 							+ releaseVersion
-							+ "&c =========="
-							+ "&9Download it at &1http://adf.ly/2002096/release &9or &1https://github.com/BrainStone/brainstone&9!");
+							+ "§c ==========\n"
+							+ "§9Download it at §1http://adf.ly/2002096/release §9or §1https://github.com/BrainStone/brainstone§9!");
 				} else if (isHigherVersion(version, recommendedVersion)) {
-					sendToPlayer("&aA new recommended DEV Version of the BSM is available!\n&l&c========== &4"
-							+ recommendedVersion
-							+ "&c =========="
-							+ "&9Download it at &1http://adf.ly/2002096/recommended &9or &1https://github.com/BrainStone/brainstone&9!");
+					sendToPlayer("§aA new Version of the BSM is available!\n§l§c========== §4"
+							+ releaseVersion
+							+ "§c ==========\n"
+							+ "§9Download it at §1http://adf.ly/2002096/release §9or §1https://github.com/BrainStone/brainstone§9!");
 				}
 
 				break;
@@ -513,21 +513,21 @@ public class BrainStone {
 				if (isHigherVersion(version, releaseVersion)
 						&& !isHigherVersion(releaseVersion, recommendedVersion)
 						&& !isHigherVersion(releaseVersion, latestVersion)) {
-					sendToPlayer("&aA new Version of the BSM is available!\n&l&c========== &4"
+					sendToPlayer("§aA new Version of the BSM is available!\n§l§c========== §4"
 							+ releaseVersion
-							+ "&c =========="
-							+ "&9Download it at &1http://adf.ly/2002096/release &9or &1https://github.com/BrainStone/brainstone&9!");
+							+ "§c ==========\n"
+							+ "§9Download it at §1http://adf.ly/2002096/release §9or §1https://github.com/BrainStone/brainstone§9!");
 				} else if (isHigherVersion(version, recommendedVersion)
 						&& !isHigherVersion(recommendedVersion, latestVersion)) {
-					sendToPlayer("&aA new recommended DEV Version of the BSM is available!\n&l&c========== &4"
-							+ recommendedVersion
-							+ "&c =========="
-							+ "&9Download it at &1http://adf.ly/2002096/recommended &9or &1https://github.com/BrainStone/brainstone&9!");
+					sendToPlayer("§aA new Version of the BSM is available!\n§l§c========== §4"
+							+ releaseVersion
+							+ "§c ==========\n"
+							+ "§9Download it at §1http://adf.ly/2002096/release §9or §1https://github.com/BrainStone/brainstone§9!");
 				} else if (isHigherVersion(version, latestVersion)) {
-					sendToPlayer("&aA new DEV Version of the BSM is available!\n&l&c========== &4"
+					sendToPlayer("§aA new DEV Version of the BSM is available!\n§l§c========== §4"
 							+ latestVersion
-							+ "&c =========="
-							+ "&9Download it at &1http://adf.ly/2002096/latest &9or &1https://github.com/BrainStone/brainstone&9!");
+							+ "§c ==========\n"
+							+ "§9Download it at §1http://adf.ly/2002096/latest §9or §1https://github.com/BrainStone/brainstone§9!");
 				}
 
 				break;
