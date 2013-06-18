@@ -21,10 +21,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileEntityBlockBrainLogicBlock extends
 		TileEntityBrainStoneSyncBase {
 
+	@SideOnly(Side.CLIENT)
+	public static byte guiDirection;
+	
 	public static String getInvName() {
 		return "container.brainstonetrigger";
 	}

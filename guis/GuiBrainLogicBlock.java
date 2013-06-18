@@ -20,6 +20,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	private final TileEntityBlockBrainLogicBlock tileentity;
 	private final String username;
 	private boolean help;
+	private byte direction;
 
 	private final static int stringWidth = xSizeHelp - 20;
 	private String HelpText;
@@ -38,7 +39,9 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		help = false;
 
 		scrollbarPos = 0;
-		mousePos = -2;
+		mousePos = 1;
+
+		direction = TileEntityBlockBrainLogicBlock.guiDirection;
 	}
 
 	private void click() {
@@ -107,6 +110,14 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 						84 + (19 * i), 0);
 			}
 		}
+
+		String directions[] = new String[] { "North", "East", "South", "West" };
+
+		this.drawString("Top", 35 - getStringWidth("Top"), 13, 0);
+		this.drawString("Bottom", 61, 53, 0);
+		this.drawString(directions[direction],
+				95 - getStringWidth(directions[direction]), 13, 0);
+		this.drawString(directions[direction ^ 2], 121, 53, 0);
 
 		scrollbarPos = 1 * scrollbarPos;
 
@@ -309,6 +320,55 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		tileentity.logOut(username);
 		mc.displayGuiScreen(null);
 		mc.setIngameFocus();
+	}
+
+	private int getStringWidth(String str) {
+		int j = str.length();
+		int k = 0;
+		int l = 0;
+
+		for (boolean flag = false; l < j; ++l) {
+			char c0 = str.charAt(l);
+
+			switch (c0) {
+			case 10:
+				--l;
+				break;
+			case 167:
+				if (l < j - 1) {
+					++l;
+					char c1 = str.charAt(l);
+
+					if (c1 != 108 && c1 != 76) {
+						if (c1 == 114 || c1 == 82 || isFormatColor(c1)) {
+							flag = false;
+						}
+					} else {
+						flag = true;
+					}
+				}
+
+				break;
+			default:
+				k += fontRenderer.getCharWidth(c0);
+
+				if (flag) {
+					++k;
+				}
+			}
+
+			if (c0 == 10) {
+				++l;
+				break;
+			}
+		}
+
+		return k;
+	}
+
+	private static boolean isFormatColor(char par0) {
+		return par0 >= 48 && par0 <= 57 || par0 >= 97 && par0 <= 102
+				|| par0 >= 65 && par0 <= 70;
 	}
 
 	// private void rotate(boolean flag) {

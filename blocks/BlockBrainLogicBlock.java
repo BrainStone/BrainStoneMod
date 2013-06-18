@@ -220,6 +220,9 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 		if (tileentityblockbrainlogicblock == null)
 			return false;
 		else {
+			TileEntityBlockBrainLogicBlock.guiDirection = (byte) ((MathHelper
+					.floor_double(((entityplayer.rotationYaw * 4.0F) / 360.0F) + 0.5D) & 3) ^ 2);
+
 			entityplayer.openGui(BrainStone.instance, 2, world, i, j, k);
 			world.notifyBlocksOfNeighborChange(i, j, k, blockID);
 			return true;
