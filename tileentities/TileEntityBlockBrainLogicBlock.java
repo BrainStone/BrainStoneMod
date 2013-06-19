@@ -273,6 +273,10 @@ public class TileEntityBlockBrainLogicBlock extends
 				.getPowerLevel());
 	}
 
+	public String getGateLetter(byte direction) {
+		return String.valueOf(ActiveGate.Pins[direction].Name);
+	}
+
 	public int getGatePos() {
 		return GatePos;
 	}

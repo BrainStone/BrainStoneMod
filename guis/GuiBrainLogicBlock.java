@@ -137,6 +137,13 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 				95 - this.getStringWidth(directions[direction]), 13, 0);
 		this.drawString(directions[direction ^ 2], 121, 53, 0);
 
+		this.renderGateLetterAt(42, 11, (byte) 0);
+		this.renderGateLetterAt(42, 51, (byte) 1);
+		this.renderGateLetterAt(102, 11, (byte) (2 + direction));
+		this.renderGateLetterAt(82, 31, (byte) (2 + ((direction + 3) & 3)));
+		this.renderGateLetterAt(102, 51, (byte) (2 + ((direction + 2) & 3)));
+		this.renderGateLetterAt(122, 31, (byte) (2 + ((direction + 1) & 3)));
+
 		scrollbarPos = 1 * scrollbarPos;
 
 		GL11.glPopMatrix();
@@ -165,12 +172,12 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		}
 	}
 
-	public void drawSplitString(String s, int i, int j, int k, int l) {
+	private void drawSplitString(String s, int i, int j, int k, int l) {
 		fontRenderer.drawSplitString(s, (int) (i / factor), (int) (j / factor),
 				l, k);
 	}
 
-	public void drawString(String s, int i, int j, int k) {
+	private void drawString(String s, int i, int j, int k) {
 		fontRenderer.drawString(s, (int) (i / factor), (int) (j / factor), k);
 	}
 
@@ -180,7 +187,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 			GL11.glPopMatrix();
 			GL11.glPushMatrix();
 
-			GL11.glTranslatef(globalX, globalY, 0.0F);
+			GL11.glTranslatef(globalX + 1, globalY, 0.0F);
 
 			GL11.glScalef(factor, factor, factor);
 		}
@@ -394,6 +401,13 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 						176 + (((powerLevel & 8) >> 1) * 5),
 						(powerLevel & 7) * 20, 20, 20);
 			}
+		}
+	}
+
+	private void renderGateLetterAt(int x, int y, byte pos) {
+		if (tileentity.shallRenderPin(pos)) {
+			this.drawString(tileentity.getGateLetter(pos), x, y,
+					tileentity.getGateColor(pos), 2.0F);
 		}
 	}
 
