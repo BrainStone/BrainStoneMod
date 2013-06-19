@@ -157,32 +157,24 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 	}
 
 	private void smoke(World world, int x, int y, int z, Random random) {
-		/*BrainStone.proxy.getClient().sndManager.playSoundFX("random.click",
-				1.0F, 1.0F);
-		int randInt = random.nextInt(11) + 5;
-
-		int i;
-		for (i = 0; i < randInt; i++) {
-			world.spawnParticle(
-					"smoke",
-					(x + (random.nextFloat() * 1.3999999999999999D)) - 0.20000000000000001D,
-					y + 0.80000000000000004D
-							+ (random.nextFloat() * 0.59999999999999998D),
-					(z + (random.nextFloat() * 1.3999999999999999D)) - 0.20000000000000001D,
-					0.0D, 0.0D, 0.0D);
-		}
-
-		randInt = random.nextInt(3);
-
-		for (i = 0; i < randInt; i++) {
-			world.spawnParticle(
-					"largesmoke",
-					(x + (random.nextFloat() * 1.3999999999999999D)) - 0.20000000000000001D,
-					y + 0.80000000000000004D
-							+ (random.nextFloat() * 0.59999999999999998D),
-					(z + (random.nextFloat() * 1.3999999999999999D)) - 0.20000000000000001D,
-					0.0D, 0.0D, 0.0D);
-		}*/
+		/*
+		 * BrainStone.proxy.getClient().sndManager.playSoundFX("random.click",
+		 * 1.0F, 1.0F); int randInt = random.nextInt(11) + 5;
+		 * 
+		 * int i; for (i = 0; i < randInt; i++) { world.spawnParticle( "smoke",
+		 * (x + (random.nextFloat() * 1.3999999999999999D)) -
+		 * 0.20000000000000001D, y + 0.80000000000000004D + (random.nextFloat()
+		 * * 0.59999999999999998D), (z + (random.nextFloat() *
+		 * 1.3999999999999999D)) - 0.20000000000000001D, 0.0D, 0.0D, 0.0D); }
+		 * 
+		 * randInt = random.nextInt(3);
+		 * 
+		 * for (i = 0; i < randInt; i++) { world.spawnParticle( "largesmoke", (x
+		 * + (random.nextFloat() * 1.3999999999999999D)) - 0.20000000000000001D,
+		 * y + 0.80000000000000004D + (random.nextFloat() *
+		 * 0.59999999999999998D), (z + (random.nextFloat() *
+		 * 1.3999999999999999D)) - 0.20000000000000001D, 0.0D, 0.0D, 0.0D); }
+		 */
 	}
 
 	@Override

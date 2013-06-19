@@ -14,6 +14,7 @@ import mods.brainstone.logicgates.PinState;
 import mods.brainstone.templates.BSP;
 import mods.brainstone.templates.TileEntityBrainStoneSyncBase;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockRedstoneWire;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,7 +29,14 @@ public class TileEntityBlockBrainLogicBlock extends
 
 	@SideOnly(Side.CLIENT)
 	public static byte guiDirection;
-	
+
+	public static int getColorForPowerLevel(byte powerLevel) {
+		final float ratio = powerLevel / 15.0F;
+		return (powerLevel != -1.0F) ? ((((int) (0xC6 * ratio)) << 16)
+				+ (((int) (0x05 * ratio)) << 8) + ((int) (0x05 * ratio)))
+				: 0x888888;
+	}
+
 	public static String getInvName() {
 		return "container.brainstonetrigger";
 	}
@@ -70,14 +78,15 @@ public class TileEntityBlockBrainLogicBlock extends
 	private byte GuiFocused;
 	private long lastUpdate;
 	private final Vector TASKS;
-	private final Vector Users;
 
+	private final Vector Users;
 	private ArrayList<String> PrintErrorBuff;
+
 	private boolean PrintErrorBuffActive;
 
 	private Gate ActiveGate;
-
 	private int GatePos;
+
 	public byte currentRenderDirection;
 
 	public TileEntityBlockBrainLogicBlock() {
@@ -129,6 +138,22 @@ public class TileEntityBlockBrainLogicBlock extends
 		s1 = (new StringBuilder()).append(s1).append(as[i]).toString();
 
 		this.addTASKS(s1);
+	}
+
+	private boolean canBlockConnectToGate(World world, int x, int y, int z,
+			int direction, Block block, int blockId) {
+		return (block != null)
+				&& ((block.canProvidePower()
+						&& ((direction < 2) || block
+								.canConnectRedstone(
+										world,
+										x,
+										y,
+										z,
+										MCToInternalDirection((byte) (InternalToMCDirection((byte) direction) ^ 1)) - 2)) && (((blockId != 93)
+						&& (blockId != 149) && (blockId != 150)) || ((world
+						.getBlockMetadata(x, y, z) & 3) == (direction & 3)))) || world
+						.getBlockMaterial(x, y, z).isSolid());
 	}
 
 	public void changeGate(int direction) {
@@ -244,16 +269,20 @@ public class TileEntityBlockBrainLogicBlock extends
 	}
 
 	public int getGateColor(byte direction) {
-		final float powerLevel = ActiveGate.Pins[direction].State
-				.getPowerLevel();
-		final float ratio = powerLevel / 15.0F;
-		return (powerLevel != -1.0F) ? ((((int) (0xC6 * ratio)) << 16)
-				+ (((int) (0x05 * ratio)) << 8) + ((int) (0x05 * ratio)))
-				: 0x888888;
+		return getColorForPowerLevel(ActiveGate.Pins[direction].State
+				.getPowerLevel());
 	}
 
 	public int getGatePos() {
 		return GatePos;
+	}
+
+	public byte getPowerLevel(byte pos) {
+		return ActiveGate.Pins[pos].State.getPowerLevel();
+	}
+
+	public byte getPowerLevel(int pos) {
+		return this.getPowerLevel((byte) pos);
 	}
 
 	public byte getPowerOutputLevel(byte MC_Direction) {
@@ -469,7 +498,7 @@ public class TileEntityBlockBrainLogicBlock extends
 				final int yShift[] = new int[] { 1, -1, 0, 0, 0, 0 };
 				final int zShift[] = new int[] { 0, 0, -1, 0, 1, 0 };
 				int tmpX, tmpY, tmpZ, blockId;
-				Block tmp;
+				Block block;
 
 				for (int i = 0; i < 6; i++) {
 					if (ActiveGate.Pins[i].State.canConnectRedstone()
@@ -479,28 +508,24 @@ public class TileEntityBlockBrainLogicBlock extends
 						tmpZ = z + zShift[i];
 
 						blockId = world.getBlockId(tmpX, tmpY, tmpZ);
-						tmp = Block.blocksList[blockId];
+						block = Block.blocksList[blockId];
 
-						if ((tmp != null)
-								&& ((tmp.canProvidePower()
-										&& ((i < 2) || tmp
-												.canConnectRedstone(
-														world,
+						if (this.canBlockConnectToGate(world, tmpX, tmpY, tmpZ,
+								i, block, blockId)) {
+							if (block instanceof BlockRedstoneWire) {
+								ActiveGate.Pins[i].State = PinState
+										.getPinState((byte) world
+												.getBlockMetadata(tmpX, tmpY,
+														tmpZ));
+							} else {
+								ActiveGate.Pins[i].State = PinState
+										.getPinState((byte) world
+												.getIndirectPowerLevelTo(
 														tmpX,
 														tmpY,
 														tmpZ,
-														MCToInternalDirection((byte) (InternalToMCDirection((byte) i) ^ 1)) - 2)) && (((blockId != 93)
-										&& (blockId != 93) && (blockId != 149) && (blockId != 150)) || ((world
-										.getBlockMetadata(tmpX, tmpY, tmpZ) & 3) == (i & 3)))) || world
-										.getBlockMaterial(tmpX, tmpY, tmpZ)
-										.isSolid())) {
-							ActiveGate.Pins[i].State = PinState
-									.getPinState((byte) world
-											.getIndirectPowerLevelTo(
-													tmpX,
-													tmpY,
-													tmpZ,
-													InternalToMCDirection((byte) i) ^ 1));
+														InternalToMCDirection((byte) i) ^ 1));
+							}
 						} else {
 							ActiveGate.Pins[i].State = PinState.NotConnected;
 						}
