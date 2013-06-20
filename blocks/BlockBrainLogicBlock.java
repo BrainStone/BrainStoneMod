@@ -20,6 +20,8 @@ import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
 
 public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	public static Icon[] textures;
@@ -243,19 +245,13 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 				(int) world.getTotalWorldTime() % this.tickRate(world));
 	}
 
-	/**
-	 * Called when the block is placed in the world.
-	 */
 	@Override
 	public void onBlockPlacedBy(World par1World, int par2, int par3, int par4,
 			EntityLiving par5EntityLiving, ItemStack par6ItemStack) {
-		TileEntityBlockBrainLogicBlock tileEntity = (TileEntityBlockBrainLogicBlock) par1World
-				.getBlockTileEntity(par2, par3, par4);
-
-		tileEntity
+		((TileEntityBlockBrainLogicBlock) par1World.getBlockTileEntity(par2,
+				par3, par4))
 				.changeGate(MathHelper
 						.floor_double(((par5EntityLiving.rotationYaw * 4.0F) / 360.0F) + 0.5D) & 3);
-		tileEntity.doTASKS();
 	}
 
 	@Override

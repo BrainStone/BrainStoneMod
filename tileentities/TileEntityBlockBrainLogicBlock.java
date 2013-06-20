@@ -96,12 +96,11 @@ public class TileEntityBlockBrainLogicBlock extends
 		Users = new Vector();
 		PrintErrorBuffActive = false;
 
-		this.changeGate("AND_Gate", 0);
+		ActiveGate = Gate.getGate(Gate.GateNames[0]);
+		GatePos = 0;
 
-		final Side side = FMLCommonHandler.instance().getEffectiveSide();
-		if (side == Side.SERVER) {
-			this.doTASKS();
-		}
+		ActiveGate.onGateChange(0);
+		ActiveGate.onTick();
 	}
 
 	public void addTASKS(String s) {
