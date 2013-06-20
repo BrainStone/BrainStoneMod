@@ -317,6 +317,17 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 			mouseX -= globalX;
 			mouseY -= globalY;
 
+			for (int i = 0; i < 6; i++) {
+				if (this.inField(mouseX, mouseY, 8, 78 + (19 * i), 150,
+						96 + (19 * i))
+						&& ((i + scrollbarPos) < Gate.NumberGates)) {
+					tileentity.changeGate(Gate.GateNames[i + scrollbarPos],
+							direction);
+
+					break;
+				}
+			}
+
 			if (this.inField(mouseX, mouseY, 168, 3, 172, 7)) {
 				this.quit();
 

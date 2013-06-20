@@ -321,10 +321,24 @@ public abstract class Gate {
 		}
 	}
 
+	public final void setPinState(char gateName, boolean on) {
+		this.setPinState(gateName, (on) ? PinState.Powered : PinState.Unpowered);
+	}
+
+	public final void setPinState(char gateName, byte powerLevel) {
+		this.setPinState(gateName, PinState.getPinState(powerLevel));
+	}
+
+	public final void setPinState(char gateName, int powerLevel) {
+		this.setPinState(gateName, (byte) powerLevel);
+	}
+
 	public final void setPinState(char gateName, PinState state) {
 		for (int i = 0; i < 6; i++) {
 			if (Pins[i].Name == gateName) {
 				Pins[i].State = state;
+
+				break;
 			}
 		}
 	}

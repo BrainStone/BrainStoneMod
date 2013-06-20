@@ -97,6 +97,11 @@ public class TileEntityBlockBrainLogicBlock extends
 		PrintErrorBuffActive = false;
 
 		this.changeGate("AND_Gate", 0);
+
+		final Side side = FMLCommonHandler.instance().getEffectiveSide();
+		if (side == Side.SERVER) {
+			this.doTASKS();
+		}
 	}
 
 	public void addTASKS(String s) {
@@ -157,29 +162,17 @@ public class TileEntityBlockBrainLogicBlock extends
 	}
 
 	public void changeGate(int direction) {
-		ActiveGate.onGateChange(direction);
-		ActiveGate.onTick();
+		addTASKS("changeGate",
+				new String[] { "int", String.valueOf(direction) });
 	}
 
 	public void changeGate(String string) {
-		ActiveGate = Gate.getGate(string);
-
-		if (ActiveGate != null) {
-			for (int i = 0; i < Gate.NumberGates; i++) {
-				if (Gate.GateNames[i].equals(string)) {
-					GatePos = i;
-
-					return;
-				}
-			}
-		}
-
-		GatePos = -1;
+		addTASKS("changeGate", new String[] { "string", string });
 	}
 
 	public void changeGate(String string, int direction) {
-		this.changeGate(string);
-		this.changeGate(direction);
+		addTASKS("changeGate",
+				new String[] { "both", string, String.valueOf(direction) });
 	}
 
 	public boolean connectToRedstone(int side) {
@@ -452,6 +445,53 @@ public class TileEntityBlockBrainLogicBlock extends
 						this.print("User \"" + as[1]
 								+ "\" is already logged out!");
 					}
+				}
+			} else {
+				this.print("!!!\tError: Wrong number of parameters\t!!!\n");
+				this.printErrorInrunTASK(s, s1, as);
+				BSP.throwRuntimeException(this.getPrintErrorBuff()
+						+ "Wrong number of parameters");
+			}
+		} else if (s1.equals("changeGate")) {
+			this.print("!!!\tRun Task: \"changeGate\"\t\t!!!");
+
+			if (as.length == 2) {
+				if (as[0].equals("string")) {
+					ActiveGate = Gate.getGate(as[1]);
+
+					if (ActiveGate != null) {
+						for (int i = 0; i < Gate.NumberGates; i++) {
+							if (Gate.GateNames[i].equals(as[1])) {
+								GatePos = i;
+
+								break;
+							}
+						}
+					} else {
+						GatePos = -1;
+					}
+				} else if (as[0].equals("int")) {
+					ActiveGate.onGateChange(Integer.valueOf(as[1]));
+					ActiveGate.onTick();
+				}
+			} else if (as.length == 3) {
+				if (as[0].equals("both")) {
+					ActiveGate = Gate.getGate(as[1]);
+
+					if (ActiveGate != null) {
+						for (int i = 0; i < Gate.NumberGates; i++) {
+							if (Gate.GateNames[i].equals(as[1])) {
+								GatePos = i;
+
+								break;
+							}
+						}
+					} else {
+						GatePos = -1;
+					}
+
+					ActiveGate.onGateChange(Integer.valueOf(as[2]));
+					ActiveGate.onTick();
 				}
 			} else {
 				this.print("!!!\tError: Wrong number of parameters\t!!!\n");

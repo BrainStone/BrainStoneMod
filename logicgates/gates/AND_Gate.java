@@ -33,7 +33,6 @@ public class AND_Gate extends Gate {
 			out = tmp.isValid() ? (out && tmp.isPowered()) : out;
 		}
 
-		this.setPinState('Q', (out && connected) ? PinState.Powered
-				: PinState.Unpowered);
+		this.setPinState('Q', out && connected);
 	}
 }

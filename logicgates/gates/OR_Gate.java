@@ -33,6 +33,6 @@ public class OR_Gate extends Gate {
 			}
 		}
 
-		this.setPinState('Q', (out) ? PinState.Powered : PinState.Unpowered);
+		this.setPinState('Q', out);
 	}
 }

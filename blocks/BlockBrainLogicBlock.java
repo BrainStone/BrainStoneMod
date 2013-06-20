@@ -249,10 +249,13 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	@Override
 	public void onBlockPlacedBy(World par1World, int par2, int par3, int par4,
 			EntityLiving par5EntityLiving, ItemStack par6ItemStack) {
-		((TileEntityBlockBrainLogicBlock) par1World.getBlockTileEntity(par2,
-				par3, par4))
+		TileEntityBlockBrainLogicBlock tileEntity = (TileEntityBlockBrainLogicBlock) par1World
+				.getBlockTileEntity(par2, par3, par4);
+
+		tileEntity
 				.changeGate(MathHelper
 						.floor_double(((par5EntityLiving.rotationYaw * 4.0F) / 360.0F) + 0.5D) & 3);
+		tileEntity.doTASKS();
 	}
 
 	@Override
