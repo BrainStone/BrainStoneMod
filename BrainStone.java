@@ -87,7 +87,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.29.0 BETA release")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.30.4 BETA debug")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
@@ -530,7 +530,7 @@ public class BrainStone {
 	}
 
 	private static void sendToPlayer(String message) {
-		proxy.getPlayer().sendChatToPlayer(message);
+		proxy.getPlayer().sendChatMessage(message);
 	}
 
 	private static boolean isHigherVersion(String currentVersion,
