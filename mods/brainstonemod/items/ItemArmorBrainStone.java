@@ -2,6 +2,7 @@ package mods.brainstonemod.items;
 
 import mods.brainstonemod.BrainStone;
 import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -13,12 +14,12 @@ public class ItemArmorBrainStone extends ItemArmor {
 				par3, par4);
 	}
 
-	//@Override
-	public String getArmorTextureFile(ItemStack itemstack) {
+	@Override
+	public String getArmorTexture(ItemStack itemstack, Entity entity, int slot, int layer) {
 		if (itemstack.itemID == BrainStone.brainStoneLeggings().itemID)
-			return BrainStone.armorPath + "brainstone_armor_2.png";
+			return "BrainStoneMod:" + BrainStone.armorPath + "brainstone_armor_2.png";
 
-		return BrainStone.armorPath + "brainstone_armor_1.png";
+		return "BrainStoneMod:" + BrainStone.armorPath + "brainstone_armor_1.png";
 	}
 
 	@Override
