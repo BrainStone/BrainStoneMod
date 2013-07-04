@@ -28,7 +28,7 @@ public class ItemArmorBrainStone extends ItemArmor {
 
 	@Override
 	public void registerIcons(IconRegister par1IconRegister) {
-		itemIcon = par1IconRegister.registerIcon("brainstone:"
+		itemIcon = par1IconRegister.registerIcon("BrainStoneMod:"
 				+ this.getUnlocalizedName().replaceFirst("item.", ""));
 	}
 }

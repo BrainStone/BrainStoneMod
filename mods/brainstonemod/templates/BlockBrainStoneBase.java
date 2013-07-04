@@ -12,7 +12,7 @@ public class BlockBrainStoneBase extends Block {
 
 	@Override
 	public void registerIcons(IconRegister par1IconRegister) {
-		blockIcon = par1IconRegister.registerIcon("brainstone:"
+		blockIcon = par1IconRegister.registerIcon("BrainStoneMod:"
 				+ this.getUnlocalizedName().replaceFirst("tile.", ""));
 	}
 }

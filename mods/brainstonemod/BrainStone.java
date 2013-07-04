@@ -132,9 +132,8 @@ public class BrainStone {
 	 */
 	private static byte updateNotification;
 
-	public static final String basePath = "/mods/brainstone/";
-	public static final String guiPath = basePath + "textures/gui/";
-	public static final String armorPath = basePath + "textures/armor/";
+	public static final String guiPath = "textures/gui/";
+	public static final String armorPath = "textures/armor/";
 
 	/** The instance of this mod */
 	@Instance("BrainStoneMod")

@@ -244,15 +244,15 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	@Override
 	public void registerIcons(IconRegister IconReg) {
 		textures = new Icon[] {
-				IconReg.registerIcon("brainstone:brainLogicBlockNotConnected"),
-				IconReg.registerIcon("brainstone:brainLogicBlockOff"),
-				IconReg.registerIcon("brainstone:brainLogicBlockOn"),
+				IconReg.registerIcon("BrainStoneMod:brainLogicBlockNotConnected"),
+				IconReg.registerIcon("BrainStoneMod:brainLogicBlockOff"),
+				IconReg.registerIcon("BrainStoneMod:brainLogicBlockOn"),
 				IconReg.registerIcon("furnace_side"),
 				IconReg.registerIcon("furnace_top"),
-				IconReg.registerIcon("brainstone:brainLogicBlockNotConnectedA"),
-				IconReg.registerIcon("brainstone:brainLogicBlockOffC"),
-				IconReg.registerIcon("brainstone:brainLogicBlockOnQ"),
-				IconReg.registerIcon("brainstone:brainLogicBlockOnB") };
+				IconReg.registerIcon("BrainStoneMod:brainLogicBlockNotConnectedA"),
+				IconReg.registerIcon("BrainStoneMod:brainLogicBlockOffC"),
+				IconReg.registerIcon("BrainStoneMod:brainLogicBlockOnQ"),
+				IconReg.registerIcon("BrainStoneMod:brainLogicBlockOnB") };
 	}
 
 	@Override
