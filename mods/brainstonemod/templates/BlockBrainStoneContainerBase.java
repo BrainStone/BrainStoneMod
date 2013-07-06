@@ -41,7 +41,7 @@ public abstract class BlockBrainStoneContainerBase extends BlockContainer {
 
 	@Override
 	public void registerIcons(IconRegister par1IconRegister) {
-		blockIcon = par1IconRegister.registerIcon("BrainStoneMod:"
+		blockIcon = par1IconRegister.registerIcon("brainstonemod:"
 				+ this.getUnlocalizedName().replaceFirst("tile.", ""));
 	}
 }

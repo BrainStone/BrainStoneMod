@@ -15,7 +15,7 @@ public class ItemHoeBrainStone extends ItemHoe {
 
 	@Override
 	public void registerIcons(IconRegister par1IconRegister) {
-		itemIcon = par1IconRegister.registerIcon("BrainStoneMod:"
+		itemIcon = par1IconRegister.registerIcon("brainstonemod:"
 				+ this.getUnlocalizedName().replaceFirst("item.", ""));
 	}
 }

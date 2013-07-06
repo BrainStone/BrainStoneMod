@@ -11,7 +11,7 @@ public class BlockBrainStoneOreBase extends BlockOre {
 
 	@Override
 	public void registerIcons(IconRegister par1IconRegister) {
-		blockIcon = par1IconRegister.registerIcon("BrainStoneMod:"
+		blockIcon = par1IconRegister.registerIcon("brainstonemod:"
 				+ this.getUnlocalizedName().replaceFirst("tile.", ""));
 	}
 }

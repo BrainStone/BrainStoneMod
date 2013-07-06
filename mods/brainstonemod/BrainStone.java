@@ -21,7 +21,6 @@ import mods.brainstonemod.blocks.BlockBrainStoneTrigger;
 import mods.brainstonemod.blocks.BlockPulsatingBrainStone;
 import mods.brainstonemod.guis.GuiBrainStoneTrigger;
 import mods.brainstonemod.handlers.BrainStoneCraftingHandler;
-import mods.brainstonemod.handlers.BrainStoneFuelHandler;
 import mods.brainstonemod.handlers.BrainStoneGuiHandler;
 import mods.brainstonemod.handlers.BrainStonePacketHandler;
 import mods.brainstonemod.handlers.BrainStonePickupNotifier;
@@ -85,7 +84,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.30.7 BETA debug")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.30.14 BETA debug")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
@@ -140,7 +139,7 @@ public class BrainStone {
 	public static BrainStone instance;
 
 	/** The client proxy */
-	@SidedProxy(clientSide = "mods.brainstone.ClientProxy", serverSide = "mods.brainstone.CommonProxy")
+	@SidedProxy(clientSide = "mods.brainstonemod.ClientProxy", serverSide = "mods.brainstonemod.CommonProxy")
 	public static CommonProxy proxy;
 
 	/** The BrainStone Tool Material */
@@ -451,8 +450,6 @@ public class BrainStone {
 		addNames(); // Names
 		addRecipes(); // Recipes
 		addSmeltings(); // Smeltings
-		// Fuels
-		GameRegistry.registerFuelHandler(new BrainStoneFuelHandler());
 		// Ore Generation
 		GameRegistry.registerWorldGenerator(new BrainStoneWorldGenerator());
 		// Crafting Handler
@@ -481,7 +478,7 @@ public class BrainStone {
 	 */
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) throws Throwable {
-		fillTriggerEntities();
+		// fillTriggerEntities();
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -698,19 +695,6 @@ public class BrainStone {
 		GameRegistry.addRecipe(new ItemStack(dirtyBrainStone(), 1),
 				new Object[] { "XX", "XX", 'X', brainStoneDust() });
 
-		for (int i = 0; i <= 9; i++) {
-			GameRegistry.addShapelessRecipe(new ItemStack(coalBriquette(), 1),
-					new Object[] { new ItemStack(Item.coal, 1, i <= 0 ? 0 : 1),
-							new ItemStack(Item.coal, 1, i <= 1 ? 0 : 1),
-							new ItemStack(Item.coal, 1, i <= 2 ? 0 : 1),
-							new ItemStack(Item.coal, 1, i <= 3 ? 0 : 1),
-							new ItemStack(Item.coal, 1, i <= 4 ? 0 : 1),
-							new ItemStack(Item.coal, 1, i <= 5 ? 0 : 1),
-							new ItemStack(Item.coal, 1, i <= 6 ? 0 : 1),
-							new ItemStack(Item.coal, 1, i <= 7 ? 0 : 1),
-							new ItemStack(Item.coal, 1, i <= 8 ? 0 : 1) });
-		}
-
 		GameRegistry.addRecipe(new ItemStack(brainLightSensor(), 1),
 				new Object[] { "XGX", "XBX", "XRX", 'X', Block.stone, 'G',
 						Block.glass, 'B', brainStone(), 'R', Item.redstone });
@@ -888,9 +872,6 @@ public class BrainStone {
 				(new ItemBrainStoneBase(getId(startItemId)))
 						.setUnlocalizedName("brainStoneDust").setCreativeTab(
 								CreativeTabs.tabMaterials));
-		items.put(startItemId + 1, (new ItemBrainStoneBase(
-				getId(startItemId + 1))).setUnlocalizedName("coalBriquette")
-				.setCreativeTab(CreativeTabs.tabMisc));
 		items.put(startItemId + 2, (new ItemBrainStoneBase(
 				getId(startItemId + 2))).setUnlocalizedName("brainProcessor")
 				.setCreativeTab(CreativeTabs.tabMisc));
@@ -1111,13 +1092,6 @@ public class BrainStone {
 	 */
 	public static final Item brainStoneDust() {
 		return items.get(startItemId);
-	}
-
-	/**
-	 * @return the instance of CoalBriquette
-	 */
-	public static final Item coalBriquette() {
-		return items.get(startItemId + 1);
 	}
 
 	/**

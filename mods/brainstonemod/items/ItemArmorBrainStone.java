@@ -17,9 +17,9 @@ public class ItemArmorBrainStone extends ItemArmor {
 	@Override
 	public String getArmorTexture(ItemStack itemstack, Entity entity, int slot, int layer) {
 		if (itemstack.itemID == BrainStone.brainStoneLeggings().itemID)
-			return "BrainStoneMod:" + BrainStone.armorPath + "brainstone_armor_2.png";
+			return "brainstonemod:" + BrainStone.armorPath + "brainstone_armor_2.png";
 
-		return "BrainStoneMod:" + BrainStone.armorPath + "brainstone_armor_1.png";
+		return "brainstonemod:" + BrainStone.armorPath + "brainstone_armor_1.png";
 	}
 
 	@Override
@@ -29,7 +29,7 @@ public class ItemArmorBrainStone extends ItemArmor {
 
 	@Override
 	public void registerIcons(IconRegister par1IconRegister) {
-		itemIcon = par1IconRegister.registerIcon("BrainStoneMod:"
+		itemIcon = par1IconRegister.registerIcon("brainstonemod:"
 				+ this.getUnlocalizedName().replaceFirst("item.", ""));
 	}
 }
