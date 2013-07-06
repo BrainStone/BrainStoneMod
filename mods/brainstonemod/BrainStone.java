@@ -3,7 +3,7 @@ package mods.brainstonemod;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
@@ -38,7 +38,6 @@ import mods.brainstonemod.worldgenerators.BrainStoneWorldGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityBoat;
@@ -59,7 +58,6 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
-import net.minecraft.world.World;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.EnumHelper;
 import net.minecraftforge.common.MinecraftForge;
@@ -84,7 +82,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.30.14 BETA debug")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.30.20 BETA")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
@@ -478,12 +476,12 @@ public class BrainStone {
 	 */
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) throws Throwable {
-		// fillTriggerEntities();
+		fillTriggerEntities();
 	}
 
 	@SideOnly(Side.CLIENT)
 	public static void onPlayerJoin() {
-		String version = getModAnnotation().version();
+		final String version = getModAnnotation().version();
 
 		switch (updateNotification) {
 		case 0:
@@ -529,8 +527,8 @@ public class BrainStone {
 
 	private static boolean isHigherVersion(String currentVersion,
 			String newVersion) {
-		int[] _current = splitVersion(currentVersion);
-		int[] _new = splitVersion(newVersion);
+		final int[] _current = splitVersion(currentVersion);
+		final int[] _new = splitVersion(newVersion);
 
 		return (_current[0] < _new[0])
 				|| ((_current[0] == _new[0]) && (_current[1] < _new[1]))
@@ -538,9 +536,9 @@ public class BrainStone {
 	}
 
 	private static int[] splitVersion(String Version) {
-		String[] tmp = Version.substring(1).split(" ")[0].split("\\.");
-		int size = tmp.length;
-		int out[] = new int[size];
+		final String[] tmp = Version.substring(1).split(" ")[0].split("\\.");
+		final int size = tmp.length;
+		final int out[] = new int[size];
 
 		for (int i = 0; i < size; i++) {
 			out[i] = Integer.parseInt(tmp[i]);
@@ -563,14 +561,14 @@ public class BrainStone {
 					"https://raw.github.com/BrainStone/brainstone/master/builds/latest/.version")
 					.openConnection());
 
-		} catch (MalformedURLException e) {
+		} catch (final MalformedURLException e) {
 			BSP.warningException_noAddon(e,
 					"The Versions will be empty. No internet connection!");
 
 			releaseVersion = "";
 			recommendedVersion = "";
 			latestVersion = "";
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			BSP.warningException_noAddon(e,
 					"The Versions will be empty. No internet connection!");
 
@@ -585,7 +583,7 @@ public class BrainStone {
 		String output = "";
 
 		if (con != null) {
-			BufferedReader br = new BufferedReader(new InputStreamReader(
+			final BufferedReader br = new BufferedReader(new InputStreamReader(
 					con.getInputStream()));
 
 			String input;
@@ -617,7 +615,7 @@ public class BrainStone {
 				+ "\n    recommended:   "
 				+ recommendedVersion
 				+ "\n    latest:            " + latestVersion;
-		event.getModMetadata().logoFile = "";
+		event.getModMetadata().logoFile = "assets/brainstonemod/textures/blocks/brainStone.png";
 		event.getModMetadata().updateUrl = (updateNotification == -1) ? ""
 				: ("https://raw.github.com/BrainStone/brainstone/master/builds/"
 						+ ((updateNotification == 0) ? "release"
@@ -765,70 +763,12 @@ public class BrainStone {
 			key = keys[i];
 			value = (Class) allEntities.get(key);
 
-			if ((value != null) && (EntityLiving.class.isAssignableFrom(value))
+			if ((value != null) && (!Modifier.isAbstract(value.getModifiers()))
+					&& (EntityLiving.class.isAssignableFrom(value))
 					&& (!EntityLiving.class.equals(value))) {
-				try {
-					brainStoneTriggerEntities
-							.put("entity."
-									+ EntityList
-											.getEntityString(((Entity) value
-													.getDeclaredConstructor(
-															new Class[] { World.class })
-													.newInstance(
-															new Object[] { null })))
-									+ ".name", new Class[] { value });
-				} catch (final InstantiationException e) {
-					BSP.finestException_noAddon(
-							e,
-							"This is normal and is NOT a problem. ("
-									+ value.getName() + ")");
-				} catch (final IllegalArgumentException e) {
-					BSP.severeException(
-							e,
-							"This is very unexpected! Actually, it should never happen!\nIt could be bad programming in the BrainStoneMod (I don't think so...) or in the "
-									+ value.getName()
-									+ ".class. But just report that to me. I'll take care of everything!");
-
-					BSP.throwException(
-							e,
-							"This is very unexpected! Actually, it should never happen!\nIt could be bad programming in the BrainStoneMod (I don't think so...) or in the "
-									+ value.getName()
-									+ ".class. But just report that to me. I'll take care of everything!");
-				} catch (final IllegalAccessException e) {
-					BSP.severeException_noAddon(
-							e,
-							"This is caused by bad programming of the programmer of the "
-									+ value.getName()
-									+ ".class. Please report this to them!\n\nAdditional Information:\nThis Mod (BrainStoneMod) tried to create a new instance of the "
-									+ value.getName()
-									+ ".class with the only parameter of the type \"World\" and was denied acces to that!");
-
-					throw new IllegalAccessException(e.getMessage());
-				} catch (final NoSuchMethodException e) {
-					BSP.severeException_noAddon(
-							e,
-							"This is caused by bad programming of the programmer of the "
-									+ value.getName()
-									+ ".class. Please report this to them!\n\nAdditional Information:\nThis Mod (BrainStoneMod) tried to create a new instance of the "
-									+ value.getName()
-									+ ".class with the only parameter of the type \"World\" and there is no such constructor!");
-
-					throw new NoSuchMethodException(e.getMessage());
-				} catch (final InvocationTargetException e) {
-					BSP.severeException_noAddon(e,
-							"This is caused by bad programming of the programmer of the "
-									+ value.getName()
-									+ ".class. Please report this to them!");
-
-					throw new InvocationTargetException(e);
-				} catch (final SecurityException e) {
-					BSP.severeException_noAddon(e,
-							"This is caused by bad programming of the programmer of the "
-									+ value.getName()
-									+ ".class. Please report this to them!");
-
-					throw new SecurityException(e);
-				}
+				brainStoneTriggerEntities.put("entity."
+						+ EntityList.classToStringMapping.get(value) + ".name",
+						new Class[] { value });
 			}
 		}
 
@@ -971,7 +911,7 @@ public class BrainStone {
 							name, startBlockId + key).getInt());
 		}
 
-		String str = config.get("DisplayUpdates", "DisplayUpdates",
+		final String str = config.get("DisplayUpdates", "DisplayUpdates",
 				DEV ? "recommended" : (release ? "release" : "latest"))
 				.getString();
 		updateNotification = (byte) ((str.equals("none") || str.equals("off")) ? -1
