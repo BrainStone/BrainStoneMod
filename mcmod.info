@@ -1,0 +1,11 @@
+[
+{
+  "modid" : "BrainStoneMod",
+  "name" : "Brain Stone Mod",
+  "dependencies": [
+    "FML",
+    "Forge",
+    "mcp"
+  ]  
+}
+]
