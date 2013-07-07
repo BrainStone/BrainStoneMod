@@ -1,5 +1,6 @@
 package mods.brainstonemod.blocks;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -9,7 +10,7 @@ import mods.brainstonemod.templates.BSP;
 import mods.brainstonemod.templates.BlockBrainStoneBase;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
@@ -104,7 +105,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 
 			double radius;
 			int taskRand;
-			EntityLiving entity;
+			EntityLivingBase entity;
 			Object tmpEntity;
 			final List list = world.getEntitiesWithinAABBExcludingEntity(null,
 					AxisAlignedBB.getBoundingBox(x - 10, y - 10, z - 10,
@@ -138,8 +139,23 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 					}
 				}
 
-				if (tmpEntity instanceof EntityLiving) {
-					entity = (EntityLiving) tmpEntity;
+				if (tmpEntity instanceof EntityLivingBase) {
+					entity = (EntityLivingBase) tmpEntity;
+
+					final ItemStack[] equipment = entity.getLastActiveItems();
+
+					BSP.finer(entity, Arrays.toString(equipment), "");
+
+					if (((equipment != null) && (equipment.length >= 5))
+							&& (((equipment[1] != null) && (equipment[1].itemID == BrainStone
+									.brainStoneBoots().itemID))
+									&& ((equipment[2] != null) && (equipment[2].itemID == BrainStone
+											.brainStoneLeggings().itemID))
+									&& ((equipment[3] != null) && (equipment[3].itemID == BrainStone
+											.brainStonePlate().itemID)) && ((equipment[4] != null) && (equipment[4].itemID == BrainStone
+									.brainStoneHelmet().itemID)))) {
+						continue;
+					}
 
 					radius = MathHelper.getRandomDoubleInRange(random, 2.0,
 							10.0);
