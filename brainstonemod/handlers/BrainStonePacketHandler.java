@@ -45,8 +45,8 @@ public class BrainStonePacketHandler implements IPacketHandler {
 		pkt.length = data.size();
 		pkt.isChunkDataPacket = true;
 
-		PacketDispatcher.sendPacketToAllAround(x, y, z, 256.0, world
-				.getWorldInfo().getDimension(), pkt);
+		PacketDispatcher.sendPacketToAllAround(x, y, z, 256.0,
+				world.provider.dimensionId, pkt);
 
 	}
 
@@ -69,7 +69,7 @@ public class BrainStonePacketHandler implements IPacketHandler {
 		pkt.isChunkDataPacket = true;
 
 		PacketDispatcher.sendPacketToAllAround(te.xCoord, te.yCoord, te.zCoord,
-				256, te.worldObj.getWorldInfo().getDimension(), pkt);
+				256, te.worldObj.provider.dimensionId, pkt);
 
 	}
 

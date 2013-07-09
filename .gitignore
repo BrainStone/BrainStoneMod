@@ -169,7 +169,7 @@ cpw/*
 ibxm/*
 net/*
 paulscode/*
-deobfuscation_data-1.6.1.lzma
+deobfuscation_data-*.lzma
 fml_at.cfg
 fml_marker.cfg
 fmlversion.properties
