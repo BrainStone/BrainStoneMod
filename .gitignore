@@ -165,3 +165,16 @@ pip-log.txt
 # My own stuff
 
 SyncToy*.dat
+cpw/*
+ibxm/*
+net/*
+paulscode/*
+deobfuscation_data-*.lzma
+fml_at.cfg
+fml_marker.cfg
+fmlversion.properties
+forge_at.cfg
+forge_logo.png
+mcp.png
+mcpmod.info
+Start.java
