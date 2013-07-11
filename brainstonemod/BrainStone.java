@@ -36,6 +36,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
+import net.minecraft.util.ChatMessageComponent;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.EnumHelper;
 import net.minecraftforge.common.MinecraftForge;
@@ -82,7 +83,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.32.35 BETA DEV")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.32.50 BETA DEV")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
@@ -501,10 +502,10 @@ public class BrainStone {
 							+ "§c ==========\n"
 							+ "§1Download it at §ehttp://adf.ly/2002096/release§1\nor §ehttps://github.com/BrainStone/brainstone§1!");
 				} else if (isHigherVersion(version, recommendedVersion)) {
-					sendToPlayer("§a A new Version of the BSM is available!\n§l§c========== §4"
-							+ releaseVersion
+					sendToPlayer("§a A new recommended DEV Version of the BSM is available!\n§l§c========== §4"
+							+ recommendedVersion
 							+ "§c ==========\n"
-							+ "§1Download it at §ehttp://adf.ly/2002096/release§1\nor §ehttps://github.com/BrainStone/brainstone§1!");
+							+ "§1Download it at §ehttp://adf.ly/2002096/recommended§1\nor §ehttps://github.com/BrainStone/brainstone§1!");
 				}
 
 				break;
@@ -518,10 +519,10 @@ public class BrainStone {
 							+ "§1Download it at §ehttp://adf.ly/2002096/release§1\nor §ehttps://github.com/BrainStone/brainstone§1!");
 				} else if (isHigherVersion(version, recommendedVersion)
 						&& !isHigherVersion(recommendedVersion, latestVersion)) {
-					sendToPlayer("§a A new Version of the BSM is available!\n§l§c========== §4"
-							+ releaseVersion
+					sendToPlayer("§a A new recommended DEV Version of the BSM is available!\n§l§c========== §4"
+							+ recommendedVersion
 							+ "§c ==========\n"
-							+ "§1Download it at §ehttp://adf.ly/2002096/release§1\nor §ehttps://github.com/BrainStone/brainstone§1!");
+							+ "§1Download it at §ehttp://adf.ly/2002096/recommended§1\nor §ehttps://github.com/BrainStone/brainstone§1!");
 				} else if (isHigherVersion(version, latestVersion)) {
 					sendToPlayer("§a A new DEV Version of the BSM is available!\n§l§c========== §4"
 							+ latestVersion
@@ -535,7 +536,8 @@ public class BrainStone {
 	}
 
 	private static void sendToPlayer(String message) {
-		proxy.getPlayer().sendChatMessage(message);
+		proxy.getPlayer().sendChatToPlayer(
+				ChatMessageComponent.func_111066_d(message));
 	}
 
 	private static boolean isHigherVersion(String currentVersion,
@@ -620,8 +622,8 @@ public class BrainStone {
 		event.getModMetadata().version = getModAnnotation().version();
 		event.getModMetadata().url = "http://minecraft.de/showthread.php?89926";
 		event.getModMetadata().credits = "The_BrainStone(Code, Textures, Ideas), Herr_Kermit(Textures), Jobbel(Name)";
-		event.getModMetadata().authorList = Arrays
-				.asList(new String[] { "The_BrainStone", "Herr_Kermit" });
+		event.getModMetadata().authorList = Arrays.asList(new String[] {
+				"The_BrainStone", "Herr_Kermit" });
 		event.getModMetadata().description = "The Brain Stone Mod adds a new block type. It is called Brain Stone. It is very rare but you can make many different intelligent sensor blocks! An example is the BrainStoneTrigger. It's a block that triggers if an entity is on top. All these intelligent blocks are highly adjustable! There are also tools. The are as fast as iron tools but you can havrest more than 5,368 blocks! (Diamond tools only 1,561). The latest feature is the PulsatingBrainStoneBlock. It is the craziest block you have ever seen! It will throw you and animals through the air or will add random potion effects! You acan make yourself immune to these effect by wearing the full set of the newly adden BrainStoneArmor.\nBut see by yourself and enjoy!\n\n\nAnd thanks for downloading and supporting this mod!\n\n\n\nIf you think this mod caused a game crash (what should not happen by the way XD) send an email with the error log to yannick@tedworld.de!\n\nThank you!"
 				+ "\n\n\n\nCurrent Versions:\n    release:          "
 				+ releaseVersion
