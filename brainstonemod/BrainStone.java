@@ -82,7 +82,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.30.63 BETA DEV")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.32.35 BETA DEV")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
@@ -197,7 +197,6 @@ public class BrainStone {
 		// Items
 
 		name_en.put(startItemId + 0, "Brain Stone Dust");
-		name_en.put(startItemId + 1, "Coal Briquette");
 		name_en.put(startItemId + 2, "Brain Processor");
 		name_en.put(startItemId + 3, "Brain Stone Sword");
 		name_en.put(startItemId + 4, "Brain Stone Shovel");
@@ -240,7 +239,6 @@ public class BrainStone {
 		// Items
 
 		name_de.put(startItemId + 0, "Hirnsteinstaub");
-		name_de.put(startItemId + 1, "Kohlebrikett");
 		name_de.put(startItemId + 2, "Hirnprozessor");
 		name_de.put(startItemId + 3, "Hirnsteinschwert");
 		name_de.put(startItemId + 4, "Hirnsteinschaufel");
@@ -621,9 +619,9 @@ public class BrainStone {
 		event.getModMetadata().name = getModAnnotation().name();
 		event.getModMetadata().version = getModAnnotation().version();
 		event.getModMetadata().url = "http://minecraft.de/showthread.php?89926";
-		event.getModMetadata().credits = "The_BrainStone(Code, Textures, Ideas), Jobbel(Name), TheStarman(Textures)";
+		event.getModMetadata().credits = "The_BrainStone(Code, Textures, Ideas), Herr_Kermit(Textures), Jobbel(Name)";
 		event.getModMetadata().authorList = Arrays
-				.asList(new String[] { "The_BrainStone" });
+				.asList(new String[] { "The_BrainStone", "Herr_Kermit" });
 		event.getModMetadata().description = "The Brain Stone Mod adds a new block type. It is called Brain Stone. It is very rare but you can make many different intelligent sensor blocks! An example is the BrainStoneTrigger. It's a block that triggers if an entity is on top. All these intelligent blocks are highly adjustable! There are also tools. The are as fast as iron tools but you can havrest more than 5,368 blocks! (Diamond tools only 1,561). The latest feature is the PulsatingBrainStoneBlock. It is the craziest block you have ever seen! It will throw you and animals through the air or will add random potion effects! You acan make yourself immune to these effect by wearing the full set of the newly adden BrainStoneArmor.\nBut see by yourself and enjoy!\n\n\nAnd thanks for downloading and supporting this mod!\n\n\n\nIf you think this mod caused a game crash (what should not happen by the way XD) send an email with the error log to yannick@tedworld.de!\n\nThank you!"
 				+ "\n\n\n\nCurrent Versions:\n    release:          "
 				+ releaseVersion

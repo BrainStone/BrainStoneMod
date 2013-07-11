@@ -96,7 +96,7 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 			final int y = (height - ySizeSimple) / 2;
 			this.drawTexturedModalRect(x, y, 0, 0, xSizeSimple, ySizeSimple);
 			this.drawTexturedModalRect(x + 8, y
-					+ ((tileentity.getDirection()) ? 18 : 36), 8, 52, 8, 8);
+					+ ((tileentity.getDirection()) ? 18 : 36), 8, 52, 9, 8);
 
 			fontRenderer.drawString(
 					tmp = StatCollector
@@ -211,7 +211,7 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 					tileentity.setDirection(false);
 				}
 
-				if (this.inField(x, y, 120, 13, 104, 17)) {
+				if (this.inField(x, y, 120, 13, 124, 17)) {
 					this.quit();
 				}
 			}
