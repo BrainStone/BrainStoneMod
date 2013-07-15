@@ -65,10 +65,8 @@ import brainstonemod.tileentities.TileEntityBlockBrainStoneTrigger;
 import brainstonemod.worldgenerators.BrainStoneWorldGenerator;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.Init;
+import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.Mod.PostInit;
-import cpw.mods.fml.common.Mod.PreInit;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -86,7 +84,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.31.1 BETA")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.30.56 BETA")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
@@ -141,7 +139,7 @@ public class BrainStone {
 	public static BrainStone instance;
 
 	/** The client proxy */
-	@SidedProxy(clientSide = "brainstonemod.ClientProxy", serverSide = "mods.brainstone.CommonProxy")
+	@SidedProxy(clientSide = "brainstonemod.ClientProxy", serverSide = "brainstonemod.CommonProxy")
 	public static CommonProxy proxy;
 
 	/** The BrainStone Tool Material */
@@ -405,7 +403,7 @@ public class BrainStone {
 	 * @param event
 	 *            The MCForge PreInitializationEvent
 	 */
-	@PreInit
+	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		if ((Gate.Gates == null) || Gate.Gates.isEmpty()) {
 			BSP.throwNullPointerException("Well, that should NOT have happenend! This IS a HUGE problem if you notice this please report it to yannick@tedworld.de.\nThanks!\n\nDeveloper Information:\nThe Map of the Gates is EMPTY!\nIs gates null: "
@@ -428,7 +426,7 @@ public class BrainStone {
 	 * @param event
 	 *            The MCForge InitializationEvent
 	 */
-	@Init
+	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		proxy.registerRenderInformation();
 		NetworkRegistry.instance().registerGuiHandler(this,
@@ -465,7 +463,7 @@ public class BrainStone {
 	 *            The MCForge PostInitializationEvent
 	 * @throws Throwable
 	 */
-	@PostInit
+	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) throws Throwable {
 		fillTriggerEntities();
 	}
@@ -621,7 +619,7 @@ public class BrainStone {
 				+ "\n    recommended:   "
 				+ recommendedVersion
 				+ "\n    latest:            " + latestVersion;
-		event.getModMetadata().logoFile = "/mods/brainstone/textures/Logo_500x200.png";
+		event.getModMetadata().logoFile = "assets/brainstonemod/textures/blocks/brainStone.png";
 		event.getModMetadata().updateUrl = (updateNotification == -1) ? ""
 				: ("https://raw.github.com/BrainStone/brainstone/master/builds/"
 						+ ((updateNotification == 0) ? "release"
@@ -1037,13 +1035,6 @@ public class BrainStone {
 	 */
 	public static final Item brainStoneDust() {
 		return items.get(startItemId);
-	}
-
-	/**
-	 * @return the instance of CoalBriquette
-	 */
-	public static final Item coalBriquette() {
-		return items.get(startItemId + 1);
 	}
 
 	/**
