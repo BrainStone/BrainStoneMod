@@ -208,6 +208,7 @@ public class TileEntityBlockBrainLogicBlock extends
 
 		outputStream.writeByte(GuiFocused);
 		outputStream.writeLong(lastUpdate);
+		outputStream.writeInt(GatePos);
 
 		ActiveGate.writeToOutputStream(outputStream);
 	}
@@ -356,6 +357,7 @@ public class TileEntityBlockBrainLogicBlock extends
 			throws IOException {
 		GuiFocused = inputStream.readByte();
 		lastUpdate = inputStream.readLong();
+		GatePos = inputStream.readInt();
 
 		ActiveGate = Gate.readFromInputStream(inputStream);
 	}
@@ -382,6 +384,7 @@ public class TileEntityBlockBrainLogicBlock extends
 		// }
 
 		ActiveGate = Gate.readFromNBT(nbttagcompound);
+		GatePos = nbttagcompound.getInteger("GatePos");
 
 		final byte byte0 = nbttagcompound.getByte("TASKS-Size");
 
@@ -618,6 +621,7 @@ public class TileEntityBlockBrainLogicBlock extends
 		// }
 
 		ActiveGate.writeToNBT(nbttagcompound);
+		nbttagcompound.setInteger("GatePos", GatePos);
 
 		final byte byte0 = (byte) TASKS.size();
 		nbttagcompound.setByte("TASKS-Size", byte0);
