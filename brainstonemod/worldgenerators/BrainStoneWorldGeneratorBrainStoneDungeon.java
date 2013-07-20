@@ -1,5 +1,6 @@
 package brainstonemod.worldgenerators;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import net.minecraft.block.Block;
@@ -14,6 +15,46 @@ import brainstonemod.BrainStone;
 import brainstonemod.templates.BSP;
 
 public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
+	private class SlotMemory {
+		private final ArrayList<Integer> chestSlots;
+		private Random random;
+
+		public SlotMemory(int chestSize) {
+			chestSlots = new ArrayList<Integer>(chestSize);
+
+			for (int i = 0; i < chestSize; i++) {
+				chestSlots.add(i);
+			}
+		}
+
+		public SlotMemory(int chestSize, Random random) {
+			this(chestSize);
+
+			this.random = random;
+		}
+
+		public int getRandomChestSlot() {
+			final int size = chestSlots.size();
+
+			if (size > 0) {
+				final int slot = random.nextInt(size);
+
+				final int temp = chestSlots.get(slot);
+				chestSlots.remove(slot);
+
+				return temp;
+			}
+
+			return -1;
+		}
+
+		public int getRandomChestSlot(Random random) {
+			this.random = random;
+
+			return this.getRandomChestSlot();
+		}
+	}
+
 	private int x, y, z;
 	private World world;
 	private Random random;
@@ -245,10 +286,11 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 				x + 6, y - height, z + 1);
 
 		int rand1 = random.nextInt(9) + 2;
+		SlotMemory chestSlots = new SlotMemory(chest.getSizeInventory(), random);
 
 		for (i = 0; i < rand1; i++) {
-			chest.setInventorySlotContents(
-					random.nextInt(chest.getSizeInventory()), this.getLoot(1));
+			chest.setInventorySlotContents(chestSlots.getRandomChestSlot(),
+					this.getLoot(1));
 		}
 
 		this.setBlock(x + 7, y - height, z + 1, 54);
@@ -257,10 +299,10 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 
 		rand1 = random.nextInt(9) + 2;
 		int rand2 = random.nextInt(3);
+		chestSlots = new SlotMemory(chest.getSizeInventory(), random);
 
 		for (i = 0; i < rand1; i++) {
-			chest.setInventorySlotContents(
-					random.nextInt(chest.getSizeInventory()),
+			chest.setInventorySlotContents(chestSlots.getRandomChestSlot(),
 					this.getLoot(rand2));
 		}
 
@@ -270,10 +312,10 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 
 		rand1 = random.nextInt(9) + 2;
 		rand2 = random.nextInt(3);
+		chestSlots = new SlotMemory(chest.getSizeInventory(), random);
 
 		for (i = 0; i < rand1; i++) {
-			chest.setInventorySlotContents(
-					random.nextInt(chest.getSizeInventory()),
+			chest.setInventorySlotContents(chestSlots.getRandomChestSlot(),
 					this.getLoot(rand2));
 		}
 
@@ -282,10 +324,11 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 				z + 3);
 
 		rand1 = random.nextInt(9) + 2;
+		chestSlots = new SlotMemory(chest.getSizeInventory(), random);
 
 		for (i = 0; i < rand1; i++) {
-			chest.setInventorySlotContents(
-					random.nextInt(chest.getSizeInventory()), this.getLoot(1));
+			chest.setInventorySlotContents(chestSlots.getRandomChestSlot(),
+					this.getLoot(1));
 		}
 	}
 
@@ -392,10 +435,12 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 				.getBlockTileEntity(x + chunkX, y + 3, z + chunkZ);
 
 		rand = random.nextInt(9) + 2;
+		final SlotMemory chestSlots = new SlotMemory(chest.getSizeInventory(),
+				random);
 
 		for (i = 0; i < rand; i++) {
-			chest.setInventorySlotContents(
-					random.nextInt(chest.getSizeInventory()), this.getLoot(0));
+			chest.setInventorySlotContents(chestSlots.getRandomChestSlot(),
+					this.getLoot(0));
 		}
 
 		// Roof - Layer 2
