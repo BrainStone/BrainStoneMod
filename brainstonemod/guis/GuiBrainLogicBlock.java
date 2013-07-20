@@ -35,6 +35,11 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	private String HelpText;
 	private int scrollbarPos;
 	private byte mousePos;
+	private int movingPin;
+	private int movingPinOffsetX, movingPinOffsetY;
+	private final byte swappedPin;
+
+	private int mousePosX, mousePosY;
 	private static final int rowsToScroll = Gate.NumberGates - 6;
 
 	private static final float pixelPerRow = 99.0F / rowsToScroll;
@@ -49,6 +54,13 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 
 		scrollbarPos = 0;
 		mousePos = 1;
+		movingPin = -1;
+		movingPinOffsetX = 0;
+		movingPinOffsetY = 0;
+		swappedPin = -1;
+
+		mousePosX = 0;
+		mousePosY = 0;
 
 		direction = TileEntityBlockBrainLogicBlock.guiDirection;
 	}
@@ -63,18 +75,11 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		tileentity.logIn(username);
 	}
 
-	/**
-	 * Returns true if this GUI should pause the game when it is displayed in
-	 * single-player
-	 */
 	@Override
 	public boolean doesGuiPauseGame() {
 		return false;
 	}
 
-	/**
-	 * Draws the screen and all the components in it.
-	 */
 	@Override
 	public void drawGuiContainerBackgroundLayer(float par1Float,
 			int par2Integer, int par3Integer) {
@@ -108,15 +113,44 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 			}
 		}
 
-		this.renderGateFrameAt(x + 38, y + 7, (byte) 0);
-		this.renderGateFrameAt(x + 38, y + 47, (byte) 1);
-		this.renderGateFrameAt(x + 98, y + 7, (byte) (2 + direction));
-		this.renderGateFrameAt(x + 78, y + 27,
-				(byte) (2 + ((direction + 3) & 3)));
-		this.renderGateFrameAt(x + 98, y + 47,
-				(byte) (2 + ((direction + 2) & 3)));
-		this.renderGateFrameAt(x + 118, y + 27,
-				(byte) (2 + ((direction + 1) & 3)));
+		if (movingPin != 0) {
+			this.renderGateFrameAt(x + 38, y + 7, (byte) 0);
+		} else if (swappedPin != -1) {
+			this.renderGateFrameAt(x + 38, y + 7, swappedPin);
+		}
+
+		if (movingPin != 1) {
+			this.renderGateFrameAt(x + 38, y + 47, (byte) 1);
+		} else if (swappedPin != -1) {
+			this.renderGateFrameAt(x + 38, y + 47, swappedPin);
+		}
+
+		if (movingPin != 2) {
+			this.renderGateFrameAt(x + 98, y + 7, (byte) (2 + direction));
+		} else if (swappedPin != -1) {
+			this.renderGateFrameAt(x + 98, y + 7, swappedPin);
+		}
+
+		if (movingPin != 3) {
+			this.renderGateFrameAt(x + 78, y + 27,
+					(byte) (2 + ((direction + 3) & 3)));
+		} else if (swappedPin != -1) {
+			this.renderGateFrameAt(x + 78, y + 27, swappedPin);
+		}
+
+		if (movingPin != 4) {
+			this.renderGateFrameAt(x + 98, y + 47,
+					(byte) (2 + ((direction + 2) & 3)));
+		} else if (swappedPin != -1) {
+			this.renderGateFrameAt(x + 98, y + 47, swappedPin);
+		}
+
+		if (movingPin != 5) {
+			this.renderGateFrameAt(x + 118, y + 27,
+					(byte) (2 + ((direction + 1) & 3)));
+		} else if (swappedPin != -1) {
+			this.renderGateFrameAt(x + 118, y + 27, swappedPin);
+		}
 
 		// END of Textures!
 		// BEGIN of Strings!
@@ -139,16 +173,86 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 				95 - this.getStringWidth(directions[direction]), 13, 0);
 		this.drawString(directions[direction ^ 2], 121, 53, 0);
 
-		this.renderGateLetterAt(42, 11, (byte) 0);
-		this.renderGateLetterAt(42, 51, (byte) 1);
-		this.renderGateLetterAt(102, 11, (byte) (2 + direction));
-		this.renderGateLetterAt(82, 31, (byte) (2 + ((direction + 3) & 3)));
-		this.renderGateLetterAt(102, 51, (byte) (2 + ((direction + 2) & 3)));
-		this.renderGateLetterAt(122, 31, (byte) (2 + ((direction + 1) & 3)));
+		if (movingPin != 0) {
+			this.renderGateLetterAt(42, 11, (byte) 0);
+		} else if (swappedPin != -1) {
+			this.renderGateLetterAt(42, 11, swappedPin);
+		}
+
+		if (movingPin != 1) {
+			this.renderGateLetterAt(42, 51, (byte) 1);
+		} else if (swappedPin != -1) {
+			this.renderGateLetterAt(42, 51, swappedPin);
+		}
+
+		if (movingPin != 2) {
+			this.renderGateLetterAt(102, 11, (byte) (2 + direction));
+		} else if (swappedPin != -1) {
+			this.renderGateLetterAt(102, 11, swappedPin);
+		}
+
+		if (movingPin != 3) {
+			this.renderGateLetterAt(82, 31, (byte) (2 + ((direction + 3) & 3)));
+		} else if (swappedPin != -1) {
+			this.renderGateLetterAt(82, 31, swappedPin);
+		}
+
+		if (movingPin != 4) {
+			this.renderGateLetterAt(102, 51, (byte) (2 + ((direction + 2) & 3)));
+		} else if (swappedPin != -1) {
+			this.renderGateLetterAt(102, 51, swappedPin);
+		}
+
+		if (movingPin != 5) {
+			this.renderGateLetterAt(122, 31, (byte) (2 + ((direction + 1) & 3)));
+		} else if (swappedPin != -1) {
+			this.renderGateLetterAt(122, 31, swappedPin);
+		}
 
 		scrollbarPos = 1 * scrollbarPos;
 
 		GL11.glPopMatrix();
+
+		// MovingPin
+
+		if (movingPin != -1) {
+			GL11.glPushMatrix();
+			factor = 1.0F;
+			this.registerTexture();
+
+			byte pos = -1;
+
+			switch (movingPin) {
+			case 0:
+				pos = 0;
+				break;
+			case 1:
+				pos = 1;
+				break;
+			case 2:
+				pos = (byte) (2 + direction);
+				break;
+			case 3:
+				pos = (byte) (2 + ((direction + 3) & 3));
+				break;
+			case 4:
+				pos = (byte) (2 + ((direction + 2) & 3));
+				break;
+			case 5:
+				pos = (byte) (2 + ((direction + 1) & 3));
+				break;
+			}
+
+			this.renderGateFrameAt((x + mousePosX) - movingPinOffsetX,
+					(y + mousePosY) - movingPinOffsetY, pos);
+
+			GL11.glTranslatef(globalX, globalY, 0.0F);
+
+			this.renderGateLetterAt((mousePosX - movingPinOffsetX) + 4,
+					(mousePosY - movingPinOffsetY) + 4, pos);
+
+			GL11.glPopMatrix();
+		}
 
 		// Help Screen!
 
@@ -259,9 +363,6 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		return k;
 	}
 
-	/**
-	 * Handles mouse input.
-	 */
 	@Override
 	public void handleMouseInput() {
 		if (Mouse.getEventButton() == -1) {
@@ -318,8 +419,8 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		if (help) {
 			this.closeHelpGui();
 		} else {
-			mouseX -= globalX;
-			mouseY -= globalY;
+			mousePosX = mouseX -= globalX;
+			mousePosY = mouseY -= globalY;
 
 			for (int i = 0; i < 6; i++) {
 				if (this.inField(mouseX, mouseY, 8, 78 + (19 * i), 150,
@@ -332,12 +433,40 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 				}
 			}
 
+			// TODO check if pin is movable and exists
+			if (this.inField(mouseX, mouseY, 38, 7, 58, 27)) {
+				movingPin = 0;
+				movingPinOffsetX = mouseX - 38;
+				movingPinOffsetY = mouseY - 7;
+			} else if (this.inField(mouseX, mouseY, 38, 47, 58, 67)) {
+				movingPin = 1;
+				movingPinOffsetX = mouseX - 38;
+				movingPinOffsetY = mouseY - 47;
+			} else if (this.inField(mouseX, mouseY, 98, 7, 118, 27)) {
+				movingPin = 2;
+				movingPinOffsetX = mouseX - 98;
+				movingPinOffsetY = mouseY - 7;
+			} else if (this.inField(mouseX, mouseY, 78, 27, 98, 47)) {
+				movingPin = 3;
+				movingPinOffsetX = mouseX - 78;
+				movingPinOffsetY = mouseY - 27;
+			} else if (this.inField(mouseX, mouseY, 98, 47, 118, 67)) {
+				movingPin = 4;
+				movingPinOffsetX = mouseX - 98;
+				movingPinOffsetY = mouseY - 47;
+			} else if (this.inField(mouseX, mouseY, 118, 27, 138, 47)) {
+				movingPin = 5;
+				movingPinOffsetX = mouseX - 118;
+				movingPinOffsetY = mouseY - 27;
+			}
+
 			if (this.inField(mouseX, mouseY, 168, 3, 172, 7)) {
 				this.quit();
 
 				return;
 			}
 
+			// REMOVE
 			// for (byte byte0 = 0; byte0 <
 			// TileEntityBlockBrainLogicBlock.numGates; byte0++) {
 			// final int l = 12 * byte0;
@@ -382,8 +511,8 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	@Override
 	protected void mouseMovedOrUp(int mouseX, int mouseY, int which) {
 		if (!help) {
-			mouseX -= globalX;
-			mouseY -= globalY;
+			mousePosX = mouseX -= globalX;
+			mousePosY = mouseY -= globalY;
 
 			if (which == -1) {
 				mousePos = -1;
@@ -395,22 +524,22 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 						break;
 					}
 				}
+			} else {
+				if (movingPin != -1) {
+					movingPin = -1;
+				}
 			}
 		}
 	}
 
 	private void openHelp() {
-		int x = ((Mouse.getEventX() * width) / mc.displayWidth) - globalX;
-		int y = height - ((Mouse.getEventY() * height) / mc.displayHeight) - 1
-				- globalY;
-
 		// TODO Determine what text to open depending on the mouse position
-		String topic = "Trolololo";
+		final String topic = "Trolololo";
 
 		if (!topic.isEmpty()) {
 			String translatedTitle = StatCollector.translateToLocal(topic
 					+ ".name");
-			int spacesToAdd = (stringWidth - fontRenderer
+			final int spacesToAdd = (stringWidth - fontRenderer
 					.getStringWidth(translatedTitle)) / 8;
 
 			for (int i = 0; i < spacesToAdd; i++) {

@@ -155,7 +155,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 											.brainStonePlate().itemID)) && ((equipment[4] != null) && (equipment[4].itemID == BrainStone
 									.brainStoneHelmet().itemID)))) {
 						BSP.finer("Mob wears armor! No effect!");
-						
+
 						continue;
 					}
 

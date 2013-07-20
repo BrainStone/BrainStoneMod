@@ -180,8 +180,8 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 					tileentity.getMobTriggered(tmp) ? 0xffffff : 0x888888);
 		}
 
-		fontRenderer
-				.drawString((page + 1) + "/" + (max_page + 1), 146, 12, 0x000000);
+		fontRenderer.drawString((page + 1) + "/" + (max_page + 1), 146, 12,
+				0x000000);
 		fontRenderer.drawString("Delay", 144, 54, 0x000000);
 		fontRenderer.drawString(String.valueOf(tileentity.max_delay), 148, 68,
 				0xffffff);

@@ -160,17 +160,22 @@ public class TileEntityBlockBrainLogicBlock extends
 						.getBlockMaterial(x, y, z).isSolid());
 	}
 
+	public boolean canPinsSwap(int pos1, int pos2) {
+		return ActiveGate.canSwapWith(ActiveGate.Pins[pos1],
+				ActiveGate.Pins[pos2]);
+	}
+
 	public void changeGate(int direction) {
-		addTASKS("changeGate",
+		this.addTASKS("changeGate",
 				new String[] { "int", String.valueOf(direction) });
 	}
 
 	public void changeGate(String string) {
-		addTASKS("changeGate", new String[] { "string", string });
+		this.addTASKS("changeGate", new String[] { "string", string });
 	}
 
 	public void changeGate(String string, int direction) {
-		addTASKS("changeGate",
+		this.addTASKS("changeGate",
 				new String[] { "both", string, String.valueOf(direction) });
 	}
 

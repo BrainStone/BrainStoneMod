@@ -313,9 +313,9 @@ public abstract class Gate {
 
 	public abstract void onTick();
 
-	public final void setPin(char gateName, Pin pin) {
+	public final void setPin(char pinName, Pin pin) {
 		for (int i = 0; i < 6; i++) {
-			if (Pins[i].Name == gateName) {
+			if (Pins[i].Name == pinName) {
 				Pins[i] = pin;
 			}
 		}

@@ -1,13 +1,9 @@
 package brainstonemod.templates;
 
-import java.util.logging.Filter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import brainstonemod.BrainStone;
-import brainstonemod.templates.bsp_filters.DebugFilter;
-import brainstonemod.templates.bsp_filters.DefaultFilter;
-import brainstonemod.templates.bsp_filters.ReleaseFilter;
 
 /**
  * <center><b><u>B</u>rain<u>S</u>tone<u>P</u>rinter</b></center><br>
@@ -642,17 +638,13 @@ public abstract class BSP {
 	public static void setUpLogger(Logger logger) {
 		BSP.logger = logger;
 
-		Filter filter;
-
 		if (BrainStone.debug) {
-			filter = new DebugFilter();
+			BSP.logger.setLevel(Level.ALL);
 		} else if (BrainStone.release) {
-			filter = new ReleaseFilter();
+			BSP.logger.setLevel(Level.INFO);
 		} else {
-			filter = new DefaultFilter();
+			BSP.logger.setLevel(Level.FINE);
 		}
-
-		BSP.logger.setFilter(filter);
 	}
 
 	/**
