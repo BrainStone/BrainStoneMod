@@ -18,8 +18,7 @@ public class AND_Gate extends Gate {
 
 	@Override
 	public void onOptionsChange() {
-		// TODO Auto-generated method stub
-
+		// TODO What to do when options change?
 	}
 
 	@Override

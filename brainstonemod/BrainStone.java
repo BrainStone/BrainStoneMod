@@ -85,7 +85,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.33.12 BETA")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.33.37 BETA")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
@@ -139,18 +139,25 @@ public class BrainStone {
 	@Instance("BrainStoneMod")
 	public static BrainStone instance;
 
-	/** The client proxy */
+	/**
+	 * The proxy. Used to perform side dependent operation such as getting the
+	 * local player<br>
+	 * <br>
+	 * - is client-proxy when this is the client<br>
+	 * - is server-proxy when this is the server
+	 */
 	@SidedProxy(clientSide = "brainstonemod.ClientProxy", serverSide = "brainstonemod.CommonProxy")
 	public static CommonProxy proxy;
 
 	/** The BrainStone Tool Material */
 	public static EnumToolMaterial toolBRAINSTONE = EnumHelper.addToolMaterial(
 			"BRAINSTONE", 3, 5368, 6F, 5, 25);
-	/** The BrainStone Tool Material */
+	/** The BrainStone Armor Material */
 	public static EnumArmorMaterial armorBRAINSTONE = EnumHelper
 			.addArmorMaterial("BRAINSTONE", 114, new int[] { 2, 6, 5, 2 }, 25);
 
 	@SideOnly(Side.CLIENT)
+	/** A flag that is set when the onPlayerJoin method has been called */
 	public static boolean called_onPlayerJoin;
 
 	/**
@@ -184,6 +191,7 @@ public class BrainStone {
 	 * &emsp;<b>value:</b> The English block or item name
 	 */
 	private static HashMap<Integer, String> name_en = new HashMap<Integer, String>();
+	// TODO Move to own function
 	static {
 		// Blocks
 
@@ -470,6 +478,7 @@ public class BrainStone {
 	}
 
 	@SideOnly(Side.CLIENT)
+	// DOCME
 	public static void onPlayerJoin() {
 		final String version = getModAnnotation().version();
 
@@ -526,11 +535,13 @@ public class BrainStone {
 		}
 	}
 
+	// DOCME
 	private static void sendToPlayer(String message) {
 		proxy.getPlayer().sendChatToPlayer(
 				ChatMessageComponent.func_111066_d(message));
 	}
 
+	// DOCME
 	private static boolean isHigherVersion(String currentVersion,
 			String newVersion) {
 		final int[] _current = splitVersion(currentVersion);
@@ -541,6 +552,7 @@ public class BrainStone {
 				|| ((_current[0] == _new[0]) && (_current[1] == _new[1]) && (_current[2] < _new[2]));
 	}
 
+	// DOCME
 	private static int[] splitVersion(String Version) {
 		final String[] tmp = Version.substring(1).split(" ")[0].split("\\.");
 		final int size = tmp.length;
@@ -553,6 +565,7 @@ public class BrainStone {
 		return out;
 	}
 
+	// DOCME
 	private static void retriveCurrentVersions() {
 		try {
 			releaseVersion = get_content((HttpsURLConnection) new URL(
@@ -584,6 +597,7 @@ public class BrainStone {
 		}
 	}
 
+	// DOCME
 	private static String get_content(HttpsURLConnection con)
 			throws IOException {
 		String output = "";
@@ -745,6 +759,7 @@ public class BrainStone {
 				brainStone(), 1, 0), 3.0F);
 	}
 
+	// DOCME
 	private static void fillTriggerEntities() throws Throwable {
 		final LinkedHashMap<String, Class[]> brainStoneTriggerEntities = new LinkedHashMap<String, Class[]>();
 
@@ -951,6 +966,10 @@ public class BrainStone {
 				"TileEntityBlockBrainLogicBlock");
 	}
 
+	/**
+	 * This method returns the {@link Mod} annotation
+	 * @return The Mod annotation of this class
+	 */
 	private static Mod getModAnnotation() {
 		if (annotation == null)
 			return (annotation = BrainStone.class.getAnnotation(Mod.class));

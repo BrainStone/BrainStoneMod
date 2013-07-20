@@ -156,7 +156,6 @@ public class TileEntityBlockBrainStoneTrigger extends
 
 	@Override
 	public boolean isInvNameLocalized() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

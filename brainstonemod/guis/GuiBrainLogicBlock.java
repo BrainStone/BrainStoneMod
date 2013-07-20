@@ -1,5 +1,7 @@
 package brainstonemod.guis;
 
+import net.minecraft.util.StatCollector;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
@@ -283,6 +285,8 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 			if ((i == Keyboard.KEY_ESCAPE)
 					|| (i == mc.gameSettings.keyBindInventory.keyCode)) {
 				this.quit();
+			} else if (i == Keyboard.KEY_F1) {
+				this.openHelp();
 			}
 
 			// if (i == 205) {
@@ -392,6 +396,31 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 					}
 				}
 			}
+		}
+	}
+
+	private void openHelp() {
+		int x = ((Mouse.getEventX() * width) / mc.displayWidth) - globalX;
+		int y = height - ((Mouse.getEventY() * height) / mc.displayHeight) - 1
+				- globalY;
+
+		// TODO Determine what text to open depending on the mouse position
+		String topic = "Trolololo";
+
+		if (!topic.isEmpty()) {
+			String translatedTitle = StatCollector.translateToLocal(topic
+					+ ".name");
+			int spacesToAdd = (stringWidth - fontRenderer
+					.getStringWidth(translatedTitle)) / 8;
+
+			for (int i = 0; i < spacesToAdd; i++) {
+				translatedTitle = " " + translatedTitle;
+			}
+
+			help = true;
+			HelpText = translatedTitle
+					+ "\n=======================================\n"
+					+ StatCollector.translateToLocal(topic + ".desc");
 		}
 	}
 

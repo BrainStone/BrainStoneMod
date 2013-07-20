@@ -181,8 +181,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		}
 
 		fontRenderer
-				.drawString(new StringBuilder().append(page + 1).append("/")
-						.append(max_page + 1).toString(), 146, 12, 0x000000);
+				.drawString((page + 1) + "/" + (max_page + 1), 146, 12, 0x000000);
 		fontRenderer.drawString("Delay", 144, 54, 0x000000);
 		fontRenderer.drawString(String.valueOf(tileentity.max_delay), 148, 68,
 				0xffffff);
