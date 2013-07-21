@@ -85,7 +85,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.33.58 BETA")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.33.65 BETA")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
@@ -478,7 +478,9 @@ public class BrainStone {
 	}
 
 	@SideOnly(Side.CLIENT)
-	// DOCME
+	/**
+	 * This method is client side called when a player joins the game. Both for a server or a single player world.
+	 */
 	public static void onPlayerJoin() {
 		final String version = getModAnnotation().version();
 
@@ -535,13 +537,26 @@ public class BrainStone {
 		}
 	}
 
-	// DOCME
+	/**
+	 * Sends a chat message to the current player. Only works client side
+	 * 
+	 * @param message
+	 *            the message to be sent
+	 */
 	private static void sendToPlayer(String message) {
 		proxy.getPlayer().sendChatToPlayer(
 				ChatMessageComponent.func_111066_d(message));
 	}
 
-	// DOCME
+	/**
+	 * Checks if the new version is higher than the current one
+	 * 
+	 * @param currentVersion
+	 *            The version which is considered current
+	 * @param newVersion
+	 *            The version which is considered new
+	 * @return Whether the new version is higher than the current one or not
+	 */
 	private static boolean isHigherVersion(String currentVersion,
 			String newVersion) {
 		final int[] _current = splitVersion(currentVersion);
@@ -552,7 +567,11 @@ public class BrainStone {
 				|| ((_current[0] == _new[0]) && (_current[1] == _new[1]) && (_current[2] < _new[2]));
 	}
 
-	// DOCME
+	/**
+	 * Splits a version in its number components (Format ".\d+\.\d+\.\d+.*" ) 
+	 * @param Version The version to be splitted (Format is important!
+	 * @return The numeric version components as an integer array
+	 */
 	private static int[] splitVersion(String Version) {
 		final String[] tmp = Version.substring(1).split(" ")[0].split("\\.");
 		final int size = tmp.length;
@@ -565,7 +584,9 @@ public class BrainStone {
 		return out;
 	}
 
-	// DOCME
+	/**
+	 * Downloads the current versions of this mod from github.com
+	 */
 	private static void retriveCurrentVersions() {
 		try {
 			releaseVersion = get_content((HttpsURLConnection) new URL(
@@ -968,6 +989,7 @@ public class BrainStone {
 
 	/**
 	 * This method returns the {@link Mod} annotation
+	 * 
 	 * @return The Mod annotation of this class
 	 */
 	private static Mod getModAnnotation() {

@@ -144,6 +144,11 @@ public class TileEntityBlockBrainLogicBlock extends
 		this.addTASKS(s1);
 	}
 
+	public boolean canBeMovedByMouse(byte pos) {
+		return ActiveGate.Pins[pos].Movable
+				&& ActiveGate.Pins[pos].State.isValid();
+	}
+
 	private boolean canBlockConnectToGate(World world, int x, int y, int z,
 			int direction, Block block, int blockId) {
 		return (block != null)
