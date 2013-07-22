@@ -15,6 +15,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.command.ICommandSender;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
@@ -40,18 +41,18 @@ import net.minecraft.util.ChatMessageComponent;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.EnumHelper;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import brainstonemod.blocks.BlockBrainLightSensor;
 import brainstonemod.blocks.BlockBrainLogicBlock;
 import brainstonemod.blocks.BlockBrainStone;
 import brainstonemod.blocks.BlockBrainStoneOre;
 import brainstonemod.blocks.BlockBrainStoneTrigger;
 import brainstonemod.blocks.BlockPulsatingBrainStone;
-import brainstonemod.guis.GuiBrainStoneTrigger;
 import brainstonemod.handlers.BrainStoneCraftingHandler;
+import brainstonemod.handlers.BrainStoneEventHandler;
 import brainstonemod.handlers.BrainStoneGuiHandler;
 import brainstonemod.handlers.BrainStonePacketHandler;
 import brainstonemod.handlers.BrainStonePickupNotifier;
-import brainstonemod.handlers.BrainStoneTickHandler;
 import brainstonemod.items.ItemArmorBrainStone;
 import brainstonemod.items.ItemHoeBrainStone;
 import brainstonemod.items.ItemSwordBrainStone;
@@ -74,9 +75,9 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
-import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -85,7 +86,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.33.65 BETA")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.34.115 BETA")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
@@ -96,7 +97,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 		"BSM.TEBBLBC", // TileEntityBlockBrainLogicBlock Client Packet
 		"BSM.UPAS", // UpdatePlayerAt Server Packet
 		"BSM.RRBAC", // ReRenderBlockAt Client Packet
-		"BSM.UPMC" // UpdatePlayerMovement Client Packet
+		"BSM.UPMC", // UpdatePlayerMovement Client Packet
+		"BSM.BSTMI" // BrainStoneTriggerMobInformation Packet
 }, packetHandler = BrainStonePacketHandler.class)
 public class BrainStone {
 	/** The "Mod" annotation */
@@ -156,9 +158,11 @@ public class BrainStone {
 	public static EnumArmorMaterial armorBRAINSTONE = EnumHelper
 			.addArmorMaterial("BRAINSTONE", 114, new int[] { 2, 6, 5, 2 }, 25);
 
-	@SideOnly(Side.CLIENT)
-	/** A flag that is set when the onPlayerJoin method has been called */
-	public static boolean called_onPlayerJoin;
+	/**
+	 * This Map maps the different mob types of the BrainStoneTrigger to the
+	 * corresponding Classes
+	 */
+	private final static HashMap<Side, LinkedHashMap<String, Class[]>> triggerEntities = new HashMap<Side, LinkedHashMap<String, Class[]>>();
 
 	/**
 	 * A HashMap with the ids of the blocks and items.<br>
@@ -452,9 +456,9 @@ public class BrainStone {
 		GameRegistry.registerCraftingHandler(new BrainStoneCraftingHandler());
 		// Pickup Handler
 		GameRegistry.registerPickupHandler(new BrainStonePickupNotifier());
-		// Tick Handler
-		TickRegistry.registerTickHandler(new BrainStoneTickHandler(),
-				Side.CLIENT);
+		// Event Handler
+		MinecraftForge.EVENT_BUS.register(new BrainStoneEventHandler());
+
 		addLocalizations();
 
 		MinecraftForge.setBlockHarvestLevel(brainStone(), "pickaxe", 2);
@@ -477,11 +481,12 @@ public class BrainStone {
 		fillTriggerEntities();
 	}
 
-	@SideOnly(Side.CLIENT)
 	/**
-	 * This method is client side called when a player joins the game. Both for a server or a single player world.
+	 * This method is client side called when a player joins the game. Both for
+	 * a server or a single player world.
 	 */
-	public static void onPlayerJoin() {
+	public static void onPlayerJoinClient(Player entity,
+			EntityJoinWorldEvent event) {
 		final String version = getModAnnotation().version();
 
 		if (!latestVersion.equals("") && !recommendedVersion.equals("")
@@ -489,25 +494,31 @@ public class BrainStone {
 			switch (updateNotification) {
 			case 0:
 				if (isHigherVersion(version, releaseVersion)) {
-					sendToPlayer("§a A new Version of the BSM is available!\n§l§c========== §4"
-							+ releaseVersion
-							+ "§c ==========\n"
-							+ "§1Download it at §ehttp://adf.ly/2002096/release§1\nor §ehttps://github.com/BrainStone/brainstone§1!");
+					sendToPlayer(
+							entity,
+							"§a A new Version of the BSM is available!\n§l§c========== §4"
+									+ releaseVersion
+									+ "§c ==========\n"
+									+ "§1Download it at §ehttp://adf.ly/2002096/release§1\nor §ehttps://github.com/BrainStone/brainstone§1!");
 				}
 
 				break;
 			case 1:
 				if (isHigherVersion(version, releaseVersion)
 						&& !isHigherVersion(releaseVersion, recommendedVersion)) {
-					sendToPlayer("§a A new Version of the BSM is available!\n§l§c========== §4"
-							+ releaseVersion
-							+ "§c ==========\n"
-							+ "§1Download it at §ehttp://adf.ly/2002096/release§1\nor §ehttps://github.com/BrainStone/brainstone§1!");
+					sendToPlayer(
+							entity,
+							"§a A new Version of the BSM is available!\n§l§c========== §4"
+									+ releaseVersion
+									+ "§c ==========\n"
+									+ "§1Download it at §ehttp://adf.ly/2002096/release§1\nor §ehttps://github.com/BrainStone/brainstone§1!");
 				} else if (isHigherVersion(version, recommendedVersion)) {
-					sendToPlayer("§a A new recommended DEV Version of the BSM is available!\n§l§c========== §4"
-							+ recommendedVersion
-							+ "§c ==========\n"
-							+ "§1Download it at §ehttp://adf.ly/2002096/recommended§1\nor §ehttps://github.com/BrainStone/brainstone§1!");
+					sendToPlayer(
+							entity,
+							"§a A new recommended DEV Version of the BSM is available!\n§l§c========== §4"
+									+ recommendedVersion
+									+ "§c ==========\n"
+									+ "§1Download it at §ehttp://adf.ly/2002096/recommended§1\nor §ehttps://github.com/BrainStone/brainstone§1!");
 				}
 
 				break;
@@ -515,26 +526,38 @@ public class BrainStone {
 				if (isHigherVersion(version, releaseVersion)
 						&& !isHigherVersion(releaseVersion, recommendedVersion)
 						&& !isHigherVersion(releaseVersion, latestVersion)) {
-					sendToPlayer("§a A new Version of the BSM is available!\n§l§c========== §4"
-							+ releaseVersion
-							+ "§c ==========\n"
-							+ "§1Download it at §ehttp://adf.ly/2002096/release§1\nor §ehttps://github.com/BrainStone/brainstone§1!");
+					sendToPlayer(
+							entity,
+							"§a A new Version of the BSM is available!\n§l§c========== §4"
+									+ releaseVersion
+									+ "§c ==========\n"
+									+ "§1Download it at §ehttp://adf.ly/2002096/release§1\nor §ehttps://github.com/BrainStone/brainstone§1!");
 				} else if (isHigherVersion(version, recommendedVersion)
 						&& !isHigherVersion(recommendedVersion, latestVersion)) {
-					sendToPlayer("§a A new recommended DEV Version of the BSM is available!\n§l§c========== §4"
-							+ recommendedVersion
-							+ "§c ==========\n"
-							+ "§1Download it at §ehttp://adf.ly/2002096/recommended§1\nor §ehttps://github.com/BrainStone/brainstone§1!");
+					sendToPlayer(
+							entity,
+							"§a A new recommended DEV Version of the BSM is available!\n§l§c========== §4"
+									+ recommendedVersion
+									+ "§c ==========\n"
+									+ "§1Download it at §ehttp://adf.ly/2002096/recommended§1\nor §ehttps://github.com/BrainStone/brainstone§1!");
 				} else if (isHigherVersion(version, latestVersion)) {
-					sendToPlayer("§a A new DEV Version of the BSM is available!\n§l§c========== §4"
-							+ latestVersion
-							+ "§c ==========\n"
-							+ "§1Download it at §ehttp://adf.ly/2002096/latest§1\nor §ehttps://github.com/BrainStone/brainstone§1!");
+					sendToPlayer(
+							entity,
+							"§a A new DEV Version of the BSM is available!\n§l§c========== §4"
+									+ latestVersion
+									+ "§c ==========\n"
+									+ "§1Download it at §ehttp://adf.ly/2002096/latest§1\nor §ehttps://github.com/BrainStone/brainstone§1!");
 				}
 
 				break;
 			}
 		}
+	}
+
+	public static void onPlayerJoinServer(Player player,
+			EntityJoinWorldEvent event) {
+		BrainStonePacketHandler
+				.sendBrainStoneTriggerMobInformationPacketToPlayer(player);
 	}
 
 	/**
@@ -543,9 +566,9 @@ public class BrainStone {
 	 * @param message
 	 *            the message to be sent
 	 */
-	private static void sendToPlayer(String message) {
-		proxy.getPlayer().sendChatToPlayer(
-				ChatMessageComponent.func_111066_d(message));
+	private static void sendToPlayer(Player player, String message) {
+		((ICommandSender) player).sendChatToPlayer(ChatMessageComponent
+				.func_111066_d(message));
 	}
 
 	/**
@@ -568,8 +591,10 @@ public class BrainStone {
 	}
 
 	/**
-	 * Splits a version in its number components (Format ".\d+\.\d+\.\d+.*" ) 
-	 * @param Version The version to be splitted (Format is important!
+	 * Splits a version in its number components (Format ".\d+\.\d+\.\d+.*" )
+	 * 
+	 * @param Version
+	 *            The version to be splitted (Format is important!
 	 * @return The numeric version components as an integer array
 	 */
 	private static int[] splitVersion(String Version) {
@@ -782,15 +807,17 @@ public class BrainStone {
 
 	// DOCME
 	private static void fillTriggerEntities() throws Throwable {
-		final LinkedHashMap<String, Class[]> brainStoneTriggerEntities = new LinkedHashMap<String, Class[]>();
+		BSP.finer("Filling triggerEntities");
+		
+		LinkedHashMap<String, Class[]> tempTriggerEntities = new LinkedHashMap<String, Class[]>();
 
-		brainStoneTriggerEntities.put("gui.brainstone.player",
+		tempTriggerEntities.put("gui.brainstone.player",
 				new Class[] { EntityPlayer.class });
-		brainStoneTriggerEntities.put("gui.brainstone.item",
+		tempTriggerEntities.put("gui.brainstone.item",
 				new Class[] { EntityBoat.class, EntityFishHook.class,
 						EntityItem.class, EntityMinecart.class,
 						EntityTNTPrimed.class, EntityXPOrb.class });
-		brainStoneTriggerEntities.put("gui.brainstone.projectile", new Class[] {
+		tempTriggerEntities.put("gui.brainstone.projectile", new Class[] {
 				EntityArrow.class, EntityThrowable.class, EntityEnderEye.class,
 				EntityFireball.class });
 
@@ -807,18 +834,15 @@ public class BrainStone {
 			if ((value != null) && (!Modifier.isAbstract(value.getModifiers()))
 					&& (EntityLiving.class.isAssignableFrom(value))
 					&& (!EntityLiving.class.equals(value))) {
-				brainStoneTriggerEntities.put("entity."
+				tempTriggerEntities.put("entity."
 						+ EntityList.classToStringMapping.get(value) + ".name",
 						new Class[] { value });
 			}
 		}
 
-		BlockBrainStoneTrigger.triggerEntities = brainStoneTriggerEntities;
-		TileEntityBlockBrainStoneTrigger.triggerEntities = brainStoneTriggerEntities;
-
-		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
-			GuiBrainStoneTrigger.triggerEntities = brainStoneTriggerEntities;
-		}
+		triggerEntities.put(Side.SERVER, tempTriggerEntities);
+		
+		BSP.finest("Done filling triggerEntities");
 	}
 
 	// Items
@@ -997,6 +1021,36 @@ public class BrainStone {
 			return (annotation = BrainStone.class.getAnnotation(Mod.class));
 
 		return annotation;
+	}
+
+	public static final LinkedHashMap<String, Class[]> getClientSideTiggerEntities() {
+		return triggerEntities.get(Side.CLIENT);
+	}
+
+	public static final void setClientSideTiggerEntities(
+			LinkedHashMap<String, Class[]> triggerEntities) {
+		BSP.finer("Dumping triggerEntities in setClientSideTriggerEntities");
+		
+		for(String key : triggerEntities.keySet()) {
+			BSP.finer(key + ":" + triggerEntities.get(key));
+		}
+		
+		BSP.finest("End of Dump");
+		
+		BrainStone.triggerEntities.put(Side.CLIENT, triggerEntities);
+	}
+
+	public static final LinkedHashMap<String, Class[]> getServerSideTiggerEntities() {
+		return triggerEntities.get(Side.SERVER);
+	}
+
+	public static final LinkedHashMap<String, Class[]> getSidedTiggerEntities(
+			Side side) {
+		return triggerEntities.get(side);
+	}
+	
+	public static final LinkedHashMap<String, Class[]> getSidedTiggerEntities() {
+		return triggerEntities.get(FMLCommonHandler.instance().getEffectiveSide());
 	}
 
 	/**

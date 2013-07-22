@@ -1,13 +1,12 @@
 package brainstonemod.guis;
 
-import java.util.LinkedHashMap;
-
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.StatCollector;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
+import brainstonemod.BrainStone;
 import brainstonemod.containers.ContainerBlockBrainStoneTrigger;
 import brainstonemod.handlers.BrainStonePacketHandler;
 import brainstonemod.templates.BrainStoneButton;
@@ -16,7 +15,6 @@ import brainstonemod.templates.GuiBrainStoneBase;
 import brainstonemod.tileentities.TileEntityBlockBrainStoneTrigger;
 
 public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
-	public static LinkedHashMap<String, Class[]> triggerEntities;
 	private final TileEntityBlockBrainStoneTrigger tileentity;
 	private int j, k;
 	private int page, hovered;
@@ -34,8 +32,9 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		Mobs = new String[4];
 		page = 0;
 		hovered = -1;
-		max_page = (triggerEntities.size() / 4)
-				+ (((triggerEntities.size() % 4) == 0) ? -1 : 0);
+		max_page = (BrainStone.getClientSideTiggerEntities().size() / 4)
+				+ (((BrainStone.getClientSideTiggerEntities().size() % 4) == 0) ? -1
+						: 0);
 		buttons = new BrainStoneGuiButton(this);
 		buttons.addButton(new BrainStoneButton(0, 10, 32, 131, 9, 194, 9, 204,
 				9));
@@ -293,9 +292,9 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		buttons.getButton(0).inactive = (page == 0);
 		buttons.getButton(1).inactive = (page == max_page);
 
-		final int length = triggerEntities.size();
-		final String[] keys = triggerEntities.keySet().toArray(
-				new String[length]);
+		final int length = BrainStone.getClientSideTiggerEntities().size();
+		final String[] keys = BrainStone.getClientSideTiggerEntities().keySet()
+				.toArray(new String[length]);
 		final int page4 = page * 4;
 
 		if ((page == max_page) && (length != ((max_page - 1) * 4))) {
