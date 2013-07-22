@@ -1,6 +1,5 @@
 package brainstonemod.blocks;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -19,7 +18,6 @@ import brainstonemod.templates.BlockBrainStoneHiders;
 import brainstonemod.tileentities.TileEntityBlockBrainStoneTrigger;
 
 public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
-	public static LinkedHashMap<String, Class[]> triggerEntities;
 	public static Icon[] textures;
 
 	/**
@@ -187,9 +185,9 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 				continue;
 			}
 
-			final int length = triggerEntities.size();
-			final String[] keys = triggerEntities.keySet().toArray(
-					new String[length]);
+			final int length = BrainStone.getSidedTiggerEntities().size();
+			final String[] keys = BrainStone.getSidedTiggerEntities().keySet()
+					.toArray(new String[length]);
 			String key;
 			Class[] classes;
 
@@ -197,7 +195,7 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 				key = keys[count1];
 
 				if (tileentityblockbrainstonetrigger.getMobTriggered(key)) {
-					classes = triggerEntities.get(key);
+					classes = BrainStone.getSidedTiggerEntities().get(key);
 
 					for (int a = 0; a < classes.length; a++) {
 						if (classes[a].isAssignableFrom(entity)) {

@@ -5,7 +5,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
@@ -19,13 +18,13 @@ import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import brainstonemod.BrainStone;
 import brainstonemod.blocks.BlockBrainStoneTrigger;
 import brainstonemod.handlers.BrainStonePacketHandler;
 import brainstonemod.slots.SlotBlockBrainStoneTrigger;
 
 public class TileEntityBlockBrainStoneTrigger extends
 		TileEntityBlockBrainStoneHiders implements IInventory {
-	public static LinkedHashMap<String, Class[]> triggerEntities;
 	private final HashMap<String, Integer> mobTriggered;
 	public byte delay, max_delay, output, output_buffered;
 	private ItemStack oldStack;
@@ -37,9 +36,9 @@ public class TileEntityBlockBrainStoneTrigger extends
 		max_delay = 4;
 		output = 0;
 
-		final int length = triggerEntities.size();
-		final String[] keys = triggerEntities.keySet().toArray(
-				new String[length]);
+		final int length = BrainStone.getSidedTiggerEntities().size();
+		final String[] keys = BrainStone.getSidedTiggerEntities().keySet()
+				.toArray(new String[length]);
 
 		for (int i = 0; i < length; i++) {
 			mobTriggered.put(keys[i], 15);
@@ -83,10 +82,10 @@ public class TileEntityBlockBrainStoneTrigger extends
 		outputStream.writeByte(delay);
 		outputStream.writeByte(max_delay);
 
-		final int length = triggerEntities.size();
+		final int length = BrainStone.getSidedTiggerEntities().size();
 		outputStream.writeInt(length);
-		final String[] keys = triggerEntities.keySet().toArray(
-				new String[length]);
+		final String[] keys = BrainStone.getSidedTiggerEntities().keySet()
+				.toArray(new String[length]);
 		String key;
 
 		for (int i = 0; i < length; i++) {
@@ -277,10 +276,10 @@ public class TileEntityBlockBrainStoneTrigger extends
 
 		nbttagcompound.setTag("ItemsBrainStoneTrigger", nbttaglist);
 
-		final int length = triggerEntities.size();
+		final int length = BrainStone.getSidedTiggerEntities().size();
 		nbttagcompound.setInteger("TriggerSize", length);
-		final String[] keys = triggerEntities.keySet().toArray(
-				new String[length]);
+		final String[] keys = BrainStone.getSidedTiggerEntities().keySet()
+				.toArray(new String[length]);
 		String trigger, key;
 
 		for (int i = 0; i < length; i++) {
