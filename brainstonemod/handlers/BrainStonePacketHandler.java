@@ -54,6 +54,7 @@ public class BrainStonePacketHandler implements IPacketHandler {
 		final Packet250CustomPayload pkt = new Packet250CustomPayload();
 		pkt.channel = "BSM.BSTMI";
 		pkt.data = data.toByteArray();
+		pkt.length = data.size();
 
 		PacketDispatcher.sendPacketToPlayer(pkt, player);
 
