@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -277,7 +278,7 @@ public class BrainStonePacketHandler implements IPacketHandler {
 			BSP.finer("Dumping tmpTriggerEntities in handleBrainStoneTriggerMobInformationPacket");
 
 			for (final String key2 : tmpTriggerEntities.keySet()) {
-				BSP.finer(key2 + ":" + tmpTriggerEntities.get(key2));
+				BSP.finer(key2 + ":" + Arrays.toString(tmpTriggerEntities.get(key2)));
 			}
 
 			BSP.finest("End of Dump");

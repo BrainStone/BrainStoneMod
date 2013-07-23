@@ -86,7 +86,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.34.116 BETA")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.36.12 BETA")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
@@ -1032,7 +1032,7 @@ public class BrainStone {
 		BSP.finer("Dumping triggerEntities in setClientSideTriggerEntities");
 		
 		for(String key : triggerEntities.keySet()) {
-			BSP.finer(key + ":" + triggerEntities.get(key));
+			BSP.finer(key + ":" + Arrays.toString(triggerEntities.get(key)));
 		}
 		
 		BSP.finest("End of Dump");
