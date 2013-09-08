@@ -568,7 +568,7 @@ public class BrainStone {
 	 */
 	private static void sendToPlayer(Player player, String message) {
 		((ICommandSender) player).sendChatToPlayer(ChatMessageComponent
-				.func_111066_d(message));
+				.createFromText(message));
 	}
 
 	/**

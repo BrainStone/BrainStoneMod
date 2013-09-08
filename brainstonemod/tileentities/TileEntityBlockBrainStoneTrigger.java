@@ -165,7 +165,7 @@ public class TileEntityBlockBrainStoneTrigger extends
 
 	@Override
 	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet) {
-		final NBTTagCompound tag = packet.customParam1;
+		final NBTTagCompound tag = packet.data;
 		this.readFromNBT(tag);
 	}
 
