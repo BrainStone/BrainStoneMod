@@ -33,7 +33,7 @@ public class BrainStoneWorldGenerator implements IWorldGenerator {
 		this.chunkX = chunkX * 16;
 		this.chunkZ = chunkZ * 16;
 		this.world = world;
-		switch (world.provider.dimensionId) {
+		switch (this.world.provider.dimensionId) {
 		case -1: // Nether
 			break;
 		case 0: // Overworld
