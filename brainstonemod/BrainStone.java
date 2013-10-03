@@ -83,7 +83,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.32.79 BETA release")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.37.0 BETA release")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
@@ -537,7 +537,7 @@ public class BrainStone {
 
 	private static void sendToPlayer(String message) {
 		proxy.getPlayer().sendChatToPlayer(
-				ChatMessageComponent.func_111066_d(message));
+				ChatMessageComponent.createFromText(message));
 	}
 
 	private static boolean isHigherVersion(String currentVersion,
@@ -565,15 +565,15 @@ public class BrainStone {
 	private static void retriveCurrentVersions() {
 		try {
 			releaseVersion = get_content((HttpsURLConnection) new URL(
-					"https://raw.github.com/BrainStone/brainstone/master/builds/release/.version")
+					"http://download.brainstonemod.tk/downloads/release/.version")
 					.openConnection());
 
 			recommendedVersion = get_content((HttpsURLConnection) new URL(
-					"https://raw.github.com/BrainStone/brainstone/master/builds/recommended/.version")
+					"http://download.brainstonemod.tk/downloads/recommended/.version")
 					.openConnection());
 
 			latestVersion = get_content((HttpsURLConnection) new URL(
-					"https://raw.github.com/BrainStone/brainstone/master/builds/latest/.version")
+					"http://download.brainstonemod.tk/downloads/latest/.version")
 					.openConnection());
 
 		} catch (final MalformedURLException e) {

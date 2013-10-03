@@ -169,6 +169,7 @@ cpw/*
 ibxm/*
 net/*
 paulscode/*
+assets/forge/*
 deobfuscation_data-*.lzma
 fml_at.cfg
 fml_marker.cfg
