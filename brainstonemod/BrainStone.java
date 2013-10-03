@@ -554,10 +554,16 @@ public class BrainStone {
 		}
 	}
 
+<<<<<<< HEAD
 	public static void onPlayerJoinServer(Player player,
 			EntityJoinWorldEvent event) {
 		BrainStonePacketHandler
 				.sendBrainStoneTriggerMobInformationPacketToPlayer(player);
+=======
+	private static void sendToPlayer(String message) {
+		proxy.getPlayer().sendChatToPlayer(
+				ChatMessageComponent.createFromText(message));
+>>>>>>> update1.6.1
 	}
 
 	/**
@@ -615,15 +621,15 @@ public class BrainStone {
 	private static void retriveCurrentVersions() {
 		try {
 			releaseVersion = get_content((HttpsURLConnection) new URL(
-					"https://raw.github.com/BrainStone/brainstone/master/builds/release/.version")
+					"http://download.brainstonemod.tk/downloads/release/.version")
 					.openConnection());
 
 			recommendedVersion = get_content((HttpsURLConnection) new URL(
-					"https://raw.github.com/BrainStone/brainstone/master/builds/recommended/.version")
+					"http://download.brainstonemod.tk/downloads/recommended/.version")
 					.openConnection());
 
 			latestVersion = get_content((HttpsURLConnection) new URL(
-					"https://raw.github.com/BrainStone/brainstone/master/builds/latest/.version")
+					"http://download.brainstonemod.tk/downloads/latest/.version")
 					.openConnection());
 
 		} catch (final MalformedURLException e) {
