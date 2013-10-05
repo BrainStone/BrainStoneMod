@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Modifier;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -83,7 +84,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.37.0 BETA release")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.37.1 BETA release")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
@@ -564,15 +565,15 @@ public class BrainStone {
 
 	private static void retriveCurrentVersions() {
 		try {
-			releaseVersion = get_content((HttpsURLConnection) new URL(
+			releaseVersion = get_content(new URL(
 					"http://download.brainstonemod.tk/downloads/release/.version")
 					.openConnection());
 
-			recommendedVersion = get_content((HttpsURLConnection) new URL(
+			recommendedVersion = get_content(new URL(
 					"http://download.brainstonemod.tk/downloads/recommended/.version")
 					.openConnection());
 
-			latestVersion = get_content((HttpsURLConnection) new URL(
+			latestVersion = get_content(new URL(
 					"http://download.brainstonemod.tk/downloads/latest/.version")
 					.openConnection());
 
@@ -593,7 +594,7 @@ public class BrainStone {
 		}
 	}
 
-	private static String get_content(HttpsURLConnection con)
+	private static String get_content(URLConnection con)
 			throws IOException {
 		String output = "";
 
