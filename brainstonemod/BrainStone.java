@@ -6,12 +6,11 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Modifier;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import javax.net.ssl.HttpsURLConnection;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -554,16 +553,10 @@ public class BrainStone {
 		}
 	}
 
-<<<<<<< HEAD
 	public static void onPlayerJoinServer(Player player,
 			EntityJoinWorldEvent event) {
 		BrainStonePacketHandler
 				.sendBrainStoneTriggerMobInformationPacketToPlayer(player);
-=======
-	private static void sendToPlayer(String message) {
-		proxy.getPlayer().sendChatToPlayer(
-				ChatMessageComponent.createFromText(message));
->>>>>>> update1.6.1
 	}
 
 	/**
@@ -620,15 +613,15 @@ public class BrainStone {
 	 */
 	private static void retriveCurrentVersions() {
 		try {
-			releaseVersion = get_content((HttpsURLConnection) new URL(
+			releaseVersion = get_content(new URL(
 					"http://download.brainstonemod.tk/downloads/release/.version")
 					.openConnection());
 
-			recommendedVersion = get_content((HttpsURLConnection) new URL(
+			recommendedVersion = get_content(new URL(
 					"http://download.brainstonemod.tk/downloads/recommended/.version")
 					.openConnection());
 
-			latestVersion = get_content((HttpsURLConnection) new URL(
+			latestVersion = get_content(new URL(
 					"http://download.brainstonemod.tk/downloads/latest/.version")
 					.openConnection());
 
@@ -650,7 +643,7 @@ public class BrainStone {
 	}
 
 	// DOCME
-	private static String get_content(HttpsURLConnection con)
+	private static String get_content(URLConnection con)
 			throws IOException {
 		String output = "";
 
