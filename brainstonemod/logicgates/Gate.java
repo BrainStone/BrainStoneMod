@@ -30,9 +30,9 @@ public abstract class Gate {
 	 * @return The classes
 	 * @throws ClassNotFoundException
 	 */
-	private static ArrayList<Class> findClasses(File directory,
+	private static ArrayList<Class<?>> findClasses(File directory,
 			String packageName) throws ClassNotFoundException {
-		final ArrayList<Class> classes = new ArrayList<Class>();
+		final ArrayList<Class<?>> classes = new ArrayList<Class<?>>();
 		if (!directory.exists())
 			return classes;
 		final File[] files = directory.listFiles();
@@ -61,7 +61,7 @@ public abstract class Gate {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	private static Class[] getClasses(String packageName)
+	private static Class<?>[] getClasses(String packageName)
 			throws ClassNotFoundException, IOException {
 		final ClassLoader classLoader = Thread.currentThread()
 				.getContextClassLoader();
@@ -77,7 +77,7 @@ public abstract class Gate {
 			dirs.add(new File(resource.getFile()));
 		}
 
-		final ArrayList<Class> classes = new ArrayList<Class>();
+		final ArrayList<Class<?>> classes = new ArrayList<Class<?>>();
 
 		for (final File directory : dirs) {
 			classes.addAll(findClasses(directory, packageName));
@@ -127,7 +127,7 @@ public abstract class Gate {
 		try {
 			Gate tmp;
 
-			for (final Class gate : getClasses("brainstonemod.logicgates.gates")) {
+			for (final Class<?> gate : getClasses("brainstonemod.logicgates.gates")) {
 				try {
 					if (Gates
 							.containsKey((tmp = (Gate) gate.newInstance()).Name)) {

@@ -261,6 +261,8 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		}
 	}
 
+	// TODO See if this can be removed!
+	@SuppressWarnings("unused")
 	private void drawSplitString(String s, int i, int j, int k, int l) {
 		fontRenderer.drawSplitString(s, (int) (i / factor), (int) (j / factor),
 				l, k);

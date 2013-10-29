@@ -48,6 +48,8 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 			return -1;
 		}
 
+		// TODO See if this can be removed!
+		@SuppressWarnings("unused")
 		public int getRandomChestSlot(Random random) {
 			this.random = random;
 

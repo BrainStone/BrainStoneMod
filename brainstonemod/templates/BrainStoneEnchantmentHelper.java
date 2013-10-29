@@ -14,7 +14,8 @@ public abstract class BrainStoneEnchantmentHelper extends EnchantmentHelper {
 
 	public static final ItemStack addEnchantment(ItemStack item,
 			int enchantment, int level) {
-		final HashMap<Integer, Integer> enchantments = (HashMap) EnchantmentHelper
+		@SuppressWarnings("unchecked")
+		final HashMap<Integer, Integer> enchantments = (HashMap<Integer, Integer>) EnchantmentHelper
 				.getEnchantments(item);
 		final int size = enchantments.size();
 		final Integer[] keys = enchantments.keySet().toArray(new Integer[size]);
@@ -107,7 +108,8 @@ public abstract class BrainStoneEnchantmentHelper extends EnchantmentHelper {
 
 	public static final ItemStack setEnchantment(ItemStack item,
 			int enchantment, int level) {
-		final HashMap<Integer, Integer> enchantments = (HashMap) EnchantmentHelper
+		@SuppressWarnings("unchecked")
+		final HashMap<Integer, Integer> enchantments = (HashMap<Integer, Integer>) EnchantmentHelper
 				.getEnchantments(item);
 		final int size = enchantments.size();
 		final Integer[] keys = enchantments.keySet().toArray(new Integer[size]);

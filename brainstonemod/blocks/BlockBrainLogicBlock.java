@@ -95,6 +95,7 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 		return tileEntity.connectToRedstone(side);
 	}
 
+	// TODO See if this can be removed!
 	/**
 	 * Checks the current state of a pin.
 	 * 
@@ -110,6 +111,7 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	 *            The position/direction of the pin
 	 * @return The state at the requested pin
 	 */
+	@SuppressWarnings("unused")
 	private byte checkState(World world, int i, int j, int k, byte byte0) {
 		switch (byte0) {
 		case 3:

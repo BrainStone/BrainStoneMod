@@ -78,14 +78,13 @@ import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * The main file of the mod
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.36.13 BETA")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.38.0 BETA")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
@@ -161,7 +160,7 @@ public class BrainStone {
 	 * This Map maps the different mob types of the BrainStoneTrigger to the
 	 * corresponding Classes
 	 */
-	private final static HashMap<Side, LinkedHashMap<String, Class[]>> triggerEntities = new HashMap<Side, LinkedHashMap<String, Class[]>>();
+	private final static HashMap<Side, LinkedHashMap<String, Class<?>[]>> triggerEntities = new HashMap<Side, LinkedHashMap<String, Class<?>[]>>();
 
 	/**
 	 * A HashMap with the ids of the blocks and items.<br>
@@ -553,6 +552,7 @@ public class BrainStone {
 		}
 	}
 
+	// DOCME
 	public static void onPlayerJoinServer(Player player,
 			EntityJoinWorldEvent event) {
 		BrainStonePacketHandler
@@ -808,27 +808,27 @@ public class BrainStone {
 	private static void fillTriggerEntities() throws Throwable {
 		BSP.finer("Filling triggerEntities");
 		
-		LinkedHashMap<String, Class[]> tempTriggerEntities = new LinkedHashMap<String, Class[]>();
+		LinkedHashMap<String, Class<?>[]> tempTriggerEntities = new LinkedHashMap<String, Class<?>[]>();
 
 		tempTriggerEntities.put("gui.brainstone.player",
-				new Class[] { EntityPlayer.class });
+				new Class<?>[] { EntityPlayer.class });
 		tempTriggerEntities.put("gui.brainstone.item",
-				new Class[] { EntityBoat.class, EntityFishHook.class,
+				new Class<?>[] { EntityBoat.class, EntityFishHook.class,
 						EntityItem.class, EntityMinecart.class,
 						EntityTNTPrimed.class, EntityXPOrb.class });
 		tempTriggerEntities.put("gui.brainstone.projectile", new Class[] {
 				EntityArrow.class, EntityThrowable.class, EntityEnderEye.class,
 				EntityFireball.class });
 
-		final Map allEntities = EntityList.IDtoClassMapping;
+		final Map<?, ?> allEntities = EntityList.IDtoClassMapping;
 		final int length = allEntities.size();
 		final Object[] keys = allEntities.keySet().toArray(new Object[length]);
 		Object key;
-		Class value;
+		Class<?> value;
 
 		for (int i = 0; i < length; i++) {
 			key = keys[i];
-			value = (Class) allEntities.get(key);
+			value = (Class<?>) allEntities.get(key);
 
 			if ((value != null) && (!Modifier.isAbstract(value.getModifiers()))
 					&& (EntityLiving.class.isAssignableFrom(value))
@@ -1022,12 +1022,12 @@ public class BrainStone {
 		return annotation;
 	}
 
-	public static final LinkedHashMap<String, Class[]> getClientSideTiggerEntities() {
+	public static final LinkedHashMap<String, Class<?>[]> getClientSideTiggerEntities() {
 		return triggerEntities.get(Side.CLIENT);
 	}
 
 	public static final void setClientSideTiggerEntities(
-			LinkedHashMap<String, Class[]> triggerEntities) {
+			LinkedHashMap<String, Class<?>[]> triggerEntities) {
 		BSP.finer("Dumping triggerEntities in setClientSideTriggerEntities");
 		
 		for(String key : triggerEntities.keySet()) {
@@ -1039,16 +1039,16 @@ public class BrainStone {
 		BrainStone.triggerEntities.put(Side.CLIENT, triggerEntities);
 	}
 
-	public static final LinkedHashMap<String, Class[]> getServerSideTiggerEntities() {
+	public static final LinkedHashMap<String, Class<?>[]> getServerSideTiggerEntities() {
 		return triggerEntities.get(Side.SERVER);
 	}
 
-	public static final LinkedHashMap<String, Class[]> getSidedTiggerEntities(
+	public static final LinkedHashMap<String, Class<?>[]> getSidedTiggerEntities(
 			Side side) {
 		return triggerEntities.get(side);
 	}
 	
-	public static final LinkedHashMap<String, Class[]> getSidedTiggerEntities() {
+	public static final LinkedHashMap<String, Class<?>[]> getSidedTiggerEntities() {
 		return triggerEntities.get(FMLCommonHandler.instance().getEffectiveSide());
 	}
 

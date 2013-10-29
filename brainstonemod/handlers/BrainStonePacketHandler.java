@@ -31,7 +31,7 @@ public class BrainStonePacketHandler implements IPacketHandler {
 		final DataOutputStream output = new DataOutputStream(data);
 
 		final int size = BrainStone.getSidedTiggerEntities().size();
-		Class[] value;
+		Class<?>[] value;
 
 		try {
 			output.writeInt(size);
@@ -43,7 +43,7 @@ public class BrainStonePacketHandler implements IPacketHandler {
 				output.writeUTF(key);
 				output.writeInt(value.length);
 
-				for (final Class tmp : value) {
+				for (final Class<?> tmp : value) {
 					output.writeUTF(tmp.getName());
 				}
 			}
@@ -253,11 +253,11 @@ public class BrainStonePacketHandler implements IPacketHandler {
 		try {
 			int size, sizeTmp, i, j;
 			String key;
-			Class[] value;
+			Class<?>[] value;
 
 			size = inputStream.readInt();
 
-			final LinkedHashMap<String, Class[]> tmpTriggerEntities = new LinkedHashMap<String, Class[]>(
+			final LinkedHashMap<String, Class<?>[]> tmpTriggerEntities = new LinkedHashMap<String, Class<?>[]>(
 					size);
 
 			for (i = 0; i < size; i++) {

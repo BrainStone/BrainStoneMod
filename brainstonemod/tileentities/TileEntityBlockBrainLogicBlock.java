@@ -77,9 +77,9 @@ public class TileEntityBlockBrainLogicBlock extends
 
 	private byte GuiFocused;
 	private long lastUpdate;
-	private final Vector TASKS;
+	private final Vector<String> TASKS;
 
-	private final Vector Users;
+	private final Vector<String> Users;
 	private ArrayList<String> PrintErrorBuff;
 
 	private boolean PrintErrorBuffActive;
@@ -90,10 +90,10 @@ public class TileEntityBlockBrainLogicBlock extends
 	public byte currentRenderDirection;
 
 	public TileEntityBlockBrainLogicBlock() {
-		TASKS = new Vector();
+		TASKS = new Vector<String>();
 		lastUpdate = -100L;
 		GuiFocused = 0;
-		Users = new Vector();
+		Users = new Vector<String>();
 		PrintErrorBuffActive = false;
 
 		ActiveGate = Gate.getGate(Gate.GateNames[0]);
@@ -412,7 +412,6 @@ public class TileEntityBlockBrainLogicBlock extends
 
 		if (pin.State.shallRender()) {
 			final String tmp = String.valueOf(pin.Name);
-			final float powerLevel = pin.State.getPowerLevel();
 
 			fontrenderer.drawString(tmp, -fontrenderer.getStringWidth(tmp) / 2,
 					4, this.getGateColor(pos));
