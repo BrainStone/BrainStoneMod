@@ -75,8 +75,8 @@ public class TileEntityBlockBrainLogicBlock extends
 	private int data;
 	private long lastUpdate;
 	private String Pins[] = { "0", "1", "2", "3" };
-	private final Vector TASKS;
-	private final Vector Users;
+	private final Vector<String> TASKS;
+	private final Vector<String> Users;
 	private ArrayList<String> PrintErrorBuff;
 
 	private boolean PrintErrorBuffActive;
@@ -92,12 +92,12 @@ public class TileEntityBlockBrainLogicBlock extends
 	}
 
 	public TileEntityBlockBrainLogicBlock(byte byte0) {
-		TASKS = new Vector();
+		TASKS = new Vector<String>();
 		mode = 0;
 		data = 0;
 		lastUpdate = -100L;
 		GuiFocused = 0;
-		Users = new Vector();
+		Users = new Vector<String>();
 		PrintErrorBuffActive = false;
 
 		if ((byte0 >= 0) && (byte0 < 4)) {
@@ -805,8 +805,8 @@ public class TileEntityBlockBrainLogicBlock extends
 				&& ((PinState[1] != -1) || (PinState[2] != -1) || (PinState[3] != -1));
 
 		if (correctConnect || ignoreIncorrectConnect) {
-			final ArrayList arraylist = new ArrayList();
-			final HashMap hashmap = new HashMap();
+			final ArrayList<Boolean> arraylist = new ArrayList<Boolean>();
+			final HashMap<String, Boolean> hashmap = new HashMap<String, Boolean>();
 
 			for (int j = 1; j < 4; j++) {
 				if ((PinState[j] != -1) && (PinType[j] != -1)) {
@@ -880,8 +880,8 @@ public class TileEntityBlockBrainLogicBlock extends
 
 			case 6:
 				if (((Boolean) hashmap.get("C")).booleanValue()) {
-					data = (flag = ((Boolean) hashmap.get("D")).booleanValue()) ? 1
-							: 0;
+					flag = ((Boolean) hashmap.get("D")).booleanValue();
+					data = (flag) ? 1 : 0;
 				} else {
 					flag = data == 1;
 				}

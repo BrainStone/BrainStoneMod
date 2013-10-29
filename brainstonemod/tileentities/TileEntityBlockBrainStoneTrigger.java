@@ -25,7 +25,7 @@ import brainstonemod.slots.SlotBlockBrainStoneTrigger;
 
 public class TileEntityBlockBrainStoneTrigger extends
 		TileEntityBlockBrainStoneHiders implements IInventory {
-	public static LinkedHashMap<String, Class[]> triggerEntities;
+	public static LinkedHashMap<String, Class<?>[]> triggerEntities;
 	private final HashMap<String, Integer> mobTriggered;
 	public byte delay, max_delay, output, output_buffered;
 	private ItemStack oldStack;

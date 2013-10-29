@@ -80,7 +80,9 @@ public class TileEntityBlockBrainLightSensor extends
 	@Override
 	public void readFromInputStream(DataInputStream inputStream)
 			throws IOException {
-		if (state = inputStream.readBoolean()) {
+		state = inputStream.readBoolean();
+
+		if (state) {
 			lightLevel = inputStream.readInt();
 			direction = inputStream.readBoolean();
 			powerOn = inputStream.readBoolean();
@@ -98,7 +100,9 @@ public class TileEntityBlockBrainLightSensor extends
 	@Override
 	public void readFromNBT(NBTTagCompound nbttagcompound) {
 		super.readFromNBT(nbttagcompound);
-		if (state = nbttagcompound.getBoolean("TEBBLS_state")) {
+		state = nbttagcompound.getBoolean("TEBBLS_state");
+
+		if (state) {
 			lightLevel = nbttagcompound.getByte("TEBBLS_lightLevel");
 			direction = nbttagcompound.getBoolean("TEBBLS_direction");
 		} else {

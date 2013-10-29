@@ -16,7 +16,7 @@ import brainstonemod.templates.GuiBrainStoneBase;
 import brainstonemod.tileentities.TileEntityBlockBrainStoneTrigger;
 
 public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
-	public static LinkedHashMap<String, Class[]> triggerEntities;
+	public static LinkedHashMap<String, Class<?>[]> triggerEntities;
 	private final TileEntityBlockBrainStoneTrigger tileentity;
 	private int j, k;
 	private int page, hovered;

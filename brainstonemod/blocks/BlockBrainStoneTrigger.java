@@ -18,7 +18,7 @@ import brainstonemod.templates.BSP;
 import brainstonemod.tileentities.TileEntityBlockBrainStoneTrigger;
 
 public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
-	public static LinkedHashMap<String, Class[]> triggerEntities;
+	public static LinkedHashMap<String, Class<?>[]> triggerEntities;
 	public static Icon[] textures;
 
 	/**
@@ -168,7 +168,7 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 	 *         block, false if not.
 	 */
 	private byte triggerCorrectMob(World world, int i, int j, int k) {
-		final List list = world.getEntitiesWithinAABBExcludingEntity(null,
+		final List<?> list = world.getEntitiesWithinAABBExcludingEntity(null,
 				AxisAlignedBB.getBoundingBox(i, j + 1, k, i + 1, j + 2, k + 1));
 		final TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBlockBrainStoneTrigger) world
 				.getBlockTileEntity(i, j, k);
@@ -179,7 +179,7 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 		byte count = 0;
 
 		for (int l = 0; (l < list.size()) && (count < 15); l++) {
-			final Class entity = ((Entity) list.get(l)).getClass();
+			final Class<?> entity = ((Entity) list.get(l)).getClass();
 
 			if (entity == null) {
 				BSP.severe("Fehler! Die Entity ist nicht vorhanden!");
@@ -190,7 +190,7 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 			final String[] keys = triggerEntities.keySet().toArray(
 					new String[length]);
 			String key;
-			Class[] classes;
+			Class<?>[] classes;
 
 			for (int count1 = 0; (count1 < length) && (count < 15); count1++) {
 				key = keys[count1];

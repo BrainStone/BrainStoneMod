@@ -12,8 +12,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import javax.net.ssl.HttpsURLConnection;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -84,7 +82,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.37.1 BETA release")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.38.2 BETA release")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
@@ -757,7 +755,7 @@ public class BrainStone {
 	}
 
 	private static void fillTriggerEntities() throws Throwable {
-		final LinkedHashMap<String, Class[]> brainStoneTriggerEntities = new LinkedHashMap<String, Class[]>();
+		final LinkedHashMap<String, Class<?>[]> brainStoneTriggerEntities = new LinkedHashMap<String, Class<?>[]>();
 
 		brainStoneTriggerEntities.put("gui.brainstone.player",
 				new Class[] { EntityPlayer.class });
@@ -769,15 +767,15 @@ public class BrainStone {
 				EntityArrow.class, EntityThrowable.class, EntityEnderEye.class,
 				EntityFireball.class });
 
-		final Map allEntities = EntityList.IDtoClassMapping;
+		final Map<?, ?> allEntities = EntityList.IDtoClassMapping;
 		final int length = allEntities.size();
 		final Object[] keys = allEntities.keySet().toArray(new Object[length]);
 		Object key;
-		Class value;
+		Class<?> value;
 
 		for (int i = 0; i < length; i++) {
 			key = keys[i];
-			value = (Class) allEntities.get(key);
+			value = (Class<?>) allEntities.get(key);
 
 			if ((value != null) && (!Modifier.isAbstract(value.getModifiers()))
 					&& (EntityLiving.class.isAssignableFrom(value))

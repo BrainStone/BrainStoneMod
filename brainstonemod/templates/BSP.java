@@ -904,6 +904,7 @@ public abstract class BSP {
 	 * @throws E
 	 *             the exception type
 	 */
+	@SuppressWarnings("unchecked")
 	public static final <E extends Throwable> void throwException(E exception,
 			String additionalMessage) throws E {
 		throw (E) new Throwable("(" + exception.getClass().getName() + ")"
@@ -921,6 +922,7 @@ public abstract class BSP {
 	 * @param additionalMessage
 	 *            the custom message that will be added
 	 */
+	@SuppressWarnings("unchecked")
 	public static final <E extends RuntimeException> void throwException(
 			E exception, String additionalMessage) {
 		throw (E) new RuntimeException("(" + exception.getClass().getName()
