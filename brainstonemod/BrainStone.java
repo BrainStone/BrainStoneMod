@@ -41,29 +41,30 @@ import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.EnumHelper;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import brainstonemod.blocks.BlockBrainLightSensor;
-import brainstonemod.blocks.BlockBrainLogicBlock;
-import brainstonemod.blocks.BlockBrainStone;
-import brainstonemod.blocks.BlockBrainStoneOre;
-import brainstonemod.blocks.BlockBrainStoneTrigger;
-import brainstonemod.blocks.BlockPulsatingBrainStone;
-import brainstonemod.handlers.BrainStoneCraftingHandler;
-import brainstonemod.handlers.BrainStoneEventHandler;
-import brainstonemod.handlers.BrainStoneGuiHandler;
-import brainstonemod.handlers.BrainStonePacketHandler;
-import brainstonemod.handlers.BrainStonePickupNotifier;
-import brainstonemod.items.ItemArmorBrainStone;
-import brainstonemod.items.ItemHoeBrainStone;
-import brainstonemod.items.ItemSwordBrainStone;
-import brainstonemod.items.ItemToolBrainStone;
-import brainstonemod.logicgates.Gate;
-import brainstonemod.templates.BSP;
-import brainstonemod.templates.BlockBrainStoneBase;
-import brainstonemod.templates.ItemBrainStoneBase;
-import brainstonemod.tileentities.TileEntityBlockBrainLightSensor;
-import brainstonemod.tileentities.TileEntityBlockBrainLogicBlock;
-import brainstonemod.tileentities.TileEntityBlockBrainStoneTrigger;
-import brainstonemod.worldgenerators.BrainStoneWorldGenerator;
+import brainstonemod.common.CommonProxy;
+import brainstonemod.common.block.BlockBrainLightSensor;
+import brainstonemod.common.block.BlockBrainLogicBlock;
+import brainstonemod.common.block.BlockBrainStone;
+import brainstonemod.common.block.BlockBrainStoneOre;
+import brainstonemod.common.block.BlockBrainStoneTrigger;
+import brainstonemod.common.block.BlockPulsatingBrainStone;
+import brainstonemod.common.block.template.BlockBrainStoneBase;
+import brainstonemod.common.handler.BrainStoneCraftingHandler;
+import brainstonemod.common.handler.BrainStoneEventHandler;
+import brainstonemod.common.handler.BrainStoneGuiHandler;
+import brainstonemod.common.handler.BrainStonePickupNotifier;
+import brainstonemod.common.helper.BSP;
+import brainstonemod.common.item.ItemArmorBrainStone;
+import brainstonemod.common.item.ItemHoeBrainStone;
+import brainstonemod.common.item.ItemSwordBrainStone;
+import brainstonemod.common.item.ItemToolBrainStone;
+import brainstonemod.common.item.template.ItemBrainStoneBase;
+import brainstonemod.common.logicgate.Gate;
+import brainstonemod.common.tileentity.TileEntityBlockBrainLightSensor;
+import brainstonemod.common.tileentity.TileEntityBlockBrainLogicBlock;
+import brainstonemod.common.tileentity.TileEntityBlockBrainStoneTrigger;
+import brainstonemod.common.worldgenerators.BrainStoneWorldGenerator;
+import brainstonemod.network.BrainStonePacketHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -84,7 +85,7 @@ import cpw.mods.fml.relauncher.Side;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.38.0 BETA")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.39.0 BETA")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
@@ -146,7 +147,7 @@ public class BrainStone {
 	 * - is client-proxy when this is the client<br>
 	 * - is server-proxy when this is the server
 	 */
-	@SidedProxy(clientSide = "brainstonemod.ClientProxy", serverSide = "brainstonemod.CommonProxy")
+	@SidedProxy(clientSide = "brainstonemod.client.ClientProxy", serverSide = "brainstonemod.common.CommonProxy")
 	public static CommonProxy proxy;
 
 	/** The BrainStone Tool Material */
