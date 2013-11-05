@@ -85,7 +85,7 @@ import cpw.mods.fml.relauncher.Side;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.39.0 BETA")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.39.1 BETA")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet

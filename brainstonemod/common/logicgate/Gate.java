@@ -127,7 +127,7 @@ public abstract class Gate {
 		try {
 			Gate tmp;
 
-			for (final Class<?> gate : getClasses("brainstonemod.logicgates.gates")) {
+			for (final Class<?> gate : getClasses("brainstonemod.common.logicgate.gate")) {
 				try {
 					if (Gates
 							.containsKey((tmp = (Gate) gate.newInstance()).Name)) {

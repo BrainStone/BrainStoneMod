@@ -1,4 +1,4 @@
-package brainstonemod.common.logicgate.gates;
+package brainstonemod.common.logicgate.gate;
 
 import brainstonemod.common.logicgate.Gate;
 import brainstonemod.common.logicgate.Pin;
