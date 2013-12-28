@@ -1,0 +1,1 @@
+This folder contains all random and very small ideas. It is possible that ideas from here will get their own folder.
