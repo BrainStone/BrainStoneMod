@@ -114,7 +114,7 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 
 			GL11.glPopMatrix();
 		} catch (final Exception exception) {
-			BSP.printException(exception,
+			BSP.logException(exception,
 					"renderTileEntityAt (TileEntityBlockBrainLogicBlockRenderer)");
 		}
 	}

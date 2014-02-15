@@ -125,7 +125,7 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 				.getBlockTileEntity(x, y, z);
 
 		if (tileentity == null) {
-			BSP.print("The TileEntity is null!");
+			BSP.log("The TileEntity is null!");
 
 			return false;
 		} else {
@@ -207,7 +207,7 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 					try {
 						tileentity.update(false);
 					} catch (final IOException e) {
-						BSP.printException(e);
+						BSP.logException(e);
 					}
 
 					world.notifyBlocksOfNeighborChange(x, y, z, blockID);
@@ -230,7 +230,7 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 					try {
 						tileentity.update(false);
 					} catch (final IOException e) {
-						BSP.printException(e);
+						BSP.logException(e);
 					}
 
 					world.notifyBlocksOfNeighborChange(x, y, z, blockID);

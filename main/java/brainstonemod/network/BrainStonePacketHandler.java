@@ -140,7 +140,7 @@ public class BrainStonePacketHandler implements IPacketHandler {
 			outputStream.writeDouble(y);
 			outputStream.writeDouble(z);
 		} catch (final IOException e) {
-			BSP.printException(e);
+			BSP.logException(e);
 		}
 
 		final Packet250CustomPayload pkt = new Packet250CustomPayload();
@@ -171,7 +171,7 @@ public class BrainStonePacketHandler implements IPacketHandler {
 			outputStream.writeInt(y);
 			outputStream.writeInt(z);
 		} catch (final IOException e) {
-			BSP.printException(e);
+			BSP.logException(e);
 		}
 
 		sendPacketToServer("BSM.PUAS", bos);
@@ -199,7 +199,7 @@ public class BrainStonePacketHandler implements IPacketHandler {
 			outputStream.writeInt(y);
 			outputStream.writeInt(z);
 		} catch (final IOException e) {
-			BSP.printException(e);
+			BSP.logException(e);
 		}
 
 		sendPacketToClosestPlayers(x, y, z, world, "BSM.RRBAC", bos);
@@ -216,7 +216,7 @@ public class BrainStonePacketHandler implements IPacketHandler {
 			try {
 				((TileEntityBrainStoneSyncBase) te).update(true);
 			} catch (final IOException e) {
-				BSP.printException(e);
+				BSP.logException(e);
 			}
 		}
 	}
@@ -309,7 +309,7 @@ public class BrainStonePacketHandler implements IPacketHandler {
 					inputStream.readInt(), inputStream.readInt(),
 					inputStream.readInt());
 		} catch (final IOException ex) {
-			BSP.printException(ex);
+			BSP.logException(ex);
 
 			tileEntity = null;
 		}
@@ -332,7 +332,7 @@ public class BrainStonePacketHandler implements IPacketHandler {
 
 			BrainStone.proxy.getClientWorld().markBlockForRenderUpdate(x, y, z);
 		} catch (final IOException ex) {
-			BSP.printException(ex);
+			BSP.logException(ex);
 		}
 
 		this.handled();
@@ -355,7 +355,7 @@ public class BrainStonePacketHandler implements IPacketHandler {
 					.getBlockTileEntity(inputStream.readInt(),
 							inputStream.readInt(), inputStream.readInt());
 		} catch (final IOException ex) {
-			BSP.printException(ex);
+			BSP.logException(ex);
 
 			tileEntity = null;
 		}
@@ -373,7 +373,7 @@ public class BrainStonePacketHandler implements IPacketHandler {
 						.addTASKS(inputStream.readUTF());
 			}
 		} catch (final IOException ex) {
-			BSP.printException(ex);
+			BSP.logException(ex);
 
 			return;
 		}
@@ -392,7 +392,7 @@ public class BrainStonePacketHandler implements IPacketHandler {
 						.readFromInputStream(inputStream);
 			}
 		} catch (final IOException ex) {
-			BSP.printException(ex);
+			BSP.logException(ex);
 
 			return;
 		}
@@ -421,7 +421,7 @@ public class BrainStonePacketHandler implements IPacketHandler {
 
 			((EntityPlayer) player).addVelocity(x, y, z);
 		} catch (final IOException ex) {
-			BSP.printException(ex);
+			BSP.logException(ex);
 		}
 
 		this.handled();
@@ -517,7 +517,7 @@ public class BrainStonePacketHandler implements IPacketHandler {
 		try {
 			((TileEntityBrainStoneSyncBase) tileEntity).update(false);
 		} catch (final IOException e) {
-			BSP.printException(e);
+			BSP.logException(e);
 		} catch (final NullPointerException e) {
 			BSP.finer(e, "I guess this block just got removed!");
 		}

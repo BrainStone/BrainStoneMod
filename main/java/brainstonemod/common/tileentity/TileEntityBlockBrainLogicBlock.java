@@ -120,7 +120,7 @@ public class TileEntityBlockBrainLogicBlock extends
 
 				outputStream.writeUTF(s);
 			} catch (final IOException e) {
-				BSP.printException(e);
+				BSP.logException(e);
 			}
 
 			BrainStonePacketHandler.sendPacketToServer("BSM.TEBBLBS", bos);
@@ -205,7 +205,7 @@ public class TileEntityBlockBrainLogicBlock extends
 		try {
 			this.update(false);
 		} catch (final IOException e) {
-			BSP.printException(e);
+			BSP.logException(e);
 		}
 	}
 

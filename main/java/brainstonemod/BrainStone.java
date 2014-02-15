@@ -1,5 +1,7 @@
 package brainstonemod;
 
+import ibxm.Player;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -29,17 +31,15 @@ import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityFireball;
 import net.minecraft.entity.projectile.EntityFishHook;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.item.EnumArmorMaterial;
-import net.minecraft.item.EnumToolMaterial;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
-import net.minecraft.util.ChatMessageComponent;
-import net.minecraftforge.common.Configuration;
-import net.minecraftforge.common.EnumHelper;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import brainstonemod.common.CommonProxy;
 import brainstonemod.common.block.BlockBrainLightSensor;
@@ -73,9 +73,7 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -85,35 +83,33 @@ import cpw.mods.fml.relauncher.Side;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.41.0 BETA")
-@NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
-		"BSM", // generic Packet
-		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
-		"BSM.TEBBSTC", // TileEntityBlockBrainStoneTrigger Client Packet
-		"BSM.TEBBLSS", // TileEntityBlockBrainLightSensor Server Packet
-		"BSM.TEBBLSC", // TileEntityBlockBrainLightSensor Client Packet
-		"BSM.TEBBLBS", // TileEntityBlockBrainLogicBlock Server Packet
-		"BSM.TEBBLBC", // TileEntityBlockBrainLogicBlock Client Packet
-		"BSM.UPAS", // UpdatePlayerAt Server Packet
-		"BSM.RRBAC", // ReRenderBlockAt Client Packet
-		"BSM.UPMC", // UpdatePlayerMovement Client Packet
-		"BSM.BSTMI" // BrainStoneTriggerMobInformation Packet
-}, packetHandler = BrainStonePacketHandler.class)
+@Mod(modid = BrainStone.modid, name = BrainStone.name, version = BrainStone.version)
+/*
+ * @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels =
+ * { "BSM", // generic Packet "BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger
+ * Server Packet "BSM.TEBBSTC", // TileEntityBlockBrainStoneTrigger Client
+ * Packet "BSM.TEBBLSS", // TileEntityBlockBrainLightSensor Server Packet
+ * "BSM.TEBBLSC", // TileEntityBlockBrainLightSensor Client Packet
+ * "BSM.TEBBLBS", // TileEntityBlockBrainLogicBlock Server Packet "BSM.TEBBLBC",
+ * // TileEntityBlockBrainLogicBlock Client Packet "BSM.UPAS", // UpdatePlayerAt
+ * Server Packet "BSM.RRBAC", // ReRenderBlockAt Client Packet "BSM.UPMC", //
+ * UpdatePlayerMovement Client Packet "BSM.BSTMI" //
+ * BrainStoneTriggerMobInformation Packet }, packetHandler =
+ * BrainStonePacketHandler.class)
+ */
 public class BrainStone {
-	/** The "Mod" annotation */
-	private static Mod annotation = null;
+	public static final String modid = "BrainStoneMod";
+	public static final String name = "Brain Stone Mod";
+	public static final String version = "v2.42.3 BETA";
 
 	/** States if the current mod version is a release version or not */
-	public static final boolean release = getModAnnotation().version()
-			.toLowerCase().contains("release");
+	public static final boolean release = version.toLowerCase().contains(
+			"release");
 	/** States if the current mod version is a debug version or not */
-	public static final boolean debug = getModAnnotation().version()
-			.toLowerCase().contains("debug");
+	public static final boolean debug = version.toLowerCase().contains("debug");
 	/** States if the current mod version is a DEV version or not */
-	public static final boolean DEV = getModAnnotation().version()
-			.toLowerCase().contains("dev")
-			|| getModAnnotation().version().toLowerCase()
-					.contains("prerelease");
+	public static final boolean DEV = version.toLowerCase().contains("dev")
+			|| version.toLowerCase().contains("prerelease");
 
 	/** The standard id blocks start with */
 	public static final int startBlockId = 1258;
@@ -644,8 +640,7 @@ public class BrainStone {
 	}
 
 	// DOCME
-	private static String get_content(URLConnection con)
-			throws IOException {
+	private static String get_content(URLConnection con) throws IOException {
 		String output = "";
 
 		if (con != null) {
@@ -808,7 +803,7 @@ public class BrainStone {
 	// DOCME
 	private static void fillTriggerEntities() throws Throwable {
 		BSP.finer("Filling triggerEntities");
-		
+
 		LinkedHashMap<String, Class<?>[]> tempTriggerEntities = new LinkedHashMap<String, Class<?>[]>();
 
 		tempTriggerEntities.put("gui.brainstone.player",
@@ -841,7 +836,7 @@ public class BrainStone {
 		}
 
 		triggerEntities.put(Side.SERVER, tempTriggerEntities);
-		
+
 		BSP.finest("Done filling triggerEntities");
 	}
 
@@ -1011,18 +1006,6 @@ public class BrainStone {
 				"TileEntityBlockBrainLogicBlock");
 	}
 
-	/**
-	 * This method returns the {@link Mod} annotation
-	 * 
-	 * @return The Mod annotation of this class
-	 */
-	private static Mod getModAnnotation() {
-		if (annotation == null)
-			return (annotation = BrainStone.class.getAnnotation(Mod.class));
-
-		return annotation;
-	}
-
 	public static final LinkedHashMap<String, Class<?>[]> getClientSideTiggerEntities() {
 		return triggerEntities.get(Side.CLIENT);
 	}
@@ -1030,13 +1013,13 @@ public class BrainStone {
 	public static final void setClientSideTiggerEntities(
 			LinkedHashMap<String, Class<?>[]> triggerEntities) {
 		BSP.finer("Dumping triggerEntities in setClientSideTriggerEntities");
-		
-		for(String key : triggerEntities.keySet()) {
+
+		for (String key : triggerEntities.keySet()) {
 			BSP.finer(key + ":" + Arrays.toString(triggerEntities.get(key)));
 		}
-		
+
 		BSP.finest("End of Dump");
-		
+
 		BrainStone.triggerEntities.put(Side.CLIENT, triggerEntities);
 	}
 
@@ -1048,9 +1031,10 @@ public class BrainStone {
 			Side side) {
 		return triggerEntities.get(side);
 	}
-	
+
 	public static final LinkedHashMap<String, Class<?>[]> getSidedTiggerEntities() {
-		return triggerEntities.get(FMLCommonHandler.instance().getEffectiveSide());
+		return triggerEntities.get(FMLCommonHandler.instance()
+				.getEffectiveSide());
 	}
 
 	/**
