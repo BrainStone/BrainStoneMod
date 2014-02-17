@@ -100,7 +100,7 @@ import cpw.mods.fml.relauncher.Side;
 public class BrainStone {
 	public static final String modid = "BrainStoneMod";
 	public static final String name = "Brain Stone Mod";
-	public static final String version = "v2.42.3 BETA";
+	public static final String version = "v2.42.15 BETA";
 
 	/** States if the current mod version is a release version or not */
 	public static final boolean release = version.toLowerCase().contains(
