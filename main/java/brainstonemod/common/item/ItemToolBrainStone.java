@@ -2,13 +2,12 @@ package brainstonemod.common.item;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
+import scala.reflect.internal.Trees.If;
 import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
 

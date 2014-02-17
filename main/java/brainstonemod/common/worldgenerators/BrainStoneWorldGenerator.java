@@ -39,7 +39,7 @@ public class BrainStoneWorldGenerator implements IWorldGenerator {
 		case 0: // Overworld
 			this.genMinable(BrainStone.brainStoneOre().blockID, 20, 1, 32);
 
-			this.genBrainStoneDungeon();
+			genBrainStoneDungeon();
 
 			break;
 		case 1: // End

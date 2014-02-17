@@ -5,13 +5,13 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRedstoneWire;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -22,7 +22,7 @@ import brainstonemod.common.tileentity.TileEntityBlockBrainLogicBlock;
 import brainstonemod.network.BrainStonePacketHandler;
 
 public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
-	public static Icon[] textures;
+	public static IIcon[] textures;
 
 	/**
 	 * Constructor of the block. Registers all properties and sets the id and
@@ -31,15 +31,15 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	 * @param i
 	 *            The internal BrainStone id
 	 */
-	public BlockBrainLogicBlock(int i) {
-		super(BrainStone.getId(i), Material.rock);
+	public BlockBrainLogicBlock() {
+		super(Material.rock);
 
-		this.setHardness(3.0F);
-		this.setResistance(1.0F);
+		setHardness(3.0F);
+		setResistance(1.0F);
 		this.setUnlocalizedName("brainLogicBlock");
-		this.setCreativeTab(CreativeTabs.tabRedstone);
+		setCreativeTab(CreativeTabs.tabRedstone);
 
-		this.setTickRandomly(true);
+		setTickRandomly(true);
 
 		blockParticleGravity = 0.0F;
 	}
@@ -47,13 +47,13 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	@Override
 	public void breakBlock(World world, int i, int j, int k, int par5, int par6) {
 		super.breakBlock(world, i, j, k, par5, par6);
-		world.notifyBlocksOfNeighborChange(i, j, k, blockID);
-		world.notifyBlocksOfNeighborChange(i - 1, j, k, blockID);
-		world.notifyBlocksOfNeighborChange(i + 1, j, k, blockID);
-		world.notifyBlocksOfNeighborChange(i, j - 1, k, blockID);
-		world.notifyBlocksOfNeighborChange(i, j + 1, k, blockID);
-		world.notifyBlocksOfNeighborChange(i, j, k - 1, blockID);
-		world.notifyBlocksOfNeighborChange(i, j, k + 1, blockID);
+		world.notifyBlocksOfNeighborChange(i, j, k, this);
+		world.notifyBlocksOfNeighborChange(i - 1, j, k, this);
+		world.notifyBlocksOfNeighborChange(i + 1, j, k, this);
+		world.notifyBlocksOfNeighborChange(i, j - 1, k, this);
+		world.notifyBlocksOfNeighborChange(i, j + 1, k, this);
+		world.notifyBlocksOfNeighborChange(i, j, k - 1, this);
+		world.notifyBlocksOfNeighborChange(i, j, k + 1, this);
 	}
 
 	/**
@@ -87,7 +87,7 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 			return false;
 
 		final TileEntityBlockBrainLogicBlock tileEntity = (TileEntityBlockBrainLogicBlock) world
-				.getBlockTileEntity(x, y, z);
+				.getTileEntity(x, y, z);
 
 		if (tileEntity == null)
 			return false;
@@ -131,15 +131,11 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 			break;
 		}
 
-		final int l = world.getBlockId(i, j, k);
-
-		if (l == 0)
-			return -1;
-
 		byte byte1 = -1;
-		Block block;
+		final Block block = world.getBlock(i, j, k);
+		;
 
-		if ((block = Block.blocksList[l]).canProvidePower()) {
+		if (block.canProvidePower()) {
 			if (block instanceof BlockRedstoneWire) {
 				byte1 = (byte) (world.getBlockMetadata(i, j, k) <= 0 ? 0 : 1);
 			} else {
@@ -148,7 +144,7 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 						byte0) + block.isProvidingStrongPower(world, i, j, k,
 						byte0)) == 0) ? 0 : 1);
 			}
-		} else if (isNormalCube(l)) {
+		} else if (block.isNormalCube()) {
 			byte1 = (byte) (world.isBlockIndirectlyGettingPowered(i, j, k) ? 1
 					: 0);
 		}
@@ -159,7 +155,7 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	@Override
 	public int colorMultiplier(IBlockAccess world, int x, int y, int z) {
 		final TileEntityBlockBrainLogicBlock tileEntity = (TileEntityBlockBrainLogicBlock) world
-				.getBlockTileEntity(x, y, z);
+				.getTileEntity(x, y, z);
 
 		if ((tileEntity != null) && (tileEntity.currentRenderDirection != -1))
 			return tileEntity.getGateColor(tileEntity.currentRenderDirection);
@@ -168,13 +164,13 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world) {
+	public TileEntity createNewTileEntity(World world, int par2) {
 		return new TileEntityBlockBrainLogicBlock();
 	}
 
 	@Override
-	public Icon getBlockTexture(IBlockAccess iblockaccess, int x, int y, int z,
-			int side) {
+	public IIcon getBlockTexture(IBlockAccess iblockaccess, int x, int y,
+			int z, int side) {
 		if (side < 2)
 			return textures[2];
 
@@ -182,7 +178,7 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	}
 
 	@Override
-	public Icon getIcon(int i, int meta) {
+	public IIcon getIcon(int i, int meta) {
 		if (i >= 2)
 			return textures[1 + i];
 
@@ -198,7 +194,7 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	public int isProvidingStrongPower(IBlockAccess iblockaccess, int x, int y,
 			int z, int side) {
 		final TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock = (TileEntityBlockBrainLogicBlock) iblockaccess
-				.getBlockTileEntity(x, y, z);
+				.getTileEntity(x, y, z);
 
 		if (tileentityblockbrainlogicblock != null)
 			return tileentityblockbrainlogicblock
@@ -210,14 +206,14 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	@Override
 	public int isProvidingWeakPower(IBlockAccess iblockaccess, int i, int j,
 			int k, int l) {
-		return this.isProvidingStrongPower(iblockaccess, i, j, k, l);
+		return isProvidingStrongPower(iblockaccess, i, j, k, l);
 	}
 
 	@Override
 	public boolean onBlockActivated(World world, int i, int j, int k,
 			EntityPlayer entityplayer, int unknown, float px, float py, float pz) {
 		final TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock = (TileEntityBlockBrainLogicBlock) world
-				.getBlockTileEntity(i, j, k);
+				.getTileEntity(i, j, k);
 
 		if (tileentityblockbrainlogicblock == null)
 			return false;
@@ -226,37 +222,37 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 					.floor_double(((entityplayer.rotationYaw * 4.0F) / 360.0F) + 0.5D) & 3) ^ 2);
 
 			entityplayer.openGui(BrainStone.instance, 2, world, i, j, k);
-			world.notifyBlocksOfNeighborChange(i, j, k, blockID);
+			world.notifyBlocksOfNeighborChange(i, j, k, this);
 			return true;
 		}
 	}
 
 	@Override
 	public void onBlockAdded(World world, int i, int j, int k) {
-		world.setBlockTileEntity(i, j, k, this.createNewTileEntity(world));
-		world.notifyBlocksOfNeighborChange(i, j, k, blockID);
-		world.notifyBlocksOfNeighborChange(i - 1, j, k, blockID);
-		world.notifyBlocksOfNeighborChange(i + 1, j, k, blockID);
-		world.notifyBlocksOfNeighborChange(i, j - 1, k, blockID);
-		world.notifyBlocksOfNeighborChange(i, j + 1, k, blockID);
-		world.notifyBlocksOfNeighborChange(i, j, k - 1, blockID);
-		world.notifyBlocksOfNeighborChange(i, j, k + 1, blockID);
-		world.scheduleBlockUpdate(i, j, k, blockID,
-				(int) world.getTotalWorldTime() % this.tickRate(world));
+		world.setTileEntity(i, j, k, createNewTileEntity(world, 0));
+		world.notifyBlocksOfNeighborChange(i, j, k, this);
+		world.notifyBlocksOfNeighborChange(i - 1, j, k, this);
+		world.notifyBlocksOfNeighborChange(i + 1, j, k, this);
+		world.notifyBlocksOfNeighborChange(i, j - 1, k, this);
+		world.notifyBlocksOfNeighborChange(i, j + 1, k, this);
+		world.notifyBlocksOfNeighborChange(i, j, k - 1, this);
+		world.notifyBlocksOfNeighborChange(i, j, k + 1, this);
+		world.scheduleBlockUpdate(i, j, k, this,
+				(int) world.getTotalWorldTime() % tickRate(world));
 	}
 
 	@Override
 	public void onBlockPlacedBy(World par1World, int par2, int par3, int par4,
 			EntityLivingBase par5EntityLiving, ItemStack par6ItemStack) {
-		((TileEntityBlockBrainLogicBlock) par1World.getBlockTileEntity(par2,
-				par3, par4))
+		((TileEntityBlockBrainLogicBlock) par1World.getTileEntity(par2, par3,
+				par4))
 				.changeGate(MathHelper
 						.floor_double(((par5EntityLiving.rotationYaw * 4.0F) / 360.0F) + 0.5D) & 3);
 	}
 
 	@Override
-	public void registerIcons(IconRegister IconReg) {
-		textures = new Icon[] {
+	public void registerBlockIcons(IIconRegister IconReg) {
+		textures = new IIcon[] {
 				IconReg.registerIcon("brainstonemod:brainLogicBlockPin"),
 				IconReg.registerIcon("furnace_side"),
 				IconReg.registerIcon("furnace_top"),
@@ -280,7 +276,7 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	public void updateTick(World world, int x, int y, int z, Random random) {
 		super.updateTick(world, x, y, z, random);
 		final TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock = (TileEntityBlockBrainLogicBlock) world
-				.getBlockTileEntity(x, y, z);
+				.getTileEntity(x, y, z);
 
 		if (tileentityblockbrainlogicblock != null) {
 			tileentityblockbrainlogicblock.doTASKS();
@@ -294,16 +290,15 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 
 				BrainStonePacketHandler.sendReRenderBlockAtPacket(x, y, z,
 						world);
-				world.notifyBlockChange(x, y, z, blockID);
-				world.notifyBlocksOfNeighborChange(x, y, z, blockID);
-				world.notifyBlocksOfNeighborChange(x - 1, y, z, blockID);
-				world.notifyBlocksOfNeighborChange(x + 1, y, z, blockID);
-				world.notifyBlocksOfNeighborChange(x, y - 1, z, blockID);
-				world.notifyBlocksOfNeighborChange(x, y + 1, z, blockID);
-				world.notifyBlocksOfNeighborChange(x, y, z - 1, blockID);
-				world.notifyBlocksOfNeighborChange(x, y, z + 1, blockID);
-				world.scheduleBlockUpdate(x, y, z, blockID,
-						this.tickRate(world));
+				world.notifyBlockChange(x, y, z, this);
+				world.notifyBlocksOfNeighborChange(x, y, z, this);
+				world.notifyBlocksOfNeighborChange(x - 1, y, z, this);
+				world.notifyBlocksOfNeighborChange(x + 1, y, z, this);
+				world.notifyBlocksOfNeighborChange(x, y - 1, z, this);
+				world.notifyBlocksOfNeighborChange(x, y + 1, z, this);
+				world.notifyBlocksOfNeighborChange(x, y, z - 1, this);
+				world.notifyBlocksOfNeighborChange(x, y, z + 1, this);
+				world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
 			}
 		}
 	}

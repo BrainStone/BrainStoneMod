@@ -44,9 +44,7 @@ public abstract class TileEntityBlockBrainStoneHiders extends
 	}
 
 	public void dropItems(World world, int i, int j, int k) {
-		for (int l = 0; l < ItemStacks.length; l++) {
-			final ItemStack itemstack = ItemStacks[l];
-
+		for (final ItemStack itemstack : ItemStacks) {
 			if (itemstack != null) {
 				final float f = 0.7F;
 				final double d = (world.rand.nextFloat() * f)
@@ -137,8 +135,8 @@ public abstract class TileEntityBlockBrainStoneHiders extends
 		ItemStacks[i] = itemstack;
 
 		if ((itemstack != null)
-				&& (itemstack.stackSize > this.getInventoryStackLimit())) {
-			itemstack.stackSize = this.getInventoryStackLimit();
+				&& (itemstack.stackSize > getInventoryStackLimit())) {
+			itemstack.stackSize = getInventoryStackLimit();
 		}
 	}
 

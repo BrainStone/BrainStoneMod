@@ -1,7 +1,5 @@
 package brainstonemod.common.item;
 
-import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import brainstonemod.BrainStone;

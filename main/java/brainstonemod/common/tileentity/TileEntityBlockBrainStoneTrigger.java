@@ -12,10 +12,8 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
-import net.minecraft.util.Icon;
+import net.minecraft.network.Packet;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import brainstonemod.BrainStone;
@@ -46,14 +44,12 @@ public class TileEntityBlockBrainStoneTrigger extends
 	}
 
 	public boolean checkForSlotChange() {
-		return oldStack != (oldStack = this.getStackInSlot(0));
+		return oldStack != (oldStack = getStackInSlot(0));
 	}
 
 	@Override
 	public void dropItems(World world, int i, int j, int k) {
-		for (int l = 0; l < ItemStacks.length; l++) {
-			final ItemStack itemstack = ItemStacks[l];
-
+		for (final ItemStack itemstack : ItemStacks) {
 			if (itemstack != null) {
 				final float f = 0.7F;
 				final double d = (world.rand.nextFloat() * f)
@@ -99,7 +95,7 @@ public class TileEntityBlockBrainStoneTrigger extends
 	@Override
 	public Packet getDescriptionPacket() {
 		final NBTTagCompound tag = new NBTTagCompound();
-		this.writeToNBT(tag);
+		writeToNBT(tag);
 		return new Packet132TileEntityData(xCoord, yCoord, zCoord, 1, tag);
 	}
 
@@ -128,7 +124,7 @@ public class TileEntityBlockBrainStoneTrigger extends
 			return false;
 	}
 
-	public Icon getTextureId(IBlockAccess iblockaccess, int i, int j, int k) {
+	public IIcon getTextureId(IBlockAccess iblockaccess, int i, int j, int k) {
 		final ItemStack itemstack = ItemStacks[0];
 
 		if (itemstack == null)
@@ -166,7 +162,7 @@ public class TileEntityBlockBrainStoneTrigger extends
 	@Override
 	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet) {
 		final NBTTagCompound tag = packet.data;
-		this.readFromNBT(tag);
+		readFromNBT(tag);
 	}
 
 	@Override
@@ -193,7 +189,7 @@ public class TileEntityBlockBrainStoneTrigger extends
 		super.readFromNBT(nbttagcompound);
 		final NBTTagList nbttaglist = nbttagcompound
 				.getTagList("ItemsBrainStoneTrigger");
-		ItemStacks = new ItemStack[this.getSizeInventory()];
+		ItemStacks = new ItemStack[getSizeInventory()];
 
 		for (int i = 0; i < nbttaglist.tagCount(); i++) {
 			final NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist
@@ -247,7 +243,7 @@ public class TileEntityBlockBrainStoneTrigger extends
 		final ByteArrayOutputStream bos = new ByteArrayOutputStream(0);
 		final DataOutputStream outputStream = new DataOutputStream(bos);
 
-		this.generateOutputStream(outputStream);
+		generateOutputStream(outputStream);
 
 		if (sendToServer) {
 			BrainStonePacketHandler.sendPacketToServer("BSM.TEBBSTS", bos);
@@ -292,5 +288,29 @@ public class TileEntityBlockBrainStoneTrigger extends
 
 		nbttagcompound.setByte("BrainStoneDelay", delay);
 		nbttagcompound.setByte("BrainStoneMaxDelay", max_delay);
+	}
+
+	@Override
+	public String getInventoryName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean hasCustomInventoryName() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void openInventory() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void closeInventory() {
+		// TODO Auto-generated method stub
+
 	}
 }

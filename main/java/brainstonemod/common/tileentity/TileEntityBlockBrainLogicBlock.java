@@ -192,18 +192,18 @@ public class TileEntityBlockBrainLogicBlock extends
 		final int i = TASKS.size();
 
 		if (i != 0) {
-			this.print((new StringBuilder()).append("doTASKS() (size: ")
+			print((new StringBuilder()).append("doTASKS() (size: ")
 					.append(String.valueOf(i)).append(")").toString());
 
 			for (int j = 0; j < i; j++) {
-				this.runTASK((String) TASKS.get(j));
+				runTASK(TASKS.get(j));
 			}
 
 			TASKS.clear();
 		}
 
 		try {
-			this.update(false);
+			update(false);
 		} catch (final IOException e) {
 			BSP.logException(e);
 		}
@@ -224,7 +224,7 @@ public class TileEntityBlockBrainLogicBlock extends
 	}
 
 	public float getFactorForPinBlue(byte direction) {
-		final int color = this.getGateColor(direction);
+		final int color = getGateColor(direction);
 
 		final float blue = (color & 255) / 255.0F;
 
@@ -239,7 +239,7 @@ public class TileEntityBlockBrainLogicBlock extends
 	}
 
 	public float getFactorForPinGreen(byte direction) {
-		final int color = this.getGateColor(direction);
+		final int color = getGateColor(direction);
 
 		final float green = ((color >> 8) & 255) / 255.0F;
 
@@ -253,7 +253,7 @@ public class TileEntityBlockBrainLogicBlock extends
 	}
 
 	public float getFactorForPinRed(byte direction) {
-		final int color = this.getGateColor(direction);
+		final int color = getGateColor(direction);
 
 		final float red = ((color >> 16) & 255) / 255.0F;
 
@@ -337,29 +337,29 @@ public class TileEntityBlockBrainLogicBlock extends
 	}
 
 	private void printErrorInrunTASK(String s, String s1, String as[]) {
-		this.print("===================================================");
-		this.print("Error Signature in \"runTASK\":");
-		this.print("===================================================");
-		this.print((new StringBuilder()).append("\tOriginal Task: \"")
-				.append(s).append("\"").toString());
-		this.print((new StringBuilder()).append("\tCutted Task:   \"")
-				.append(s1).append("\"").toString());
-		this.print("\tParameters:");
+		print("===================================================");
+		print("Error Signature in \"runTASK\":");
+		print("===================================================");
+		print((new StringBuilder()).append("\tOriginal Task: \"").append(s)
+				.append("\"").toString());
+		print((new StringBuilder()).append("\tCutted Task:   \"").append(s1)
+				.append("\"").toString());
+		print("\tParameters:");
 		final int i = as.length;
 
 		if (i == 0) {
-			this.print("\t\tNo Parameters!!!");
+			print("\t\tNo Parameters!!!");
 		} else {
 			for (int j = 0; j < i; j++) {
-				this.print((new StringBuilder()).append("\t\tParameter ")
+				print((new StringBuilder()).append("\t\tParameter ")
 						.append(String.valueOf(j)).append(": \"").append(as[j])
 						.append("\"").toString());
 			}
 		}
 
-		this.print("===================================================");
-		this.print("!!!\t\t\tEND\t\t\t!!!");
-		this.print("===================================================");
+		print("===================================================");
+		print("!!!\t\t\tEND\t\t\t!!!");
+		print("===================================================");
 	}
 
 	@Override
@@ -414,12 +414,12 @@ public class TileEntityBlockBrainLogicBlock extends
 			final String tmp = String.valueOf(pin.Name);
 
 			fontrenderer.drawString(tmp, -fontrenderer.getStringWidth(tmp) / 2,
-					4, this.getGateColor(pos));
+					4, getGateColor(pos));
 		}
 	}
 
 	private void runTASK(String s) {
-		this.startPrintErrorBuff();
+		startPrintErrorBuff();
 
 		String as[] = s.split(" ");
 		final String s1 = as[0];
@@ -439,32 +439,30 @@ public class TileEntityBlockBrainLogicBlock extends
 		// }
 		// } else
 		if (s1.equals("logInOut")) {
-			this.print("!!!\tRun Task: \"logInOut\"\t\t!!!");
+			print("!!!\tRun Task: \"logInOut\"\t\t!!!");
 
 			if (as.length == 2) {
 				if (Boolean.valueOf(as[0]).booleanValue()) {
 					if (!Users.contains(as[1])) {
 						Users.add(as[1]);
 					} else {
-						this.print("User \"" + as[1]
-								+ "\" is already logged in!");
+						print("User \"" + as[1] + "\" is already logged in!");
 					}
 				} else {
 					if (Users.contains(as[1])) {
 						Users.remove(as[1]);
 					} else {
-						this.print("User \"" + as[1]
-								+ "\" is already logged out!");
+						print("User \"" + as[1] + "\" is already logged out!");
 					}
 				}
 			} else {
-				this.print("!!!\tError: Wrong number of parameters\t!!!\n");
-				this.printErrorInrunTASK(s, s1, as);
-				BSP.throwRuntimeException(this.getPrintErrorBuff()
+				print("!!!\tError: Wrong number of parameters\t!!!\n");
+				printErrorInrunTASK(s, s1, as);
+				BSP.throwRuntimeException(getPrintErrorBuff()
 						+ "Wrong number of parameters");
 			}
 		} else if (s1.equals("changeGate")) {
-			this.print("!!!\tRun Task: \"changeGate\"\t\t!!!");
+			print("!!!\tRun Task: \"changeGate\"\t\t!!!");
 
 			if (as.length == 2) {
 				if (as[0].equals("string")) {
@@ -505,20 +503,20 @@ public class TileEntityBlockBrainLogicBlock extends
 					ActiveGate.onTick();
 				}
 			} else {
-				this.print("!!!\tError: Wrong number of parameters\t!!!\n");
-				this.printErrorInrunTASK(s, s1, as);
-				BSP.throwRuntimeException(this.getPrintErrorBuff()
+				print("!!!\tError: Wrong number of parameters\t!!!\n");
+				printErrorInrunTASK(s, s1, as);
+				BSP.throwRuntimeException(getPrintErrorBuff()
 						+ "Wrong number of parameters");
 			}
 		} else {
-			this.print("!!!\t\tInvalid Task\t\t\t!!!\n");
-			this.printErrorInrunTASK(s, s1, as);
-			BSP.throwRuntimeException(this.getPrintErrorBuff() + "Invalid Task");
+			print("!!!\t\tInvalid Task\t\t\t!!!\n");
+			printErrorInrunTASK(s, s1, as);
+			BSP.throwRuntimeException(getPrintErrorBuff() + "Invalid Task");
 		}
 
-		this.print("!!!\t\tTask Finished\t\t\t!!!\n");
+		print("!!!\t\tTask Finished\t\t\t!!!\n");
 
-		this.stopPrintErrorBuff();
+		stopPrintErrorBuff();
 	}
 
 	public boolean shallDoUpdate(long l) {
@@ -565,8 +563,8 @@ public class TileEntityBlockBrainLogicBlock extends
 						blockId = world.getBlockId(tmpX, tmpY, tmpZ);
 						block = Block.blocksList[blockId];
 
-						if (this.canBlockConnectToGate(world, tmpX, tmpY, tmpZ,
-								i, block, blockId)) {
+						if (canBlockConnectToGate(world, tmpX, tmpY, tmpZ, i,
+								block, blockId)) {
 							if (block instanceof BlockRedstoneWire) {
 								ActiveGate.Pins[i].State = PinState
 										.getPinState((byte) world
@@ -597,7 +595,7 @@ public class TileEntityBlockBrainLogicBlock extends
 		final ByteArrayOutputStream bos = new ByteArrayOutputStream(0);
 		final DataOutputStream outputStream = new DataOutputStream(bos);
 
-		this.generateOutputStream(outputStream);
+		generateOutputStream(outputStream);
 
 		if (sendToServer) {
 			BrainStonePacketHandler.sendPacketToServer("BSM.TEBBLBS", bos);
@@ -636,9 +634,11 @@ public class TileEntityBlockBrainLogicBlock extends
 		nbttagcompound.setByte("TASKS-Size", byte0);
 
 		for (byte byte1 = 0; byte1 < byte0; byte1++) {
-			nbttagcompound.setString((new StringBuilder()).append("TASK")
-					.append(String.valueOf(byte1)).toString(),
-					(String) TASKS.get(byte1));
+			nbttagcompound
+					.setString(
+							(new StringBuilder()).append("TASK")
+									.append(String.valueOf(byte1)).toString(),
+							TASKS.get(byte1));
 		}
 	}
 }

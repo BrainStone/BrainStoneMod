@@ -83,7 +83,7 @@ import cpw.mods.fml.relauncher.Side;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = BrainStone.modid, name = BrainStone.name, version = BrainStone.version)
+@Mod(modid = BrainStone.MOD_ID, name = BrainStone.NAME, version = BrainStone.VERSION)
 /*
  * @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels =
  * { "BSM", // generic Packet "BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger
@@ -98,18 +98,18 @@ import cpw.mods.fml.relauncher.Side;
  * BrainStonePacketHandler.class)
  */
 public class BrainStone {
-	public static final String modid = "BrainStoneMod";
-	public static final String name = "Brain Stone Mod";
-	public static final String version = "v2.42.15 BETA";
+	public static final String MOD_ID = "BrainStoneMod";
+	public static final String NAME = "Brain Stone Mod";
+	public static final String VERSION = "v2.42.57 BETA";
 
 	/** States if the current mod version is a release version or not */
-	public static final boolean release = version.toLowerCase().contains(
+	public static final boolean release = VERSION.toLowerCase().contains(
 			"release");
 	/** States if the current mod version is a debug version or not */
-	public static final boolean debug = version.toLowerCase().contains("debug");
+	public static final boolean debug = VERSION.toLowerCase().contains("debug");
 	/** States if the current mod version is a DEV version or not */
-	public static final boolean DEV = version.toLowerCase().contains("dev")
-			|| version.toLowerCase().contains("prerelease");
+	public static final boolean DEV = VERSION.toLowerCase().contains("dev")
+			|| VERSION.toLowerCase().contains("prerelease");
 
 	/** The standard id blocks start with */
 	public static final int startBlockId = 1258;
@@ -482,13 +482,11 @@ public class BrainStone {
 	 */
 	public static void onPlayerJoinClient(Player entity,
 			EntityJoinWorldEvent event) {
-		final String version = getModAnnotation().version();
-
 		if (!latestVersion.equals("") && !recommendedVersion.equals("")
 				&& !releaseVersion.equals("")) {
 			switch (updateNotification) {
 			case 0:
-				if (isHigherVersion(version, releaseVersion)) {
+				if (isHigherVersion(VERSION, releaseVersion)) {
 					sendToPlayer(
 							entity,
 							"§a A new Version of the BSM is available!\n§l§c========== §4"
@@ -499,7 +497,7 @@ public class BrainStone {
 
 				break;
 			case 1:
-				if (isHigherVersion(version, releaseVersion)
+				if (isHigherVersion(VERSION, releaseVersion)
 						&& !isHigherVersion(releaseVersion, recommendedVersion)) {
 					sendToPlayer(
 							entity,
@@ -507,7 +505,7 @@ public class BrainStone {
 									+ releaseVersion
 									+ "§c ==========\n"
 									+ "§1Download it at §ehttp://adf.ly/2002096/release§1\nor §ehttps://github.com/BrainStone/brainstone§1!");
-				} else if (isHigherVersion(version, recommendedVersion)) {
+				} else if (isHigherVersion(VERSION, recommendedVersion)) {
 					sendToPlayer(
 							entity,
 							"§a A new recommended DEV Version of the BSM is available!\n§l§c========== §4"
@@ -518,7 +516,7 @@ public class BrainStone {
 
 				break;
 			case 2:
-				if (isHigherVersion(version, releaseVersion)
+				if (isHigherVersion(VERSION, releaseVersion)
 						&& !isHigherVersion(releaseVersion, recommendedVersion)
 						&& !isHigherVersion(releaseVersion, latestVersion)) {
 					sendToPlayer(
@@ -527,7 +525,7 @@ public class BrainStone {
 									+ releaseVersion
 									+ "§c ==========\n"
 									+ "§1Download it at §ehttp://adf.ly/2002096/release§1\nor §ehttps://github.com/BrainStone/brainstone§1!");
-				} else if (isHigherVersion(version, recommendedVersion)
+				} else if (isHigherVersion(VERSION, recommendedVersion)
 						&& !isHigherVersion(recommendedVersion, latestVersion)) {
 					sendToPlayer(
 							entity,
@@ -535,7 +533,7 @@ public class BrainStone {
 									+ recommendedVersion
 									+ "§c ==========\n"
 									+ "§1Download it at §ehttp://adf.ly/2002096/recommended§1\nor §ehttps://github.com/BrainStone/brainstone§1!");
-				} else if (isHigherVersion(version, latestVersion)) {
+				} else if (isHigherVersion(VERSION, latestVersion)) {
 					sendToPlayer(
 							entity,
 							"§a A new DEV Version of the BSM is available!\n§l§c========== §4"
@@ -623,14 +621,14 @@ public class BrainStone {
 					.openConnection());
 
 		} catch (final MalformedURLException e) {
-			BSP.warningException_noAddon(e,
+			BSP.warnException_noAddon(e,
 					"The Versions will be empty. No internet connection!");
 
 			releaseVersion = "";
 			recommendedVersion = "";
 			latestVersion = "";
 		} catch (final IOException e) {
-			BSP.warningException_noAddon(e,
+			BSP.warnException_noAddon(e,
 					"The Versions will be empty. No internet connection!");
 
 			releaseVersion = "";
@@ -663,9 +661,9 @@ public class BrainStone {
 	 * values. Others are fixed
 	 */
 	private static void generateMcModInfoFile(FMLPreInitializationEvent event) {
-		event.getModMetadata().modId = getModAnnotation().modid();
-		event.getModMetadata().name = getModAnnotation().name();
-		event.getModMetadata().version = getModAnnotation().version();
+		event.getModMetadata().modId = MOD_ID;
+		event.getModMetadata().name = NAME;
+		event.getModMetadata().version = VERSION;
 		event.getModMetadata().url = "http://minecraft.de/showthread.php?89926";
 		event.getModMetadata().credits = "The_BrainStone(Code, Textures, Ideas), Herr_Kermit(Textures), Jobbel(Name)";
 		event.getModMetadata().authorList = Arrays.asList(new String[] {
@@ -796,13 +794,13 @@ public class BrainStone {
 	 * Adds the smeltings.
 	 */
 	private static void addSmeltings() {
-		GameRegistry.addSmelting(dirtyBrainStone().blockID, new ItemStack(
+		GameRegistry.addSmelting(dirtyBrainStone(), new ItemStack(
 				brainStone(), 1, 0), 3.0F);
 	}
 
 	// DOCME
 	private static void fillTriggerEntities() throws Throwable {
-		BSP.finer("Filling triggerEntities");
+		BSP.debug("Filling triggerEntities");
 
 		LinkedHashMap<String, Class<?>[]> tempTriggerEntities = new LinkedHashMap<String, Class<?>[]>();
 
@@ -837,7 +835,7 @@ public class BrainStone {
 
 		triggerEntities.put(Side.SERVER, tempTriggerEntities);
 
-		BSP.finest("Done filling triggerEntities");
+		BSP.debug("Done filling triggerEntities");
 	}
 
 	// Items
@@ -1012,13 +1010,13 @@ public class BrainStone {
 
 	public static final void setClientSideTiggerEntities(
 			LinkedHashMap<String, Class<?>[]> triggerEntities) {
-		BSP.finer("Dumping triggerEntities in setClientSideTriggerEntities");
+		BSP.debug("Dumping triggerEntities in setClientSideTriggerEntities");
 
 		for (String key : triggerEntities.keySet()) {
-			BSP.finer(key + ":" + Arrays.toString(triggerEntities.get(key)));
+			BSP.debug(key + ":" + Arrays.toString(triggerEntities.get(key)));
 		}
 
-		BSP.finest("End of Dump");
+		BSP.debug("End of Dump");
 
 		BrainStone.triggerEntities.put(Side.CLIENT, triggerEntities);
 	}

@@ -43,7 +43,7 @@ public class ClientProxy extends CommonProxy {
 	 */
 	@Override
 	public World getClientWorld() {
-		return this.getClient().theWorld;
+		return getClient().theWorld;
 	}
 
 	/**
@@ -53,7 +53,7 @@ public class ClientProxy extends CommonProxy {
 	 */
 	@Override
 	public EntityClientPlayerMP getPlayer() {
-		return this.getClient().thePlayer;
+		return getClient().thePlayer;
 	}
 
 	/**

@@ -2,14 +2,14 @@ package brainstonemod.common.block.template;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public abstract class BlockBrainStoneContainerBase extends BlockContainer {
 
-	protected BlockBrainStoneContainerBase(int par1, Material par2Material) {
-		super(par1, par2Material);
+	protected BlockBrainStoneContainerBase(Material par2Material) {
+		super(par2Material);
 	}
 
 	@Override
@@ -40,8 +40,8 @@ public abstract class BlockBrainStoneContainerBase extends BlockContainer {
 	}
 
 	@Override
-	public void registerIcons(IconRegister par1IconRegister) {
+	public void registerBlockIcons(IIconRegister par1IconRegister) {
 		blockIcon = par1IconRegister.registerIcon("brainstonemod:"
-				+ this.getUnlocalizedName().replaceFirst("tile.", ""));
+				+ getUnlocalizedName().replaceFirst("tile.", ""));
 	}
 }

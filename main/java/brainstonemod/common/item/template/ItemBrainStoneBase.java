@@ -1,6 +1,5 @@
 package brainstonemod.common.item.template;
 
-import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.item.Item;
 
 public class ItemBrainStoneBase extends Item {

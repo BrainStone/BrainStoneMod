@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.util.Random;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import brainstonemod.BrainStone;
@@ -17,7 +17,7 @@ import brainstonemod.common.helper.BSP;
 import brainstonemod.common.tileentity.TileEntityBlockBrainLightSensor;
 
 public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
-	public static Icon[] textures;
+	public static IIcon[] textures;
 
 	/**
 	 * Constructor of the block. Registers all properties and sets the id and
@@ -26,27 +26,27 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 	 * @param i
 	 *            The internal BrainStone id
 	 */
-	public BlockBrainLightSensor(int i) {
-		super(BrainStone.getId(i), Material.rock);
+	public BlockBrainLightSensor() {
+		super(Material.rock);
 
-		this.setHardness(2.4F);
-		this.setResistance(0.5F);
+		setHardness(2.4F);
+		setResistance(0.5F);
 		this.setUnlocalizedName("brainLightSensor");
-		this.setCreativeTab(CreativeTabs.tabRedstone);
+		setCreativeTab(CreativeTabs.tabRedstone);
 
 		blockParticleGravity = -0.2F;
 	}
 
 	@Override
 	public void breakBlock(World world, int x, int y, int z, int par5, int par6) {
-		world.removeBlockTileEntity(x, y, z);
-		world.notifyBlocksOfNeighborChange(x, y, z, blockID);
-		world.notifyBlocksOfNeighborChange(x - 1, y, z, blockID);
-		world.notifyBlocksOfNeighborChange(x + 1, y, z, blockID);
-		world.notifyBlocksOfNeighborChange(x, y - 1, z, blockID);
-		world.notifyBlocksOfNeighborChange(x, y + 1, z, blockID);
-		world.notifyBlocksOfNeighborChange(x, y, z - 1, blockID);
-		world.notifyBlocksOfNeighborChange(x, y, z + 1, blockID);
+		world.removeTileEntity(x, y, z);
+		world.notifyBlocksOfNeighborChange(x, y, z, this);
+		world.notifyBlocksOfNeighborChange(x - 1, y, z, this);
+		world.notifyBlocksOfNeighborChange(x + 1, y, z, this);
+		world.notifyBlocksOfNeighborChange(x, y - 1, z, this);
+		world.notifyBlocksOfNeighborChange(x, y + 1, z, this);
+		world.notifyBlocksOfNeighborChange(x, y, z - 1, this);
+		world.notifyBlocksOfNeighborChange(x, y, z + 1, this);
 	}
 
 	/**
@@ -83,12 +83,12 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world) {
+	public TileEntity createNewTileEntity(World world, int par1) {
 		return new TileEntityBlockBrainLightSensor();
 	}
 
 	@Override
-	public Icon getIcon(int side, int meta) {
+	public IIcon getIcon(int side, int meta) {
 		if (side == 1)
 			return textures[0];
 		else if (side == 0)
@@ -101,7 +101,7 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 	public int isProvidingStrongPower(IBlockAccess iblockaccess, int x, int y,
 			int z, int meta) {
 		final TileEntityBlockBrainLightSensor tileentity = (TileEntityBlockBrainLightSensor) iblockaccess
-				.getBlockTileEntity(x, y, z);
+				.getTileEntity(x, y, z);
 
 		if (tileentity == null)
 			return 0;
@@ -115,14 +115,14 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 	@Override
 	public int isProvidingWeakPower(IBlockAccess iblockaccess, int x, int y,
 			int z, int meta) {
-		return this.isProvidingStrongPower(iblockaccess, x, y, z, meta);
+		return isProvidingStrongPower(iblockaccess, x, y, z, meta);
 	}
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z,
 			EntityPlayer entityplayer, int unknown, float px, float py, float pz) {
 		final TileEntityBlockBrainLightSensor tileentity = (TileEntityBlockBrainLightSensor) world
-				.getBlockTileEntity(x, y, z);
+				.getTileEntity(x, y, z);
 
 		if (tileentity == null) {
 			BSP.log("The TileEntity is null!");
@@ -136,21 +136,21 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 
 	@Override
 	public void onBlockAdded(World world, int x, int y, int z) {
-		world.setBlockTileEntity(x, y, z, this.createNewTileEntity(world));
-		world.notifyBlocksOfNeighborChange(x, y, z, blockID);
-		world.notifyBlocksOfNeighborChange(x - 1, y, z, blockID);
-		world.notifyBlocksOfNeighborChange(x + 1, y, z, blockID);
-		world.notifyBlocksOfNeighborChange(x, y - 1, z, blockID);
-		world.notifyBlocksOfNeighborChange(x, y + 1, z, blockID);
-		world.notifyBlocksOfNeighborChange(x, y, z - 1, blockID);
-		world.notifyBlocksOfNeighborChange(x, y, z + 1, blockID);
-		world.scheduleBlockUpdate(x, y, z, blockID,
-				(int) world.getTotalWorldTime() % this.tickRate(world));
+		world.setTileEntity(x, y, z, createNewTileEntity(world, 0));
+		world.notifyBlocksOfNeighborChange(x, y, z, this);
+		world.notifyBlocksOfNeighborChange(x - 1, y, z, this);
+		world.notifyBlocksOfNeighborChange(x + 1, y, z, this);
+		world.notifyBlocksOfNeighborChange(x, y - 1, z, this);
+		world.notifyBlocksOfNeighborChange(x, y + 1, z, this);
+		world.notifyBlocksOfNeighborChange(x, y, z - 1, this);
+		world.notifyBlocksOfNeighborChange(x, y, z + 1, this);
+		world.scheduleBlockUpdate(x, y, z, this,
+				(int) world.getTotalWorldTime() % tickRate(world));
 	}
 
 	@Override
-	public void registerIcons(IconRegister IconReg) {
-		textures = new Icon[] {
+	public void registerBlockIcons(IIconRegister IconReg) {
+		textures = new IIcon[] {
 				IconReg.registerIcon("brainstonemod:brainLightSensor"),
 				IconReg.registerIcon("furnace_side"),
 				IconReg.registerIcon("furnace_top") };
@@ -185,7 +185,7 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random random) {
 		final TileEntityBlockBrainLightSensor tileentity = (TileEntityBlockBrainLightSensor) world
-				.getBlockTileEntity(x, y, z);
+				.getTileEntity(x, y, z);
 
 		if (tileentity != null) {
 			if (tileentity.getState()) {
@@ -199,7 +199,7 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 						: worldLight >= lightLevel;
 
 				if ((tmpPower != power) || (tmpWorldLight != worldLight)) {
-					this.smoke(world, x, y, z, random);
+					smoke(world, x, y, z, random);
 
 					tileentity.setPowerOn(tmpPower);
 					tileentity.setCurLightLevel(worldLight);
@@ -210,13 +210,13 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 						BSP.logException(e);
 					}
 
-					world.notifyBlocksOfNeighborChange(x, y, z, blockID);
-					world.notifyBlocksOfNeighborChange(x - 1, y, z, blockID);
-					world.notifyBlocksOfNeighborChange(x + 1, y, z, blockID);
-					world.notifyBlocksOfNeighborChange(x, y - 1, z, blockID);
-					world.notifyBlocksOfNeighborChange(x, y + 1, z, blockID);
-					world.notifyBlocksOfNeighborChange(x, y, z - 1, blockID);
-					world.notifyBlocksOfNeighborChange(x, y, z + 1, blockID);
+					world.notifyBlocksOfNeighborChange(x, y, z, this);
+					world.notifyBlocksOfNeighborChange(x - 1, y, z, this);
+					world.notifyBlocksOfNeighborChange(x + 1, y, z, this);
+					world.notifyBlocksOfNeighborChange(x, y - 1, z, this);
+					world.notifyBlocksOfNeighborChange(x, y + 1, z, this);
+					world.notifyBlocksOfNeighborChange(x, y, z - 1, this);
+					world.notifyBlocksOfNeighborChange(x, y, z + 1, this);
 				}
 			} else {
 				final int worldLight = world.getBlockLightValue(x, y + 1, z);
@@ -233,19 +233,19 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 						BSP.logException(e);
 					}
 
-					world.notifyBlocksOfNeighborChange(x, y, z, blockID);
-					world.notifyBlocksOfNeighborChange(x - 1, y, z, blockID);
-					world.notifyBlocksOfNeighborChange(x + 1, y, z, blockID);
-					world.notifyBlocksOfNeighborChange(x, y - 1, z, blockID);
-					world.notifyBlocksOfNeighborChange(x, y + 1, z, blockID);
-					world.notifyBlocksOfNeighborChange(x, y, z - 1, blockID);
-					world.notifyBlocksOfNeighborChange(x, y, z + 1, blockID);
+					world.notifyBlocksOfNeighborChange(x, y, z, this);
+					world.notifyBlocksOfNeighborChange(x - 1, y, z, this);
+					world.notifyBlocksOfNeighborChange(x + 1, y, z, this);
+					world.notifyBlocksOfNeighborChange(x, y - 1, z, this);
+					world.notifyBlocksOfNeighborChange(x, y + 1, z, this);
+					world.notifyBlocksOfNeighborChange(x, y, z - 1, this);
+					world.notifyBlocksOfNeighborChange(x, y, z + 1, this);
 				}
 			}
 
-			world.scheduleBlockUpdate(x, y, z, blockID, this.tickRate(world));
+			world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
 		} else {
-			BSP.severe("Die TileEntity fehlt!");
+			BSP.fatal("Die TileEntity fehlt!");
 		}
 	}
 }

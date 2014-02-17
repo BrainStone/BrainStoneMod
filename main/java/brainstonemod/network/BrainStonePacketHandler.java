@@ -1,5 +1,7 @@
 package brainstonemod.network;
 
+import ibxm.Player;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -9,8 +11,6 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -18,9 +18,6 @@ import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.tileentity.TileEntityBlockBrainLogicBlock;
 import brainstonemod.common.tileentity.template.TileEntityBrainStoneSyncBase;
-import cpw.mods.fml.common.network.IPacketHandler;
-import cpw.mods.fml.common.network.PacketDispatcher;
-import cpw.mods.fml.common.network.Player;
 
 public class BrainStonePacketHandler implements IPacketHandler {
 	public static void sendBrainStoneTriggerMobInformationPacketToPlayer(
@@ -278,12 +275,13 @@ public class BrainStonePacketHandler implements IPacketHandler {
 			BSP.finer("Dumping tmpTriggerEntities in handleBrainStoneTriggerMobInformationPacket");
 
 			for (final String key2 : tmpTriggerEntities.keySet()) {
-				BSP.finer(key2 + ":" + Arrays.toString(tmpTriggerEntities.get(key2)));
+				BSP.finer(key2 + ":"
+						+ Arrays.toString(tmpTriggerEntities.get(key2)));
 			}
 
 			BSP.finest("End of Dump");
 
-			this.handled();
+			handled();
 		} catch (final IOException ex) {
 			BSP.warningException(ex);
 		} catch (final ClassNotFoundException ex) {
@@ -335,7 +333,7 @@ public class BrainStonePacketHandler implements IPacketHandler {
 			BSP.logException(ex);
 		}
 
-		this.handled();
+		handled();
 	}
 
 	/**
@@ -378,7 +376,7 @@ public class BrainStonePacketHandler implements IPacketHandler {
 			return;
 		}
 
-		this.handled();
+		handled();
 	}
 
 	/**
@@ -397,7 +395,7 @@ public class BrainStonePacketHandler implements IPacketHandler {
 			return;
 		}
 
-		this.handled();
+		handled();
 	}
 
 	private void handleUnknownPacket() {
@@ -405,7 +403,7 @@ public class BrainStonePacketHandler implements IPacketHandler {
 				+ "\" was not regonized!", "Content of the packet:",
 				packet.data);
 
-		this.handled();
+		handled();
 	}
 
 	/**
@@ -424,7 +422,7 @@ public class BrainStonePacketHandler implements IPacketHandler {
 			BSP.logException(ex);
 		}
 
-		this.handled();
+		handled();
 	}
 
 	private boolean isNotHandled() {
@@ -434,7 +432,7 @@ public class BrainStonePacketHandler implements IPacketHandler {
 	@Override
 	public void onPacketData(INetworkManager manager,
 			Packet250CustomPayload packet, Player player) {
-		this.unhandled();
+		unhandled();
 
 		channel = packet.channel;
 
@@ -453,21 +451,21 @@ public class BrainStonePacketHandler implements IPacketHandler {
 				// TileEntityBlockBrainLightSensor Server Packet
 				if (subchannel.equals("TEBBSTS")
 						|| subchannel.equals("TEBBLSS")) {
-					this.handleServerPacket();
+					handleServerPacket();
 
-					this.handleTileEntityBrainStoneSyncBasePacket();
+					handleTileEntityBrainStoneSyncBasePacket();
 
 					this.sendPlayerUpdatePacket();
 
 					// TileEntityBlockBrainLogicBlock Server Packet
 				} else if (subchannel.equals("TEBBLBS")) {
-					this.handleServerPacket();
+					handleServerPacket();
 
-					this.handleTileEntityBlockBrainLogicBlockPacket();
+					handleTileEntityBlockBrainLogicBlockPacket();
 
 					// UpdatePlayerAt Server Packet
 				} else if (subchannel.equals("UPAS")) {
-					this.handleServerPacket();
+					handleServerPacket();
 
 					this.sendPlayerUpdatePacket();
 				}
@@ -481,30 +479,30 @@ public class BrainStonePacketHandler implements IPacketHandler {
 				if (subchannel.equals("TEBBSTC")
 						|| subchannel.equals("TEBBLSC")
 						|| subchannel.equals("TEBBLBC")) {
-					this.handleClientPacket();
+					handleClientPacket();
 
-					this.handleTileEntityBrainStoneSyncBasePacket();
+					handleTileEntityBrainStoneSyncBasePacket();
 
 					// ReRenderBlockAt Client Packet
 				} else if (subchannel.equals("RRBAC")) {
-					this.handleReRenderBlockAtPacket();
+					handleReRenderBlockAtPacket();
 
 					// UpdatePlayerMovement Client Packet
 				} else if (subchannel.equals("UPMC")) {
-					this.handleUpdatePlayerMovementPacket();
+					handleUpdatePlayerMovementPacket();
 				}
 			} else {
 
 				// BrainStoneTriggerMobInformation Packet
 				if (subchannel.equals("BSTMI")) {
-					this.handleBrainStoneTriggerMobInformationPacket();
+					handleBrainStoneTriggerMobInformationPacket();
 				}
 			}
 		}
 
 		// Unknown Packet
-		if (this.isNotHandled()) {
-			this.handleUnknownPacket();
+		if (isNotHandled()) {
+			handleUnknownPacket();
 		}
 
 	}

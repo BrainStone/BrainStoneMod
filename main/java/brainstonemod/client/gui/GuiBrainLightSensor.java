@@ -41,7 +41,7 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 		super(new ContainerBlockBrainLightSensor());
 		tileentity = tileentityblockbrainlightsensor;
 		direction = tileentity.getDirection();
-		this.setLightLevel(tileentity.getLightLevel());
+		setLightLevel(tileentity.getLightLevel());
 		tileentity.GUIopen = true;
 
 		BrainStonePacketHandler.sendUpdateOptions(tileentity);
@@ -62,20 +62,19 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 			this.registerTexture("GuiBrainLightSensorClassic");
 			final int x = (width - xSizeClassic) / 2;
 			final int y = (height - ySizeClassic) / 2;
-			this.drawTexturedModalRect(x, y, 0, 0, xSizeClassic, ySizeClassic);
+			drawTexturedModalRect(x, y, 0, 0, xSizeClassic, ySizeClassic);
 
 			if (direction) {
-				this.drawTexturedModalRect(x + 9, y + 23, 9, 94,
+				drawTexturedModalRect(x + 9, y + 23, 9, 94,
 						7 * (lightLevel + 1), 64);
 			} else {
 				final int j1 = 7 * (16 - lightLevel);
 				final int k1 = 112 - j1;
-				this.drawTexturedModalRect(x + 9 + k1, y + 23, 9 + k1, 94, j1,
-						64);
+				drawTexturedModalRect(x + 9 + k1, y + 23, 9 + k1, 94, j1, 64);
 			}
 
 			curLightLevel = tileentity.getCurLightLevel();
-			this.drawTexturedModalRect(x + (curLightLevel * 7) + 8, y + 22,
+			drawTexturedModalRect(x + (curLightLevel * 7) + 8, y + 22,
 					8 + (7 * curLightLevel), 158, 6, 66);
 			fontRenderer.drawString(StatCollector
 					.translateToLocal("tile.brainLightSensor.name"), x + 6,
@@ -94,8 +93,8 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 			this.registerTexture("GuiBrainLightSensorSimple");
 			final int x = (width - xSizeSimple) / 2;
 			final int y = (height - ySizeSimple) / 2;
-			this.drawTexturedModalRect(x, y, 0, 0, xSizeSimple, ySizeSimple);
-			this.drawTexturedModalRect(x + 8, y
+			drawTexturedModalRect(x, y, 0, 0, xSizeSimple, ySizeSimple);
+			drawTexturedModalRect(x + 8, y
 					+ ((tileentity.getDirection()) ? 18 : 36), 8, 52, 9, 8);
 
 			fontRenderer.drawString(
@@ -141,20 +140,20 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 	@Override
 	protected void keyTyped(char c, int i) {
 		if ((i == 1) || (i == mc.gameSettings.keyBindInventory.keyCode)) {
-			this.quit();
+			quit();
 		}
 
 		if (tileentity.getState()) {
 			if (((i == 200) || (i == 205)) && (lightLevel != 15)) {
-				this.setLightLevel(lightLevel + 1);
+				setLightLevel(lightLevel + 1);
 			}
 
 			if (((i == 208) || (i == 203)) && (lightLevel != 0)) {
-				this.setLightLevel(lightLevel - 1);
+				setLightLevel(lightLevel - 1);
 			}
 
 			if ((i == 208) || (i == 203) || (i == 200) || (i == 205)) {
-				this.click();
+				click();
 			}
 		} else {
 			;
@@ -172,13 +171,13 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 					final int i1 = 7 * l;
 					final int j1 = 2 * l;
 
-					if (this.inField(x, y, 9 + i1, 53 - j1, 12 + i1, 56 + j1)) {
-						this.click();
-						this.setLightLevel(l);
+					if (inField(x, y, 9 + i1, 53 - j1, 12 + i1, 56 + j1)) {
+						click();
+						setLightLevel(l);
 					}
 				}
 
-				if (this.inField(x, y, 63, 0, 127, 9)) {
+				if (inField(x, y, 63, 0, 127, 9)) {
 					tileentity.changeState();
 					try {
 						tileentity.update(true);
@@ -187,14 +186,14 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 					}
 				}
 
-				if (this.inField(x, y, 120, 13, 124, 17)) {
-					this.quit();
+				if (inField(x, y, 120, 13, 124, 17)) {
+					quit();
 				}
 			} else {
 				x -= (width - xSizeSimple) / 2;
 				y -= (height - ySizeSimple) / 2;
 
-				if (this.inField(x, y, 0, 0, 63, 9)) {
+				if (inField(x, y, 0, 0, 63, 9)) {
 					tileentity.changeState();
 					try {
 						tileentity.update(true);
@@ -203,16 +202,16 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 					}
 				}
 
-				if (this.inField(x, y, 8, 18, 15, 25)) {
+				if (inField(x, y, 8, 18, 15, 25)) {
 					tileentity.setDirection(true);
 				}
 
-				if (this.inField(x, y, 8, 36, 15, 43)) {
+				if (inField(x, y, 8, 36, 15, 43)) {
 					tileentity.setDirection(false);
 				}
 
-				if (this.inField(x, y, 120, 13, 124, 17)) {
-					this.quit();
+				if (inField(x, y, 120, 13, 124, 17)) {
+					quit();
 				}
 			}
 		}
@@ -224,7 +223,7 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 	private void quit() {
 		tileentity.GUIopen = false;
 		BrainStonePacketHandler.sendUpdateOptions(tileentity);
-		this.click();
+		click();
 		mc.displayGuiScreen(null);
 		mc.setIngameFocus();
 	}

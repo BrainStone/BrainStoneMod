@@ -141,7 +141,7 @@ public class BrainStoneRenderBrainLogicBlockHandler implements
 			renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 			renderer.renderStandardBlock(block, x, y, z);
 
-			this.renderPins(tileEntity, world, renderer, block, x, y, z);
+			renderPins(tileEntity, world, renderer, block, x, y, z);
 
 			return true;
 		}
@@ -152,5 +152,11 @@ public class BrainStoneRenderBrainLogicBlockHandler implements
 	@Override
 	public boolean shouldRender3DInInventory() {
 		return true;
+	}
+
+	@Override
+	public boolean shouldRender3DInInventory(int modelId) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

@@ -81,7 +81,7 @@ public class TileEntityBlockBrainLightSensor extends
 	public void readFromInputStream(DataInputStream inputStream)
 			throws IOException {
 		state = inputStream.readBoolean();
-		
+
 		if (state) {
 			lightLevel = inputStream.readInt();
 			direction = inputStream.readBoolean();
@@ -101,7 +101,7 @@ public class TileEntityBlockBrainLightSensor extends
 	public void readFromNBT(NBTTagCompound nbttagcompound) {
 		super.readFromNBT(nbttagcompound);
 		state = nbttagcompound.getBoolean("TEBBLS_state");
-		
+
 		if (state) {
 			lightLevel = nbttagcompound.getByte("TEBBLS_lightLevel");
 			direction = nbttagcompound.getBoolean("TEBBLS_direction");
@@ -141,7 +141,7 @@ public class TileEntityBlockBrainLightSensor extends
 		final ByteArrayOutputStream bos = new ByteArrayOutputStream(0);
 		final DataOutputStream outputStream = new DataOutputStream(bos);
 
-		this.generateOutputStream(outputStream);
+		generateOutputStream(outputStream);
 
 		if (sendToServer) {
 			BrainStonePacketHandler.sendPacketToServer("BSM.TEBBLSS", bos);

@@ -68,7 +68,7 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 		for (i = 3; i < 10; i++) {
 			for (j = -1; j < 6; j++) {
 				for (k = height + 1; k > (height - 8); k--)
-					if (!this.isSolid(x + i, y - k, z + j))
+					if (!isSolid(x + i, y - k, z + j))
 						return false;
 			}
 		}
@@ -81,60 +81,60 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 
 		for (i = 0; i < 6; i++) {
 			for (j = 0; j < 5; j++)
-				if (!this.isSolid(x + i, y - 1, z + j))
+				if (!isSolid(x + i, y - 1, z + j))
 					return false;
 		}
 
 		for (i = 0; i < 4; i++)
-			if (!this.isSolid(x + i, y - 1, z + 5))
+			if (!isSolid(x + i, y - 1, z + 5))
 				return false;
 
 		for (i = 0; i < 6; i++) {
 			for (j = 0; j < 5; j++) {
 				for (k = 0; k < 4; k++)
-					if (!this.isReplaceable(x + i, y + k, z + j))
+					if (!isReplaceable(x + i, y + k, z + j))
 						return false;
 			}
 		}
 
 		for (i = 0; i < 4; i++) {
 			for (j = 0; j < 4; j++)
-				if (!this.isReplaceable(x + i, y + j, z + 5))
+				if (!isReplaceable(x + i, y + j, z + 5))
 					return false;
 		}
 
-		if (!(this.isReplaceable(x + 4, y + 2, z + 5) && this.isReplaceable(
-				x + 5, y + 2, z + 5)))
+		if (!(isReplaceable(x + 4, y + 2, z + 5) && isReplaceable(x + 5, y + 2,
+				z + 5)))
 			return false;
 
 		for (i = -1; i < 5; i++)
-			if (!this.isReplaceable(x + i, y + 2, z + 6))
+			if (!isReplaceable(x + i, y + 2, z + 6))
 				return false;
 
 		for (i = -1; i < 6; i++)
-			if (!this.isReplaceable(x - 1, y + 2, z + i))
+			if (!isReplaceable(x - 1, y + 2, z + i))
 				return false;
 
 		for (i = 0; i < 7; i++)
-			if (!this.isReplaceable(x + i, y + 2, z - 1))
+			if (!isReplaceable(x + i, y + 2, z - 1))
 				return false;
 
 		for (i = 0; i < 6; i++)
-			if (!this.isReplaceable(x + 6, y + 2, z + i))
+			if (!isReplaceable(x + 6, y + 2, z + i))
 				return false;
 
 		for (i = 1; i < 4; i++) {
 			for (j = 1; j < 5; j++)
-				if (!this.isReplaceable(x + j, y + 4, z + i))
+				if (!isReplaceable(x + j, y + 4, z + i))
 					return false;
 		}
 
-		if (!(this.isReplaceable(x + 1, y + 4, z + 4) && this.isReplaceable(
-				x + 2, y + 4, z + 4)))
+		if (!(isReplaceable(x + 1, y + 4, z + 4) && isReplaceable(x + 2, y + 4,
+				z + 4)))
 			return false;
 
-		if (!(this.isReplaceable(x + 2, y + 5, z + 2) && this.isReplaceable(
-				x + 3, y + 5, z + 2)))
+		if (!(isReplaceable(x + 2, y + 5, z + 2) && isReplaceable(x + 3, y + 5,
+				z + 2)))
 			return false;
 
 		return true;
@@ -148,7 +148,7 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 		for (i = -1; i < 6; i++) {
 			for (j = -1; j < 6; j++) {
 				for (k = 2; k < height; k++)
-					if (!this.isSolid(x + i, y - k, z + j))
+					if (!isSolid(x + i, y - k, z + j))
 						return false;
 			}
 		}
@@ -159,9 +159,9 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 	private boolean canPlaceStructHere(int structure, Object... options) {
 		switch (structure) {
 		case 0:
-			return this.canPlaceShackHere();
+			return canPlaceShackHere();
 		case 1:
-			return this.canPlaceStairsHere() && this.canPlaceSecretRoomHere();
+			return canPlaceStairsHere() && canPlaceSecretRoomHere();
 		}
 
 		return false;
@@ -191,22 +191,22 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 
 			this.y = world.getHeightValue(this.x, this.z);
 
-			if (this.canPlaceStructHere(0)) {
+			if (canPlaceStructHere(0)) {
 				Options[0] = 3;
 
-				if (this.canPlaceStructHere(1)) {
+				if (canPlaceStructHere(1)) {
 					break;
 				}
 
 				Options[0] = 2;
 
-				if (this.canPlaceStructHere(1)) {
+				if (canPlaceStructHere(1)) {
 					break;
 				}
 
 				Options[0] = 4;
 
-				if (this.canPlaceStructHere(1)) {
+				if (canPlaceStructHere(1)) {
 					break;
 				}
 			}
@@ -236,11 +236,11 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 			directionCounter++;
 		}
 
-		this.generateShack();
+		generateShack();
 
-		this.generateStairs();
+		generateStairs();
 
-		this.generateSecretRoom();
+		generateSecretRoom();
 
 		BSP.debug("Placed at " + x + ", " + this.y + ", " + z + "!");
 
@@ -254,7 +254,7 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 		for (i = 4; i < 9; i++) {
 			for (j = 0; j < 5; j++) {
 				for (k = height; k > (height - 7); k--) {
-					this.setBlock(
+					setBlock(
 							x + i,
 							y - k,
 							z + j,
@@ -265,17 +265,16 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 			}
 		}
 
-		this.setBlock(x + 6, (y - height) + 6, z + 2, BrainStone.brainStone());
-		this.setBlock(x + 6, y - height, z + 2, BrainStone.brainStone());
+		setBlock(x + 6, (y - height) + 6, z + 2, BrainStone.brainStone());
+		setBlock(x + 6, y - height, z + 2, BrainStone.brainStone());
 
-		this.setBlock(x + 7, y - height - 2, z + 2,
-				BrainStone.pulsatingBrainStone());
+		setBlock(x + 7, y - height - 2, z + 2, BrainStone.pulsatingBrainStone());
 
 		height -= 1;
 
 		// Chests
 
-		this.setBlock(x + 6, y - height, z + 1, Blocks.chest);
+		setBlock(x + 6, y - height, z + 1, Blocks.chest);
 		TileEntityChest chest = (TileEntityChest) world.getTileEntity(x + 6, y
 				- height, z + 1);
 
@@ -284,10 +283,10 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 
 		for (i = 0; i < rand1; i++) {
 			chest.setInventorySlotContents(chestSlots.getRandomChestSlot(),
-					this.getLoot(1));
+					getLoot(1));
 		}
 
-		this.setBlock(x + 7, y - height, z + 1, Blocks.chest);
+		setBlock(x + 7, y - height, z + 1, Blocks.chest);
 		chest = (TileEntityChest) world.getTileEntity(x + 7, y - height, z + 1);
 
 		rand1 = random.nextInt(9) + 2;
@@ -296,10 +295,10 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 
 		for (i = 0; i < rand1; i++) {
 			chest.setInventorySlotContents(chestSlots.getRandomChestSlot(),
-					this.getLoot(rand2));
+					getLoot(rand2));
 		}
 
-		this.setBlock(x + 6, y - height, z + 3, Blocks.chest);
+		setBlock(x + 6, y - height, z + 3, Blocks.chest);
 		chest = (TileEntityChest) world.getTileEntity(x + 6, y - height, z + 3);
 
 		rand1 = random.nextInt(9) + 2;
@@ -308,10 +307,10 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 
 		for (i = 0; i < rand1; i++) {
 			chest.setInventorySlotContents(chestSlots.getRandomChestSlot(),
-					this.getLoot(rand2));
+					getLoot(rand2));
 		}
 
-		this.setBlock(x + 7, y - height, z + 3, Blocks.chest);
+		setBlock(x + 7, y - height, z + 3, Blocks.chest);
 		chest = (TileEntityChest) world.getTileEntity(x + 7, y - height, z + 3);
 
 		rand1 = random.nextInt(9) + 2;
@@ -319,7 +318,7 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 
 		for (i = 0; i < rand1; i++) {
 			chest.setInventorySlotContents(chestSlots.getRandomChestSlot(),
-					this.getLoot(1));
+					getLoot(1));
 		}
 	}
 
@@ -330,87 +329,87 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 
 		for (j = 0; j < 2; j++) {
 			for (i = 0; i < 6; i++) {
-				this.setBlock(x + i, y + j, z, Blocks.planks);
+				setBlock(x + i, y + j, z, Blocks.planks);
 			}
 
 			for (i = 0; i < 6; i++) {
-				this.setBlock(x, y + j, z + i, Blocks.planks);
+				setBlock(x, y + j, z + i, Blocks.planks);
 			}
 
 			for (i = 0; i < 4; i++) {
-				this.setBlock(x + i, y + j, z + 5, Blocks.planks);
+				setBlock(x + i, y + j, z + 5, Blocks.planks);
 			}
 
 			for (i = 0; i < 5; i++) {
-				this.setBlock(x + 5, y + j, z + i, Blocks.planks);
+				setBlock(x + 5, y + j, z + i, Blocks.planks);
 			}
 
 			for (i = 3; i < 6; i++) {
-				this.setBlock(x + i, y + j, z + 4, Blocks.planks);
+				setBlock(x + i, y + j, z + 4, Blocks.planks);
 			}
 		}
 
 		// Door and Windows
 
-		this.setBlock(x, y, z + 2, Blocks.air);
-		this.setBlock(x, y + 1, z + 2, Blocks.air);
-		this.setBlock(x + 2, y + 1, z, Blocks.air);
-		this.setBlock(x + 5, y + 1, z + 2, Blocks.air);
+		setBlock(x, y, z + 2, Blocks.air);
+		setBlock(x, y + 1, z + 2, Blocks.air);
+		setBlock(x + 2, y + 1, z, Blocks.air);
+		setBlock(x + 5, y + 1, z + 2, Blocks.air);
 
 		// Ceiling
 
 		for (i = 0; i < 6; i++) {
 			for (j = 0; j < 6; j++) {
-				this.setBlock(x + i, y + 2, z + j, Blocks.planks);
+				setBlock(x + i, y + 2, z + j, Blocks.planks);
 			}
 		}
 
 		// Roof - Layer 0
 
-		this.setBlockAndMetadata(x + 4, y + 2, z + 5, Blocks.oak_stairs, 1);
-		this.setBlockAndMetadata(x + 5, y + 2, z + 5, Blocks.oak_stairs, 3);
+		setBlockAndMetadata(x + 4, y + 2, z + 5, Blocks.oak_stairs, 1);
+		setBlockAndMetadata(x + 5, y + 2, z + 5, Blocks.oak_stairs, 3);
 
 		for (i = -1; i < 5; i++) {
-			this.setBlockAndMetadata(x + i, y + 2, z + 6, Blocks.oak_stairs, 3);
+			setBlockAndMetadata(x + i, y + 2, z + 6, Blocks.oak_stairs, 3);
 		}
 
 		for (i = -1; i < 6; i++) {
-			this.setBlockAndMetadata(x - 1, y + 2, z + i, Blocks.oak_stairs, 0);
+			setBlockAndMetadata(x - 1, y + 2, z + i, Blocks.oak_stairs, 0);
 		}
 
 		for (i = 0; i < 7; i++) {
-			this.setBlockAndMetadata(x + i, y + 2, z - 1, Blocks.oak_stairs, 2);
+			setBlockAndMetadata(x + i, y + 2, z - 1, Blocks.oak_stairs, 2);
 		}
 
 		for (i = 0; i < 6; i++) {
-			this.setBlockAndMetadata(x + 6, y + 2, z + i, Blocks.oak_stairs, 1);
+			setBlockAndMetadata(x + 6, y + 2, z + i, Blocks.oak_stairs, 1);
 		}
 
 		// Roof - Layer 1
 
 		for (i = 1; i < 5; i++) {
 			for (j = 1; j < 5; j++) {
-				this.setBlock(x + i, y + 3, z + j, Blocks.planks);
+				setBlock(x + i, y + 3, z + j, Blocks.planks);
 			}
 		}
 
-		this.setBlockAndMetadata(x + 3, y + 3, z + 4, Blocks.oak_stairs, 1);
-		this.setBlockAndMetadata(x + 4, y + 3, z + 4, Blocks.oak_stairs, 3);
+		setBlockAndMetadata(x + 3, y + 3, z + 4, Blocks.oak_stairs, 1);
+		setBlockAndMetadata(x + 4, y + 3, z + 4, Blocks.oak_stairs, 3);
 
 		for (i = 0; i < 4; i++) {
-			this.setBlockAndMetadata(x + i, y + 3, z + 5, Blocks.oak_stairs, 3);
+			setBlockAndMetadata(x + i, y + 3, z + 5, Blocks.oak_stairs, 3);
 		}
 
 		for (i = 0; i < 5; i++) {
-			this.setBlockAndMetadata(x, y + 3, z + i, Blocks.oak_stairs, 0);
+			setBlockAndMetadata(x, y + 3, z + i, Blocks.oak_stairs, 0);
 		}
 
 		for (i = 1; i < 6; i++) {
-			this.setBlockAndMetadata(x + i, y + 3, z, Blocks.oak_stairs, 2);
+			setBlockAndMetadata(x + i, y + 3, z, Blocks.oak_stairs, 2);
 		}
 
 		for (i = 1; i < 5; i++) {
-			this.setBlockAndMetadata(x + 5, y + 3, z + i, Blocks.oak_stairs, 1);
+			setBlockAndMetadata(x + 5, y + 3, z + i, Blocks.oak_stairs, 1);
 		}
 
 		// Chest in Layer 1
@@ -421,7 +420,7 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 		final int chunkZ = (new int[] { 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 1, 2,
 				3 })[rand];
 
-		this.setBlock(x + chunkX, y + 3, z + chunkZ, Blocks.chest);
+		setBlock(x + chunkX, y + 3, z + chunkZ, Blocks.chest);
 		final TileEntityChest chest = (TileEntityChest) world.getTileEntity(x
 				+ chunkX, y + 3, z + chunkZ);
 
@@ -431,48 +430,48 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 
 		for (i = 0; i < rand; i++) {
 			chest.setInventorySlotContents(chestSlots.getRandomChestSlot(),
-					this.getLoot(0));
+					getLoot(0));
 		}
 
 		// Roof - Layer 2
 
-		this.setBlock(x + 2, y + 4, z + 2, Blocks.planks);
-		this.setBlock(x + 3, y + 4, z + 2, Blocks.planks);
+		setBlock(x + 2, y + 4, z + 2, Blocks.planks);
+		setBlock(x + 3, y + 4, z + 2, Blocks.planks);
 
-		this.setBlockAndMetadata(x + 2, y + 4, z + 3, Blocks.oak_stairs, 1);
-		this.setBlockAndMetadata(x + 3, y + 4, z + 3, Blocks.oak_stairs, 3);
-		this.setBlockAndMetadata(x + 2, y + 4, z + 4, Blocks.oak_stairs, 3);
+		setBlockAndMetadata(x + 2, y + 4, z + 3, Blocks.oak_stairs, 1);
+		setBlockAndMetadata(x + 3, y + 4, z + 3, Blocks.oak_stairs, 3);
+		setBlockAndMetadata(x + 2, y + 4, z + 4, Blocks.oak_stairs, 3);
 
 		for (i = 2; i < 5; i++) {
-			this.setBlockAndMetadata(x + 1, y + 4, z + i, Blocks.oak_stairs, 0);
+			setBlockAndMetadata(x + 1, y + 4, z + i, Blocks.oak_stairs, 0);
 		}
 
 		for (i = 1; i < 5; i++) {
-			this.setBlockAndMetadata(x + i, y + 4, z + 1, Blocks.oak_stairs, 2);
+			setBlockAndMetadata(x + i, y + 4, z + 1, Blocks.oak_stairs, 2);
 		}
 
 		for (i = 2; i < 4; i++) {
-			this.setBlockAndMetadata(x + 4, y + 4, z + i, Blocks.oak_stairs, 1);
+			setBlockAndMetadata(x + 4, y + 4, z + i, Blocks.oak_stairs, 1);
 		}
 
 		// Roof - Layer 3 (Top)
 
-		this.setBlock(x + 2, y + 5, z + 2, Blocks.wooden_slab);
-		this.setBlock(x + 3, y + 5, z + 2, Blocks.wooden_slab);
+		setBlock(x + 2, y + 5, z + 2, Blocks.wooden_slab);
+		setBlock(x + 3, y + 5, z + 2, Blocks.wooden_slab);
 
 		// Inside
 
 		for (i = 1; i < 5; i++) {
 			for (j = 1; j < 4; j++) {
 				for (k = 0; k < 2; k++) {
-					this.setBlock(x + i, y + k, z + j, Blocks.air);
+					setBlock(x + i, y + k, z + j, Blocks.air);
 				}
 			}
 		}
 
 		for (i = 1; i < 3; i++) {
 			for (j = 0; j < 2; j++) {
-				this.setBlock(x + i, y + j, z + 4, Blocks.air);
+				setBlock(x + i, y + j, z + 4, Blocks.air);
 			}
 		}
 	}
@@ -484,16 +483,16 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 
 		for (i = 0; i < 5; i++) {
 			for (j = 0; j < 5; j++) {
-				this.setBlock(x + i, y - 2, z + j, Blocks.cobblestone);
+				setBlock(x + i, y - 2, z + j, Blocks.cobblestone);
 			}
 		}
 
 		for (i = 1; i < 4; i++) {
-			this.setBlock(x + 3, y - 2, z + i, Blocks.air);
+			setBlock(x + 3, y - 2, z + i, Blocks.air);
 		}
 
-		this.setBlock(x + 3, y - 2, z + 2, Blocks.torch);
-		this.setBlockAndMetadata(x + 2, y - 2, z + 1, Blocks.stone_stairs, 1);
+		setBlock(x + 3, y - 2, z + 2, Blocks.torch);
+		setBlockAndMetadata(x + 2, y - 2, z + 1, Blocks.stone_stairs, 1);
 
 		// Stairs Down
 
@@ -509,7 +508,7 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 			for (i = 0; i < 5; i++) {
 				for (j = 0; j < 5; j++) {
 					for (k = 0; k < 8; k++) {
-						this.setBlock(
+						setBlock(
 								x + i,
 								y - height - k,
 								z + j,
@@ -523,25 +522,25 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 			// Actual Stairs
 
 			for (i = 0; i < 8; i++) {
-				this.setBlock(x + tmpX[i], y - height - i, z + tmpZ[i],
+				setBlock(x + tmpX[i], y - height - i, z + tmpZ[i],
 						Blocks.cobblestone);
 
 				tmp = (i + 1) % 8;
 				tmp2 = i / 2;
-				this.setBlockAndMetadata(x + tmpX[tmp], y - height - i, z
+				setBlockAndMetadata(x + tmpX[tmp], y - height - i, z
 						+ tmpZ[tmp], Blocks.stone_stairs, (tmp2 == 0) ? 3
 						: (tmp2 == 1) ? 0 : (tmp2 == 2) ? 2 : 1);
 
 				tmp = (i + 7) % 8;
 				tmp2 = ((i + 1) / 2) % 4;
-				this.setBlockAndMetadata(x + tmpX[tmp], y - height - i, z
+				setBlockAndMetadata(x + tmpX[tmp], y - height - i, z
 						+ tmpZ[tmp], Blocks.stone_stairs, (tmp2 == 0) ? 7
 						: (tmp2 == 1) ? 4 : (tmp2 == 2) ? 6 : 5);
 
 				if ((i % 2) == 1) {
 					tmp = (i + 3) % 8;
 					tmp2 = i / 2;
-					this.setBlockAndMetadata(x + tmpX[tmp], y - height - i, z
+					setBlockAndMetadata(x + tmpX[tmp], y - height - i, z
 							+ tmpZ[tmp], Blocks.torch, (tmp2 == 0) ? 3
 							: (tmp2 == 1) ? 2 : (tmp2 == 2) ? 4 : 1);
 				}
@@ -553,7 +552,7 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 
 		for (i = 0; i < 5; i++) {
 			for (j = 0; j < 5; j++) {
-				this.setBlock(x + i, y - height, z + j, Blocks.cobblestone);
+				setBlock(x + i, y - height, z + j, Blocks.cobblestone);
 			}
 		}
 	}
@@ -734,7 +733,7 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 	 * Sets a Block at the specified Spot
 	 */
 	private void setBlock(int x, int y, int z, Block blockId) {
-		this.setBlockAndMetadata(x, y, z, blockId, 0);
+		setBlockAndMetadata(x, y, z, blockId, 0);
 	}
 
 	/**

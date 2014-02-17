@@ -1,10 +1,10 @@
 package brainstonemod.common;
 
-import brainstonemod.BrainStone;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
+import brainstonemod.BrainStone;
 
 public class CommonProxy {
 	/**

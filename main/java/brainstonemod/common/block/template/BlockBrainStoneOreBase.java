@@ -1,17 +1,12 @@
 package brainstonemod.common.block.template;
 
 import net.minecraft.block.BlockOre;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 
 public class BlockBrainStoneOreBase extends BlockOre {
-
-	public BlockBrainStoneOreBase(int par1) {
-		super(par1);
-	}
-
 	@Override
-	public void registerIcons(IconRegister par1IconRegister) {
+	public void registerBlockIcons(IIconRegister par1IconRegister) {
 		blockIcon = par1IconRegister.registerIcon("brainstonemod:"
-				+ this.getUnlocalizedName().replaceFirst("tile.", ""));
+				+ getUnlocalizedName().replaceFirst("tile.", ""));
 	}
 }

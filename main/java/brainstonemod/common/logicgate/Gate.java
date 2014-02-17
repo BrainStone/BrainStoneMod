@@ -259,7 +259,7 @@ public abstract class Gate {
 	}
 
 	public final PinState getPinState(char gateName) {
-		final Pin tmp = this.getPin(gateName);
+		final Pin tmp = getPin(gateName);
 
 		if (tmp == null)
 			return PinState.NotExisting;

@@ -1,12 +1,11 @@
 package brainstonemod.common.handler;
 
+import ibxm.Player;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
 
 public class BrainStoneEventHandler {
