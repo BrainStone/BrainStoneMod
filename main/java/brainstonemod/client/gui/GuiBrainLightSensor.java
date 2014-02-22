@@ -2,9 +2,6 @@ package brainstonemod.client.gui;
 
 import java.io.IOException;
 
-import net.minecraft.client.audio.ISound;
-import net.minecraft.client.audio.SoundHandler;
-import net.minecraft.client.audio.SoundList;
 import net.minecraft.util.StatCollector;
 import brainstonemod.client.gui.template.GuiBrainStoneBase;
 import brainstonemod.common.container.ContainerBlockBrainLightSensor;
@@ -56,7 +53,7 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 	private void click() {
 		// TODO Play sound
 		mc.getSoundHandler().playSound(null);
-		//mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
+		// mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
 	}
 
 	@Override
@@ -87,13 +84,13 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 			fontRendererObj.drawString(
 					tmp = StatCollector
 							.translateToLocal("gui.brainstone.classic"),
-					(x + 32) - (fontRendererObj.getStringWidth(tmp) / 2), y + 3,
-					0x404040);
+					(x + 32) - (fontRendererObj.getStringWidth(tmp) / 2),
+					y + 3, 0x404040);
 			fontRendererObj.drawString(
 					tmp = StatCollector
 							.translateToLocal("gui.brainstone.simple"),
-					(x + 96) - (fontRendererObj.getStringWidth(tmp) / 2), y + 3,
-					0x404040);
+					(x + 96) - (fontRendererObj.getStringWidth(tmp) / 2),
+					y + 3, 0x404040);
 		} else {
 			this.registerTexture("GuiBrainLightSensorSimple");
 			final int x = (width - xSizeSimple) / 2;
@@ -105,13 +102,13 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 			fontRendererObj.drawString(
 					tmp = StatCollector
 							.translateToLocal("gui.brainstone.classic"),
-					(x + 32) - (fontRendererObj.getStringWidth(tmp) / 2), y + 3,
-					0x404040);
+					(x + 32) - (fontRendererObj.getStringWidth(tmp) / 2),
+					y + 3, 0x404040);
 			fontRendererObj.drawString(
 					tmp = StatCollector
 							.translateToLocal("gui.brainstone.simple"),
-					(x + 96) - (fontRendererObj.getStringWidth(tmp) / 2), y + 3,
-					0x404040);
+					(x + 96) - (fontRendererObj.getStringWidth(tmp) / 2),
+					y + 3, 0x404040);
 			fontRendererObj.drawString(StatCollector
 					.translateToLocal("gui.brainstone.proportional"), x + 20,
 					y + 18, 0x404040);

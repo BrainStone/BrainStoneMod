@@ -133,7 +133,7 @@ public class BrainStoneRenderBrainLogicBlockHandler implements
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z,
 			Block block, int modelId, RenderBlocks renderer) {
 		final TileEntityBlockBrainLogicBlock tileEntity = (TileEntityBlockBrainLogicBlock) renderer.blockAccess
-				.getBlockTileEntity(x, y, z);
+				.getTileEntity(x, y, z);
 
 		if (tileEntity != null) {
 			tileEntity.currentRenderDirection = -1;
@@ -150,13 +150,7 @@ public class BrainStoneRenderBrainLogicBlockHandler implements
 	}
 
 	@Override
-	public boolean shouldRender3DInInventory() {
-		return true;
-	}
-
-	@Override
 	public boolean shouldRender3DInInventory(int modelId) {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 }

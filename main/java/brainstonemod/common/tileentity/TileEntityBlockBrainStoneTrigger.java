@@ -48,6 +48,12 @@ public class TileEntityBlockBrainStoneTrigger extends
 	}
 
 	@Override
+	public void closeInventory() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
 	public void dropItems(World world, int i, int j, int k) {
 		for (final ItemStack itemstack : ItemStacks) {
 			if (itemstack != null) {
@@ -99,12 +105,10 @@ public class TileEntityBlockBrainStoneTrigger extends
 		return new Packet132TileEntityData(xCoord, yCoord, zCoord, 1, tag);
 	}
 
-	/**
-	 * Returns the name of the inventory.
-	 */
 	@Override
-	public String getInvName() {
-		return "container.brainstonetrigger";
+	public String getInventoryName() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	public byte getMobPower(String mob) {
@@ -135,7 +139,13 @@ public class TileEntityBlockBrainStoneTrigger extends
 		if (block == null)
 			return BlockBrainStoneTrigger.textures[0];
 		else
-			return block.getBlockTexture(iblockaccess, i, j, k, 1);
+			return block.getIcon(iblockaccess, i, j, k, 1);
+	}
+
+	@Override
+	public boolean hasCustomInventoryName() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	public void invertMobTriggered(String s) {
@@ -158,6 +168,12 @@ public class TileEntityBlockBrainStoneTrigger extends
 	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet) {
 		final NBTTagCompound tag = packet.data;
 		readFromNBT(tag);
+	}
+
+	@Override
+	public void openInventory() {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
@@ -283,29 +299,5 @@ public class TileEntityBlockBrainStoneTrigger extends
 
 		nbttagcompound.setByte("BrainStoneDelay", delay);
 		nbttagcompound.setByte("BrainStoneMaxDelay", max_delay);
-	}
-
-	@Override
-	public String getInventoryName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean hasCustomInventoryName() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void openInventory() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void closeInventory() {
-		// TODO Auto-generated method stub
-
 	}
 }

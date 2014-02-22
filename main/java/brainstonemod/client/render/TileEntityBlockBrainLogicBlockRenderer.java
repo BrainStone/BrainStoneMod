@@ -19,7 +19,7 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 			final TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock = (TileEntityBlockBrainLogicBlock) tileentity;
 
 			if (tileentityblockbrainlogicblock != null) {
-				final FontRenderer fontrenderer = this.getFontRenderer();
+				final FontRenderer fontrenderer = func_147498_b();
 				GL11.glDepthMask(false);
 
 				tileentityblockbrainlogicblock.renderGate(fontrenderer,

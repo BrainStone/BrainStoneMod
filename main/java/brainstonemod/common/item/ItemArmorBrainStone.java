@@ -8,8 +8,7 @@ import net.minecraft.item.ItemStack;
 import brainstonemod.BrainStone;
 
 public class ItemArmorBrainStone extends ItemArmor {
-	public ItemArmorBrainStone(int i, ArmorMaterial armorMaterial, int par3,
-			int par4) {
+	public ItemArmorBrainStone(ArmorMaterial armorMaterial, int par3, int par4) {
 		super(armorMaterial, par3, par4);
 	}
 

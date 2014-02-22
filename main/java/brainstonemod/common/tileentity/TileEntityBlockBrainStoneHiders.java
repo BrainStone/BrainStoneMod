@@ -12,13 +12,6 @@ public abstract class TileEntityBlockBrainStoneHiders extends
 		TileEntityBrainStoneSyncBase implements IInventory {
 	protected ItemStack ItemStacks[];
 
-	public TileEntityBlockBrainStoneHiders() {
-	}
-
-	@Override
-	public void closeChest() {
-	}
-
 	/**
 	 * Decrease the size of the stack in slot (first int arg) by the amount of
 	 * the second int arg. Returns the new stack.
@@ -107,15 +100,11 @@ public abstract class TileEntityBlockBrainStoneHiders extends
 	 */
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-		if (worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) != this)
+		if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this)
 			return false;
 		else
 			return entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D,
 					zCoord + 0.5D) <= 64D;
-	}
-
-	@Override
-	public void openChest() {
 	}
 
 	/**

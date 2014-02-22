@@ -9,6 +9,7 @@ import net.minecraft.world.gen.feature.WorldGenMinable;
 import brainstonemod.BrainStone;
 import cpw.mods.fml.common.IWorldGenerator;
 
+// TODO split into 2 classes for separate generation of the ore(s) and the dungeon
 public class BrainStoneWorldGenerator implements IWorldGenerator {
 	/** Temporary storage of the random parameter in generate */
 	private Random random;
@@ -85,8 +86,8 @@ public class BrainStoneWorldGenerator implements IWorldGenerator {
 			final int randPosY = low + random.nextInt(high - low);
 			final int randPosZ = random.nextInt(16) + chunkZ;
 
-			new WorldGenMinable(block, size).generate(world, random,
-					randPosX, randPosY, randPosZ);
+			new WorldGenMinable(block, size).generate(world, random, randPosX,
+					randPosY, randPosZ);
 		}
 	}
 }

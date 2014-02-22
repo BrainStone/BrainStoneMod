@@ -7,13 +7,14 @@ import net.minecraft.item.ItemSword;
 import brainstonemod.BrainStone;
 
 public class ItemSwordBrainStone extends ItemSword {
-	public ItemSwordBrainStone(int i, ToolMaterial enumtoolmaterial) {
+	public ItemSwordBrainStone(ToolMaterial enumtoolmaterial) {
 		super(enumtoolmaterial);
 	}
 
 	@Override
 	public boolean getIsRepairable(ItemStack tool, ItemStack material) {
-		return Block.getBlockFromItem(material.getItem()) == BrainStone.brainStone();
+		return Block.getBlockFromItem(material.getItem()) == BrainStone
+				.brainStone();
 	}
 
 	@Override

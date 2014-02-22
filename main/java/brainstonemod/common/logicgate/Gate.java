@@ -99,7 +99,7 @@ public abstract class Gate {
 			try {
 				return Gates.get(Name).clone();
 			} catch (final CloneNotSupportedException e) {
-				BSP.severeException(
+				BSP.fatalException(
 						e,
 						"This is fatal! You must report this!\nThanks!\n\nDeveloper Information:\nCannot clone Gate: \""
 								+ Gates.get(Name).getClass().getName()
@@ -109,7 +109,7 @@ public abstract class Gate {
 			}
 		}
 
-		BSP.severe("The name: \"" + Name + "\" was not recongnized!");
+		BSP.error("The name: \"" + Name + "\" was not recongnized!");
 
 		return null;
 	}
@@ -137,23 +137,23 @@ public abstract class Gate {
 
 					Gates.put(tmp.Name, tmp);
 				} catch (final InstantiationException e) {
-					BSP.severeException(
+					BSP.errorException(
 							e,
 							"Well, that should NOT have happenend! But it is not a big problem. Just report it to yannick@tedworld.de.\nThanks!");
 				} catch (final IllegalAccessException e) {
-					BSP.severeException(
+					BSP.errorException(
 							e,
 							"Well, that should NOT have happenend! But it is not a big problem. Just report it to yannick@tedworld.de.\nThanks!");
 				}
 			}
 		} catch (final IOException e) {
-			BSP.severeException(
+			BSP.errorException(
 					e,
 					"Well, that should NOT have happenend! This IS a HUGE problem if you notice this please report it to yannick@tedworld.de.\nThanks!");
 
 			return null;
 		} catch (final ClassNotFoundException e) {
-			BSP.severeException(
+			BSP.errorException(
 					e,
 					"Well, that should NOT have happenend! This IS a HUGE problem if you notice this please report it to yannick@tedworld.de.\nThanks!");
 
@@ -239,10 +239,10 @@ public abstract class Gate {
 		try {
 			return this.getClass().newInstance();
 		} catch (final InstantiationException e) {
-			BSP.severeException(e);
+			BSP.errorException(e);
 			BSP.throwCloneNotSupportedException("An InstantiationException occured!");
 		} catch (final IllegalAccessException e) {
-			BSP.severeException(e);
+			BSP.errorException(e);
 			BSP.throwCloneNotSupportedException("An IllegalAccessException occured!");
 		}
 

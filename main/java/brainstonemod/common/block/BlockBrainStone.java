@@ -5,6 +5,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import brainstonemod.BrainStone;
 import brainstonemod.common.block.template.BlockBrainStoneBase;
@@ -32,11 +33,11 @@ public class BlockBrainStone extends BlockBrainStoneBase {
 		setResistance(1.0F);
 
 		if (flag) {
-			this.setLightValue(0.0F);
-			this.setUnlocalizedName("brainStoneOut");
+			setLightLevel(0.0F);
+			setBlockName("brainStoneOut");
 		} else {
-			this.setLightValue(1.0F);
-			this.setUnlocalizedName("brainStone");
+			setLightLevel(1.0F);
+			setBlockName("brainStone");
 			setCreativeTab(CreativeTabs.tabBlock);
 		}
 
@@ -62,13 +63,16 @@ public class BlockBrainStone extends BlockBrainStoneBase {
 	}
 
 	@Override
-	public void onNeighborBlockChange(World world, int i, int j, int k, int l) {
+	public void onNeighborChange(IBlockAccess blockAccess, int x, int y, int z,
+			int tileX, int tileY, int tileZ) {
+		final World world = (World) blockAccess;
+
 		if (!world.isRemote) {
-			if (powered && !world.isBlockIndirectlyGettingPowered(i, j, k)) {
-				world.setBlock(i, j, k, BrainStone.brainStone(), 0, 2);
+			if (powered && !world.isBlockIndirectlyGettingPowered(x, y, z)) {
+				world.setBlock(x, y, z, BrainStone.brainStone(), 0, 2);
 			} else if (!powered
-					&& world.isBlockIndirectlyGettingPowered(i, j, k)) {
-				world.setBlock(i, j, k, BrainStone.brainStoneOut(), 0, 2);
+					&& world.isBlockIndirectlyGettingPowered(x, y, z)) {
+				world.setBlock(x, y, z, BrainStone.brainStoneOut(), 0, 2);
 			}
 		}
 	}

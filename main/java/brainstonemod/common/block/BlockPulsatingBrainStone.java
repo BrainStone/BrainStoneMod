@@ -34,13 +34,13 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 
 		setHardness(3.0F);
 		setResistance(1.0F);
-		this.setLightValue(1.0F);
+		setLightLevel(1.0F);
 
 		if (effect) {
-			this.setUnlocalizedName("pulsatingBrainStoneEffect");
+			setBlockName("pulsatingBrainStoneEffect");
 			hasEffectId = this;
 		} else {
-			this.setUnlocalizedName("pulsatingBrainStone");
+			setBlockName("pulsatingBrainStone");
 			setCreativeTab(CreativeTabs.tabBlock);
 			hasNoEffectId = this;
 		}

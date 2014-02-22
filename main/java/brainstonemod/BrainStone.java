@@ -103,7 +103,7 @@ import cpw.mods.fml.relauncher.Side;
 public class BrainStone {
 	public static final String MOD_ID = "BrainStoneMod";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.42.124 BETA";
+	public static final String VERSION = "v2.42.174 BETA";
 
 	/** States if the current mod version is a release version or not */
 	public static final boolean release = VERSION.toLowerCase().contains(
@@ -153,8 +153,8 @@ public class BrainStone {
 	public static ToolMaterial toolBRAINSTONE = EnumHelper.addToolMaterial(
 			"BRAINSTONE", 3, 5368, 6F, 5, 25);
 	/** The BrainStone Armor Material */
-	public static ArmorMaterial armorBRAINSTONE = EnumHelper
-			.addArmorMaterial("BRAINSTONE", 114, new int[] { 2, 6, 5, 2 }, 25);
+	public static ArmorMaterial armorBRAINSTONE = EnumHelper.addArmorMaterial(
+			"BRAINSTONE", 114, new int[] { 2, 6, 5, 2 }, 25);
 
 	/**
 	 * This Map maps the different mob types of the BrainStoneTrigger to the
@@ -449,7 +449,10 @@ public class BrainStone {
 		addRecipes(); // Recipes
 		addSmeltings(); // Smeltings
 		// Ore Generation
-		GameRegistry.registerWorldGenerator(new BrainStoneWorldGenerator());
+
+		// TODO split into two classes and find good values for the world
+		// generator
+		GameRegistry.registerWorldGenerator(new BrainStoneWorldGenerator(), 0);
 		// Crafting Handler
 		GameRegistry.registerCraftingHandler(new BrainStoneCraftingHandler());
 		// Pickup Handler
@@ -756,7 +759,7 @@ public class BrainStone {
 				new Object[] { "XX", "XX", 'X', brainStoneDust() });
 		GameRegistry.addRecipe(new ItemStack(brainLightSensor(), 1),
 				new Object[] { "XGX", "XBX", "XRX", 'X', Blocks.stone, 'G',
-			Blocks.glass, 'B', brainStone(), 'R', Items.redstone });
+						Blocks.glass, 'B', brainStone(), 'R', Items.redstone });
 		GameRegistry.addRecipe(new ItemStack(brainStoneTrigger(), 1),
 				new Object[] { "XXX", "RRR", "XBX", 'X', Blocks.stone, 'B',
 						brainStone(), 'R', Items.redstone });
@@ -781,8 +784,8 @@ public class BrainStone {
 				"BB", " S", " S", 'S', Items.stick, 'B', brainStone() });
 		GameRegistry.addRecipe(new ItemStack(brainProcessor(), 4),
 				new Object[] { "TRT", "SBS", "TRT", 'B', brainStone(), 'S',
-			Items.redstone, 'T', Blocks.redstone_torch, 'R',
-			Items.repeater });
+						Items.redstone, 'T', Blocks.redstone_torch, 'R',
+						Items.repeater });
 		GameRegistry.addRecipe(new ItemStack(brainStoneHelmet(), 1),
 				new Object[] { "BBB", "B B", 'B', brainStone() });
 		GameRegistry.addRecipe(new ItemStack(brainStonePlate(), 1),
@@ -797,8 +800,8 @@ public class BrainStone {
 	 * Adds the smeltings.
 	 */
 	private static void addSmeltings() {
-		GameRegistry.addSmelting(dirtyBrainStone(), new ItemStack(
-				brainStone(), 1, 0), 3.0F);
+		GameRegistry.addSmelting(dirtyBrainStone(), new ItemStack(brainStone(),
+				1, 0), 3.0F);
 	}
 
 	// DOCME
@@ -854,10 +857,9 @@ public class BrainStone {
 		blocks.put(2, new BlockBrainStoneOre());
 		blocks.put(
 				3,
-				(new BlockBrainStoneBase(Material.rock))
-						.setHardness(2.4F)
-						.setUnlocalizedName("dirtyBrainStone")
-						.setResistance(0.5F).setLightValue(0.5F)
+				(new BlockBrainStoneBase(Material.rock)).setHardness(2.4F)
+						.setBlockName("dirtyBrainStone").setResistance(0.5F)
+						.setLightLevel(0.5F)
 						.setCreativeTab(CreativeTabs.tabBlock));
 		blocks.get(3).blockParticleGravity = -0.1F;
 		blocks.put(4, new BlockBrainLightSensor());
@@ -868,35 +870,33 @@ public class BrainStone {
 
 		// Items
 
-		items.put(
-				startItemId + 0,
-				(new ItemBrainStoneBase(getId(startItemId)))
-						.setUnlocalizedName("brainStoneDust").setCreativeTab(
-								CreativeTabs.tabMaterials));
-		items.put(startItemId + 2, (new ItemBrainStoneBase(
-				getId(startItemId + 2))).setUnlocalizedName("brainProcessor")
-				.setCreativeTab(CreativeTabs.tabMisc));
-		items.put(startItemId + 3, (new ItemSwordBrainStone(3, toolBRAINSTONE))
+		items.put(startItemId + 0,
+				(new ItemBrainStoneBase()).setUnlocalizedName("brainStoneDust")
+						.setCreativeTab(CreativeTabs.tabMaterials));
+		items.put(startItemId + 2,
+				(new ItemBrainStoneBase()).setUnlocalizedName("brainProcessor")
+						.setCreativeTab(CreativeTabs.tabMisc));
+		items.put(startItemId + 3, (new ItemSwordBrainStone(toolBRAINSTONE))
 				.setUnlocalizedName("brainStoneSword"));
-		items.put(startItemId + 4, (new ItemToolBrainStone(4, toolBRAINSTONE,
+		items.put(startItemId + 4, (new ItemToolBrainStone(toolBRAINSTONE,
 				"spade")).setUnlocalizedName("brainStoneShovel"));
-		items.put(startItemId + 5, (new ItemToolBrainStone(5, toolBRAINSTONE,
+		items.put(startItemId + 5, (new ItemToolBrainStone(toolBRAINSTONE,
 				"pickaxe")).setUnlocalizedName("brainStonePickaxe"));
-		items.put(startItemId + 6, (new ItemToolBrainStone(6, toolBRAINSTONE,
+		items.put(startItemId + 6, (new ItemToolBrainStone(toolBRAINSTONE,
 				"axe")).setUnlocalizedName("brainStoneAxe"));
-		items.put(startItemId + 7, (new ItemHoeBrainStone(7, toolBRAINSTONE))
+		items.put(startItemId + 7, (new ItemHoeBrainStone(toolBRAINSTONE))
 				.setUnlocalizedName("brainStoneHoe"));
-		items.put(startItemId + 8, (new ItemArmorBrainStone(8, armorBRAINSTONE,
+		items.put(startItemId + 8, (new ItemArmorBrainStone(armorBRAINSTONE,
 				proxy.addArmor("brainstone"), 0))
 				.setUnlocalizedName("brainStoneHelmet"));
-		items.put(startItemId + 9, (new ItemArmorBrainStone(9, armorBRAINSTONE,
+		items.put(startItemId + 9, (new ItemArmorBrainStone(armorBRAINSTONE,
 				proxy.addArmor("brainstone"), 1))
 				.setUnlocalizedName("brainStonePlate"));
-		items.put(startItemId + 10, (new ItemArmorBrainStone(10,
-				armorBRAINSTONE, proxy.addArmor("brainstone"), 2))
+		items.put(startItemId + 10, (new ItemArmorBrainStone(armorBRAINSTONE,
+				proxy.addArmor("brainstone"), 2))
 				.setUnlocalizedName("brainStoneLeggings"));
-		items.put(startItemId + 11, (new ItemArmorBrainStone(11,
-				armorBRAINSTONE, proxy.addArmor("brainstone"), 3))
+		items.put(startItemId + 11, (new ItemArmorBrainStone(armorBRAINSTONE,
+				proxy.addArmor("brainstone"), 3))
 				.setUnlocalizedName("brainStoneBoots"));
 
 		// Achievements

@@ -3,6 +3,7 @@ package brainstonemod.common.block;
 import java.io.IOException;
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -31,14 +32,15 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 
 		setHardness(2.4F);
 		setResistance(0.5F);
-		this.setUnlocalizedName("brainLightSensor");
+		setBlockName("brainLightSensor");
 		setCreativeTab(CreativeTabs.tabRedstone);
 
 		blockParticleGravity = -0.2F;
 	}
 
 	@Override
-	public void breakBlock(World world, int x, int y, int z, int par5, int par6) {
+	public void breakBlock(World world, int x, int y, int z, Block block,
+			int meta) {
 		world.removeTileEntity(x, y, z);
 		world.notifyBlocksOfNeighborChange(x, y, z, this);
 		world.notifyBlocksOfNeighborChange(x - 1, y, z, this);

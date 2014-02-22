@@ -22,7 +22,7 @@ import brainstonemod.common.tileentity.template.TileEntityBrainStoneSyncBase;
 public class BrainStonePacketHandler implements IPacketHandler {
 	public static void sendBrainStoneTriggerMobInformationPacketToPlayer(
 			Player player) {
-		BSP.finer("Sending BrainStoneTriggerMobInformation Packet");
+		BSP.debug("Sending BrainStoneTriggerMobInformation Packet");
 
 		final ByteArrayOutputStream data = new ByteArrayOutputStream(0);
 		final DataOutputStream output = new DataOutputStream(data);
@@ -46,7 +46,7 @@ public class BrainStonePacketHandler implements IPacketHandler {
 			}
 
 		} catch (final IOException ex) {
-			BSP.warningException(ex);
+			BSP.warnException(ex);
 		}
 
 		final Packet250CustomPayload pkt = new Packet250CustomPayload();
@@ -56,7 +56,7 @@ public class BrainStonePacketHandler implements IPacketHandler {
 
 		PacketDispatcher.sendPacketToPlayer(pkt, player);
 
-		BSP.finest("Done sending BrainStoneTriggerMobInformation Packet");
+		BSP.debug("Done sending BrainStoneTriggerMobInformation Packet");
 	}
 
 	/**
@@ -243,7 +243,7 @@ public class BrainStonePacketHandler implements IPacketHandler {
 	private TileEntity tileEntity;
 
 	private void handleBrainStoneTriggerMobInformationPacket() {
-		BSP.finer("Handling BrainStoneTriggerMobInformation Packet");
+		BSP.debug("Handling BrainStoneTriggerMobInformation Packet");
 
 		inputStream = new DataInputStream(new ByteArrayInputStream(packet.data));
 
@@ -272,25 +272,25 @@ public class BrainStonePacketHandler implements IPacketHandler {
 
 			BrainStone.setClientSideTiggerEntities(tmpTriggerEntities);
 
-			BSP.finer("Dumping tmpTriggerEntities in handleBrainStoneTriggerMobInformationPacket");
+			BSP.debug("Dumping tmpTriggerEntities in handleBrainStoneTriggerMobInformationPacket");
 
 			for (final String key2 : tmpTriggerEntities.keySet()) {
-				BSP.finer(key2 + ":"
+				BSP.debug(key2 + ":"
 						+ Arrays.toString(tmpTriggerEntities.get(key2)));
 			}
 
-			BSP.finest("End of Dump");
+			BSP.debug("End of Dump");
 
 			handled();
 		} catch (final IOException ex) {
-			BSP.warningException(ex);
+			BSP.warnException(ex);
 		} catch (final ClassNotFoundException ex) {
-			BSP.severeException(ex,
+			BSP.fatalException(ex,
 					"There seems to be some mods missing on the client side!\n"
 							+ "This a bug.\nPlease report it!");
 		}
 
-		BSP.finest("Done handling BrainStoneTriggerMobInformation Packet");
+		BSP.debug("Done handling BrainStoneTriggerMobInformation Packet");
 	}
 
 	/**
@@ -303,7 +303,7 @@ public class BrainStonePacketHandler implements IPacketHandler {
 		inputStream = new DataInputStream(new ByteArrayInputStream(packet.data));
 
 		try {
-			tileEntity = BrainStone.proxy.getClientWorld().getBlockTileEntity(
+			tileEntity = BrainStone.proxy.getClientWorld().getTileEntity(
 					inputStream.readInt(), inputStream.readInt(),
 					inputStream.readInt());
 		} catch (final IOException ex) {
@@ -350,7 +350,7 @@ public class BrainStonePacketHandler implements IPacketHandler {
 			tileEntity = MinecraftServer
 					.getServer()
 					.worldServerForDimension(sender.dimension)
-					.getBlockTileEntity(inputStream.readInt(),
+					.getTileEntity(inputStream.readInt(),
 							inputStream.readInt(), inputStream.readInt());
 		} catch (final IOException ex) {
 			BSP.logException(ex);
@@ -517,7 +517,7 @@ public class BrainStonePacketHandler implements IPacketHandler {
 		} catch (final IOException e) {
 			BSP.logException(e);
 		} catch (final NullPointerException e) {
-			BSP.finer(e, "I guess this block just got removed!");
+			BSP.debug(e, "I guess this block just got removed!");
 		}
 	}
 

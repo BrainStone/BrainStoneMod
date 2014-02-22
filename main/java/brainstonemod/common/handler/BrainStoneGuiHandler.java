@@ -18,7 +18,7 @@ public class BrainStoneGuiHandler implements IGuiHandler {
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world,
 			int x, int y, int z) {
 		final TileEntityBrainStoneSyncBase tileentity = (TileEntityBrainStoneSyncBase) world
-				.getBlockTileEntity(x, y, z);
+				.getTileEntity(x, y, z);
 
 		switch (ID) {
 		case 0:
@@ -44,8 +44,8 @@ public class BrainStoneGuiHandler implements IGuiHandler {
 			return new ContainerBlockBrainLightSensor();
 		case 1:
 			return new ContainerBlockBrainStoneTrigger(player.inventory,
-					(TileEntityBlockBrainStoneTrigger) world
-							.getBlockTileEntity(x, y, z));
+					(TileEntityBlockBrainStoneTrigger) world.getTileEntity(x,
+							y, z));
 		}
 
 		return null;

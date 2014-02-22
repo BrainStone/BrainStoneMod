@@ -36,7 +36,7 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 
 		setHardness(3.0F);
 		setResistance(1.0F);
-		this.setUnlocalizedName("brainLogicBlock");
+		setBlockName("brainLogicBlock");
 		setCreativeTab(CreativeTabs.tabRedstone);
 
 		setTickRandomly(true);
@@ -45,15 +45,16 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	}
 
 	@Override
-	public void breakBlock(World world, int i, int j, int k, int par5, int par6) {
-		super.breakBlock(world, i, j, k, par5, par6);
-		world.notifyBlocksOfNeighborChange(i, j, k, this);
-		world.notifyBlocksOfNeighborChange(i - 1, j, k, this);
-		world.notifyBlocksOfNeighborChange(i + 1, j, k, this);
-		world.notifyBlocksOfNeighborChange(i, j - 1, k, this);
-		world.notifyBlocksOfNeighborChange(i, j + 1, k, this);
-		world.notifyBlocksOfNeighborChange(i, j, k - 1, this);
-		world.notifyBlocksOfNeighborChange(i, j, k + 1, this);
+	public void breakBlock(World world, int x, int y, int z, Block block,
+			int meta) {
+		super.breakBlock(world, x, y, z, block, meta);
+		world.notifyBlocksOfNeighborChange(x, y, z, this);
+		world.notifyBlocksOfNeighborChange(x - 1, y, z, this);
+		world.notifyBlocksOfNeighborChange(x + 1, y, z, this);
+		world.notifyBlocksOfNeighborChange(x, y - 1, z, this);
+		world.notifyBlocksOfNeighborChange(x, y + 1, z, this);
+		world.notifyBlocksOfNeighborChange(x, y, z - 1, this);
+		world.notifyBlocksOfNeighborChange(x, y, z + 1, this);
 	}
 
 	/**
@@ -111,7 +112,6 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	 *            The position/direction of the pin
 	 * @return The state at the requested pin
 	 */
-	@SuppressWarnings("unused")
 	private byte checkState(World world, int i, int j, int k, byte byte0) {
 		switch (byte0) {
 		case 3:
@@ -169,8 +169,8 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	}
 
 	@Override
-	public IIcon getBlockTexture(IBlockAccess iblockaccess, int x, int y,
-			int z, int side) {
+	public IIcon getIcon(IBlockAccess iblockaccess, int x, int y, int z,
+			int side) {
 		if (side < 2)
 			return textures[2];
 

@@ -30,7 +30,8 @@ public class BrainStoneCraftingHandler implements ICraftingHandler {
 
 	@Override
 	public void onSmelting(EntityPlayer player, ItemStack itemStack) {
-		if (Block.getBlockFromItem(itemStack.getItem())== BrainStone.brainStone()) {
+		if (Block.getBlockFromItem(itemStack.getItem()) == BrainStone
+				.brainStone()) {
 			player.addStat(BrainStone.itLives(), 1);
 		}
 	}

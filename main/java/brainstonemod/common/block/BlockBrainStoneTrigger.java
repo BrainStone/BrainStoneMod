@@ -3,6 +3,7 @@ package brainstonemod.common.block;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -32,29 +33,30 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 
 		setHardness(2.4F);
 		setResistance(0.5F);
-		this.setUnlocalizedName("brainStoneTrigger");
+		setBlockName("brainStoneTrigger");
 		// setRequiresSelfNotify();
 
 		blockParticleGravity = -0.2F;
 	}
 
 	@Override
-	public void breakBlock(World world, int i, int j, int k, int par5, int par6) {
+	public void breakBlock(World world, int x, int y, int z, Block block,
+			int meta) {
 		final TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBlockBrainStoneTrigger) world
-				.getTileEntity(i, j, k);
+				.getTileEntity(x, y, z);
 
 		if (tileentityblockbrainstonetrigger != null) {
-			tileentityblockbrainstonetrigger.dropItems(world, i, j, k);
+			tileentityblockbrainstonetrigger.dropItems(world, x, y, z);
 		}
 
-		world.removeTileEntity(i, j, k);
-		world.notifyBlocksOfNeighborChange(i, j, k, this);
-		world.notifyBlocksOfNeighborChange(i - 1, j, k, this);
-		world.notifyBlocksOfNeighborChange(i + 1, j, k, this);
-		world.notifyBlocksOfNeighborChange(i, j - 1, k, this);
-		world.notifyBlocksOfNeighborChange(i, j + 1, k, this);
-		world.notifyBlocksOfNeighborChange(i, j, k - 1, this);
-		world.notifyBlocksOfNeighborChange(i, j, k + 1, this);
+		world.removeTileEntity(x, y, z);
+		world.notifyBlocksOfNeighborChange(x, y, z, this);
+		world.notifyBlocksOfNeighborChange(x - 1, y, z, this);
+		world.notifyBlocksOfNeighborChange(x + 1, y, z, this);
+		world.notifyBlocksOfNeighborChange(x, y - 1, z, this);
+		world.notifyBlocksOfNeighborChange(x, y + 1, z, this);
+		world.notifyBlocksOfNeighborChange(x, y, z - 1, this);
+		world.notifyBlocksOfNeighborChange(x, y, z + 1, this);
 	}
 
 	@Override
@@ -63,8 +65,7 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 	}
 
 	@Override
-	public IIcon getBlockTexture(IBlockAccess iblockaccess, int i, int j,
-			int k, int l) {
+	public IIcon getIcon(IBlockAccess iblockaccess, int i, int j, int k, int l) {
 		if (l == 1) {
 			final TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBlockBrainStoneTrigger) iblockaccess
 					.getTileEntity(i, j, k);
