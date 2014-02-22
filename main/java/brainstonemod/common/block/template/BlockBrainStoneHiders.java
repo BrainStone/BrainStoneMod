@@ -43,16 +43,11 @@ public abstract class BlockBrainStoneHiders extends
 		if (itemstack == null)
 			return 0xffffff;
 
-		final int l = itemstack.itemID;
-
-		if ((l >= Block.blocksList.length) || (l < 0))
-			return 0xffffff;
-
-		final Block block = Block.blocksList[l];
+		final Block block = Block.getBlockFromItem(itemstack.getItem());
 
 		if (block == null)
 			return 0xffffff;
 		else
-			return Block.blocksList[l].colorMultiplier(iblockaccess, i, j, k);
+			return block.colorMultiplier(iblockaccess, i, j, k);
 	}
 }

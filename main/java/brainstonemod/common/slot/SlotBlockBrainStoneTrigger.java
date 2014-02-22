@@ -1,6 +1,7 @@
 package brainstonemod.common.slot;
 
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -8,24 +9,16 @@ import brainstonemod.BrainStone;
 import brainstonemod.common.tileentity.TileEntityBlockBrainStoneTrigger;
 
 public class SlotBlockBrainStoneTrigger extends Slot {
-	@SuppressWarnings("unused")
 	public static boolean staticIsItemValid(ItemStack itemstack) {
 		if (!(itemstack.getItem() instanceof ItemBlock))
 			return false;
 
-		final int i = itemstack.itemID;
-
-		if ((i > Block.blocksList.length) || (i <= 0))
-			return false;
-
-		final Block block = Block.blocksList[i];
-		final int j = block.blockID;
-
+		final Block block = Block.getBlockFromItem(itemstack.getItem());
 		if (block == null)
 			return false;
 
-		if ((j == BrainStone.brainStoneTrigger().blockID)
-				|| (j == Block.leaves.blockID))
+		if ((block == BrainStone.brainStoneTrigger())
+				|| (block == Blocks.leaves))
 			return false;
 		else
 			return block.isOpaqueCube();

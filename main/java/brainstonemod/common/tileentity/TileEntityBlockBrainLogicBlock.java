@@ -12,6 +12,7 @@ import net.minecraft.block.BlockRedstoneWire;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import brainstonemod.common.helper.BSP;
@@ -150,7 +151,7 @@ public class TileEntityBlockBrainLogicBlock extends
 	}
 
 	private boolean canBlockConnectToGate(World world, int x, int y, int z,
-			int direction, Block block, int blockId) {
+			int direction, Block block) {
 		return (block != null)
 				&& ((block.canProvidePower()
 						&& ((direction < 2) || block
@@ -159,10 +160,11 @@ public class TileEntityBlockBrainLogicBlock extends
 										x,
 										y,
 										z,
-										MCToInternalDirection((byte) (InternalToMCDirection((byte) direction) ^ 1)) - 2)) && (((blockId != 93)
-						&& (blockId != 149) && (blockId != 150)) || ((world
+										MCToInternalDirection((byte) (InternalToMCDirection((byte) direction) ^ 1)) - 2)) && (((block != Blocks.powered_repeater)
+						&& (block != Blocks.unpowered_repeater)
+						&& (block != Blocks.powered_comparator) && (block != Blocks.unpowered_comparator)) || ((world
 						.getBlockMetadata(x, y, z) & 3) == (direction & 3)))) || world
-						.getBlockMaterial(x, y, z).isSolid());
+						.getBlock(x, y, z).getMaterial().isSolid());
 	}
 
 	public boolean canPinsSwap(int pos1, int pos2) {
@@ -315,7 +317,7 @@ public class TileEntityBlockBrainLogicBlock extends
 	}
 
 	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-		if (worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) != this)
+		if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this)
 			return false;
 		else
 			return entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D,
@@ -331,7 +333,7 @@ public class TileEntityBlockBrainLogicBlock extends
 	}
 
 	private void print(Object obj) {
-		if (!BSP.finest(obj) && PrintErrorBuffActive) {
+		if (!BSP.debug(obj) && PrintErrorBuffActive) {
 			PrintErrorBuff.add(obj.toString());
 		}
 	}
@@ -550,7 +552,7 @@ public class TileEntityBlockBrainLogicBlock extends
 				final int xShift[] = new int[] { 0, 0, 0, 1, 0, -1 };
 				final int yShift[] = new int[] { 1, -1, 0, 0, 0, 0 };
 				final int zShift[] = new int[] { 0, 0, -1, 0, 1, 0 };
-				int tmpX, tmpY, tmpZ, blockId;
+				int tmpX, tmpY, tmpZ;
 				Block block;
 
 				for (int i = 0; i < 6; i++) {
@@ -560,11 +562,10 @@ public class TileEntityBlockBrainLogicBlock extends
 						tmpY = y + yShift[i];
 						tmpZ = z + zShift[i];
 
-						blockId = world.getBlockId(tmpX, tmpY, tmpZ);
-						block = Block.blocksList[blockId];
+						block = world.getBlock(tmpX, tmpY, tmpZ);
 
 						if (canBlockConnectToGate(world, tmpX, tmpY, tmpZ, i,
-								block, blockId)) {
+								block)) {
 							if (block instanceof BlockRedstoneWire) {
 								ActiveGate.Pins[i].State = PinState
 										.getPinState((byte) world

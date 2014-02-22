@@ -49,7 +49,8 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	public GuiBrainLogicBlock(
 			TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock) {
 		super(new ContainerBlockBrainLightSensor());
-		username = BrainStone.proxy.getPlayer().username;
+		// TODO replace with UUID
+		username = BrainStone.proxy.getPlayer().getDisplayName();
 		tileentity = tileentityblockbrainlogicblock;
 		tileentity.logIn(username);
 		help = false;
@@ -256,7 +257,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 						xSizeHelp, 9);
 			}
 
-			fontRenderer.drawSplitString(HelpText, x + 10, y + 10, stringWidth,
+			fontRendererObj.drawSplitString(HelpText, x + 10, y + 10, stringWidth,
 					0xeeeeee);
 		}
 	}
@@ -264,12 +265,12 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	// TODO See if this can be removed!
 	@SuppressWarnings("unused")
 	private void drawSplitString(String s, int i, int j, int k, int l) {
-		fontRenderer.drawSplitString(s, (int) (i / factor), (int) (j / factor),
+		fontRendererObj.drawSplitString(s, (int) (i / factor), (int) (j / factor),
 				l, k);
 	}
 
 	private void drawString(String s, int i, int j, int k) {
-		fontRenderer.drawString(s, (int) (i / factor), (int) (j / factor), k);
+		fontRendererObj.drawString(s, (int) (i / factor), (int) (j / factor), k);
 	}
 
 	private void drawString(String s, int i, int j, int k, float f) {
@@ -283,7 +284,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 			GL11.glScalef(factor, factor, factor);
 		}
 
-		fontRenderer.drawString(s, (int) (i / factor), (int) (j / factor), k);
+		fontRendererObj.drawString(s, (int) (i / factor), (int) (j / factor), k);
 	}
 
 	private void drawTexturedModalRect(int x, int y, int u, int v, int width,
@@ -301,7 +302,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	}
 
 	private int getLines(String str) {
-		return fontRenderer.listFormattedStringToWidth(str, stringWidth).size();
+		return fontRendererObj.listFormattedStringToWidth(str, stringWidth).size();
 	}
 
 	private int getStringWidth(String str) {
@@ -332,7 +333,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 
 				break;
 			default:
-				k += fontRenderer.getCharWidth(c0);
+				k += fontRendererObj.getCharWidth(c0);
 
 				if (flag) {
 					++k;
@@ -369,7 +370,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 			closeHelpGui();
 		} else {
 			if ((i == Keyboard.KEY_ESCAPE)
-					|| (i == mc.gameSettings.keyBindInventory.keyCode)) {
+					|| (i == mc.gameSettings.keyBindInventory.getKeyCode())) {
 				quit();
 			} else if (i == Keyboard.KEY_F1) {
 				openHelp();
@@ -529,7 +530,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		if (!topic.isEmpty()) {
 			String translatedTitle = StatCollector.translateToLocal(topic
 					+ ".name");
-			final int spacesToAdd = (stringWidth - fontRenderer
+			final int spacesToAdd = (stringWidth - fontRendererObj
 					.getStringWidth(translatedTitle)) / 8;
 
 			for (int i = 0; i < spacesToAdd; i++) {

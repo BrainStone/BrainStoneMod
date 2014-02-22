@@ -2,6 +2,7 @@ package brainstonemod.common.worldgenerators;
 
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
@@ -37,7 +38,7 @@ public class BrainStoneWorldGenerator implements IWorldGenerator {
 		case -1: // Nether
 			break;
 		case 0: // Overworld
-			this.genMinable(BrainStone.brainStoneOre().blockID, 20, 1, 32);
+			this.genMinable(BrainStone.brainStoneOre(), 20, 1, 32);
 
 			genBrainStoneDungeon();
 
@@ -50,7 +51,7 @@ public class BrainStoneWorldGenerator implements IWorldGenerator {
 	/**
 	 * Generates a vein. The minimum height is 0.
 	 * 
-	 * @param blockId
+	 * @param block
 	 *            The blockIdd of the ore
 	 * @param size
 	 *            The size of the vein
@@ -59,14 +60,14 @@ public class BrainStoneWorldGenerator implements IWorldGenerator {
 	 * @param high
 	 *            The maximum height
 	 */
-	private void genMinable(int blockId, int size, int perChunk, int high) {
-		this.genMinable(blockId, size, perChunk, high, 0);
+	private void genMinable(Block block, int size, int perChunk, int high) {
+		this.genMinable(block, size, perChunk, high, 0);
 	}
 
 	/**
 	 * Generates a vein.
 	 * 
-	 * @param blockId
+	 * @param block
 	 *            The blockIdd of the ore
 	 * @param size
 	 *            The size of the vein
@@ -77,14 +78,14 @@ public class BrainStoneWorldGenerator implements IWorldGenerator {
 	 * @param low
 	 *            The minimum height
 	 */
-	private void genMinable(int blockId, int size, int perChunk, int high,
+	private void genMinable(Block block, int size, int perChunk, int high,
 			int low) {
 		for (int i = 0; i < perChunk; i++) {
 			final int randPosX = random.nextInt(16) + chunkX;
 			final int randPosY = low + random.nextInt(high - low);
 			final int randPosZ = random.nextInt(16) + chunkZ;
 
-			new WorldGenMinable(blockId, size).generate(world, random,
+			new WorldGenMinable(block, size).generate(world, random,
 					randPosX, randPosY, randPosZ);
 		}
 	}

@@ -1,21 +1,22 @@
 package brainstonemod.common.item;
 
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import brainstonemod.BrainStone;
 
 public class ItemArmorBrainStone extends ItemArmor {
-	public ItemArmorBrainStone(int i, EnumArmorMaterial armorMaterial,
-			int par3, int par4) {
-		super(BrainStone.getId(BrainStone.startItemId + i), armorMaterial,
-				par3, par4);
+	public ItemArmorBrainStone(int i, ArmorMaterial armorMaterial, int par3,
+			int par4) {
+		super(armorMaterial, par3, par4);
 	}
 
 	@Override
 	public String getArmorTexture(ItemStack itemstack, Entity entity, int slot,
 			int layer) {
-		if (itemstack.itemID == BrainStone.brainStoneLeggings().itemID)
+		if (itemstack.getItem() == BrainStone.brainStoneLeggings())
 			return "brainstonemod:" + BrainStone.armorPath
 					+ "brainstone_armor_2.png";
 
@@ -25,11 +26,12 @@ public class ItemArmorBrainStone extends ItemArmor {
 
 	@Override
 	public boolean getIsRepairable(ItemStack tool, ItemStack material) {
-		return material.itemID == BrainStone.brainStone().blockID;
+		return Block.getBlockFromItem(material.getItem()) == BrainStone
+				.brainStone();
 	}
 
 	@Override
-	public void registerIcons(IconRegister par1IconRegister) {
+	public void registerIcons(IIconRegister par1IconRegister) {
 		itemIcon = par1IconRegister.registerIcon("brainstonemod:"
 				+ this.getUnlocalizedName().replaceFirst("item.", ""));
 	}

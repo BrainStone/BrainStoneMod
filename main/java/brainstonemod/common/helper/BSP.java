@@ -15,7 +15,7 @@ import brainstonemod.BrainStone;
  * right conditions. Exceptions will be thrown here as well.
  * 
  * @author Yannick Schinko (alias The_BrainStone)
- * @version 2.0.0
+ * @version 3.0.0
  * @category Print
  */
 public abstract class BSP {

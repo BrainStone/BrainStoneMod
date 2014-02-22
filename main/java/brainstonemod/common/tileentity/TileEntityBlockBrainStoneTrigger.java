@@ -130,12 +130,7 @@ public class TileEntityBlockBrainStoneTrigger extends
 		if (itemstack == null)
 			return BlockBrainStoneTrigger.textures[0];
 
-		final int l = itemstack.itemID;
-
-		if ((l > Block.blocksList.length) || (l <= 0))
-			return BlockBrainStoneTrigger.textures[0];
-
-		final Block block = Block.blocksList[l];
+		final Block block = Block.getBlockFromItem(itemstack.getItem());
 
 		if (block == null)
 			return BlockBrainStoneTrigger.textures[0];

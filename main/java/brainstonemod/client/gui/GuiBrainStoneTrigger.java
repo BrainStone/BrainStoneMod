@@ -173,15 +173,15 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		String tmp;
 
 		for (int i = 0; i < 4; i++) {
-			fontRenderer.drawString(StatCollector
+			fontRendererObj.drawString(StatCollector
 					.translateToLocal(tmp = Mobs[i]), 25, 12 + (18 * i),
 					tileentity.getMobTriggered(tmp) ? 0xffffff : 0x888888);
 		}
 
-		fontRenderer.drawString((page + 1) + "/" + (max_page + 1), 146, 12,
+		fontRendererObj.drawString((page + 1) + "/" + (max_page + 1), 146, 12,
 				0x000000);
-		fontRenderer.drawString("Delay", 144, 54, 0x000000);
-		fontRenderer.drawString(String.valueOf(tileentity.max_delay), 148, 68,
+		fontRendererObj.drawString("Delay", 144, 54, 0x000000);
+		fontRendererObj.drawString(String.valueOf(tileentity.max_delay), 148, 68,
 				0xffffff);
 
 		this.registerTexture();
@@ -221,7 +221,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 	protected void keyTyped(char c, int i) {
 		super.keyTyped(c, i);
 
-		if ((i == 1) || (i == mc.gameSettings.keyBindInventory.keyCode)) {
+		if ((i == 1) || (i == mc.gameSettings.keyBindInventory.getKeyCode())) {
 			quit();
 		}
 	}

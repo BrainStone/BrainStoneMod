@@ -32,7 +32,10 @@ import net.minecraft.entity.projectile.EntityFireball;
 import net.minecraft.entity.projectile.EntityFishHook;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
@@ -100,7 +103,7 @@ import cpw.mods.fml.relauncher.Side;
 public class BrainStone {
 	public static final String MOD_ID = "BrainStoneMod";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.42.57 BETA";
+	public static final String VERSION = "v2.42.124 BETA";
 
 	/** States if the current mod version is a release version or not */
 	public static final boolean release = VERSION.toLowerCase().contains(
@@ -147,10 +150,10 @@ public class BrainStone {
 	public static CommonProxy proxy;
 
 	/** The BrainStone Tool Material */
-	public static EnumToolMaterial toolBRAINSTONE = EnumHelper.addToolMaterial(
+	public static ToolMaterial toolBRAINSTONE = EnumHelper.addToolMaterial(
 			"BRAINSTONE", 3, 5368, 6F, 5, 25);
 	/** The BrainStone Armor Material */
-	public static EnumArmorMaterial armorBRAINSTONE = EnumHelper
+	public static ArmorMaterial armorBRAINSTONE = EnumHelper
 			.addArmorMaterial("BRAINSTONE", 114, new int[] { 2, 6, 5, 2 }, 25);
 
 	/**
@@ -752,34 +755,34 @@ public class BrainStone {
 		GameRegistry.addRecipe(new ItemStack(dirtyBrainStone(), 1),
 				new Object[] { "XX", "XX", 'X', brainStoneDust() });
 		GameRegistry.addRecipe(new ItemStack(brainLightSensor(), 1),
-				new Object[] { "XGX", "XBX", "XRX", 'X', Block.stone, 'G',
-						Block.glass, 'B', brainStone(), 'R', Item.redstone });
+				new Object[] { "XGX", "XBX", "XRX", 'X', Blocks.stone, 'G',
+			Blocks.glass, 'B', brainStone(), 'R', Items.redstone });
 		GameRegistry.addRecipe(new ItemStack(brainStoneTrigger(), 1),
-				new Object[] { "XXX", "RRR", "XBX", 'X', Block.stone, 'B',
-						brainStone(), 'R', Item.redstone });
+				new Object[] { "XXX", "RRR", "XBX", 'X', Blocks.stone, 'B',
+						brainStone(), 'R', Items.redstone });
 		GameRegistry.addRecipe(new ItemStack(brainLogicBlock(), 1),
-				new Object[] { "SRS", "RPR", "SRS", 'S', Block.stone, 'P',
-						brainProcessor(), 'R', Item.redstone });
+				new Object[] { "SRS", "RPR", "SRS", 'S', Blocks.stone, 'P',
+						brainProcessor(), 'R', Items.redstone });
 		GameRegistry.addRecipe(new ItemStack(pulsatingBrainStone(), 1),
 				new Object[] { "dBd", "BDB", "dBd", 'd', brainStoneDust(), 'B',
-						brainStone(), 'D', Item.diamond });
+						brainStone(), 'D', Items.diamond });
 		GameRegistry.addRecipe(new ItemStack(brainStoneSword(), 1),
-				new Object[] { "B", "B", "S", 'S', Item.stick, 'B',
+				new Object[] { "B", "B", "S", 'S', Items.stick, 'B',
 						brainStone() });
 		GameRegistry.addRecipe(new ItemStack(brainStoneShovel(), 1),
-				new Object[] { "B", "S", "S", 'S', Item.stick, 'B',
+				new Object[] { "B", "S", "S", 'S', Items.stick, 'B',
 						brainStone() });
 		GameRegistry.addRecipe(new ItemStack(brainStonePickaxe(), 1),
-				new Object[] { "BBB", " S ", " S ", 'S', Item.stick, 'B',
+				new Object[] { "BBB", " S ", " S ", 'S', Items.stick, 'B',
 						brainStone() });
 		GameRegistry.addRecipe(new ItemStack(brainStoneAxe(), 1), new Object[] {
-				"BB", "BS", " S", 'S', Item.stick, 'B', brainStone() });
+				"BB", "BS", " S", 'S', Items.stick, 'B', brainStone() });
 		GameRegistry.addRecipe(new ItemStack(brainStoneHoe(), 1), new Object[] {
-				"BB", " S", " S", 'S', Item.stick, 'B', brainStone() });
+				"BB", " S", " S", 'S', Items.stick, 'B', brainStone() });
 		GameRegistry.addRecipe(new ItemStack(brainProcessor(), 4),
 				new Object[] { "TRT", "SBS", "TRT", 'B', brainStone(), 'S',
-						Item.redstone, 'T', Block.torchRedstoneActive, 'R',
-						Item.redstoneRepeater });
+			Items.redstone, 'T', Blocks.redstone_torch, 'R',
+			Items.repeater });
 		GameRegistry.addRecipe(new ItemStack(brainStoneHelmet(), 1),
 				new Object[] { "BBB", "B B", 'B', brainStone() });
 		GameRegistry.addRecipe(new ItemStack(brainStonePlate(), 1),
@@ -846,22 +849,22 @@ public class BrainStone {
 	private static void generateObjects() {
 		// Blocks
 
-		blocks.put(0, new BlockBrainStone(0, false));
-		blocks.put(1, new BlockBrainStone(1, true));
-		blocks.put(2, new BlockBrainStoneOre(2));
+		blocks.put(0, new BlockBrainStone(false));
+		blocks.put(1, new BlockBrainStone(true));
+		blocks.put(2, new BlockBrainStoneOre());
 		blocks.put(
 				3,
-				(new BlockBrainStoneBase(getId(3), Material.rock))
+				(new BlockBrainStoneBase(Material.rock))
 						.setHardness(2.4F)
 						.setUnlocalizedName("dirtyBrainStone")
 						.setResistance(0.5F).setLightValue(0.5F)
 						.setCreativeTab(CreativeTabs.tabBlock));
 		blocks.get(3).blockParticleGravity = -0.1F;
-		blocks.put(4, new BlockBrainLightSensor(4));
-		blocks.put(5, new BlockBrainStoneTrigger(5));
-		blocks.put(6, new BlockBrainLogicBlock(6));
-		blocks.put(7, new BlockPulsatingBrainStone(7, false));
-		blocks.put(8, new BlockPulsatingBrainStone(8, true));
+		blocks.put(4, new BlockBrainLightSensor());
+		blocks.put(5, new BlockBrainStoneTrigger());
+		blocks.put(6, new BlockBrainLogicBlock());
+		blocks.put(7, new BlockPulsatingBrainStone(false));
+		blocks.put(8, new BlockPulsatingBrainStone(true));
 
 		// Items
 

@@ -1,33 +1,36 @@
 package brainstonemod.common.handler;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import brainstonemod.BrainStone;
 
 public class BrainStoneCraftingHandler implements ICraftingHandler {
 	@Override
-	public void onCrafting(EntityPlayer player, ItemStack item,
+	public void onCrafting(EntityPlayer player, ItemStack itemStack,
 			IInventory craftMatrix) {
-		final int i = item.itemID;
+		final Item item = itemStack.getItem();
+		final Block block = Block.getBlockFromItem(item);
 
-		if ((i == BrainStone.brainLightSensor().blockID)
-				|| (i == BrainStone.brainStoneTrigger().blockID)) {
+		if ((block == BrainStone.brainLightSensor())
+				|| (block == BrainStone.brainStoneTrigger())) {
 			player.addStat(BrainStone.intelligentBlocks(), 1);
-		} else if ((i == BrainStone.brainStoneSword().itemID)
-				|| (i == BrainStone.brainStoneShovel().itemID)
-				|| (i == BrainStone.brainStonePickaxe().itemID)
-				|| (i == BrainStone.brainStoneAxe().itemID)
-				|| (i == BrainStone.brainStoneHoe().itemID)) {
+		} else if ((item == BrainStone.brainStoneSword())
+				|| (item == BrainStone.brainStoneShovel())
+				|| (item == BrainStone.brainStonePickaxe())
+				|| (item == BrainStone.brainStoneAxe())
+				|| (item == BrainStone.brainStoneHoe())) {
 			player.addStat(BrainStone.intelligentTools(), 1);
-		} else if (i == BrainStone.brainLogicBlock().blockID) {
+		} else if (block == BrainStone.brainLogicBlock()) {
 			player.addStat(BrainStone.logicBlock(), 1);
 		}
 	}
 
 	@Override
-	public void onSmelting(EntityPlayer player, ItemStack item) {
-		if (item.itemID == BrainStone.brainStone().blockID) {
+	public void onSmelting(EntityPlayer player, ItemStack itemStack) {
+		if (Block.getBlockFromItem(itemStack.getItem())== BrainStone.brainStone()) {
 			player.addStat(BrainStone.itLives(), 1);
 		}
 	}

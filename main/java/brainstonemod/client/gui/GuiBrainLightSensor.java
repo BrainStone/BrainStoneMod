@@ -2,6 +2,9 @@ package brainstonemod.client.gui;
 
 import java.io.IOException;
 
+import net.minecraft.client.audio.ISound;
+import net.minecraft.client.audio.SoundHandler;
+import net.minecraft.client.audio.SoundList;
 import net.minecraft.util.StatCollector;
 import brainstonemod.client.gui.template.GuiBrainStoneBase;
 import brainstonemod.common.container.ContainerBlockBrainLightSensor;
@@ -51,7 +54,9 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 	 * Plays the click sound.
 	 */
 	private void click() {
-		mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
+		// TODO Play sound
+		mc.getSoundHandler().playSound(null);
+		//mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
 	}
 
 	@Override
@@ -76,18 +81,18 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 			curLightLevel = tileentity.getCurLightLevel();
 			drawTexturedModalRect(x + (curLightLevel * 7) + 8, y + 22,
 					8 + (7 * curLightLevel), 158, 6, 66);
-			fontRenderer.drawString(StatCollector
+			fontRendererObj.drawString(StatCollector
 					.translateToLocal("tile.brainLightSensor.name"), x + 6,
 					y + 16, 0x404040);
-			fontRenderer.drawString(
+			fontRendererObj.drawString(
 					tmp = StatCollector
 							.translateToLocal("gui.brainstone.classic"),
-					(x + 32) - (fontRenderer.getStringWidth(tmp) / 2), y + 3,
+					(x + 32) - (fontRendererObj.getStringWidth(tmp) / 2), y + 3,
 					0x404040);
-			fontRenderer.drawString(
+			fontRendererObj.drawString(
 					tmp = StatCollector
 							.translateToLocal("gui.brainstone.simple"),
-					(x + 96) - (fontRenderer.getStringWidth(tmp) / 2), y + 3,
+					(x + 96) - (fontRendererObj.getStringWidth(tmp) / 2), y + 3,
 					0x404040);
 		} else {
 			this.registerTexture("GuiBrainLightSensorSimple");
@@ -97,20 +102,20 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 			drawTexturedModalRect(x + 8, y
 					+ ((tileentity.getDirection()) ? 18 : 36), 8, 52, 9, 8);
 
-			fontRenderer.drawString(
+			fontRendererObj.drawString(
 					tmp = StatCollector
 							.translateToLocal("gui.brainstone.classic"),
-					(x + 32) - (fontRenderer.getStringWidth(tmp) / 2), y + 3,
+					(x + 32) - (fontRendererObj.getStringWidth(tmp) / 2), y + 3,
 					0x404040);
-			fontRenderer.drawString(
+			fontRendererObj.drawString(
 					tmp = StatCollector
 							.translateToLocal("gui.brainstone.simple"),
-					(x + 96) - (fontRenderer.getStringWidth(tmp) / 2), y + 3,
+					(x + 96) - (fontRendererObj.getStringWidth(tmp) / 2), y + 3,
 					0x404040);
-			fontRenderer.drawString(StatCollector
+			fontRendererObj.drawString(StatCollector
 					.translateToLocal("gui.brainstone.proportional"), x + 20,
 					y + 18, 0x404040);
-			fontRenderer.drawString(
+			fontRendererObj.drawString(
 					StatCollector.translateToLocal("gui.brainstone.inverted"),
 					x + 20, y + 36, 0x404040);
 		}
@@ -139,7 +144,7 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 
 	@Override
 	protected void keyTyped(char c, int i) {
-		if ((i == 1) || (i == mc.gameSettings.keyBindInventory.keyCode)) {
+		if ((i == 1) || (i == mc.gameSettings.keyBindInventory.getKeyCode())) {
 			quit();
 		}
 
