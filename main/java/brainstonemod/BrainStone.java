@@ -38,13 +38,10 @@ import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
-import net.minecraft.util.ChatComponentStyle;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IChatComponent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import brainstonemod.common.CommonProxy;
 import brainstonemod.common.block.BlockBrainLightSensor;
 import brainstonemod.common.block.BlockBrainLogicBlock;
@@ -53,10 +50,8 @@ import brainstonemod.common.block.BlockBrainStoneOre;
 import brainstonemod.common.block.BlockBrainStoneTrigger;
 import brainstonemod.common.block.BlockPulsatingBrainStone;
 import brainstonemod.common.block.template.BlockBrainStoneBase;
-import brainstonemod.common.handler.BrainStoneCraftingHandler;
 import brainstonemod.common.handler.BrainStoneEventHandler;
 import brainstonemod.common.handler.BrainStoneGuiHandler;
-import brainstonemod.common.handler.BrainStonePickupNotifier;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.item.ItemArmorBrainStone;
 import brainstonemod.common.item.ItemHoeBrainStone;
@@ -77,6 +72,7 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
@@ -88,23 +84,10 @@ import cpw.mods.fml.relauncher.Side;
  * @author Yannick Schinko (alias The_BrainStone)
  */
 @Mod(modid = BrainStone.MOD_ID, name = BrainStone.NAME, version = BrainStone.VERSION)
-/*
- * @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels =
- * { "BSM", // generic Packet "BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger
- * Server Packet "BSM.TEBBSTC", // TileEntityBlockBrainStoneTrigger Client
- * Packet "BSM.TEBBLSS", // TileEntityBlockBrainLightSensor Server Packet
- * "BSM.TEBBLSC", // TileEntityBlockBrainLightSensor Client Packet
- * "BSM.TEBBLBS", // TileEntityBlockBrainLogicBlock Server Packet "BSM.TEBBLBC",
- * // TileEntityBlockBrainLogicBlock Client Packet "BSM.UPAS", // UpdatePlayerAt
- * Server Packet "BSM.RRBAC", // ReRenderBlockAt Client Packet "BSM.UPMC", //
- * UpdatePlayerMovement Client Packet "BSM.BSTMI" //
- * BrainStoneTriggerMobInformation Packet }, packetHandler =
- * BrainStonePacketHandler.class)
- */
 public class BrainStone {
 	public static final String MOD_ID = "BrainStoneMod";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.42.251 BETA";
+	public static final String VERSION = "v2.42.303 BETA";
 
 	/** States if the current mod version is a release version or not */
 	public static final boolean release = VERSION.toLowerCase().contains(
@@ -442,19 +425,10 @@ public class BrainStone {
 		// TODO split into two classes and find good values for the world
 		// generator
 		GameRegistry.registerWorldGenerator(new BrainStoneWorldGenerator(), 0);
-		// Crafting Handler
-		GameRegistry.registerCraftingHandler(new BrainStoneCraftingHandler());
-		// Pickup Handler
-		GameRegistry.registerPickupHandler(new BrainStonePickupNotifier());
 		// Event Handler
 		MinecraftForge.EVENT_BUS.register(new BrainStoneEventHandler());
 
 		addLocalizations();
-
-		MinecraftForge.setBlockHarvestLevel(brainStone(), "pickaxe", 2);
-		MinecraftForge.setBlockHarvestLevel(brainStoneOut(), "pickaxe", 2);
-		MinecraftForge.setBlockHarvestLevel(dirtyBrainStone(), "pickaxe", 2);
-		MinecraftForge.setBlockHarvestLevel(brainStoneOre(), "pickaxe", 2);
 
 		proxy.registerOre();
 	}
@@ -476,7 +450,7 @@ public class BrainStone {
 	 * a server or a single player world.
 	 */
 	public static void onPlayerJoinClient(EntityPlayer entity,
-			EntityJoinWorldEvent event) {
+			PlayerLoggedInEvent event) {
 		if (!latestVersion.equals("") && !recommendedVersion.equals("")
 				&& !releaseVersion.equals("")) {
 			switch (updateNotification) {
@@ -544,7 +518,7 @@ public class BrainStone {
 
 	// DOCME
 	public static void onPlayerJoinServer(EntityPlayer player,
-			EntityJoinWorldEvent event) {
+			PlayerLoggedInEvent event) {
 		BrainStonePacketHandler
 				.sendBrainStoneTriggerMobInformationPacketToPlayer(player);
 	}
@@ -850,13 +824,15 @@ public class BrainStone {
 		blocks.put("dirtyBrainStone", (new BlockBrainStoneBase(Material.rock))
 				.setHardness(2.4F).setResistance(0.5F).setLightLevel(0.5F)
 				.setCreativeTab(CreativeTabs.tabBlock));
-		blocks.get("dirtyBrainStone").blockParticleGravity = -0.1F;
 		blocks.put("brainLightSensor", new BlockBrainLightSensor());
 		blocks.put("brainStoneTrigger", new BlockBrainStoneTrigger());
 		blocks.put("brainLogicBlock", new BlockBrainLogicBlock());
 		blocks.put("pulsatingBrainStone", new BlockPulsatingBrainStone(false));
 		blocks.put("pulsatingBrainStoneEffect", new BlockPulsatingBrainStone(
 				true));
+
+		blocks.get("dirtyBrainStone").blockParticleGravity = -0.1F;
+		blocks.get("dirtyBrainStone").setHarvestLevel("pickaxe", 2);
 
 		// Items
 

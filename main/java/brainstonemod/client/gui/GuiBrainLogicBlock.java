@@ -74,7 +74,8 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	}
 
 	private void click() {
-		mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
+		mc.theWorld.playSound(tileentity.xCoord, tileentity.yCoord,
+				tileentity.zCoord, "random.click", 1.0F, 1.0F, true);
 	}
 
 	private void closeHelpGui() {
@@ -263,7 +264,6 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	}
 
 	// TODO See if this can be removed!
-	@SuppressWarnings("unused")
 	private void drawSplitString(String s, int i, int j, int k, int l) {
 		fontRendererObj.drawSplitString(s, (int) (i / factor),
 				(int) (j / factor), l, k);

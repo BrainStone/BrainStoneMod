@@ -35,6 +35,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 		setHardness(3.0F);
 		setResistance(1.0F);
 		setLightLevel(1.0F);
+		setHarvestLevel("pickaxe", 2);
 
 		if (effect) {
 			hasEffectBlock = this;

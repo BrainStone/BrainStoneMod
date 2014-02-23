@@ -24,6 +24,7 @@ public class BlockBrainStoneOre extends BlockBrainStoneOreBase {
 		setResistance(0.25F);
 		setLightLevel(0.3F);
 		setCreativeTab(CreativeTabs.tabBlock);
+		setHarvestLevel("pickaxe", 2);
 		blockParticleGravity = 0.2F;
 	}
 

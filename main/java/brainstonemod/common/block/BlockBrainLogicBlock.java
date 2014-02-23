@@ -37,6 +37,7 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 		setHardness(3.0F);
 		setResistance(1.0F);
 		setCreativeTab(CreativeTabs.tabRedstone);
+		setHarvestLevel("pickaxe", 1);
 
 		setTickRandomly(true);
 

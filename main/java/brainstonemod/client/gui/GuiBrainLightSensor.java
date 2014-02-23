@@ -51,9 +51,8 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 	 * Plays the click sound.
 	 */
 	private void click() {
-		// TODO Play sound
-		mc.getSoundHandler().playSound(null);
-		// mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
+		mc.theWorld.playSound(tileentity.xCoord, tileentity.yCoord,
+				tileentity.zCoord, "random.click", 1.0F, 1.0F, true);
 	}
 
 	@Override

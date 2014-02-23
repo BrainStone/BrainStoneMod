@@ -29,6 +29,7 @@ public class BlockBrainStone extends BlockBrainStoneBase {
 		super(Material.rock);
 		setHardness(3.0F);
 		setResistance(1.0F);
+		setHarvestLevel("pickaxe", 2);
 
 		if (!flag) {
 			setLightLevel(1.0F);

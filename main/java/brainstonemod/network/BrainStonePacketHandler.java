@@ -1,7 +1,5 @@
 package brainstonemod.network;
 
-import ibxm.Player;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -21,7 +19,7 @@ import brainstonemod.common.tileentity.template.TileEntityBrainStoneSyncBase;
 
 public class BrainStonePacketHandler implements IPacketHandler {
 	public static void sendBrainStoneTriggerMobInformationPacketToPlayer(
-			Player player) {
+			EntityPlayer player2) {
 		BSP.debug("Sending BrainStoneTriggerMobInformation Packet");
 
 		final ByteArrayOutputStream data = new ByteArrayOutputStream(0);
@@ -54,7 +52,7 @@ public class BrainStonePacketHandler implements IPacketHandler {
 		pkt.data = data.toByteArray();
 		pkt.length = data.size();
 
-		PacketDispatcher.sendPacketToPlayer(pkt, player);
+		PacketDispatcher.sendPacketToPlayer(pkt, player2);
 
 		BSP.debug("Done sending BrainStoneTriggerMobInformation Packet");
 	}
@@ -431,7 +429,7 @@ public class BrainStonePacketHandler implements IPacketHandler {
 
 	@Override
 	public void onPacketData(INetworkManager manager,
-			Packet250CustomPayload packet, Player player) {
+			Packet250CustomPayload packet, EntityPlayer player) {
 		unhandled();
 
 		channel = packet.channel;

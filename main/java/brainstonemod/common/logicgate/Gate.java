@@ -353,7 +353,7 @@ public abstract class Gate {
 			currentPin = new NBTTagCompound();
 			Pins[i].writeToNBT(currentPin);
 
-			nbttagcompound.setCompoundTag("Pin" + i, currentPin);
+			nbttagcompound.setTag("Pin" + i, currentPin);
 		}
 
 		// Options go here!

@@ -127,7 +127,8 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 	}
 
 	private void click() {
-		mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
+		mc.theWorld.playSound(tileentity.xCoord, tileentity.yCoord,
+				tileentity.zCoord, "random.click", 1.0F, 1.0F, true);
 	}
 
 	/**

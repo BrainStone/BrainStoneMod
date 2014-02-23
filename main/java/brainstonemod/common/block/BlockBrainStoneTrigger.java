@@ -33,6 +33,7 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 
 		setHardness(2.4F);
 		setResistance(0.5F);
+		setHarvestLevel("pickaxe", 1);
 		// setRequiresSelfNotify();
 
 		blockParticleGravity = -0.2F;
