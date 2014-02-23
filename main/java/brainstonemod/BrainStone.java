@@ -1,7 +1,5 @@
 package brainstonemod;
 
-import ibxm.Player;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,6 +11,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -36,10 +35,12 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
+import net.minecraft.util.ChatComponentStyle;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IChatComponent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.util.EnumHelper;
@@ -103,7 +104,7 @@ import cpw.mods.fml.relauncher.Side;
 public class BrainStone {
 	public static final String MOD_ID = "BrainStoneMod";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.42.174 BETA";
+	public static final String VERSION = "v2.42.251 BETA";
 
 	/** States if the current mod version is a release version or not */
 	public static final boolean release = VERSION.toLowerCase().contains(
@@ -114,12 +115,8 @@ public class BrainStone {
 	public static final boolean DEV = VERSION.toLowerCase().contains("dev")
 			|| VERSION.toLowerCase().contains("prerelease");
 
-	/** The standard id blocks start with */
-	public static final int startBlockId = 1258;
-	/** The standard id items start with */
-	public static final int startItemId = 359;
-	/** The standard id achievements start with */
-	public static final int startAchievementId = 3698;
+	/** A String with the English localization (en_EN) */
+	private static final String en = "en_EN";
 	/** A String with the German localization (de_DE) */
 	private static final String de = "de_DE";
 
@@ -161,73 +158,58 @@ public class BrainStone {
 	 * corresponding Classes
 	 */
 	private final static HashMap<Side, LinkedHashMap<String, Class<?>[]>> triggerEntities = new HashMap<Side, LinkedHashMap<String, Class<?>[]>>();
-
-	/**
-	 * A HashMap with the ids of the blocks and items.<br>
-	 * &emsp;<b>key:</b> The internal id<br>
-	 * &emsp;<b>value:</b> The real block/item id
-	 */
-	private static HashMap<Integer, Integer> ids = new HashMap<Integer, Integer>();
 	/**
 	 * A HashMap with the all blocks.<br>
 	 * &emsp;<b>key:</b> The internal id<br>
 	 * &emsp;<b>value:</b> The actual block
 	 */
-	private static HashMap<Integer, Block> blocks = new HashMap<Integer, Block>();
+	private static HashMap<String, Block> blocks = new HashMap<String, Block>();
 	/**
 	 * A HashMap with the all items.<br>
 	 * &emsp;<b>key:</b> The internal id<br>
 	 * &emsp;<b>value:</b> The actual item
 	 */
-	private static HashMap<Integer, Item> items = new HashMap<Integer, Item>();
+	private static HashMap<String, Item> items = new HashMap<String, Item>();
 	/**
 	 * A HashMap with the all items.<br>
 	 * &emsp;<b>key:</b> The internal id<br>
 	 * &emsp;<b>value:</b> The actual item
 	 */
-	private static HashMap<Integer, Achievement> achievements = new HashMap<Integer, Achievement>();
+	private static HashMap<String, Achievement> achievements = new HashMap<String, Achievement>();
 
 	/**
 	 * A HashMap with the all block and item names in English.<br>
 	 * &emsp;<b>key:</b> The internal id<br>
 	 * &emsp;<b>value:</b> The English block or item name
 	 */
-	private static HashMap<Integer, String> name_en = new HashMap<Integer, String>();
+	private static HashMap<String, String> name_en = new HashMap<String, String>();
 	// TODO Move to own function
 	static {
 		// Blocks
 
-		name_en.put(0, "Brain Stone");
-		name_en.put(1, "Brain Stone Out");
-		name_en.put(2, "Brain Stone Ore");
-		name_en.put(3, "Dirty Brain Stone");
-		name_en.put(4, "Brain Light Sensor");
-		name_en.put(5, "Brain Stone Trigger");
-		name_en.put(6, "Brain Logic Block");
-		name_en.put(7, "Pulsating Brain Stone");
-		name_en.put(8, "Pulsating Brain Stone Effect");
+		name_en.put("brainStone", "Brain Stone");
+		name_en.put("brainStoneOut", "Brain Stone Out");
+		name_en.put("brainStoneOre", "Brain Stone Ore");
+		name_en.put("dirtyBrainStone", "Dirty Brain Stone");
+		name_en.put("brainLightSensor", "Brain Light Sensor");
+		name_en.put("brainStoneTrigger", "Brain Stone Trigger");
+		name_en.put("brainLogicBlock", "Brain Logic Block");
+		name_en.put("pulsatingBrainStone", "Pulsating Brain Stone");
+		name_en.put("pulsatingBrainStoneEffect", "Pulsating Brain Stone Effect");
 
 		// Items
 
-		name_en.put(startItemId + 0, "Brain Stone Dust");
-		name_en.put(startItemId + 2, "Brain Processor");
-		name_en.put(startItemId + 3, "Brain Stone Sword");
-		name_en.put(startItemId + 4, "Brain Stone Shovel");
-		name_en.put(startItemId + 5, "Brain Stone Pickaxe");
-		name_en.put(startItemId + 6, "Brain Stone Axe");
-		name_en.put(startItemId + 7, "Brain Stone Hoe");
-		name_en.put(startItemId + 8, "Brain Stone Helmet");
-		name_en.put(startItemId + 9, "Brain Stone Chestplate");
-		name_en.put(startItemId + 10, "Brain Stone Leggings");
-		name_en.put(startItemId + 11, "Brain Stone Boots");
-
-		// Achievements
-
-		name_en.put(startAchievementId + 0, "WTHIT");
-		name_en.put(startAchievementId + 1, "itLives");
-		name_en.put(startAchievementId + 2, "intelligentBlocks");
-		name_en.put(startAchievementId + 3, "intelligentTools");
-		name_en.put(startAchievementId + 4, "logicBlock");
+		name_en.put("brainStoneDust", "Brain Stone Dust");
+		name_en.put("brainProcessor", "Brain Processor");
+		name_en.put("brainStoneSword", "Brain Stone Sword");
+		name_en.put("brainStoneShovel", "Brain Stone Shovel");
+		name_en.put("brainStonePickaxe", "Brain Stone Pickaxe");
+		name_en.put("brainStoneAxe", "Brain Stone Axe");
+		name_en.put("brainStoneHoe", "Brain Stone Hoe");
+		name_en.put("brainStoneHelmet", "Brain Stone Helmet");
+		name_en.put("brainStoneChestplate", "Brain Stone Chestplate");
+		name_en.put("brainStoneLeggings", "Brain Stone Leggings");
+		name_en.put("brainStoneBoots", "Brain Stone Boots");
 	}
 
 	/**
@@ -235,33 +217,34 @@ public class BrainStone {
 	 * &emsp;<b>key:</b> The internal id<br>
 	 * &emsp;<b>value:</b> The German block or item name
 	 */
-	private static HashMap<Integer, String> name_de = new HashMap<Integer, String>();
+	private static HashMap<String, String> name_de = new HashMap<String, String>();
 	static {
 		// Blocks
 
-		name_de.put(0, "Hirnstein");
-		name_de.put(1, "Ausgeschalteter Hirnstein");
-		name_de.put(2, "Hirnsteinerz");
-		name_de.put(3, "Dreckiger Hirnstein");
-		name_de.put(4, "Hirnlichtsensor");
-		name_de.put(5, "Hirnsteinausl\u00F6ser");
-		name_de.put(6, "Hirnlogikblock");
-		name_de.put(7, "Pulsierender Hirnstein");
-		name_de.put(8, "Pulsierender Hirnstein-Effekt");
+		name_de.put("brainStone", "Hirnstein");
+		name_de.put("brainStoneOut", "Ausgeschalteter Hirnstein");
+		name_de.put("brainStoneOre", "Hirnsteinerz");
+		name_de.put("dirtyBrainStone", "Dreckiger Hirnstein");
+		name_de.put("brainLightSensor", "Hirnlichtsensor");
+		name_de.put("brainStoneTrigger", "Hirnsteinausl\u00F6ser");
+		name_de.put("brainLogicBlock", "Hirnlogikblock");
+		name_de.put("pulsatingBrainStone", "Pulsierender Hirnstein");
+		name_de.put("pulsatingBrainStoneEffect",
+				"Pulsierender Hirnstein-Effekt");
 
 		// Items
 
-		name_de.put(startItemId + 0, "Hirnsteinstaub");
-		name_de.put(startItemId + 2, "Hirnprozessor");
-		name_de.put(startItemId + 3, "Hirnsteinschwert");
-		name_de.put(startItemId + 4, "Hirnsteinschaufel");
-		name_de.put(startItemId + 5, "Hirnsteinspitzhacke");
-		name_de.put(startItemId + 6, "Hirnsteinaxt");
-		name_de.put(startItemId + 7, "Hirnsteinfeldhacke");
-		name_de.put(startItemId + 8, "Hirnsteinhelm");
-		name_de.put(startItemId + 9, "Hirnsteinbrustplatte");
-		name_de.put(startItemId + 10, "Hirnsteinhose");
-		name_de.put(startItemId + 11, "Hirsteinstiefel");
+		name_de.put("brainStoneDust", "Hirnsteinstaub");
+		name_de.put("brainProcessor", "Hirnprozessor");
+		name_de.put("brainStoneSword", "Hirnsteinschwert");
+		name_de.put("brainStoneShovel", "Hirnsteinschaufel");
+		name_de.put("brainStonePickaxe", "Hirnsteinspitzhacke");
+		name_de.put("brainStoneAxe", "Hirnsteinaxt");
+		name_de.put("brainStoneHoe", "Hirnsteinfeldhacke");
+		name_de.put("brainStoneHelmet", "Hirnsteinhelm");
+		name_de.put("brainStoneChestplate", "Hirnsteinbrustplatte");
+		name_de.put("brainStoneLeggings", "Hirnsteinhose");
+		name_de.put("brainStoneBoots", "Hirsteinstiefel");
 	}
 
 	/**
@@ -371,17 +354,18 @@ public class BrainStone {
 	 * &emsp;<b>key:</b> The Achievement id<br>
 	 * &emsp;<b>value:</b> The English titles
 	 */
-	private static HashMap<Integer, String[]> achievement_en = new HashMap<Integer, String[]>();
+	private static HashMap<String, String[]> achievement_en = new HashMap<String, String[]>();
 	static {
-		achievement_en.put(0, new String[] { "What the Hell is that???",
+		achievement_en.put("WTHIT", new String[] { "What the Hell is that???",
 				"You have to find a strange green powder." });
-		achievement_en.put(1, new String[] { "It lives!",
+		achievement_en.put("itLives", new String[] { "It lives!",
 				"Crafting and a Smelting is the key!" });
-		achievement_en.put(2, new String[] { "Intelligent Blocks",
+		achievement_en.put("intelligentBlocks", new String[] {
+				"Intelligent Blocks",
 				"Make usefull intelligent Blocks out of this green stone!" });
-		achievement_en.put(3, new String[] { "Intelligent Tools!",
-				"Make Tools out of this green stone!" });
-		achievement_en.put(4, new String[] { "Logic Block",
+		achievement_en.put("intelligentTools", new String[] {
+				"Intelligent Tools!", "Make Tools out of this green stone!" });
+		achievement_en.put("logicBlock", new String[] { "Logic Block",
 				"First make a processor. Then a Logic Block!" });
 	}
 
@@ -390,20 +374,22 @@ public class BrainStone {
 	 * &emsp;<b>key:</b> The Achievement id<br>
 	 * &emsp;<b>value:</b> The German titles
 	 */
-	private static HashMap<Integer, String[]> achievement_de = new HashMap<Integer, String[]>();
+	private static HashMap<String, String[]> achievement_de = new HashMap<String, String[]>();
 	static {
-		achievement_de.put(0, new String[] { "Was zur H\u00F6lle ist das???",
+		achievement_de.put("WTHIT", new String[] {
+				"Was zur H\u00F6lle ist das???",
 				"Du must ein seltsames gr\u00FCnes Pulver finden." });
-		achievement_de.put(1, new String[] { "Es lebt!",
+		achievement_de.put("itLives", new String[] { "Es lebt!",
 				"Craften und Schmelzen ist die L\u00F6sung!" });
 		achievement_de
-				.put(2,
+				.put("intelligentBlocks",
 						new String[] {
 								"Intelligente Bl\u00F6cke",
 								"Stelle n\u00FCtzliche intelligente Bl\u00F6cke aus diesem gr\u00FCnen Stein her!" });
-		achievement_de.put(3, new String[] { "Intelligente Werkzeuge",
+		achievement_de.put("intelligentTools", new String[] {
+				"Intelligente Werkzeuge",
 				"Stelle Werkzeuge aus diesem gr\u00FCnen Stein her!" });
-		achievement_de.put(4, new String[] { "Logikblock!",
+		achievement_de.put("logicBlock", new String[] { "Logikblock!",
 				"Mache als erstes einen Prozessor. Dann einen Logikblock!" });
 	}
 
@@ -423,10 +409,14 @@ public class BrainStone {
 
 		BSP.setUpLogger(event.getModLog());
 
-		getIds(event);
+		loadConfig(event);
 		retriveCurrentVersions();
 		generateMcModInfoFile(event);
 		generateObjects();
+
+		// Registering blocks and items.
+		registerBlocks();
+		registerItems();
 	}
 
 	/**
@@ -440,10 +430,9 @@ public class BrainStone {
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		proxy.registerRenderInformation();
-		NetworkRegistry.instance().registerGuiHandler(this,
+		NetworkRegistry.INSTANCE.registerGuiHandler(this,
 				new BrainStoneGuiHandler());
 
-		registerBlocks(); // Blocks
 		registerTileEntitys(); // TileEntitys
 		addNames(); // Names
 		addRecipes(); // Recipes
@@ -486,7 +475,7 @@ public class BrainStone {
 	 * This method is client side called when a player joins the game. Both for
 	 * a server or a single player world.
 	 */
-	public static void onPlayerJoinClient(Player entity,
+	public static void onPlayerJoinClient(EntityPlayer entity,
 			EntityJoinWorldEvent event) {
 		if (!latestVersion.equals("") && !recommendedVersion.equals("")
 				&& !releaseVersion.equals("")) {
@@ -554,7 +543,7 @@ public class BrainStone {
 	}
 
 	// DOCME
-	public static void onPlayerJoinServer(Player player,
+	public static void onPlayerJoinServer(EntityPlayer player,
 			EntityJoinWorldEvent event) {
 		BrainStonePacketHandler
 				.sendBrainStoneTriggerMobInformationPacketToPlayer(player);
@@ -566,9 +555,9 @@ public class BrainStone {
 	 * @param message
 	 *            the message to be sent
 	 */
-	private static void sendToPlayer(Player player, String message) {
-		((ICommandSender) player).sendChatToPlayer(ChatMessageComponent
-				.createFromText(message));
+	private static void sendToPlayer(EntityPlayer player, String message) {
+		((ICommandSender) player)
+				.addChatMessage(new ChatComponentText(message));
 	}
 
 	/**
@@ -703,7 +692,7 @@ public class BrainStone {
 		for (int i = 0; i < length; i++) {
 			key = keys[i];
 
-			LanguageRegistry.instance().addStringLocalization(key,
+			LanguageRegistry.instance().addStringLocalization(key, en,
 					localizations_en.get(key));
 			LanguageRegistry.instance().addStringLocalization(key, de,
 					localizations_de.get(key));
@@ -714,40 +703,43 @@ public class BrainStone {
 	 * Adds the names to the blocks and items (in English AND in German).
 	 */
 	private static final void addNames() {
-		final HashMap<Integer, Object> objects = new HashMap<Integer, Object>(
+		final HashMap<String, Object> objects = new HashMap<String, Object>(
 				blocks);
 		objects.putAll(items);
-		objects.putAll(achievements);
 
-		final int length = objects.size();
-		final Integer[] keys = objects.keySet().toArray(new Integer[length]);
-		int key, key2;
+		String id;
 		Object obj;
 
-		for (int i = 0; i < length; i++) {
-			key = keys[i];
-			obj = objects.get(key);
+		for (Entry<String, Object> pair : objects.entrySet()) {
+			id = pair.getKey();
+			obj = pair.getValue();
 
-			if (key < startAchievementId) {
-				LanguageRegistry.addName(obj, get_name_en(key));
+			LanguageRegistry.instance().addNameForObject(obj, en,
+					get_name_en(id));
+			LanguageRegistry.instance().addNameForObject(obj, de,
+					get_name_de(id));
+		}
 
-				LanguageRegistry.instance().addNameForObject(obj, de,
-						get_name_de(key));
-			} else if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
-				key2 = key - startAchievementId;
+		String achievementId;
+		Achievement achievement;
 
-				final Achievement tmp = (Achievement) obj;
-				LanguageRegistry.instance().addStringLocalization(
-						tmp.getName(), achievement_en.get(key2)[0]);
-				LanguageRegistry.instance().addStringLocalization(
-						tmp.getName() + ".desc", achievement_en.get(key2)[1]);
+		for (Entry<String, Achievement> pair : achievements.entrySet()) {
+			achievementId = pair.getKey();
+			achievement = pair.getValue();
 
-				LanguageRegistry.instance().addStringLocalization(
-						tmp.getName(), de, achievement_de.get(key2)[0]);
-				LanguageRegistry.instance().addStringLocalization(
-						tmp.getName() + ".desc", de,
-						achievement_de.get(key2)[1]);
-			}
+			LanguageRegistry.instance().addStringLocalization(
+					"achievement." + achievementId,
+					achievement_en.get(achievementId)[0]);
+			LanguageRegistry.instance().addStringLocalization(
+					"achievement." + achievementId + ".desc",
+					achievement_en.get(achievementId)[1]);
+
+			LanguageRegistry.instance().addStringLocalization(
+					"achievement." + achievementId, de,
+					achievement_de.get(achievementId)[0]);
+			LanguageRegistry.instance().addStringLocalization(
+					"achievement." + achievementId + ".desc", de,
+					achievement_de.get(achievementId)[1]);
 		}
 	}
 
@@ -852,71 +844,59 @@ public class BrainStone {
 	private static void generateObjects() {
 		// Blocks
 
-		blocks.put(0, new BlockBrainStone(false));
-		blocks.put(1, new BlockBrainStone(true));
-		blocks.put(2, new BlockBrainStoneOre());
-		blocks.put(
-				3,
-				(new BlockBrainStoneBase(Material.rock)).setHardness(2.4F)
-						.setBlockName("dirtyBrainStone").setResistance(0.5F)
-						.setLightLevel(0.5F)
-						.setCreativeTab(CreativeTabs.tabBlock));
-		blocks.get(3).blockParticleGravity = -0.1F;
-		blocks.put(4, new BlockBrainLightSensor());
-		blocks.put(5, new BlockBrainStoneTrigger());
-		blocks.put(6, new BlockBrainLogicBlock());
-		blocks.put(7, new BlockPulsatingBrainStone(false));
-		blocks.put(8, new BlockPulsatingBrainStone(true));
+		blocks.put("brainStone", new BlockBrainStone(false));
+		blocks.put("brainStoneOut", new BlockBrainStone(true));
+		blocks.put("brainStoneOre", new BlockBrainStoneOre());
+		blocks.put("dirtyBrainStone", (new BlockBrainStoneBase(Material.rock))
+				.setHardness(2.4F).setResistance(0.5F).setLightLevel(0.5F)
+				.setCreativeTab(CreativeTabs.tabBlock));
+		blocks.get("dirtyBrainStone").blockParticleGravity = -0.1F;
+		blocks.put("brainLightSensor", new BlockBrainLightSensor());
+		blocks.put("brainStoneTrigger", new BlockBrainStoneTrigger());
+		blocks.put("brainLogicBlock", new BlockBrainLogicBlock());
+		blocks.put("pulsatingBrainStone", new BlockPulsatingBrainStone(false));
+		blocks.put("pulsatingBrainStoneEffect", new BlockPulsatingBrainStone(
+				true));
 
 		// Items
 
-		items.put(startItemId + 0,
-				(new ItemBrainStoneBase()).setUnlocalizedName("brainStoneDust")
-						.setCreativeTab(CreativeTabs.tabMaterials));
-		items.put(startItemId + 2,
-				(new ItemBrainStoneBase()).setUnlocalizedName("brainProcessor")
-						.setCreativeTab(CreativeTabs.tabMisc));
-		items.put(startItemId + 3, (new ItemSwordBrainStone(toolBRAINSTONE))
-				.setUnlocalizedName("brainStoneSword"));
-		items.put(startItemId + 4, (new ItemToolBrainStone(toolBRAINSTONE,
-				"spade")).setUnlocalizedName("brainStoneShovel"));
-		items.put(startItemId + 5, (new ItemToolBrainStone(toolBRAINSTONE,
-				"pickaxe")).setUnlocalizedName("brainStonePickaxe"));
-		items.put(startItemId + 6, (new ItemToolBrainStone(toolBRAINSTONE,
-				"axe")).setUnlocalizedName("brainStoneAxe"));
-		items.put(startItemId + 7, (new ItemHoeBrainStone(toolBRAINSTONE))
-				.setUnlocalizedName("brainStoneHoe"));
-		items.put(startItemId + 8, (new ItemArmorBrainStone(armorBRAINSTONE,
-				proxy.addArmor("brainstone"), 0))
-				.setUnlocalizedName("brainStoneHelmet"));
-		items.put(startItemId + 9, (new ItemArmorBrainStone(armorBRAINSTONE,
-				proxy.addArmor("brainstone"), 1))
-				.setUnlocalizedName("brainStonePlate"));
-		items.put(startItemId + 10, (new ItemArmorBrainStone(armorBRAINSTONE,
-				proxy.addArmor("brainstone"), 2))
-				.setUnlocalizedName("brainStoneLeggings"));
-		items.put(startItemId + 11, (new ItemArmorBrainStone(armorBRAINSTONE,
-				proxy.addArmor("brainstone"), 3))
-				.setUnlocalizedName("brainStoneBoots"));
+		items.put("brainStoneDust", (new ItemBrainStoneBase())
+				.setCreativeTab(CreativeTabs.tabMaterials));
+		items.put("brainProcessor",
+				(new ItemBrainStoneBase()).setCreativeTab(CreativeTabs.tabMisc));
+		items.put("brainStoneSword", (new ItemSwordBrainStone(toolBRAINSTONE)));
+		items.put("brainStoneShovel", (new ItemToolBrainStone(toolBRAINSTONE,
+				"spade")));
+		items.put("brainStonePickaxe", (new ItemToolBrainStone(toolBRAINSTONE,
+				"pickaxe")));
+		items.put("brainStoneAxe", (new ItemToolBrainStone(toolBRAINSTONE,
+				"axe")));
+		items.put("brainStoneHoe", (new ItemHoeBrainStone(toolBRAINSTONE)));
+		items.put("brainStoneHelmet", (new ItemArmorBrainStone(armorBRAINSTONE,
+				proxy.addArmor("brainstone"), 0)));
+		items.put("brainStonePlate", (new ItemArmorBrainStone(armorBRAINSTONE,
+				proxy.addArmor("brainstone"), 1)));
+		items.put("brainStoneLeggings", (new ItemArmorBrainStone(
+				armorBRAINSTONE, proxy.addArmor("brainstone"), 2)));
+		items.put("brainStoneBoots", (new ItemArmorBrainStone(armorBRAINSTONE,
+				proxy.addArmor("brainstone"), 3)));
 
 		// Achievements
 
-		achievements.put(startAchievementId + 0, (new Achievement(
-				getId(startAchievementId + 0), "What the Hell is that???", 8,
-				2, brainStoneDust(), AchievementList.buildBetterPickaxe))
-				.registerAchievement());
-		achievements.put(startAchievementId + 1, (new Achievement(
-				getId(startAchievementId + 1), "It lives!", 8, 4, brainStone(),
-				WTHIT())).registerAchievement());
-		achievements.put(startAchievementId + 2, (new Achievement(
-				getId(startAchievementId + 2), "Intelligent Blocks!", 10, 5,
-				brainLightSensor(), itLives())).registerAchievement());
-		achievements.put(startAchievementId + 3, (new Achievement(
-				getId(startAchievementId + 3), "Intelligent Tools!", 6, 5,
-				brainStonePickaxe(), itLives())).registerAchievement());
-		achievements.put(startAchievementId + 4, (new Achievement(
-				getId(startAchievementId + 4), "Logic Block!", 12, 7,
-				brainProcessor(), intelligentBlocks())).registerAchievement());
+		achievements.put("WTHIT", (new Achievement("WTHIT",
+				"What the Hell is that???", 8, 2, brainStoneDust(),
+				AchievementList.buildBetterPickaxe)).registerStat());
+		achievements.put("itLives", (new Achievement("itLives", "It lives!", 8,
+				4, brainStone(), WTHIT())).registerStat());
+		achievements.put("intelligentBlocks", (new Achievement(
+				"intelligentBlocks", "Intelligent Blocks!", 10, 5,
+				brainLightSensor(), itLives())).registerStat());
+		achievements.put("intelligentTools", (new Achievement(
+				"intelligentTools", "Intelligent Tools!", 6, 5,
+				brainStonePickaxe(), itLives())).registerStat());
+		achievements.put("logicBlock", (new Achievement("logicBlock",
+				"Logic Block!", 12, 7, brainProcessor(), intelligentBlocks()))
+				.registerStat());
 	}
 
 	/**
@@ -928,7 +908,7 @@ public class BrainStone {
 	 *         English name<br>
 	 *         (calls get_name_en(id))
 	 */
-	private static final String get_name_de(int id) {
+	private static final String get_name_de(String id) {
 		return (name_de.containsKey(id)) ? name_de.get(id) : get_name_en(id);
 	}
 
@@ -940,7 +920,7 @@ public class BrainStone {
 	 * @return The English name of a block or item if existing. If not empty
 	 *         String
 	 */
-	private static final String get_name_en(int id) {
+	private static final String get_name_en(String id) {
 		return (name_en.containsKey(id)) ? name_en.get(id) : "";
 	}
 
@@ -951,26 +931,10 @@ public class BrainStone {
 	 *            The MCForge PreInitializationEven. Needed to access the config
 	 *            file
 	 */
-	private static void getIds(FMLPreInitializationEvent event) {
+	private static void loadConfig(FMLPreInitializationEvent event) {
 		final Configuration config = new Configuration(
 				event.getSuggestedConfigurationFile());
 		config.load();
-
-		final int length = name_en.size();
-		final Integer[] keys = name_en.keySet().toArray(new Integer[length]);
-		int key;
-		String name;
-
-		for (int i = 0; i < length; i++) {
-			key = keys[i];
-			name = get_name_en(key).replace(" ", "");
-
-			ids.put(key,
-					config.get(
-							(key >= startAchievementId) ? "Achievement"
-									: (key >= startItemId) ? "Item" : "Block",
-							name, startBlockId + key).getInt());
-		}
 
 		final String str = config.get("DisplayUpdates", "DisplayUpdates",
 				DEV ? "recommended" : (release ? "release" : "latest"))
@@ -986,12 +950,27 @@ public class BrainStone {
 	 * Registers all the blocks.
 	 */
 	private static final void registerBlocks() {
-		final int length = blocks.size();
-		final Integer[] keys = blocks.keySet().toArray(new Integer[length]);
+		Block block;
 
-		for (int i = 0; i < length; i++) {
-			GameRegistry.registerBlock(blocks.get(keys[i]), ItemBlock.class,
-					null);
+		for (Entry<String, Block> pair : blocks.entrySet()) {
+			block = pair.getValue();
+
+			block.setBlockName(pair.getKey());
+			GameRegistry.registerBlock(block, MOD_ID);
+		}
+	}
+
+	/**
+	 * Registers all the items.
+	 */
+	private static final void registerItems() {
+		Item item;
+
+		for (Entry<String, Item> pair : items.entrySet()) {
+			item = pair.getValue();
+
+			item.setUnlocalizedName(pair.getKey());
+			GameRegistry.registerItem(item, MOD_ID);
 		}
 	}
 
@@ -1039,188 +1018,177 @@ public class BrainStone {
 	}
 
 	/**
-	 * Returns the ingame id of block or a items from this mod.
-	 * 
-	 * @param id
-	 *            The internal id
-	 * @return The ingame id of the block or the item
-	 */
-	public static final int getId(int id) {
-		return (ids.containsKey(id)) ? ids.get(id) : 0;
-	}
-
-	/**
 	 * @return the instance of BrainStone
 	 */
 	public static final Block brainStone() {
-		return blocks.get(0);
+		return blocks.get("brainStone");
 	}
 
 	/**
 	 * @return the instance of BrainStoneOut
 	 */
 	public static final Block brainStoneOut() {
-		return blocks.get(1);
+		return blocks.get("brainStoneOut");
 	}
 
 	/**
 	 * @return the instance of BrainStoneOre
 	 */
 	public static final Block brainStoneOre() {
-		return blocks.get(2);
+		return blocks.get("brainStoneOre");
 	}
 
 	/**
 	 * @return the instance of DirtyBrainStone
 	 */
 	public static final Block dirtyBrainStone() {
-		return blocks.get(3);
+		return blocks.get("dirtyBrainStone");
 	}
 
 	/**
 	 * @return the instance of BrainLightSensor
 	 */
 	public static final Block brainLightSensor() {
-		return blocks.get(4);
+		return blocks.get("brainLightSensor");
 	}
 
 	/**
 	 * @return the instance of BrainStoneTrigger
 	 */
 	public static final Block brainStoneTrigger() {
-		return blocks.get(5);
+		return blocks.get("brainStoneTrigger");
 	}
 
 	/**
 	 * @return the instance of BrainLogicBlock
 	 */
 	public static final Block brainLogicBlock() {
-		return blocks.get(6);
+		return blocks.get("brainLogicBlock");
 	}
 
 	/**
 	 * @return the instance of BrainLogicBlock
 	 */
 	public static final Block pulsatingBrainStone() {
-		return blocks.get(7);
+		return blocks.get("pulsatingBrainStone");
 	}
 
 	/**
 	 * @return the instance of BrainLogicBlock
 	 */
 	public static final Block pulsatingBrainStoneEffect() {
-		return blocks.get(8);
+		return blocks.get("pulsatingBrainStoneEffect");
 	}
 
 	/**
 	 * @return the instance of BrainStoneDust
 	 */
 	public static final Item brainStoneDust() {
-		return items.get(startItemId);
+		return items.get("brainStoneDust");
 	}
 
 	/**
 	 * @return the instance of BrainProcessor
 	 */
 	public static final Item brainProcessor() {
-		return items.get(startItemId + 2);
+		return items.get("brainProcessor");
 	}
 
 	/**
 	 * @return the instance of BrainStoneSword
 	 */
 	public static final Item brainStoneSword() {
-		return items.get(startItemId + 3);
+		return items.get("brainStoneSword");
 	}
 
 	/**
 	 * @return the instance of BrainStoneShovel
 	 */
 	public static final Item brainStoneShovel() {
-		return items.get(startItemId + 4);
+		return items.get("brainStoneShovel");
 	}
 
 	/**
 	 * @return the instance of BrainStonePickaxe
 	 */
 	public static final Item brainStonePickaxe() {
-		return items.get(startItemId + 5);
+		return items.get("brainStonePickaxe");
 	}
 
 	/**
 	 * @return the instance of BrainStoneAxe
 	 */
 	public static final Item brainStoneAxe() {
-		return items.get(startItemId + 6);
+		return items.get("brainStoneAxe");
 	}
 
 	/**
 	 * @return the instance of BrainStoneHoe
 	 */
 	public static final Item brainStoneHoe() {
-		return items.get(startItemId + 7);
+		return items.get("brainStoneHoe");
 	}
 
 	/**
 	 * @return the instance of BrainStoneHelmet
 	 */
 	public static final Item brainStoneHelmet() {
-		return items.get(startItemId + 8);
+		return items.get("brainStoneHelmet");
 	}
 
 	/**
 	 * @return the instance of BrainStonePlate
 	 */
 	public static final Item brainStonePlate() {
-		return items.get(startItemId + 9);
+		return items.get("brainStonePlate");
 	}
 
 	/**
 	 * @return the instance of BrainStoneLeggings
 	 */
 	public static final Item brainStoneLeggings() {
-		return items.get(startItemId + 10);
+		return items.get("brainStoneLeggings");
 	}
 
 	/**
 	 * @return the instance of BrainStoneBoots
 	 */
 	public static final Item brainStoneBoots() {
-		return items.get(startItemId + 11);
+		return items.get("brainStoneBoots");
 	}
 
 	/**
 	 * @return the instance of WTHIT
 	 */
 	public static final Achievement WTHIT() {
-		return achievements.get(startAchievementId);
+		return achievements.get("WTHIT");
 	}
 
 	/**
 	 * @return the instance of itLives
 	 */
 	public static final Achievement itLives() {
-		return achievements.get(startAchievementId + 1);
+		return achievements.get("itLives");
 	}
 
 	/**
 	 * @return the instance of intelligentBlocks
 	 */
 	public static final Achievement intelligentBlocks() {
-		return achievements.get(startAchievementId + 2);
+		return achievements.get("intelligentBlocks");
 	}
 
 	/**
 	 * @return the instance of intelligentTools
 	 */
 	public static final Achievement intelligentTools() {
-		return achievements.get(startAchievementId + 3);
+		return achievements.get("intelligentTools");
 	}
 
 	/**
 	 * @return the instance of logicBlock
 	 */
 	public static final Achievement logicBlock() {
-		return achievements.get(startAchievementId + 4);
+		return achievements.get("logicBlock");
 	}
 }

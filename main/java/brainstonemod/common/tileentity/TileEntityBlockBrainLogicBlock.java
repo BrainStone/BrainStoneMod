@@ -38,10 +38,6 @@ public class TileEntityBlockBrainLogicBlock extends
 				: 0x888888;
 	}
 
-	public static String getInvName() {
-		return "container.brainstonetrigger";
-	}
-
 	public static byte InternalToMCDirection(byte Internal_Direction) {
 		switch (Internal_Direction) {
 		case 0:

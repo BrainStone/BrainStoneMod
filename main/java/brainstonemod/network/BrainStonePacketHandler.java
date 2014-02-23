@@ -127,8 +127,8 @@ public class BrainStonePacketHandler implements IPacketHandler {
 		PacketDispatcher.sendPacketToServer(pkt);
 	}
 
-	public static void sendPlayerUpdateMovementPacket(Player player, double x,
-			double y, double z) {
+	public static void sendPlayerUpdateMovementPacket(EntityPlayer player,
+			double x, double y, double z) {
 		final ByteArrayOutputStream bos = new ByteArrayOutputStream(0);
 		final DataOutputStream outputStream = new DataOutputStream(bos);
 
@@ -225,7 +225,7 @@ public class BrainStonePacketHandler implements IPacketHandler {
 	private Packet250CustomPayload packet;
 
 	/** Temporary storage of the player */
-	private Player player;
+	private EntityPlayer player;
 
 	/**
 	 * Temporary storage of the inputStream. The data is read from this. Will be
@@ -344,7 +344,7 @@ public class BrainStonePacketHandler implements IPacketHandler {
 	 */
 	private void handleServerPacket() {
 		inputStream = new DataInputStream(new ByteArrayInputStream(packet.data));
-		final EntityPlayer sender = (EntityPlayer) player;
+		final EntityPlayer sender = player;
 
 		try {
 			tileEntity = MinecraftServer
@@ -417,7 +417,7 @@ public class BrainStonePacketHandler implements IPacketHandler {
 			final double y = inputStream.readDouble();
 			final double z = inputStream.readDouble();
 
-			((EntityPlayer) player).addVelocity(x, y, z);
+			player.addVelocity(x, y, z);
 		} catch (final IOException ex) {
 			BSP.logException(ex);
 		}

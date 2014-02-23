@@ -1,6 +1,5 @@
 package brainstonemod.common.handler;
 
-import ibxm.Player;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import brainstonemod.BrainStone;
@@ -20,17 +19,17 @@ public class BrainStoneEventHandler {
 	 */
 	@ForgeSubscribe
 	public void onPlayerJoin(EntityJoinWorldEvent event) {
-		if (event.entity instanceof Player) {
-			final Player player = (Player) event.entity;
+		if (event.entity instanceof EntityPlayer) {
+			final EntityPlayer player = (EntityPlayer) event.entity;
 
 			if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
-				BSP.fine("Calling onPlayerJoinClient for "
-						+ ((EntityPlayer) event.entity).getEntityName());
+				BSP.debug("Calling onPlayerJoinClient for "
+						+ player.getCommandSenderName());
 
 				BrainStone.onPlayerJoinClient(player, event);
 			} else {
-				BSP.fine("Calling onPlayerJoinServer for "
-						+ ((EntityPlayer) event.entity).getEntityName());
+				BSP.debug("Calling onPlayerJoinServer for "
+						+ player.getCommandSenderName());
 
 				BrainStone.onPlayerJoinServer(player, event);
 			}

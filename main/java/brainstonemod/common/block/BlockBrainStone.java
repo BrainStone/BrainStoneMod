@@ -21,8 +21,6 @@ public class BlockBrainStone extends BlockBrainStoneBase {
 	 * Constructor of the block. Registers all properties and sets the id and
 	 * the material
 	 * 
-	 * @param i
-	 *            The internal BrainStone id
 	 * @param flag
 	 *            Is the block powered by Redstone? If true the block does not
 	 *            emit light, if yes it does
@@ -32,12 +30,8 @@ public class BlockBrainStone extends BlockBrainStoneBase {
 		setHardness(3.0F);
 		setResistance(1.0F);
 
-		if (flag) {
-			setLightLevel(0.0F);
-			setBlockName("brainStoneOut");
-		} else {
+		if (!flag) {
 			setLightLevel(1.0F);
-			setBlockName("brainStone");
 			setCreativeTab(CreativeTabs.tabBlock);
 		}
 

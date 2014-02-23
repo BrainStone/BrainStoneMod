@@ -49,8 +49,6 @@ public class TileEntityBlockBrainStoneTrigger extends
 
 	@Override
 	public void closeInventory() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -107,8 +105,7 @@ public class TileEntityBlockBrainStoneTrigger extends
 
 	@Override
 	public String getInventoryName() {
-		// TODO Auto-generated method stub
-		return null;
+		return "container.brainstonetrigger";
 	}
 
 	public byte getMobPower(String mob) {
@@ -144,7 +141,6 @@ public class TileEntityBlockBrainStoneTrigger extends
 
 	@Override
 	public boolean hasCustomInventoryName() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -152,11 +148,6 @@ public class TileEntityBlockBrainStoneTrigger extends
 		if (mobTriggered.containsKey(s)) {
 			mobTriggered.put(s, -1 * mobTriggered.get(s));
 		}
-	}
-
-	@Override
-	public boolean isInvNameLocalized() {
-		return false;
 	}
 
 	@Override
@@ -172,8 +163,6 @@ public class TileEntityBlockBrainStoneTrigger extends
 
 	@Override
 	public void openInventory() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

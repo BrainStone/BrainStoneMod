@@ -21,7 +21,6 @@ public class BlockBrainStoneOre extends BlockBrainStoneOreBase {
 		super();
 
 		setHardness(2.0F);
-		setBlockName("brainStoneOre");
 		setResistance(0.25F);
 		setLightLevel(0.3F);
 		setCreativeTab(CreativeTabs.tabBlock);

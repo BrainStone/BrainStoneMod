@@ -25,7 +25,7 @@ import brainstonemod.network.BrainStonePacketHandler;
 
 public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 	private final boolean effect;
-	private static Block hasEffectId, hasNoEffectId;
+	private static Block hasEffectBlock, hasNoEffectBlock;
 
 	public BlockPulsatingBrainStone(boolean effect) {
 		super(Material.rock);
@@ -37,12 +37,10 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 		setLightLevel(1.0F);
 
 		if (effect) {
-			setBlockName("pulsatingBrainStoneEffect");
-			hasEffectId = this;
+			hasEffectBlock = this;
 		} else {
-			setBlockName("pulsatingBrainStone");
 			setCreativeTab(CreativeTabs.tabBlock);
-			hasNoEffectId = this;
+			hasNoEffectBlock = this;
 		}
 
 		blockParticleGravity = (float) MathHelper.getRandomDoubleInRange(
@@ -56,7 +54,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 
 	@Override
 	public Block getBlockDropped(int i, Random random, int j) {
-		return hasNoEffectId;
+		return hasNoEffectBlock;
 	}
 
 	@Override
@@ -94,11 +92,11 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 		if (metaData >= 15) {
 			if (effect) {
 				if (random.nextInt(2) == 0) {
-					world.setBlock(x, y, z, hasNoEffectId, 0, 2);
+					world.setBlock(x, y, z, hasNoEffectBlock, 0, 2);
 				}
 			} else {
 				if (random.nextInt(4) == 0) {
-					world.setBlock(x, y, z, hasEffectId, 0, 2);
+					world.setBlock(x, y, z, hasEffectBlock, 0, 2);
 				}
 			}
 		} else if ((metaData == 8) && (effect)) {
@@ -188,7 +186,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 							if (tmpEntity instanceof EntityPlayer) {
 								BrainStonePacketHandler
 										.sendPlayerUpdateMovementPacket(
-												(Player) entity, x1, y1, z1);
+												(EntityPlayer) entity, x1, y1, z1);
 							} else {
 								entity.addVelocity(x1, y1, z1);
 							}
