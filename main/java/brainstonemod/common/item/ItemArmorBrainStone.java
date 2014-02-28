@@ -12,16 +12,18 @@ public class ItemArmorBrainStone extends ItemArmor {
 		super(armorMaterial, par3, par4);
 	}
 
-	@Override
-	public String getArmorTexture(ItemStack itemstack, Entity entity, int slot,
-			int layer) {
-		if (itemstack.getItem() == BrainStone.brainStoneLeggings())
-			return "brainstonemod:" + BrainStone.armorPath
-					+ "brainstone_armor_2.png";
-
-		return "brainstonemod:" + BrainStone.armorPath
-				+ "brainstone_armor_1.png";
-	}
+	// TODO
+	// @Override
+	// public String getArmorTexture(ItemStack itemstack, Entity entity, int
+	// slot,
+	// int layer) {
+	// if (itemstack.getItem() == BrainStone.brainStoneLeggings())
+	// return "brainstonemod:" + BrainStone.armorPath
+	// + "brainstone_armor_2.png";
+	//
+	// return "brainstonemod:" + BrainStone.armorPath
+	// + "brainstone_armor_1.png";
+	// }
 
 	@Override
 	public boolean getIsRepairable(ItemStack tool, ItemStack material) {

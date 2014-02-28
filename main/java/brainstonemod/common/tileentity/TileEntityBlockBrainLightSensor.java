@@ -32,27 +32,6 @@ public class TileEntityBlockBrainLightSensor extends
 		state = !state;
 	}
 
-	@Override
-	protected void generateOutputStream(DataOutputStream outputStream)
-			throws IOException {
-		outputStream.writeInt(xCoord);
-		outputStream.writeInt(yCoord);
-		outputStream.writeInt(zCoord);
-
-		outputStream.writeBoolean(state);
-
-		if (state) {
-			outputStream.writeInt(lightLevel);
-			outputStream.writeBoolean(direction);
-			outputStream.writeBoolean(powerOn);
-			outputStream.writeInt(curLightLevel);
-			outputStream.writeBoolean(GUIopen);
-		} else {
-			outputStream.writeBoolean(direction);
-			outputStream.writeShort(power);
-		}
-	}
-
 	public int getCurLightLevel() {
 		return curLightLevel;
 	}
@@ -75,23 +54,6 @@ public class TileEntityBlockBrainLightSensor extends
 
 	public boolean getState() {
 		return state;
-	}
-
-	@Override
-	public void readFromInputStream(DataInputStream inputStream)
-			throws IOException {
-		state = inputStream.readBoolean();
-
-		if (state) {
-			lightLevel = inputStream.readInt();
-			direction = inputStream.readBoolean();
-			powerOn = inputStream.readBoolean();
-			curLightLevel = inputStream.readInt();
-			GUIopen = inputStream.readBoolean();
-		} else {
-			direction = inputStream.readBoolean();
-			power = inputStream.readShort();
-		}
 	}
 
 	/**
@@ -134,21 +96,6 @@ public class TileEntityBlockBrainLightSensor extends
 
 	public void setState(boolean state) {
 		this.state = state;
-	}
-
-	@Override
-	public void update(boolean sendToServer) throws IOException {
-		final ByteArrayOutputStream bos = new ByteArrayOutputStream(0);
-		final DataOutputStream outputStream = new DataOutputStream(bos);
-
-		generateOutputStream(outputStream);
-
-		if (sendToServer) {
-			BrainStonePacketHandler.sendPacketToServer("BSM.TEBBLSS", bos);
-		} else {
-			BrainStonePacketHandler.sendPacketToClosestPlayers(this,
-					"BSM.TEBBLSC", bos);
-		}
 	}
 
 	/**

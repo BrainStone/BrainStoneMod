@@ -1,60 +1,34 @@
 package brainstonemod.common.tileentity.template;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-
+import brainstonemod.network.BrainStonePacketHandler;
+import net.minecraft.command.IEntitySelector;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 
 public abstract class TileEntityBrainStoneSyncBase extends TileEntity {
-	/**
-	 * This function must be overwritten and should write all variables
-	 * necessary to the parameter <b>outputStream</b>.<br>
-	 * <br>
-	 * <u><b>Including</b> the coordinates in the order:</u>
-	 * <ul>
-	 * <li>X</li>
-	 * <li>Y</li>
-	 * <li>Z</li>
-	 * </ul>
-	 * 
-	 * @param outputStream
-	 * @throws IOException
-	 */
-	protected abstract void generateOutputStream(DataOutputStream outputStream)
-			throws IOException;
+	@Override
+	public void onDataPacket(NetworkManager net,
+			S35PacketUpdateTileEntity packet) {
+		readFromNBT(packet.func_148857_g());
+	}
 
-	/**
-	 * This function must be overwritten and should read all variables necessary
-	 * from the parameter <b>inputStream</b>.<br>
-	 * <br>
-	 * <u></b>Excluding</b> the coordinates in the order:</u>
-	 * 
-	 * @param inputStream
-	 * @throws IOException
-	 */
-	public abstract void readFromInputStream(DataInputStream inputStream)
-			throws IOException;
+	@Override
+	public void updateEntity() {
+		NBTTagCompound nbt = new NBTTagCompound();
+		writeToNBT(nbt);
 
-	/**
-	 * This function must be overwritten and actually synchronizes the
-	 * tileentities.
-	 * 
-	 * @param sendToServer
-	 *            - This decides whether it should synchronize the server with
-	 *            the client or the other way round.<br>
-	 *            <table>
-	 *            <tr>
-	 *            <td><b>true:</b></td>
-	 *            <td>Client synchronizes Server and then Server synchronizes
-	 *            all Clients</td>
-	 *            </tr>
-	 *            <tr>
-	 *            <td><b>false:</b></td>
-	 *            <td>Server synchronizes Client</td>
-	 *            </tr>
-	 *            </table>
-	 * @throws IOException
-	 */
-	public abstract void update(boolean sendToServer) throws IOException;
+		S35PacketUpdateTileEntity packet = new S35PacketUpdateTileEntity(
+				this.xCoord, this.yCoord, this.zCoord, this.blockMetadata, nbt);
+
+		if (worldObj.isRemote) {
+			BrainStonePacketHandler.sendPacketToClosestPlayers(this, packet);
+		} else {
+			BrainStonePacketHandler.sendPacketToServer(packet);
+		}
+	}
 }

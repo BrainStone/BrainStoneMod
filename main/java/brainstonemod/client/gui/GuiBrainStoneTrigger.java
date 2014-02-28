@@ -126,11 +126,6 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		}
 	}
 
-	private void click() {
-		mc.theWorld.playSound(tileentity.xCoord, tileentity.yCoord,
-				tileentity.zCoord, "random.click", 1.0F, 1.0F, true);
-	}
-
 	/**
 	 * Draw the background layer for the GuiContainer (everything behind the
 	 * items)

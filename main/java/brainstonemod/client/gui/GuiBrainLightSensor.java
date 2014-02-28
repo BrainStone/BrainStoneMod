@@ -47,14 +47,6 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 		BrainStonePacketHandler.sendUpdateOptions(tileentity);
 	}
 
-	/**
-	 * Plays the click sound.
-	 */
-	private void click() {
-		mc.theWorld.playSound(tileentity.xCoord, tileentity.yCoord,
-				tileentity.zCoord, "random.click", 1.0F, 1.0F, true);
-	}
-
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
 		String tmp;
@@ -180,11 +172,7 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 
 				if (inField(x, y, 63, 0, 127, 9)) {
 					tileentity.changeState();
-					try {
-						tileentity.update(true);
-					} catch (final IOException e) {
-						e.printStackTrace();
-					}
+					tileentity.updateEntity();
 				}
 
 				if (inField(x, y, 120, 13, 124, 17)) {
@@ -196,11 +184,7 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 
 				if (inField(x, y, 0, 0, 63, 9)) {
 					tileentity.changeState();
-					try {
-						tileentity.update(true);
-					} catch (final IOException e) {
-						e.printStackTrace();
-					}
+					tileentity.updateEntity();
 				}
 
 				if (inField(x, y, 8, 18, 15, 25)) {

@@ -12,7 +12,8 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.Packet;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -70,38 +71,12 @@ public class TileEntityBlockBrainStoneTrigger extends
 		}
 	}
 
-	@Override
-	protected void generateOutputStream(DataOutputStream outputStream)
-			throws IOException {
-		outputStream.writeInt(xCoord);
-		outputStream.writeInt(yCoord);
-		outputStream.writeInt(zCoord);
-		outputStream.writeInt((oldStack == null) ? 0 : oldStack.itemID);
-
-		outputStream.writeByte(output);
-		outputStream.writeByte(delay);
-		outputStream.writeByte(max_delay);
-
-		final int length = BrainStone.getSidedTiggerEntities().size();
-		outputStream.writeInt(length);
-		final String[] keys = BrainStone.getSidedTiggerEntities().keySet()
-				.toArray(new String[length]);
-		String key;
-
-		for (int i = 0; i < length; i++) {
-			key = keys[i];
-
-			outputStream.writeUTF(key);
-			outputStream.writeInt(mobTriggered.get(key));
-		}
-	}
-
-	@Override
-	public Packet getDescriptionPacket() {
-		final NBTTagCompound tag = new NBTTagCompound();
-		writeToNBT(tag);
-		return new Packet132TileEntityData(xCoord, yCoord, zCoord, 1, tag);
-	}
+	// @Override
+	// public Packet getDescriptionPacket() {
+	// final NBTTagCompound tag = new NBTTagCompound();
+	// writeToNBT(tag);
+	// return new Packet132TileEntityData(xCoord, yCoord, zCoord, 1, tag);
+	// }
 
 	@Override
 	public String getInventoryName() {
@@ -156,29 +131,7 @@ public class TileEntityBlockBrainStoneTrigger extends
 	}
 
 	@Override
-	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet) {
-		final NBTTagCompound tag = packet.data;
-		readFromNBT(tag);
-	}
-
-	@Override
 	public void openInventory() {
-	}
-
-	@Override
-	public void readFromInputStream(DataInputStream inputStream)
-			throws IOException {
-		oldStack = new ItemStack(inputStream.readInt(), 1, 0);
-
-		output = inputStream.readByte();
-		delay = inputStream.readByte();
-		max_delay = inputStream.readByte();
-
-		final int length = inputStream.readInt();
-
-		for (int i = 0; i < length; i++) {
-			mobTriggered.put(inputStream.readUTF(), inputStream.readInt());
-		}
 	}
 
 	/**
@@ -188,12 +141,12 @@ public class TileEntityBlockBrainStoneTrigger extends
 	public void readFromNBT(NBTTagCompound nbttagcompound) {
 		super.readFromNBT(nbttagcompound);
 		final NBTTagList nbttaglist = nbttagcompound
-				.getTagList("ItemsBrainStoneTrigger");
+				.getTagList("ItemsBrainStoneTrigger", 0);
 		ItemStacks = new ItemStack[getSizeInventory()];
 
 		for (int i = 0; i < nbttaglist.tagCount(); i++) {
 			final NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist
-					.tagAt(i);
+					.getCompoundTagAt(i);
 			final byte byte0 = nbttagcompound1.getByte("SlotBrainStoneTrigger");
 
 			if ((byte0 >= 0) && (byte0 < ItemStacks.length)) {
@@ -235,21 +188,6 @@ public class TileEntityBlockBrainStoneTrigger extends
 	public void setMobTriggered(String s, int value) {
 		if (mobTriggered.containsKey(s)) {
 			mobTriggered.put(s, value);
-		}
-	}
-
-	@Override
-	public void update(boolean sendToServer) throws IOException {
-		final ByteArrayOutputStream bos = new ByteArrayOutputStream(0);
-		final DataOutputStream outputStream = new DataOutputStream(bos);
-
-		generateOutputStream(outputStream);
-
-		if (sendToServer) {
-			BrainStonePacketHandler.sendPacketToServer("BSM.TEBBSTS", bos);
-		} else {
-			BrainStonePacketHandler.sendPacketToClosestPlayers(this,
-					"BSM.TEBBSTC", bos);
 		}
 	}
 

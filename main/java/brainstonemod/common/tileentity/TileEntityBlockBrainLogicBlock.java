@@ -1,10 +1,10 @@
 package brainstonemod.common.tileentity;
 
 import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.UUID;
 import java.util.Vector;
 
 import net.minecraft.block.Block;
@@ -106,21 +106,20 @@ public class TileEntityBlockBrainLogicBlock extends
 			// We are on the server side.
 			TASKS.add(s);
 		} else if (side == Side.CLIENT) {
-			// We are on the client side.
-			final ByteArrayOutputStream bos = new ByteArrayOutputStream(0);
-			final DataOutputStream outputStream = new DataOutputStream(bos);
-
-			try {
-				outputStream.writeInt(xCoord);
-				outputStream.writeInt(yCoord);
-				outputStream.writeInt(zCoord);
-
-				outputStream.writeUTF(s);
-			} catch (final IOException e) {
-				BSP.logException(e);
-			}
-
-			BrainStonePacketHandler.sendPacketToServer("BSM.TEBBLBS", bos);
+			// // We are on the client side.
+			// final ByteArrayOutputStream bos = new ByteArrayOutputStream(0);
+			// final DataOutputStream outputStream = new DataOutputStream(bos);
+			//
+			// try {
+			// outputStream.writeInt(xCoord);
+			// outputStream.writeInt(zCoord);
+			//
+			// outputStream.writeUTF(s);
+			// } catch (final IOException e) {
+			// BSP.logException(e);
+			// }
+			//
+			// BrainStonePacketHandler.sendPacketToServer("BSM.TEBBLBS", bos);
 		} else {
 			// We are on the Bukkit server. Bukkit is a server mod used for
 			// security.
@@ -200,25 +199,7 @@ public class TileEntityBlockBrainLogicBlock extends
 			TASKS.clear();
 		}
 
-		try {
-			update(false);
-		} catch (final IOException e) {
-			BSP.logException(e);
-		}
-	}
-
-	@Override
-	protected void generateOutputStream(DataOutputStream outputStream)
-			throws IOException {
-		outputStream.writeInt(xCoord);
-		outputStream.writeInt(yCoord);
-		outputStream.writeInt(zCoord);
-
-		outputStream.writeByte(GuiFocused);
-		outputStream.writeLong(lastUpdate);
-		outputStream.writeInt(GatePos);
-
-		ActiveGate.writeToOutputStream(outputStream);
+		updateEntity();
 	}
 
 	public float getFactorForPinBlue(byte direction) {
@@ -320,12 +301,12 @@ public class TileEntityBlockBrainLogicBlock extends
 					zCoord + 0.5D) <= 64D;
 	}
 
-	public void logIn(String user) {
-		this.addTASKS("logInOut", new String[] { "true", user });
+	public void logIn(UUID user) {
+		this.addTASKS("logInOut", new String[] { "true", user.toString() });
 	}
 
-	public void logOut(String user) {
-		this.addTASKS("logInOut", new String[] { "false", user });
+	public void logOut(UUID user) {
+		this.addTASKS("logInOut", new String[] { "false", user.toString() });
 	}
 
 	private void print(Object obj) {
@@ -358,16 +339,6 @@ public class TileEntityBlockBrainLogicBlock extends
 		print("===================================================");
 		print("!!!\t\t\tEND\t\t\t!!!");
 		print("===================================================");
-	}
-
-	@Override
-	public void readFromInputStream(DataInputStream inputStream)
-			throws IOException {
-		GuiFocused = inputStream.readByte();
-		lastUpdate = inputStream.readLong();
-		GatePos = inputStream.readInt();
-
-		ActiveGate = Gate.readFromInputStream(inputStream);
 	}
 
 	/**
@@ -584,21 +555,6 @@ public class TileEntityBlockBrainLogicBlock extends
 
 				ActiveGate.onTick();
 			}
-		}
-	}
-
-	@Override
-	public void update(boolean sendToServer) throws IOException {
-		final ByteArrayOutputStream bos = new ByteArrayOutputStream(0);
-		final DataOutputStream outputStream = new DataOutputStream(bos);
-
-		generateOutputStream(outputStream);
-
-		if (sendToServer) {
-			BrainStonePacketHandler.sendPacketToServer("BSM.TEBBLBS", bos);
-		} else {
-			BrainStonePacketHandler.sendPacketToClosestPlayers(this,
-					"BSM.TEBBLBC", bos);
 		}
 	}
 

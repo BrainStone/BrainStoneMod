@@ -87,7 +87,7 @@ import cpw.mods.fml.relauncher.Side;
 public class BrainStone {
 	public static final String MOD_ID = "BrainStoneMod";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.42.303 BETA";
+	public static final String VERSION = "v2.42.351 BETA DEV";
 
 	/** States if the current mod version is a release version or not */
 	public static final boolean release = VERSION.toLowerCase().contains(
@@ -926,13 +926,15 @@ public class BrainStone {
 	 * Registers all the blocks.
 	 */
 	private static final void registerBlocks() {
+		String key;
 		Block block;
 
 		for (Entry<String, Block> pair : blocks.entrySet()) {
+			key = pair.getKey();
 			block = pair.getValue();
 
-			block.setBlockName(pair.getKey());
-			GameRegistry.registerBlock(block, MOD_ID);
+			block.setBlockName(key);
+			GameRegistry.registerBlock(block, key);
 		}
 	}
 
@@ -940,13 +942,15 @@ public class BrainStone {
 	 * Registers all the items.
 	 */
 	private static final void registerItems() {
+		String key;
 		Item item;
 
 		for (Entry<String, Item> pair : items.entrySet()) {
+			key = pair.getKey();
 			item = pair.getValue();
 
-			item.setUnlocalizedName(pair.getKey());
-			GameRegistry.registerItem(item, MOD_ID);
+			item.setUnlocalizedName(key);
+			GameRegistry.registerItem(item, key);
 		}
 	}
 

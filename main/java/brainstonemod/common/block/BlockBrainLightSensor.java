@@ -206,11 +206,7 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 					tileentity.setPowerOn(tmpPower);
 					tileentity.setCurLightLevel(worldLight);
 
-					try {
-						tileentity.update(false);
-					} catch (final IOException e) {
-						BSP.logException(e);
-					}
+					tileentity.updateEntity();
 
 					world.notifyBlocksOfNeighborChange(x, y, z, this);
 					world.notifyBlocksOfNeighborChange(x - 1, y, z, this);
@@ -229,11 +225,7 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 				if (tmpPower != power) {
 					tileentity.setPower(power);
 
-					try {
-						tileentity.update(false);
-					} catch (final IOException e) {
-						BSP.logException(e);
-					}
+					tileentity.updateEntity();
 
 					world.notifyBlocksOfNeighborChange(x, y, z, this);
 					world.notifyBlocksOfNeighborChange(x - 1, y, z, this);

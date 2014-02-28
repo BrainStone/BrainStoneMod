@@ -1,5 +1,7 @@
 package brainstonemod.client.gui;
 
+import java.util.UUID;
+
 import net.minecraft.util.StatCollector;
 
 import org.lwjgl.input.Keyboard;
@@ -26,7 +28,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	private static final int xSizeHelp = 256;
 	private float factor;
 	private final TileEntityBlockBrainLogicBlock tileentity;
-	private final String username;
+	private final UUID username;
 	private boolean help;
 
 	private final byte direction;
@@ -50,7 +52,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 			TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock) {
 		super(new ContainerBlockBrainLightSensor());
 		// TODO replace with UUID
-		username = BrainStone.proxy.getPlayer().getDisplayName();
+		username = BrainStone.proxy.getPlayer().getUniqueID();
 		tileentity = tileentityblockbrainlogicblock;
 		tileentity.logIn(username);
 		help = false;
@@ -71,11 +73,6 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 				(byte) (2 + ((direction + 3) & 3)),
 				(byte) (2 + ((direction + 2) & 3)),
 				(byte) (2 + ((direction + 1) & 3)) };
-	}
-
-	private void click() {
-		mc.theWorld.playSound(tileentity.xCoord, tileentity.yCoord,
-				tileentity.zCoord, "random.click", 1.0F, 1.0F, true);
 	}
 
 	private void closeHelpGui() {
