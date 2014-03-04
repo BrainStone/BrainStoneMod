@@ -1,52 +1,47 @@
 package brainstonemod.network;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandler.Sharable;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.Packet;
+import net.minecraft.network.play.client.C17PacketCustomPayload;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
+import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 
-public class BrainStonePacketHandler /* implements IPacketHandler */{
+@Sharable
+public class BrainStonePacketHandler extends
+		SimpleChannelInboundHandler<FMLProxyPacket> {
+	public static void handleBrainStoneTriggerMobInformationPacket(
+			ByteBuf buffer) {
+		BSP.debug("Processing BrainStoneTriggerMobInformation Packet...");
+
+		BrainStone
+				.setClientSideTiggerEntities(new BrainStoneTriggerMobInformationPacketHelper(
+						buffer).getTriggerEntities());
+
+		BSP.debug("Done processing BrainStoneTriggerMobInformation Packet");
+	}
+
 	public static void sendBrainStoneTriggerMobInformationPacketToPlayer(
-			EntityPlayer player2) {
-		BSP.debug("Sending BrainStoneTriggerMobInformation Packet");
+			EntityPlayer player) {
+		BSP.debug("Sending BrainStoneTriggerMobInformation Packet...");
 
-		// final ByteArrayOutputStream data = new ByteArrayOutputStream(0);
-		// final DataOutputStream output = new DataOutputStream(data);
-		//
-		// final int size = BrainStone.getSidedTiggerEntities().size();
-		// Class<?>[] value;
-		//
-		// try {
-		// output.writeInt(size);
-		//
-		// for (final String key : BrainStone.getSidedTiggerEntities()
-		// .keySet()) {
-		// value = BrainStone.getSidedTiggerEntities().get(key);
-		//
-		// output.writeUTF(key);
-		// output.writeInt(value.length);
-		//
-		// for (final Class<?> tmp : value) {
-		// output.writeUTF(tmp.getName());
-		// }
-		// }
-		//
-		// } catch (final IOException ex) {
-		// BSP.warnException(ex);
-		// }
-		//
-		// final Packet250CustomPayload pkt = new Packet250CustomPayload();
-		// pkt.channel = "BSM.BSTMI";
-		// pkt.data = data.toByteArray();
-		// pkt.length = data.size();
-		//
-		// PacketDispatcher.sendPacketToPlayer(pkt, player2);
+		((EntityPlayerMP) player).playerNetServerHandler
+				.sendPacket(new C17PacketCustomPayload(
+						BrainStone.packetID_BrainStoneTriggerMobInformation,
+						(new BrainStoneTriggerMobInformationPacketHelper(
+								BrainStone.getServerSideTiggerEntities()))
+								.getData()));
 
 		BSP.debug("Done sending BrainStoneTriggerMobInformation Packet");
 	}
@@ -127,5 +122,14 @@ public class BrainStonePacketHandler /* implements IPacketHandler */{
 
 	public static void sendUpdateOptions(TileEntity tileentity) {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	protected void channelRead0(ChannelHandlerContext ctx, FMLProxyPacket packet)
+			throws Exception {
+		if (packet.channel().equals(
+				BrainStone.packetID_BrainStoneTriggerMobInformation)) {
+			handleBrainStoneTriggerMobInformationPacket(packet.payload());
+		}
 	}
 }

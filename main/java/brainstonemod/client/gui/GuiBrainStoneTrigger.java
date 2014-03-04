@@ -25,7 +25,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 	public GuiBrainStoneTrigger(InventoryPlayer inventoryplayer,
 			TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger) {
 		super(new ContainerBlockBrainStoneTrigger(inventoryplayer,
-				tileentityblockbrainstonetrigger));
+				tileentityblockbrainstonetrigger), tileentityblockbrainstonetrigger);
 		tileentity = tileentityblockbrainstonetrigger;
 		j = 0;
 		k = 0;
@@ -135,7 +135,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		if (tileentity == null)
 			return;
 
-		this.registerTexture();
+		this.bindTexture();
 		j = (width - xSize) / 2;
 		k = (height - ySize) / 2;
 		drawTexturedModalRect(j, k, 0, 0, xSize, ySize);
@@ -180,7 +180,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		fontRendererObj.drawString(String.valueOf(tileentity.max_delay), 148,
 				68, 0xffffff);
 
-		this.registerTexture();
+		this.bindTexture();
 
 		if ((hovered != -1)
 				&& tileentity.getMobTriggered((tmp = Mobs[hovered]))) {

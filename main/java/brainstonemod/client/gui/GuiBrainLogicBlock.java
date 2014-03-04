@@ -50,7 +50,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 
 	public GuiBrainLogicBlock(
 			TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock) {
-		super(new ContainerBlockBrainLightSensor());
+		super(new ContainerBlockBrainLightSensor(), tileentityblockbrainlogicblock);
 		// TODO replace with UUID
 		username = BrainStone.proxy.getPlayer().getUniqueID();
 		tileentity = tileentityblockbrainlogicblock;
@@ -95,7 +95,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 							- 1, -1);
 		}
 
-		this.registerTexture();
+		this.bindTexture();
 
 		GL11.glPushMatrix();
 
@@ -221,7 +221,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		if (movingPin != -1) {
 			GL11.glPushMatrix();
 			factor = 1.0F;
-			this.registerTexture();
+			this.bindTexture();
 
 			renderGateFrameAt((x + mousePosX) - movingPinOffsetX,
 					(y + mousePosY) - movingPinOffsetY,
@@ -239,7 +239,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		// Help Screen!
 
 		if (help) {
-			this.registerTexture("GuiBrainLogicBlockhelp");
+			this.bindTexture("GuiBrainLogicBlockhelp");
 
 			final int rows = getLines(HelpText);
 			final int ySizeHelp = 20 + (9 * rows);

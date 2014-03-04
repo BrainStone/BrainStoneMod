@@ -39,9 +39,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.util.ChatComponentText;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.util.EnumHelper;
+
+import org.apache.logging.log4j.core.Logger;
+
 import brainstonemod.common.CommonProxy;
 import brainstonemod.common.block.BlockBrainLightSensor;
 import brainstonemod.common.block.BlockBrainLogicBlock;
@@ -75,7 +77,6 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
 
 /**
@@ -87,7 +88,10 @@ import cpw.mods.fml.relauncher.Side;
 public class BrainStone {
 	public static final String MOD_ID = "BrainStoneMod";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.42.351 BETA DEV";
+	public static final String VERSION = "v2.42.462 BETA DEV";
+
+	public static final String packetID_BrainStoneTriggerMobInformation = MOD_ID
+			+ "_TMI";
 
 	/** States if the current mod version is a release version or not */
 	public static final boolean release = VERSION.toLowerCase().contains(
@@ -161,222 +165,6 @@ public class BrainStone {
 	private static HashMap<String, Achievement> achievements = new HashMap<String, Achievement>();
 
 	/**
-	 * A HashMap with the all block and item names in English.<br>
-	 * &emsp;<b>key:</b> The internal id<br>
-	 * &emsp;<b>value:</b> The English block or item name
-	 */
-	private static HashMap<String, String> name_en = new HashMap<String, String>();
-	// TODO Move to own function
-	static {
-		// Blocks
-
-		name_en.put("brainStone", "Brain Stone");
-		name_en.put("brainStoneOut", "Brain Stone Out");
-		name_en.put("brainStoneOre", "Brain Stone Ore");
-		name_en.put("dirtyBrainStone", "Dirty Brain Stone");
-		name_en.put("brainLightSensor", "Brain Light Sensor");
-		name_en.put("brainStoneTrigger", "Brain Stone Trigger");
-		name_en.put("brainLogicBlock", "Brain Logic Block");
-		name_en.put("pulsatingBrainStone", "Pulsating Brain Stone");
-		name_en.put("pulsatingBrainStoneEffect", "Pulsating Brain Stone Effect");
-
-		// Items
-
-		name_en.put("brainStoneDust", "Brain Stone Dust");
-		name_en.put("brainProcessor", "Brain Processor");
-		name_en.put("brainStoneSword", "Brain Stone Sword");
-		name_en.put("brainStoneShovel", "Brain Stone Shovel");
-		name_en.put("brainStonePickaxe", "Brain Stone Pickaxe");
-		name_en.put("brainStoneAxe", "Brain Stone Axe");
-		name_en.put("brainStoneHoe", "Brain Stone Hoe");
-		name_en.put("brainStoneHelmet", "Brain Stone Helmet");
-		name_en.put("brainStoneChestplate", "Brain Stone Chestplate");
-		name_en.put("brainStoneLeggings", "Brain Stone Leggings");
-		name_en.put("brainStoneBoots", "Brain Stone Boots");
-	}
-
-	/**
-	 * A HashMap with the all block and item names in German.<br>
-	 * &emsp;<b>key:</b> The internal id<br>
-	 * &emsp;<b>value:</b> The German block or item name
-	 */
-	private static HashMap<String, String> name_de = new HashMap<String, String>();
-	static {
-		// Blocks
-
-		name_de.put("brainStone", "Hirnstein");
-		name_de.put("brainStoneOut", "Ausgeschalteter Hirnstein");
-		name_de.put("brainStoneOre", "Hirnsteinerz");
-		name_de.put("dirtyBrainStone", "Dreckiger Hirnstein");
-		name_de.put("brainLightSensor", "Hirnlichtsensor");
-		name_de.put("brainStoneTrigger", "Hirnsteinausl\u00F6ser");
-		name_de.put("brainLogicBlock", "Hirnlogikblock");
-		name_de.put("pulsatingBrainStone", "Pulsierender Hirnstein");
-		name_de.put("pulsatingBrainStoneEffect",
-				"Pulsierender Hirnstein-Effekt");
-
-		// Items
-
-		name_de.put("brainStoneDust", "Hirnsteinstaub");
-		name_de.put("brainProcessor", "Hirnprozessor");
-		name_de.put("brainStoneSword", "Hirnsteinschwert");
-		name_de.put("brainStoneShovel", "Hirnsteinschaufel");
-		name_de.put("brainStonePickaxe", "Hirnsteinspitzhacke");
-		name_de.put("brainStoneAxe", "Hirnsteinaxt");
-		name_de.put("brainStoneHoe", "Hirnsteinfeldhacke");
-		name_de.put("brainStoneHelmet", "Hirnsteinhelm");
-		name_de.put("brainStoneChestplate", "Hirnsteinbrustplatte");
-		name_de.put("brainStoneLeggings", "Hirnsteinhose");
-		name_de.put("brainStoneBoots", "Hirsteinstiefel");
-	}
-
-	/**
-	 * A HashMap with the all localizations in English.<br>
-	 * &emsp;<b>key:</b> The localizations path<br>
-	 * &emsp;<b>value:</b> The English localizations
-	 */
-	private static HashMap<String, String> localizations_en = new HashMap<String, String>();
-	static {
-		localizations_en.put("gui.brainstone.item", "Item/Object");
-		localizations_en.put("gui.brainstone.player", "Player");
-		localizations_en.put("gui.brainstone.projectile", "Projectile");
-		localizations_en.put("gui.brainstone.help", "Help");
-		localizations_en.put("gui.brainstone.invertOutput", "Invert Output");
-		localizations_en.put("gui.brainstone.warning1",
-				"This gate will not operate until it is wired correctly!");
-		localizations_en
-				.put("gui.brainstone.warning2",
-						"You should wire all inputs to make sure the gate works properly!");
-		localizations_en
-				.put("gui.brainstone.help.gate0",
-						"-------------AND-Gate-------------\nA device where the output is on when all inputs are on.");
-		localizations_en
-				.put("gui.brainstone.help.gate1",
-						"----------OR-Gate---------\nA device where the output is on when at least one of the inputs are on.");
-		localizations_en
-				.put("gui.brainstone.help.gate2",
-						"---------XOR-Gate---------\nA device where the output switches for every input that is on.");
-		localizations_en
-				.put("gui.brainstone.help.gate3",
-						"--------Implies-Gate-------\nReturns false only if the implication A -> B is false. That is, if the antecedent A is true, but the consequent B is false. It is often read \"if A then B.\" It is the logical equivalent of \"B or NOT A\".");
-		localizations_en
-				.put("gui.brainstone.help.gate4",
-						"---------NOT-Gate---------\nA device that inverts the input, as such it is also called an \"Inverter\" Gate.");
-		localizations_en
-				.put("gui.brainstone.help.gate5",
-						"-------RS-NOR-Latch-------\nA device where Q will stay on forever after input is received by S. Q can be turned off again by a signal received by R. S and R shuouldn't be on at the same time!");
-		localizations_en
-				.put("gui.brainstone.help.gate6",
-						"--------D-Flip-Flop--------\nA D flip-flop, or \"data\" flip-flop, sets the output to D only when its clock (input C) is on.");
-		localizations_en
-				.put("gui.brainstone.help.gate7",
-						"--------T-Flip-Flop--------\nT flip-flops are also known as \"toggles.\" Whenever T changes from OFF to ON, the output will toggle its state.");
-		localizations_en
-				.put("gui.brainstone.help.gate8",
-						"--------JK-Flip-Flop-------\nIf the input J = 1 and the input K = 0, the output Q = 1. When J = 0 and K = 1, the output Q = 0. If both J and K are 0, then the JK flip-flop maintains its previous state. If both are 1, the output will complement itself.");
-		localizations_en.put("gui.brainstone.classic", "Classic");
-		localizations_en.put("gui.brainstone.simple", "Simple");
-		localizations_en.put("gui.brainstone.proportional", "Proportional");
-		localizations_en.put("gui.brainstone.inverted", "Inverted");
-	}
-
-	/**
-	 * A HashMap with the all localizations in German.<br>
-	 * &emsp;<b>key:</b> The localizations path<br>
-	 * &emsp;<b>value:</b> The German localizations
-	 */
-	private static HashMap<String, String> localizations_de = new HashMap<String, String>();
-	static {
-		localizations_de.put("gui.brainstone.item", "Item/Objekt");
-		localizations_de.put("gui.brainstone.player", "Spieler");
-		localizations_de.put("gui.brainstone.projectile", "Projektil");
-		localizations_de.put("gui.brainstone.help", "Hilfe");
-		localizations_de.put("gui.brainstone.invertOutput",
-				"Ausgang invertieren");
-		localizations_de
-				.put("gui.brainstone.warning1",
-						"Dieses Gate wird nicht arbeiten, bis es korrekt angeschlossen ist!");
-		localizations_de
-				.put("gui.brainstone.warning2",
-						"Sie sollten alle Eing\u00E4nge anschie\u00dfen, damit das Gate richtig arbeiten kann!");
-		localizations_de
-				.put("gui.brainstone.help.gate0",
-						"---------AND-Gate---------\nDas AND-Gate ist an, wenn alle Eing\u00E4nge an sind.");
-		localizations_de
-				.put("gui.brainstone.help.gate1",
-						"----------OR-Gate---------\nDas OR-Gate ist an, wenn mindestens ein Eingang an ist.");
-		localizations_de
-				.put("gui.brainstone.help.gate2",
-						"---------XOR-Gate---------\nDer Ausgang schaltet f\u00FCr jeden aktiven Eingang um.");
-		localizations_de
-				.put("gui.brainstone.help.gate3",
-						"--------Implies-Gate-------\nDer Ausgang ist nur falsch (aus), wenn der Schluss A -> B falsch ist. Das trifft zu, wenn die Bedingung A wahr ist, die Konsequenz B falsch. Man kann die Beziehung verstehen als \"Wenn A dann B\". Entspricht \"B oder nicht A\".");
-		localizations_de
-				.put("gui.brainstone.help.gate4",
-						"---------NOT-Gate---------\nAuch bekannt als Umkehrer (in der Elektrotechnik \u00FCblicherweise \"Inverter\" genannt). Dieses Gate kehrt den Eingang um.");
-		localizations_de
-				.put("gui.brainstone.help.gate5",
-						"-------RS-NOR-Latch-------\nDer Ausgang wird eingeschaltet, wenn \"S\" eingeschaltet wird (und danach wieder aus) ausgeschaltet, wenn \"R\" eingeschaltet wird. Beide sollten niemals gleichzeitig an sein!");
-		localizations_de
-				.put("gui.brainstone.help.gate6",
-						"--------D-Flip-Flop--------\nEin D-Flip-Flop oder auch Daten-Flip-Flop setzt seinen Ausgang nur auf den Zustand seines Einganges D, wenn die Clock (Eingang C) an ist.");
-		localizations_de
-				.put("gui.brainstone.help.gate7",
-						"--------T-Flip-Flop--------\nDer T-Flip-Flop ist ein Speicher, der umspringt, wenn das eingehende Signal (T) angeht.");
-		localizations_de
-				.put("gui.brainstone.help.gate8",
-						"--------JK-Flip-Flop-------\nWenn der Eingang J = 1 and der Eingang K = 0, wird der Ausgang Q = 1. Wenn J = 0 and K = 1, dann wird Q = 0. Wenn J und K 0 sind, dann beh\u00E4lt das Gate seinen Zustand. Wenn beide 1 sind, dann kehrt sich der Ausgang um.");
-		localizations_de.put("gui.brainstone.classic", "Klassik");
-		localizations_de.put("gui.brainstone.simple", "Einfach");
-		localizations_de.put("gui.brainstone.proportional", "Proportional");
-		localizations_de.put("gui.brainstone.inverted", "Invertiert");
-	}
-
-	/**
-	 * A HashMap with the all the description for Achievements in English.<br>
-	 * &emsp;<b>key:</b> The Achievement id<br>
-	 * &emsp;<b>value:</b> The English titles
-	 */
-	private static HashMap<String, String[]> achievement_en = new HashMap<String, String[]>();
-	static {
-		achievement_en.put("WTHIT", new String[] { "What the Hell is that???",
-				"You have to find a strange green powder." });
-		achievement_en.put("itLives", new String[] { "It lives!",
-				"Crafting and a Smelting is the key!" });
-		achievement_en.put("intelligentBlocks", new String[] {
-				"Intelligent Blocks",
-				"Make usefull intelligent Blocks out of this green stone!" });
-		achievement_en.put("intelligentTools", new String[] {
-				"Intelligent Tools!", "Make Tools out of this green stone!" });
-		achievement_en.put("logicBlock", new String[] { "Logic Block",
-				"First make a processor. Then a Logic Block!" });
-	}
-
-	/**
-	 * A HashMap with the all the description for Achievements in German.<br>
-	 * &emsp;<b>key:</b> The Achievement id<br>
-	 * &emsp;<b>value:</b> The German titles
-	 */
-	private static HashMap<String, String[]> achievement_de = new HashMap<String, String[]>();
-	static {
-		achievement_de.put("WTHIT", new String[] {
-				"Was zur H\u00F6lle ist das???",
-				"Du must ein seltsames gr\u00FCnes Pulver finden." });
-		achievement_de.put("itLives", new String[] { "Es lebt!",
-				"Craften und Schmelzen ist die L\u00F6sung!" });
-		achievement_de
-				.put("intelligentBlocks",
-						new String[] {
-								"Intelligente Bl\u00F6cke",
-								"Stelle n\u00FCtzliche intelligente Bl\u00F6cke aus diesem gr\u00FCnen Stein her!" });
-		achievement_de.put("intelligentTools", new String[] {
-				"Intelligente Werkzeuge",
-				"Stelle Werkzeuge aus diesem gr\u00FCnen Stein her!" });
-		achievement_de.put("logicBlock", new String[] { "Logikblock!",
-				"Mache als erstes einen Prozessor. Dann einen Logikblock!" });
-	}
-
-	/**
 	 * Preinitialization. Reads the ids from the config file and fills the block
 	 * and item HashMaps with the blocks and items.
 	 * 
@@ -390,16 +178,20 @@ public class BrainStone {
 					+ (Gate.Gates == null));
 		}
 
-		BSP.setUpLogger(event.getModLog());
+		BSP.setUpLogger((Logger) event.getModLog());
 
 		loadConfig(event);
 		retriveCurrentVersions();
 		generateMcModInfoFile(event);
-		generateObjects();
+		generateBlocksAndItems();
 
 		// Registering blocks and items.
 		registerBlocks();
 		registerItems();
+
+		// Generating Achievements here because the blocks and items need to be
+		// registered at this moment.
+		generateAchievements();
 	}
 
 	/**
@@ -417,7 +209,6 @@ public class BrainStone {
 				new BrainStoneGuiHandler());
 
 		registerTileEntitys(); // TileEntitys
-		addNames(); // Names
 		addRecipes(); // Recipes
 		addSmeltings(); // Smeltings
 		// Ore Generation
@@ -426,9 +217,12 @@ public class BrainStone {
 		// generator
 		GameRegistry.registerWorldGenerator(new BrainStoneWorldGenerator(), 0);
 		// Event Handler
-		MinecraftForge.EVENT_BUS.register(new BrainStoneEventHandler());
-
-		addLocalizations();
+		FMLCommonHandler.instance().bus()
+				.register(new BrainStoneEventHandler());
+		// Register Packet
+		NetworkRegistry.INSTANCE.newChannel(
+				packetID_BrainStoneTriggerMobInformation,
+				new BrainStonePacketHandler());
 
 		proxy.registerOre();
 	}
@@ -654,70 +448,6 @@ public class BrainStone {
 	}
 
 	/**
-	 * Adds all the localizations (in English AND in German).
-	 */
-	private static void addLocalizations() {
-		final int length = localizations_en.size();
-		final String[] keys = localizations_en.keySet().toArray(
-				new String[length]);
-		String key;
-		LanguageRegistry.instance();
-
-		for (int i = 0; i < length; i++) {
-			key = keys[i];
-
-			LanguageRegistry.instance().addStringLocalization(key, en,
-					localizations_en.get(key));
-			LanguageRegistry.instance().addStringLocalization(key, de,
-					localizations_de.get(key));
-		}
-	}
-
-	/**
-	 * Adds the names to the blocks and items (in English AND in German).
-	 */
-	private static final void addNames() {
-		final HashMap<String, Object> objects = new HashMap<String, Object>(
-				blocks);
-		objects.putAll(items);
-
-		String id;
-		Object obj;
-
-		for (Entry<String, Object> pair : objects.entrySet()) {
-			id = pair.getKey();
-			obj = pair.getValue();
-
-			LanguageRegistry.instance().addNameForObject(obj, en,
-					get_name_en(id));
-			LanguageRegistry.instance().addNameForObject(obj, de,
-					get_name_de(id));
-		}
-
-		String achievementId;
-		Achievement achievement;
-
-		for (Entry<String, Achievement> pair : achievements.entrySet()) {
-			achievementId = pair.getKey();
-			achievement = pair.getValue();
-
-			LanguageRegistry.instance().addStringLocalization(
-					"achievement." + achievementId,
-					achievement_en.get(achievementId)[0]);
-			LanguageRegistry.instance().addStringLocalization(
-					"achievement." + achievementId + ".desc",
-					achievement_en.get(achievementId)[1]);
-
-			LanguageRegistry.instance().addStringLocalization(
-					"achievement." + achievementId, de,
-					achievement_de.get(achievementId)[0]);
-			LanguageRegistry.instance().addStringLocalization(
-					"achievement." + achievementId + ".desc", de,
-					achievement_de.get(achievementId)[1]);
-		}
-	}
-
-	/**
 	 * Adds the recipes.
 	 */
 	private static void addRecipes() {
@@ -810,12 +540,10 @@ public class BrainStone {
 		BSP.debug("Done filling triggerEntities");
 	}
 
-	// Items
-
 	/**
 	 * Generates the blocks and items and puts them into the HasMaps.
 	 */
-	private static void generateObjects() {
+	private static void generateBlocksAndItems() {
 		// Blocks
 
 		blocks.put("brainStone", new BlockBrainStone(false));
@@ -856,48 +584,25 @@ public class BrainStone {
 				armorBRAINSTONE, proxy.addArmor("brainstone"), 2)));
 		items.put("brainStoneBoots", (new ItemArmorBrainStone(armorBRAINSTONE,
 				proxy.addArmor("brainstone"), 3)));
+	}
 
+	private static void generateAchievements() {
 		// Achievements
 
-		achievements.put("WTHIT", (new Achievement("WTHIT",
-				"What the Hell is that???", 8, 2, brainStoneDust(),
-				AchievementList.buildBetterPickaxe)).registerStat());
-		achievements.put("itLives", (new Achievement("itLives", "It lives!", 8,
+		achievements.put("WTHIT", (new Achievement("WTHIT", "WTHIT", 8, 2,
+				brainStoneDust(), AchievementList.buildBetterPickaxe))
+				.registerStat());
+		achievements.put("itLives", (new Achievement("itLives", "itLives", 8,
 				4, brainStone(), WTHIT())).registerStat());
 		achievements.put("intelligentBlocks", (new Achievement(
-				"intelligentBlocks", "Intelligent Blocks!", 10, 5,
+				"intelligentBlocks", "intelligentBlocks", 10, 5,
 				brainLightSensor(), itLives())).registerStat());
 		achievements.put("intelligentTools", (new Achievement(
-				"intelligentTools", "Intelligent Tools!", 6, 5,
+				"intelligentTools", "intelligentTools", 6, 5,
 				brainStonePickaxe(), itLives())).registerStat());
 		achievements.put("logicBlock", (new Achievement("logicBlock",
-				"Logic Block!", 12, 7, brainProcessor(), intelligentBlocks()))
+				"logicBlock", 12, 7, brainProcessor(), intelligentBlocks()))
 				.registerStat());
-	}
-
-	/**
-	 * Returns the German name of a block or item.
-	 * 
-	 * @param id
-	 *            The internal id
-	 * @return The German name of a block or item if existing. If not the
-	 *         English name<br>
-	 *         (calls get_name_en(id))
-	 */
-	private static final String get_name_de(String id) {
-		return (name_de.containsKey(id)) ? name_de.get(id) : get_name_en(id);
-	}
-
-	/**
-	 * Returns the English name of a block or item.
-	 * 
-	 * @param id
-	 *            The internal id
-	 * @return The English name of a block or item if existing. If not empty
-	 *         String
-	 */
-	private static final String get_name_en(String id) {
-		return (name_en.containsKey(id)) ? name_en.get(id) : "";
 	}
 
 	/**

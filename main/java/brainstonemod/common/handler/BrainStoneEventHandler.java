@@ -15,15 +15,6 @@ import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.relauncher.Side;
 
 public class BrainStoneEventHandler {
-	/**
-	 * This method is called whenever a entity joins the world. This means a mob
-	 * spawns in the world or a player joins a server.<br>
-	 * This is called for both server and client!
-	 * 
-	 * @param event
-	 *            The event object that contains all of the information for the
-	 *            join event
-	 */
 	@SubscribeEvent
 	public void onPlayerJoin(PlayerLoggedInEvent event) {
 		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {

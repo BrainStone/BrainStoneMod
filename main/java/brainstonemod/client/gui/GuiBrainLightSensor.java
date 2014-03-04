@@ -38,7 +38,8 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 	 */
 	public GuiBrainLightSensor(
 			TileEntityBlockBrainLightSensor tileentityblockbrainlightsensor) {
-		super(new ContainerBlockBrainLightSensor());
+		super(new ContainerBlockBrainLightSensor(),
+				tileentityblockbrainlightsensor);
 		tileentity = tileentityblockbrainlightsensor;
 		direction = tileentity.getDirection();
 		setLightLevel(tileentity.getLightLevel());
@@ -52,7 +53,7 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 		String tmp;
 
 		if (tileentity.getState()) {
-			this.registerTexture("GuiBrainLightSensorClassic");
+			this.bindTexture("GuiBrainLightSensorClassic");
 			final int x = (width - xSizeClassic) / 2;
 			final int y = (height - ySizeClassic) / 2;
 			drawTexturedModalRect(x, y, 0, 0, xSizeClassic, ySizeClassic);
@@ -83,7 +84,7 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 					(x + 96) - (fontRendererObj.getStringWidth(tmp) / 2),
 					y + 3, 0x404040);
 		} else {
-			this.registerTexture("GuiBrainLightSensorSimple");
+			this.bindTexture("GuiBrainLightSensorSimple");
 			final int x = (width - xSizeSimple) / 2;
 			final int y = (height - ySizeSimple) / 2;
 			drawTexturedModalRect(x, y, 0, 0, xSizeSimple, ySizeSimple);

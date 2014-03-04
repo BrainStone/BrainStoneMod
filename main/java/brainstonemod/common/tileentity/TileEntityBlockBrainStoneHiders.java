@@ -108,14 +108,6 @@ public abstract class TileEntityBlockBrainStoneHiders extends
 	}
 
 	/**
-	 * Reads a tile entity from NBT.
-	 */
-	@Override
-	public void readFromNBT(NBTTagCompound nbttagcompound) {
-		super.readFromNBT(nbttagcompound);
-	}
-
-	/**
 	 * Sets the given item stack to the specified slot in the inventory (can be
 	 * crafting or armor sections).
 	 */
@@ -127,13 +119,5 @@ public abstract class TileEntityBlockBrainStoneHiders extends
 				&& (itemstack.stackSize > getInventoryStackLimit())) {
 			itemstack.stackSize = getInventoryStackLimit();
 		}
-	}
-
-	/**
-	 * Writes a tile entity to NBT.
-	 */
-	@Override
-	public void writeToNBT(NBTTagCompound nbttagcompound) {
-		super.writeToNBT(nbttagcompound);
 	}
 }
