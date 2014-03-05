@@ -12,7 +12,7 @@ import brainstonemod.client.gui.helper.BrainStoneGuiButton;
 import brainstonemod.client.gui.template.GuiBrainStoneBase;
 import brainstonemod.common.container.ContainerBlockBrainStoneTrigger;
 import brainstonemod.common.tileentity.TileEntityBlockBrainStoneTrigger;
-import brainstonemod.network.BrainStonePacketHandler;
+import brainstonemod.network.BrainStonePacketHelper;
 
 public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 	private final TileEntityBlockBrainStoneTrigger tileentity;
@@ -242,7 +242,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 				quit();
 			}
 
-			BrainStonePacketHandler.sendUpdateOptions(tileentity);
+			BrainStonePacketHelper.sendUpdateOptions(tileentity);
 		}
 	}
 

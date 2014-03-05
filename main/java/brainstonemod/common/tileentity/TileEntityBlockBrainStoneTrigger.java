@@ -20,7 +20,7 @@ import net.minecraft.world.World;
 import brainstonemod.BrainStone;
 import brainstonemod.common.block.BlockBrainStoneTrigger;
 import brainstonemod.common.slot.SlotBlockBrainStoneTrigger;
-import brainstonemod.network.BrainStonePacketHandler;
+import brainstonemod.network.BrainStonePacketHelper;
 
 public class TileEntityBlockBrainStoneTrigger extends
 		TileEntityBlockBrainStoneHiders implements IInventory {

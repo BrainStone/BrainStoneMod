@@ -7,7 +7,7 @@ import java.io.IOException;
 
 import net.minecraft.nbt.NBTTagCompound;
 import brainstonemod.common.tileentity.template.TileEntityBrainStoneSyncBase;
-import brainstonemod.network.BrainStonePacketHandler;
+import brainstonemod.network.BrainStonePacketHelper;
 
 public class TileEntityBlockBrainLightSensor extends
 		TileEntityBrainStoneSyncBase {

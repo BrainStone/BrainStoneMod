@@ -51,7 +51,6 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	public GuiBrainLogicBlock(
 			TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock) {
 		super(new ContainerBlockBrainLightSensor(), tileentityblockbrainlogicblock);
-		// TODO replace with UUID
 		username = BrainStone.proxy.getPlayer().getUniqueID();
 		tileentity = tileentityblockbrainlogicblock;
 		tileentity.logIn(username);

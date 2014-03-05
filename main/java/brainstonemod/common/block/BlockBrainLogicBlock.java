@@ -19,7 +19,7 @@ import brainstonemod.BrainStone;
 import brainstonemod.client.ClientProxy;
 import brainstonemod.common.block.template.BlockBrainStoneContainerBase;
 import brainstonemod.common.tileentity.TileEntityBlockBrainLogicBlock;
-import brainstonemod.network.BrainStonePacketHandler;
+import brainstonemod.network.BrainStonePacketHelper;
 
 public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	public static IIcon[] textures;
@@ -288,7 +288,7 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 
 				tileentityblockbrainlogicblock.tickGate(world, x, y, z, time);
 
-				BrainStonePacketHandler.sendReRenderBlockAtPacket(x, y, z,
+				BrainStonePacketHelper.sendReRenderBlockAtPacket(x, y, z,
 						world);
 				world.notifyBlockChange(x, y, z, this);
 				world.notifyBlocksOfNeighborChange(x, y, z, this);

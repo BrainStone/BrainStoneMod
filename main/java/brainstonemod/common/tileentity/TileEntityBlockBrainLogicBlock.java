@@ -20,7 +20,7 @@ import brainstonemod.common.logicgate.Gate;
 import brainstonemod.common.logicgate.Pin;
 import brainstonemod.common.logicgate.PinState;
 import brainstonemod.common.tileentity.template.TileEntityBrainStoneSyncBase;
-import brainstonemod.network.BrainStonePacketHandler;
+import brainstonemod.network.BrainStonePacketHelper;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

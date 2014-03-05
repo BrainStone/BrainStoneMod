@@ -16,7 +16,7 @@ import brainstonemod.BrainStone;
 import brainstonemod.common.block.template.BlockBrainStoneHiders;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.tileentity.TileEntityBlockBrainStoneTrigger;
-import brainstonemod.network.BrainStonePacketHandler;
+import brainstonemod.network.BrainStonePacketHelper;
 
 public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 	public static IIcon[] textures;
@@ -215,27 +215,27 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 
 	@Override
 	public void updateTick(World world, int i, int j, int k, Random random) {
-		final TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBlockBrainStoneTrigger) world
+		final TileEntityBlockBrainStoneTrigger tileEntityBlockBrainStoneTrigger = (TileEntityBlockBrainStoneTrigger) world
 				.getTileEntity(i, j, k);
 
-		if (tileentityblockbrainstonetrigger == null) {
+		if (tileEntityBlockBrainStoneTrigger == null) {
 			world.scheduleBlockUpdate(i, j, k, this, tickRate(world));
 			return;
 		}
 
-		tileentityblockbrainstonetrigger.output = triggerCorrectMob(world, i,
+		tileEntityBlockBrainStoneTrigger.output = triggerCorrectMob(world, i,
 				j, k);
-		if (tileentityblockbrainstonetrigger.output > 0) {
-			tileentityblockbrainstonetrigger.output_buffered = tileentityblockbrainstonetrigger.output;
+		if (tileEntityBlockBrainStoneTrigger.output > 0) {
+			tileEntityBlockBrainStoneTrigger.output_buffered = tileEntityBlockBrainStoneTrigger.output;
 		}
 
-		tileentityblockbrainstonetrigger.delay = (byte) ((tileentityblockbrainstonetrigger.output > 0) ? tileentityblockbrainstonetrigger.max_delay
-				: tileentityblockbrainstonetrigger.delay <= 0 ? 0
-						: tileentityblockbrainstonetrigger.delay - 1);
+		tileEntityBlockBrainStoneTrigger.delay = (byte) ((tileEntityBlockBrainStoneTrigger.output > 0) ? tileEntityBlockBrainStoneTrigger.max_delay
+				: tileEntityBlockBrainStoneTrigger.delay <= 0 ? 0
+						: tileEntityBlockBrainStoneTrigger.delay - 1);
 
-		if (tileentityblockbrainstonetrigger.checkForSlotChange()) {
+		if (tileEntityBlockBrainStoneTrigger.checkForSlotChange()) {
 			world.markBlockForUpdate(i, j, k);
-			BrainStonePacketHandler.sendReRenderBlockAtPacket(i, j, k, world);
+			BrainStonePacketHelper.sendReRenderBlockAtPacket(i, j, k, world);
 		}
 
 		world.notifyBlocksOfNeighborChange(i, j, k, this);

@@ -6,7 +6,7 @@ import net.minecraft.util.StatCollector;
 import brainstonemod.client.gui.template.GuiBrainStoneBase;
 import brainstonemod.common.container.ContainerBlockBrainLightSensor;
 import brainstonemod.common.tileentity.TileEntityBlockBrainLightSensor;
-import brainstonemod.network.BrainStonePacketHandler;
+import brainstonemod.network.BrainStonePacketHelper;
 
 public class GuiBrainLightSensor extends GuiBrainStoneBase {
 	/** The temporary storage of the light level (red bars) */
@@ -45,7 +45,7 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 		setLightLevel(tileentity.getLightLevel());
 		tileentity.GUIopen = true;
 
-		BrainStonePacketHandler.sendUpdateOptions(tileentity);
+		BrainStonePacketHelper.sendUpdateOptions(tileentity);
 	}
 
 	@Override
@@ -208,7 +208,7 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 	 */
 	private void quit() {
 		tileentity.GUIopen = false;
-		BrainStonePacketHandler.sendUpdateOptions(tileentity);
+		BrainStonePacketHelper.sendUpdateOptions(tileentity);
 		click();
 		mc.displayGuiScreen(null);
 		mc.setIngameFocus();
@@ -237,6 +237,6 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 		tileentity.setLightLevel(lightLevel);
 		tileentity.setDirection(direction);
 
-		BrainStonePacketHandler.sendUpdateOptions(tileentity);
+		BrainStonePacketHelper.sendUpdateOptions(tileentity);
 	}
 }

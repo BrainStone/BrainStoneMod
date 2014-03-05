@@ -65,7 +65,9 @@ import brainstonemod.common.tileentity.TileEntityBlockBrainLightSensor;
 import brainstonemod.common.tileentity.TileEntityBlockBrainLogicBlock;
 import brainstonemod.common.tileentity.TileEntityBlockBrainStoneTrigger;
 import brainstonemod.common.worldgenerators.BrainStoneWorldGenerator;
-import brainstonemod.network.BrainStonePacketHandler;
+import brainstonemod.network.BrainStonePacketHelper;
+import brainstonemod.network.BrainStonePacketPipeline;
+import brainstonemod.network.packet.BrainStoneTriggerMobInformationPacket;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -88,10 +90,9 @@ import cpw.mods.fml.relauncher.Side;
 public class BrainStone {
 	public static final String MOD_ID = "BrainStoneMod";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.42.462 BETA DEV";
+	public static final String VERSION = "v2.42.512 BETA DEV";
 
-	public static final String packetID_BrainStoneTriggerMobInformation = MOD_ID
-			+ "_TMI";
+	public static final BrainStonePacketPipeline packetPipeline = new BrainStonePacketPipeline();
 
 	/** States if the current mod version is a release version or not */
 	public static final boolean release = VERSION.toLowerCase().contains(
@@ -219,10 +220,8 @@ public class BrainStone {
 		// Event Handler
 		FMLCommonHandler.instance().bus()
 				.register(new BrainStoneEventHandler());
-		// Register Packet
-		NetworkRegistry.INSTANCE.newChannel(
-				packetID_BrainStoneTriggerMobInformation,
-				new BrainStonePacketHandler());
+		// Register PacketPipeline
+		packetPipeline.initialise();
 
 		proxy.registerOre();
 	}
@@ -237,6 +236,9 @@ public class BrainStone {
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) throws Throwable {
 		fillTriggerEntities();
+
+		// Post initializing the pipeline
+		packetPipeline.postInitialise();
 	}
 
 	/**
@@ -313,7 +315,7 @@ public class BrainStone {
 	// DOCME
 	public static void onPlayerJoinServer(EntityPlayer player,
 			PlayerLoggedInEvent event) {
-		BrainStonePacketHandler
+		BrainStonePacketHelper
 				.sendBrainStoneTriggerMobInformationPacketToPlayer(player);
 	}
 

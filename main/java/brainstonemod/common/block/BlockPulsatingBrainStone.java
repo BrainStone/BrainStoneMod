@@ -21,7 +21,7 @@ import net.minecraft.world.World;
 import brainstonemod.BrainStone;
 import brainstonemod.common.block.template.BlockBrainStoneBase;
 import brainstonemod.common.helper.BSP;
-import brainstonemod.network.BrainStonePacketHandler;
+import brainstonemod.network.BrainStonePacketHelper;
 
 public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 	private final boolean effect;
@@ -185,7 +185,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 									.getRandomDoubleInRange(random, -1.5, 1.5);
 
 							if (tmpEntity instanceof EntityPlayer) {
-								BrainStonePacketHandler
+								BrainStonePacketHelper
 										.sendPlayerUpdateMovementPacket(
 												(EntityPlayer) entity, x1, y1, z1);
 							} else {
@@ -198,6 +198,6 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 		}
 
 		world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
-		BrainStonePacketHandler.sendReRenderBlockAtPacket(x, y, z, world);
+		BrainStonePacketHelper.sendReRenderBlockAtPacket(x, y, z, world);
 	}
 }

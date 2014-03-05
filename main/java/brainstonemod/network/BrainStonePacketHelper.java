@@ -1,47 +1,29 @@
 package brainstonemod.network;
 
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler.Sharable;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.SimpleChannelInboundHandler;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.client.C17PacketCustomPayload;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
-import cpw.mods.fml.common.network.internal.FMLProxyPacket;
+import brainstonemod.network.packet.BrainStoneTriggerMobInformationPacket;
 
 @Sharable
-public class BrainStonePacketHandler extends
-		SimpleChannelInboundHandler<FMLProxyPacket> {
-	public static void handleBrainStoneTriggerMobInformationPacket(
-			ByteBuf buffer) {
-		BSP.debug("Processing BrainStoneTriggerMobInformation Packet...");
-
-		BrainStone
-				.setClientSideTiggerEntities(new BrainStoneTriggerMobInformationPacketHelper(
-						buffer).getTriggerEntities());
-
-		BSP.debug("Done processing BrainStoneTriggerMobInformation Packet");
-	}
-
+public class BrainStonePacketHelper {
 	public static void sendBrainStoneTriggerMobInformationPacketToPlayer(
 			EntityPlayer player) {
 		BSP.debug("Sending BrainStoneTriggerMobInformation Packet...");
 
-		((EntityPlayerMP) player).playerNetServerHandler
-				.sendPacket(new C17PacketCustomPayload(
-						BrainStone.packetID_BrainStoneTriggerMobInformation,
-						(new BrainStoneTriggerMobInformationPacketHelper(
-								BrainStone.getServerSideTiggerEntities()))
-								.getData()));
+		BrainStone.packetPipeline.sendTo(
+				new BrainStoneTriggerMobInformationPacket(BrainStone
+						.getServerSideTiggerEntities()),
+				(EntityPlayerMP) player);
 
 		BSP.debug("Done sending BrainStoneTriggerMobInformation Packet");
 	}
@@ -101,7 +83,13 @@ public class BrainStonePacketHandler extends
 	 *            The data which contains the syncing information
 	 */
 	public static void sendPacketToServer(Packet packet) {
-		// TODO
+		// ((EntityPlayerMP)
+		// Minecraft.getMinecraft().thePlayer).playerNetServerHandler.sendPacket(packet);
+
+		// try {
+		// Minecraft.getMinecraft().getNetHandler().addToSendQueue(packet);
+		// } catch (NullPointerException e) {
+		// }
 	}
 
 	// DOCME
@@ -121,15 +109,6 @@ public class BrainStonePacketHandler extends
 	}
 
 	public static void sendUpdateOptions(TileEntity tileentity) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	protected void channelRead0(ChannelHandlerContext ctx, FMLProxyPacket packet)
-			throws Exception {
-		if (packet.channel().equals(
-				BrainStone.packetID_BrainStoneTriggerMobInformation)) {
-			handleBrainStoneTriggerMobInformationPacket(packet.payload());
-		}
+		tileentity.updateEntity();
 	}
 }
