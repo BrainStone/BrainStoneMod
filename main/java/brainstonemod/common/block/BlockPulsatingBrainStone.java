@@ -1,7 +1,5 @@
 package brainstonemod.common.block;
 
-import ibxm.Player;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -187,7 +185,8 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 							if (tmpEntity instanceof EntityPlayer) {
 								BrainStonePacketHelper
 										.sendPlayerUpdateMovementPacket(
-												(EntityPlayer) entity, x1, y1, z1);
+												(EntityPlayer) entity, x1, y1,
+												z1);
 							} else {
 								entity.addVelocity(x1, y1, z1);
 							}

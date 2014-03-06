@@ -85,7 +85,7 @@ public class BrainStonePacketPipeline extends
 					"No packet registered for discriminator: " + discriminator);
 
 		final BrainStoneBasePacket pkt = clazz.newInstance();
-		pkt.decodeInto(ctx, payload.slice());
+		pkt.processPacketData(ctx, payload.slice());
 
 		EntityPlayer player;
 		switch (FMLCommonHandler.instance().getEffectiveSide()) {
@@ -119,7 +119,7 @@ public class BrainStonePacketPipeline extends
 
 		final byte discriminator = (byte) packets.indexOf(clazz);
 		buffer.writeByte(discriminator);
-		msg.encodeInto(ctx, buffer);
+		msg.generatePacketData(ctx, buffer);
 		final FMLProxyPacket proxyPacket = new FMLProxyPacket(buffer.copy(),
 				ctx.channel().attr(NetworkRegistry.FML_CHANNEL).get());
 		out.add(proxyPacket);

@@ -1,9 +1,5 @@
 package brainstonemod.common.tileentity;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
 import java.util.HashMap;
 
 import net.minecraft.block.Block;
@@ -12,15 +8,12 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import brainstonemod.BrainStone;
 import brainstonemod.common.block.BlockBrainStoneTrigger;
 import brainstonemod.common.slot.SlotBlockBrainStoneTrigger;
-import brainstonemod.network.BrainStonePacketHelper;
 
 public class TileEntityBlockBrainStoneTrigger extends
 		TileEntityBlockBrainStoneHiders implements IInventory {
@@ -140,12 +133,12 @@ public class TileEntityBlockBrainStoneTrigger extends
 	@Override
 	public void readFromNBT(NBTTagCompound nbttagcompound) {
 		super.readFromNBT(nbttagcompound);
-		final NBTTagList nbttaglist = nbttagcompound
-				.getTagList("ItemsBrainStoneTrigger", 0);
+		final NBTTagList nbttaglist = nbttagcompound.getTagList(
+				"ItemsBrainStoneTrigger", 0);
 		ItemStacks = new ItemStack[getSizeInventory()];
 
 		for (int i = 0; i < nbttaglist.tagCount(); i++) {
-			final NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist
+			final NBTTagCompound nbttagcompound1 = nbttaglist
 					.getCompoundTagAt(i);
 			final byte byte0 = nbttagcompound1.getByte("SlotBrainStoneTrigger");
 

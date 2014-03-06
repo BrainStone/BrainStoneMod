@@ -1,6 +1,7 @@
 package brainstonemod.network;
 
 import io.netty.channel.ChannelHandler.Sharable;
+import net.minecraft.client.Minecraft;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,6 +13,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
+import brainstonemod.common.tileentity.template.TileEntityBrainStoneSyncBase;
 import brainstonemod.network.packet.BrainStoneTriggerMobInformationPacket;
 
 @Sharable
@@ -83,13 +85,11 @@ public class BrainStonePacketHelper {
 	 *            The data which contains the syncing information
 	 */
 	public static void sendPacketToServer(Packet packet) {
-		// ((EntityPlayerMP)
-		// Minecraft.getMinecraft().thePlayer).playerNetServerHandler.sendPacket(packet);
-
-		// try {
-		// Minecraft.getMinecraft().getNetHandler().addToSendQueue(packet);
-		// } catch (NullPointerException e) {
-		// }
+		try {
+			Minecraft.getMinecraft().getNetHandler().addToSendQueue(packet);
+		} catch (final NullPointerException e) {
+			BSP.infoException(e);
+		}
 	}
 
 	// DOCME
@@ -108,7 +108,7 @@ public class BrainStonePacketHelper {
 		// TODO Auto-generated method stub
 	}
 
-	public static void sendUpdateOptions(TileEntity tileentity) {
-		tileentity.updateEntity();
+	public static void sendUpdateOptions(TileEntityBrainStoneSyncBase tileentity) {
+		tileentity.allowClientToServerUpdate();
 	}
 }

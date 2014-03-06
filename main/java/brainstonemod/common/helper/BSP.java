@@ -1,8 +1,5 @@
 package brainstonemod.common.helper;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.Logger;
 
@@ -370,6 +367,38 @@ public abstract class BSP {
 	}
 
 	/**
+	 * This logs an error to the console with the level to be logged
+	 * 
+	 * @param level
+	 *            the level the objects will be logged
+	 * @param ex
+	 *            the exception to be logged
+	 * @return Return whether the log was logged or not
+	 */
+	public static final boolean logException(Level level, Throwable ex) {
+		return logException(level, ex, "");
+	}
+
+	/**
+	 * This logs an error to the console with an additional message and the
+	 * level to be logged
+	 * 
+	 * @param level
+	 *            the level the objects will be logged
+	 * @param ex
+	 *            the exception to be logged
+	 * @param additionalMessage
+	 *            a message appended to the standard error message addon
+	 * @return Return whether the log was logged or not
+	 */
+	public static final boolean logException(Level level, Throwable ex,
+			String additionalMessage) {
+		logger.log(level, errorMessageAddon + ANLIN(additionalMessage), ex);
+
+		return logger.isEnabled(level);
+	}
+
+	/**
 	 * This logs an error to the console with the normal INFO level and appends
 	 * the errorMessageAddon
 	 * 
@@ -409,8 +438,8 @@ public abstract class BSP {
 	 *            the exception to be logged
 	 * @return Return whether the log was logged or not
 	 */
-	public static final boolean logException(Level level, Throwable ex) {
-		return logException(level, ex, "");
+	public static final boolean logException_noAddon(Level level, Throwable ex) {
+		return logException_noAddon(level, ex, "");
 	}
 
 	/**
@@ -422,12 +451,12 @@ public abstract class BSP {
 	 * @param ex
 	 *            the exception to be logged
 	 * @param additionalMessage
-	 *            a message appended to the standard error message addon
+	 *            a message put in front of the error log
 	 * @return Return whether the log was logged or not
 	 */
-	public static final boolean logException(Level level, Throwable ex,
+	public static final boolean logException_noAddon(Level level, Throwable ex,
 			String additionalMessage) {
-		logger.log(level, errorMessageAddon + ANLIN(additionalMessage), ex);
+		logger.log(level, additionalMessage, ex);
 
 		return logger.isEnabled(level);
 	}
@@ -464,38 +493,6 @@ public abstract class BSP {
 	}
 
 	/**
-	 * This logs an error to the console with the level to be logged
-	 * 
-	 * @param level
-	 *            the level the objects will be logged
-	 * @param ex
-	 *            the exception to be logged
-	 * @return Return whether the log was logged or not
-	 */
-	public static final boolean logException_noAddon(Level level, Throwable ex) {
-		return logException_noAddon(level, ex, "");
-	}
-
-	/**
-	 * This logs an error to the console with an additional message and the
-	 * level to be logged
-	 * 
-	 * @param level
-	 *            the level the objects will be logged
-	 * @param ex
-	 *            the exception to be logged
-	 * @param additionalMessage
-	 *            a message put in front of the error log
-	 * @return Return whether the log was logged or not
-	 */
-	public static final boolean logException_noAddon(Level level, Throwable ex,
-			String additionalMessage) {
-		logger.log(level, additionalMessage, ex);
-
-		return logger.isEnabled(level);
-	}
-
-	/**
 	 * Sets up the logger and also sets up the corresponding filter
 	 * 
 	 * @param logger
@@ -504,7 +501,7 @@ public abstract class BSP {
 	public static void setUpLogger(Logger logger) {
 		BSP.logger = logger;
 		BSP.logger.setLevel(Level.INFO);
-		
+
 		// TODO get this logging level stuff to work...
 		// if (BrainStone.debug) {
 		// BSP.logger.setLevel(Level.ALL);
@@ -514,8 +511,9 @@ public abstract class BSP {
 		// BSP.logger.setLevel(Level.DEBUG);
 		// }
 
-		if (BrainStone.debug)
+		if (BrainStone.debug) {
 			info(BSP.logger.getLevel().name());
+		}
 	}
 
 	/**

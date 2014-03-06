@@ -90,7 +90,7 @@ import cpw.mods.fml.relauncher.Side;
 public class BrainStone {
 	public static final String MOD_ID = "BrainStoneMod";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.42.512 BETA DEV";
+	public static final String VERSION = "v2.42.559 BETA";
 
 	public static final BrainStonePacketPipeline packetPipeline = new BrainStonePacketPipeline();
 

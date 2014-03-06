@@ -25,42 +25,7 @@ public class BrainStoneTriggerMobInformationPacket extends BrainStoneBasePacket 
 	}
 
 	@Override
-	public void decodeInto(ChannelHandlerContext ctx, ByteBuf data) {
-		final PacketBuffer buffer = new PacketBuffer(data);
-
-		final int size = buffer.readInt();
-		int entitiesSize;
-		int i, j;
-		String key;
-		Class<?>[] entities;
-
-		triggerEntities = new LinkedHashMap<String, Class<?>[]>(size);
-
-		for (i = 0; i < size; i++) {
-			try {
-				key = buffer.readStringFromBuffer(1024);
-
-				entitiesSize = buffer.readInt();
-				entities = new Class<?>[entitiesSize];
-
-				for (j = 0; j < entitiesSize; j++) {
-					try {
-						entities[j] = Class.forName(buffer
-								.readStringFromBuffer(1024));
-					} catch (final ClassNotFoundException e) {
-						BSP.warnException(e);
-					}
-				}
-
-				triggerEntities.put(key, entities);
-			} catch (final IOException e) {
-				BSP.warnException(e);
-			}
-		}
-	}
-
-	@Override
-	public void encodeInto(ChannelHandlerContext ctx, ByteBuf data) {
+	public void generatePacketData(ChannelHandlerContext ctx, ByteBuf data) {
 		final PacketBuffer buffer = new PacketBuffer(data);
 
 		Class<?>[] entities;
@@ -97,5 +62,40 @@ public class BrainStoneTriggerMobInformationPacket extends BrainStoneBasePacket 
 	public void handleServerSide(EntityPlayer player) {
 		BSP.throwException(new IllegalStateException(
 				"The server should never handle this packet!"));
+	}
+
+	@Override
+	public void processPacketData(ChannelHandlerContext ctx, ByteBuf data) {
+		final PacketBuffer buffer = new PacketBuffer(data);
+
+		final int size = buffer.readInt();
+		int entitiesSize;
+		int i, j;
+		String key;
+		Class<?>[] entities;
+
+		triggerEntities = new LinkedHashMap<String, Class<?>[]>(size);
+
+		for (i = 0; i < size; i++) {
+			try {
+				key = buffer.readStringFromBuffer(1024);
+
+				entitiesSize = buffer.readInt();
+				entities = new Class<?>[entitiesSize];
+
+				for (j = 0; j < entitiesSize; j++) {
+					try {
+						entities[j] = Class.forName(buffer
+								.readStringFromBuffer(1024));
+					} catch (final ClassNotFoundException e) {
+						BSP.warnException(e);
+					}
+				}
+
+				triggerEntities.put(key, entities);
+			} catch (final IOException e) {
+				BSP.warnException(e);
+			}
+		}
 	}
 }

@@ -1,6 +1,5 @@
 package brainstonemod.common.block;
 
-import java.io.IOException;
 import java.util.Random;
 
 import net.minecraft.block.Block;

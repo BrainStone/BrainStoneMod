@@ -1,6 +1,11 @@
 package brainstonemod.common.tileentity.template;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import brainstonemod.BrainStone;
 import brainstonemod.network.BrainStonePacketHelper;
+import brainstonemod.network.BrainStonePacketPipeline;
+import brainstonemod.network.packet.BrainStoneUpdateTileEntityPacket;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -12,6 +17,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
 public abstract class TileEntityBrainStoneSyncBase extends TileEntity {
+	private int lastUpdate = 0;
+	@SideOnly(value = Side.CLIENT)
+	private boolean sendToServer = false;
+
 	@Override
 	public void onDataPacket(NetworkManager net,
 			S35PacketUpdateTileEntity packet) {
@@ -20,12 +29,24 @@ public abstract class TileEntityBrainStoneSyncBase extends TileEntity {
 
 	@Override
 	public void updateEntity() {
-		if (worldObj.isRemote) {
-			BrainStonePacketHelper.sendPacketToClosestPlayers(this,
-					getDescriptionPacket());
-		} else {
-			BrainStonePacketHelper.sendPacketToServer(getDescriptionPacket());
+		if (lastUpdate-- <= 0) {
+			lastUpdate = 20;
+
+			if (!worldObj.isRemote) {
+				BrainStonePacketHelper.sendPacketToClosestPlayers(this,
+						getDescriptionPacket());
+			} else if (sendToServer) {
+				sendToServer = false;
+
+				BrainStone.packetPipeline
+						.sendToServer(new BrainStoneUpdateTileEntityPacket(
+								(S35PacketUpdateTileEntity) getDescriptionPacket()));
+			}
 		}
+	}
+	
+	public void allowClientToServerUpdate() {
+		sendToServer = true;
 	}
 
 	@Override
@@ -34,6 +55,6 @@ public abstract class TileEntityBrainStoneSyncBase extends TileEntity {
 		writeToNBT(nbt);
 
 		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord,
-				this.zCoord, this.blockMetadata, nbt);
+				this.zCoord, 0, nbt);
 	}
 }

@@ -1,13 +1,7 @@
 package brainstonemod.common.tileentity;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-
 import net.minecraft.nbt.NBTTagCompound;
 import brainstonemod.common.tileentity.template.TileEntityBrainStoneSyncBase;
-import brainstonemod.network.BrainStonePacketHelper;
 
 public class TileEntityBlockBrainLightSensor extends
 		TileEntityBrainStoneSyncBase {

@@ -1,8 +1,5 @@
 package brainstonemod.common.tileentity;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.Vector;
@@ -20,7 +17,6 @@ import brainstonemod.common.logicgate.Gate;
 import brainstonemod.common.logicgate.Pin;
 import brainstonemod.common.logicgate.PinState;
 import brainstonemod.common.tileentity.template.TileEntityBrainStoneSyncBase;
-import brainstonemod.network.BrainStonePacketHelper;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -72,7 +68,7 @@ public class TileEntityBlockBrainLogicBlock extends
 		return -1;
 	}
 
-	private byte GuiFocused;
+	private final byte GuiFocused;
 	private long lastUpdate;
 	private final Vector<String> TASKS;
 
