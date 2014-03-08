@@ -171,7 +171,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		for (int i = 0; i < 4; i++) {
 			fontRendererObj.drawString(StatCollector
 					.translateToLocal(tmp = Mobs[i]), 25, 12 + (18 * i),
-					tileentity.getMobTriggered(tmp) ? 0xffffff : 0x888888);
+					tileentity.getMobTriggered(tmp) ? 0xffffff : 0x111111);
 		}
 
 		fontRendererObj.drawString((page + 1) + "/" + (max_page + 1), 146, 12,

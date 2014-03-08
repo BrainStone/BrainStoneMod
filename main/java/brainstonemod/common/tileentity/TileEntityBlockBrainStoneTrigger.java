@@ -64,13 +64,6 @@ public class TileEntityBlockBrainStoneTrigger extends
 		}
 	}
 
-	// @Override
-	// public Packet getDescriptionPacket() {
-	// final NBTTagCompound tag = new NBTTagCompound();
-	// writeToNBT(tag);
-	// return new Packet132TileEntityData(xCoord, yCoord, zCoord, 1, tag);
-	// }
-
 	@Override
 	public String getInventoryName() {
 		return "container.brainstonetrigger";

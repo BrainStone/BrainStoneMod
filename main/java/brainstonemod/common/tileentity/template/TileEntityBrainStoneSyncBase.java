@@ -38,9 +38,9 @@ public abstract class TileEntityBrainStoneSyncBase extends TileEntity {
 			} else if (sendToServer) {
 				sendToServer = false;
 
-				BrainStone.packetPipeline
-						.sendToServer(new BrainStoneUpdateTileEntityPacket(
-								(S35PacketUpdateTileEntity) getDescriptionPacket()));
+				// BrainStone.packetPipeline
+				// .sendToServer(new BrainStoneUpdateTileEntityPacket(
+				// (S35PacketUpdateTileEntity) getDescriptionPacket()));
 			}
 		}
 	}
