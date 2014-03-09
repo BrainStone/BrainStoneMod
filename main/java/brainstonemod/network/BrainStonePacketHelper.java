@@ -8,16 +8,27 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.tileentity.template.TileEntityBrainStoneSyncBase;
+import brainstonemod.network.packet.BrainLightSensorSmokePacket;
 import brainstonemod.network.packet.BrainStoneTriggerMobInformationPacket;
+import brainstonemod.network.packet.BrainStoneUpdateTileEntityPacket;
+import cpw.mods.fml.common.network.NetworkRegistry;
 
 @Sharable
 public class BrainStonePacketHelper {
+	public static void sendBrainLightSensorSmokePacket(int dimension, int x,
+			int y, int z) {
+		BrainStone.packetPipeline.sendToAllAround(
+				new BrainLightSensorSmokePacket(x, y, z),
+				new NetworkRegistry.TargetPoint(dimension, x, y, z, 100));
+	}
+
 	public static void sendBrainStoneTriggerMobInformationPacketToPlayer(
 			EntityPlayer player) {
 		BSP.debug("Sending BrainStoneTriggerMobInformation Packet...");
@@ -108,7 +119,15 @@ public class BrainStonePacketHelper {
 		// TODO Auto-generated method stub
 	}
 
-	public static void sendUpdateOptions(TileEntityBrainStoneSyncBase tileentity) {
-		tileentity.allowClientToServerUpdate();
+	public static void sendUpdateTileEntityPacket(
+			TileEntityBrainStoneSyncBase tileentity) {
+		tileentity.disableInventorySaving();
+
+		BrainStone.packetPipeline
+				.sendToServer(new BrainStoneUpdateTileEntityPacket(
+						(S35PacketUpdateTileEntity) tileentity
+								.getDescriptionPacket()));
+
+		tileentity.enableInventorySaving();
 	}
 }

@@ -126,18 +126,22 @@ public class TileEntityBlockBrainStoneTrigger extends
 	@Override
 	public void readFromNBT(NBTTagCompound nbttagcompound) {
 		super.readFromNBT(nbttagcompound);
-		final NBTTagList nbttaglist = nbttagcompound.getTagList(
-				"ItemsBrainStoneTrigger", 0);
-		ItemStacks = new ItemStack[getSizeInventory()];
 
-		for (int i = 0; i < nbttaglist.tagCount(); i++) {
-			final NBTTagCompound nbttagcompound1 = nbttaglist
-					.getCompoundTagAt(i);
-			final byte byte0 = nbttagcompound1.getByte("SlotBrainStoneTrigger");
+		if (inventorySaving) {
+			final NBTTagList nbttaglist = nbttagcompound.getTagList(
+					"ItemsBrainStoneTrigger", 0);
+			ItemStacks = new ItemStack[getSizeInventory()];
 
-			if ((byte0 >= 0) && (byte0 < ItemStacks.length)) {
-				ItemStacks[byte0] = ItemStack
-						.loadItemStackFromNBT(nbttagcompound1);
+			for (int i = 0; i < nbttaglist.tagCount(); i++) {
+				final NBTTagCompound nbttagcompound1 = nbttaglist
+						.getCompoundTagAt(i);
+				final byte byte0 = nbttagcompound1
+						.getByte("SlotBrainStoneTrigger");
+
+				if ((byte0 >= 0) && (byte0 < ItemStacks.length)) {
+					ItemStacks[byte0] = ItemStack
+							.loadItemStackFromNBT(nbttagcompound1);
+				}
 			}
 		}
 
@@ -183,18 +187,21 @@ public class TileEntityBlockBrainStoneTrigger extends
 	@Override
 	public void writeToNBT(NBTTagCompound nbttagcompound) {
 		super.writeToNBT(nbttagcompound);
-		final NBTTagList nbttaglist = new NBTTagList();
 
-		for (int i = 0; i < ItemStacks.length; i++) {
-			if (ItemStacks[i] != null) {
-				final NBTTagCompound nbttagcompound1 = new NBTTagCompound();
-				nbttagcompound1.setByte("SlotBrainStoneTrigger", (byte) i);
-				ItemStacks[i].writeToNBT(nbttagcompound1);
-				nbttaglist.appendTag(nbttagcompound1);
+		if (inventorySaving) {
+			final NBTTagList nbttaglist = new NBTTagList();
+
+			for (int i = 0; i < ItemStacks.length; i++) {
+				if (ItemStacks[i] != null) {
+					final NBTTagCompound nbttagcompound1 = new NBTTagCompound();
+					nbttagcompound1.setByte("SlotBrainStoneTrigger", (byte) i);
+					ItemStacks[i].writeToNBT(nbttagcompound1);
+					nbttaglist.appendTag(nbttagcompound1);
+				}
 			}
-		}
 
-		nbttagcompound.setTag("ItemsBrainStoneTrigger", nbttaglist);
+			nbttagcompound.setTag("ItemsBrainStoneTrigger", nbttaglist);
+		}
 
 		final int length = BrainStone.getSidedTiggerEntities().size();
 		nbttagcompound.setInteger("TriggerSize", length);

@@ -10,14 +10,12 @@ public class TileEntityBlockBrainLightSensor extends
 	private boolean powerOn;
 	private boolean state;
 	private int curLightLevel;
-	public boolean GUIopen;
 	private short power;
 
 	public TileEntityBlockBrainLightSensor() {
 		lightLevel = 8;
 		direction = true;
 		powerOn = false;
-		GUIopen = false;
 		curLightLevel = lightLevel;
 		state = false;
 	}
@@ -27,6 +25,8 @@ public class TileEntityBlockBrainLightSensor extends
 	}
 
 	public int getCurLightLevel() {
+		curLightLevel = worldObj.getBlockLightValue(xCoord, yCoord + 1, zCoord);
+
 		return curLightLevel;
 	}
 
@@ -38,6 +38,10 @@ public class TileEntityBlockBrainLightSensor extends
 		return lightLevel;
 	}
 
+	public int getOldCurLightLevel() {
+		return curLightLevel;
+	}
+
 	public short getPower() {
 		return power;
 	}
@@ -46,6 +50,12 @@ public class TileEntityBlockBrainLightSensor extends
 		return powerOn;
 	}
 
+	/**
+	 * Determines in which state this light sensor is currently in.
+	 * 
+	 * @return <tt>true</tt> when in Classsic Mode, <tt>false</tt> when in
+	 *         Simple Mode
+	 */
 	public boolean getState() {
 		return state;
 	}
@@ -66,16 +76,12 @@ public class TileEntityBlockBrainLightSensor extends
 		}
 	}
 
-	public void setCurLightLevel(int i) {
-		curLightLevel = i;
+	public void setDirection(boolean direction) {
+		this.direction = direction;
 	}
 
-	public void setDirection(boolean flag) {
-		direction = flag;
-	}
-
-	public void setLightLevel(int i) {
-		lightLevel = i;
+	public void setLightLevel(int lightLevel) {
+		this.lightLevel = lightLevel;
 	}
 
 	public void setPower(short Power) {
@@ -84,8 +90,8 @@ public class TileEntityBlockBrainLightSensor extends
 		}
 	}
 
-	public void setPowerOn(boolean flag) {
-		powerOn = flag;
+	public void setPowerOn(boolean power) {
+		powerOn = power;
 	}
 
 	public void setState(boolean state) {

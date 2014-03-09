@@ -1,60 +1,78 @@
 package brainstonemod.common.tileentity.template;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import brainstonemod.BrainStone;
-import brainstonemod.network.BrainStonePacketHelper;
-import brainstonemod.network.BrainStonePacketPipeline;
-import brainstonemod.network.packet.BrainStoneUpdateTileEntityPacket;
-import net.minecraft.command.IEntitySelector;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayerMP;
+import java.lang.reflect.Field;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
+import brainstonemod.common.helper.BSP;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
 
 public abstract class TileEntityBrainStoneSyncBase extends TileEntity {
-	private int lastUpdate = 0;
-	@SideOnly(value = Side.CLIENT)
-	private boolean sendToServer = false;
+	protected boolean inventorySaving = true;
 
 	@Override
-	public void onDataPacket(NetworkManager net,
-			S35PacketUpdateTileEntity packet) {
-		readFromNBT(packet.func_148857_g());
+	public boolean canUpdate() {
+		return false;
 	}
 
-	@Override
-	public void updateEntity() {
-		if (lastUpdate-- <= 0) {
-			lastUpdate = 20;
-
-			if (!worldObj.isRemote) {
-				BrainStonePacketHelper.sendPacketToClosestPlayers(this,
-						getDescriptionPacket());
-			} else if (sendToServer) {
-				sendToServer = false;
-
-				// BrainStone.packetPipeline
-				// .sendToServer(new BrainStoneUpdateTileEntityPacket(
-				// (S35PacketUpdateTileEntity) getDescriptionPacket()));
-			}
-		}
+	public void disableInventorySaving() {
+		inventorySaving = false;
 	}
-	
-	public void allowClientToServerUpdate() {
-		sendToServer = true;
+
+	public void enableInventorySaving() {
+		inventorySaving = true;
 	}
 
 	@Override
 	public Packet getDescriptionPacket() {
-		NBTTagCompound nbt = new NBTTagCompound();
+		final NBTTagCompound nbt = new NBTTagCompound();
 		writeToNBT(nbt);
+		enableInventorySaving();
 
-		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord,
-				this.zCoord, 0, nbt);
+		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 0, nbt);
+	}
+
+	@Override
+	public void onDataPacket(NetworkManager net,
+			S35PacketUpdateTileEntity packet) {
+		NBTTagCompound nbt = null;
+
+		try {
+			nbt = packet.func_148857_g();
+		} catch (final NoSuchMethodError e) {
+			for (final Field field : S35PacketUpdateTileEntity.class
+					.getDeclaredFields()) {
+				if (field.getType().equals(NBTTagCompound.class)) {
+					final boolean accesible = field.isAccessible();
+					field.setAccessible(true);
+
+					try {
+						nbt = (NBTTagCompound) field.get(packet);
+					} catch (final IllegalArgumentException ex) {
+						BSP.fatalException(ex,
+								"I have no idea what went wrong, but this should not have happened!");
+					} catch (final IllegalAccessException ex) {
+						BSP.fatalException(ex,
+								"I have no idea what went wrong, but this should not have happened!");
+					}
+
+					field.setAccessible(accesible);
+
+					break;
+				}
+			}
+		}
+
+		readFromNBT(nbt);
+
+		if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) {
+			disableInventorySaving();
+
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		}
 	}
 }

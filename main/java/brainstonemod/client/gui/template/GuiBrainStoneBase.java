@@ -2,21 +2,22 @@ package brainstonemod.client.gui.template;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
 
 import org.lwjgl.opengl.GL11;
 
 import brainstonemod.BrainStone;
+import brainstonemod.common.tileentity.template.TileEntityBrainStoneSyncBase;
+import brainstonemod.network.BrainStonePacketHelper;
 
 public abstract class GuiBrainStoneBase extends GuiContainer {
 
-	protected TileEntity tileentity;
+	protected TileEntityBrainStoneSyncBase tileentity;
 
-	public GuiBrainStoneBase(Container par1Container, TileEntity tileentity) {
+	public GuiBrainStoneBase(Container par1Container,
+			TileEntityBrainStoneSyncBase tileentity) {
 		super(par1Container);
-		
+
 		this.tileentity = tileentity;
 	}
 
@@ -50,5 +51,16 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 		tileentity.getWorldObj().playSound(tileentity.xCoord,
 				tileentity.yCoord, tileentity.zCoord, "random.click", 1.0F,
 				1.0F, true);
+	}
+
+	/**
+	 * Closes the Gui, plays the click sound and updates the TileEntity
+	 */
+	protected void quit() {
+		click();
+		mc.displayGuiScreen(null);
+		mc.setIngameFocus();
+
+		BrainStonePacketHelper.sendUpdateTileEntityPacket(tileentity);
 	}
 }

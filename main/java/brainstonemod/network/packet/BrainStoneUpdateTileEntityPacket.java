@@ -34,7 +34,7 @@ public class BrainStoneUpdateTileEntityPacket extends BrainStoneBasePacket {
 			final PacketBuffer buffer = new PacketBuffer(data);
 
 			buffer.writeInt(x);
-			buffer.writeInt(y);
+			buffer.writeShort(y);
 			buffer.writeInt(z);
 			buffer.writeNBTTagCompoundToBuffer(nbt);
 		} catch (final IOException e) {

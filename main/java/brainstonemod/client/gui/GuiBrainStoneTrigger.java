@@ -25,7 +25,8 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 	public GuiBrainStoneTrigger(InventoryPlayer inventoryplayer,
 			TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger) {
 		super(new ContainerBlockBrainStoneTrigger(inventoryplayer,
-				tileentityblockbrainstonetrigger), tileentityblockbrainstonetrigger);
+				tileentityblockbrainstonetrigger),
+				tileentityblockbrainstonetrigger);
 		tileentity = tileentityblockbrainstonetrigger;
 		j = 0;
 		k = 0;
@@ -242,7 +243,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 				quit();
 			}
 
-			BrainStonePacketHelper.sendUpdateOptions(tileentity);
+			BrainStonePacketHelper.sendUpdateTileEntityPacket(tileentity);
 		}
 	}
 
@@ -266,12 +267,6 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		} else {
 			buttons.hover();
 		}
-	}
-
-	private void quit() {
-		click();
-		mc.displayGuiScreen(null);
-		mc.setIngameFocus();
 	}
 
 	private void setMobs() {

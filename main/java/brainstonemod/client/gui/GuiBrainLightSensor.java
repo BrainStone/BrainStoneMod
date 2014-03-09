@@ -1,7 +1,5 @@
 package brainstonemod.client.gui;
 
-import java.io.IOException;
-
 import net.minecraft.util.StatCollector;
 import brainstonemod.client.gui.template.GuiBrainStoneBase;
 import brainstonemod.common.container.ContainerBlockBrainLightSensor;
@@ -43,9 +41,8 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 		tileentity = tileentityblockbrainlightsensor;
 		direction = tileentity.getDirection();
 		setLightLevel(tileentity.getLightLevel());
-		tileentity.GUIopen = true;
 
-		BrainStonePacketHelper.sendUpdateOptions(tileentity);
+		BrainStonePacketHelper.sendUpdateTileEntityPacket(tileentity);
 	}
 
 	@Override
@@ -204,17 +201,6 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 	}
 
 	/**
-	 * Closes the Gui, plays the click sound and updates the TileEntity
-	 */
-	private void quit() {
-		tileentity.GUIopen = false;
-		BrainStonePacketHelper.sendUpdateOptions(tileentity);
-		click();
-		mc.displayGuiScreen(null);
-		mc.setIngameFocus();
-	}
-
-	/**
 	 * Sets the light level (red bars), updates the TileEntity ,and snycs it
 	 * with the server.
 	 * 
@@ -237,6 +223,6 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 		tileentity.setLightLevel(lightLevel);
 		tileentity.setDirection(direction);
 
-		BrainStonePacketHelper.sendUpdateOptions(tileentity);
+		BrainStonePacketHelper.sendUpdateTileEntityPacket(tileentity);
 	}
 }

@@ -67,13 +67,13 @@ import brainstonemod.common.tileentity.TileEntityBlockBrainStoneTrigger;
 import brainstonemod.common.worldgenerators.BrainStoneWorldGenerator;
 import brainstonemod.network.BrainStonePacketHelper;
 import brainstonemod.network.BrainStonePacketPipeline;
-import brainstonemod.network.packet.BrainStoneTriggerMobInformationPacket;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLModDisabledEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
@@ -90,9 +90,9 @@ import cpw.mods.fml.relauncher.Side;
 public class BrainStone {
 	public static final String MOD_ID = "BrainStoneMod";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.42.563 BETA";
+	public static final String VERSION = "v2.42.671 BETA DEV";
 
-	public static final BrainStonePacketPipeline packetPipeline = new BrainStonePacketPipeline();
+	public static BrainStonePacketPipeline packetPipeline;
 
 	/** States if the current mod version is a release version or not */
 	public static final boolean release = VERSION.toLowerCase().contains(
@@ -145,25 +145,25 @@ public class BrainStone {
 	 * This Map maps the different mob types of the BrainStoneTrigger to the
 	 * corresponding Classes
 	 */
-	private final static HashMap<Side, LinkedHashMap<String, Class<?>[]>> triggerEntities = new HashMap<Side, LinkedHashMap<String, Class<?>[]>>();
+	private static final HashMap<Side, LinkedHashMap<String, Class<?>[]>> triggerEntities = new HashMap<Side, LinkedHashMap<String, Class<?>[]>>();
 	/**
 	 * A HashMap with the all blocks.<br>
 	 * &emsp;<b>key:</b> The internal id<br>
 	 * &emsp;<b>value:</b> The actual block
 	 */
-	private static HashMap<String, Block> blocks = new HashMap<String, Block>();
+	private static final HashMap<String, Block> blocks = new HashMap<String, Block>();
 	/**
 	 * A HashMap with the all items.<br>
 	 * &emsp;<b>key:</b> The internal id<br>
 	 * &emsp;<b>value:</b> The actual item
 	 */
-	private static HashMap<String, Item> items = new HashMap<String, Item>();
+	private static final HashMap<String, Item> items = new HashMap<String, Item>();
 	/**
 	 * A HashMap with the all items.<br>
 	 * &emsp;<b>key:</b> The internal id<br>
 	 * &emsp;<b>value:</b> The actual item
 	 */
-	private static HashMap<String, Achievement> achievements = new HashMap<String, Achievement>();
+	private static final HashMap<String, Achievement> achievements = new HashMap<String, Achievement>();
 
 	/**
 	 * Preinitialization. Reads the ids from the config file and fills the block
@@ -174,6 +174,8 @@ public class BrainStone {
 	 */
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
+		packetPipeline = new BrainStonePacketPipeline();
+		
 		if ((Gate.Gates == null) || Gate.Gates.isEmpty()) {
 			BSP.throwNullPointerException("Well, that should NOT have happenend! This IS a HUGE problem if you notice this please report it to yannick@tedworld.de.\nThanks!\n\nDeveloper Information:\nThe Map of the Gates is EMPTY!\nIs gates null: "
 					+ (Gate.Gates == null));
@@ -239,6 +241,27 @@ public class BrainStone {
 
 		// Post initializing the pipeline
 		packetPipeline.postInitialise();
+	}
+
+	/**
+	 * Disabeling the mod. Will unload and unregister everything registered
+	 * before
+	 * 
+	 * @param event
+	 *            The MCForge ModDisabledEvent
+	 */
+	@EventHandler
+	public void disableMod(FMLModDisabledEvent event) {
+		packetPipeline = null;
+		
+		triggerEntities.clear();
+		blocks.clear();
+		items.clear();
+		achievements.clear();
+		
+		// TODO What do we do here?
+		
+		BSP.warn("This mod is not properly unloaded! There might be troubles!");
 	}
 
 	/**

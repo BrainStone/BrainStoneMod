@@ -61,7 +61,8 @@ public class BrainStonePacketPipeline extends
 			for (final Class clazz : BrainStoneClassFinder
 					.getClassesForPackage(getClass().getPackage().getName()
 							+ ".packet")) {
-				BSP.debug("Automatically registered packet \"" + clazz.getName() + "\".");
+				BSP.debug("Automatically registered packet \""
+						+ clazz.getName() + "\".");
 
 				registerPacket(clazz, true);
 			}

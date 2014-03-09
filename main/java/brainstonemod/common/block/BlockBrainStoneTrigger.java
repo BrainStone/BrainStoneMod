@@ -12,6 +12,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 import brainstonemod.BrainStone;
 import brainstonemod.common.block.template.BlockBrainStoneHiders;
 import brainstonemod.common.helper.BSP;
@@ -109,6 +110,12 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 	}
 
 	@Override
+	public boolean isSideSolid(IBlockAccess world, int x, int y, int z,
+			ForgeDirection side) {
+		return true;
+	}
+
+	@Override
 	public boolean onBlockActivated(World world, int i, int j, int k,
 			EntityPlayer entityplayer, int par6, float par7, float par8,
 			float par9) {
@@ -126,18 +133,19 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 	}
 
 	@Override
-	public void onBlockAdded(World world, int i, int j, int k) {
-		world.setTileEntity(i, j, k, createNewTileEntity(world, 0));
-		world.notifyBlocksOfNeighborChange(i, j, k, this);
-		world.notifyBlocksOfNeighborChange(i - 1, j, k, this);
-		world.notifyBlocksOfNeighborChange(i + 1, j, k, this);
-		world.notifyBlocksOfNeighborChange(i, j - 1, k, this);
-		world.notifyBlocksOfNeighborChange(i, j + 1, k, this);
-		world.notifyBlocksOfNeighborChange(i, j, k - 1, this);
-		world.notifyBlocksOfNeighborChange(i, j, k + 1, this);
+	public void onBlockAdded(World world, int x, int y, int z) {
+		world.setTileEntity(x, y, z, createNewTileEntity(world, 0));
+		world.notifyBlocksOfNeighborChange(x, y, z, this);
+		world.notifyBlocksOfNeighborChange(x - 1, y, z, this);
+		world.notifyBlocksOfNeighborChange(x + 1, y, z, this);
+		world.notifyBlocksOfNeighborChange(x, y - 1, z, this);
+		world.notifyBlocksOfNeighborChange(x, y + 1, z, this);
+		world.notifyBlocksOfNeighborChange(x, y, z - 1, this);
+		world.notifyBlocksOfNeighborChange(x, y, z + 1, this);
 
-		world.scheduleBlockUpdate(i, j, k, this,
-				(int) world.getTotalWorldTime() % tickRate(world));
+		world.scheduleBlockUpdate(x, y, z, this,
+				tickRate(world)
+						- ((int) world.getTotalWorldTime() % tickRate(world)));
 	}
 
 	@Override

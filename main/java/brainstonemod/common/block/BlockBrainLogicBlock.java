@@ -15,6 +15,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 import brainstonemod.BrainStone;
 import brainstonemod.client.ClientProxy;
 import brainstonemod.common.block.template.BlockBrainStoneContainerBase;
@@ -102,50 +103,51 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	 * 
 	 * @param world
 	 *            The world. Needed to access the blocks
-	 * @param i
+	 * @param x
 	 *            x-coordinate
-	 * @param j
+	 * @param y
 	 *            y-coordinate
-	 * @param k
+	 * @param z
 	 *            z-coordinate
-	 * @param byte0
+	 * @param pos
 	 *            The position/direction of the pin
 	 * @return The state at the requested pin
 	 */
-	private byte checkState(World world, int i, int j, int k, byte byte0) {
-		switch (byte0) {
+	private byte checkState(World world, int x, int y, int z, byte pos) {
+		switch (pos) {
 		case 3:
-			i++;
+			x++;
 			break;
 
 		case 2:
-			i--;
+			x--;
 			break;
 
 		case 1:
-			k++;
+			z++;
 			break;
 
 		case 0:
-			k--;
+			z--;
 			break;
 		}
 
 		byte byte1 = -1;
-		final Block block = world.getBlock(i, j, k);
+		final Block block = world.getBlock(x, y, z);
 		;
 
 		if (block.canProvidePower()) {
 			if (block instanceof BlockRedstoneWire) {
-				byte1 = (byte) (world.getBlockMetadata(i, j, k) <= 0 ? 0 : 1);
+				byte1 = (byte) (world.getBlockMetadata(x, y, z) <= 0 ? 0 : 1);
 			} else {
-				byte0 += 2;
-				byte1 = (byte) (((block.isProvidingWeakPower(world, i, j, k,
-						byte0) + block.isProvidingStrongPower(world, i, j, k,
-						byte0)) == 0) ? 0 : 1);
+				pos += 2;
+				byte1 = (byte) (((block.isProvidingWeakPower(world, x, y, z,
+						pos) + block
+						.isProvidingStrongPower(world, x, y, z, pos)) == 0) ? 0
+						: 1);
 			}
 		} else if (block.isNormalCube()) {
-			byte1 = (byte) (world.isBlockIndirectlyGettingPowered(i, j, k) ? 1
+			byte1 = (byte) (world.isBlockIndirectlyGettingPowered(x, y, z) ? 1
 					: 0);
 		}
 
@@ -164,7 +166,7 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world, int par2) {
+	public TileEntity createNewTileEntity(World world, int unknown_1) {
 		return new TileEntityBlockBrainLogicBlock();
 	}
 
@@ -204,16 +206,22 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	}
 
 	@Override
-	public int isProvidingWeakPower(IBlockAccess iblockaccess, int i, int j,
-			int k, int l) {
-		return isProvidingStrongPower(iblockaccess, i, j, k, l);
+	public int isProvidingWeakPower(IBlockAccess iblockaccess, int x, int y,
+			int z, int side) {
+		return isProvidingStrongPower(iblockaccess, x, y, z, side);
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, int i, int j, int k,
+	public boolean isSideSolid(IBlockAccess world, int x, int y, int z,
+			ForgeDirection side) {
+		return true;
+	}
+
+	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z,
 			EntityPlayer entityplayer, int unknown, float px, float py, float pz) {
 		final TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock = (TileEntityBlockBrainLogicBlock) world
-				.getTileEntity(i, j, k);
+				.getTileEntity(x, y, z);
 
 		if (tileentityblockbrainlogicblock == null)
 			return false;
@@ -221,33 +229,34 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 			TileEntityBlockBrainLogicBlock.guiDirection = (byte) ((MathHelper
 					.floor_double(((entityplayer.rotationYaw * 4.0F) / 360.0F) + 0.5D) & 3) ^ 2);
 
-			entityplayer.openGui(BrainStone.instance, 2, world, i, j, k);
-			world.notifyBlocksOfNeighborChange(i, j, k, this);
+			entityplayer.openGui(BrainStone.instance, 2, world, x, y, z);
+			world.notifyBlocksOfNeighborChange(x, y, z, this);
 			return true;
 		}
 	}
 
 	@Override
-	public void onBlockAdded(World world, int i, int j, int k) {
-		world.setTileEntity(i, j, k, createNewTileEntity(world, 0));
-		world.notifyBlocksOfNeighborChange(i, j, k, this);
-		world.notifyBlocksOfNeighborChange(i - 1, j, k, this);
-		world.notifyBlocksOfNeighborChange(i + 1, j, k, this);
-		world.notifyBlocksOfNeighborChange(i, j - 1, k, this);
-		world.notifyBlocksOfNeighborChange(i, j + 1, k, this);
-		world.notifyBlocksOfNeighborChange(i, j, k - 1, this);
-		world.notifyBlocksOfNeighborChange(i, j, k + 1, this);
-		world.scheduleBlockUpdate(i, j, k, this,
-				(int) world.getTotalWorldTime() % tickRate(world));
+	public void onBlockAdded(World world, int x, int y, int z) {
+		world.setTileEntity(x, y, z, createNewTileEntity(world, 0));
+		world.notifyBlocksOfNeighborChange(x, y, z, this);
+		world.notifyBlocksOfNeighborChange(x - 1, y, z, this);
+		world.notifyBlocksOfNeighborChange(x + 1, y, z, this);
+		world.notifyBlocksOfNeighborChange(x, y - 1, z, this);
+		world.notifyBlocksOfNeighborChange(x, y + 1, z, this);
+		world.notifyBlocksOfNeighborChange(x, y, z - 1, this);
+		world.notifyBlocksOfNeighborChange(x, y, z + 1, this);
+
+		world.scheduleBlockUpdate(x, y, z, this,
+				tickRate(world)
+						- ((int) world.getTotalWorldTime() % tickRate(world)));
 	}
 
 	@Override
-	public void onBlockPlacedBy(World par1World, int par2, int par3, int par4,
-			EntityLivingBase par5EntityLiving, ItemStack par6ItemStack) {
-		((TileEntityBlockBrainLogicBlock) par1World.getTileEntity(par2, par3,
-				par4))
+	public void onBlockPlacedBy(World world, int x, int y, int z,
+			EntityLivingBase entity, ItemStack itemStack) {
+		((TileEntityBlockBrainLogicBlock) world.getTileEntity(x, y, z))
 				.changeGate(MathHelper
-						.floor_double(((par5EntityLiving.rotationYaw * 4.0F) / 360.0F) + 0.5D) & 3);
+						.floor_double(((entity.rotationYaw * 4.0F) / 360.0F) + 0.5D) & 3);
 	}
 
 	@Override
@@ -268,7 +277,7 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	}
 
 	@Override
-	public int tickRate(World par1World) {
+	public int tickRate(World world) {
 		return 2;
 	}
 

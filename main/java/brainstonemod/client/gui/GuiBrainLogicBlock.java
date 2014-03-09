@@ -50,7 +50,8 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 
 	public GuiBrainLogicBlock(
 			TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock) {
-		super(new ContainerBlockBrainLightSensor(), tileentityblockbrainlogicblock);
+		super(new ContainerBlockBrainLightSensor(),
+				tileentityblockbrainlogicblock);
 		username = BrainStone.proxy.getPlayer().getUniqueID();
 		tileentity = tileentityblockbrainlogicblock;
 		tileentity.logIn(username);
@@ -543,11 +544,11 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		}
 	}
 
-	private void quit() {
-		click();
+	@Override
+	protected void quit() {
+		super.quit();
+
 		tileentity.logOut(username);
-		mc.displayGuiScreen(null);
-		mc.setIngameFocus();
 	}
 
 	private void renderGateFrameAt(int x, int y, byte pos) {
