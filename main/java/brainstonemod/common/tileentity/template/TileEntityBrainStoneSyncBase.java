@@ -19,21 +19,25 @@ public abstract class TileEntityBrainStoneSyncBase extends TileEntity {
 		return false;
 	}
 
-	public void disableInventorySaving() {
-		inventorySaving = false;
-	}
-
-	public void enableInventorySaving() {
-		inventorySaving = true;
-	}
-
 	@Override
 	public Packet getDescriptionPacket() {
-		final NBTTagCompound nbt = new NBTTagCompound();
-		writeToNBT(nbt);
-		enableInventorySaving();
+		return getDescriptionPacket(true);
+	}
 
-		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 0, nbt);
+	// DOCME
+	public Packet getDescriptionPacket(boolean enableInventorySaving) {
+		try {
+			inventorySaving = enableInventorySaving;
+			final NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setBoolean("inventorySaving", inventorySaving);
+
+			writeToNBT(nbt);
+
+			return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 0, nbt);
+		} finally {
+			// Just making sure inventorySaving is reset!
+			inventorySaving = true;
+		}
 	}
 
 	@Override
@@ -47,7 +51,7 @@ public abstract class TileEntityBrainStoneSyncBase extends TileEntity {
 			for (final Field field : S35PacketUpdateTileEntity.class
 					.getDeclaredFields()) {
 				if (field.getType().equals(NBTTagCompound.class)) {
-					final boolean accesible = field.isAccessible();
+					final boolean accessible = field.isAccessible();
 					field.setAccessible(true);
 
 					try {
@@ -60,19 +64,25 @@ public abstract class TileEntityBrainStoneSyncBase extends TileEntity {
 								"I have no idea what went wrong, but this should not have happened!");
 					}
 
-					field.setAccessible(accesible);
+					field.setAccessible(accessible);
 
 					break;
 				}
 			}
 		}
 
-		readFromNBT(nbt);
+		try {
+			inventorySaving = nbt.getBoolean("inventorySaving");
+			readFromNBT(nbt);
+		} finally {
+			// Just making sure inventorySaving is reset!
+			inventorySaving = true;
+		}
 
 		if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) {
-			disableInventorySaving();
-
 			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}
+
+		markDirty();
 	}
 }

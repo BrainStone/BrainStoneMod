@@ -9,13 +9,13 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.tileentity.template.TileEntityBrainStoneSyncBase;
 import brainstonemod.network.packet.BrainLightSensorSmokePacket;
+import brainstonemod.network.packet.BrainStoneReRenderBlockAtPacket;
 import brainstonemod.network.packet.BrainStoneTriggerMobInformationPacket;
 import brainstonemod.network.packet.BrainStoneUpdateTileEntityPacket;
 import cpw.mods.fml.common.network.NetworkRegistry;
@@ -76,20 +76,6 @@ public class BrainStonePacketHelper {
 	}
 
 	/**
-	 * Sends a sync packet to the closest players.
-	 * 
-	 * @param te
-	 *            The TileEntity. Needed for the coordinates and the dimension
-	 * @param packet
-	 *            The packet to send
-	 */
-	public static void sendPacketToClosestPlayers(TileEntity te, Packet packet) {
-		sendPacketToClosestPlayers(te.xCoord, te.yCoord, te.zCoord,
-				te.getWorldObj(), packet);
-
-	}
-
-	/**
 	 * Sends a snyc packet to the server.
 	 * 
 	 * @param data
@@ -114,20 +100,20 @@ public class BrainStonePacketHelper {
 				entity.serverPosZ, entity.worldObj, packet);
 	}
 
-	public static void sendReRenderBlockAtPacket(int x, int y, int z,
-			World world) {
-		// TODO Auto-generated method stub
+	// DOCME
+	public static void sendReRenderBlockAtPacket(int dimension, int x, int y,
+			int z, World world) {
+		BrainStone.packetPipeline.sendToAllAround(
+				new BrainStoneReRenderBlockAtPacket(x, y, z),
+				new NetworkRegistry.TargetPoint(dimension, x, y, z, 100));
 	}
 
+	// DOCME
 	public static void sendUpdateTileEntityPacket(
 			TileEntityBrainStoneSyncBase tileentity) {
-		tileentity.disableInventorySaving();
-
 		BrainStone.packetPipeline
 				.sendToServer(new BrainStoneUpdateTileEntityPacket(
 						(S35PacketUpdateTileEntity) tileentity
-								.getDescriptionPacket()));
-
-		tileentity.enableInventorySaving();
+								.getDescriptionPacket(false)));
 	}
 }

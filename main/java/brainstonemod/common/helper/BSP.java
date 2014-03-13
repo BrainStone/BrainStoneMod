@@ -347,7 +347,11 @@ public abstract class BSP {
 	 */
 	public static final boolean log(Level level, Object... obj) {
 		for (final Object log : obj) {
-			logger.log(level, log.toString());
+			if (log == null) {
+				logger.log(level, "~~NULL~~");
+			} else {
+				logger.log(level, log.toString());
+			}
 		}
 
 		return logger.isEnabled(level);

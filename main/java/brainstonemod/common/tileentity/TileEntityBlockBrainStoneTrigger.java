@@ -3,20 +3,17 @@ package brainstonemod.common.tileentity;
 import java.util.HashMap;
 
 import net.minecraft.block.Block;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
 import brainstonemod.BrainStone;
 import brainstonemod.common.block.BlockBrainStoneTrigger;
 import brainstonemod.common.slot.SlotBlockBrainStoneTrigger;
 
 public class TileEntityBlockBrainStoneTrigger extends
-		TileEntityBlockBrainStoneHiders implements IInventory {
+		TileEntityBlockBrainStoneHiders {
 	private final HashMap<String, Integer> mobTriggered;
 	public byte delay, max_delay, output, output_buffered;
 	private ItemStack oldStack;
@@ -38,30 +35,14 @@ public class TileEntityBlockBrainStoneTrigger extends
 	}
 
 	public boolean checkForSlotChange() {
-		return oldStack != (oldStack = getStackInSlot(0));
+		final ItemStack oldOldStack = oldStack;
+		oldStack = getStackInSlot(0);
+
+		return !ItemStack.areItemStacksEqual(oldOldStack, oldStack);
 	}
 
 	@Override
 	public void closeInventory() {
-	}
-
-	@Override
-	public void dropItems(World world, int i, int j, int k) {
-		for (final ItemStack itemstack : ItemStacks) {
-			if (itemstack != null) {
-				final float f = 0.7F;
-				final double d = (world.rand.nextFloat() * f)
-						+ ((1.0F - f) * 0.5D);
-				final double d1 = (world.rand.nextFloat() * f)
-						+ ((1.0F - f) * 0.5D);
-				final double d2 = (world.rand.nextFloat() * f)
-						+ ((1.0F - f) * 0.5D);
-				final EntityItem entityitem = new EntityItem(world, i + d, j
-						+ d1, k + d2, itemstack);
-				entityitem.delayBeforeCanPickup = 10;
-				world.spawnEntityInWorld(entityitem);
-			}
-		}
 	}
 
 	@Override
@@ -120,27 +101,27 @@ public class TileEntityBlockBrainStoneTrigger extends
 	public void openInventory() {
 	}
 
-	/**
-	 * Reads a tile entity from NBT.
-	 */
 	@Override
 	public void readFromNBT(NBTTagCompound nbttagcompound) {
 		super.readFromNBT(nbttagcompound);
 
 		if (inventorySaving) {
-			final NBTTagList nbttaglist = nbttagcompound.getTagList(
-					"ItemsBrainStoneTrigger", 0);
-			ItemStacks = new ItemStack[getSizeInventory()];
+			final NBTTagList nbttaglist = nbttagcompound
+					.getTagList("Items", 10);
 
-			for (int i = 0; i < nbttaglist.tagCount(); i++) {
-				final NBTTagCompound nbttagcompound1 = nbttaglist
-						.getCompoundTagAt(i);
-				final byte byte0 = nbttagcompound1
-						.getByte("SlotBrainStoneTrigger");
+			// Making sure it won't mess up when the Container is behind
+			if ((nbttaglist != null) && (nbttaglist.tagCount() > 0)) {
+				ItemStacks = new ItemStack[getSizeInventory()];
 
-				if ((byte0 >= 0) && (byte0 < ItemStacks.length)) {
-					ItemStacks[byte0] = ItemStack
-							.loadItemStackFromNBT(nbttagcompound1);
+				for (int i = 0; i < nbttaglist.tagCount(); i++) {
+					final NBTTagCompound nbttagcompound1 = nbttaglist
+							.getCompoundTagAt(i);
+					final byte byte0 = nbttagcompound1.getByte("Slot");
+
+					if ((byte0 >= 0) && (byte0 < ItemStacks.length)) {
+						ItemStacks[byte0] = ItemStack
+								.loadItemStackFromNBT(nbttagcompound1);
+					}
 				}
 			}
 		}
@@ -175,15 +156,13 @@ public class TileEntityBlockBrainStoneTrigger extends
 		max_delay = nbttagcompound.getByte("BrainStoneMaxDelay");
 	}
 
+	// DOCME
 	public void setMobTriggered(String s, int value) {
 		if (mobTriggered.containsKey(s)) {
 			mobTriggered.put(s, value);
 		}
 	}
 
-	/**
-	 * Writes a tile entity to NBT.
-	 */
 	@Override
 	public void writeToNBT(NBTTagCompound nbttagcompound) {
 		super.writeToNBT(nbttagcompound);
@@ -194,13 +173,13 @@ public class TileEntityBlockBrainStoneTrigger extends
 			for (int i = 0; i < ItemStacks.length; i++) {
 				if (ItemStacks[i] != null) {
 					final NBTTagCompound nbttagcompound1 = new NBTTagCompound();
-					nbttagcompound1.setByte("SlotBrainStoneTrigger", (byte) i);
+					nbttagcompound1.setByte("Slot", (byte) i);
 					ItemStacks[i].writeToNBT(nbttagcompound1);
 					nbttaglist.appendTag(nbttagcompound1);
 				}
 			}
 
-			nbttagcompound.setTag("ItemsBrainStoneTrigger", nbttaglist);
+			nbttagcompound.setTag("Items", nbttaglist);
 		}
 
 		final int length = BrainStone.getSidedTiggerEntities().size();

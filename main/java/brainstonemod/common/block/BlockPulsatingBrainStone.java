@@ -197,6 +197,5 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 		}
 
 		world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
-		BrainStonePacketHelper.sendReRenderBlockAtPacket(x, y, z, world);
 	}
 }

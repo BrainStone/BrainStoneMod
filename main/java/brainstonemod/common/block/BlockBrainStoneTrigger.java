@@ -222,17 +222,17 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 	}
 
 	@Override
-	public void updateTick(World world, int i, int j, int k, Random random) {
+	public void updateTick(World world, int x, int y, int z, Random random) {
 		final TileEntityBlockBrainStoneTrigger tileEntityBlockBrainStoneTrigger = (TileEntityBlockBrainStoneTrigger) world
-				.getTileEntity(i, j, k);
+				.getTileEntity(x, y, z);
 
 		if (tileEntityBlockBrainStoneTrigger == null) {
-			world.scheduleBlockUpdate(i, j, k, this, tickRate(world));
+			world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
 			return;
 		}
 
-		tileEntityBlockBrainStoneTrigger.output = triggerCorrectMob(world, i,
-				j, k);
+		tileEntityBlockBrainStoneTrigger.output = triggerCorrectMob(world, x,
+				y, z);
 		if (tileEntityBlockBrainStoneTrigger.output > 0) {
 			tileEntityBlockBrainStoneTrigger.output_buffered = tileEntityBlockBrainStoneTrigger.output;
 		}
@@ -242,18 +242,18 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 						: tileEntityBlockBrainStoneTrigger.delay - 1);
 
 		if (tileEntityBlockBrainStoneTrigger.checkForSlotChange()) {
-			world.markBlockForUpdate(i, j, k);
-			BrainStonePacketHelper.sendReRenderBlockAtPacket(i, j, k, world);
+			BrainStonePacketHelper.sendReRenderBlockAtPacket(
+					world.provider.dimensionId, x, y, z, world);
 		}
 
-		world.notifyBlocksOfNeighborChange(i, j, k, this);
-		world.notifyBlocksOfNeighborChange(i - 1, j, k, this);
-		world.notifyBlocksOfNeighborChange(i + 1, j, k, this);
-		world.notifyBlocksOfNeighborChange(i, j - 1, k, this);
-		world.notifyBlocksOfNeighborChange(i, j + 1, k, this);
-		world.notifyBlocksOfNeighborChange(i, j, k - 1, this);
-		world.notifyBlocksOfNeighborChange(i, j, k + 1, this);
+		world.notifyBlocksOfNeighborChange(x, y, z, this);
+		world.notifyBlocksOfNeighborChange(x - 1, y, z, this);
+		world.notifyBlocksOfNeighborChange(x + 1, y, z, this);
+		world.notifyBlocksOfNeighborChange(x, y - 1, z, this);
+		world.notifyBlocksOfNeighborChange(x, y + 1, z, this);
+		world.notifyBlocksOfNeighborChange(x, y, z - 1, this);
+		world.notifyBlocksOfNeighborChange(x, y, z + 1, this);
 
-		world.scheduleBlockUpdate(i, j, k, this, tickRate(world));
+		world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
 	}
 }

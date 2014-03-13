@@ -90,7 +90,7 @@ import cpw.mods.fml.relauncher.Side;
 public class BrainStone {
 	public static final String MOD_ID = "BrainStoneMod";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.42.671 BETA DEV";
+	public static final String VERSION = "v2.42.809 BETA DEV";
 
 	public static BrainStonePacketPipeline packetPipeline;
 
@@ -335,7 +335,10 @@ public class BrainStone {
 		}
 	}
 
-	// DOCME
+	/**
+	 * This method is server side called when a player joins the game. Both for
+	 * a server or a single player world.
+	 */
 	public static void onPlayerJoinServer(EntityPlayer player,
 			PlayerLoggedInEvent event) {
 		BrainStonePacketHelper

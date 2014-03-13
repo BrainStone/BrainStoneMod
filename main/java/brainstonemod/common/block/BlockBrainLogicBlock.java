@@ -297,8 +297,8 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 
 				tileentityblockbrainlogicblock.tickGate(world, x, y, z, time);
 
-				BrainStonePacketHelper
-						.sendReRenderBlockAtPacket(x, y, z, world);
+				BrainStonePacketHelper.sendReRenderBlockAtPacket(
+						world.provider.dimensionId, x, y, z, world);
 				world.notifyBlockChange(x, y, z, this);
 				world.notifyBlocksOfNeighborChange(x, y, z, this);
 				world.notifyBlocksOfNeighborChange(x - 1, y, z, this);
