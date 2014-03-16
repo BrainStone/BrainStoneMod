@@ -90,7 +90,7 @@ import cpw.mods.fml.relauncher.Side;
 public class BrainStone {
 	public static final String MOD_ID = "BrainStoneMod";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.42.809 BETA DEV";
+	public static final String VERSION = "v2.42.821 BETA DEV";
 
 	public static BrainStonePacketPipeline packetPipeline;
 
@@ -175,13 +175,12 @@ public class BrainStone {
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		packetPipeline = new BrainStonePacketPipeline();
+		BSP.setUpLogger((Logger) event.getModLog());
 		
 		if ((Gate.Gates == null) || Gate.Gates.isEmpty()) {
 			BSP.throwNullPointerException("Well, that should NOT have happenend! This IS a HUGE problem if you notice this please report it to yannick@tedworld.de.\nThanks!\n\nDeveloper Information:\nThe Map of the Gates is EMPTY!\nIs gates null: "
 					+ (Gate.Gates == null));
 		}
-
-		BSP.setUpLogger((Logger) event.getModLog());
 
 		loadConfig(event);
 		retriveCurrentVersions();

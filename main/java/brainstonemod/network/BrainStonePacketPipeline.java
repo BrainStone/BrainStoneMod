@@ -6,6 +6,7 @@ import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageCodec;
 
+import java.lang.reflect.Modifier;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumMap;
@@ -61,14 +62,17 @@ public class BrainStonePacketPipeline extends
 			for (final Class clazz : BrainStoneClassFinder
 					.getClassesForPackage(getClass().getPackage().getName()
 							+ ".packet")) {
-				BSP.debug("Automatically registered packet \""
-						+ clazz.getName() + "\".");
+				if (BrainStoneBasePacket.class.isAssignableFrom(clazz)
+						&& !Modifier.isAbstract(clazz.getModifiers())) {
+					BSP.debug("Automatically registered packet \""
+							+ clazz.getName() + "\".");
 
-				registerPacket(clazz, true);
+					registerPacket(clazz, true);
+				}
 			}
 		} catch (final ClassNotFoundException e) {
 			BSP.throwException(new RuntimeException(
-					"Unexpechted failure while trying to automatically register all packets.",
+					"Unexpected failure while trying to automatically register all packets.",
 					e));
 		}
 	}
