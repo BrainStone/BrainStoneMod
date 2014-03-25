@@ -95,7 +95,7 @@ import cpw.mods.fml.relauncher.Side;
 public class BrainStone {
 	public static final String MOD_ID = "BrainStoneMod";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.42.842 BETA";
+	public static final String VERSION = "v2.42.849 BETA";
 
 	/** The instance of this mod */
 	@Instance(MOD_ID)
@@ -240,7 +240,7 @@ public class BrainStone {
 	 * @throws Throwable
 	 */
 	@EventHandler
-	public void postInit(FMLPostInitializationEvent event) throws Throwable {
+	public void postInit(FMLPostInitializationEvent event) {
 		fillTriggerEntities();
 
 		// Post initializing the pipeline
@@ -533,19 +533,8 @@ public class BrainStone {
 	}
 
 	// DOCME
-	private static void fillTriggerEntities() /*throws Throwable*/ {
-		BSP.info(Loader.isModLoaded("MoCreatures"));
-		
-		try {
-			for(Class<?> clazz : BrainStoneClassFinder.getClassesForPackage("drzhark.mocreatures.entity")) {
-				BSP.info(clazz.getName(), clazz.getSuperclass(), "");
-			}
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		BSP.info("Filling triggerEntities");
+	private static void fillTriggerEntities() {
+		BSP.debug("Filling triggerEntities");
 
 		LinkedHashMap<String, Class<?>[]> tempTriggerEntities = new LinkedHashMap<String, Class<?>[]>();
 
@@ -559,30 +548,50 @@ public class BrainStone {
 				EntityArrow.class, EntityThrowable.class, EntityEnderEye.class,
 				EntityFireball.class });
 
-		Class<?> entityClass;
-
 		for (Entry entry : (Set<Entry>) EntityList.stringToClassMapping
 				.entrySet()) {
-			entityClass = (Class<?>) entry.getValue();
+			verifyTriggerEntity(tempTriggerEntities, (String) entry.getKey(),
+					(Class<?>) entry.getValue());
+		}
 
-			BSP.info(entry.getKey(), entityClass.getName());
-
-			if ((entityClass != null)
-					&& (!Modifier.isAbstract(entityClass.getModifiers()))
-					&& (EntityLiving.class.isAssignableFrom(entityClass))
-					&& (!EntityLiving.class.equals(entityClass))) {
-				tempTriggerEntities.put("entity." + entry.getKey() + ".name",
-						new Class[] { entityClass });
-
-				BSP.info("Added!");
-			} else {
-				BSP.info("Not Added!");
+		if (Loader.isModLoaded("MoCreatures")) {
+			try {
+				for (Class<?> entityClass : BrainStoneClassFinder
+						.getClassesForPackage("drzhark.mocreatures.entity")) {
+					BSP.info(tempTriggerEntities, entityClass.getSimpleName()
+							.replace("MoCEntity", ""), entityClass);
+				}
+			} catch (ClassNotFoundException e) {
+				// Just log
+				BSP.debugException_noAddon(e);
 			}
 		}
 
 		triggerEntities.put(Side.SERVER, tempTriggerEntities);
 
-		BSP.info("Done filling triggerEntities");
+		BSP.debug("Done filling triggerEntities");
+	}
+
+	/**
+	 * Verifies and adds (if verification was successful) it to the passed map.
+	 * 
+	 * @param tempTriggerEntities
+	 *            The map to append the class to
+	 * @param name
+	 *            The name it will be registered with
+	 * @param entityClass
+	 *            The class it refers to
+	 */
+	private static void verifyTriggerEntity(
+			LinkedHashMap<String, Class<?>[]> tempTriggerEntities, String name,
+			Class<?> entityClass) {
+		if ((entityClass != null)
+				&& (!Modifier.isAbstract(entityClass.getModifiers()))
+				&& (EntityLiving.class.isAssignableFrom(entityClass))
+				&& (!EntityLiving.class.equals(entityClass))) {
+			tempTriggerEntities.put("entity." + name + ".name",
+					new Class[] { entityClass });
+		}
 	}
 
 	/**
