@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -55,6 +56,7 @@ import brainstonemod.common.block.template.BlockBrainStoneBase;
 import brainstonemod.common.handler.BrainStoneEventHandler;
 import brainstonemod.common.handler.BrainStoneGuiHandler;
 import brainstonemod.common.helper.BSP;
+import brainstonemod.common.helper.BrainStoneClassFinder;
 import brainstonemod.common.item.ItemArmorBrainStone;
 import brainstonemod.common.item.ItemHoeBrainStone;
 import brainstonemod.common.item.ItemSwordBrainStone;
@@ -68,6 +70,9 @@ import brainstonemod.common.worldgenerators.BrainStoneWorldGenerator;
 import brainstonemod.network.BrainStonePacketHelper;
 import brainstonemod.network.BrainStonePacketPipeline;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.FMLContainer;
+import cpw.mods.fml.common.FMLModContainer;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -90,7 +95,11 @@ import cpw.mods.fml.relauncher.Side;
 public class BrainStone {
 	public static final String MOD_ID = "BrainStoneMod";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.42.821 BETA DEV";
+	public static final String VERSION = "v2.42.842 BETA";
+
+	/** The instance of this mod */
+	@Instance(MOD_ID)
+	public static BrainStone instance;
 
 	public static BrainStonePacketPipeline packetPipeline;
 
@@ -119,10 +128,6 @@ public class BrainStone {
 
 	public static final String guiPath = "textures/gui/";
 	public static final String armorPath = "textures/armor/";
-
-	/** The instance of this mod */
-	@Instance("BrainStoneMod")
-	public static BrainStone instance;
 
 	/**
 	 * The proxy. Used to perform side dependent operation such as getting the
@@ -176,7 +181,7 @@ public class BrainStone {
 	public void preInit(FMLPreInitializationEvent event) {
 		packetPipeline = new BrainStonePacketPipeline();
 		BSP.setUpLogger((Logger) event.getModLog());
-		
+
 		if ((Gate.Gates == null) || Gate.Gates.isEmpty()) {
 			BSP.throwNullPointerException("Well, that should NOT have happenend! This IS a HUGE problem if you notice this please report it to yannick@tedworld.de.\nThanks!\n\nDeveloper Information:\nThe Map of the Gates is EMPTY!\nIs gates null: "
 					+ (Gate.Gates == null));
@@ -252,14 +257,14 @@ public class BrainStone {
 	@EventHandler
 	public void disableMod(FMLModDisabledEvent event) {
 		packetPipeline = null;
-		
+
 		triggerEntities.clear();
 		blocks.clear();
 		items.clear();
 		achievements.clear();
-		
+
 		// TODO What do we do here?
-		
+
 		BSP.warn("This mod is not properly unloaded! There might be troubles!");
 	}
 
@@ -528,8 +533,19 @@ public class BrainStone {
 	}
 
 	// DOCME
-	private static void fillTriggerEntities() throws Throwable {
-		BSP.debug("Filling triggerEntities");
+	private static void fillTriggerEntities() /*throws Throwable*/ {
+		BSP.info(Loader.isModLoaded("MoCreatures"));
+		
+		try {
+			for(Class<?> clazz : BrainStoneClassFinder.getClassesForPackage("drzhark.mocreatures.entity")) {
+				BSP.info(clazz.getName(), clazz.getSuperclass(), "");
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		BSP.info("Filling triggerEntities");
 
 		LinkedHashMap<String, Class<?>[]> tempTriggerEntities = new LinkedHashMap<String, Class<?>[]>();
 
@@ -543,28 +559,30 @@ public class BrainStone {
 				EntityArrow.class, EntityThrowable.class, EntityEnderEye.class,
 				EntityFireball.class });
 
-		final Map<?, ?> allEntities = EntityList.IDtoClassMapping;
-		final int length = allEntities.size();
-		final Object[] keys = allEntities.keySet().toArray(new Object[length]);
-		Object key;
-		Class<?> value;
+		Class<?> entityClass;
 
-		for (int i = 0; i < length; i++) {
-			key = keys[i];
-			value = (Class<?>) allEntities.get(key);
+		for (Entry entry : (Set<Entry>) EntityList.stringToClassMapping
+				.entrySet()) {
+			entityClass = (Class<?>) entry.getValue();
 
-			if ((value != null) && (!Modifier.isAbstract(value.getModifiers()))
-					&& (EntityLiving.class.isAssignableFrom(value))
-					&& (!EntityLiving.class.equals(value))) {
-				tempTriggerEntities.put("entity."
-						+ EntityList.classToStringMapping.get(value) + ".name",
-						new Class[] { value });
+			BSP.info(entry.getKey(), entityClass.getName());
+
+			if ((entityClass != null)
+					&& (!Modifier.isAbstract(entityClass.getModifiers()))
+					&& (EntityLiving.class.isAssignableFrom(entityClass))
+					&& (!EntityLiving.class.equals(entityClass))) {
+				tempTriggerEntities.put("entity." + entry.getKey() + ".name",
+						new Class[] { entityClass });
+
+				BSP.info("Added!");
+			} else {
+				BSP.info("Not Added!");
 			}
 		}
 
 		triggerEntities.put(Side.SERVER, tempTriggerEntities);
 
-		BSP.debug("Done filling triggerEntities");
+		BSP.info("Done filling triggerEntities");
 	}
 
 	/**
