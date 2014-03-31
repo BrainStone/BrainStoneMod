@@ -84,7 +84,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.37.1 BETA release")
+@Mod(modid = "BrainStoneMod", name = "Brain Stone Mod", version = "v2.43.15 BETA")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"BSM", // generic Packet
 		"BSM.TEBBSTS", // TileEntityBlockBrainStoneTrigger Server Packet
@@ -427,6 +427,9 @@ public class BrainStone {
 		retriveCurrentVersions();
 		generateMcModInfoFile(event);
 		generateObjects();
+
+		registerBlocks(); // Blocks
+		registerItems(); // Items
 	}
 
 	/**
@@ -443,7 +446,6 @@ public class BrainStone {
 		NetworkRegistry.instance().registerGuiHandler(this,
 				new BrainStoneGuiHandler());
 
-		registerBlocks(); // Blocks
 		registerTileEntitys(); // TileEntitys
 		addNames(); // Names
 		addRecipes(); // Recipes
@@ -594,8 +596,7 @@ public class BrainStone {
 		}
 	}
 
-	private static String get_content(URLConnection con)
-			throws IOException {
+	private static String get_content(URLConnection con) throws IOException {
 		String output = "";
 
 		if (con != null) {
@@ -945,8 +946,25 @@ public class BrainStone {
 		final Integer[] keys = blocks.keySet().toArray(new Integer[length]);
 
 		for (int i = 0; i < length; i++) {
-			GameRegistry.registerBlock(blocks.get(keys[i]), ItemBlock.class,
-					null);
+			GameRegistry.registerBlock(blocks.get(keys[i]), blocks.get(keys[i])
+					.getUnlocalizedName().substring(5));
+
+			BSP.info(blocks.get(keys[i]).getUnlocalizedName().substring(5));
+		}
+	}
+
+	/**
+	 * Registers all the items.
+	 */
+	private static final void registerItems() {
+		final int length = items.size();
+		final Integer[] keys = items.keySet().toArray(new Integer[length]);
+
+		for (int i = 0; i < length; i++) {
+			GameRegistry.registerItem(items.get(keys[i]), items.get(keys[i])
+					.getUnlocalizedName().substring(5));
+
+			BSP.info(items.get(keys[i]).getUnlocalizedName().substring(5));
 		}
 	}
 
