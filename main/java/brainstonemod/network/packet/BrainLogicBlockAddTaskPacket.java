@@ -6,33 +6,23 @@ import io.netty.channel.ChannelHandlerContext;
 import java.io.IOException;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-<<<<<<< HEAD
-import brainstonemod.common.helper.BSP;
-import brainstonemod.network.packet.template.BrainStoneBasePacket;
-
-public class BrainStoneUpdateTileEntityPacket extends BrainStoneBasePacket {
-=======
+import brainstonemod.common.tileentity.TileEntityBlockBrainLogicBlock;
 import brainstonemod.network.packet.template.BrainStoneToServerBasePacket;
 
-public class BrainStoneUpdateTileEntityPacket extends
-		BrainStoneToServerBasePacket {
->>>>>>> f3a966d... v2.42.1037 BETA prerelease
-	private int x;
-	private int y;
-	private int z;
-	private NBTTagCompound nbt;
+public class BrainLogicBlockAddTaskPacket extends BrainStoneToServerBasePacket {
+	private int x, y, z;
+	private String task;
 
-	public BrainStoneUpdateTileEntityPacket() {
+	public BrainLogicBlockAddTaskPacket() {
 	}
 
-	public BrainStoneUpdateTileEntityPacket(S35PacketUpdateTileEntity packet) {
-		x = packet.func_148856_c();
-		y = packet.func_148855_d();
-		z = packet.func_148854_e();
-		nbt = packet.func_148857_g();
+	public BrainLogicBlockAddTaskPacket(
+			TileEntityBlockBrainLogicBlock tileEntity, String task) {
+		x = tileEntity.xCoord;
+		y = tileEntity.yCoord;
+		z = tileEntity.zCoord;
+		this.task = task;
 	}
 
 	@Override
@@ -43,7 +33,7 @@ public class BrainStoneUpdateTileEntityPacket extends
 			buffer.writeInt(x);
 			buffer.writeShort(y);
 			buffer.writeInt(z);
-			buffer.writeNBTTagCompoundToBuffer(nbt);
+			buffer.writeStringToBuffer(task);
 		} catch (final IOException e) {
 			throw new RuntimeException("Unexpected Exception \""
 					+ e.getClass().getName() + ": " + e.getMessage() + "\"", e);
@@ -51,15 +41,9 @@ public class BrainStoneUpdateTileEntityPacket extends
 	}
 
 	@Override
-	public void handleClientSide(EntityPlayer player) {
-		BSP.throwException(new IllegalStateException(
-				"The client should never handle this packet!"));
-	}
-
-	@Override
 	public void handleServerSide(EntityPlayer player) {
-		player.worldObj.getTileEntity(x, y, z).onDataPacket(null,
-				new S35PacketUpdateTileEntity(x, y, z, 0, nbt));
+		((TileEntityBlockBrainLogicBlock) player.worldObj
+				.getTileEntity(x, y, z)).addTASK(task);
 	}
 
 	@Override
@@ -70,7 +54,7 @@ public class BrainStoneUpdateTileEntityPacket extends
 			x = buffer.readInt();
 			y = buffer.readShort();
 			z = buffer.readInt();
-			nbt = buffer.readNBTTagCompoundFromBuffer();
+			task = buffer.readStringFromBuffer(0xffff);
 		} catch (final IOException e) {
 			throw new RuntimeException("Unexpected Exception \""
 					+ e.getClass().getName() + ": " + e.getMessage() + "\"", e);
