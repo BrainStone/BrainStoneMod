@@ -1,4 +1,4 @@
-package brainstonemod.blocks;
+package brainstonemod.common.block;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,9 +16,9 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import brainstonemod.BrainStone;
+import brainstonemod.common.block.template.BlockBrainStoneBase;
 import brainstonemod.handlers.BrainStonePacketHandler;
 import brainstonemod.templates.BSP;
-import brainstonemod.templates.BlockBrainStoneBase;
 import cpw.mods.fml.common.network.Player;
 
 public class BlockPulsatingBrainStone extends BlockBrainStoneBase {

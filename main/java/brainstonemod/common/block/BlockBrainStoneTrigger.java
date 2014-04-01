@@ -1,4 +1,4 @@
-package brainstonemod.blocks;
+package brainstonemod.common.block;
 
 import java.util.LinkedHashMap;
 import java.util.List;

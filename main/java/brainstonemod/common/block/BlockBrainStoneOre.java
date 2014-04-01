@@ -1,4 +1,4 @@
-package brainstonemod.blocks;
+package brainstonemod.common.block;
 
 import java.util.Random;
 
@@ -6,7 +6,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import brainstonemod.BrainStone;
-import brainstonemod.templates.BlockBrainStoneOreBase;
+import brainstonemod.common.block.template.BlockBrainStoneOreBase;
 
 public class BlockBrainStoneOre extends BlockBrainStoneOreBase {
 	/**

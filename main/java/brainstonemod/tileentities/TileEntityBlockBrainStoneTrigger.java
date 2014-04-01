@@ -19,7 +19,7 @@ import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import brainstonemod.blocks.BlockBrainStoneTrigger;
+import brainstonemod.common.block.BlockBrainStoneTrigger;
 import brainstonemod.handlers.BrainStonePacketHandler;
 import brainstonemod.slots.SlotBlockBrainStoneTrigger;
 

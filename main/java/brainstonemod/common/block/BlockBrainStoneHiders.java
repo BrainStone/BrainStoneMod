@@ -1,4 +1,4 @@
-package brainstonemod.blocks;
+package brainstonemod.common.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -6,7 +6,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.IBlockAccess;
 import brainstonemod.BrainStone;
-import brainstonemod.templates.BlockBrainStoneContainerBase;
+import brainstonemod.common.block.template.BlockBrainStoneContainerBase;
 import brainstonemod.tileentities.TileEntityBlockBrainStoneHiders;
 
 public abstract class BlockBrainStoneHiders extends

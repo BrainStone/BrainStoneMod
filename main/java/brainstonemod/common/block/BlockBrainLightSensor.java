@@ -1,4 +1,4 @@
-package brainstonemod.blocks;
+package brainstonemod.common.block;
 
 import java.io.IOException;
 import java.util.Random;
@@ -12,8 +12,8 @@ import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import brainstonemod.BrainStone;
+import brainstonemod.common.block.template.BlockBrainStoneContainerBase;
 import brainstonemod.templates.BSP;
-import brainstonemod.templates.BlockBrainStoneContainerBase;
 import brainstonemod.tileentities.TileEntityBlockBrainLightSensor;
 
 public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {

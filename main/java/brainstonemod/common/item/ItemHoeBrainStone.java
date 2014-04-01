@@ -1,4 +1,4 @@
-package brainstonemod.items;
+package brainstonemod.common.item;
 
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;

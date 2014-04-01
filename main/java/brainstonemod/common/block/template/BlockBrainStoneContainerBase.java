@@ -1,4 +1,4 @@
-package brainstonemod.templates;
+package brainstonemod.common.block.template;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
