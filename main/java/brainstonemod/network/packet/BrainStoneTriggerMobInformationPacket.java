@@ -11,9 +11,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.PacketBuffer;
 import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
-import brainstonemod.network.packet.template.BrainStoneBasePacket;
+import brainstonemod.network.packet.template.BrainStoneToClientBasePacket;
 
-public class BrainStoneTriggerMobInformationPacket extends BrainStoneBasePacket {
+public class BrainStoneTriggerMobInformationPacket extends BrainStoneToClientBasePacket {
 	private LinkedHashMap<String, Class<?>[]> triggerEntities;
 
 	public BrainStoneTriggerMobInformationPacket() {
@@ -56,12 +56,6 @@ public class BrainStoneTriggerMobInformationPacket extends BrainStoneBasePacket 
 		BrainStone.setClientSideTiggerEntities(triggerEntities);
 
 		BSP.debug("Done handling BrainStoneTriggerMobInformation Packet");
-	}
-
-	@Override
-	public void handleServerSide(EntityPlayer player) {
-		BSP.throwException(new IllegalStateException(
-				"The server should never handle this packet!"));
 	}
 
 	@Override

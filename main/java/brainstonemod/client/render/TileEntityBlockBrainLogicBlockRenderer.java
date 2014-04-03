@@ -14,107 +14,59 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 	public TileEntityBlockBrainLogicBlockRenderer() {
 	}
 
-	private void renderGate(TileEntity tileentity, int pos) {
+	private void renderInOutPut(TileEntity tileentity, byte direction) {
 		if (tileentity instanceof TileEntityBlockBrainLogicBlock) {
 			final TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock = (TileEntityBlockBrainLogicBlock) tileentity;
-
-			if (tileentityblockbrainlogicblock != null) {
-				final FontRenderer fontrenderer = func_147498_b();
-				GL11.glDepthMask(false);
-
-				tileentityblockbrainlogicblock.renderGate(fontrenderer,
-						(byte) pos);
-
-				GL11.glDepthMask(true);
-			}
+			final FontRenderer fontrenderer = this.func_147498_b();
+			GL11.glDepthMask(false);
+			tileentityblockbrainlogicblock.renderInOutPut(fontrenderer, direction);
+			GL11.glDepthMask(true);
 		}
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntity tileentity, double x, double y,
-			double z, float f) {
+	public void renderTileEntityAt(TileEntity tileentity, double d, double d1,
+			double d2, float f) {
 		try {
-			final float f1 = 0.0005F;
+			final float f1 = 0.01F;
 			final float f2 = 0.125F;
-
 			GL11.glPushMatrix();
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-
-			// Top Face
-			GL11.glPushMatrix();
-			GL11.glTranslatef((float) x + 0.5625F, (float) y + 1.0F + f1,
-					(float) z - 0.4375F);
-			GL11.glRotatef(-90F, 1.0F, 0.0F, 0.0F);
+			GL11.glTranslatef((float) d + 0.5625F, (float) d1 + 1.4375F,
+					(float) d2 + 1.0F + f1);
 			GL11.glScalef(f2, -f2, f2);
-			GL11.glNormal3f(0.0F, 0.0F, 1.0F * f1);
-
-			renderGate(tileentity, 0);
-
+			GL11.glNormal3f(0.0F, 0.0F, -1F * f1);
+			this.renderInOutPut(tileentity, (byte) 1);
 			GL11.glPopMatrix();
-
-			// Bottom Face
 			GL11.glPushMatrix();
-			GL11.glTranslatef((float) x + 0.4375F, (float) y - f1,
-					(float) z - 0.4375F);
-			GL11.glRotatef(-90F, 1.0F, 0.0F, 0.0F);
-			GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
-			GL11.glScalef(f2, -f2, f2);
-			GL11.glNormal3f(0.0F, 0.0F, 1.0F * f1);
-
-			renderGate(tileentity, 1);
-
-			GL11.glPopMatrix();
-
-			// North Face
-			GL11.glPushMatrix();
-			GL11.glTranslatef((float) x + 0.4375F, (float) y + 1.4375F,
-					(float) z - f1);
-			GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
-			GL11.glScalef(f2, -f2, f2);
-			GL11.glNormal3f(0.0F, 0.0F, 1.0F * f1);
-
-			renderGate(tileentity, 2);
-
-			GL11.glPopMatrix();
-
-			// East Face
-			GL11.glPushMatrix();
-			GL11.glTranslatef((float) x + 1.0F + f1, (float) y + 1.4375F,
-					(float) z + 0.4375F);
+			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+			GL11.glTranslatef((float) d + 1.0F + f1, (float) d1 + 1.4375F,
+					(float) d2 + 0.4375F);
 			GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
 			GL11.glScalef(f2, -f2, f2);
 			GL11.glNormal3f(0.0F, 0.0F, -1F * f1);
-
-			renderGate(tileentity, 3);
-
+			this.renderInOutPut(tileentity, (byte) 3);
 			GL11.glPopMatrix();
-
-			// South Face
 			GL11.glPushMatrix();
-			GL11.glTranslatef((float) x + 0.5625F, (float) y + 1.4375F,
-					(float) z + 1.0F + f1);
+			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+			GL11.glTranslatef((float) d + 0.4375F, (float) d1 + 1.4375F,
+					(float) d2 - f1);
+			GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
 			GL11.glScalef(f2, -f2, f2);
-			GL11.glNormal3f(0.0F, 0.0F, -1F * f1);
-
-			renderGate(tileentity, 4);
-
+			GL11.glNormal3f(0.0F, 0.0F, 1.0F * f1);
+			this.renderInOutPut(tileentity, (byte) 0);
 			GL11.glPopMatrix();
-
-			// West Face
 			GL11.glPushMatrix();
-			GL11.glTranslatef((float) x - f1, (float) y + 1.4375F,
-					(float) z + 0.5625F);
+			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+			GL11.glTranslatef((float) d - f1, (float) d1 + 1.4375F,
+					(float) d2 + 0.5625F);
 			GL11.glRotatef(270F, 0.0F, 1.0F, 0.0F);
 			GL11.glScalef(f2, -f2, f2);
 			GL11.glNormal3f(0.0F, 0.0F, -1F * f1);
-
-			renderGate(tileentity, 5);
-
-			GL11.glPopMatrix();
-
+			this.renderInOutPut(tileentity, (byte) 2);
 			GL11.glPopMatrix();
 		} catch (final Exception exception) {
-			BSP.logException(exception,
+			BSP.infoException(exception,
 					"renderTileEntityAt (TileEntityBlockBrainLogicBlockRenderer)");
 		}
 	}

@@ -1,128 +1,124 @@
 package brainstonemod.common.tileentity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 import java.util.Vector;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRedstoneWire;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
+import net.minecraft.util.StatCollector;
+import brainstonemod.client.gui.GuiBrainLogicBlock;
 import brainstonemod.common.helper.BSP;
-import brainstonemod.common.logicgate.Gate;
-import brainstonemod.common.logicgate.Pin;
-import brainstonemod.common.logicgate.PinState;
 import brainstonemod.common.tileentity.template.TileEntityBrainStoneSyncBase;
+import brainstonemod.network.BrainStonePacketHelper;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileEntityBlockBrainLogicBlock extends
 		TileEntityBrainStoneSyncBase {
-
-	@SideOnly(Side.CLIENT)
-	public static byte guiDirection;
-
-	public static int getColorForPowerLevel(byte powerLevel) {
-		final float ratio = powerLevel / 15.0F;
-		return (powerLevel != -1.0F) ? ((((int) (0xC6 * ratio)) << 16)
-				+ (((int) (0x05 * ratio)) << 8) + ((int) (0x05 * ratio)))
-				: 0x888888;
-	}
-
-	public static byte InternalToMCDirection(byte Internal_Direction) {
-		switch (Internal_Direction) {
+	public static String getGateName(int i) {
+		switch (i) {
 		case 0:
+			return "AND-Gate";
+
 		case 1:
-			return (byte) (Internal_Direction ^ 1);
+			return "OR-Gate";
+
 		case 2:
-			return Internal_Direction;
+			return "XOR-Gate";
+
 		case 3:
-			return (byte) (Internal_Direction + 2);
+			return "Implies-Gate";
+
 		case 4:
+			return "NOT-Gate";
+
 		case 5:
-			return (byte) (Internal_Direction - 1);
+			return "RS-NOR-Latch";
+
+		case 6:
+			return "D-Flip-Flop";
+
+		case 7:
+			return "T-Flip-Flop";
+
+		case 8:
+			return "JK-Flip-Flop";
 		}
 
-		return -1;
+		return "";
 	}
 
-	public static byte MCToInternalDirection(byte MC_Direction) {
-		switch (MC_Direction) {
-		case 0:
-		case 1:
-			return (byte) (MC_Direction ^ 1);
-		case 2:
-			return MC_Direction;
-		case 3:
-		case 4:
-			return (byte) (MC_Direction + 1);
-		case 5:
-			return (byte) (MC_Direction - 2);
+	private static final byte getNumGates() {
+		byte byte0;
+
+		for (byte0 = 0; getGateName(byte0) != ""; byte0++) {
 		}
 
-		return -1;
+		return byte0;
 	}
 
-	private final byte GuiFocused;
+	private boolean correctConnect;
+	private boolean ignoreIncorrectConnect;
+	private boolean invertOutput;
+	private boolean swapable;
+	private byte direction;
+	private byte GuiFocused;
+	private byte mode;
+	private final byte PinState[] = { 0, -1, -1, -1 };
+	private byte PinType[];
+	private int data;
 	private long lastUpdate;
+	private String Pins[] = { "0", "1", "2", "3" };
 	private final Vector<String> TASKS;
-
-	private final Vector<String> Users;
+	private final Vector<UUID> Users;
 	private ArrayList<String> PrintErrorBuff;
 
 	private boolean PrintErrorBuffActive;
 
-	private Gate ActiveGate;
-	private int GatePos;
+	public static final byte numGates = getNumGates();
 
-	public byte currentRenderDirection;
-
-	public TileEntityBlockBrainLogicBlock() {
-		TASKS = new Vector<String>();
-		lastUpdate = -100L;
-		GuiFocused = 0;
-		Users = new Vector<String>();
-		PrintErrorBuffActive = false;
-
-		ActiveGate = Gate.getGate(Gate.GateNames[0]);
-		GatePos = 0;
-
-		ActiveGate.onGateChange(0);
-		ActiveGate.onTick();
+	public static String getInvName() {
+		return "container.brainstonetrigger";
 	}
 
-	public void addTASKS(String s) {
+	public TileEntityBlockBrainLogicBlock() {
+		this((byte) 0);
+	}
+
+	public TileEntityBlockBrainLogicBlock(byte byte0) {
+		TASKS = new Vector<String>();
+		mode = 0;
+		data = 0;
+		lastUpdate = -100L;
+		GuiFocused = 0;
+		Users = new Vector<UUID>();
+		PrintErrorBuffActive = false;
+
+		if ((byte0 >= 0) && (byte0 < 4)) {
+			direction = byte0;
+		}
+
+		this.modeUpdated();
+	}
+
+	public void addTASK(String s) {
 		final Side side = FMLCommonHandler.instance().getEffectiveSide();
 		if (side == Side.SERVER) {
 			// We are on the server side.
 			TASKS.add(s);
 		} else if (side == Side.CLIENT) {
-			// // We are on the client side.
-			// final ByteArrayOutputStream bos = new ByteArrayOutputStream(0);
-			// final DataOutputStream outputStream = new DataOutputStream(bos);
-			//
-			// try {
-			// outputStream.writeInt(xCoord);
-			// outputStream.writeInt(zCoord);
-			//
-			// outputStream.writeUTF(s);
-			// } catch (final IOException e) {
-			// BSP.logException(e);
-			// }
-			//
-			// BrainStonePacketHandler.sendPacketToServer("BSM.TEBBLBS", bos);
+			// We are on the client side.
+			BrainStonePacketHelper.sendAddTASK(this, s);
 		} else {
 			// We are on the Bukkit server. Bukkit is a server mod used for
 			// security.
 		}
 	}
 
-	public void addTASKS(String s, String as[]) {
+	public void addTASK(String s, String as[]) {
 		String s1 = (new StringBuilder()).append(s).append(" ").toString();
 		final int i = as.length - 1;
 
@@ -133,144 +129,200 @@ public class TileEntityBlockBrainLogicBlock extends
 
 		s1 = (new StringBuilder()).append(s1).append(as[i]).toString();
 
-		this.addTASKS(s1);
-	}
-
-	public boolean canBeMovedByMouse(byte pos) {
-		return ActiveGate.Pins[pos].Movable
-				&& ActiveGate.Pins[pos].State.isValid();
-	}
-
-	private boolean canBlockConnectToGate(World world, int x, int y, int z,
-			int direction, Block block) {
-		return (block != null)
-				&& ((block.canProvidePower()
-						&& ((direction < 2) || block
-								.canConnectRedstone(
-										world,
-										x,
-										y,
-										z,
-										MCToInternalDirection((byte) (InternalToMCDirection((byte) direction) ^ 1)) - 2)) && (((block != Blocks.powered_repeater)
-						&& (block != Blocks.unpowered_repeater)
-						&& (block != Blocks.powered_comparator) && (block != Blocks.unpowered_comparator)) || ((world
-						.getBlockMetadata(x, y, z) & 3) == (direction & 3)))) || world
-						.getBlock(x, y, z).getMaterial().isSolid());
-	}
-
-	public boolean canPinsSwap(int pos1, int pos2) {
-		return ActiveGate.canSwapWith(ActiveGate.Pins[pos1],
-				ActiveGate.Pins[pos2]);
-	}
-
-	public void changeGate(int direction) {
-		this.addTASKS("changeGate",
-				new String[] { "int", String.valueOf(direction) });
-	}
-
-	public void changeGate(String string) {
-		this.addTASKS("changeGate", new String[] { "string", string });
-	}
-
-	public void changeGate(String string, int direction) {
-		this.addTASKS("changeGate",
-				new String[] { "both", string, String.valueOf(direction) });
+		this.addTASK(s1);
 	}
 
 	public boolean connectToRedstone(int side) {
-		return ActiveGate.Pins[side + 2].State.canConnectRedstone();
+		return PinType[this.convertRedstoneDirections(side)] != -1;
+	}
+
+	private int convertRedstoneDirections(int side) {
+		/*
+		 * switch(direction & 1) { case 0:
+		 */
+		switch ((side + (((direction & 1) == 1) ? (direction ^ 2) : direction)) % 4) {
+		case 0:
+			return 0;
+
+		case 1:
+			return 3;
+
+		case 2:
+			return 1;
+
+		case 3:
+			return 2;
+		}
+
+		return 0;
+
+		/*
+		 * case 1: switch((side + direction) % 4) { case 0: return 1;
+		 * 
+		 * case 1: return 2;
+		 * 
+		 * case 2: return 0;
+		 * 
+		 * case 3: return 3; }
+		 * 
+		 * return 0; }
+		 * 
+		 * return 0;
+		 */
 	}
 
 	public void doTASKS() {
 		final int i = TASKS.size();
 
 		if (i != 0) {
-			print((new StringBuilder()).append("doTASKS() (size: ")
+			this.print((new StringBuilder()).append("doTASKS() (size: ")
 					.append(String.valueOf(i)).append(")").toString());
 
 			for (int j = 0; j < i; j++) {
-				runTASK(TASKS.get(j));
+				this.runTASK((String) TASKS.get(j));
 			}
 
 			TASKS.clear();
+			
+			if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) {
+				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			}
 		}
-
-		updateEntity();
 	}
 
-	public float getFactorForPinBlue(byte direction) {
-		final int color = getGateColor(direction);
+	public void drawBoxes(GuiBrainLogicBlock guibrainlogicblock, int i, int j) {
+		byte byte0 = 0;
 
-		final float blue = (color & 255) / 255.0F;
-
-		if (EntityRenderer.anaglyphEnable) {
-			final float red = ((color >> 16) & 255) / 255.0F;
-			final float green = ((color >> 8) & 255) / 255.0F;
-
-			return ((red * 30.0F) + (green * 70.0F)) / 100.0F;
+		if (PinState[0] != 0) {
+			guibrainlogicblock.drawTexturedModalRect(i + 20, j + 40, 176, 0,
+					20, 20);
 		}
 
-		return blue;
+		byte byte1 = PinState[1];
+		byte byte2 = PinType[1];
+
+		if ((byte1 != 0) || (byte2 == -1)) {
+			if (byte2 != -1) {
+				if (byte1 == 1) {
+					byte0 = 0;
+				}
+
+				if (byte1 == -1) {
+					byte0 = 1;
+				}
+			} else {
+				byte0 = 2;
+			}
+
+			guibrainlogicblock.drawTexturedModalRect(i + 20, j, 176,
+					20 * byte0, 20, 20);
+		}
+
+		byte1 = PinState[2];
+		byte2 = PinType[2];
+
+		if ((byte1 != 0) || (byte2 == -1)) {
+			if (byte2 != -1) {
+				if (byte1 == 1) {
+					byte0 = 0;
+				}
+
+				if (byte1 == -1) {
+					byte0 = 1;
+				}
+			} else {
+				byte0 = 2;
+			}
+
+			guibrainlogicblock.drawTexturedModalRect(i + 40, j + 20, 176,
+					20 * byte0, 20, 20);
+		}
+
+		byte1 = PinState[3];
+		byte2 = PinType[3];
+
+		if ((byte1 != 0) || (byte2 == -1)) {
+			if (byte2 != -1) {
+				if (byte1 == 1) {
+					byte0 = 0;
+				}
+
+				if (byte1 == -1) {
+					byte0 = 1;
+				}
+			} else {
+				byte0 = 2;
+			}
+
+			guibrainlogicblock.drawTexturedModalRect(i, j + 20, 176,
+					20 * byte0, 20, 20);
+		}
 	}
 
-	public float getFactorForPinGreen(byte direction) {
-		final int color = getGateColor(direction);
-
-		final float green = ((color >> 8) & 255) / 255.0F;
-
-		if (EntityRenderer.anaglyphEnable) {
-			final float red = ((color >> 16) & 255) / 255.0F;
-
-			return ((red * 30.0F) + (green * 70.0F)) / 100.0F;
+	public void drawGates(GuiBrainLogicBlock guibrainlogicblock, int i, int j) {
+		for (int k = 0; k < numGates; k++) {
+			guibrainlogicblock.drawString(getGateName(k), i, j + (12 * k),
+					k != mode ? 0x404040 : 32768);
 		}
 
-		return green;
+		guibrainlogicblock.drawSplitString(
+				StatCollector.translateToLocal("gui.brainstone.invertOutput"),
+				i + 85, j + 50, invertOutput ? 32768 : 0x404040, 80);
+
+		if (!correctConnect && !ignoreIncorrectConnect) {
+			guibrainlogicblock.drawSplitString(
+					StatCollector.translateToLocal("gui.brainstone.warning1"),
+					i + 75, j + 70, 0xa00000, 95);
+		} else if (!correctConnect) {
+			guibrainlogicblock.drawSplitString(
+					StatCollector.translateToLocal("gui.brainstone.warning2"),
+					i + 75, j + 70, 0xa05000, 95);
+		}
 	}
 
-	public float getFactorForPinRed(byte direction) {
-		final int color = getGateColor(direction);
-
-		final float red = ((color >> 16) & 255) / 255.0F;
-
-		if (EntityRenderer.anaglyphEnable) {
-			final float green = ((color >> 8) & 255) / 255.0F;
-			final float blue = (color & 255) / 255.0F;
-
-			return ((red * 30.0F) + (green * 59.0F) + (blue * 11.0F)) / 100.0F;
-		}
-
-		return red;
+	public byte getDirection() {
+		return direction;
 	}
 
 	public byte getFocused() {
 		return GuiFocused;
 	}
 
-	public int getGateColor(byte direction) {
-		return getColorForPowerLevel(ActiveGate.Pins[direction].State
-				.getPowerLevel());
+	public byte getMode() {
+		return mode;
 	}
 
-	public String getGateLetter(byte direction) {
-		return String.valueOf(ActiveGate.Pins[direction].Name);
+	public boolean getOutput() {
+		return PinState[0] == 1;
 	}
 
-	public int getGatePos() {
-		return GatePos;
+	public String getPin(int i) {
+		if ((i < 0) || (i >= 4))
+			return "";
+		else
+			return Pins[i];
 	}
 
-	public byte getPowerLevel(byte pos) {
-		return ActiveGate.Pins[pos].State.getPowerLevel();
+	public int getPinColor(int i) {
+		if ((i < 0) || (i >= 4))
+			return 0;
+		else {
+			final byte byte0 = PinState[i];
+			return (byte0 != -1) ? ((byte0 != 0) ? 0xc60505 : 0x50505)
+					: 0x888888;
+		}
 	}
 
-	public byte getPowerLevel(int pos) {
-		return this.getPowerLevel((byte) pos);
-	}
+	public int getPinStateBasedTextureIndex(int i) {
+		if ((i < 0) || (i >= PinState.length))
+			return 0;
 
-	public byte getPowerOutputLevel(byte MC_Direction) {
-		final Pin pin = ActiveGate.Pins[MCToInternalDirection(MC_Direction)];
-
-		return pin.Output ? pin.State.getPowerLevel() : 0;
+		if (PinType[i] == -1)
+			return 3;
+		else {
+			final byte byte0 = PinState[i];
+			return (byte0 != -1) ? ((byte0 != 0) ? 2 : 1) : 0;
+		}
 	}
 
 	private String getPrintErrorBuff() {
@@ -289,6 +341,19 @@ public class TileEntityBlockBrainLogicBlock extends
 		return tmp;
 	}
 
+	public void invertInvertOutput() {
+		this.addTASK((new StringBuilder()).append("setInvertOutput ")
+				.append(String.valueOf(!invertOutput)).toString());
+	}
+
+	public boolean isCorrectConnected() {
+		return correctConnect;
+	}
+
+	public boolean isSwapable() {
+		return swapable;
+	}
+
 	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
 		if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this)
 			return false;
@@ -298,43 +363,101 @@ public class TileEntityBlockBrainLogicBlock extends
 	}
 
 	public void logIn(UUID user) {
-		this.addTASKS("logInOut", new String[] { "true", user.toString() });
+		this.addTASK("logInOut", new String[] { "true", user.toString() });
 	}
 
 	public void logOut(UUID user) {
-		this.addTASKS("logInOut", new String[] { "false", user.toString() });
+		this.addTASK("logInOut", new String[] { "false", user.toString() });
+	}
+
+	private void modeUpdated() {
+		swapable = true;
+		ignoreIncorrectConnect = false;
+		invertOutput = false;
+
+		switch (mode) {
+		case 0:
+		case 1:
+		case 2:
+			swapable = false;
+			Pins = (new String[] { "Q", "B", "A", "C" });
+			PinType = (new byte[] { 10, 0, 0, 0 });
+			break;
+
+		case 3:
+			Pins = (new String[] { "Q", "", "A", "B" });
+			PinType = (new byte[] { 10, -1, 1, 1 });
+			break;
+
+		case 4:
+			ignoreIncorrectConnect = true;
+			Pins = (new String[] { "Q", "A", "", "" });
+			PinType = (new byte[] { 10, 1, -1, -1 });
+			break;
+
+		case 5:
+			data = 0;
+			ignoreIncorrectConnect = true;
+			Pins = (new String[] { "Q", "", "R", "S" });
+			PinType = (new byte[] { 10, -1, 1, 1 });
+			break;
+
+		case 6:
+			data = 0;
+			Pins = (new String[] { "Q", "", "D", "C" });
+			PinType = (new byte[] { 10, -1, 1, 1 });
+			break;
+
+		case 7:
+			data = 0;
+			Pins = (new String[] { "Q", "T", "", "" });
+			PinType = (new byte[] { 10, 1, -1, -1 });
+			break;
+
+		case 8:
+			data = 0;
+			ignoreIncorrectConnect = true;
+			Pins = (new String[] { "Q", "", "J", "K" });
+			PinType = (new byte[] { 10, -1, 1, 1 });
+			break;
+		}
+	}
+
+	private void modeUpdated(byte byte0) {
+		mode = byte0;
+		this.modeUpdated();
 	}
 
 	private void print(Object obj) {
-		if (!BSP.debug(obj) && PrintErrorBuffActive) {
+		if (!BSP.info(obj) && PrintErrorBuffActive) {
 			PrintErrorBuff.add(obj.toString());
 		}
 	}
 
 	private void printErrorInrunTASK(String s, String s1, String as[]) {
-		print("===================================================");
-		print("Error Signature in \"runTASK\":");
-		print("===================================================");
-		print((new StringBuilder()).append("\tOriginal Task: \"").append(s)
-				.append("\"").toString());
-		print((new StringBuilder()).append("\tCutted Task:   \"").append(s1)
-				.append("\"").toString());
-		print("\tParameters:");
+		this.print("===================================================");
+		this.print("Error Signature in \"runTASK\":");
+		this.print("===================================================");
+		this.print((new StringBuilder()).append("\tOriginal Task: \"")
+				.append(s).append("\"").toString());
+		this.print((new StringBuilder()).append("\tCutted Task:   \"")
+				.append(s1).append("\"").toString());
+		this.print("\tParameters:");
 		final int i = as.length;
 
 		if (i == 0) {
-			print("\t\tNo Parameters!!!");
+			this.print("\t\tNo Parameters!!!");
 		} else {
 			for (int j = 0; j < i; j++) {
-				print((new StringBuilder()).append("\t\tParameter ")
+				this.print((new StringBuilder()).append("\t\tParameter ")
 						.append(String.valueOf(j)).append(": \"").append(as[j])
 						.append("\"").toString());
 			}
 		}
 
-		print("===================================================");
-		print("!!!\t\t\tEND\t\t\t!!!");
-		print("===================================================");
+		this.print("===================================================");
+		this.print("!!!\t\t\tEND\t\t\t!!!");
+		this.print("===================================================");
 	}
 
 	/**
@@ -343,23 +466,20 @@ public class TileEntityBlockBrainLogicBlock extends
 	@Override
 	public void readFromNBT(NBTTagCompound nbttagcompound) {
 		super.readFromNBT(nbttagcompound);
-		// direction = nbttagcompound.getByte("Direction");
-		// mode = nbttagcompound.getByte("Mode");
-		// data = nbttagcompound.getInteger("Data");
-		// invertOutput = nbttagcompound.getBoolean("InvertOutput");
-		// swapable = nbttagcompound.getBoolean("Swapable");
-		//
-		// for (int i = 0; i < 4; i++) {
-		// PinState[i] = nbttagcompound.getByte((new StringBuilder())
-		// .append("State").append(String.valueOf(i)).toString());
-		// PinType[i] = nbttagcompound.getByte((new StringBuilder())
-		// .append("Type").append(String.valueOf(i)).toString());
-		// Pins[i] = nbttagcompound.getString((new StringBuilder())
-		// .append("Pins").append(String.valueOf(i)).toString());
-		// }
+		direction = nbttagcompound.getByte("Direction");
+		mode = nbttagcompound.getByte("Mode");
+		data = nbttagcompound.getInteger("Data");
+		invertOutput = nbttagcompound.getBoolean("InvertOutput");
+		swapable = nbttagcompound.getBoolean("Swapable");
 
-		ActiveGate = Gate.readFromNBT(nbttagcompound);
-		GatePos = nbttagcompound.getInteger("GatePos");
+		for (int i = 0; i < 4; i++) {
+			PinState[i] = nbttagcompound.getByte((new StringBuilder())
+					.append("State").append(String.valueOf(i)).toString());
+			PinType[i] = nbttagcompound.getByte((new StringBuilder())
+					.append("Type").append(String.valueOf(i)).toString());
+			Pins[i] = nbttagcompound.getString((new StringBuilder())
+					.append("Pins").append(String.valueOf(i)).toString());
+		}
 
 		final byte byte0 = nbttagcompound.getByte("TASKS-Size");
 
@@ -372,116 +492,360 @@ public class TileEntityBlockBrainLogicBlock extends
 		}
 	}
 
-	public void renderGate(FontRenderer fontrenderer, byte pos) {
-		final Pin pin = ActiveGate.Pins[pos];
+	public void renderInOutPut(FontRenderer fontrenderer, byte byte0) {
+		byte0 = this.transformDirection(byte0);
 
-		if (pin.State.shallRender()) {
-			final String tmp = String.valueOf(pin.Name);
-
-			fontrenderer.drawString(tmp, -fontrenderer.getStringWidth(tmp) / 2,
-					4, getGateColor(pos));
+		if (PinType[byte0] != -1) {
+			final byte byte1 = PinState[byte0];
+			fontrenderer.drawString(Pins[byte0],
+					-fontrenderer.getStringWidth(Pins[byte0]) / 2, 4,
+					byte1 != -1 ? byte1 != 0 ? 0xc60505 : 0x50505 : 0x888888);
 		}
 	}
 
+	public byte reverseTransformDirection(int i) {
+		switch (direction) {
+		default:
+			break;
+
+		case 1:
+			switch (i) {
+			case 2:
+				i = 0;
+				break;
+
+			case 3:
+				i = 1;
+				break;
+
+			case 1:
+				i = 2;
+				break;
+
+			case 0:
+				i = 3;
+				break;
+			}
+
+			break;
+
+		case 2:
+			switch (i) {
+			case 1:
+				i = 0;
+				break;
+
+			case 0:
+				i = 1;
+				break;
+
+			case 3:
+				i = 2;
+				break;
+
+			case 2:
+				i = 3;
+				break;
+			}
+
+			break;
+
+		case 3:
+			switch (i) {
+			case 3:
+				i = 0;
+				break;
+
+			case 2:
+				i = 1;
+				break;
+
+			case 0:
+				i = 2;
+				break;
+
+			case 1:
+				i = 3;
+				break;
+			}
+
+			break;
+		}
+
+		return (byte) i;
+	}
+
 	private void runTASK(String s) {
-		startPrintErrorBuff();
+		this.startPrintErrorBuff();
 
 		String as[] = s.split(" ");
 		final String s1 = as[0];
 		as = as[1].split(",");
 
-		// if (s1.equals("swapPosition")) {
-		// this.print("!!!\tRun Task: \"swapPosition\"\t\t!!!");
-		//
-		// if (as.length == 2) {
-		// this.swapPosition(Byte.valueOf(as[0]).byteValue(), Byte
-		// .valueOf(as[1]).byteValue());
-		// } else {
-		// this.print("!!!\tError: Wrong number of parameters\t!!!\n");
-		// this.printErrorInrunTASK(s, s1, as);
-		// BSP.throwRuntimeException(this.getPrintErrorBuff()
-		// + "Wrong number of parameters");
-		// }
-		// } else
-		if (s1.equals("logInOut")) {
-			print("!!!\tRun Task: \"logInOut\"\t\t!!!");
+		if (s1.equals("swapPosition")) {
+			this.print("!!!\tRun Task: \"swapPosition\"\t\t!!!");
 
 			if (as.length == 2) {
-				if (Boolean.valueOf(as[0]).booleanValue()) {
-					if (!Users.contains(as[1])) {
-						Users.add(as[1]);
-					} else {
-						print("User \"" + as[1] + "\" is already logged in!");
-					}
-				} else {
-					if (Users.contains(as[1])) {
-						Users.remove(as[1]);
-					} else {
-						print("User \"" + as[1] + "\" is already logged out!");
-					}
-				}
+				this.swapPosition(Byte.valueOf(as[0]).byteValue(), Byte
+						.valueOf(as[1]).byteValue());
 			} else {
-				print("!!!\tError: Wrong number of parameters\t!!!\n");
-				printErrorInrunTASK(s, s1, as);
-				BSP.throwRuntimeException(getPrintErrorBuff()
+				this.print("!!!\tError: Wrong number of parameters\t!!!\n");
+				this.printErrorInrunTASK(s, s1, as);
+				BSP.throwRuntimeException(this.getPrintErrorBuff()
 						+ "Wrong number of parameters");
 			}
-		} else if (s1.equals("changeGate")) {
-			print("!!!\tRun Task: \"changeGate\"\t\t!!!");
+		} else if (s1.equals("modeUpdated")) {
+			this.print("!!!\tRun Task: \"modeUpdated\"\t\t\t!!!");
+
+			if (as.length == 1) {
+				this.modeUpdated(Byte.valueOf(as[0]).byteValue());
+			} else {
+				this.print("!!!\tError: Wrong number of parameters\t!!!\n");
+				this.printErrorInrunTASK(s, s1, as);
+				BSP.throwRuntimeException(this.getPrintErrorBuff()
+						+ "Wrong number of parameters");
+			}
+		} else if (s1.equals("setFocused")) {
+			this.print("!!!\tRun Task: \"setFocused\"\t\t\t!!!");
+
+			if (as.length == 1) {
+				this.setFocused(Byte.valueOf(as[0]).byteValue());
+			} else {
+				this.print("!!!\tError: Wrong number of parameters\t!!!\n");
+				this.printErrorInrunTASK(s, s1, as);
+				BSP.throwRuntimeException(this.getPrintErrorBuff()
+						+ "Wrong number of parameters");
+			}
+		} else if (s1.equals("setInvertOutput")) {
+			this.print("!!!\tRun Task: \"setInvertOutput\"\t\t!!!");
+
+			if (as.length == 1) {
+				this.setInvertOutput(Boolean.valueOf(as[0]).booleanValue());
+			} else {
+				this.print("!!!\tError: Wrong number of parameters\t!!!\n");
+				this.printErrorInrunTASK(s, s1, as);
+				BSP.throwRuntimeException(this.getPrintErrorBuff()
+						+ "Wrong number of parameters");
+			}
+		} else if (s1.equals("logInOut")) {
+			this.print("!!!\tRun Task: \"logInOut\"\t\t!!!");
 
 			if (as.length == 2) {
-				if (as[0].equals("string")) {
-					ActiveGate = Gate.getGate(as[1]);
-
-					if (ActiveGate != null) {
-						for (int i = 0; i < Gate.NumberGates; i++) {
-							if (Gate.GateNames[i].equals(as[1])) {
-								GatePos = i;
-
-								break;
-							}
-						}
+				final UUID player = UUID.fromString(as[1]);
+				
+				if (Boolean.valueOf(as[0]).booleanValue()) {
+					if (!Users.contains(player)) {
+						Users.add(player);
 					} else {
-						GatePos = -1;
+						this.print("User with UUID \"" + as[1]
+								+ "\" is already logged in!");
 					}
-				} else if (as[0].equals("int")) {
-					ActiveGate.onGateChange(Integer.valueOf(as[1]));
-					ActiveGate.onTick();
+				} else {
+					if (Users.contains(player)) {
+						Users.remove(player);
+					} else {
+						this.print("User with UUID \"" + as[1]
+								+ "\" is already logged out!");
+					}
 				}
-			} else if (as.length == 3) {
-				if (as[0].equals("both")) {
-					ActiveGate = Gate.getGate(as[1]);
 
-					if (ActiveGate != null) {
-						for (int i = 0; i < Gate.NumberGates; i++) {
-							if (Gate.GateNames[i].equals(as[1])) {
-								GatePos = i;
-
-								break;
-							}
-						}
-					} else {
-						GatePos = -1;
-					}
-
-					ActiveGate.onGateChange(Integer.valueOf(as[2]));
-					ActiveGate.onTick();
+				if (Users.size() == 0) {
+					this.setFocused(0);
 				}
 			} else {
-				print("!!!\tError: Wrong number of parameters\t!!!\n");
-				printErrorInrunTASK(s, s1, as);
-				BSP.throwRuntimeException(getPrintErrorBuff()
+				this.print("!!!\tError: Wrong number of parameters\t!!!\n");
+				this.printErrorInrunTASK(s, s1, as);
+				BSP.throwRuntimeException(this.getPrintErrorBuff()
 						+ "Wrong number of parameters");
 			}
 		} else {
-			print("!!!\t\tInvalid Task\t\t\t!!!\n");
-			printErrorInrunTASK(s, s1, as);
-			BSP.throwRuntimeException(getPrintErrorBuff() + "Invalid Task");
+			this.print("!!!\t\tInvalid Task\t\t\t!!!\n");
+			this.printErrorInrunTASK(s, s1, as);
+			BSP.throwRuntimeException(this.getPrintErrorBuff() + "Invalid Task");
 		}
 
-		print("!!!\t\tTask Finished\t\t\t!!!\n");
+		this.print("!!!\t\tTask Finished\t\t\t!!!\n");
 
-		stopPrintErrorBuff();
+		this.stopPrintErrorBuff();
+	}
+
+	public void setDirection(byte byte0) {
+		if ((byte0 >= 0) && (byte0 < 4)) {
+			direction = byte0;
+		}
+	}
+
+	public void setDirection(int i) {
+		this.setDirection((byte) i);
+	}
+
+	public void setFocused(byte byte0) {
+		final Side side = FMLCommonHandler.instance().getEffectiveSide();
+		if (side == Side.SERVER) {
+			// We are on the server side.
+			
+			if ((byte0 >= 0) && (byte0 < 4)) {
+				GuiFocused = byte0;
+			}
+		} else if (side == Side.CLIENT) {
+			// We are on the client side.
+
+			this.addTASK("setFocused", new String[] { String.valueOf(byte0) });
+		} else {
+			// We are on the Bukkit server. Bukkit is a server mod used for
+			// security.
+		}
+	}
+
+	public void setFocused(int i) {
+		this.setFocused((byte) i);
+	}
+
+	private void setInvertOutput(boolean flag) {
+		invertOutput = flag;
+	}
+
+	public void setMode(byte byte0) {
+		this.addTASK((new StringBuilder()).append("modeUpdated ")
+				.append(String.valueOf(byte0)).toString());
+	}
+
+	private byte setOutput() {
+		boolean flag = false;
+		correctConnect = true;
+
+		for (int i = 1; i < 4; i++) {
+			correctConnect = correctConnect
+					&& ((PinType[i] != 1) || ((PinType[i] == 1) && (PinState[i] != -1)));
+		}
+
+		correctConnect = correctConnect
+				&& ((PinState[1] != -1) || (PinState[2] != -1) || (PinState[3] != -1));
+
+		if (correctConnect || ignoreIncorrectConnect) {
+			final ArrayList arraylist = new ArrayList();
+			final HashMap hashmap = new HashMap();
+
+			for (int j = 1; j < 4; j++) {
+				if ((PinState[j] != -1) && (PinType[j] != -1)) {
+					boolean flag1;
+					arraylist.add(Boolean.valueOf(flag1 = PinState[j] == 1));
+					hashmap.put(Pins[j], Boolean.valueOf(flag1));
+				}
+
+				if ((PinState[j] == -1) && ignoreIncorrectConnect
+						&& !hashmap.containsKey(Pins[j])) {
+					hashmap.put(Pins[j], Boolean.valueOf(PinState[j] == 1));
+				}
+			}
+
+			final int k = arraylist.size();
+
+			switch (mode) {
+			default:
+				break;
+
+			case 0:
+				flag = k != 0;
+
+				for (int l = 0; l < k; l++) {
+					flag = flag && ((Boolean) arraylist.get(l)).booleanValue();
+				}
+
+				break;
+
+			case 1:
+				for (int i1 = 0; i1 < k; i1++) {
+					flag = flag || ((Boolean) arraylist.get(i1)).booleanValue();
+				}
+
+				break;
+
+			case 2:
+				for (int j1 = 0; j1 < k; j1++) {
+					flag ^= ((Boolean) arraylist.get(j1)).booleanValue();
+				}
+
+				break;
+
+			case 3:
+				if (k == 2) {
+					flag = !((Boolean) arraylist.get(0)).booleanValue()
+							|| ((Boolean) arraylist.get(1)).booleanValue();
+				}
+
+				break;
+
+			case 4:
+				flag = !((Boolean) hashmap.get("A")).booleanValue();
+				break;
+
+			case 5:
+				if (((Boolean) hashmap.get("R")).booleanValue()) {
+					data = 0;
+					flag = false;
+					break;
+				}
+
+				if (((Boolean) hashmap.get("S")).booleanValue()) {
+					data = 1;
+					flag = true;
+				} else {
+					flag = data == 1;
+				}
+
+				break;
+
+			case 6:
+				if (((Boolean) hashmap.get("C")).booleanValue()) {
+					data = (flag = ((Boolean) hashmap.get("D")).booleanValue()) ? 1
+							: 0;
+				} else {
+					flag = data == 1;
+				}
+
+				break;
+
+			case 7:
+				if (((Boolean) hashmap.get("T")).booleanValue()) {
+					if ((data & 2) != 2) {
+						data = (data ^ 1) | 2;
+					}
+				} else {
+					data = data & 1;
+				}
+
+				flag = (data & 1) == 1;
+				break;
+
+			case 8:
+				data = (data & 1) << 1;
+				final boolean flag2 = ((Boolean) hashmap.get("J"))
+						.booleanValue();
+				final boolean flag3 = ((Boolean) hashmap.get("K"))
+						.booleanValue();
+
+				if (!flag2 && !flag3) {
+					data = data | (data >> 1);
+				} else if (flag2 && flag3) {
+					data = data | ((data >> 1) ^ 1);
+				} else if (flag2) {
+					data = data | 1;
+				}
+
+				flag = (data & 1) == 1;
+				break;
+			}
+		}
+
+		return (byte) (flag ^ invertOutput ? 1 : 0);
+	}
+
+	public void setPinState(byte abyte0[]) {
+		if (abyte0.length == 3) {
+			System.arraycopy(abyte0, 0, PinState, 1, 3);
+			PinState[0] = this.setOutput();
+		}
 	}
 
 	public boolean shallDoUpdate(long l) {
@@ -492,8 +856,14 @@ public class TileEntityBlockBrainLogicBlock extends
 			return false;
 	}
 
-	public boolean shallRenderPin(byte direction) {
-		return ActiveGate.Pins[direction].State.shallRender();
+	public boolean[] shallRender() {
+		final boolean aflag[] = new boolean[4];
+
+		for (int i = 0; i < 4; i++) {
+			aflag[i] = PinType[i] != -1;
+		}
+
+		return aflag;
 	}
 
 	private void startPrintErrorBuff() {
@@ -506,88 +876,123 @@ public class TileEntityBlockBrainLogicBlock extends
 		PrintErrorBuff = null;
 	}
 
-	public void tickGate(World world, int x, int y, int z, long time) {
-		final Side side = FMLCommonHandler.instance().getEffectiveSide();
-		if (side != Side.CLIENT) {
-			time /= 2;
-
-			if ((time % ActiveGate.getTickRate()) == 0) {
-				final int xShift[] = new int[] { 0, 0, 0, 1, 0, -1 };
-				final int yShift[] = new int[] { 1, -1, 0, 0, 0, 0 };
-				final int zShift[] = new int[] { 0, 0, -1, 0, 1, 0 };
-				int tmpX, tmpY, tmpZ;
-				Block block;
-
-				for (int i = 0; i < 6; i++) {
-					if (ActiveGate.Pins[i].State.canConnectRedstone()
-							&& !ActiveGate.Pins[i].Output) {
-						tmpX = x + xShift[i];
-						tmpY = y + yShift[i];
-						tmpZ = z + zShift[i];
-
-						block = world.getBlock(tmpX, tmpY, tmpZ);
-
-						if (canBlockConnectToGate(world, tmpX, tmpY, tmpZ, i,
-								block)) {
-							if (block instanceof BlockRedstoneWire) {
-								ActiveGate.Pins[i].State = PinState
-										.getPinState((byte) world
-												.getBlockMetadata(tmpX, tmpY,
-														tmpZ));
-							} else {
-								ActiveGate.Pins[i].State = PinState
-										.getPinState((byte) world
-												.getIndirectPowerLevelTo(
-														tmpX,
-														tmpY,
-														tmpZ,
-														InternalToMCDirection((byte) i) ^ 1));
-							}
-						} else {
-							ActiveGate.Pins[i].State = PinState.NotConnected;
-						}
-					}
-				}
-
-				ActiveGate.onTick();
-			}
+	private void swapPosition(byte byte0, byte byte1) {
+		if ((byte0 > 0) && (byte0 < 4) && (byte1 > 0) && (byte1 < 4)
+				&& (byte0 != byte1) && swapable) {
+			final byte byte2 = PinType[byte0];
+			final String s = Pins[byte0];
+			PinType[byte0] = PinType[byte1];
+			Pins[byte0] = Pins[byte1];
+			PinType[byte1] = byte2;
+			Pins[byte1] = s;
+			GuiFocused = byte1;
 		}
 	}
 
-	/**
-	 * Writes a tile entity to NBT.
-	 */
+	public void swapPosition(int i, int j) {
+		this.addTASK((new StringBuilder()).append("swapPosition ")
+				.append(String.valueOf((byte) i)).append(",")
+				.append(String.valueOf((byte) j)).toString());
+	}
+
+	public byte transformDirection(int i) {
+		switch (direction) {
+		default:
+			break;
+
+		case 1:
+			switch (i) {
+			case 0:
+				i = 2;
+				break;
+
+			case 1:
+				i = 3;
+				break;
+
+			case 2:
+				i = 1;
+				break;
+
+			case 3:
+				i = 0;
+				break;
+			}
+
+			break;
+
+		case 2:
+			switch (i) {
+			case 0:
+				i = 1;
+				break;
+
+			case 1:
+				i = 0;
+				break;
+
+			case 2:
+				i = 3;
+				break;
+
+			case 3:
+				i = 2;
+				break;
+			}
+
+			break;
+
+		case 3:
+			switch (i) {
+			case 0:
+				i = 3;
+				break;
+
+			case 1:
+				i = 2;
+				break;
+
+			case 2:
+				i = 0;
+				break;
+
+			case 3:
+				i = 1;
+				break;
+			}
+
+			break;
+		}
+
+		return (byte) i;
+	}
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbttagcompound) {
 		super.writeToNBT(nbttagcompound);
-		// nbttagcompound.setByte("Direction", direction);
-		// nbttagcompound.setByte("Mode", mode);
-		// nbttagcompound.setInteger("Data", data);
-		// nbttagcompound.setBoolean("InvertOutput", invertOutput);
-		// nbttagcompound.setBoolean("Swapable", swapable);
-		//
-		// for (int i = 0; i < 4; i++) {
-		// nbttagcompound.setByte((new StringBuilder()).append("State")
-		// .append(String.valueOf(i)).toString(), PinState[i]);
-		// nbttagcompound.setByte(
-		// (new StringBuilder()).append("Type")
-		// .append(String.valueOf(i)).toString(), PinType[i]);
-		// nbttagcompound.setString((new StringBuilder()).append("Pins")
-		// .append(String.valueOf(i)).toString(), Pins[i]);
-		// }
+		nbttagcompound.setByte("Direction", direction);
+		nbttagcompound.setByte("Mode", mode);
+		nbttagcompound.setInteger("Data", data);
+		nbttagcompound.setBoolean("InvertOutput", invertOutput);
+		nbttagcompound.setBoolean("Swapable", swapable);
 
-		ActiveGate.writeToNBT(nbttagcompound);
-		nbttagcompound.setInteger("GatePos", GatePos);
+		for (int i = 0; i < 4; i++) {
+			nbttagcompound.setByte((new StringBuilder()).append("State")
+					.append(String.valueOf(i)).toString(), PinState[i]);
+			nbttagcompound.setByte(
+					(new StringBuilder()).append("Type")
+							.append(String.valueOf(i)).toString(), PinType[i]);
+			nbttagcompound.setString((new StringBuilder()).append("Pins")
+					.append(String.valueOf(i)).toString(), Pins[i]);
+		}
 
 		final byte byte0 = (byte) TASKS.size();
 		nbttagcompound.setByte("TASKS-Size", byte0);
 
 		for (byte byte1 = 0; byte1 < byte0; byte1++) {
-			nbttagcompound
-					.setString(
-							(new StringBuilder()).append("TASK")
-									.append(String.valueOf(byte1)).toString(),
-							TASKS.get(byte1));
+			nbttagcompound.setString((new StringBuilder()).append("TASK")
+					.append(String.valueOf(byte1)).toString(),
+					(String) TASKS.get(byte1));
 		}
 	}
 }

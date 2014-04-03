@@ -3,7 +3,6 @@ package brainstonemod.client;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.world.World;
-import brainstonemod.client.render.BrainStoneRenderBrainLogicBlockHandler;
 import brainstonemod.client.render.TileEntityBlockBrainLogicBlockRenderer;
 import brainstonemod.common.CommonProxy;
 import brainstonemod.common.tileentity.TileEntityBlockBrainLogicBlock;
@@ -64,11 +63,5 @@ public class ClientProxy extends CommonProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(
 				TileEntityBlockBrainLogicBlock.class,
 				new TileEntityBlockBrainLogicBlockRenderer());
-
-		BrainLogicBlockRenderType = RenderingRegistry
-				.getNextAvailableRenderId();
-
-		RenderingRegistry
-				.registerBlockHandler(new BrainStoneRenderBrainLogicBlockHandler());
 	}
 }

@@ -13,8 +13,10 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
+import brainstonemod.common.tileentity.TileEntityBlockBrainLogicBlock;
 import brainstonemod.common.tileentity.template.TileEntityBrainStoneSyncBase;
 import brainstonemod.network.packet.BrainLightSensorSmokePacket;
+import brainstonemod.network.packet.BrainLogicBlockAddTaskPacket;
 import brainstonemod.network.packet.BrainStoneReRenderBlockAtPacket;
 import brainstonemod.network.packet.BrainStoneTriggerMobInformationPacket;
 import brainstonemod.network.packet.BrainStoneUpdateTileEntityPacket;
@@ -115,5 +117,11 @@ public class BrainStonePacketHelper {
 				.sendToServer(new BrainStoneUpdateTileEntityPacket(
 						(S35PacketUpdateTileEntity) tileentity
 								.getDescriptionPacket(false)));
+	}
+
+	public static void sendAddTASK(TileEntityBlockBrainLogicBlock tileEntity,
+			String task) {
+		BrainStone.packetPipeline
+				.sendToServer(new BrainLogicBlockAddTaskPacket(tileEntity, task));
 	}
 }

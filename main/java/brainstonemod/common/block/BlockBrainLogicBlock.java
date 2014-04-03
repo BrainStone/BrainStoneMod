@@ -17,7 +17,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import brainstonemod.BrainStone;
-import brainstonemod.client.ClientProxy;
 import brainstonemod.common.block.template.BlockBrainStoneContainerBase;
 import brainstonemod.common.tileentity.TileEntityBlockBrainLogicBlock;
 import brainstonemod.network.BrainStonePacketHelper;
@@ -155,17 +154,6 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	}
 
 	@Override
-	public int colorMultiplier(IBlockAccess world, int x, int y, int z) {
-		final TileEntityBlockBrainLogicBlock tileEntity = (TileEntityBlockBrainLogicBlock) world
-				.getTileEntity(x, y, z);
-
-		if ((tileEntity != null) && (tileEntity.currentRenderDirection != -1))
-			return tileEntity.getGateColor(tileEntity.currentRenderDirection);
-
-		return 16777215;
-	}
-
-	@Override
 	public TileEntity createNewTileEntity(World world, int unknown_1) {
 		return new TileEntityBlockBrainLogicBlock();
 	}
@@ -174,33 +162,36 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	public IIcon getIcon(IBlockAccess iblockaccess, int x, int y, int z,
 			int side) {
 		if (side < 2)
-			return textures[2];
+			return textures[4];
 
-		return textures[1];
+		final TileEntityBlockBrainLogicBlock tileEntity = (TileEntityBlockBrainLogicBlock) iblockaccess
+				.getTileEntity(x, y, z);
+
+		if (tileEntity == null)
+			return textures[4];
+		else
+			return textures[tileEntity.getPinStateBasedTextureIndex(tileEntity
+					.transformDirection(side - 2))];
 	}
 
 	@Override
-	public IIcon getIcon(int i, int meta) {
-		if (i >= 2)
-			return textures[1 + i];
+	public IIcon getIcon(int side, int meta) {
+		if (side >= 2)
+			return textures[1 + side];
 
 		return textures[2];
 	}
 
 	@Override
-	public int getRenderType() {
-		return ClientProxy.BrainLogicBlockRenderType;
-	}
-
-	@Override
 	public int isProvidingStrongPower(IBlockAccess iblockaccess, int x, int y,
 			int z, int side) {
-		final TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock = (TileEntityBlockBrainLogicBlock) iblockaccess
+		final TileEntityBlockBrainLogicBlock tileEntity = (TileEntityBlockBrainLogicBlock) iblockaccess
 				.getTileEntity(x, y, z);
 
-		if (tileentityblockbrainlogicblock != null)
-			return tileentityblockbrainlogicblock
-					.getPowerOutputLevel((byte) (side ^ 1));
+		if (tileEntity != null
+				&& (tileEntity.getDirection() == this
+						.transformDirection(side - 2)))
+			return tileEntity.getOutput() ? 15 : 0;
 		else
 			return 0;
 	}
@@ -220,15 +211,12 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z,
 			EntityPlayer entityplayer, int unknown, float px, float py, float pz) {
-		final TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock = (TileEntityBlockBrainLogicBlock) world
+		final TileEntityBlockBrainLogicBlock tileEntity = (TileEntityBlockBrainLogicBlock) world
 				.getTileEntity(x, y, z);
 
-		if (tileentityblockbrainlogicblock == null)
+		if (tileEntity == null)
 			return false;
 		else {
-			TileEntityBlockBrainLogicBlock.guiDirection = (byte) ((MathHelper
-					.floor_double(((entityplayer.rotationYaw * 4.0F) / 360.0F) + 0.5D) & 3) ^ 2);
-
 			entityplayer.openGui(BrainStone.instance, 2, world, x, y, z);
 			world.notifyBlocksOfNeighborChange(x, y, z, this);
 			return true;
@@ -255,14 +243,16 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	public void onBlockPlacedBy(World world, int x, int y, int z,
 			EntityLivingBase entity, ItemStack itemStack) {
 		((TileEntityBlockBrainLogicBlock) world.getTileEntity(x, y, z))
-				.changeGate(MathHelper
+				.setDirection(MathHelper
 						.floor_double(((entity.rotationYaw * 4.0F) / 360.0F) + 0.5D) & 3);
 	}
 
 	@Override
 	public void registerBlockIcons(IIconRegister IconReg) {
 		textures = new IIcon[] {
-				IconReg.registerIcon("brainstonemod:brainLogicBlockPin"),
+				IconReg.registerIcon("brainstonemod:brainLogicBlockNotConnected"),
+				IconReg.registerIcon("brainstonemod:brainLogicBlockOff"),
+				IconReg.registerIcon("brainstonemod:brainLogicBlockOn"),
 				IconReg.registerIcon("furnace_side"),
 				IconReg.registerIcon("furnace_top"),
 				IconReg.registerIcon("brainstonemod:brainLogicBlockNotConnectedA"),
@@ -272,31 +262,54 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	}
 
 	@Override
-	public boolean renderAsNormalBlock() {
-		return false;
-	}
-
-	@Override
 	public int tickRate(World world) {
 		return 2;
+	}
+
+	/**
+	 * Transforms directions from Minecraft directions (need to be decreased by
+	 * 2) to TileEntityBlockBrainLogicBlock directions
+	 * 
+	 * @param i
+	 *            Minecraft direction
+	 * @return TileEntityBlockBrainLogicBlock direction
+	 */
+	private int transformDirection(int i) {
+		switch (i) {
+		case 0:
+			return 2;
+
+		case 1:
+			return 0;
+
+		case 2:
+			return 1;
+
+		case 3:
+			return 3;
+		}
+
+		return 0;
 	}
 
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random random) {
 		super.updateTick(world, x, y, z, random);
-		final TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock = (TileEntityBlockBrainLogicBlock) world
+		final TileEntityBlockBrainLogicBlock tileEntity = (TileEntityBlockBrainLogicBlock) world
 				.getTileEntity(x, y, z);
 
-		if (tileentityblockbrainlogicblock != null) {
-			tileentityblockbrainlogicblock.doTASKS();
+		if (tileEntity != null) {
+			tileEntity.doTASKS();
 
-			long time;
+			if (tileEntity.shallDoUpdate(world.getWorldInfo().getWorldTime())) {
+				final byte abyte0[] = { -1, -1, -1 };
 
-			if (tileentityblockbrainlogicblock.shallDoUpdate(time = world
-					.getWorldInfo().getWorldTime())) {
+				for (byte byte0 = 1; byte0 < 4; byte0++) {
+					abyte0[byte0 - 1] = this.checkState(world, x, y, z,
+							tileEntity.reverseTransformDirection(byte0));
+				}
 
-				tileentityblockbrainlogicblock.tickGate(world, x, y, z, time);
-
+				tileEntity.setPinState(abyte0);
 				BrainStonePacketHelper.sendReRenderBlockAtPacket(
 						world.provider.dimensionId, x, y, z, world);
 				world.notifyBlockChange(x, y, z, this);
@@ -307,7 +320,7 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 				world.notifyBlocksOfNeighborChange(x, y + 1, z, this);
 				world.notifyBlocksOfNeighborChange(x, y, z - 1, this);
 				world.notifyBlocksOfNeighborChange(x, y, z + 1, this);
-				world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
+				world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
 			}
 		}
 	}

@@ -10,7 +10,6 @@ import java.net.URLConnection;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -62,7 +61,6 @@ import brainstonemod.common.item.ItemHoeBrainStone;
 import brainstonemod.common.item.ItemSwordBrainStone;
 import brainstonemod.common.item.ItemToolBrainStone;
 import brainstonemod.common.item.template.ItemBrainStoneBase;
-import brainstonemod.common.logicgate.Gate;
 import brainstonemod.common.tileentity.TileEntityBlockBrainLightSensor;
 import brainstonemod.common.tileentity.TileEntityBlockBrainLogicBlock;
 import brainstonemod.common.tileentity.TileEntityBlockBrainStoneTrigger;
@@ -70,8 +68,6 @@ import brainstonemod.common.worldgenerators.BrainStoneWorldGenerator;
 import brainstonemod.network.BrainStonePacketHelper;
 import brainstonemod.network.BrainStonePacketPipeline;
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.FMLContainer;
-import cpw.mods.fml.common.FMLModContainer;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -95,7 +91,7 @@ import cpw.mods.fml.relauncher.Side;
 public class BrainStone {
 	public static final String MOD_ID = "BrainStoneMod";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.42.849 BETA";
+	public static final String VERSION = "v2.42.974 BETA";
 
 	/** The instance of this mod */
 	@Instance(MOD_ID)
@@ -156,19 +152,19 @@ public class BrainStone {
 	 * &emsp;<b>key:</b> The internal id<br>
 	 * &emsp;<b>value:</b> The actual block
 	 */
-	private static final HashMap<String, Block> blocks = new HashMap<String, Block>();
+	private static final LinkedHashMap<String, Block> blocks = new LinkedHashMap<String, Block>();
 	/**
 	 * A HashMap with the all items.<br>
 	 * &emsp;<b>key:</b> The internal id<br>
 	 * &emsp;<b>value:</b> The actual item
 	 */
-	private static final HashMap<String, Item> items = new HashMap<String, Item>();
+	private static final LinkedHashMap<String, Item> items = new LinkedHashMap<String, Item>();
 	/**
 	 * A HashMap with the all items.<br>
 	 * &emsp;<b>key:</b> The internal id<br>
 	 * &emsp;<b>value:</b> The actual item
 	 */
-	private static final HashMap<String, Achievement> achievements = new HashMap<String, Achievement>();
+	private static final LinkedHashMap<String, Achievement> achievements = new LinkedHashMap<String, Achievement>();
 
 	/**
 	 * Preinitialization. Reads the ids from the config file and fills the block
@@ -181,11 +177,6 @@ public class BrainStone {
 	public void preInit(FMLPreInitializationEvent event) {
 		packetPipeline = new BrainStonePacketPipeline();
 		BSP.setUpLogger((Logger) event.getModLog());
-
-		if ((Gate.Gates == null) || Gate.Gates.isEmpty()) {
-			BSP.throwNullPointerException("Well, that should NOT have happenend! This IS a HUGE problem if you notice this please report it to yannick@tedworld.de.\nThanks!\n\nDeveloper Information:\nThe Map of the Gates is EMPTY!\nIs gates null: "
-					+ (Gate.Gates == null));
-		}
 
 		loadConfig(event);
 		retriveCurrentVersions();
