@@ -1,6 +1,7 @@
 package brainstonemod.common.tileentity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.Vector;
@@ -8,11 +9,14 @@ import java.util.Vector;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.util.StatCollector;
 import brainstonemod.client.gui.GuiBrainLogicBlock;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.tileentity.template.TileEntityBrainStoneSyncBase;
 import brainstonemod.network.BrainStonePacketHelper;
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 
@@ -51,13 +55,24 @@ public class TileEntityBlockBrainLogicBlock extends
 		return "";
 	}
 
-	private static final byte getNumGates() {
-		byte byte0;
+	@Override
+	public void onDataPacket(NetworkManager net,
+			S35PacketUpdateTileEntity packet) {
+		super.onDataPacket(net, packet);
 
-		for (byte0 = 0; getGateName(byte0) != ""; byte0++) {
+		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
+			worldObj.markBlockRangeForRenderUpdate(xCoord, yCoord, zCoord,
+					xCoord, yCoord, zCoord);
+		}
+	}
+
+	private static final byte getNumGates() {
+		byte count;
+
+		for (count = 0; getGateName(count) != ""; count++) {
 		}
 
-		return byte0;
+		return count;
 	}
 
 	private boolean correctConnect;
@@ -104,32 +119,26 @@ public class TileEntityBlockBrainLogicBlock extends
 		this.modeUpdated();
 	}
 
-	public void addTASK(String s) {
-		final Side side = FMLCommonHandler.instance().getEffectiveSide();
-		if (side == Side.SERVER) {
-			// We are on the server side.
-			TASKS.add(s);
-		} else if (side == Side.CLIENT) {
-			// We are on the client side.
-			BrainStonePacketHelper.sendAddTASK(this, s);
-		} else {
-			// We are on the Bukkit server. Bukkit is a server mod used for
-			// security.
-		}
+	public void addTASK(String task) {
+		TASKS.add(task);
+
+		BrainStonePacketHelper.sendUpdateTileEntityPacket(this);
 	}
 
-	public void addTASK(String s, String as[]) {
-		String s1 = (new StringBuilder()).append(s).append(" ").toString();
-		final int i = as.length - 1;
+	public void addTASK(String mainTask, String taskParameter[]) {
+		String task = (new StringBuilder()).append(mainTask).append(" ")
+				.toString();
+		final int i = taskParameter.length - 1;
 
 		for (int j = 0; j < i; j++) {
-			s1 = (new StringBuilder()).append(s1).append(as[j]).append(",")
-					.toString();
+			task = (new StringBuilder()).append(task).append(taskParameter[j])
+					.append(",").toString();
 		}
 
-		s1 = (new StringBuilder()).append(s1).append(as[i]).toString();
+		task = (new StringBuilder()).append(task).append(taskParameter[i])
+				.toString();
 
-		this.addTASK(s1);
+		this.addTASK(task);
 	}
 
 	public boolean connectToRedstone(int side) {
@@ -172,19 +181,19 @@ public class TileEntityBlockBrainLogicBlock extends
 	}
 
 	public void doTASKS() {
-		final int i = TASKS.size();
+		if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) {
+			final int size = TASKS.size();
 
-		if (i != 0) {
-			this.print((new StringBuilder()).append("doTASKS() (size: ")
-					.append(String.valueOf(i)).append(")").toString());
+			if (size != 0) {
+				this.print((new StringBuilder()).append("doTASKS() (size: ")
+						.append(String.valueOf(size)).append(")").toString());
 
-			for (int j = 0; j < i; j++) {
-				this.runTASK((String) TASKS.get(j));
-			}
+				for (int j = 0; j < size; j++) {
+					this.runTASK((String) TASKS.get(j));
+				}
 
-			TASKS.clear();
-			
-			if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) {
+				TASKS.clear();
+
 				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 			}
 		}
@@ -468,6 +477,7 @@ public class TileEntityBlockBrainLogicBlock extends
 		super.readFromNBT(nbttagcompound);
 		direction = nbttagcompound.getByte("Direction");
 		mode = nbttagcompound.getByte("Mode");
+		GuiFocused = nbttagcompound.getByte("GuiFocused");
 		data = nbttagcompound.getInteger("Data");
 		invertOutput = nbttagcompound.getBoolean("InvertOutput");
 		swapable = nbttagcompound.getBoolean("Swapable");
@@ -481,9 +491,9 @@ public class TileEntityBlockBrainLogicBlock extends
 					.append("Pins").append(String.valueOf(i)).toString());
 		}
 
-		final byte byte0 = nbttagcompound.getByte("TASKS-Size");
+		final byte size = nbttagcompound.getByte("TASKS-Size");
 
-		for (byte byte1 = 0; byte1 < byte0; byte1++) {
+		for (byte byte1 = 0; byte1 < size; byte1++) {
 			TASKS.add(
 					byte1,
 					nbttagcompound.getString((new StringBuilder())
@@ -632,7 +642,7 @@ public class TileEntityBlockBrainLogicBlock extends
 
 			if (as.length == 2) {
 				final UUID player = UUID.fromString(as[1]);
-				
+
 				if (Boolean.valueOf(as[0]).booleanValue()) {
 					if (!Users.contains(player)) {
 						Users.add(player);
@@ -679,22 +689,24 @@ public class TileEntityBlockBrainLogicBlock extends
 		this.setDirection((byte) i);
 	}
 
-	public void setFocused(byte byte0) {
+	public void setFocused(byte pin) {
 		final Side side = FMLCommonHandler.instance().getEffectiveSide();
 		if (side == Side.SERVER) {
 			// We are on the server side.
-			
-			if ((byte0 >= 0) && (byte0 < 4)) {
-				GuiFocused = byte0;
+
+			if ((pin >= 0) && (pin < 4)) {
+				GuiFocused = pin;
 			}
 		} else if (side == Side.CLIENT) {
 			// We are on the client side.
 
-			this.addTASK("setFocused", new String[] { String.valueOf(byte0) });
+			this.addTASK("setFocused", new String[] { String.valueOf(pin) });
 		} else {
 			// We are on the Bukkit server. Bukkit is a server mod used for
 			// security.
 		}
+
+		BSP.info(side, pin);
 	}
 
 	public void setFocused(int i) {
@@ -841,16 +853,23 @@ public class TileEntityBlockBrainLogicBlock extends
 		return (byte) (flag ^ invertOutput ? 1 : 0);
 	}
 
-	public void setPinState(byte abyte0[]) {
-		if (abyte0.length == 3) {
-			System.arraycopy(abyte0, 0, PinState, 1, 3);
+	public boolean setPinState(byte pinStates[]) {
+		byte[] tmpPinState = new byte[4];
+		System.arraycopy(PinState, 0, tmpPinState, 0, 4);
+
+		if (pinStates.length == 3) {
+			System.arraycopy(pinStates, 0, PinState, 1, 3);
 			PinState[0] = this.setOutput();
 		}
+
+		Byte tmp;
+
+		return !Arrays.equals(tmpPinState, PinState);
 	}
 
-	public boolean shallDoUpdate(long l) {
-		if (l > (lastUpdate + 1)) {
-			lastUpdate = l;
+	public boolean shallDoUpdate(long time) {
+		if (time > (lastUpdate + 1)) {
+			lastUpdate = time;
 			return true;
 		} else
 			return false;
@@ -972,6 +991,7 @@ public class TileEntityBlockBrainLogicBlock extends
 		super.writeToNBT(nbttagcompound);
 		nbttagcompound.setByte("Direction", direction);
 		nbttagcompound.setByte("Mode", mode);
+		nbttagcompound.setByte("GuiFocused", GuiFocused);
 		nbttagcompound.setInteger("Data", data);
 		nbttagcompound.setBoolean("InvertOutput", invertOutput);
 		nbttagcompound.setBoolean("Swapable", swapable);
@@ -986,10 +1006,10 @@ public class TileEntityBlockBrainLogicBlock extends
 					.append(String.valueOf(i)).toString(), Pins[i]);
 		}
 
-		final byte byte0 = (byte) TASKS.size();
-		nbttagcompound.setByte("TASKS-Size", byte0);
+		final byte size = (byte) TASKS.size();
+		nbttagcompound.setByte("TASKS-Size", size);
 
-		for (byte byte1 = 0; byte1 < byte0; byte1++) {
+		for (byte byte1 = 0; byte1 < size; byte1++) {
 			nbttagcompound.setString((new StringBuilder()).append("TASK")
 					.append(String.valueOf(byte1)).toString(),
 					(String) TASKS.get(byte1));

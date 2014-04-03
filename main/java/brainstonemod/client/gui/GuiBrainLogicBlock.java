@@ -11,6 +11,7 @@ import brainstonemod.BrainStone;
 import brainstonemod.client.gui.template.GuiBrainStoneBase;
 import brainstonemod.common.container.ContainerBlockBrainLogicBlock;
 import brainstonemod.common.tileentity.TileEntityBlockBrainLogicBlock;
+import brainstonemod.network.BrainStonePacketHelper;
 
 public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	private byte focused;
@@ -72,7 +73,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 
 	private void drawFocus(int i, int j) {
 		final int k = (int) (BrainStone.proxy.getClientWorld().getWorldInfo()
-				.getWorldTime() & 1L) * 20;
+				.getWorldTotalTime() & 1L) * 20;
 		this.drawTexturedModalRect(i, j, 196, k, 20, 20);
 	}
 
@@ -199,6 +200,8 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 			if ((i == 1)
 					|| (i == mc.gameSettings.keyBindInventory.getKeyCode())) {
 				this.quit();
+				
+				return;
 			}
 
 			if (i == 205) {
@@ -220,28 +223,34 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 			if ((i == 42) || (i == 54) || (i == 203) || (i == 205)) {
 				this.click();
 			}
+			
+			BrainStonePacketHelper.sendUpdateTileEntityPacket(tileentity);
 		}
 	}
-
-	/**
-	 * Called when the mouse is clicked.
-	 */
+	
 	@Override
-	protected void mouseClicked(int i, int j, int k) {
+	protected void quit() {
+		tileentity.logOut(username);
+		
+		super.quit();
+	}
+
+	@Override
+	protected void mouseClicked(int x, int y, int button) {
 		final boolean flag = help;
 
-		super.mouseClicked(i, j, k);
+		super.mouseClicked(x, y, button);
 
-		if ((k != 0) || (flag != help))
+		if ((button != 0) || (flag != help))
 			return;
 
 		if (help) {
 			this.closeHelpGui();
 		} else {
-			i -= (width - xSize) / 2;
-			j -= (height - ySize) / 2;
+			x -= (width - xSize) / 2;
+			y -= (height - ySize) / 2;
 
-			if (this.inField(i, j, 168, 3, 172, 7)) {
+			if (this.inField(x, y, 168, 3, 172, 7)) {
 				this.quit();
 
 				return;
@@ -250,18 +259,18 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 			for (byte byte0 = 0; byte0 < TileEntityBlockBrainLogicBlock.numGates; byte0++) {
 				final int l = 12 * byte0;
 
-				if (this.inField(i, j, 5, 18 + l, 75, 32 + l)) {
+				if (this.inField(x, y, 5, 18 + l, 75, 32 + l)) {
 					tileentity.setMode(byte0);
 				}
 			}
 
-			if (this.inField(i, j, 76, 68, 168, 90)) {
+			if (this.inField(x, y, 76, 68, 168, 90)) {
 				tileentity.invertInvertOutput();
 			}
 
 			if (!tileentity.isSwapable()) {
 				tileentity.setFocused(0);
-			} else if (this.inField(i, j, 124, 7, 143, 26)) {
+			} else if (this.inField(x, y, 124, 7, 143, 26)) {
 				focused = tileentity.getFocused();
 
 				if (focused != 1) {
@@ -269,13 +278,13 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 				} else {
 					tileentity.setFocused(0);
 				}
-			} else if (this.inField(i, j, 144, 27, 163, 46)) {
+			} else if (this.inField(x, y, 144, 27, 163, 46)) {
 				if (focused != 2) {
 					tileentity.setFocused(2);
 				} else {
 					tileentity.setFocused(0);
 				}
-			} else if (this.inField(i, j, 104, 27, 123, 46)) {
+			} else if (this.inField(x, y, 104, 27, 123, 46)) {
 				if (focused != 3) {
 					tileentity.setFocused(3);
 				} else {
@@ -285,6 +294,8 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 				tileentity.setFocused(0);
 			}
 		}
+		
+		BrainStonePacketHelper.sendUpdateTileEntityPacket(tileentity);
 	}
 
 	private void rotate(boolean flag) {

@@ -18,6 +18,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import brainstonemod.BrainStone;
 import brainstonemod.common.block.template.BlockBrainStoneContainerBase;
+import brainstonemod.common.helper.BSP;
 import brainstonemod.common.tileentity.TileEntityBlockBrainLogicBlock;
 import brainstonemod.network.BrainStonePacketHelper;
 
@@ -177,9 +178,9 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	@Override
 	public IIcon getIcon(int side, int meta) {
 		if (side >= 2)
-			return textures[1 + side];
+			return textures[3 + side];
 
-		return textures[2];
+		return textures[4];
 	}
 
 	@Override
@@ -301,17 +302,19 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 		if (tileEntity != null) {
 			tileEntity.doTASKS();
 
-			if (tileEntity.shallDoUpdate(world.getWorldInfo().getWorldTime())) {
-				final byte abyte0[] = { -1, -1, -1 };
+			if (tileEntity.shallDoUpdate(world.getWorldInfo()
+					.getWorldTotalTime())) {
+				final byte pinStates[] = { -1, -1, -1 };
 
-				for (byte byte0 = 1; byte0 < 4; byte0++) {
-					abyte0[byte0 - 1] = this.checkState(world, x, y, z,
-							tileEntity.reverseTransformDirection(byte0));
+				for (byte i = 1; i < 4; i++) {
+					pinStates[i - 1] = this.checkState(world, x, y, z,
+							tileEntity.reverseTransformDirection(i));
 				}
 
-				tileEntity.setPinState(abyte0);
-				BrainStonePacketHelper.sendReRenderBlockAtPacket(
-						world.provider.dimensionId, x, y, z, world);
+				if(tileEntity.setPinState(pinStates)) {
+					BrainStonePacketHelper.sendUpdateTileEntityPacket(tileEntity);
+				}
+				
 				world.notifyBlockChange(x, y, z, this);
 				world.notifyBlocksOfNeighborChange(x, y, z, this);
 				world.notifyBlocksOfNeighborChange(x - 1, y, z, this);
@@ -320,8 +323,9 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 				world.notifyBlocksOfNeighborChange(x, y + 1, z, this);
 				world.notifyBlocksOfNeighborChange(x, y, z - 1, this);
 				world.notifyBlocksOfNeighborChange(x, y, z + 1, this);
-				world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
 			}
+
+			world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
 		}
 	}
 }
