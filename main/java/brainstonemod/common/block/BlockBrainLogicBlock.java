@@ -18,7 +18,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import brainstonemod.BrainStone;
 import brainstonemod.common.block.template.BlockBrainStoneContainerBase;
-import brainstonemod.common.helper.BSP;
 import brainstonemod.common.tileentity.TileEntityBlockBrainLogicBlock;
 import brainstonemod.network.BrainStonePacketHelper;
 
@@ -189,9 +188,8 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 		final TileEntityBlockBrainLogicBlock tileEntity = (TileEntityBlockBrainLogicBlock) iblockaccess
 				.getTileEntity(x, y, z);
 
-		if (tileEntity != null
-				&& (tileEntity.getDirection() == this
-						.transformDirection(side - 2)))
+		if ((tileEntity != null)
+				&& (tileEntity.getDirection() == transformDirection(side - 2)))
 			return tileEntity.getOutput() ? 15 : 0;
 		else
 			return 0;
@@ -307,14 +305,15 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 				final byte pinStates[] = { -1, -1, -1 };
 
 				for (byte i = 1; i < 4; i++) {
-					pinStates[i - 1] = this.checkState(world, x, y, z,
+					pinStates[i - 1] = checkState(world, x, y, z,
 							tileEntity.reverseTransformDirection(i));
 				}
 
-				if(tileEntity.setPinState(pinStates)) {
-					BrainStonePacketHelper.sendUpdateTileEntityPacket(tileEntity);
+				if (tileEntity.setPinState(pinStates)) {
+					BrainStonePacketHelper
+							.sendUpdateTileEntityPacket(tileEntity);
 				}
-				
+
 				world.notifyBlockChange(x, y, z, this);
 				world.notifyBlocksOfNeighborChange(x, y, z, this);
 				world.notifyBlocksOfNeighborChange(x - 1, y, z, this);
@@ -325,7 +324,7 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 				world.notifyBlocksOfNeighborChange(x, y, z + 1, this);
 			}
 
-			world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
+			world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
 		}
 	}
 }

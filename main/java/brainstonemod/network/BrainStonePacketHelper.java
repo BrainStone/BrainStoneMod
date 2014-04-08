@@ -24,6 +24,12 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 
 @Sharable
 public class BrainStonePacketHelper {
+	public static void sendAddTASK(TileEntityBlockBrainLogicBlock tileEntity,
+			String task) {
+		BrainStone.packetPipeline
+				.sendToServer(new BrainLogicBlockAddTaskPacket(tileEntity, task));
+	}
+
 	public static void sendBrainLightSensorSmokePacket(int dimension, int x,
 			int y, int z) {
 		BrainStone.packetPipeline.sendToAllAround(
@@ -117,11 +123,5 @@ public class BrainStonePacketHelper {
 				.sendToServer(new BrainStoneUpdateTileEntityPacket(
 						(S35PacketUpdateTileEntity) tileentity
 								.getDescriptionPacket(false)));
-	}
-
-	public static void sendAddTASK(TileEntityBlockBrainLogicBlock tileEntity,
-			String task) {
-		BrainStone.packetPipeline
-				.sendToServer(new BrainLogicBlockAddTaskPacket(tileEntity, task));
 	}
 }

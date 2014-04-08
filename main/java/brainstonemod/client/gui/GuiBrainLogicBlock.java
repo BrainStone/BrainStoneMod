@@ -39,10 +39,6 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		help = false;
 	}
 
-	/**
-	 * Fired when a control is clicked. This is the equivalent of
-	 * ActionListener.actionPerformed(ActionEvent e).
-	 */
 	@Override
 	protected void actionPerformed(GuiButton guibutton) {
 		if (guibutton.id == 0) {
@@ -57,15 +53,11 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	}
 
 	private void closeHelpGui() {
-		this.click();
+		click();
 		help = false;
 		tileentity.logIn(username);
 	}
 
-	/**
-	 * Returns true if this GUI should pause the game when it is displayed in
-	 * single-player
-	 */
 	@Override
 	public boolean doesGuiPauseGame() {
 		return false;
@@ -74,12 +66,9 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	private void drawFocus(int i, int j) {
 		final int k = (int) (BrainStone.proxy.getClientWorld().getWorldInfo()
 				.getWorldTotalTime() & 1L) * 20;
-		this.drawTexturedModalRect(i, j, 196, k, 20, 20);
+		drawTexturedModalRect(i, j, 196, k, 20, 20);
 	}
 
-	/**
-	 * Draws the screen and all the components in it.
-	 */
 	@Override
 	public void drawGuiContainerBackgroundLayer(float f, int i, int j) {
 		bindTexture();
@@ -87,29 +76,29 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		if (help) {
 			final int l = (width - xSize) / 2;
 			final int i1 = (height - helpYSize) / 2;
-			this.drawTexturedModalRect(l, i1, 0, ySize, xSize, helpYSize);
+			drawTexturedModalRect(l, i1, 0, ySize, xSize, helpYSize);
 			fontRendererObj.drawSplitString(HelpText, l + 10, i1 + 10,
 					stringWidth, 0xeeeeee);
 		} else {
 			factor = 1.0F;
 			final int l = globalX = (width - xSize) / 2;
 			final int i1 = globalY = (height - ySize) / 2;
-			this.drawTexturedModalRect(l, i1, 0, 0, xSize, ySize);
+			drawTexturedModalRect(l, i1, 0, 0, xSize, ySize);
 			tileentity.drawBoxes(this, l + 104, i1 + 7);
 			focused = tileentity.getFocused();
 
 			if (focused != 0) {
 				switch (focused) {
 				case 1:
-					this.drawFocus(l + 124, i1 + 7);
+					drawFocus(l + 124, i1 + 7);
 					break;
 
 				case 2:
-					this.drawFocus(l + 144, i1 + 27);
+					drawFocus(l + 144, i1 + 27);
 					break;
 
 				case 3:
-					this.drawFocus(l + 104, i1 + 27);
+					drawFocus(l + 104, i1 + 27);
 					break;
 				}
 			}
@@ -143,7 +132,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 			}
 
 			GL11.glPopMatrix();
-			this.initGui();
+			initGui();
 		}
 	}
 
@@ -195,44 +184,37 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	@Override
 	protected void keyTyped(char c, int i) {
 		if (help) {
-			this.closeHelpGui();
+			closeHelpGui();
 		} else {
 			if ((i == 1)
 					|| (i == mc.gameSettings.keyBindInventory.getKeyCode())) {
-				this.quit();
-				
+				quit();
+
 				return;
 			}
 
 			if (i == 205) {
-				this.swap(true);
+				swap(true);
 			}
 
 			if (i == 203) {
-				this.swap(false);
+				swap(false);
 			}
 
 			if (i == 54) {
-				this.rotate(true);
+				rotate(true);
 			}
 
 			if (i == 42) {
-				this.rotate(false);
+				rotate(false);
 			}
 
 			if ((i == 42) || (i == 54) || (i == 203) || (i == 205)) {
-				this.click();
+				click();
 			}
-			
+
 			BrainStonePacketHelper.sendUpdateTileEntityPacket(tileentity);
 		}
-	}
-	
-	@Override
-	protected void quit() {
-		tileentity.logOut(username);
-		
-		super.quit();
 	}
 
 	@Override
@@ -245,13 +227,13 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 			return;
 
 		if (help) {
-			this.closeHelpGui();
+			closeHelpGui();
 		} else {
 			x -= (width - xSize) / 2;
 			y -= (height - ySize) / 2;
 
-			if (this.inField(x, y, 168, 3, 172, 7)) {
-				this.quit();
+			if (inField(x, y, 168, 3, 172, 7)) {
+				quit();
 
 				return;
 			}
@@ -259,18 +241,18 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 			for (byte byte0 = 0; byte0 < TileEntityBlockBrainLogicBlock.numGates; byte0++) {
 				final int l = 12 * byte0;
 
-				if (this.inField(x, y, 5, 18 + l, 75, 32 + l)) {
+				if (inField(x, y, 5, 18 + l, 75, 32 + l)) {
 					tileentity.setMode(byte0);
 				}
 			}
 
-			if (this.inField(x, y, 76, 68, 168, 90)) {
+			if (inField(x, y, 76, 68, 168, 90)) {
 				tileentity.invertInvertOutput();
 			}
 
 			if (!tileentity.isSwapable()) {
 				tileentity.setFocused(0);
-			} else if (this.inField(x, y, 124, 7, 143, 26)) {
+			} else if (inField(x, y, 124, 7, 143, 26)) {
 				focused = tileentity.getFocused();
 
 				if (focused != 1) {
@@ -278,13 +260,13 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 				} else {
 					tileentity.setFocused(0);
 				}
-			} else if (this.inField(x, y, 144, 27, 163, 46)) {
+			} else if (inField(x, y, 144, 27, 163, 46)) {
 				if (focused != 2) {
 					tileentity.setFocused(2);
 				} else {
 					tileentity.setFocused(0);
 				}
-			} else if (this.inField(x, y, 104, 27, 123, 46)) {
+			} else if (inField(x, y, 104, 27, 123, 46)) {
 				if (focused != 3) {
 					tileentity.setFocused(3);
 				} else {
@@ -294,8 +276,15 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 				tileentity.setFocused(0);
 			}
 		}
-		
+
 		BrainStonePacketHelper.sendUpdateTileEntityPacket(tileentity);
+	}
+
+	@Override
+	protected void quit() {
+		tileentity.logOut(username);
+
+		super.quit();
 	}
 
 	private void rotate(boolean flag) {

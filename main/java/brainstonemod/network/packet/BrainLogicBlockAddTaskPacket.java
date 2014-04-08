@@ -14,15 +14,15 @@ public class BrainLogicBlockAddTaskPacket extends BrainStoneToServerBasePacket {
 	private int x, y, z;
 	private String task;
 
+	public BrainLogicBlockAddTaskPacket() {
+	}
+
 	public BrainLogicBlockAddTaskPacket(
 			TileEntityBlockBrainLogicBlock tileEntity, String task) {
 		x = tileEntity.xCoord;
 		y = tileEntity.yCoord;
 		z = tileEntity.zCoord;
 		this.task = task;
-	}
-
-	public BrainLogicBlockAddTaskPacket() {
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class BrainLogicBlockAddTaskPacket extends BrainStoneToServerBasePacket {
 			buffer.writeShort(y);
 			buffer.writeInt(z);
 			buffer.writeStringToBuffer(task);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			throw new RuntimeException("Unexpected Exception \""
 					+ e.getClass().getName() + ": " + e.getMessage() + "\"", e);
 		}

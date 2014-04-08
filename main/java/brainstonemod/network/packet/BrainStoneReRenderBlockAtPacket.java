@@ -3,10 +3,10 @@ package brainstonemod.network.packet;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.entity.player.EntityPlayer;
-import brainstonemod.common.helper.BSP;
 import brainstonemod.network.packet.template.BrainStoneToClientBasePacket;
 
-public class BrainStoneReRenderBlockAtPacket extends BrainStoneToClientBasePacket {
+public class BrainStoneReRenderBlockAtPacket extends
+		BrainStoneToClientBasePacket {
 	private int x, y, z;
 
 	public BrainStoneReRenderBlockAtPacket() {

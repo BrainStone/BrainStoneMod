@@ -16,7 +16,6 @@ import brainstonemod.client.gui.GuiBrainLogicBlock;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.tileentity.template.TileEntityBrainStoneSyncBase;
 import brainstonemod.network.BrainStonePacketHelper;
-import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 
@@ -55,17 +54,6 @@ public class TileEntityBlockBrainLogicBlock extends
 		return "";
 	}
 
-	@Override
-	public void onDataPacket(NetworkManager net,
-			S35PacketUpdateTileEntity packet) {
-		super.onDataPacket(net, packet);
-
-		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
-			worldObj.markBlockRangeForRenderUpdate(xCoord, yCoord, zCoord,
-					xCoord, yCoord, zCoord);
-		}
-	}
-
 	private static final byte getNumGates() {
 		byte count;
 
@@ -76,6 +64,7 @@ public class TileEntityBlockBrainLogicBlock extends
 	}
 
 	private boolean correctConnect;
+
 	private boolean ignoreIncorrectConnect;
 	private boolean invertOutput;
 	private boolean swapable;
@@ -90,7 +79,6 @@ public class TileEntityBlockBrainLogicBlock extends
 	private final Vector<String> TASKS;
 	private final Vector<UUID> Users;
 	private ArrayList<String> PrintErrorBuff;
-
 	private boolean PrintErrorBuffActive;
 
 	public static final byte numGates = getNumGates();
@@ -142,7 +130,7 @@ public class TileEntityBlockBrainLogicBlock extends
 	}
 
 	public boolean connectToRedstone(int side) {
-		return PinType[this.convertRedstoneDirections(side)] != -1;
+		return PinType[convertRedstoneDirections(side)] != -1;
 	}
 
 	private int convertRedstoneDirections(int side) {
@@ -185,11 +173,11 @@ public class TileEntityBlockBrainLogicBlock extends
 			final int size = TASKS.size();
 
 			if (size != 0) {
-				this.print((new StringBuilder()).append("doTASKS() (size: ")
+				print((new StringBuilder()).append("doTASKS() (size: ")
 						.append(String.valueOf(size)).append(")").toString());
 
 				for (int j = 0; j < size; j++) {
-					this.runTASK((String) TASKS.get(j));
+					runTASK(TASKS.get(j));
 				}
 
 				TASKS.clear();
@@ -268,24 +256,24 @@ public class TileEntityBlockBrainLogicBlock extends
 		}
 	}
 
-	public void drawGates(GuiBrainLogicBlock guibrainlogicblock, int i, int j) {
+	public void drawGates(GuiBrainLogicBlock guibrainlogicblock, int x, int y) {
 		for (int k = 0; k < numGates; k++) {
-			guibrainlogicblock.drawString(getGateName(k), i, j + (12 * k),
+			guibrainlogicblock.drawString(getGateName(k), x, y + (12 * k),
 					k != mode ? 0x404040 : 32768);
 		}
 
 		guibrainlogicblock.drawSplitString(
 				StatCollector.translateToLocal("gui.brainstone.invertOutput"),
-				i + 85, j + 50, invertOutput ? 32768 : 0x404040, 80);
+				x + 85, y + 50, invertOutput ? 32768 : 0x404040, 80);
 
 		if (!correctConnect && !ignoreIncorrectConnect) {
 			guibrainlogicblock.drawSplitString(
 					StatCollector.translateToLocal("gui.brainstone.warning1"),
-					i + 75, j + 70, 0xa00000, 95);
+					x + 75, y + 70, 0xa00000, 95);
 		} else if (!correctConnect) {
 			guibrainlogicblock.drawSplitString(
 					StatCollector.translateToLocal("gui.brainstone.warning2"),
-					i + 75, j + 70, 0xa05000, 95);
+					x + 75, y + 70, 0xa05000, 95);
 		}
 	}
 
@@ -432,41 +420,52 @@ public class TileEntityBlockBrainLogicBlock extends
 		}
 	}
 
-	private void modeUpdated(byte byte0) {
-		mode = byte0;
+	private void modeUpdated(byte mode) {
+		this.mode = mode;
 		this.modeUpdated();
 	}
 
+	@Override
+	public void onDataPacket(NetworkManager net,
+			S35PacketUpdateTileEntity packet) {
+		super.onDataPacket(net, packet);
+
+		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
+			worldObj.markBlockRangeForRenderUpdate(xCoord, yCoord, zCoord,
+					xCoord, yCoord, zCoord);
+		}
+	}
+
 	private void print(Object obj) {
-		if (!BSP.info(obj) && PrintErrorBuffActive) {
+		if (!BSP.debug(obj) && PrintErrorBuffActive) {
 			PrintErrorBuff.add(obj.toString());
 		}
 	}
 
 	private void printErrorInrunTASK(String s, String s1, String as[]) {
-		this.print("===================================================");
-		this.print("Error Signature in \"runTASK\":");
-		this.print("===================================================");
-		this.print((new StringBuilder()).append("\tOriginal Task: \"")
-				.append(s).append("\"").toString());
-		this.print((new StringBuilder()).append("\tCutted Task:   \"")
-				.append(s1).append("\"").toString());
-		this.print("\tParameters:");
+		print("===================================================");
+		print("Error Signature in \"runTASK\":");
+		print("===================================================");
+		print((new StringBuilder()).append("\tOriginal Task: \"").append(s)
+				.append("\"").toString());
+		print((new StringBuilder()).append("\tCutted Task:   \"").append(s1)
+				.append("\"").toString());
+		print("\tParameters:");
 		final int i = as.length;
 
 		if (i == 0) {
-			this.print("\t\tNo Parameters!!!");
+			print("\t\tNo Parameters!!!");
 		} else {
 			for (int j = 0; j < i; j++) {
-				this.print((new StringBuilder()).append("\t\tParameter ")
+				print((new StringBuilder()).append("\t\tParameter ")
 						.append(String.valueOf(j)).append(": \"").append(as[j])
 						.append("\"").toString());
 			}
 		}
 
-		this.print("===================================================");
-		this.print("!!!\t\t\tEND\t\t\t!!!");
-		this.print("===================================================");
+		print("===================================================");
+		print("!!!\t\t\tEND\t\t\t!!!");
+		print("===================================================");
 	}
 
 	/**
@@ -481,6 +480,9 @@ public class TileEntityBlockBrainLogicBlock extends
 		data = nbttagcompound.getInteger("Data");
 		invertOutput = nbttagcompound.getBoolean("InvertOutput");
 		swapable = nbttagcompound.getBoolean("Swapable");
+		correctConnect = nbttagcompound.getBoolean("CorrectConnect");
+		ignoreIncorrectConnect = nbttagcompound
+				.getBoolean("IgnoreIncorrectConnect");
 
 		for (int i = 0; i < 4; i++) {
 			PinState[i] = nbttagcompound.getByte((new StringBuilder())
@@ -492,6 +494,8 @@ public class TileEntityBlockBrainLogicBlock extends
 		}
 
 		final byte size = nbttagcompound.getByte("TASKS-Size");
+		TASKS.clear();
+		TASKS.ensureCapacity(size);
 
 		for (byte byte1 = 0; byte1 < size; byte1++) {
 			TASKS.add(
@@ -503,7 +507,7 @@ public class TileEntityBlockBrainLogicBlock extends
 	}
 
 	public void renderInOutPut(FontRenderer fontrenderer, byte byte0) {
-		byte0 = this.transformDirection(byte0);
+		byte0 = transformDirection(byte0);
 
 		if (PinType[byte0] != -1) {
 			final byte byte1 = PinState[byte0];
@@ -586,59 +590,59 @@ public class TileEntityBlockBrainLogicBlock extends
 	}
 
 	private void runTASK(String s) {
-		this.startPrintErrorBuff();
+		startPrintErrorBuff();
 
 		String as[] = s.split(" ");
 		final String s1 = as[0];
 		as = as[1].split(",");
 
 		if (s1.equals("swapPosition")) {
-			this.print("!!!\tRun Task: \"swapPosition\"\t\t!!!");
+			print("!!!\tRun Task: \"swapPosition\"\t\t!!!");
 
 			if (as.length == 2) {
 				this.swapPosition(Byte.valueOf(as[0]).byteValue(), Byte
 						.valueOf(as[1]).byteValue());
 			} else {
-				this.print("!!!\tError: Wrong number of parameters\t!!!\n");
-				this.printErrorInrunTASK(s, s1, as);
-				BSP.throwRuntimeException(this.getPrintErrorBuff()
+				print("!!!\tError: Wrong number of parameters\t!!!\n");
+				printErrorInrunTASK(s, s1, as);
+				BSP.throwRuntimeException(getPrintErrorBuff()
 						+ "Wrong number of parameters");
 			}
 		} else if (s1.equals("modeUpdated")) {
-			this.print("!!!\tRun Task: \"modeUpdated\"\t\t\t!!!");
+			print("!!!\tRun Task: \"modeUpdated\"\t\t\t!!!");
 
 			if (as.length == 1) {
 				this.modeUpdated(Byte.valueOf(as[0]).byteValue());
 			} else {
-				this.print("!!!\tError: Wrong number of parameters\t!!!\n");
-				this.printErrorInrunTASK(s, s1, as);
-				BSP.throwRuntimeException(this.getPrintErrorBuff()
+				print("!!!\tError: Wrong number of parameters\t!!!\n");
+				printErrorInrunTASK(s, s1, as);
+				BSP.throwRuntimeException(getPrintErrorBuff()
 						+ "Wrong number of parameters");
 			}
 		} else if (s1.equals("setFocused")) {
-			this.print("!!!\tRun Task: \"setFocused\"\t\t\t!!!");
+			print("!!!\tRun Task: \"setFocused\"\t\t\t!!!");
 
 			if (as.length == 1) {
 				this.setFocused(Byte.valueOf(as[0]).byteValue());
 			} else {
-				this.print("!!!\tError: Wrong number of parameters\t!!!\n");
-				this.printErrorInrunTASK(s, s1, as);
-				BSP.throwRuntimeException(this.getPrintErrorBuff()
+				print("!!!\tError: Wrong number of parameters\t!!!\n");
+				printErrorInrunTASK(s, s1, as);
+				BSP.throwRuntimeException(getPrintErrorBuff()
 						+ "Wrong number of parameters");
 			}
 		} else if (s1.equals("setInvertOutput")) {
-			this.print("!!!\tRun Task: \"setInvertOutput\"\t\t!!!");
+			print("!!!\tRun Task: \"setInvertOutput\"\t\t!!!");
 
 			if (as.length == 1) {
-				this.setInvertOutput(Boolean.valueOf(as[0]).booleanValue());
+				setInvertOutput(Boolean.valueOf(as[0]).booleanValue());
 			} else {
-				this.print("!!!\tError: Wrong number of parameters\t!!!\n");
-				this.printErrorInrunTASK(s, s1, as);
-				BSP.throwRuntimeException(this.getPrintErrorBuff()
+				print("!!!\tError: Wrong number of parameters\t!!!\n");
+				printErrorInrunTASK(s, s1, as);
+				BSP.throwRuntimeException(getPrintErrorBuff()
 						+ "Wrong number of parameters");
 			}
 		} else if (s1.equals("logInOut")) {
-			this.print("!!!\tRun Task: \"logInOut\"\t\t!!!");
+			print("!!!\tRun Task: \"logInOut\"\t\t!!!");
 
 			if (as.length == 2) {
 				final UUID player = UUID.fromString(as[1]);
@@ -647,14 +651,14 @@ public class TileEntityBlockBrainLogicBlock extends
 					if (!Users.contains(player)) {
 						Users.add(player);
 					} else {
-						this.print("User with UUID \"" + as[1]
+						print("User with UUID \"" + as[1]
 								+ "\" is already logged in!");
 					}
 				} else {
 					if (Users.contains(player)) {
 						Users.remove(player);
 					} else {
-						this.print("User with UUID \"" + as[1]
+						print("User with UUID \"" + as[1]
 								+ "\" is already logged out!");
 					}
 				}
@@ -663,20 +667,20 @@ public class TileEntityBlockBrainLogicBlock extends
 					this.setFocused(0);
 				}
 			} else {
-				this.print("!!!\tError: Wrong number of parameters\t!!!\n");
-				this.printErrorInrunTASK(s, s1, as);
-				BSP.throwRuntimeException(this.getPrintErrorBuff()
+				print("!!!\tError: Wrong number of parameters\t!!!\n");
+				printErrorInrunTASK(s, s1, as);
+				BSP.throwRuntimeException(getPrintErrorBuff()
 						+ "Wrong number of parameters");
 			}
 		} else {
-			this.print("!!!\t\tInvalid Task\t\t\t!!!\n");
-			this.printErrorInrunTASK(s, s1, as);
-			BSP.throwRuntimeException(this.getPrintErrorBuff() + "Invalid Task");
+			print("!!!\t\tInvalid Task\t\t\t!!!\n");
+			printErrorInrunTASK(s, s1, as);
+			BSP.throwRuntimeException(getPrintErrorBuff() + "Invalid Task");
 		}
 
-		this.print("!!!\t\tTask Finished\t\t\t!!!\n");
+		print("!!!\t\tTask Finished\t\t\t!!!\n");
 
-		this.stopPrintErrorBuff();
+		stopPrintErrorBuff();
 	}
 
 	public void setDirection(byte byte0) {
@@ -705,8 +709,6 @@ public class TileEntityBlockBrainLogicBlock extends
 			// We are on the Bukkit server. Bukkit is a server mod used for
 			// security.
 		}
-
-		BSP.info(side, pin);
 	}
 
 	public void setFocused(int i) {
@@ -854,15 +856,15 @@ public class TileEntityBlockBrainLogicBlock extends
 	}
 
 	public boolean setPinState(byte pinStates[]) {
-		byte[] tmpPinState = new byte[4];
+		final byte[] tmpPinState = new byte[4];
 		System.arraycopy(PinState, 0, tmpPinState, 0, 4);
 
 		if (pinStates.length == 3) {
 			System.arraycopy(pinStates, 0, PinState, 1, 3);
-			PinState[0] = this.setOutput();
+			PinState[0] = setOutput();
 		}
 
-		Byte tmp;
+		final Byte tmp;
 
 		return !Arrays.equals(tmpPinState, PinState);
 	}
@@ -908,10 +910,10 @@ public class TileEntityBlockBrainLogicBlock extends
 		}
 	}
 
-	public void swapPosition(int i, int j) {
+	public void swapPosition(int firstPos, int secondPos) {
 		this.addTASK((new StringBuilder()).append("swapPosition ")
-				.append(String.valueOf((byte) i)).append(",")
-				.append(String.valueOf((byte) j)).toString());
+				.append(String.valueOf((byte) firstPos)).append(",")
+				.append(String.valueOf((byte) secondPos)).toString());
 	}
 
 	public byte transformDirection(int i) {
@@ -995,6 +997,9 @@ public class TileEntityBlockBrainLogicBlock extends
 		nbttagcompound.setInteger("Data", data);
 		nbttagcompound.setBoolean("InvertOutput", invertOutput);
 		nbttagcompound.setBoolean("Swapable", swapable);
+		nbttagcompound.setBoolean("CorrectConnect", correctConnect);
+		nbttagcompound.setBoolean("IgnoreIncorrectConnect",
+				ignoreIncorrectConnect);
 
 		for (int i = 0; i < 4; i++) {
 			nbttagcompound.setByte((new StringBuilder()).append("State")
@@ -1010,9 +1015,11 @@ public class TileEntityBlockBrainLogicBlock extends
 		nbttagcompound.setByte("TASKS-Size", size);
 
 		for (byte byte1 = 0; byte1 < size; byte1++) {
-			nbttagcompound.setString((new StringBuilder()).append("TASK")
-					.append(String.valueOf(byte1)).toString(),
-					(String) TASKS.get(byte1));
+			nbttagcompound
+					.setString(
+							(new StringBuilder()).append("TASK")
+									.append(String.valueOf(byte1)).toString(),
+							TASKS.get(byte1));
 		}
 	}
 }

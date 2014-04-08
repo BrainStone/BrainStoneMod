@@ -9,10 +9,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import brainstonemod.common.helper.BSP;
 import brainstonemod.network.packet.template.BrainStoneToServerBasePacket;
 
-public class BrainStoneUpdateTileEntityPacket extends BrainStoneToServerBasePacket {
+public class BrainStoneUpdateTileEntityPacket extends
+		BrainStoneToServerBasePacket {
 	private int x;
 	private int y;
 	private int z;

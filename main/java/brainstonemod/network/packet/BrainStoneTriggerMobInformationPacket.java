@@ -13,7 +13,8 @@ import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.network.packet.template.BrainStoneToClientBasePacket;
 
-public class BrainStoneTriggerMobInformationPacket extends BrainStoneToClientBasePacket {
+public class BrainStoneTriggerMobInformationPacket extends
+		BrainStoneToClientBasePacket {
 	private LinkedHashMap<String, Class<?>[]> triggerEntities;
 
 	public BrainStoneTriggerMobInformationPacket() {

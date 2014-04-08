@@ -17,9 +17,10 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 	private void renderInOutPut(TileEntity tileentity, byte direction) {
 		if (tileentity instanceof TileEntityBlockBrainLogicBlock) {
 			final TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock = (TileEntityBlockBrainLogicBlock) tileentity;
-			final FontRenderer fontrenderer = this.func_147498_b();
+			final FontRenderer fontrenderer = func_147498_b();
 			GL11.glDepthMask(false);
-			tileentityblockbrainlogicblock.renderInOutPut(fontrenderer, direction);
+			tileentityblockbrainlogicblock.renderInOutPut(fontrenderer,
+					direction);
 			GL11.glDepthMask(true);
 		}
 	}
@@ -36,7 +37,7 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 					(float) d2 + 1.0F + f1);
 			GL11.glScalef(f2, -f2, f2);
 			GL11.glNormal3f(0.0F, 0.0F, -1F * f1);
-			this.renderInOutPut(tileentity, (byte) 1);
+			renderInOutPut(tileentity, (byte) 1);
 			GL11.glPopMatrix();
 			GL11.glPushMatrix();
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -45,7 +46,7 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 			GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
 			GL11.glScalef(f2, -f2, f2);
 			GL11.glNormal3f(0.0F, 0.0F, -1F * f1);
-			this.renderInOutPut(tileentity, (byte) 3);
+			renderInOutPut(tileentity, (byte) 3);
 			GL11.glPopMatrix();
 			GL11.glPushMatrix();
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -54,7 +55,7 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 			GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
 			GL11.glScalef(f2, -f2, f2);
 			GL11.glNormal3f(0.0F, 0.0F, 1.0F * f1);
-			this.renderInOutPut(tileentity, (byte) 0);
+			renderInOutPut(tileentity, (byte) 0);
 			GL11.glPopMatrix();
 			GL11.glPushMatrix();
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -63,7 +64,7 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 			GL11.glRotatef(270F, 0.0F, 1.0F, 0.0F);
 			GL11.glScalef(f2, -f2, f2);
 			GL11.glNormal3f(0.0F, 0.0F, -1F * f1);
-			this.renderInOutPut(tileentity, (byte) 2);
+			renderInOutPut(tileentity, (byte) 2);
 			GL11.glPopMatrix();
 		} catch (final Exception exception) {
 			BSP.infoException(exception,

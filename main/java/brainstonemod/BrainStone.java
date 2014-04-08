@@ -91,7 +91,7 @@ import cpw.mods.fml.relauncher.Side;
 public class BrainStone {
 	public static final String MOD_ID = "BrainStoneMod";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.42.1012 BETA";
+	public static final String VERSION = "v2.42.1037 BETA prerelease";
 
 	/** The instance of this mod */
 	@Instance(MOD_ID)
@@ -527,7 +527,7 @@ public class BrainStone {
 	private static void fillTriggerEntities() {
 		BSP.debug("Filling triggerEntities");
 
-		LinkedHashMap<String, Class<?>[]> tempTriggerEntities = new LinkedHashMap<String, Class<?>[]>();
+		final LinkedHashMap<String, Class<?>[]> tempTriggerEntities = new LinkedHashMap<String, Class<?>[]>();
 
 		tempTriggerEntities.put("gui.brainstone.player",
 				new Class<?>[] { EntityPlayer.class });
@@ -539,7 +539,7 @@ public class BrainStone {
 				EntityArrow.class, EntityThrowable.class, EntityEnderEye.class,
 				EntityFireball.class });
 
-		for (Entry entry : (Set<Entry>) EntityList.stringToClassMapping
+		for (final Entry entry : (Set<Entry>) EntityList.stringToClassMapping
 				.entrySet()) {
 			verifyTriggerEntity(tempTriggerEntities, (String) entry.getKey(),
 					(Class<?>) entry.getValue());
@@ -547,12 +547,12 @@ public class BrainStone {
 
 		if (Loader.isModLoaded("MoCreatures")) {
 			try {
-				for (Class<?> entityClass : BrainStoneClassFinder
+				for (final Class<?> entityClass : BrainStoneClassFinder
 						.getClassesForPackage("drzhark.mocreatures.entity")) {
 					BSP.info(tempTriggerEntities, entityClass.getSimpleName()
 							.replace("MoCEntity", ""), entityClass);
 				}
-			} catch (ClassNotFoundException e) {
+			} catch (final ClassNotFoundException e) {
 				// Just log
 				BSP.debugException_noAddon(e);
 			}
@@ -679,7 +679,7 @@ public class BrainStone {
 		String key;
 		Block block;
 
-		for (Entry<String, Block> pair : blocks.entrySet()) {
+		for (final Entry<String, Block> pair : blocks.entrySet()) {
 			key = pair.getKey();
 			block = pair.getValue();
 
@@ -695,7 +695,7 @@ public class BrainStone {
 		String key;
 		Item item;
 
-		for (Entry<String, Item> pair : items.entrySet()) {
+		for (final Entry<String, Item> pair : items.entrySet()) {
 			key = pair.getKey();
 			item = pair.getValue();
 
@@ -724,7 +724,7 @@ public class BrainStone {
 			LinkedHashMap<String, Class<?>[]> triggerEntities) {
 		BSP.debug("Dumping triggerEntities in setClientSideTriggerEntities");
 
-		for (String key : triggerEntities.keySet()) {
+		for (final String key : triggerEntities.keySet()) {
 			BSP.debug(key + ":" + Arrays.toString(triggerEntities.get(key)));
 		}
 

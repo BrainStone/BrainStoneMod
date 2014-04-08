@@ -7,7 +7,6 @@ import java.util.Random;
 
 import net.minecraft.entity.player.EntityPlayer;
 import brainstonemod.common.block.BlockBrainLightSensor;
-import brainstonemod.common.helper.BSP;
 import brainstonemod.network.packet.template.BrainStoneToClientBasePacket;
 
 public class BrainLightSensorSmokePacket extends BrainStoneToClientBasePacket {
