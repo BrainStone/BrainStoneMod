@@ -3,6 +3,7 @@ package brainstonemod.common.item;
 import java.util.Set;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -66,9 +67,9 @@ public class ItemToolBrainStone extends ItemTool {
 	 * @param type
 	 *            What tool is it. Can either be "spade", "pickaxe", or "axe"
 	 * @return ToolId based on type ("spade" => 0, "pickaxe" => 1, "axe" => 2)
-	 * @throws If
-	 *             the type was not recognized a "IllegalArgumentException" will
-	 *             be thrown. It includes the type that was given and a
+	 * @throws IllegalArgumentException
+	 *             If the type was not recognized a "IllegalArgumentException"
+	 *             will be thrown. It includes the type that was given and a
 	 *             possibilities. This needs to be because otherwise the game
 	 *             would crash in unexpected locations (like trying to destroy a
 	 *             block with this tool)
@@ -96,8 +97,6 @@ public class ItemToolBrainStone extends ItemTool {
 	 * Creates a tool for the BrainStoneMod (Uses several hooks special designed
 	 * for this mod, so use this!)
 	 * 
-	 * @param i
-	 *            internal Id
 	 * @param enumtoolmaterial
 	 *            Tool material
 	 * @param type
@@ -110,36 +109,35 @@ public class ItemToolBrainStone extends ItemTool {
 		typeId = getTypeId(type);
 	}
 
-	// @Override
-	// public boolean func_150897_b(Block par1Block) {
-	// switch (typeId) {
-	// case 0:
-	// return par1Block == Blocks.snow_layer ? true
-	// : par1Block == Blocks.snow;
-	// case 1:
-	// return par1Block == Blocks.obsidian ? toolMaterial
-	// .getHarvestLevel() == 3
-	// : ((par1Block != Blocks.diamond_block)
-	// && (par1Block != Blocks.diamond_ore) ? ((par1Block != Blocks.emerald_ore)
-	// && (par1Block != Blocks.emerald_block) ? ((par1Block !=
-	// Blocks.gold_block)
-	// && (par1Block != Blocks.gold_ore) ? ((par1Block != Blocks.iron_block)
-	// && (par1Block != Blocks.iron_ore) ? ((par1Block != Blocks.lapis_block)
-	// && (par1Block != Blocks.lapis_ore) ? ((par1Block != Blocks.redstone_ore)
-	// && (par1Block != Blocks.lit_redstone_ore) ? (par1Block
-	// .getMaterial() == Material.rock ? true : (par1Block
-	// .getMaterial() == Material.iron ? true : par1Block
-	// .getMaterial() == Material.anvil)) : toolMaterial
-	// .getHarvestLevel() >= 2)
-	// : toolMaterial.getHarvestLevel() >= 1)
-	// : toolMaterial.getHarvestLevel() >= 1)
-	// : toolMaterial.getHarvestLevel() >= 2)
-	// : toolMaterial.getHarvestLevel() >= 2)
-	// : toolMaterial.getHarvestLevel() >= 2);
-	// default:
-	// return super.func_150897_b(par1Block);
-	// }
-	// }
+	@Override
+	public boolean func_150897_b(Block par1Block) {
+		switch (typeId) {
+		case 0:
+			return par1Block == Blocks.snow_layer ? true
+					: par1Block == Blocks.snow;
+		case 1:
+			return par1Block == Blocks.obsidian ? toolMaterial
+					.getHarvestLevel() == 3
+					: ((par1Block != Blocks.diamond_block)
+							&& (par1Block != Blocks.diamond_ore) ? ((par1Block != Blocks.emerald_ore)
+							&& (par1Block != Blocks.emerald_block) ? ((par1Block != Blocks.gold_block)
+							&& (par1Block != Blocks.gold_ore) ? ((par1Block != Blocks.iron_block)
+							&& (par1Block != Blocks.iron_ore) ? ((par1Block != Blocks.lapis_block)
+							&& (par1Block != Blocks.lapis_ore) ? ((par1Block != Blocks.redstone_ore)
+							&& (par1Block != Blocks.lit_redstone_ore) ? (par1Block
+							.getMaterial() == Material.rock ? true : (par1Block
+							.getMaterial() == Material.iron ? true : par1Block
+							.getMaterial() == Material.anvil)) : toolMaterial
+							.getHarvestLevel() >= 2)
+							: toolMaterial.getHarvestLevel() >= 1)
+							: toolMaterial.getHarvestLevel() >= 1)
+							: toolMaterial.getHarvestLevel() >= 2)
+							: toolMaterial.getHarvestLevel() >= 2)
+							: toolMaterial.getHarvestLevel() >= 2);
+		default:
+			return super.func_150897_b(par1Block);
+		}
+	}
 
 	@Override
 	public boolean getIsRepairable(ItemStack tool, ItemStack material) {
