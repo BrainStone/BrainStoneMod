@@ -7,14 +7,9 @@ import java.util.Random;
 
 import net.minecraft.entity.player.EntityPlayer;
 import brainstonemod.common.block.BlockBrainLightSensor;
-<<<<<<< HEAD
-import brainstonemod.common.helper.BSP;
-import brainstonemod.network.packet.template.BrainStoneBasePacket;
-=======
 import brainstonemod.network.packet.template.BrainStoneToClientBasePacket;
->>>>>>> f3a966d... v2.42.1037 BETA prerelease
 
-public class BrainLightSensorSmokePacket extends BrainStoneBasePacket {
+public class BrainLightSensorSmokePacket extends BrainStoneToClientBasePacket {
 	private int x, y, z;
 
 	public BrainLightSensorSmokePacket() {
@@ -37,12 +32,6 @@ public class BrainLightSensorSmokePacket extends BrainStoneBasePacket {
 	public void handleClientSide(EntityPlayer player) {
 		((BlockBrainLightSensor) player.worldObj.getBlock(x, y, z)).smoke(
 				player.worldObj, x, y, z, new Random());
-	}
-
-	@Override
-	public void handleServerSide(EntityPlayer player) {
-		BSP.throwException(new IllegalStateException(
-				"The server should never handle this packet!"));
 	}
 
 	@Override

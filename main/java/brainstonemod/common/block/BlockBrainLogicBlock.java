@@ -198,15 +198,9 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 		final TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock = (TileEntityBlockBrainLogicBlock) iblockaccess
 				.getTileEntity(x, y, z);
 
-<<<<<<< HEAD
 		if (tileentityblockbrainlogicblock != null)
 			return tileentityblockbrainlogicblock
 					.getPowerOutputLevel((byte) (side ^ 1));
-=======
-		if ((tileEntity != null)
-				&& (tileEntity.getDirection() == transformDirection(side - 2)))
-			return tileEntity.getOutput() ? 15 : 0;
->>>>>>> f3a966d... v2.42.1037 BETA prerelease
 		else
 			return 0;
 	}
@@ -298,7 +292,6 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 
 			long time;
 
-<<<<<<< HEAD
 			if (tileentityblockbrainlogicblock.shallDoUpdate(time = world
 					.getWorldInfo().getWorldTime())) {
 
@@ -306,18 +299,6 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 
 				BrainStonePacketHelper.sendReRenderBlockAtPacket(
 						world.provider.dimensionId, x, y, z, world);
-=======
-				for (byte i = 1; i < 4; i++) {
-					pinStates[i - 1] = checkState(world, x, y, z,
-							tileEntity.reverseTransformDirection(i));
-				}
-
-				if (tileEntity.setPinState(pinStates)) {
-					BrainStonePacketHelper
-							.sendUpdateTileEntityPacket(tileEntity);
-				}
-
->>>>>>> f3a966d... v2.42.1037 BETA prerelease
 				world.notifyBlockChange(x, y, z, this);
 				world.notifyBlocksOfNeighborChange(x, y, z, this);
 				world.notifyBlocksOfNeighborChange(x - 1, y, z, this);
@@ -328,11 +309,6 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 				world.notifyBlocksOfNeighborChange(x, y, z + 1, this);
 				world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
 			}
-<<<<<<< HEAD
-=======
-
-			world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
->>>>>>> f3a966d... v2.42.1037 BETA prerelease
 		}
 	}
 }

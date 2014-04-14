@@ -57,21 +57,12 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		tileentity.logIn(username);
 		help = false;
 
-<<<<<<< HEAD
 		scrollbarPos = 0;
 		mousePos = 1;
 		movingPin = -1;
 		movingPinOffsetX = 0;
 		movingPinOffsetY = 0;
 		swappedPin = -1;
-=======
-	@Override
-	protected void actionPerformed(GuiButton guibutton) {
-		if (guibutton.id == 0) {
-			HelpText = StatCollector.translateToLocal((new StringBuilder())
-					.append("gui.brainstone.help.gate")
-					.append(String.valueOf(tileentity.getMode())).toString());
->>>>>>> f3a966d... v2.42.1037 BETA prerelease
 
 		mousePosX = 0;
 		mousePosY = 0;
@@ -95,15 +86,6 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		return false;
 	}
 
-<<<<<<< HEAD
-=======
-	private void drawFocus(int i, int j) {
-		final int k = (int) (BrainStone.proxy.getClientWorld().getWorldInfo()
-				.getWorldTotalTime() & 1L) * 20;
-		drawTexturedModalRect(i, j, 196, k, 20, 20);
-	}
-
->>>>>>> f3a966d... v2.42.1037 BETA prerelease
 	@Override
 	public void drawGuiContainerBackgroundLayer(float par1Float,
 			int par2Integer, int par3Integer) {
@@ -113,7 +95,6 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 							- 1, -1);
 		}
 
-<<<<<<< HEAD
 		this.bindTexture();
 
 		GL11.glPushMatrix();
@@ -183,36 +164,6 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 			if (i < Gate.NumberGates) {
 				this.drawString(Gate.GateNames[i + scrollbarPos], 14,
 						84 + (19 * i), 0);
-=======
-		if (help) {
-			final int l = (width - xSize) / 2;
-			final int i1 = (height - helpYSize) / 2;
-			drawTexturedModalRect(l, i1, 0, ySize, xSize, helpYSize);
-			fontRendererObj.drawSplitString(HelpText, l + 10, i1 + 10,
-					stringWidth, 0xeeeeee);
-		} else {
-			factor = 1.0F;
-			final int l = globalX = (width - xSize) / 2;
-			final int i1 = globalY = (height - ySize) / 2;
-			drawTexturedModalRect(l, i1, 0, 0, xSize, ySize);
-			tileentity.drawBoxes(this, l + 104, i1 + 7);
-			focused = tileentity.getFocused();
-
-			if (focused != 0) {
-				switch (focused) {
-				case 1:
-					drawFocus(l + 124, i1 + 7);
-					break;
-
-				case 2:
-					drawFocus(l + 144, i1 + 27);
-					break;
-
-				case 3:
-					drawFocus(l + 104, i1 + 27);
-					break;
-				}
->>>>>>> f3a966d... v2.42.1037 BETA prerelease
 			}
 		}
 
@@ -283,7 +234,6 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 					localToBlockDirections[movingPin]);
 
 			GL11.glPopMatrix();
-<<<<<<< HEAD
 		}
 
 		// Help Screen!
@@ -307,9 +257,6 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 
 			fontRendererObj.drawSplitString(HelpText, x + 10, y + 10,
 					stringWidth, 0xeeeeee);
-=======
-			initGui();
->>>>>>> f3a966d... v2.42.1037 BETA prerelease
 		}
 	}
 
@@ -358,7 +305,6 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 				.size();
 	}
 
-<<<<<<< HEAD
 	private int getStringWidth(String str) {
 		final int j = str.length();
 		int k = 0;
@@ -398,50 +344,10 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 				++l;
 				break;
 			}
-=======
-	/**
-	 * Fired when a key is typed. This is the equivalent of
-	 * KeyListener.keyTyped(KeyEvent e).
-	 */
-	@Override
-	protected void keyTyped(char c, int i) {
-		if (help) {
-			closeHelpGui();
-		} else {
-			if ((i == 1)
-					|| (i == mc.gameSettings.keyBindInventory.getKeyCode())) {
-				quit();
-
-				return;
-			}
-
-			if (i == 205) {
-				swap(true);
-			}
-
-			if (i == 203) {
-				swap(false);
-			}
-
-			if (i == 54) {
-				rotate(true);
-			}
-
-			if (i == 42) {
-				rotate(false);
-			}
-
-			if ((i == 42) || (i == 54) || (i == 203) || (i == 205)) {
-				click();
-			}
-
-			BrainStonePacketHelper.sendUpdateTileEntityPacket(tileentity);
->>>>>>> f3a966d... v2.42.1037 BETA prerelease
 		}
 
 		return k;
 	}
-<<<<<<< HEAD
 
 	@Override
 	public void handleMouseInput() {
@@ -457,8 +363,6 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	private boolean inField(int i, int j, int k, int l, int i1, int j1) {
 		return (i >= k) && (i <= i1) && (j >= l) && (j <= j1);
 	}
-=======
->>>>>>> f3a966d... v2.42.1037 BETA prerelease
 
 	@Override
 	protected void keyTyped(char c, int i) {
@@ -504,23 +408,17 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 			mousePosX = mouseX -= globalX;
 			mousePosY = mouseY -= globalY;
 
-<<<<<<< HEAD
 			for (int i = 0; i < 6; i++) {
 				if (inField(mouseX, mouseY, 8, 78 + (19 * i), 150,
 						96 + (19 * i))
 						&& ((i + scrollbarPos) < Gate.NumberGates)) {
 					tileentity.changeGate(Gate.GateNames[i + scrollbarPos],
 							direction);
-=======
-			if (inField(x, y, 168, 3, 172, 7)) {
-				quit();
->>>>>>> f3a966d... v2.42.1037 BETA prerelease
 
 					break;
 				}
 			}
 
-<<<<<<< HEAD
 			if (inField(mouseX, mouseY, 38, 7, 58, 27)
 					&& tileentity.canBeMovedByMouse(localToBlockDirections[0])) {
 				movingPin = 0;
@@ -616,41 +514,6 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 
 						break;
 					}
-=======
-			for (byte byte0 = 0; byte0 < TileEntityBlockBrainLogicBlock.numGates; byte0++) {
-				final int l = 12 * byte0;
-
-				if (inField(x, y, 5, 18 + l, 75, 32 + l)) {
-					tileentity.setMode(byte0);
-				}
-			}
-
-			if (inField(x, y, 76, 68, 168, 90)) {
-				tileentity.invertInvertOutput();
-			}
-
-			if (!tileentity.isSwapable()) {
-				tileentity.setFocused(0);
-			} else if (inField(x, y, 124, 7, 143, 26)) {
-				focused = tileentity.getFocused();
-
-				if (focused != 1) {
-					tileentity.setFocused(1);
-				} else {
-					tileentity.setFocused(0);
-				}
-			} else if (inField(x, y, 144, 27, 163, 46)) {
-				if (focused != 2) {
-					tileentity.setFocused(2);
-				} else {
-					tileentity.setFocused(0);
-				}
-			} else if (inField(x, y, 104, 27, 123, 46)) {
-				if (focused != 3) {
-					tileentity.setFocused(3);
-				} else {
-					tileentity.setFocused(0);
->>>>>>> f3a966d... v2.42.1037 BETA prerelease
 				}
 			} else {
 				if (movingPin != -1) {
@@ -658,36 +521,11 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 				}
 			}
 		}
-<<<<<<< HEAD
 	}
 
 	private void openHelp() {
 		// TODO Determine what text to open depending on the mouse position
 		final String topic = "Trolololo";
-=======
-
-		BrainStonePacketHelper.sendUpdateTileEntityPacket(tileentity);
-	}
-
-	@Override
-	protected void quit() {
-		tileentity.logOut(username);
-
-		super.quit();
-	}
-
-	private void rotate(boolean flag) {
-		if (flag) {
-			tileentity.swapPosition(1, 2);
-			tileentity.swapPosition(1, 3);
-			tileentity.addTASK("setFocused", new String[] { "0" });
-		} else {
-			tileentity.swapPosition(1, 3);
-			tileentity.swapPosition(1, 2);
-			tileentity.addTASK("setFocused", new String[] { "0" });
-		}
-	}
->>>>>>> f3a966d... v2.42.1037 BETA prerelease
 
 		if (!topic.isEmpty()) {
 			String translatedTitle = StatCollector.translateToLocal(topic

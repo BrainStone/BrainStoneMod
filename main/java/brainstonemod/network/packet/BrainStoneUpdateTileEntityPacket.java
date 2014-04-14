@@ -9,17 +9,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-<<<<<<< HEAD
-import brainstonemod.common.helper.BSP;
-import brainstonemod.network.packet.template.BrainStoneBasePacket;
-
-public class BrainStoneUpdateTileEntityPacket extends BrainStoneBasePacket {
-=======
 import brainstonemod.network.packet.template.BrainStoneToServerBasePacket;
 
 public class BrainStoneUpdateTileEntityPacket extends
 		BrainStoneToServerBasePacket {
->>>>>>> f3a966d... v2.42.1037 BETA prerelease
 	private int x;
 	private int y;
 	private int z;
@@ -48,12 +41,6 @@ public class BrainStoneUpdateTileEntityPacket extends
 			throw new RuntimeException("Unexpected Exception \""
 					+ e.getClass().getName() + ": " + e.getMessage() + "\"", e);
 		}
-	}
-
-	@Override
-	public void handleClientSide(EntityPlayer player) {
-		BSP.throwException(new IllegalStateException(
-				"The client should never handle this packet!"));
 	}
 
 	@Override

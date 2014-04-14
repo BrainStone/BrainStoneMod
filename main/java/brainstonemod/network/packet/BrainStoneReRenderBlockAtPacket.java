@@ -3,17 +3,10 @@ package brainstonemod.network.packet;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.entity.player.EntityPlayer;
-<<<<<<< HEAD
-import brainstonemod.common.helper.BSP;
-import brainstonemod.network.packet.template.BrainStoneBasePacket;
-
-public class BrainStoneReRenderBlockAtPacket extends BrainStoneBasePacket {
-=======
 import brainstonemod.network.packet.template.BrainStoneToClientBasePacket;
 
 public class BrainStoneReRenderBlockAtPacket extends
 		BrainStoneToClientBasePacket {
->>>>>>> f3a966d... v2.42.1037 BETA prerelease
 	private int x, y, z;
 
 	public BrainStoneReRenderBlockAtPacket() {
@@ -35,12 +28,6 @@ public class BrainStoneReRenderBlockAtPacket extends
 	@Override
 	public void handleClientSide(EntityPlayer player) {
 		player.worldObj.markBlockRangeForRenderUpdate(x, y, z, x, y, z);
-	}
-
-	@Override
-	public void handleServerSide(EntityPlayer player) {
-		BSP.throwException(new IllegalStateException(
-				"The server should never handle this packet!"));
 	}
 
 	@Override
