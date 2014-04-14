@@ -6,6 +6,8 @@
     "FML",
     "Forge",
     "mcp"
-  ]  
+  ],
+  "version": "${version}",
+  "mcversion": "${mcversion}"  
 }
 ]

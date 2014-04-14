@@ -21,7 +21,7 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 	public void registerTexture(String Name) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-		mc.renderEngine.bindTexture(new ResourceLocation("brainstonemod:"
+		field_146297_k.getTextureManager().bindTexture(new ResourceLocation("brainstonemod:"
 				+ BrainStone.guiPath + Name + ".png"));
 	}
 }
