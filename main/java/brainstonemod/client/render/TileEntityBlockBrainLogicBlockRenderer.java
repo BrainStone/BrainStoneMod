@@ -8,6 +8,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
 import brainstonemod.common.helper.BSP;
+import brainstonemod.common.helper.BrainStoneDirection;
 import brainstonemod.common.tileentity.TileEntityBlockBrainLogicBlock;
 
 public class TileEntityBlockBrainLogicBlockRenderer extends
@@ -15,7 +16,7 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 	public TileEntityBlockBrainLogicBlockRenderer() {
 	}
 
-	private void renderGate(TileEntity tileEntity, ForgeDirection direction) {
+	private void renderGate(TileEntity tileEntity, BrainStoneDirection direction) {
 		if (tileEntity instanceof TileEntityBlockBrainLogicBlock) {
 			final TileEntityBlockBrainLogicBlock tileEntityBLB = (TileEntityBlockBrainLogicBlock) tileEntity;
 
@@ -48,7 +49,7 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 			GL11.glScalef(f2, -f2, f2);
 			GL11.glNormal3f(0.0F, 0.0F, 1.0F * f1);
 
-			renderGate(tileentity, ForgeDirection.UP);
+			renderGate(tileentity, BrainStoneDirection.UP);
 
 			GL11.glPopMatrix();
 
@@ -61,7 +62,7 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 			GL11.glScalef(f2, -f2, f2);
 			GL11.glNormal3f(0.0F, 0.0F, 1.0F * f1);
 
-			renderGate(tileentity, ForgeDirection.DOWN);
+			renderGate(tileentity, BrainStoneDirection.DOWN);
 
 			GL11.glPopMatrix();
 
@@ -73,7 +74,7 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 			GL11.glScalef(f2, -f2, f2);
 			GL11.glNormal3f(0.0F, 0.0F, 1.0F * f1);
 
-			renderGate(tileentity, ForgeDirection.NORTH);
+			renderGate(tileentity, BrainStoneDirection.NORTH);
 
 			GL11.glPopMatrix();
 
@@ -85,7 +86,7 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 			GL11.glScalef(f2, -f2, f2);
 			GL11.glNormal3f(0.0F, 0.0F, -1F * f1);
 
-			renderGate(tileentity, ForgeDirection.EAST);
+			renderGate(tileentity, BrainStoneDirection.EAST);
 
 			GL11.glPopMatrix();
 
@@ -96,7 +97,7 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 			GL11.glScalef(f2, -f2, f2);
 			GL11.glNormal3f(0.0F, 0.0F, -1F * f1);
 
-			renderGate(tileentity, ForgeDirection.SOUTH);
+			renderGate(tileentity, BrainStoneDirection.SOUTH);
 
 			GL11.glPopMatrix();
 
@@ -108,7 +109,7 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 			GL11.glScalef(f2, -f2, f2);
 			GL11.glNormal3f(0.0F, 0.0F, -1F * f1);
 
-			renderGate(tileentity, ForgeDirection.WEST);
+			renderGate(tileentity, BrainStoneDirection.WEST);
 
 			GL11.glPopMatrix();
 

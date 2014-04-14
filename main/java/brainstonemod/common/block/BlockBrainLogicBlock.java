@@ -19,6 +19,7 @@ import brainstonemod.BrainStone;
 import brainstonemod.client.ClientProxy;
 import brainstonemod.common.block.template.BlockBrainStoneContainerBase;
 import brainstonemod.common.helper.BSP;
+import brainstonemod.common.helper.BrainStoneDirection;
 import brainstonemod.common.tileentity.TileEntityBlockBrainLogicBlock;
 import brainstonemod.network.BrainStonePacketHelper;
 
@@ -70,27 +71,8 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 		if (tileEntity == null)
 			return false;
 
-		ForgeDirection direction;
-
-		switch (side) {
-		case 0:
-			direction = ForgeDirection.NORTH;
-			break;
-		case 1:
-			direction = ForgeDirection.EAST;
-			break;
-		case 2:
-			direction = ForgeDirection.SOUTH;
-			break;
-		case 3:
-			direction = ForgeDirection.WEST;
-			break;
-		default:
-			direction = ForgeDirection.UNKNOWN;
-			break;
-		}
-
-		return tileEntity.connectToRedstone(direction);
+		return tileEntity.connectToRedstone(BrainStoneDirection
+				.fromRedstoneConnectIndex(side));
 	}
 
 	@Override
@@ -98,8 +80,7 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 		final TileEntityBlockBrainLogicBlock tileEntity = (TileEntityBlockBrainLogicBlock) world
 				.getTileEntity(x, y, z);
 
-		if ((tileEntity != null)
-				&& (tileEntity.currentRenderDirection != ForgeDirection.UNKNOWN))
+		if ((tileEntity != null) && (tileEntity.currentRenderDirection != null))
 			return tileEntity.getGateColor(tileEntity.currentRenderDirection);
 
 		return 16777215;
@@ -139,8 +120,8 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 				.getTileEntity(x, y, z);
 
 		if (tileEntity != null)
-			return tileEntity.getPowerOutputLevel(ForgeDirection
-					.getOrientation(side));
+			return tileEntity.getPowerOutputLevel(BrainStoneDirection
+					.fromArrayIndex(side));
 		else
 			return 0;
 	}
@@ -166,21 +147,8 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 		if (tileEntity == null)
 			return false;
 		else {
-			if ((player.rotationYaw > 135.0) && (player.rotationYaw <= -135.0)) {
-				TileEntityBlockBrainLogicBlock.guiDirection = ForgeDirection.NORTH;
-			} else if ((player.rotationYaw > -135.0)
-					&& (player.rotationYaw <= -45.0)) {
-				TileEntityBlockBrainLogicBlock.guiDirection = ForgeDirection.EAST;
-			} else if ((player.rotationYaw > -45.0)
-					&& (player.rotationYaw <= 45.0)) {
-				TileEntityBlockBrainLogicBlock.guiDirection = ForgeDirection.SOUTH;
-			} else if ((player.rotationYaw > 45.0)
-					&& (player.rotationYaw <= 135.0)) {
-				TileEntityBlockBrainLogicBlock.guiDirection = ForgeDirection.WEST;
-			} else {
-				BSP.fatal("Wut!?!?");
-				TileEntityBlockBrainLogicBlock.guiDirection = ForgeDirection.UNKNOWN;
-			}
+			TileEntityBlockBrainLogicBlock.guiDirection = BrainStoneDirection
+					.fromPlayerYaw(player.rotationYaw);
 
 			player.openGui(BrainStone.instance, 2, world, x, y, z);
 			world.notifyBlocksOfNeighborChange(x, y, z, this);
@@ -207,24 +175,9 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z,
 			EntityLivingBase player, ItemStack itemStack) {
-		ForgeDirection direction;
-
-		if ((player.rotationYaw > 135.0) && (player.rotationYaw <= -135.0)) {
-			direction = ForgeDirection.NORTH;
-		} else if ((player.rotationYaw > -135.0)
-				&& (player.rotationYaw <= -45.0)) {
-			direction = ForgeDirection.EAST;
-		} else if ((player.rotationYaw > -45.0) && (player.rotationYaw <= 45.0)) {
-			direction = ForgeDirection.SOUTH;
-		} else if ((player.rotationYaw > 45.0) && (player.rotationYaw <= 135.0)) {
-			direction = ForgeDirection.WEST;
-		} else {
-			BSP.fatal("Wut!?!?");
-			direction = ForgeDirection.UNKNOWN;
-		}
-
 		((TileEntityBlockBrainLogicBlock) world.getTileEntity(x, y, z))
-				.changeGate(direction);
+				.changeGate(BrainStoneDirection
+						.fromPlayerYaw(player.rotationYaw));
 	}
 
 	@Override
@@ -275,6 +228,7 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 				world.notifyBlocksOfNeighborChange(x, y + 1, z, this);
 				world.notifyBlocksOfNeighborChange(x, y, z - 1, this);
 				world.notifyBlocksOfNeighborChange(x, y, z + 1, this);
+				
 				world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
 			}
 		}

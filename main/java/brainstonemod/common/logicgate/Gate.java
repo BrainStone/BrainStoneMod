@@ -14,6 +14,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.helper.BrainStoneClassFinder;
+import brainstonemod.common.helper.BrainStoneDirection;
 
 public abstract class Gate {
 	public static final HashMap<String, Gate> Gates = getGates();
@@ -214,35 +215,12 @@ public abstract class Gate {
 	}
 
 	/**
-	 * This function is called when the gate changed or the block is placed.<br>
-	 * <br>
+	 * This function is called when the gate changed or the block is placed.
 	 * 
-	 * <b>Directions</b><br>
-	 * <br>
-	 * 
-	 * <table>
-	 * <tr>
-	 * <td>0:</td>
-	 * <td>North</td>
-	 * </tr>
-	 * <tr>
-	 * <td>1:</td>
-	 * <td>East</td>
-	 * </tr>
-	 * <tr>
-	 * <td>2:</td>
-	 * <td>South</td>
-	 * </tr>
-	 * <tr>
-	 * <td>3:</td>
-	 * <td>West</td>
-	 * </tr>
-	 * </table>
-	 * 
-	 * @param forgeDirection
+	 * @param direction
 	 *            The direction the player is looking
 	 */
-	public abstract void onGateChange(ForgeDirection forgeDirection);
+	public abstract void onGateChange(BrainStoneDirection direction);
 
 	public abstract void onOptionsChange();
 
@@ -304,25 +282,5 @@ public abstract class Gate {
 		}
 
 		// Options go here!
-	}
-
-	private static final ForgeDirection[][] directionAlteringMatrix = new ForgeDirection[][] {
-			{ ForgeDirection.UP, ForgeDirection.DOWN, ForgeDirection.NORTH,
-					ForgeDirection.SOUTH, ForgeDirection.WEST,
-					ForgeDirection.EAST },
-			{ ForgeDirection.UP, ForgeDirection.DOWN, ForgeDirection.SOUTH,
-					ForgeDirection.NORTH, ForgeDirection.EAST,
-					ForgeDirection.WEST },
-			{ ForgeDirection.UP, ForgeDirection.DOWN, ForgeDirection.EAST,
-					ForgeDirection.WEST, ForgeDirection.NORTH,
-					ForgeDirection.SOUTH },
-			{ ForgeDirection.UP, ForgeDirection.DOWN, ForgeDirection.WEST,
-					ForgeDirection.EAST, ForgeDirection.SOUTH,
-					ForgeDirection.NORTH } };
-
-	public static final ForgeDirection alterDirection(
-			ForgeDirection oldDirection, ForgeDirection newNorth) {
-		return directionAlteringMatrix[newNorth.ordinal() - 2][oldDirection
-				.ordinal()];
 	}
 }

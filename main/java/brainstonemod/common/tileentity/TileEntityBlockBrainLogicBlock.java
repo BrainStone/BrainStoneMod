@@ -12,8 +12,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import brainstonemod.common.helper.BSP;
+import brainstonemod.common.helper.BrainStoneDirection;
 import brainstonemod.common.logicgate.Gate;
 import brainstonemod.common.logicgate.Pin;
 import brainstonemod.common.logicgate.PinState;
@@ -26,7 +26,7 @@ public class TileEntityBlockBrainLogicBlock extends
 		TileEntityBrainStoneSyncBase {
 
 	@SideOnly(Side.CLIENT)
-	public static ForgeDirection guiDirection;
+	public static BrainStoneDirection guiDirection;
 
 	public static int getColorForPowerLevel(byte powerLevel) {
 		final float ratio = powerLevel / 15.0F;
@@ -46,7 +46,7 @@ public class TileEntityBlockBrainLogicBlock extends
 	private Gate ActiveGate;
 	private int GatePos;
 
-	public ForgeDirection currentRenderDirection;
+	public BrainStoneDirection currentRenderDirection;
 
 	public TileEntityBlockBrainLogicBlock() {
 		TASKS = new Vector<String>();
@@ -58,7 +58,7 @@ public class TileEntityBlockBrainLogicBlock extends
 		ActiveGate = Gate.getGate(Gate.GateNames[0]);
 		GatePos = 0;
 
-		ActiveGate.onGateChange(ForgeDirection.NORTH);
+		ActiveGate.onGateChange(BrainStoneDirection.NORTH);
 		ActiveGate.onTick();
 	}
 
@@ -102,14 +102,14 @@ public class TileEntityBlockBrainLogicBlock extends
 		this.addTASKS(s1);
 	}
 
-	public boolean canBeMovedByMouse(ForgeDirection direction) {
-		return ActiveGate.Pins[direction.ordinal()].Movable
-				&& ActiveGate.Pins[direction.ordinal()].State.isValid();
+	public boolean canBeMovedByMouse(BrainStoneDirection direction) {
+		return ActiveGate.Pins[direction.toArrayIndex()].Movable
+				&& ActiveGate.Pins[direction.toArrayIndex()].State.isValid();
 	}
 
 	private boolean canBlockConnectToGate(World world, int x, int y, int z,
-			ForgeDirection direction, Block block) {
-		int side = direction.ordinal();
+			BrainStoneDirection direction, Block block) {
+		int side = direction.toArrayIndex();
 
 		return (block != null)
 				&& (block.getMaterial().isSolid() || ((side > 1) && block
@@ -121,7 +121,7 @@ public class TileEntityBlockBrainLogicBlock extends
 				ActiveGate.Pins[pos2]);
 	}
 
-	public void changeGate(ForgeDirection direction) {
+	public void changeGate(BrainStoneDirection direction) {
 		this.addTASKS("changeGate",
 				new String[] { "direction", String.valueOf(direction) });
 	}
@@ -130,13 +130,13 @@ public class TileEntityBlockBrainLogicBlock extends
 		this.addTASKS("changeGate", new String[] { "string", string });
 	}
 
-	public void changeGate(String string, ForgeDirection direction) {
+	public void changeGate(String string, BrainStoneDirection direction) {
 		this.addTASKS("changeGate",
 				new String[] { "both", string, String.valueOf(direction) });
 	}
 
-	public boolean connectToRedstone(ForgeDirection forgeDirection) {
-		return ActiveGate.Pins[forgeDirection.ordinal()].State
+	public boolean connectToRedstone(BrainStoneDirection direction) {
+		return ActiveGate.Pins[direction.toArrayIndex()].State
 				.canConnectRedstone();
 	}
 
@@ -157,7 +157,7 @@ public class TileEntityBlockBrainLogicBlock extends
 		updateEntity();
 	}
 
-	public float getFactorForPinBlue(ForgeDirection direction) {
+	public float getFactorForPinBlue(BrainStoneDirection direction) {
 		final int color = getGateColor(direction);
 
 		final float blue = (color & 255) / 255.0F;
@@ -172,7 +172,7 @@ public class TileEntityBlockBrainLogicBlock extends
 		return blue;
 	}
 
-	public float getFactorForPinGreen(ForgeDirection direction) {
+	public float getFactorForPinGreen(BrainStoneDirection direction) {
 		final int color = getGateColor(direction);
 
 		final float green = ((color >> 8) & 255) / 255.0F;
@@ -186,7 +186,7 @@ public class TileEntityBlockBrainLogicBlock extends
 		return green;
 	}
 
-	public float getFactorForPinRed(ForgeDirection direction) {
+	public float getFactorForPinRed(BrainStoneDirection direction) {
 		final int color = getGateColor(direction);
 
 		final float red = ((color >> 16) & 255) / 255.0F;
@@ -205,29 +205,29 @@ public class TileEntityBlockBrainLogicBlock extends
 		return GuiFocused;
 	}
 
-	public int getGateColor(ForgeDirection direction) {
-		return getColorForPowerLevel(ActiveGate.Pins[direction.ordinal()].State
+	public int getGateColor(BrainStoneDirection direction) {
+		return getColorForPowerLevel(ActiveGate.Pins[direction.toArrayIndex()].State
 				.getPowerLevel());
 	}
 
-	public String getGateLetter(ForgeDirection direction) {
-		return String.valueOf(ActiveGate.Pins[direction.ordinal()].Name);
+	public String getGateLetter(BrainStoneDirection direction) {
+		return String.valueOf(ActiveGate.Pins[direction.toArrayIndex()].Name);
 	}
 
 	public int getGatePos() {
 		return GatePos;
 	}
 
-	public byte getPowerLevel(ForgeDirection direction) {
-		return ActiveGate.Pins[direction.ordinal()].State.getPowerLevel();
+	public byte getPowerLevel(BrainStoneDirection direction) {
+		return ActiveGate.Pins[direction.toArrayIndex()].State.getPowerLevel();
 	}
 
 	public byte getPowerLevel(int pos) {
 		return this.getPowerLevel((byte) pos);
 	}
 
-	public byte getPowerOutputLevel(ForgeDirection forgeDirection) {
-		final Pin pin = ActiveGate.Pins[forgeDirection.ordinal()];
+	public byte getPowerOutputLevel(BrainStoneDirection direction) {
+		final Pin pin = ActiveGate.Pins[direction.toArrayIndex()];
 
 		return pin.Output ? pin.State.getPowerLevel() : 0;
 	}
@@ -342,7 +342,8 @@ public class TileEntityBlockBrainLogicBlock extends
 		}
 	}
 
-	public void renderGate(FontRenderer fontrenderer, ForgeDirection direction) {
+	public void renderGate(FontRenderer fontrenderer,
+			BrainStoneDirection direction) {
 		final Pin pin = ActiveGate.Pins[direction.ordinal()];
 
 		if (pin.State.shallRender()) {
@@ -415,7 +416,7 @@ public class TileEntityBlockBrainLogicBlock extends
 						GatePos = -1;
 					}
 				} else if (as[0].equals("direction")) {
-					ActiveGate.onGateChange(ForgeDirection.valueOf(as[1]));
+					ActiveGate.onGateChange(BrainStoneDirection.valueOf(as[1]));
 					ActiveGate.onTick();
 				}
 			} else if (as.length == 3) {
@@ -434,7 +435,7 @@ public class TileEntityBlockBrainLogicBlock extends
 						GatePos = -1;
 					}
 
-					ActiveGate.onGateChange(ForgeDirection.valueOf(as[2]));
+					ActiveGate.onGateChange(BrainStoneDirection.valueOf(as[2]));
 					ActiveGate.onTick();
 				}
 			} else {
@@ -462,8 +463,8 @@ public class TileEntityBlockBrainLogicBlock extends
 			return false;
 	}
 
-	public boolean shallRenderPin(ForgeDirection direction) {
-		return ActiveGate.Pins[direction.ordinal()].State.shallRender();
+	public boolean shallRenderPin(BrainStoneDirection direction) {
+		return ActiveGate.Pins[direction.toArrayIndex()].State.shallRender();
 	}
 
 	private void startPrintErrorBuff() {
@@ -488,10 +489,10 @@ public class TileEntityBlockBrainLogicBlock extends
 				int tmpX, tmpY, tmpZ;
 				Block block;
 
-				ForgeDirection direction;
+				BrainStoneDirection direction;
 
 				for (int i = 0; i < 6; i++) {
-					direction = ForgeDirection.getOrientation(i);
+					direction = BrainStoneDirection.fromArrayIndex(i);
 
 					if (ActiveGate.Pins[i].State.canConnectRedstone()
 							&& !ActiveGate.Pins[i].Output) {
@@ -517,6 +518,8 @@ public class TileEntityBlockBrainLogicBlock extends
 
 				ActiveGate.onTick();
 			}
+			
+			world.markBlockForUpdate(x, y, z);
 		}
 	}
 

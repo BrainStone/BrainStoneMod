@@ -1,5 +1,12 @@
 package brainstonemod.client.gui;
 
+import static brainstonemod.common.helper.BrainStoneDirection.DOWN;
+import static brainstonemod.common.helper.BrainStoneDirection.EAST;
+import static brainstonemod.common.helper.BrainStoneDirection.NORTH;
+import static brainstonemod.common.helper.BrainStoneDirection.SOUTH;
+import static brainstonemod.common.helper.BrainStoneDirection.UP;
+import static brainstonemod.common.helper.BrainStoneDirection.WEST;
+
 import java.util.UUID;
 
 import net.minecraft.util.StatCollector;
@@ -12,6 +19,7 @@ import org.lwjgl.opengl.GL11;
 import brainstonemod.BrainStone;
 import brainstonemod.client.gui.template.GuiBrainStoneBase;
 import brainstonemod.common.container.ContainerBlockBrainLightSensor;
+import brainstonemod.common.helper.BrainStoneDirection;
 import brainstonemod.common.logicgate.Gate;
 import brainstonemod.common.tileentity.TileEntityBlockBrainLogicBlock;
 
@@ -32,22 +40,22 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	private final UUID username;
 	private boolean help;
 
-	private final ForgeDirection direction;
+	private final BrainStoneDirection direction;
 	private final static int stringWidth = xSizeHelp - 20;
 
 	private String HelpText;
 	private int scrollbarPos;
 	private byte mousePos;
-	private int movingPin;
+	private BrainStoneDirection movingPin;
 	private int movingPinOffsetX, movingPinOffsetY;
-	private final byte swappedPin;
+	private BrainStoneDirection swappedPin;
 
 	private int mousePosX, mousePosY;
 	private static final int rowsToScroll = Gate.NumberGates - 6;
 
 	private static final float pixelPerRow = 99.0F / rowsToScroll;
 
-	private final ForgeDirection localToBlockDirections[];
+	private final BrainStoneDirection[] localToBlockDirections;
 
 	public GuiBrainLogicBlock(
 			TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock) {
@@ -60,29 +68,25 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 
 		scrollbarPos = 0;
 		mousePos = 1;
-		movingPin = -1;
+		movingPin = null;
 		movingPinOffsetX = 0;
 		movingPinOffsetY = 0;
-		swappedPin = -1;
+		swappedPin = null;
 
 		mousePosX = 0;
 		mousePosY = 0;
 
 		direction = TileEntityBlockBrainLogicBlock.guiDirection;
 
-		localToBlockDirections = new ForgeDirection[6];
+		localToBlockDirections = new BrainStoneDirection[6];
 
-		localToBlockDirections[0] = ForgeDirection.UP;
-		localToBlockDirections[1] = ForgeDirection.DOWN;
+		localToBlockDirections[0] = UP;
+		localToBlockDirections[1] = DOWN;
 
-		localToBlockDirections[Gate.alterDirection(ForgeDirection.NORTH,
-				direction).ordinal()] = ForgeDirection.NORTH;
-		localToBlockDirections[Gate.alterDirection(ForgeDirection.EAST,
-				direction).ordinal()] = ForgeDirection.EAST;
-		localToBlockDirections[Gate.alterDirection(ForgeDirection.SOUTH,
-				direction).ordinal()] = ForgeDirection.SOUTH;
-		localToBlockDirections[Gate.alterDirection(ForgeDirection.WEST,
-				direction).ordinal()] = ForgeDirection.WEST;
+		localToBlockDirections[NORTH.reorintateNorth(direction).toArrayIndex()] = NORTH;
+		localToBlockDirections[EAST.reorintateNorth(direction).toArrayIndex()] = EAST;
+		localToBlockDirections[SOUTH.reorintateNorth(direction).toArrayIndex()] = SOUTH;
+		localToBlockDirections[WEST.reorintateNorth(direction).toArrayIndex()] = WEST;
 	}
 
 	private void closeHelpGui() {
@@ -129,44 +133,52 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 			}
 		}
 
-		if (movingPin != 0) {
-			renderGateFrameAt(x + 38, y + 7, localToBlockDirections[0]);
-		} else if (swappedPin != -1) {
-			renderGateFrameAt(x + 38, y + 7, localToBlockDirections[swappedPin]);
+		if (movingPin != UP) {
+			renderGateFrameAt(x + 38, y + 7,
+					localToBlockDirections[UP.toArrayIndex()]);
+		} else if (swappedPin != null) {
+			renderGateFrameAt(x + 38, y + 7,
+					localToBlockDirections[swappedPin.toArrayIndex()]);
 		}
 
-		if (movingPin != 1) {
-			renderGateFrameAt(x + 38, y + 47, localToBlockDirections[1]);
-		} else if (swappedPin != -1) {
+		if (movingPin != DOWN) {
 			renderGateFrameAt(x + 38, y + 47,
-					localToBlockDirections[swappedPin]);
+					localToBlockDirections[DOWN.toArrayIndex()]);
+		} else if (swappedPin != null) {
+			renderGateFrameAt(x + 38, y + 47,
+					localToBlockDirections[swappedPin.toArrayIndex()]);
 		}
 
-		if (movingPin != 2) {
-			renderGateFrameAt(x + 98, y + 7, localToBlockDirections[2]);
-		} else if (swappedPin != -1) {
-			renderGateFrameAt(x + 98, y + 7, localToBlockDirections[swappedPin]);
+		if (movingPin != NORTH) {
+			renderGateFrameAt(x + 98, y + 7,
+					localToBlockDirections[NORTH.toArrayIndex()]);
+		} else if (swappedPin != null) {
+			renderGateFrameAt(x + 98, y + 7,
+					localToBlockDirections[swappedPin.toArrayIndex()]);
 		}
 
-		if (movingPin != 4) {
-			renderGateFrameAt(x + 78, y + 27, localToBlockDirections[4]);
-		} else if (swappedPin != -1) {
+		if (movingPin != EAST) {
 			renderGateFrameAt(x + 78, y + 27,
-					localToBlockDirections[swappedPin]);
+					localToBlockDirections[EAST.toArrayIndex()]);
+		} else if (swappedPin != null) {
+			renderGateFrameAt(x + 78, y + 27,
+					localToBlockDirections[swappedPin.toArrayIndex()]);
 		}
 
-		if (movingPin != 3) {
-			renderGateFrameAt(x + 98, y + 47, localToBlockDirections[3]);
-		} else if (swappedPin != -1) {
+		if (movingPin != SOUTH) {
 			renderGateFrameAt(x + 98, y + 47,
-					localToBlockDirections[swappedPin]);
+					localToBlockDirections[SOUTH.toArrayIndex()]);
+		} else if (swappedPin != null) {
+			renderGateFrameAt(x + 98, y + 47,
+					localToBlockDirections[swappedPin.toArrayIndex()]);
 		}
 
-		if (movingPin != 5) {
-			renderGateFrameAt(x + 118, y + 27, localToBlockDirections[5]);
-		} else if (swappedPin != -1) {
+		if (movingPin != WEST) {
 			renderGateFrameAt(x + 118, y + 27,
-					localToBlockDirections[swappedPin]);
+					localToBlockDirections[WEST.toArrayIndex()]);
+		} else if (swappedPin != null) {
+			renderGateFrameAt(x + 118, y + 27,
+					localToBlockDirections[swappedPin.toArrayIndex()]);
 		}
 
 		// END of Textures!
@@ -181,50 +193,69 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 			}
 		}
 
-		final String directions[] = new String[] { "North", "South", "West",
-				"East" };
+		String topDirection = StatCollector
+				.translateToLocal("gui.brainstone.top");
+		String bottomDirection = StatCollector
+				.translateToLocal("gui.brainstone.bottom");
+		String forwardDirection = StatCollector
+				.translateToLocal("gui.brainstone."
+						+ direction.toString().toLowerCase());
+		String backwardDirection = StatCollector
+				.translateToLocal("gui.brainstone."
+						+ direction.getOpposite().toString().toLowerCase());
 
-		this.drawString("Top", 35 - getStringWidth("Top"), 13, 0);
-		this.drawString("Bottom", 61, 53, 0);
-		this.drawString(directions[direction.ordinal() - 2],
-				95 - getStringWidth(directions[direction.ordinal() - 2]), 13, 0);
-		this.drawString(directions[direction.getOpposite().ordinal() - 2], 121,
-				53, 0);
+		this.drawString(topDirection, 35 - getStringWidth(topDirection), 13, 0);
+		this.drawString(bottomDirection, 61, 53, 0);
+		this.drawString(forwardDirection,
+				95 - getStringWidth(forwardDirection), 13, 0);
+		this.drawString(backwardDirection, 121, 53, 0);
 
-		if (movingPin != 0) {
-			renderGateLetterAt(42, 11, localToBlockDirections[0]);
-		} else if (swappedPin != -1) {
-			renderGateLetterAt(42, 11, localToBlockDirections[swappedPin]);
+		if (movingPin != UP) {
+			renderGateLetterAt(42, 11,
+					localToBlockDirections[UP.toArrayIndex()]);
+		} else if (swappedPin != null) {
+			renderGateLetterAt(42, 11,
+					localToBlockDirections[swappedPin.toArrayIndex()]);
 		}
 
-		if (movingPin != 1) {
-			renderGateLetterAt(42, 51, localToBlockDirections[1]);
-		} else if (swappedPin != -1) {
-			renderGateLetterAt(42, 51, localToBlockDirections[swappedPin]);
+		if (movingPin != DOWN) {
+			renderGateLetterAt(42, 51,
+					localToBlockDirections[DOWN.toArrayIndex()]);
+		} else if (swappedPin != null) {
+			renderGateLetterAt(42, 51,
+					localToBlockDirections[swappedPin.toArrayIndex()]);
 		}
 
-		if (movingPin != 2) {
-			renderGateLetterAt(102, 11, localToBlockDirections[2]);
-		} else if (swappedPin != -1) {
-			renderGateLetterAt(102, 11, localToBlockDirections[swappedPin]);
+		if (movingPin != NORTH) {
+			renderGateLetterAt(102, 11,
+					localToBlockDirections[NORTH.toArrayIndex()]);
+		} else if (swappedPin != null) {
+			renderGateLetterAt(102, 11,
+					localToBlockDirections[swappedPin.toArrayIndex()]);
 		}
 
-		if (movingPin != 4) {
-			renderGateLetterAt(82, 31, localToBlockDirections[4]);
-		} else if (swappedPin != -1) {
-			renderGateLetterAt(82, 31, localToBlockDirections[swappedPin]);
+		if (movingPin != EAST) {
+			renderGateLetterAt(82, 31,
+					localToBlockDirections[EAST.toArrayIndex()]);
+		} else if (swappedPin != null) {
+			renderGateLetterAt(82, 31,
+					localToBlockDirections[swappedPin.toArrayIndex()]);
 		}
 
-		if (movingPin != 3) {
-			renderGateLetterAt(102, 51, localToBlockDirections[3]);
-		} else if (swappedPin != -1) {
-			renderGateLetterAt(102, 51, localToBlockDirections[swappedPin]);
+		if (movingPin != SOUTH) {
+			renderGateLetterAt(102, 51,
+					localToBlockDirections[SOUTH.toArrayIndex()]);
+		} else if (swappedPin != null) {
+			renderGateLetterAt(102, 51,
+					localToBlockDirections[swappedPin.toArrayIndex()]);
 		}
 
-		if (movingPin != 5) {
-			renderGateLetterAt(122, 31, localToBlockDirections[5]);
-		} else if (swappedPin != -1) {
-			renderGateLetterAt(122, 31, localToBlockDirections[swappedPin]);
+		if (movingPin != WEST) {
+			renderGateLetterAt(122, 31,
+					localToBlockDirections[WEST.toArrayIndex()]);
+		} else if (swappedPin != null) {
+			renderGateLetterAt(122, 31,
+					localToBlockDirections[swappedPin.toArrayIndex()]);
 		}
 
 		scrollbarPos = 1 * scrollbarPos;
@@ -233,20 +264,20 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 
 		// MovingPin
 
-		if (movingPin != -1) {
+		if (movingPin != null) {
 			GL11.glPushMatrix();
 			factor = 1.0F;
 			this.bindTexture();
 
 			renderGateFrameAt((x + mousePosX) - movingPinOffsetX,
 					(y + mousePosY) - movingPinOffsetY,
-					localToBlockDirections[movingPin]);
+					localToBlockDirections[movingPin.toArrayIndex()]);
 
 			GL11.glTranslatef(globalX, globalY, 0.0F);
 
 			renderGateLetterAt((mousePosX - movingPinOffsetX) + 4,
 					(mousePosY - movingPinOffsetY) + 4,
-					localToBlockDirections[movingPin]);
+					localToBlockDirections[movingPin.toArrayIndex()]);
 
 			GL11.glPopMatrix();
 		}
@@ -435,33 +466,41 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 			}
 
 			if (inField(mouseX, mouseY, 38, 7, 58, 27)
-					&& tileentity.canBeMovedByMouse(localToBlockDirections[0])) {
-				movingPin = 0;
+					&& tileentity.canBeMovedByMouse(localToBlockDirections[UP
+							.toArrayIndex()])) {
+				movingPin = UP;
 				movingPinOffsetX = mouseX - 38;
 				movingPinOffsetY = mouseY - 7;
 			} else if (inField(mouseX, mouseY, 38, 47, 58, 67)
-					&& tileentity.canBeMovedByMouse(localToBlockDirections[1])) {
-				movingPin = 1;
+					&& tileentity.canBeMovedByMouse(localToBlockDirections[DOWN
+							.toArrayIndex()])) {
+				movingPin = DOWN;
 				movingPinOffsetX = mouseX - 38;
 				movingPinOffsetY = mouseY - 47;
 			} else if (inField(mouseX, mouseY, 98, 7, 118, 27)
-					&& tileentity.canBeMovedByMouse(localToBlockDirections[2])) {
-				movingPin = 2;
+					&& tileentity
+							.canBeMovedByMouse(localToBlockDirections[NORTH
+									.toArrayIndex()])) {
+				movingPin = NORTH;
 				movingPinOffsetX = mouseX - 98;
 				movingPinOffsetY = mouseY - 7;
 			} else if (inField(mouseX, mouseY, 78, 27, 98, 47)
-					&& tileentity.canBeMovedByMouse(localToBlockDirections[4])) {
-				movingPin = 4;
+					&& tileentity.canBeMovedByMouse(localToBlockDirections[EAST
+							.toArrayIndex()])) {
+				movingPin = EAST;
 				movingPinOffsetX = mouseX - 78;
 				movingPinOffsetY = mouseY - 27;
 			} else if (inField(mouseX, mouseY, 98, 47, 118, 67)
-					&& tileentity.canBeMovedByMouse(localToBlockDirections[3])) {
-				movingPin = 3;
+					&& tileentity
+							.canBeMovedByMouse(localToBlockDirections[SOUTH
+									.toArrayIndex()])) {
+				movingPin = SOUTH;
 				movingPinOffsetX = mouseX - 98;
 				movingPinOffsetY = mouseY - 47;
 			} else if (inField(mouseX, mouseY, 118, 27, 138, 47)
-					&& tileentity.canBeMovedByMouse(localToBlockDirections[5])) {
-				movingPin = 5;
+					&& tileentity.canBeMovedByMouse(localToBlockDirections[WEST
+							.toArrayIndex()])) {
+				movingPin = WEST;
 				movingPinOffsetX = mouseX - 118;
 				movingPinOffsetY = mouseY - 27;
 			}
@@ -531,8 +570,8 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 					}
 				}
 			} else {
-				if (movingPin != -1) {
-					movingPin = -1;
+				if (movingPin != null) {
+					movingPin = null;
 				}
 			}
 		}
@@ -566,9 +605,11 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		tileentity.logOut(username);
 	}
 
-	private void renderGateFrameAt(int x, int y, ForgeDirection direction) {
-		if (tileentity.shallRenderPin(direction)) {
-			final byte powerLevel = tileentity.getPowerLevel(direction);
+	private void renderGateFrameAt(int x, int y,
+			BrainStoneDirection localToBlockDirections2) {
+		if (tileentity.shallRenderPin(localToBlockDirections2)) {
+			final byte powerLevel = tileentity
+					.getPowerLevel(localToBlockDirections2);
 			if (powerLevel == -1) {
 				this.drawTexturedModalRect(x, y, 216, 20, 20, 20);
 			} else {
@@ -579,7 +620,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		}
 	}
 
-	private void renderGateLetterAt(int x, int y, ForgeDirection direction) {
+	private void renderGateLetterAt(int x, int y, BrainStoneDirection direction) {
 		if (tileentity.shallRenderPin(direction)) {
 			this.drawString(tileentity.getGateLetter(direction), x, y,
 					tileentity.getGateColor(direction), 2.0F);

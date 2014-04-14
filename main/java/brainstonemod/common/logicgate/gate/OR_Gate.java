@@ -1,23 +1,26 @@
 package brainstonemod.common.logicgate.gate;
 
-import net.minecraftforge.common.util.ForgeDirection;
+import static brainstonemod.common.helper.BrainStoneDirection.DOWN;
+import static brainstonemod.common.helper.BrainStoneDirection.EAST;
+import static brainstonemod.common.helper.BrainStoneDirection.NORTH;
+import static brainstonemod.common.helper.BrainStoneDirection.SOUTH;
+import static brainstonemod.common.helper.BrainStoneDirection.UP;
+import static brainstonemod.common.helper.BrainStoneDirection.WEST;
+import brainstonemod.common.helper.BrainStoneDirection;
 import brainstonemod.common.logicgate.Gate;
 import brainstonemod.common.logicgate.Pin;
 
 public class OR_Gate extends Gate {
 	@Override
-	public void onGateChange(ForgeDirection direction) {
-		Pins[0] = Pin.MovableNullPin;
-		Pins[1] = Pin.MovableNullPin;
+	public void onGateChange(BrainStoneDirection direction) {
+		Pins[UP.toArrayIndex()] = Pin.MovableNullPin;
+		Pins[DOWN.toArrayIndex()] = Pin.MovableNullPin;
 
-		Pins[alterDirection(ForgeDirection.NORTH, direction).ordinal()] = new Pin(
-				'Q', true, true);
-		Pins[alterDirection(ForgeDirection.EAST, direction).ordinal()] = new Pin(
-				'A');
-		Pins[alterDirection(ForgeDirection.SOUTH, direction).ordinal()] = new Pin(
-				'B');
-		Pins[alterDirection(ForgeDirection.WEST, direction).ordinal()] = new Pin(
-				'C');
+		Pins[NORTH.reorintateNorth(direction).toArrayIndex()] = new Pin('Q',
+				true, true);
+		Pins[EAST.reorintateNorth(direction).toArrayIndex()] = new Pin('A');
+		Pins[SOUTH.reorintateNorth(direction).toArrayIndex()] = new Pin('B');
+		Pins[WEST.reorintateNorth(direction).toArrayIndex()] = new Pin('C');
 	}
 
 	@Override
