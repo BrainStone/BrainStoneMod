@@ -17,6 +17,7 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 	private void renderGate(TileEntity tileentity, int pos) {
 		if (tileentity instanceof TileEntityBlockBrainLogicBlock) {
 			final TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock = (TileEntityBlockBrainLogicBlock) tileentity;
+<<<<<<< HEAD
 
 			if (tileentityblockbrainlogicblock != null) {
 				final FontRenderer fontrenderer = func_147498_b();
@@ -27,6 +28,13 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 
 				GL11.glDepthMask(true);
 			}
+=======
+			final FontRenderer fontrenderer = func_147498_b();
+			GL11.glDepthMask(false);
+			tileentityblockbrainlogicblock.renderInOutPut(fontrenderer,
+					direction);
+			GL11.glDepthMask(true);
+>>>>>>> f3a966d... v2.42.1037 BETA prerelease
 		}
 	}
 
@@ -46,10 +54,15 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 					(float) z - 0.4375F);
 			GL11.glRotatef(-90F, 1.0F, 0.0F, 0.0F);
 			GL11.glScalef(f2, -f2, f2);
+<<<<<<< HEAD
 			GL11.glNormal3f(0.0F, 0.0F, 1.0F * f1);
 
 			renderGate(tileentity, 0);
 
+=======
+			GL11.glNormal3f(0.0F, 0.0F, -1F * f1);
+			renderInOutPut(tileentity, (byte) 1);
+>>>>>>> f3a966d... v2.42.1037 BETA prerelease
 			GL11.glPopMatrix();
 
 			// Bottom Face
@@ -59,10 +72,15 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 			GL11.glRotatef(-90F, 1.0F, 0.0F, 0.0F);
 			GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
 			GL11.glScalef(f2, -f2, f2);
+<<<<<<< HEAD
 			GL11.glNormal3f(0.0F, 0.0F, 1.0F * f1);
 
 			renderGate(tileentity, 1);
 
+=======
+			GL11.glNormal3f(0.0F, 0.0F, -1F * f1);
+			renderInOutPut(tileentity, (byte) 3);
+>>>>>>> f3a966d... v2.42.1037 BETA prerelease
 			GL11.glPopMatrix();
 
 			// North Face
@@ -72,9 +90,13 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 			GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
 			GL11.glScalef(f2, -f2, f2);
 			GL11.glNormal3f(0.0F, 0.0F, 1.0F * f1);
+<<<<<<< HEAD
 
 			renderGate(tileentity, 2);
 
+=======
+			renderInOutPut(tileentity, (byte) 0);
+>>>>>>> f3a966d... v2.42.1037 BETA prerelease
 			GL11.glPopMatrix();
 
 			// East Face
@@ -107,11 +129,15 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 			GL11.glRotatef(270F, 0.0F, 1.0F, 0.0F);
 			GL11.glScalef(f2, -f2, f2);
 			GL11.glNormal3f(0.0F, 0.0F, -1F * f1);
+<<<<<<< HEAD
 
 			renderGate(tileentity, 5);
 
 			GL11.glPopMatrix();
 
+=======
+			renderInOutPut(tileentity, (byte) 2);
+>>>>>>> f3a966d... v2.42.1037 BETA prerelease
 			GL11.glPopMatrix();
 		} catch (final Exception exception) {
 			BSP.logException(exception,

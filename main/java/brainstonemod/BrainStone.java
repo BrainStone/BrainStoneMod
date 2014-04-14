@@ -95,7 +95,7 @@ import cpw.mods.fml.relauncher.Side;
 public class BrainStone {
 	public static final String MOD_ID = "BrainStoneMod";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.42.849 BETA";
+	public static final String VERSION = "v2.44.15 BETA release";
 
 	/** The instance of this mod */
 	@Instance(MOD_ID)
@@ -452,31 +452,48 @@ public class BrainStone {
 	}
 
 	/**
-	 * Generates the mcmod.info file. Uses the "Mod" annotation to detect some
-	 * values. Others are fixed
+	 * Generates the mcmod.info file.
 	 */
 	private static void generateMcModInfoFile(FMLPreInitializationEvent event) {
 		event.getModMetadata().modId = MOD_ID;
 		event.getModMetadata().name = NAME;
 		event.getModMetadata().version = VERSION;
-		event.getModMetadata().url = "http://minecraft.de/showthread.php?89926";
+		event.getModMetadata().url = "http://www.planetminecraft.com/mod/125sspwip-brainstonemod-v14827-beta-release/";
 		event.getModMetadata().credits = "The_BrainStone(Code, Textures, Ideas), Herr_Kermit(Textures), Jobbel(Name)";
 		event.getModMetadata().authorList = Arrays.asList(new String[] {
 				"The_BrainStone", "Herr_Kermit" });
-		event.getModMetadata().description = "The Brain Stone Mod adds a new block type. It is called Brain Stone. It is very rare but you can make many different intelligent sensor blocks! An example is the BrainStoneTrigger. It's a block that triggers if an entity is on top. All these intelligent blocks are highly adjustable! There are also tools. The are as fast as iron tools but you can havrest more than 5,368 blocks! (Diamond tools only 1,561). The latest feature is the PulsatingBrainStoneBlock. It is the craziest block you have ever seen! It will throw you and animals through the air or will add random potion effects! You acan make yourself immune to these effect by wearing the full set of the newly adden BrainStoneArmor.\nBut see by yourself and enjoy!\n\n\nAnd thanks for downloading and supporting this mod!\n\n\n\nIf you think this mod caused a game crash (what should not happen by the way XD) send an email with the error log to yannick@tedworld.de!\n\nThank you!"
+		event.getModMetadata().description = "This mod adds the mysterious block BrainStone. You can craft almost magical things from it.\nBut see yourself!\n\n\nThanks for downloading and supporting this mod!"
 				+ "\n\n\n\nCurrent Versions:\n    release:          "
 				+ releaseVersion
 				+ "\n    recommended:   "
 				+ recommendedVersion
 				+ "\n    latest:            " + latestVersion;
-		event.getModMetadata().logoFile = "/assets/brainstonemod/textures/Logo_500x200.png";
 		event.getModMetadata().updateUrl = (updateNotification == -1) ? ""
-				: ("https://raw.github.com/BrainStone/brainstone/master/builds/"
-						+ ((updateNotification == 0) ? "release"
-								: ((updateNotification == 1) ? "recommended"
-										: "latest")) + "/BrainStoneMod.zip");
+				: ("http://adf.ly/2002096/" + ((updateNotification == 0) ? "release"
+						: ((updateNotification == 1) ? "recommended" : "latest")));
 		event.getModMetadata().parent = "";
 		event.getModMetadata().screenshots = new String[] {};
+
+		String logoFile = "/assets/brainstonemod/textures/logo/Logo_";
+		String currentLanguage = FMLCommonHandler.instance()
+				.getCurrentLanguage();
+
+		if (currentLanguage.equals(de)) {
+			// German logo
+
+			logoFile += "de";
+		} else if (currentLanguage.equals(en)) {
+			// English logo
+
+			logoFile += "en";
+		} else {
+			// Unsupported language =>
+			// English logo
+
+			logoFile += "en";
+		}
+
+		event.getModMetadata().logoFile = logoFile + ".png";
 	}
 
 	/**
@@ -536,7 +553,7 @@ public class BrainStone {
 	private static void fillTriggerEntities() {
 		BSP.debug("Filling triggerEntities");
 
-		LinkedHashMap<String, Class<?>[]> tempTriggerEntities = new LinkedHashMap<String, Class<?>[]>();
+		final LinkedHashMap<String, Class<?>[]> tempTriggerEntities = new LinkedHashMap<String, Class<?>[]>();
 
 		tempTriggerEntities.put("gui.brainstone.player",
 				new Class<?>[] { EntityPlayer.class });
@@ -548,7 +565,7 @@ public class BrainStone {
 				EntityArrow.class, EntityThrowable.class, EntityEnderEye.class,
 				EntityFireball.class });
 
-		for (Entry entry : (Set<Entry>) EntityList.stringToClassMapping
+		for (final Entry entry : (Set<Entry>) EntityList.stringToClassMapping
 				.entrySet()) {
 			verifyTriggerEntity(tempTriggerEntities, (String) entry.getKey(),
 					(Class<?>) entry.getValue());
@@ -556,12 +573,12 @@ public class BrainStone {
 
 		if (Loader.isModLoaded("MoCreatures")) {
 			try {
-				for (Class<?> entityClass : BrainStoneClassFinder
+				for (final Class<?> entityClass : BrainStoneClassFinder
 						.getClassesForPackage("drzhark.mocreatures.entity")) {
 					BSP.info(tempTriggerEntities, entityClass.getSimpleName()
 							.replace("MoCEntity", ""), entityClass);
 				}
-			} catch (ClassNotFoundException e) {
+			} catch (final ClassNotFoundException e) {
 				// Just log
 				BSP.debugException_noAddon(e);
 			}
@@ -688,7 +705,7 @@ public class BrainStone {
 		String key;
 		Block block;
 
-		for (Entry<String, Block> pair : blocks.entrySet()) {
+		for (final Entry<String, Block> pair : blocks.entrySet()) {
 			key = pair.getKey();
 			block = pair.getValue();
 
@@ -704,7 +721,7 @@ public class BrainStone {
 		String key;
 		Item item;
 
-		for (Entry<String, Item> pair : items.entrySet()) {
+		for (final Entry<String, Item> pair : items.entrySet()) {
 			key = pair.getKey();
 			item = pair.getValue();
 
@@ -733,7 +750,7 @@ public class BrainStone {
 			LinkedHashMap<String, Class<?>[]> triggerEntities) {
 		BSP.debug("Dumping triggerEntities in setClientSideTriggerEntities");
 
-		for (String key : triggerEntities.keySet()) {
+		for (final String key : triggerEntities.keySet()) {
 			BSP.debug(key + ":" + Arrays.toString(triggerEntities.get(key)));
 		}
 
