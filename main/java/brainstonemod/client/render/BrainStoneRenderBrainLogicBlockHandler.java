@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
 
@@ -70,7 +71,7 @@ public class BrainStoneRenderBrainLogicBlockHandler implements
 
 		// Top Face
 
-		tileEntity.currentRenderDirection++;
+		tileEntity.currentRenderDirection = ForgeDirection.UP;
 
 		if (tileEntity.shallRenderPin(tileEntity.currentRenderDirection)) {
 			renderer.setRenderBounds(0.0F, 0.9F, 0.0F, 1.0F, 1.0F, 1.0F);
@@ -79,7 +80,7 @@ public class BrainStoneRenderBrainLogicBlockHandler implements
 
 		// Bottom Face
 
-		tileEntity.currentRenderDirection++;
+		tileEntity.currentRenderDirection = ForgeDirection.DOWN;
 
 		if (tileEntity.shallRenderPin(tileEntity.currentRenderDirection)) {
 			renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.1F, 1.0F);
@@ -88,7 +89,7 @@ public class BrainStoneRenderBrainLogicBlockHandler implements
 
 		// North Face
 
-		tileEntity.currentRenderDirection++;
+		tileEntity.currentRenderDirection = ForgeDirection.NORTH;
 
 		if (tileEntity.shallRenderPin(tileEntity.currentRenderDirection)) {
 			renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.1F);
@@ -97,7 +98,7 @@ public class BrainStoneRenderBrainLogicBlockHandler implements
 
 		// East Face
 
-		tileEntity.currentRenderDirection++;
+		tileEntity.currentRenderDirection = ForgeDirection.EAST;
 
 		if (tileEntity.shallRenderPin(tileEntity.currentRenderDirection)) {
 			renderer.setRenderBounds(0.9F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
@@ -106,7 +107,7 @@ public class BrainStoneRenderBrainLogicBlockHandler implements
 
 		// South Face
 
-		tileEntity.currentRenderDirection++;
+		tileEntity.currentRenderDirection = ForgeDirection.SOUTH;
 
 		if (tileEntity.shallRenderPin(tileEntity.currentRenderDirection)) {
 			renderer.setRenderBounds(0.0F, 0.0F, 0.9F, 1.0F, 1.0F, 1.0F);
@@ -115,7 +116,7 @@ public class BrainStoneRenderBrainLogicBlockHandler implements
 
 		// West Face
 
-		tileEntity.currentRenderDirection++;
+		tileEntity.currentRenderDirection = ForgeDirection.WEST;
 
 		if (tileEntity.shallRenderPin(tileEntity.currentRenderDirection)) {
 			renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 0.1F, 1.0F, 1.0F);
@@ -136,7 +137,7 @@ public class BrainStoneRenderBrainLogicBlockHandler implements
 				.getTileEntity(x, y, z);
 
 		if (tileEntity != null) {
-			tileEntity.currentRenderDirection = -1;
+			tileEntity.currentRenderDirection = ForgeDirection.UNKNOWN;
 
 			renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 			renderer.renderStandardBlock(block, x, y, z);

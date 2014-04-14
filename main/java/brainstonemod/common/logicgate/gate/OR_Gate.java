@@ -1,18 +1,23 @@
 package brainstonemod.common.logicgate.gate;
 
+import net.minecraftforge.common.util.ForgeDirection;
 import brainstonemod.common.logicgate.Gate;
 import brainstonemod.common.logicgate.Pin;
 
 public class OR_Gate extends Gate {
 	@Override
-	public void onGateChange(int direction) {
+	public void onGateChange(ForgeDirection direction) {
 		Pins[0] = Pin.MovableNullPin;
 		Pins[1] = Pin.MovableNullPin;
 
-		Pins[2 + direction] = new Pin('Q', true, true);
-		Pins[2 + ((direction + 1) % 4)] = new Pin('A');
-		Pins[2 + ((direction + 2) % 4)] = new Pin('B');
-		Pins[2 + ((direction + 3) % 4)] = new Pin('C');
+		Pins[alterDirection(ForgeDirection.NORTH, direction).ordinal()] = new Pin(
+				'Q', true, true);
+		Pins[alterDirection(ForgeDirection.EAST, direction).ordinal()] = new Pin(
+				'A');
+		Pins[alterDirection(ForgeDirection.SOUTH, direction).ordinal()] = new Pin(
+				'B');
+		Pins[alterDirection(ForgeDirection.WEST, direction).ordinal()] = new Pin(
+				'C');
 	}
 
 	@Override

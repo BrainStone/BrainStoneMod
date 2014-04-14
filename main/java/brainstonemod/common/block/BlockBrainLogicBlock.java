@@ -3,7 +3,6 @@ package brainstonemod.common.block;
 import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockRedstoneWire;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -19,6 +18,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import brainstonemod.BrainStone;
 import brainstonemod.client.ClientProxy;
 import brainstonemod.common.block.template.BlockBrainStoneContainerBase;
+import brainstonemod.common.helper.BSP;
 import brainstonemod.common.tileentity.TileEntityBlockBrainLogicBlock;
 import brainstonemod.network.BrainStonePacketHelper;
 
@@ -40,8 +40,6 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 		setCreativeTab(CreativeTabs.tabRedstone);
 		setHarvestLevel("pickaxe", 1);
 
-		setTickRandomly(true);
-
 		blockParticleGravity = 0.0F;
 	}
 
@@ -58,35 +56,13 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 		world.notifyBlocksOfNeighborChange(x, y, z + 1, this);
 	}
 
-	/**
-	 * Determine if this block can make a redstone connection on the side
-	 * provided, Useful to control which sides are inputs and outputs for
-	 * redstone wires.<br>
-	 * 
-	 * Side:<br>
-	 * -1: UP<br>
-	 * 0: NORTH<br>
-	 * 1: EAST<br>
-	 * 2: SOUTH<br>
-	 * 3: WEST
-	 * 
-	 * @param world
-	 *            The current world
-	 * @param x
-	 *            X Position
-	 * @param y
-	 *            Y Position
-	 * @param z
-	 *            Z Position
-	 * @param side
-	 *            The side that is trying to make the connection
-	 * @return True to make the connection
-	 */
 	@Override
 	public boolean canConnectRedstone(IBlockAccess world, int x, int y, int z,
 			int side) {
+		assert side < 4 && side >= -1;
+
 		if (side == -1)
-			return false;
+			return true;
 
 		final TileEntityBlockBrainLogicBlock tileEntity = (TileEntityBlockBrainLogicBlock) world
 				.getTileEntity(x, y, z);
@@ -94,64 +70,27 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 		if (tileEntity == null)
 			return false;
 
-		return tileEntity.connectToRedstone(side);
-	}
+		ForgeDirection direction;
 
-	// TODO See if this can be removed!
-	/**
-	 * Checks the current state of a pin.
-	 * 
-	 * @param world
-	 *            The world. Needed to access the blocks
-	 * @param x
-	 *            x-coordinate
-	 * @param y
-	 *            y-coordinate
-	 * @param z
-	 *            z-coordinate
-	 * @param pos
-	 *            The position/direction of the pin
-	 * @return The state at the requested pin
-	 */
-	private byte checkState(World world, int x, int y, int z, byte pos) {
-		switch (pos) {
-		case 3:
-			x++;
-			break;
-
-		case 2:
-			x--;
-			break;
-
-		case 1:
-			z++;
-			break;
-
+		switch (side) {
 		case 0:
-			z--;
+			direction = ForgeDirection.NORTH;
+			break;
+		case 1:
+			direction = ForgeDirection.EAST;
+			break;
+		case 2:
+			direction = ForgeDirection.SOUTH;
+			break;
+		case 3:
+			direction = ForgeDirection.WEST;
+			break;
+		default:
+			direction = ForgeDirection.UNKNOWN;
 			break;
 		}
 
-		byte byte1 = -1;
-		final Block block = world.getBlock(x, y, z);
-		;
-
-		if (block.canProvidePower()) {
-			if (block instanceof BlockRedstoneWire) {
-				byte1 = (byte) (world.getBlockMetadata(x, y, z) <= 0 ? 0 : 1);
-			} else {
-				pos += 2;
-				byte1 = (byte) (((block.isProvidingWeakPower(world, x, y, z,
-						pos) + block
-						.isProvidingStrongPower(world, x, y, z, pos)) == 0) ? 0
-						: 1);
-			}
-		} else if (block.isNormalCube()) {
-			byte1 = (byte) (world.isBlockIndirectlyGettingPowered(x, y, z) ? 1
-					: 0);
-		}
-
-		return byte1;
+		return tileEntity.connectToRedstone(direction);
 	}
 
 	@Override
@@ -159,7 +98,8 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 		final TileEntityBlockBrainLogicBlock tileEntity = (TileEntityBlockBrainLogicBlock) world
 				.getTileEntity(x, y, z);
 
-		if ((tileEntity != null) && (tileEntity.currentRenderDirection != -1))
+		if ((tileEntity != null)
+				&& (tileEntity.currentRenderDirection != ForgeDirection.UNKNOWN))
 			return tileEntity.getGateColor(tileEntity.currentRenderDirection);
 
 		return 16777215;
@@ -195,12 +135,12 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	@Override
 	public int isProvidingStrongPower(IBlockAccess iblockaccess, int x, int y,
 			int z, int side) {
-		final TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock = (TileEntityBlockBrainLogicBlock) iblockaccess
+		final TileEntityBlockBrainLogicBlock tileEntity = (TileEntityBlockBrainLogicBlock) iblockaccess
 				.getTileEntity(x, y, z);
 
-		if (tileentityblockbrainlogicblock != null)
-			return tileentityblockbrainlogicblock
-					.getPowerOutputLevel((byte) (side ^ 1));
+		if (tileEntity != null)
+			return tileEntity.getPowerOutputLevel(ForgeDirection
+					.getOrientation(side));
 		else
 			return 0;
 	}
@@ -219,17 +159,30 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z,
-			EntityPlayer entityplayer, int unknown, float px, float py, float pz) {
-		final TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock = (TileEntityBlockBrainLogicBlock) world
+			EntityPlayer player, int unknown, float px, float py, float pz) {
+		final TileEntityBlockBrainLogicBlock tileEntity = (TileEntityBlockBrainLogicBlock) world
 				.getTileEntity(x, y, z);
 
-		if (tileentityblockbrainlogicblock == null)
+		if (tileEntity == null)
 			return false;
 		else {
-			TileEntityBlockBrainLogicBlock.guiDirection = (byte) ((MathHelper
-					.floor_double(((entityplayer.rotationYaw * 4.0F) / 360.0F) + 0.5D) & 3) ^ 2);
+			if ((player.rotationYaw > 135.0) && (player.rotationYaw <= -135.0)) {
+				TileEntityBlockBrainLogicBlock.guiDirection = ForgeDirection.NORTH;
+			} else if ((player.rotationYaw > -135.0)
+					&& (player.rotationYaw <= -45.0)) {
+				TileEntityBlockBrainLogicBlock.guiDirection = ForgeDirection.EAST;
+			} else if ((player.rotationYaw > -45.0)
+					&& (player.rotationYaw <= 45.0)) {
+				TileEntityBlockBrainLogicBlock.guiDirection = ForgeDirection.SOUTH;
+			} else if ((player.rotationYaw > 45.0)
+					&& (player.rotationYaw <= 135.0)) {
+				TileEntityBlockBrainLogicBlock.guiDirection = ForgeDirection.WEST;
+			} else {
+				BSP.fatal("Wut!?!?");
+				TileEntityBlockBrainLogicBlock.guiDirection = ForgeDirection.UNKNOWN;
+			}
 
-			entityplayer.openGui(BrainStone.instance, 2, world, x, y, z);
+			player.openGui(BrainStone.instance, 2, world, x, y, z);
 			world.notifyBlocksOfNeighborChange(x, y, z, this);
 			return true;
 		}
@@ -253,10 +206,25 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z,
-			EntityLivingBase entity, ItemStack itemStack) {
+			EntityLivingBase player, ItemStack itemStack) {
+		ForgeDirection direction;
+
+		if ((player.rotationYaw > 135.0) && (player.rotationYaw <= -135.0)) {
+			direction = ForgeDirection.NORTH;
+		} else if ((player.rotationYaw > -135.0)
+				&& (player.rotationYaw <= -45.0)) {
+			direction = ForgeDirection.EAST;
+		} else if ((player.rotationYaw > -45.0) && (player.rotationYaw <= 45.0)) {
+			direction = ForgeDirection.SOUTH;
+		} else if ((player.rotationYaw > 45.0) && (player.rotationYaw <= 135.0)) {
+			direction = ForgeDirection.WEST;
+		} else {
+			BSP.fatal("Wut!?!?");
+			direction = ForgeDirection.UNKNOWN;
+		}
+
 		((TileEntityBlockBrainLogicBlock) world.getTileEntity(x, y, z))
-				.changeGate(MathHelper
-						.floor_double(((entity.rotationYaw * 4.0F) / 360.0F) + 0.5D) & 3);
+				.changeGate(direction);
 	}
 
 	@Override
@@ -284,18 +252,18 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random random) {
 		super.updateTick(world, x, y, z, random);
-		final TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock = (TileEntityBlockBrainLogicBlock) world
+		final TileEntityBlockBrainLogicBlock tileEntity = (TileEntityBlockBrainLogicBlock) world
 				.getTileEntity(x, y, z);
 
-		if (tileentityblockbrainlogicblock != null) {
-			tileentityblockbrainlogicblock.doTASKS();
+		if (tileEntity != null) {
+			tileEntity.doTASKS();
 
 			long time;
 
-			if (tileentityblockbrainlogicblock.shallDoUpdate(time = world
-					.getWorldInfo().getWorldTime())) {
+			if (tileEntity.shallDoUpdate(time = world.getWorldInfo()
+					.getWorldTotalTime())) {
 
-				tileentityblockbrainlogicblock.tickGate(world, x, y, z, time);
+				tileEntity.tickGate(world, x, y, z, time);
 
 				BrainStonePacketHelper.sendReRenderBlockAtPacket(
 						world.provider.dimensionId, x, y, z, world);

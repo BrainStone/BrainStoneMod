@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.util.ForgeDirection;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.helper.BrainStoneClassFinder;
 
@@ -238,10 +239,10 @@ public abstract class Gate {
 	 * </tr>
 	 * </table>
 	 * 
-	 * @param direction
+	 * @param forgeDirection
 	 *            The direction the player is looking
 	 */
-	public abstract void onGateChange(int direction);
+	public abstract void onGateChange(ForgeDirection forgeDirection);
 
 	public abstract void onOptionsChange();
 
@@ -303,5 +304,25 @@ public abstract class Gate {
 		}
 
 		// Options go here!
+	}
+
+	private static final ForgeDirection[][] directionAlteringMatrix = new ForgeDirection[][] {
+			{ ForgeDirection.UP, ForgeDirection.DOWN, ForgeDirection.NORTH,
+					ForgeDirection.SOUTH, ForgeDirection.WEST,
+					ForgeDirection.EAST },
+			{ ForgeDirection.UP, ForgeDirection.DOWN, ForgeDirection.SOUTH,
+					ForgeDirection.NORTH, ForgeDirection.EAST,
+					ForgeDirection.WEST },
+			{ ForgeDirection.UP, ForgeDirection.DOWN, ForgeDirection.EAST,
+					ForgeDirection.WEST, ForgeDirection.NORTH,
+					ForgeDirection.SOUTH },
+			{ ForgeDirection.UP, ForgeDirection.DOWN, ForgeDirection.WEST,
+					ForgeDirection.EAST, ForgeDirection.SOUTH,
+					ForgeDirection.NORTH } };
+
+	public static final ForgeDirection alterDirection(
+			ForgeDirection oldDirection, ForgeDirection newNorth) {
+		return directionAlteringMatrix[newNorth.ordinal() - 2][oldDirection
+				.ordinal()];
 	}
 }

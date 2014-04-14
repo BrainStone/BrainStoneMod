@@ -3,6 +3,7 @@ package brainstonemod.client.gui;
 import java.util.UUID;
 
 import net.minecraft.util.StatCollector;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -31,7 +32,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	private final UUID username;
 	private boolean help;
 
-	private final byte direction;
+	private final ForgeDirection direction;
 	private final static int stringWidth = xSizeHelp - 20;
 
 	private String HelpText;
@@ -46,7 +47,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 
 	private static final float pixelPerRow = 99.0F / rowsToScroll;
 
-	private final byte localToBlockDirections[];
+	private final ForgeDirection localToBlockDirections[];
 
 	public GuiBrainLogicBlock(
 			TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock) {
@@ -69,10 +70,19 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 
 		direction = TileEntityBlockBrainLogicBlock.guiDirection;
 
-		localToBlockDirections = new byte[] { 0, 1, (byte) (2 + direction),
-				(byte) (2 + ((direction + 3) & 3)),
-				(byte) (2 + ((direction + 2) & 3)),
-				(byte) (2 + ((direction + 1) & 3)) };
+		localToBlockDirections = new ForgeDirection[6];
+
+		localToBlockDirections[0] = ForgeDirection.UP;
+		localToBlockDirections[1] = ForgeDirection.DOWN;
+
+		localToBlockDirections[Gate.alterDirection(ForgeDirection.NORTH,
+				direction).ordinal()] = ForgeDirection.NORTH;
+		localToBlockDirections[Gate.alterDirection(ForgeDirection.EAST,
+				direction).ordinal()] = ForgeDirection.EAST;
+		localToBlockDirections[Gate.alterDirection(ForgeDirection.SOUTH,
+				direction).ordinal()] = ForgeDirection.SOUTH;
+		localToBlockDirections[Gate.alterDirection(ForgeDirection.WEST,
+				direction).ordinal()] = ForgeDirection.WEST;
 	}
 
 	private void closeHelpGui() {
@@ -122,37 +132,41 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		if (movingPin != 0) {
 			renderGateFrameAt(x + 38, y + 7, localToBlockDirections[0]);
 		} else if (swappedPin != -1) {
-			renderGateFrameAt(x + 38, y + 7, swappedPin);
+			renderGateFrameAt(x + 38, y + 7, localToBlockDirections[swappedPin]);
 		}
 
 		if (movingPin != 1) {
 			renderGateFrameAt(x + 38, y + 47, localToBlockDirections[1]);
 		} else if (swappedPin != -1) {
-			renderGateFrameAt(x + 38, y + 47, swappedPin);
+			renderGateFrameAt(x + 38, y + 47,
+					localToBlockDirections[swappedPin]);
 		}
 
 		if (movingPin != 2) {
 			renderGateFrameAt(x + 98, y + 7, localToBlockDirections[2]);
 		} else if (swappedPin != -1) {
-			renderGateFrameAt(x + 98, y + 7, swappedPin);
-		}
-
-		if (movingPin != 3) {
-			renderGateFrameAt(x + 78, y + 27, localToBlockDirections[3]);
-		} else if (swappedPin != -1) {
-			renderGateFrameAt(x + 78, y + 27, swappedPin);
+			renderGateFrameAt(x + 98, y + 7, localToBlockDirections[swappedPin]);
 		}
 
 		if (movingPin != 4) {
-			renderGateFrameAt(x + 98, y + 47, localToBlockDirections[4]);
+			renderGateFrameAt(x + 78, y + 27, localToBlockDirections[4]);
 		} else if (swappedPin != -1) {
-			renderGateFrameAt(x + 98, y + 47, swappedPin);
+			renderGateFrameAt(x + 78, y + 27,
+					localToBlockDirections[swappedPin]);
+		}
+
+		if (movingPin != 3) {
+			renderGateFrameAt(x + 98, y + 47, localToBlockDirections[3]);
+		} else if (swappedPin != -1) {
+			renderGateFrameAt(x + 98, y + 47,
+					localToBlockDirections[swappedPin]);
 		}
 
 		if (movingPin != 5) {
 			renderGateFrameAt(x + 118, y + 27, localToBlockDirections[5]);
 		} else if (swappedPin != -1) {
-			renderGateFrameAt(x + 118, y + 27, swappedPin);
+			renderGateFrameAt(x + 118, y + 27,
+					localToBlockDirections[swappedPin]);
 		}
 
 		// END of Textures!
@@ -167,49 +181,50 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 			}
 		}
 
-		final String directions[] = new String[] { "North", "East", "South",
-				"West" };
+		final String directions[] = new String[] { "North", "South", "West",
+				"East" };
 
 		this.drawString("Top", 35 - getStringWidth("Top"), 13, 0);
 		this.drawString("Bottom", 61, 53, 0);
-		this.drawString(directions[direction],
-				95 - getStringWidth(directions[direction]), 13, 0);
-		this.drawString(directions[direction ^ 2], 121, 53, 0);
+		this.drawString(directions[direction.ordinal() - 2],
+				95 - getStringWidth(directions[direction.ordinal() - 2]), 13, 0);
+		this.drawString(directions[direction.getOpposite().ordinal() - 2], 121,
+				53, 0);
 
 		if (movingPin != 0) {
 			renderGateLetterAt(42, 11, localToBlockDirections[0]);
 		} else if (swappedPin != -1) {
-			renderGateLetterAt(42, 11, swappedPin);
+			renderGateLetterAt(42, 11, localToBlockDirections[swappedPin]);
 		}
 
 		if (movingPin != 1) {
 			renderGateLetterAt(42, 51, localToBlockDirections[1]);
 		} else if (swappedPin != -1) {
-			renderGateLetterAt(42, 51, swappedPin);
+			renderGateLetterAt(42, 51, localToBlockDirections[swappedPin]);
 		}
 
 		if (movingPin != 2) {
 			renderGateLetterAt(102, 11, localToBlockDirections[2]);
 		} else if (swappedPin != -1) {
-			renderGateLetterAt(102, 11, swappedPin);
-		}
-
-		if (movingPin != 3) {
-			renderGateLetterAt(82, 31, localToBlockDirections[3]);
-		} else if (swappedPin != -1) {
-			renderGateLetterAt(82, 31, swappedPin);
+			renderGateLetterAt(102, 11, localToBlockDirections[swappedPin]);
 		}
 
 		if (movingPin != 4) {
-			renderGateLetterAt(102, 51, localToBlockDirections[4]);
+			renderGateLetterAt(82, 31, localToBlockDirections[4]);
 		} else if (swappedPin != -1) {
-			renderGateLetterAt(102, 51, swappedPin);
+			renderGateLetterAt(82, 31, localToBlockDirections[swappedPin]);
+		}
+
+		if (movingPin != 3) {
+			renderGateLetterAt(102, 51, localToBlockDirections[3]);
+		} else if (swappedPin != -1) {
+			renderGateLetterAt(102, 51, localToBlockDirections[swappedPin]);
 		}
 
 		if (movingPin != 5) {
 			renderGateLetterAt(122, 31, localToBlockDirections[5]);
 		} else if (swappedPin != -1) {
-			renderGateLetterAt(122, 31, swappedPin);
+			renderGateLetterAt(122, 31, localToBlockDirections[swappedPin]);
 		}
 
 		scrollbarPos = 1 * scrollbarPos;
@@ -435,13 +450,13 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 				movingPinOffsetX = mouseX - 98;
 				movingPinOffsetY = mouseY - 7;
 			} else if (inField(mouseX, mouseY, 78, 27, 98, 47)
-					&& tileentity.canBeMovedByMouse(localToBlockDirections[3])) {
-				movingPin = 3;
+					&& tileentity.canBeMovedByMouse(localToBlockDirections[4])) {
+				movingPin = 4;
 				movingPinOffsetX = mouseX - 78;
 				movingPinOffsetY = mouseY - 27;
 			} else if (inField(mouseX, mouseY, 98, 47, 118, 67)
-					&& tileentity.canBeMovedByMouse(localToBlockDirections[4])) {
-				movingPin = 4;
+					&& tileentity.canBeMovedByMouse(localToBlockDirections[3])) {
+				movingPin = 3;
 				movingPinOffsetX = mouseX - 98;
 				movingPinOffsetY = mouseY - 47;
 			} else if (inField(mouseX, mouseY, 118, 27, 138, 47)
@@ -551,9 +566,9 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		tileentity.logOut(username);
 	}
 
-	private void renderGateFrameAt(int x, int y, byte pos) {
-		if (tileentity.shallRenderPin(pos)) {
-			final byte powerLevel = tileentity.getPowerLevel(pos);
+	private void renderGateFrameAt(int x, int y, ForgeDirection direction) {
+		if (tileentity.shallRenderPin(direction)) {
+			final byte powerLevel = tileentity.getPowerLevel(direction);
 			if (powerLevel == -1) {
 				this.drawTexturedModalRect(x, y, 216, 20, 20, 20);
 			} else {
@@ -564,10 +579,10 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		}
 	}
 
-	private void renderGateLetterAt(int x, int y, byte pos) {
-		if (tileentity.shallRenderPin(pos)) {
-			this.drawString(tileentity.getGateLetter(pos), x, y,
-					tileentity.getGateColor(pos), 2.0F);
+	private void renderGateLetterAt(int x, int y, ForgeDirection direction) {
+		if (tileentity.shallRenderPin(direction)) {
+			this.drawString(tileentity.getGateLetter(direction), x, y,
+					tileentity.getGateColor(direction), 2.0F);
 		}
 	}
 
