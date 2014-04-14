@@ -19,7 +19,7 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 			final TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock = (TileEntityBlockBrainLogicBlock) tileentity;
 
 			if (tileentityblockbrainlogicblock != null) {
-				final FontRenderer fontrenderer = this.getFontRenderer();
+				final FontRenderer fontrenderer = func_147498_b();
 				GL11.glDepthMask(false);
 
 				tileentityblockbrainlogicblock.renderGate(fontrenderer,
@@ -48,7 +48,7 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 			GL11.glScalef(f2, -f2, f2);
 			GL11.glNormal3f(0.0F, 0.0F, 1.0F * f1);
 
-			this.renderGate(tileentity, 0);
+			renderGate(tileentity, 0);
 
 			GL11.glPopMatrix();
 
@@ -61,7 +61,7 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 			GL11.glScalef(f2, -f2, f2);
 			GL11.glNormal3f(0.0F, 0.0F, 1.0F * f1);
 
-			this.renderGate(tileentity, 1);
+			renderGate(tileentity, 1);
 
 			GL11.glPopMatrix();
 
@@ -73,7 +73,7 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 			GL11.glScalef(f2, -f2, f2);
 			GL11.glNormal3f(0.0F, 0.0F, 1.0F * f1);
 
-			this.renderGate(tileentity, 2);
+			renderGate(tileentity, 2);
 
 			GL11.glPopMatrix();
 
@@ -85,7 +85,7 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 			GL11.glScalef(f2, -f2, f2);
 			GL11.glNormal3f(0.0F, 0.0F, -1F * f1);
 
-			this.renderGate(tileentity, 3);
+			renderGate(tileentity, 3);
 
 			GL11.glPopMatrix();
 
@@ -96,7 +96,7 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 			GL11.glScalef(f2, -f2, f2);
 			GL11.glNormal3f(0.0F, 0.0F, -1F * f1);
 
-			this.renderGate(tileentity, 4);
+			renderGate(tileentity, 4);
 
 			GL11.glPopMatrix();
 
@@ -108,13 +108,13 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 			GL11.glScalef(f2, -f2, f2);
 			GL11.glNormal3f(0.0F, 0.0F, -1F * f1);
 
-			this.renderGate(tileentity, 5);
+			renderGate(tileentity, 5);
 
 			GL11.glPopMatrix();
 
 			GL11.glPopMatrix();
 		} catch (final Exception exception) {
-			BSP.printException(exception,
+			BSP.logException(exception,
 					"renderTileEntityAt (TileEntityBlockBrainLogicBlockRenderer)");
 		}
 	}

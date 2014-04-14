@@ -25,7 +25,7 @@ public class OR_Gate extends Gate {
 		boolean out = false;
 
 		for (char i = 'A'; i <= 'C'; i++) {
-			if (this.getPinState(i).isPowered()) {
+			if (getPinState(i).isPowered()) {
 				out = true;
 				break;
 			}

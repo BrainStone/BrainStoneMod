@@ -3,6 +3,7 @@ package brainstonemod.common.block;
 import java.util.Random;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import brainstonemod.BrainStone;
@@ -16,14 +17,14 @@ public class BlockBrainStoneOre extends BlockBrainStoneOreBase {
 	 * @param i
 	 *            The internal BrainStone id
 	 */
-	public BlockBrainStoneOre(int i) {
-		super(BrainStone.getId(i));
+	public BlockBrainStoneOre() {
+		super();
 
-		this.setHardness(2.0F);
-		this.setUnlocalizedName("brainStoneOre");
-		this.setResistance(0.25F);
-		this.setLightValue(0.3F);
-		this.setCreativeTab(CreativeTabs.tabBlock);
+		setHardness(2.0F);
+		setResistance(0.25F);
+		setLightLevel(0.3F);
+		setCreativeTab(CreativeTabs.tabBlock);
+		setHarvestLevel("pickaxe", 2);
 		blockParticleGravity = 0.2F;
 	}
 
@@ -33,21 +34,22 @@ public class BlockBrainStoneOre extends BlockBrainStoneOreBase {
 		super.dropBlockAsItemWithChance(par1World, par2, par3, par4, par5,
 				par6, par7);
 
-		if (this.idDropped(par5, par1World.rand, par7) != blockID) {
+		if (getItemDropped(par5, par1World.rand, par7) != Item
+				.getItemFromBlock(this)) {
 			int var8 = 0;
 
-			if (blockID == BrainStone.brainStoneOre().blockID) {
+			if (this == BrainStone.brainStoneOre()) {
 				var8 = MathHelper.getRandomIntegerInRange(par1World.rand, 10,
 						20);
 			}
 
-			this.dropXpOnBlockBreak(par1World, par2, par3, par4, var8);
+			dropXpOnBlockBreak(par1World, par2, par3, par4, var8);
 		}
 	}
 
 	@Override
-	public int idDropped(int i, Random random, int j) {
-		return BrainStone.brainStoneDust().itemID;
+	public Item getItemDropped(int i, Random random, int j) {
+		return BrainStone.brainStoneDust();
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
@@ -18,29 +19,27 @@ import net.minecraft.world.World;
 import brainstonemod.BrainStone;
 import brainstonemod.common.block.template.BlockBrainStoneBase;
 import brainstonemod.common.helper.BSP;
-import brainstonemod.network.BrainStonePacketHandler;
-import cpw.mods.fml.common.network.Player;
+import brainstonemod.network.BrainStonePacketHelper;
 
 public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 	private final boolean effect;
-	private static int hasEffectId, hasNoEffectId;
+	private static Block hasEffectBlock, hasNoEffectBlock;
 
-	public BlockPulsatingBrainStone(int i, boolean effect) {
-		super(BrainStone.getId(i), Material.rock);
+	public BlockPulsatingBrainStone(boolean effect) {
+		super(Material.rock);
 
 		this.effect = effect;
 
-		this.setHardness(3.0F);
-		this.setResistance(1.0F);
-		this.setLightValue(1.0F);
+		setHardness(3.0F);
+		setResistance(1.0F);
+		setLightLevel(1.0F);
+		setHarvestLevel("pickaxe", 2);
 
 		if (effect) {
-			this.setUnlocalizedName("pulsatingBrainStoneEffect");
-			hasEffectId = blockID;
+			hasEffectBlock = this;
 		} else {
-			this.setUnlocalizedName("pulsatingBrainStone");
-			this.setCreativeTab(CreativeTabs.tabBlock);
-			hasNoEffectId = blockID;
+			setCreativeTab(CreativeTabs.tabBlock);
+			hasNoEffectBlock = this;
 		}
 
 		blockParticleGravity = (float) MathHelper.getRandomDoubleInRange(
@@ -50,6 +49,11 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 	@Override
 	protected boolean canSilkHarvest() {
 		return false;
+	}
+
+	@Override
+	public Block getBlockDropped(int i, Random random, int j) {
+		return hasNoEffectBlock;
 	}
 
 	@Override
@@ -69,15 +73,10 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 	}
 
 	@Override
-	public int idDropped(int i, Random random, int j) {
-		return hasNoEffectId;
-	}
-
-	@Override
 	public void onBlockAdded(World world, int i, int j, int k) {
 		super.onBlockAdded(world, i, j, k);
-		world.scheduleBlockUpdate(i, j, k, blockID,
-				(int) world.getTotalWorldTime() % this.tickRate(world));
+		world.scheduleBlockUpdate(i, j, k, this,
+				(int) world.getTotalWorldTime() % tickRate(world));
 	}
 
 	@Override
@@ -87,28 +86,27 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random random) {
-		final int metaData = (int) ((world.getWorldInfo().getWorldTime() / this
-				.tickRate(world)) % 16);
+		final int metaData = (int) ((world.getWorldInfo().getWorldTime() / tickRate(world)) % 16);
 
 		if (metaData >= 15) {
 			if (effect) {
 				if (random.nextInt(2) == 0) {
-					world.setBlock(x, y, z, hasNoEffectId, 0, 2);
+					world.setBlock(x, y, z, hasNoEffectBlock, 0, 2);
 				}
 			} else {
 				if (random.nextInt(4) == 0) {
-					world.setBlock(x, y, z, hasEffectId, 0, 2);
+					world.setBlock(x, y, z, hasEffectBlock, 0, 2);
 				}
 			}
 		} else if ((metaData == 8) && (effect)) {
-			BSP.finer("Effect Time!");
+			BSP.debug("Effect Time!");
 
 			double radius;
 			int taskRand;
 			EntityLivingBase entity;
 			Object tmpEntity;
-			final List<?> list = world.getEntitiesWithinAABBExcludingEntity(null,
-					AxisAlignedBB.getBoundingBox(x - 10, y - 10, z - 10,
+			final List<?> list = world.getEntitiesWithinAABBExcludingEntity(
+					null, AxisAlignedBB.getBoundingBox(x - 10, y - 10, z - 10,
 							x + 11, y + 11, z + 11));
 
 			final int size = list.size();
@@ -116,7 +114,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 			for (int i = 0; i < size; i++) {
 				tmpEntity = list.get(i);
 
-				BSP.finer(tmpEntity.getClass().getName());
+				BSP.debug(tmpEntity.getClass().getName());
 
 				if (tmpEntity instanceof EntityPlayer) {
 					final ItemStack[] playerArmor = ((EntityPlayer) tmpEntity).inventory.armorInventory;
@@ -125,15 +123,15 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 							&& (playerArmor[2] != null)
 							&& (playerArmor[1] != null)
 							&& (playerArmor[0] != null)
-							&& (playerArmor[3].itemID == BrainStone
-									.brainStoneHelmet().itemID)
-							&& (playerArmor[2].itemID == BrainStone
-									.brainStonePlate().itemID)
-							&& (playerArmor[1].itemID == BrainStone
-									.brainStoneLeggings().itemID)
-							&& (playerArmor[0].itemID == BrainStone
-									.brainStoneBoots().itemID)) {
-						BSP.finer("Player wears armor! No effect!");
+							&& (playerArmor[3].getItem() == BrainStone
+									.brainStoneHelmet())
+							&& (playerArmor[2].getItem() == BrainStone
+									.brainStonePlate())
+							&& (playerArmor[1].getItem() == BrainStone
+									.brainStoneLeggings())
+							&& (playerArmor[0].getItem() == BrainStone
+									.brainStoneBoots())) {
+						BSP.debug("Player wears armor! No effect!");
 
 						continue;
 					}
@@ -144,17 +142,19 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 
 					final ItemStack[] equipment = entity.getLastActiveItems();
 
-					BSP.finer(entity, Arrays.toString(equipment), "");
+					BSP.debug(entity, Arrays.toString(equipment), "");
 
 					if (((equipment != null) && (equipment.length >= 5))
-							&& (((equipment[1] != null) && (equipment[1].itemID == BrainStone
-									.brainStoneBoots().itemID))
-									&& ((equipment[2] != null) && (equipment[2].itemID == BrainStone
-											.brainStoneLeggings().itemID))
-									&& ((equipment[3] != null) && (equipment[3].itemID == BrainStone
-											.brainStonePlate().itemID)) && ((equipment[4] != null) && (equipment[4].itemID == BrainStone
-									.brainStoneHelmet().itemID)))) {
-						BSP.finer("Mob wears armor! No effect!");
+							&& (((equipment[1] != null) && (equipment[1]
+									.getItem() == BrainStone.brainStoneBoots()))
+									&& ((equipment[2] != null) && (equipment[2]
+											.getItem() == BrainStone
+											.brainStoneLeggings()))
+									&& ((equipment[3] != null) && (equipment[3]
+											.getItem() == BrainStone
+											.brainStonePlate())) && ((equipment[4] != null) && (equipment[4]
+									.getItem() == BrainStone.brainStoneHelmet())))) {
+						BSP.debug("Mob wears armor! No effect!");
 
 						continue;
 					}
@@ -166,13 +166,14 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 						taskRand = random.nextInt(10);
 
 						if ((taskRand >= 0) && (taskRand < 6)) {
-							BSP.finer("Potion Effect");
+							BSP.debug("Potion Effect");
 
-							entity.addPotionEffect(new PotionEffect(this
-									.getRandomPotion(random), random
-									.nextInt(5980) + 20, random.nextInt(4)));
+							entity.addPotionEffect(new PotionEffect(
+									getRandomPotion(random), random
+											.nextInt(5980) + 20, random
+											.nextInt(4)));
 						} else if ((taskRand >= 6) && (taskRand < 10)) {
-							BSP.finer("Kick");
+							BSP.debug("Kick");
 
 							final double x1 = MathHelper
 									.getRandomDoubleInRange(random, -1.5, 1.5);
@@ -182,9 +183,10 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 									.getRandomDoubleInRange(random, -1.5, 1.5);
 
 							if (tmpEntity instanceof EntityPlayer) {
-								BrainStonePacketHandler
+								BrainStonePacketHelper
 										.sendPlayerUpdateMovementPacket(
-												(Player) entity, x1, y1, z1);
+												(EntityPlayer) entity, x1, y1,
+												z1);
 							} else {
 								entity.addVelocity(x1, y1, z1);
 							}
@@ -194,7 +196,6 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 			}
 		}
 
-		world.scheduleBlockUpdate(x, y, z, blockID, this.tickRate(world));
-		BrainStonePacketHandler.sendReRenderBlockAtPacket(x, y, z, world);
+		world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
 	}
 }

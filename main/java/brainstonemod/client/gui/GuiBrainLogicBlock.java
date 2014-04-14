@@ -1,5 +1,7 @@
 package brainstonemod.client.gui;
 
+import java.util.UUID;
+
 import net.minecraft.util.StatCollector;
 
 import org.lwjgl.input.Keyboard;
@@ -26,7 +28,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	private static final int xSizeHelp = 256;
 	private float factor;
 	private final TileEntityBlockBrainLogicBlock tileentity;
-	private final String username;
+	private final UUID username;
 	private boolean help;
 
 	private final byte direction;
@@ -48,8 +50,9 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 
 	public GuiBrainLogicBlock(
 			TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock) {
-		super(new ContainerBlockBrainLightSensor());
-		username = BrainStone.proxy.getPlayer().username;
+		super(new ContainerBlockBrainLightSensor(),
+				tileentityblockbrainlogicblock);
+		username = BrainStone.proxy.getPlayer().getUniqueID();
 		tileentity = tileentityblockbrainlogicblock;
 		tileentity.logIn(username);
 		help = false;
@@ -72,12 +75,8 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 				(byte) (2 + ((direction + 1) & 3)) };
 	}
 
-	private void click() {
-		mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
-	}
-
 	private void closeHelpGui() {
-		this.click();
+		click();
 		help = false;
 		tileentity.logIn(username);
 	}
@@ -91,12 +90,12 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	public void drawGuiContainerBackgroundLayer(float par1Float,
 			int par2Integer, int par3Integer) {
 		if (mousePos == -2) {
-			this.mouseMovedOrUp((Mouse.getEventX() * width) / mc.displayWidth,
+			mouseMovedOrUp((Mouse.getEventX() * width) / mc.displayWidth,
 					height - ((Mouse.getEventY() * height) / mc.displayHeight)
 							- 1, -1);
 		}
 
-		this.registerTexture();
+		this.bindTexture();
 
 		GL11.glPushMatrix();
 
@@ -121,39 +120,39 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		}
 
 		if (movingPin != 0) {
-			this.renderGateFrameAt(x + 38, y + 7, localToBlockDirections[0]);
+			renderGateFrameAt(x + 38, y + 7, localToBlockDirections[0]);
 		} else if (swappedPin != -1) {
-			this.renderGateFrameAt(x + 38, y + 7, swappedPin);
+			renderGateFrameAt(x + 38, y + 7, swappedPin);
 		}
 
 		if (movingPin != 1) {
-			this.renderGateFrameAt(x + 38, y + 47, localToBlockDirections[1]);
+			renderGateFrameAt(x + 38, y + 47, localToBlockDirections[1]);
 		} else if (swappedPin != -1) {
-			this.renderGateFrameAt(x + 38, y + 47, swappedPin);
+			renderGateFrameAt(x + 38, y + 47, swappedPin);
 		}
 
 		if (movingPin != 2) {
-			this.renderGateFrameAt(x + 98, y + 7, localToBlockDirections[2]);
+			renderGateFrameAt(x + 98, y + 7, localToBlockDirections[2]);
 		} else if (swappedPin != -1) {
-			this.renderGateFrameAt(x + 98, y + 7, swappedPin);
+			renderGateFrameAt(x + 98, y + 7, swappedPin);
 		}
 
 		if (movingPin != 3) {
-			this.renderGateFrameAt(x + 78, y + 27, localToBlockDirections[3]);
+			renderGateFrameAt(x + 78, y + 27, localToBlockDirections[3]);
 		} else if (swappedPin != -1) {
-			this.renderGateFrameAt(x + 78, y + 27, swappedPin);
+			renderGateFrameAt(x + 78, y + 27, swappedPin);
 		}
 
 		if (movingPin != 4) {
-			this.renderGateFrameAt(x + 98, y + 47, localToBlockDirections[4]);
+			renderGateFrameAt(x + 98, y + 47, localToBlockDirections[4]);
 		} else if (swappedPin != -1) {
-			this.renderGateFrameAt(x + 98, y + 47, swappedPin);
+			renderGateFrameAt(x + 98, y + 47, swappedPin);
 		}
 
 		if (movingPin != 5) {
-			this.renderGateFrameAt(x + 118, y + 27, localToBlockDirections[5]);
+			renderGateFrameAt(x + 118, y + 27, localToBlockDirections[5]);
 		} else if (swappedPin != -1) {
-			this.renderGateFrameAt(x + 118, y + 27, swappedPin);
+			renderGateFrameAt(x + 118, y + 27, swappedPin);
 		}
 
 		// END of Textures!
@@ -171,46 +170,46 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		final String directions[] = new String[] { "North", "East", "South",
 				"West" };
 
-		this.drawString("Top", 35 - this.getStringWidth("Top"), 13, 0);
+		this.drawString("Top", 35 - getStringWidth("Top"), 13, 0);
 		this.drawString("Bottom", 61, 53, 0);
 		this.drawString(directions[direction],
-				95 - this.getStringWidth(directions[direction]), 13, 0);
+				95 - getStringWidth(directions[direction]), 13, 0);
 		this.drawString(directions[direction ^ 2], 121, 53, 0);
 
 		if (movingPin != 0) {
-			this.renderGateLetterAt(42, 11, localToBlockDirections[0]);
+			renderGateLetterAt(42, 11, localToBlockDirections[0]);
 		} else if (swappedPin != -1) {
-			this.renderGateLetterAt(42, 11, swappedPin);
+			renderGateLetterAt(42, 11, swappedPin);
 		}
 
 		if (movingPin != 1) {
-			this.renderGateLetterAt(42, 51, localToBlockDirections[1]);
+			renderGateLetterAt(42, 51, localToBlockDirections[1]);
 		} else if (swappedPin != -1) {
-			this.renderGateLetterAt(42, 51, swappedPin);
+			renderGateLetterAt(42, 51, swappedPin);
 		}
 
 		if (movingPin != 2) {
-			this.renderGateLetterAt(102, 11, localToBlockDirections[2]);
+			renderGateLetterAt(102, 11, localToBlockDirections[2]);
 		} else if (swappedPin != -1) {
-			this.renderGateLetterAt(102, 11, swappedPin);
+			renderGateLetterAt(102, 11, swappedPin);
 		}
 
 		if (movingPin != 3) {
-			this.renderGateLetterAt(82, 31, localToBlockDirections[3]);
+			renderGateLetterAt(82, 31, localToBlockDirections[3]);
 		} else if (swappedPin != -1) {
-			this.renderGateLetterAt(82, 31, swappedPin);
+			renderGateLetterAt(82, 31, swappedPin);
 		}
 
 		if (movingPin != 4) {
-			this.renderGateLetterAt(102, 51, localToBlockDirections[4]);
+			renderGateLetterAt(102, 51, localToBlockDirections[4]);
 		} else if (swappedPin != -1) {
-			this.renderGateLetterAt(102, 51, swappedPin);
+			renderGateLetterAt(102, 51, swappedPin);
 		}
 
 		if (movingPin != 5) {
-			this.renderGateLetterAt(122, 31, localToBlockDirections[5]);
+			renderGateLetterAt(122, 31, localToBlockDirections[5]);
 		} else if (swappedPin != -1) {
-			this.renderGateLetterAt(122, 31, swappedPin);
+			renderGateLetterAt(122, 31, swappedPin);
 		}
 
 		scrollbarPos = 1 * scrollbarPos;
@@ -222,15 +221,15 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		if (movingPin != -1) {
 			GL11.glPushMatrix();
 			factor = 1.0F;
-			this.registerTexture();
+			this.bindTexture();
 
-			this.renderGateFrameAt((x + mousePosX) - movingPinOffsetX,
+			renderGateFrameAt((x + mousePosX) - movingPinOffsetX,
 					(y + mousePosY) - movingPinOffsetY,
 					localToBlockDirections[movingPin]);
 
 			GL11.glTranslatef(globalX, globalY, 0.0F);
 
-			this.renderGateLetterAt((mousePosX - movingPinOffsetX) + 4,
+			renderGateLetterAt((mousePosX - movingPinOffsetX) + 4,
 					(mousePosY - movingPinOffsetY) + 4,
 					localToBlockDirections[movingPin]);
 
@@ -240,9 +239,9 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		// Help Screen!
 
 		if (help) {
-			this.registerTexture("GuiBrainLogicBlockhelp");
+			this.bindTexture("GuiBrainLogicBlockhelp");
 
-			final int rows = this.getLines(HelpText);
+			final int rows = getLines(HelpText);
 			final int ySizeHelp = 20 + (9 * rows);
 
 			x = (width - xSizeHelp) / 2;
@@ -256,20 +255,20 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 						xSizeHelp, 9);
 			}
 
-			fontRenderer.drawSplitString(HelpText, x + 10, y + 10, stringWidth,
-					0xeeeeee);
+			fontRendererObj.drawSplitString(HelpText, x + 10, y + 10,
+					stringWidth, 0xeeeeee);
 		}
 	}
 
 	// TODO See if this can be removed!
-	@SuppressWarnings("unused")
 	private void drawSplitString(String s, int i, int j, int k, int l) {
-		fontRenderer.drawSplitString(s, (int) (i / factor), (int) (j / factor),
-				l, k);
+		fontRendererObj.drawSplitString(s, (int) (i / factor),
+				(int) (j / factor), l, k);
 	}
 
 	private void drawString(String s, int i, int j, int k) {
-		fontRenderer.drawString(s, (int) (i / factor), (int) (j / factor), k);
+		fontRendererObj
+				.drawString(s, (int) (i / factor), (int) (j / factor), k);
 	}
 
 	private void drawString(String s, int i, int j, int k, float f) {
@@ -283,7 +282,8 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 			GL11.glScalef(factor, factor, factor);
 		}
 
-		fontRenderer.drawString(s, (int) (i / factor), (int) (j / factor), k);
+		fontRendererObj
+				.drawString(s, (int) (i / factor), (int) (j / factor), k);
 	}
 
 	private void drawTexturedModalRect(int x, int y, int u, int v, int width,
@@ -301,7 +301,8 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	}
 
 	private int getLines(String str) {
-		return fontRenderer.listFormattedStringToWidth(str, stringWidth).size();
+		return fontRendererObj.listFormattedStringToWidth(str, stringWidth)
+				.size();
 	}
 
 	private int getStringWidth(String str) {
@@ -332,7 +333,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 
 				break;
 			default:
-				k += fontRenderer.getCharWidth(c0);
+				k += fontRendererObj.getCharWidth(c0);
 
 				if (flag) {
 					++k;
@@ -351,7 +352,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	@Override
 	public void handleMouseInput() {
 		if (Mouse.getEventButton() == -1) {
-			this.mouseMovedOrUp((Mouse.getEventX() * width) / mc.displayWidth,
+			mouseMovedOrUp((Mouse.getEventX() * width) / mc.displayWidth,
 					height - ((Mouse.getEventY() * height) / mc.displayHeight)
 							- 1, -1);
 		}
@@ -366,13 +367,13 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	@Override
 	protected void keyTyped(char c, int i) {
 		if (help) {
-			this.closeHelpGui();
+			closeHelpGui();
 		} else {
 			if ((i == Keyboard.KEY_ESCAPE)
-					|| (i == mc.gameSettings.keyBindInventory.keyCode)) {
-				this.quit();
+					|| (i == mc.gameSettings.keyBindInventory.getKeyCode())) {
+				quit();
 			} else if (i == Keyboard.KEY_F1) {
-				this.openHelp();
+				openHelp();
 			}
 
 			// if (i == 205) {
@@ -402,13 +403,13 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		super.mouseClicked(mouseX, mouseY, which);
 
 		if (help) {
-			this.closeHelpGui();
+			closeHelpGui();
 		} else {
 			mousePosX = mouseX -= globalX;
 			mousePosY = mouseY -= globalY;
 
 			for (int i = 0; i < 6; i++) {
-				if (this.inField(mouseX, mouseY, 8, 78 + (19 * i), 150,
+				if (inField(mouseX, mouseY, 8, 78 + (19 * i), 150,
 						96 + (19 * i))
 						&& ((i + scrollbarPos) < Gate.NumberGates)) {
 					tileentity.changeGate(Gate.GateNames[i + scrollbarPos],
@@ -418,40 +419,40 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 				}
 			}
 
-			if (this.inField(mouseX, mouseY, 38, 7, 58, 27)
+			if (inField(mouseX, mouseY, 38, 7, 58, 27)
 					&& tileentity.canBeMovedByMouse(localToBlockDirections[0])) {
 				movingPin = 0;
 				movingPinOffsetX = mouseX - 38;
 				movingPinOffsetY = mouseY - 7;
-			} else if (this.inField(mouseX, mouseY, 38, 47, 58, 67)
+			} else if (inField(mouseX, mouseY, 38, 47, 58, 67)
 					&& tileentity.canBeMovedByMouse(localToBlockDirections[1])) {
 				movingPin = 1;
 				movingPinOffsetX = mouseX - 38;
 				movingPinOffsetY = mouseY - 47;
-			} else if (this.inField(mouseX, mouseY, 98, 7, 118, 27)
+			} else if (inField(mouseX, mouseY, 98, 7, 118, 27)
 					&& tileentity.canBeMovedByMouse(localToBlockDirections[2])) {
 				movingPin = 2;
 				movingPinOffsetX = mouseX - 98;
 				movingPinOffsetY = mouseY - 7;
-			} else if (this.inField(mouseX, mouseY, 78, 27, 98, 47)
+			} else if (inField(mouseX, mouseY, 78, 27, 98, 47)
 					&& tileentity.canBeMovedByMouse(localToBlockDirections[3])) {
 				movingPin = 3;
 				movingPinOffsetX = mouseX - 78;
 				movingPinOffsetY = mouseY - 27;
-			} else if (this.inField(mouseX, mouseY, 98, 47, 118, 67)
+			} else if (inField(mouseX, mouseY, 98, 47, 118, 67)
 					&& tileentity.canBeMovedByMouse(localToBlockDirections[4])) {
 				movingPin = 4;
 				movingPinOffsetX = mouseX - 98;
 				movingPinOffsetY = mouseY - 47;
-			} else if (this.inField(mouseX, mouseY, 118, 27, 138, 47)
+			} else if (inField(mouseX, mouseY, 118, 27, 138, 47)
 					&& tileentity.canBeMovedByMouse(localToBlockDirections[5])) {
 				movingPin = 5;
 				movingPinOffsetX = mouseX - 118;
 				movingPinOffsetY = mouseY - 27;
 			}
 
-			if (this.inField(mouseX, mouseY, 168, 3, 172, 7)) {
-				this.quit();
+			if (inField(mouseX, mouseY, 168, 3, 172, 7)) {
+				quit();
 
 				return;
 			}
@@ -507,7 +508,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 			if (which == -1) {
 				mousePos = -1;
 				for (int i = 0; i < 6; i++) {
-					if (this.inField(mouseX, mouseY, 8, 78 + (19 * i), 150,
+					if (inField(mouseX, mouseY, 8, 78 + (19 * i), 150,
 							96 + (19 * i))) {
 						mousePos = (byte) i;
 
@@ -529,7 +530,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		if (!topic.isEmpty()) {
 			String translatedTitle = StatCollector.translateToLocal(topic
 					+ ".name");
-			final int spacesToAdd = (stringWidth - fontRenderer
+			final int spacesToAdd = (stringWidth - fontRendererObj
 					.getStringWidth(translatedTitle)) / 8;
 
 			for (int i = 0; i < spacesToAdd; i++) {
@@ -543,11 +544,11 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		}
 	}
 
-	private void quit() {
-		this.click();
+	@Override
+	protected void quit() {
+		super.quit();
+
 		tileentity.logOut(username);
-		mc.displayGuiScreen(null);
-		mc.setIngameFocus();
 	}
 
 	private void renderGateFrameAt(int x, int y, byte pos) {

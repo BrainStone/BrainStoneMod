@@ -1,16 +1,17 @@
 package brainstonemod.common.item;
 
+import java.util.Set;
+
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.item.EnumToolMaterial;
-import net.minecraft.item.ItemAxe;
-import net.minecraft.item.ItemPickaxe;
-import net.minecraft.item.ItemSpade;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
+import scala.reflect.internal.Trees.If;
 import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
+
+import com.google.common.collect.Sets;
 
 public class ItemToolBrainStone extends ItemTool {
 	/**
@@ -26,16 +27,31 @@ public class ItemToolBrainStone extends ItemTool {
 	 *             would crash in unexpected locations (like trying to destroy a
 	 *             block with this tool)
 	 */
-	private final static Block[] getBlocksEffectiveAgainstForToolsType(
-			String type) {
+	private final static Set getBlocksEffectiveAgainstForToolsType(String type) {
 		type = type.toLowerCase();
 
 		if (type.contains("spade"))
-			return ItemSpade.blocksEffectiveAgainst;
+			// Copied from ItemSpade
+			return Sets.newHashSet(new Block[] { Blocks.grass, Blocks.dirt,
+					Blocks.sand, Blocks.gravel, Blocks.snow_layer, Blocks.snow,
+					Blocks.clay, Blocks.farmland, Blocks.soul_sand,
+					Blocks.mycelium });
 		else if (type.contains("pickaxe"))
-			return ItemPickaxe.blocksEffectiveAgainst;
+			// Copied from ItemPickaxe
+			return Sets.newHashSet(new Block[] { Blocks.cobblestone,
+					Blocks.double_stone_slab, Blocks.stone_slab, Blocks.stone,
+					Blocks.sandstone, Blocks.mossy_cobblestone,
+					Blocks.iron_ore, Blocks.iron_block, Blocks.coal_ore,
+					Blocks.gold_block, Blocks.gold_ore, Blocks.diamond_ore,
+					Blocks.diamond_block, Blocks.ice, Blocks.netherrack,
+					Blocks.lapis_ore, Blocks.lapis_block, Blocks.redstone_ore,
+					Blocks.lit_redstone_ore, Blocks.rail, Blocks.detector_rail,
+					Blocks.golden_rail, Blocks.activator_rail });
 		else if (type.contains("axe"))
-			return ItemAxe.blocksEffectiveAgainst;
+			// Copied from ItemAxe
+			return Sets.newHashSet(new Block[] { Blocks.planks,
+					Blocks.bookshelf, Blocks.log, Blocks.log2, Blocks.chest,
+					Blocks.pumpkin, Blocks.lit_pumpkin });
 
 		BSP.throwIllegalArgumentException("The tool type \""
 				+ type
@@ -87,67 +103,52 @@ public class ItemToolBrainStone extends ItemTool {
 	 * @param type
 	 *            What tool is it. Can either be "spade", "pickaxe", or "axe"
 	 */
-	public ItemToolBrainStone(int i, EnumToolMaterial enumtoolmaterial,
-			String type) {
-		super(BrainStone.getId(BrainStone.startItemId + i), 0,
-				enumtoolmaterial, getBlocksEffectiveAgainstForToolsType(type));
+	public ItemToolBrainStone(ToolMaterial enumtoolmaterial, String type) {
+		super(getTypeId(type) + 1, enumtoolmaterial,
+				getBlocksEffectiveAgainstForToolsType(type));
 
 		typeId = getTypeId(type);
 	}
 
-	@Override
-	public boolean canHarvestBlock(Block par1Block) {
-		switch (typeId) {
-		case 0:
-			return par1Block == Block.snow ? true
-					: par1Block == Block.blockSnow;
-		case 1:
-			return par1Block == Block.obsidian ? toolMaterial.getHarvestLevel() == 3
-					: ((par1Block != Block.blockDiamond)
-							&& (par1Block != Block.oreDiamond) ? ((par1Block != Block.oreEmerald)
-							&& (par1Block != Block.blockEmerald) ? ((par1Block != Block.blockGold)
-							&& (par1Block != Block.oreGold) ? ((par1Block != Block.blockIron)
-							&& (par1Block != Block.oreIron) ? ((par1Block != Block.blockLapis)
-							&& (par1Block != Block.oreLapis) ? ((par1Block != Block.oreRedstone)
-							&& (par1Block != Block.oreRedstoneGlowing) ? (par1Block.blockMaterial == Material.rock ? true
-							: (par1Block.blockMaterial == Material.iron ? true
-									: par1Block.blockMaterial == Material.anvil))
-							: toolMaterial.getHarvestLevel() >= 2)
-							: toolMaterial.getHarvestLevel() >= 1)
-							: toolMaterial.getHarvestLevel() >= 1)
-							: toolMaterial.getHarvestLevel() >= 2)
-							: toolMaterial.getHarvestLevel() >= 2)
-							: toolMaterial.getHarvestLevel() >= 2);
-		default:
-			return super.canHarvestBlock(par1Block);
-		}
-	}
+	// @Override
+	// public boolean func_150897_b(Block par1Block) {
+	// switch (typeId) {
+	// case 0:
+	// return par1Block == Blocks.snow_layer ? true
+	// : par1Block == Blocks.snow;
+	// case 1:
+	// return par1Block == Blocks.obsidian ? toolMaterial
+	// .getHarvestLevel() == 3
+	// : ((par1Block != Blocks.diamond_block)
+	// && (par1Block != Blocks.diamond_ore) ? ((par1Block != Blocks.emerald_ore)
+	// && (par1Block != Blocks.emerald_block) ? ((par1Block !=
+	// Blocks.gold_block)
+	// && (par1Block != Blocks.gold_ore) ? ((par1Block != Blocks.iron_block)
+	// && (par1Block != Blocks.iron_ore) ? ((par1Block != Blocks.lapis_block)
+	// && (par1Block != Blocks.lapis_ore) ? ((par1Block != Blocks.redstone_ore)
+	// && (par1Block != Blocks.lit_redstone_ore) ? (par1Block
+	// .getMaterial() == Material.rock ? true : (par1Block
+	// .getMaterial() == Material.iron ? true : par1Block
+	// .getMaterial() == Material.anvil)) : toolMaterial
+	// .getHarvestLevel() >= 2)
+	// : toolMaterial.getHarvestLevel() >= 1)
+	// : toolMaterial.getHarvestLevel() >= 1)
+	// : toolMaterial.getHarvestLevel() >= 2)
+	// : toolMaterial.getHarvestLevel() >= 2)
+	// : toolMaterial.getHarvestLevel() >= 2);
+	// default:
+	// return super.func_150897_b(par1Block);
+	// }
+	// }
 
 	@Override
 	public boolean getIsRepairable(ItemStack tool, ItemStack material) {
-		return material.itemID == BrainStone.brainStone().blockID;
+		return Block.getBlockFromItem(material.getItem()) == BrainStone
+				.brainStone();
 	}
 
 	@Override
-	public float getStrVsBlock(ItemStack par1ItemStack, Block par2Block) {
-		switch (typeId) {
-		case 1:
-			return (par2Block != null)
-					&& ((par2Block.blockMaterial == Material.iron)
-							|| (par2Block.blockMaterial == Material.anvil) || (par2Block.blockMaterial == Material.rock)) ? efficiencyOnProperMaterial
-					: super.getStrVsBlock(par1ItemStack, par2Block);
-		case 2:
-			return (par2Block != null)
-					&& ((par2Block.blockMaterial == Material.wood)
-							|| (par2Block.blockMaterial == Material.plants) || (par2Block.blockMaterial == Material.vine)) ? efficiencyOnProperMaterial
-					: super.getStrVsBlock(par1ItemStack, par2Block);
-		default:
-			return super.getStrVsBlock(par1ItemStack, par2Block);
-		}
-	}
-
-	@Override
-	public void registerIcons(IconRegister par1IconRegister) {
+	public void registerIcons(IIconRegister par1IconRegister) {
 		itemIcon = par1IconRegister.registerIcon("brainstonemod:"
 				+ this.getUnlocalizedName().replaceFirst("item.", ""));
 	}

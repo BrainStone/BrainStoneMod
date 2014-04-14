@@ -25,19 +25,17 @@ public class ContainerBlockBrainStoneTrigger extends Container {
 			TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger) {
 		trigger = tileentityblockbrainstonetrigger;
 		int i;
-		this.addSlotToContainer(new SlotBlockBrainStoneTrigger(trigger, 0, 148,
-				29));
+		addSlotToContainer(new SlotBlockBrainStoneTrigger(trigger, 0, 148, 29));
 
 		for (i = 0; i < 3; ++i) {
 			for (int j = 0; j < 9; ++j) {
-				this.addSlotToContainer(new Slot(inventoryplayer, j + (i * 9)
-						+ 9, 8 + (j * 18), 84 + (i * 18)));
+				addSlotToContainer(new Slot(inventoryplayer, j + (i * 9) + 9,
+						8 + (j * 18), 84 + (i * 18)));
 			}
 		}
 
 		for (i = 0; i < 9; ++i) {
-			this.addSlotToContainer(new Slot(inventoryplayer, i, 8 + (i * 18),
-					142));
+			addSlotToContainer(new Slot(inventoryplayer, i, 8 + (i * 18), 142));
 		}
 	}
 
@@ -68,17 +66,17 @@ public class ContainerBlockBrainStoneTrigger extends Container {
 			itemstack = itemstack1.copy();
 
 			if (par2 == 0) {
-				if (!this.mergeItemStack(itemstack1, 1, 37, true))
+				if (!mergeItemStack(itemstack1, 1, 37, true))
 					return null;
 
 				slot.onSlotChange(itemstack1, itemstack);
 			} else if ((par2 >= 1) && (par2 < 28)) {
-				if (!this.mergeItemStack(itemstack1, 28, 37, false))
+				if (!mergeItemStack(itemstack1, 28, 37, false))
 					return null;
 			} else if ((par2 >= 28) && (par2 < 37)) {
-				if (!this.mergeItemStack(itemstack1, 1, 28, false))
+				if (!mergeItemStack(itemstack1, 1, 28, false))
 					return null;
-			} else if (!this.mergeItemStack(itemstack1, 1, 37, false))
+			} else if (!mergeItemStack(itemstack1, 1, 37, false))
 				return null;
 
 			if (itemstack1.stackSize == 0) {

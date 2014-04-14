@@ -133,7 +133,7 @@ public class BrainStoneRenderBrainLogicBlockHandler implements
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z,
 			Block block, int modelId, RenderBlocks renderer) {
 		final TileEntityBlockBrainLogicBlock tileEntity = (TileEntityBlockBrainLogicBlock) renderer.blockAccess
-				.getBlockTileEntity(x, y, z);
+				.getTileEntity(x, y, z);
 
 		if (tileEntity != null) {
 			tileEntity.currentRenderDirection = -1;
@@ -141,7 +141,7 @@ public class BrainStoneRenderBrainLogicBlockHandler implements
 			renderer.setRenderBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 			renderer.renderStandardBlock(block, x, y, z);
 
-			this.renderPins(tileEntity, world, renderer, block, x, y, z);
+			renderPins(tileEntity, world, renderer, block, x, y, z);
 
 			return true;
 		}
@@ -150,7 +150,7 @@ public class BrainStoneRenderBrainLogicBlockHandler implements
 	}
 
 	@Override
-	public boolean shouldRender3DInInventory() {
+	public boolean shouldRender3DInInventory(int modelId) {
 		return true;
 	}
 }

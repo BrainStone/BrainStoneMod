@@ -5,7 +5,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.IBlockAccess;
-import brainstonemod.BrainStone;
 import brainstonemod.common.tileentity.TileEntityBlockBrainStoneHiders;
 
 public abstract class BlockBrainStoneHiders extends
@@ -19,10 +18,10 @@ public abstract class BlockBrainStoneHiders extends
 	 * @param i
 	 *            The internal BrainStone id
 	 */
-	public BlockBrainStoneHiders(int i) {
-		super(BrainStone.getId(i), Material.rock);
+	public BlockBrainStoneHiders() {
+		super(Material.rock);
 
-		this.setCreativeTab(CreativeTabs.tabRedstone);
+		setCreativeTab(CreativeTabs.tabRedstone);
 	}
 
 	@Override
@@ -33,7 +32,7 @@ public abstract class BlockBrainStoneHiders extends
 	@Override
 	public int colorMultiplier(IBlockAccess iblockaccess, int i, int j, int k) {
 		final TileEntityBlockBrainStoneHiders tileentityblockbrainstonehiders = (TileEntityBlockBrainStoneHiders) iblockaccess
-				.getBlockTileEntity(i, j, k);
+				.getTileEntity(i, j, k);
 
 		if (tileentityblockbrainstonehiders == null)
 			return 0xffffff;
@@ -44,16 +43,11 @@ public abstract class BlockBrainStoneHiders extends
 		if (itemstack == null)
 			return 0xffffff;
 
-		final int l = itemstack.itemID;
-
-		if ((l >= Block.blocksList.length) || (l < 0))
-			return 0xffffff;
-
-		final Block block = Block.blocksList[l];
+		final Block block = Block.getBlockFromItem(itemstack.getItem());
 
 		if (block == null)
 			return 0xffffff;
 		else
-			return Block.blocksList[l].colorMultiplier(iblockaccess, i, j, k);
+			return block.colorMultiplier(iblockaccess, i, j, k);
 	}
 }

@@ -1,0 +1,53 @@
+tile.brainStone.name=Brain Stone
+tile.brainStoneOut.name=Brain Stone Out
+tile.brainStoneOre.name=Brain Stone Ore
+tile.dirtyBrainStone.name=Dirty Brain Stone
+tile.brainLightSensor.name=Brain Light Sensor
+tile.brainStoneTrigger.name=Brain Stone Trigger
+tile.brainLogicBlock.name=Brain Logic Block
+tile.pulsatingBrainStone.name=Pulsating Brain Stone
+tile.pulsatingBrainStoneEffect.name=Pulsating Brain Stone Effect
+
+item.brainStoneDust.name=Brain Stone Dust
+item.brainProcessor.name=Brain Processor
+item.brainStoneSword.name=Brain Stone Sword
+item.brainStoneShovel.name=Brain Stone Shovel
+item.brainStonePickaxe.name=Brain Stone Pickaxe
+item.brainStoneAxe.name=Brain Stone Axe
+item.brainStoneHoe.name=Brain Stone Hoe
+item.brainStoneHelmet.name=Brain Stone Helmet
+item.brainStonePlate.name=Brain Stone Chestplate
+item.brainStoneLeggings.name=Brain Stone Leggings
+item.brainStoneBoots.name=Brain Stone Boots
+
+achievement.WTHIT=What the Hell is that???
+achievement.WTHIT.desc=You have to find a strange green powder.
+achievement.itLives=It lives!
+achievement.itLives.desc=Crafting and a Smelting is the key!
+achievement.intelligentBlocks=Intelligent Blocks
+achievement.intelligentBlocks.desc=Make useful intelligent Blocks out of this green stone!
+achievement.intelligentTools=Intelligent Tools
+achievement.intelligentTools.desc=Make Tools out of this green stone!
+achievement.logicBlock=Logic Block
+achievement.logicBlock.desc=First make a processor. Then a Logic Block!
+
+gui.brainstone.item=Item/Object
+gui.brainstone.player=Player
+gui.brainstone.projectile=Projectile
+gui.brainstone.help=Help
+gui.brainstone.invertOutput=Invert Output
+gui.brainstone.warning1=This gate will not operate until it is wired correctly!
+gui.brainstone.warning2=You should wire all inputs to make sure the gate works properly!
+gui.brainstone.help.gate0=-------------AND-Gate-------------\nA device where the output is on when all inputs are on.
+gui.brainstone.help.gate1=----------OR-Gate---------\nA device where the output is on when at least one of the inputs are on.
+gui.brainstone.help.gate2=---------XOR-Gate---------\nA device where the output switches for every input that is on.
+gui.brainstone.help.gate3=--------Implies-Gate-------\nReturns false only if the implication A -> B is false. That is, if the antecedent A is true, but the consequent B is false. It is often read "if A then B." It is the logical equivalent of "B or NOT A".
+gui.brainstone.help.gate4=---------NOT-Gate---------\nA device that inverts the input, as such it is also called an "Inverter" Gate.
+gui.brainstone.help.gate5=-------RS-NOR-Latch-------\nA device where Q will stay on forever after input is received by S. Q can be turned off again by a signal received by R. S and R shuouldn't be on at the same time!
+gui.brainstone.help.gate6=--------D-Flip-Flop--------\nA D flip-flop, or "data" flip-flop, sets the output to D only when its clock (input C) is on.
+gui.brainstone.help.gate7=--------T-Flip-Flop--------\nT flip-flops are also known as "toggles." Whenever T changes from OFF to ON, the output will toggle its state.
+gui.brainstone.help.gate8=--------JK-Flip-Flop-------\nIf the input J = 1 and the input K = 0, the output Q = 1. When J = 0 and K = 1, the output Q = 0. If both J and K are 0, then the JK flip-flop maintains its previous state. If both are 1, the output will complement itself.
+gui.brainstone.classic=Classic
+gui.brainstone.simple=Simple
+gui.brainstone.proportional=Proportional
+gui.brainstone.inverted=Inverted

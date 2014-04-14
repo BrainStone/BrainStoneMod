@@ -12,7 +12,7 @@ import brainstonemod.client.gui.helper.BrainStoneGuiButton;
 import brainstonemod.client.gui.template.GuiBrainStoneBase;
 import brainstonemod.common.container.ContainerBlockBrainStoneTrigger;
 import brainstonemod.common.tileentity.TileEntityBlockBrainStoneTrigger;
-import brainstonemod.network.BrainStonePacketHandler;
+import brainstonemod.network.BrainStonePacketHelper;
 
 public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 	private final TileEntityBlockBrainStoneTrigger tileentity;
@@ -25,7 +25,8 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 	public GuiBrainStoneTrigger(InventoryPlayer inventoryplayer,
 			TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger) {
 		super(new ContainerBlockBrainStoneTrigger(inventoryplayer,
-				tileentityblockbrainstonetrigger));
+				tileentityblockbrainstonetrigger),
+				tileentityblockbrainstonetrigger);
 		tileentity = tileentityblockbrainstonetrigger;
 		j = 0;
 		k = 0;
@@ -62,7 +63,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		buttons.addButton(new BrainStoneButton(21, 9, 6, 160, 73, 176, 73, 185,
 				73));
 
-		this.setMobs();
+		setMobs();
 
 		int tmp = tileentity.max_delay;
 
@@ -79,10 +80,10 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 	public void buttonClicked(int ID) {
 		if (ID == 0) {
 			page--;
-			this.setMobs();
+			setMobs();
 		} else if (ID == 1) {
 			page++;
-			this.setMobs();
+			setMobs();
 		} else if ((ID >= 10) && (ID < 14)) {
 			tileentity.invertMobTriggered(Mobs[ID - 10]);
 		} else if ((ID >= 20) && (ID < 30)) {
@@ -126,10 +127,6 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		}
 	}
 
-	private void click() {
-		mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
-	}
-
 	/**
 	 * Draw the background layer for the GuiContainer (everything behind the
 	 * items)
@@ -139,10 +136,10 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		if (tileentity == null)
 			return;
 
-		this.registerTexture();
+		this.bindTexture();
 		j = (width - xSize) / 2;
 		k = (height - ySize) / 2;
-		this.drawTexturedModalRect(j, k, 0, 0, xSize, ySize);
+		drawTexturedModalRect(j, k, 0, 0, xSize, ySize);
 
 		buttons.render(j, k);
 
@@ -150,11 +147,10 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 
 		for (int t = 0; t < 4; t++) {
 			if (tileentity.getMobTriggered((tmp = Mobs[t]))) {
-				this.drawTexturedModalRect(j + 12, k + 12 + (18 * t), 8, 166,
-						10, 7);
+				drawTexturedModalRect(j + 12, k + 12 + (18 * t), 8, 166, 10, 7);
 				if (tileentity.getMobTriggered(tmp)) {
-					this.drawTexturedModalRect(88 + j, 13 + (18 * t) + k, 88,
-							172, tileentity.getMobPower(tmp) * 2, 6);
+					drawTexturedModalRect(88 + j, 13 + (18 * t) + k, 88, 172,
+							tileentity.getMobPower(tmp) * 2, 6);
 				}
 			}
 		}
@@ -174,24 +170,24 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		String tmp;
 
 		for (int i = 0; i < 4; i++) {
-			fontRenderer.drawString(StatCollector
+			fontRendererObj.drawString(StatCollector
 					.translateToLocal(tmp = Mobs[i]), 25, 12 + (18 * i),
-					tileentity.getMobTriggered(tmp) ? 0xffffff : 0x888888);
+					tileentity.getMobTriggered(tmp) ? 0xffffff : 0x111111);
 		}
 
-		fontRenderer.drawString((page + 1) + "/" + (max_page + 1), 146, 12,
+		fontRendererObj.drawString((page + 1) + "/" + (max_page + 1), 146, 12,
 				0x000000);
-		fontRenderer.drawString("Delay", 144, 54, 0x000000);
-		fontRenderer.drawString(String.valueOf(tileentity.max_delay), 148, 68,
-				0xffffff);
+		fontRendererObj.drawString("Delay", 144, 54, 0x000000);
+		fontRendererObj.drawString(String.valueOf(tileentity.max_delay), 148,
+				68, 0xffffff);
 
-		this.registerTexture();
+		this.bindTexture();
 
 		if ((hovered != -1)
 				&& tileentity.getMobTriggered((tmp = Mobs[hovered]))) {
-			this.drawTexturedModalRect(80, 13 + (18 * hovered), 80, 166, 6, 6);
-			this.drawTexturedModalRect(120, 13 + (18 * hovered), 120, 166, 6, 6);
-			this.drawTexturedModalRect(88, 13 + (18 * hovered), 88, 166,
+			drawTexturedModalRect(80, 13 + (18 * hovered), 80, 166, 6, 6);
+			drawTexturedModalRect(120, 13 + (18 * hovered), 120, 166, 6, 6);
+			drawTexturedModalRect(88, 13 + (18 * hovered), 88, 166,
 					tileentity.getMobPower(tmp) * 2, 6);
 		}
 	}
@@ -202,7 +198,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 	@Override
 	public void handleMouseInput() {
 		if (Mouse.getEventButton() == -1) {
-			this.mouseMovedOrUp((Mouse.getEventX() * width) / mc.displayWidth,
+			mouseMovedOrUp((Mouse.getEventX() * width) / mc.displayWidth,
 					height - ((Mouse.getEventY() * height) / mc.displayHeight)
 							- 1, Mouse.getEventButton());
 		}
@@ -222,8 +218,8 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 	protected void keyTyped(char c, int i) {
 		super.keyTyped(c, i);
 
-		if ((i == 1) || (i == mc.gameSettings.keyBindInventory.keyCode)) {
-			this.quit();
+		if ((i == 1) || (i == mc.gameSettings.keyBindInventory.getKeyCode())) {
+			quit();
 		}
 	}
 
@@ -243,11 +239,11 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 
 			buttons.onClick(x, y);
 
-			if (this.inField(x, y, 167, 4, 171, 8)) {
-				this.quit();
+			if (inField(x, y, 167, 4, 171, 8)) {
+				quit();
 			}
 
-			BrainStonePacketHandler.sendUpdateOptions(tileentity);
+			BrainStonePacketHelper.sendUpdateTileEntityPacket(tileentity);
 		}
 	}
 
@@ -264,20 +260,13 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 			hovered = -1;
 
 			for (int i = 0; i < 4; i++) {
-				if (this.inField(x - j, y - k, 7, 7 + (i * 18), 128,
-						24 + (i * 18))) {
+				if (inField(x - j, y - k, 7, 7 + (i * 18), 128, 24 + (i * 18))) {
 					hovered = i;
 				}
 			}
 		} else {
 			buttons.hover();
 		}
-	}
-
-	private void quit() {
-		this.click();
-		mc.displayGuiScreen(null);
-		mc.setIngameFocus();
 	}
 
 	private void setMobs() {

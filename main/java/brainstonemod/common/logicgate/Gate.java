@@ -12,79 +12,13 @@ import java.util.List;
 
 import net.minecraft.nbt.NBTTagCompound;
 import brainstonemod.common.helper.BSP;
+import brainstonemod.common.helper.BrainStoneClassFinder;
 
 public abstract class Gate {
 	public static final HashMap<String, Gate> Gates = getGates();
 	public static final int NumberGates = Gates.size();
 	public static final String[] GateNames = Gates.keySet().toArray(
 			new String[NumberGates]);
-
-	/**
-	 * Recursive method used to find all classes in a given directory and
-	 * subdirs.
-	 * 
-	 * @param directory
-	 *            The base directory
-	 * @param packageName
-	 *            The package name for classes found inside the base directory
-	 * @return The classes
-	 * @throws ClassNotFoundException
-	 */
-	private static ArrayList<Class<?>> findClasses(File directory,
-			String packageName) throws ClassNotFoundException {
-		final ArrayList<Class<?>> classes = new ArrayList<Class<?>>();
-		if (!directory.exists())
-			return classes;
-		final File[] files = directory.listFiles();
-		for (final File file : files) {
-			if (file.isDirectory()) {
-				assert !file.getName().contains(".");
-				classes.addAll(findClasses(file,
-						packageName + "." + file.getName()));
-			} else if (file.getName().endsWith(".class")) {
-				classes.add(Class.forName(packageName
-						+ '.'
-						+ file.getName().substring(0,
-								file.getName().length() - 6)));
-			}
-		}
-		return classes;
-	}
-
-	/**
-	 * Scans all classes accessible from the context class loader which belong
-	 * to the given package and subpackages.
-	 * 
-	 * @param packageName
-	 *            The base package
-	 * @return The classes
-	 * @throws ClassNotFoundException
-	 * @throws IOException
-	 */
-	private static Class<?>[] getClasses(String packageName)
-			throws ClassNotFoundException, IOException {
-		final ClassLoader classLoader = Thread.currentThread()
-				.getContextClassLoader();
-
-		assert classLoader != null;
-
-		final String path = packageName.replace('.', '/');
-		final Enumeration<URL> resources = classLoader.getResources(path);
-		final List<File> dirs = new ArrayList<File>();
-
-		while (resources.hasMoreElements()) {
-			final URL resource = resources.nextElement();
-			dirs.add(new File(resource.getFile()));
-		}
-
-		final ArrayList<Class<?>> classes = new ArrayList<Class<?>>();
-
-		for (final File directory : dirs) {
-			classes.addAll(findClasses(directory, packageName));
-		}
-
-		return classes.toArray(new Class[classes.size()]);
-	}
 
 	/**
 	 * This returns a new instance of the gate<br>
@@ -99,7 +33,7 @@ public abstract class Gate {
 			try {
 				return Gates.get(Name).clone();
 			} catch (final CloneNotSupportedException e) {
-				BSP.severeException(
+				BSP.fatalException(
 						e,
 						"This is fatal! You must report this!\nThanks!\n\nDeveloper Information:\nCannot clone Gate: \""
 								+ Gates.get(Name).getClass().getName()
@@ -109,7 +43,7 @@ public abstract class Gate {
 			}
 		}
 
-		BSP.severe("The name: \"" + Name + "\" was not recongnized!");
+		BSP.error("The name: \"" + Name + "\" was not recongnized!");
 
 		return null;
 	}
@@ -125,35 +59,35 @@ public abstract class Gate {
 		final HashMap<String, Gate> Gates = new HashMap<String, Gate>();
 
 		try {
-			Gate tmp;
+			Gate tmpGate;
+			Object tmp;
 
-			for (final Class<?> gate : getClasses("brainstonemod.common.logicgate.gate")) {
+			for (final Class<?> gate : BrainStoneClassFinder
+					.getClassesForPackage(Gate.class.getPackage().getName()
+							+ ".gate")) {
 				try {
-					if (Gates
-							.containsKey((tmp = (Gate) gate.newInstance()).Name)) {
-						BSP.throwIllegalArgumentException("Well, that should NOT have happenend! This IS a HUGE problem if you notice this please report it to yannick@tedworld.de.\nThanks!\n\nDeveloper Information:\nThere is a NOT unique ID for the gates: "
-								+ tmp.Name);
-					}
+					tmp = gate.newInstance();
 
-					Gates.put(tmp.Name, tmp);
+					if (tmp instanceof Gate) {
+						if (Gates.containsKey((tmpGate = (Gate) tmp).Name)) {
+							BSP.throwIllegalArgumentException("Well, that should NOT have happenend! This IS a HUGE problem if you notice this please report it to yannick@tedworld.de.\nThanks!\n\nDeveloper Information:\nThere is a NOT unique ID for the gates: "
+									+ tmpGate.Name);
+						}
+
+						Gates.put(tmpGate.Name, tmpGate);
+					}
 				} catch (final InstantiationException e) {
-					BSP.severeException(
+					BSP.errorException(
 							e,
 							"Well, that should NOT have happenend! But it is not a big problem. Just report it to yannick@tedworld.de.\nThanks!");
 				} catch (final IllegalAccessException e) {
-					BSP.severeException(
+					BSP.errorException(
 							e,
 							"Well, that should NOT have happenend! But it is not a big problem. Just report it to yannick@tedworld.de.\nThanks!");
 				}
 			}
-		} catch (final IOException e) {
-			BSP.severeException(
-					e,
-					"Well, that should NOT have happenend! This IS a HUGE problem if you notice this please report it to yannick@tedworld.de.\nThanks!");
-
-			return null;
 		} catch (final ClassNotFoundException e) {
-			BSP.severeException(
+			BSP.errorException(
 					e,
 					"Well, that should NOT have happenend! This IS a HUGE problem if you notice this please report it to yannick@tedworld.de.\nThanks!");
 
@@ -239,10 +173,10 @@ public abstract class Gate {
 		try {
 			return this.getClass().newInstance();
 		} catch (final InstantiationException e) {
-			BSP.severeException(e);
+			BSP.errorException(e);
 			BSP.throwCloneNotSupportedException("An InstantiationException occured!");
 		} catch (final IllegalAccessException e) {
-			BSP.severeException(e);
+			BSP.errorException(e);
 			BSP.throwCloneNotSupportedException("An IllegalAccessException occured!");
 		}
 
@@ -259,7 +193,7 @@ public abstract class Gate {
 	}
 
 	public final PinState getPinState(char gateName) {
-		final Pin tmp = this.getPin(gateName);
+		final Pin tmp = getPin(gateName);
 
 		if (tmp == null)
 			return PinState.NotExisting;
@@ -353,7 +287,7 @@ public abstract class Gate {
 			currentPin = new NBTTagCompound();
 			Pins[i].writeToNBT(currentPin);
 
-			nbttagcompound.setCompoundTag("Pin" + i, currentPin);
+			nbttagcompound.setTag("Pin" + i, currentPin);
 		}
 
 		// Options go here!

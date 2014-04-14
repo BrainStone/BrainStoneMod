@@ -1,60 +1,88 @@
 package brainstonemod.common.tileentity.template;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.lang.reflect.Field;
 
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import brainstonemod.common.helper.BSP;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
 
 public abstract class TileEntityBrainStoneSyncBase extends TileEntity {
-	/**
-	 * This function must be overwritten and should write all variables
-	 * necessary to the parameter <b>outputStream</b>.<br>
-	 * <br>
-	 * <u><b>Including</b> the coordinates in the order:</u>
-	 * <ul>
-	 * <li>X</li>
-	 * <li>Y</li>
-	 * <li>Z</li>
-	 * </ul>
-	 * 
-	 * @param outputStream
-	 * @throws IOException
-	 */
-	protected abstract void generateOutputStream(DataOutputStream outputStream)
-			throws IOException;
+	protected boolean inventorySaving = true;
 
-	/**
-	 * This function must be overwritten and should read all variables necessary
-	 * from the parameter <b>inputStream</b>.<br>
-	 * <br>
-	 * <u></b>Excluding</b> the coordinates in the order:</u>
-	 * 
-	 * @param inputStream
-	 * @throws IOException
-	 */
-	public abstract void readFromInputStream(DataInputStream inputStream)
-			throws IOException;
+	@Override
+	public boolean canUpdate() {
+		return false;
+	}
 
-	/**
-	 * This function must be overwritten and actually synchronizes the
-	 * tileentities.
-	 * 
-	 * @param sendToServer
-	 *            - This decides whether it should synchronize the server with
-	 *            the client or the other way round.<br>
-	 *            <table>
-	 *            <tr>
-	 *            <td><b>true:</b></td>
-	 *            <td>Client synchronizes Server and then Server synchronizes
-	 *            all Clients</td>
-	 *            </tr>
-	 *            <tr>
-	 *            <td><b>false:</b></td>
-	 *            <td>Server synchronizes Client</td>
-	 *            </tr>
-	 *            </table>
-	 * @throws IOException
-	 */
-	public abstract void update(boolean sendToServer) throws IOException;
+	@Override
+	public Packet getDescriptionPacket() {
+		return getDescriptionPacket(true);
+	}
+
+	// DOCME
+	public Packet getDescriptionPacket(boolean enableInventorySaving) {
+		try {
+			inventorySaving = enableInventorySaving;
+			final NBTTagCompound nbt = new NBTTagCompound();
+			nbt.setBoolean("inventorySaving", inventorySaving);
+
+			writeToNBT(nbt);
+
+			return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 0, nbt);
+		} finally {
+			// Just making sure inventorySaving is reset!
+			inventorySaving = true;
+		}
+	}
+
+	@Override
+	public void onDataPacket(NetworkManager net,
+			S35PacketUpdateTileEntity packet) {
+		NBTTagCompound nbt = null;
+
+		try {
+			nbt = packet.func_148857_g();
+		} catch (final NoSuchMethodError e) {
+			for (final Field field : S35PacketUpdateTileEntity.class
+					.getDeclaredFields()) {
+				if (field.getType().equals(NBTTagCompound.class)) {
+					final boolean accessible = field.isAccessible();
+					field.setAccessible(true);
+
+					try {
+						nbt = (NBTTagCompound) field.get(packet);
+					} catch (final IllegalArgumentException ex) {
+						BSP.fatalException(ex,
+								"I have no idea what went wrong, but this should not have happened!");
+					} catch (final IllegalAccessException ex) {
+						BSP.fatalException(ex,
+								"I have no idea what went wrong, but this should not have happened!");
+					}
+
+					field.setAccessible(accessible);
+
+					break;
+				}
+			}
+		}
+
+		try {
+			inventorySaving = nbt.getBoolean("inventorySaving");
+			readFromNBT(nbt);
+		} finally {
+			// Just making sure inventorySaving is reset!
+			inventorySaving = true;
+		}
+
+		if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) {
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		}
+
+		markDirty();
+	}
 }
