@@ -95,7 +95,7 @@ import cpw.mods.fml.relauncher.Side;
 public class BrainStone {
 	public static final String MOD_ID = "BrainStoneMod";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.45.112 BETA";
+	public static final String VERSION = "v2.46.3 BETA release";
 
 	/** The instance of this mod */
 	@Instance(MOD_ID)
@@ -475,8 +475,23 @@ public class BrainStone {
 		event.getModMetadata().screenshots = new String[] {};
 
 		String logoFile = "/assets/brainstonemod/textures/logo/Logo_";
-		String currentLanguage = FMLCommonHandler.instance()
-				.getCurrentLanguage();
+		String currentLanguage;
+
+		try {
+			// To prevent game crash when getCurrentLanguage() throws a
+			// NullPointerException
+
+			currentLanguage = FMLCommonHandler.instance().getCurrentLanguage();
+		} catch (NullPointerException e) {
+			// Default to English, print the exception and add a warning to the
+			// mod description!
+
+			currentLanguage = en;
+			BSP.warnException(
+					e,
+					"This is nothing really to worry about. But it is interesting.\nIf you see this please report it anyway. It will help me get rid of this!");
+			event.getModMetadata().description += "\n\nSomething went wrong while trying to detect your language at start up. Please check the current Forge log and report the stack trace.\nThank you!";
+		}
 
 		if (currentLanguage.equals(de)) {
 			// German logo
