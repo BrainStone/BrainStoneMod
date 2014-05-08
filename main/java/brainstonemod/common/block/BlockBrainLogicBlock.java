@@ -11,14 +11,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import brainstonemod.BrainStone;
 import brainstonemod.client.ClientProxy;
 import brainstonemod.common.block.template.BlockBrainStoneContainerBase;
-import brainstonemod.common.helper.BSP;
 import brainstonemod.common.helper.BrainStoneDirection;
 import brainstonemod.common.tileentity.TileEntityBlockBrainLogicBlock;
 import brainstonemod.network.BrainStonePacketHelper;
@@ -60,7 +58,7 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	@Override
 	public boolean canConnectRedstone(IBlockAccess world, int x, int y, int z,
 			int side) {
-		assert side < 4 && side >= -1;
+		assert (side < 4) && (side >= -1);
 
 		if (side == -1)
 			return true;
@@ -101,9 +99,9 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	}
 
 	@Override
-	public IIcon getIcon(int i, int meta) {
-		if (i >= 2)
-			return textures[1 + i];
+	public IIcon getIcon(int side, int meta) {
+		if (side >= 2)
+			return textures[1 + side];
 
 		return textures[2];
 	}
@@ -228,7 +226,7 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 				world.notifyBlocksOfNeighborChange(x, y + 1, z, this);
 				world.notifyBlocksOfNeighborChange(x, y, z - 1, this);
 				world.notifyBlocksOfNeighborChange(x, y, z + 1, this);
-				
+
 				world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
 			}
 		}

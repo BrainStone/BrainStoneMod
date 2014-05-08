@@ -109,7 +109,7 @@ public class TileEntityBlockBrainLogicBlock extends
 
 	private boolean canBlockConnectToGate(World world, int x, int y, int z,
 			BrainStoneDirection direction, Block block) {
-		int side = direction.toArrayIndex();
+		final int side = direction.toArrayIndex();
 
 		return (block != null)
 				&& (block.getMaterial().isSolid() || ((side > 1) && block
@@ -518,7 +518,7 @@ public class TileEntityBlockBrainLogicBlock extends
 
 				ActiveGate.onTick();
 			}
-			
+
 			world.markBlockForUpdate(x, y, z);
 		}
 	}

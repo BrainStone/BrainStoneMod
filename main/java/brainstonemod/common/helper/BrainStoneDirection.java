@@ -8,7 +8,23 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
 public enum BrainStoneDirection {
-	UP(), DOWN(), NORTH(), EAST(), SOUTH(), WEST();
+	/** +Y */
+	UP(),
+
+	/** -Y */
+	DOWN(),
+
+	/** -Z */
+	NORTH(),
+
+	/** +X */
+	EAST(),
+
+	/** +Z */
+	SOUTH(),
+
+	/** -X */
+	WEST();
 
 	// opposite mapping
 	private static final HashMap<BrainStoneDirection, BrainStoneDirection> oppositeMap = new HashMap<BrainStoneDirection, BrainStoneDirection>(
@@ -109,6 +125,20 @@ public enum BrainStoneDirection {
 	private static final BiMap<BrainStoneDirection, Integer> toRedstoneConnectIndexMap = fromRedstoneConnectIndexMap
 			.inverse();
 
+	// Create the bidirectional mapping for the texture directions
+	private static final BiMap<Integer, BrainStoneDirection> fromTextureDirectionMap = HashBiMap
+			.create(5);
+	static {
+		fromTextureDirectionMap.put(0, DOWN);
+		fromTextureDirectionMap.put(1, UP);
+		fromTextureDirectionMap.put(2, NORTH);
+		fromTextureDirectionMap.put(3, SOUTH);
+		fromTextureDirectionMap.put(4, WEST);
+		fromTextureDirectionMap.put(5, EAST);
+	}
+	private static final BiMap<BrainStoneDirection, Integer> toTextureDirectionMap = fromTextureDirectionMap
+			.inverse();
+
 	public static BrainStoneDirection fromArrayIndex(int index) {
 		assert fromArrayIndexMap.containsKey(index);
 
@@ -127,11 +157,11 @@ public enum BrainStoneDirection {
 
 		assert (yaw >= 0.0f) && (yaw < 360.0f);
 
-		if ((yaw > 315.0f) || (yaw <= 45.0f))
+		if ((yaw > 135.0f) && (yaw <= 225.0f))
 			return NORTH;
 		else if ((yaw > 225.0f) && (yaw <= 315.0f))
 			return EAST;
-		else if ((yaw > 135.0f) && (yaw <= 225.0f))
+		else if ((yaw > 315.0f) || (yaw <= 45.0f))
 			return SOUTH;
 		else if ((yaw > 45.0f) && (yaw <= 135.0f))
 			return WEST;
@@ -147,6 +177,12 @@ public enum BrainStoneDirection {
 		assert fromRedstoneConnectIndexMap.containsKey(index);
 
 		return fromRedstoneConnectIndexMap.get(index);
+	}
+
+	public static BrainStoneDirection fromTextureDirection(int side) {
+		assert fromTextureDirectionMap.containsKey(side);
+
+		return fromTextureDirectionMap.get(side);
 	}
 
 	private BrainStoneDirection() {
@@ -181,5 +217,11 @@ public enum BrainStoneDirection {
 		assert toRedstoneConnectIndexMap.containsKey(this);
 
 		return toRedstoneConnectIndexMap.get(this);
+	}
+
+	public int toTextureDirection() {
+		assert toTextureDirectionMap.containsKey(this);
+
+		return toTextureDirectionMap.get(this);
 	}
 }

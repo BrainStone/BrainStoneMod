@@ -10,7 +10,6 @@ import static brainstonemod.common.helper.BrainStoneDirection.WEST;
 import java.util.UUID;
 
 import net.minecraft.util.StatCollector;
-import net.minecraftforge.common.util.ForgeDirection;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -83,10 +82,14 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		localToBlockDirections[0] = UP;
 		localToBlockDirections[1] = DOWN;
 
-		localToBlockDirections[NORTH.reorintateNorth(direction).toArrayIndex()] = NORTH;
-		localToBlockDirections[EAST.reorintateNorth(direction).toArrayIndex()] = EAST;
-		localToBlockDirections[SOUTH.reorintateNorth(direction).toArrayIndex()] = SOUTH;
-		localToBlockDirections[WEST.reorintateNorth(direction).toArrayIndex()] = WEST;
+		localToBlockDirections[NORTH.toArrayIndex()] = NORTH
+				.reorintateNorth(direction);
+		localToBlockDirections[EAST.toArrayIndex()] = EAST
+				.reorintateNorth(direction);
+		localToBlockDirections[SOUTH.toArrayIndex()] = SOUTH
+				.reorintateNorth(direction);
+		localToBlockDirections[WEST.toArrayIndex()] = WEST
+				.reorintateNorth(direction);
 	}
 
 	private void closeHelpGui() {
@@ -158,10 +161,10 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		}
 
 		if (movingPin != EAST) {
-			renderGateFrameAt(x + 78, y + 27,
+			renderGateFrameAt(x + 118, y + 27,
 					localToBlockDirections[EAST.toArrayIndex()]);
 		} else if (swappedPin != null) {
-			renderGateFrameAt(x + 78, y + 27,
+			renderGateFrameAt(x + 118, y + 27,
 					localToBlockDirections[swappedPin.toArrayIndex()]);
 		}
 
@@ -174,10 +177,10 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		}
 
 		if (movingPin != WEST) {
-			renderGateFrameAt(x + 118, y + 27,
+			renderGateFrameAt(x + 78, y + 27,
 					localToBlockDirections[WEST.toArrayIndex()]);
 		} else if (swappedPin != null) {
-			renderGateFrameAt(x + 118, y + 27,
+			renderGateFrameAt(x + 78, y + 27,
 					localToBlockDirections[swappedPin.toArrayIndex()]);
 		}
 
@@ -193,14 +196,14 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 			}
 		}
 
-		String topDirection = StatCollector
+		final String topDirection = StatCollector
 				.translateToLocal("gui.brainstone.top");
-		String bottomDirection = StatCollector
+		final String bottomDirection = StatCollector
 				.translateToLocal("gui.brainstone.bottom");
-		String forwardDirection = StatCollector
+		final String forwardDirection = StatCollector
 				.translateToLocal("gui.brainstone."
 						+ direction.toString().toLowerCase());
-		String backwardDirection = StatCollector
+		final String backwardDirection = StatCollector
 				.translateToLocal("gui.brainstone."
 						+ direction.getOpposite().toString().toLowerCase());
 
@@ -235,10 +238,10 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		}
 
 		if (movingPin != EAST) {
-			renderGateLetterAt(82, 31,
+			renderGateLetterAt(122, 31,
 					localToBlockDirections[EAST.toArrayIndex()]);
 		} else if (swappedPin != null) {
-			renderGateLetterAt(82, 31,
+			renderGateLetterAt(122, 31,
 					localToBlockDirections[swappedPin.toArrayIndex()]);
 		}
 
@@ -251,10 +254,10 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		}
 
 		if (movingPin != WEST) {
-			renderGateLetterAt(122, 31,
+			renderGateLetterAt(82, 31,
 					localToBlockDirections[WEST.toArrayIndex()]);
 		} else if (swappedPin != null) {
-			renderGateLetterAt(122, 31,
+			renderGateLetterAt(82, 31,
 					localToBlockDirections[swappedPin.toArrayIndex()]);
 		}
 

@@ -16,10 +16,10 @@ public class OR_Gate extends Gate {
 		Pins[UP.toArrayIndex()] = Pin.MovableNullPin;
 		Pins[DOWN.toArrayIndex()] = Pin.MovableNullPin;
 
-		Pins[NORTH.reorintateNorth(direction).toArrayIndex()] = new Pin('Q',
+		Pins[SOUTH.reorintateNorth(direction).toArrayIndex()] = new Pin('Q',
 				true, true);
 		Pins[EAST.reorintateNorth(direction).toArrayIndex()] = new Pin('A');
-		Pins[SOUTH.reorintateNorth(direction).toArrayIndex()] = new Pin('B');
+		Pins[NORTH.reorintateNorth(direction).toArrayIndex()] = new Pin('B');
 		Pins[WEST.reorintateNorth(direction).toArrayIndex()] = new Pin('C');
 	}
 

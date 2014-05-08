@@ -2,16 +2,10 @@ package brainstonemod.common.logicgate;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.List;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.ForgeDirection;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.helper.BrainStoneClassFinder;
 import brainstonemod.common.helper.BrainStoneDirection;
