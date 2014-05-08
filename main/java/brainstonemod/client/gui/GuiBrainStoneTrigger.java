@@ -4,7 +4,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.StatCollector;
 
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
 
 import brainstonemod.BrainStone;
 import brainstonemod.client.gui.helper.BrainStoneButton;
@@ -16,7 +15,6 @@ import brainstonemod.network.BrainStonePacketHelper;
 
 public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 	private final TileEntityBlockBrainStoneTrigger tileentity;
-	private int j, k;
 	private int page, hovered;
 	private final int max_page;
 	private final String[] Mobs;
@@ -28,8 +26,6 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 				tileentityblockbrainstonetrigger),
 				tileentityblockbrainstonetrigger);
 		tileentity = tileentityblockbrainstonetrigger;
-		j = 0;
-		k = 0;
 		Mobs = new String[4];
 		page = 0;
 		hovered = -1;
@@ -132,38 +128,34 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 	 * items)
 	 */
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float f, int i, int l) {
+	protected void drawGuiContainerBackgroundLayer(float partialTicks,
+			int mouseX, int mouseY) {
 		if (tileentity == null)
 			return;
 
 		this.bindTexture();
-		j = (width - xSize) / 2;
-		k = (height - ySize) / 2;
-		drawTexturedModalRect(j, k, 0, 0, xSize, ySize);
 
-		buttons.render(j, k);
+		final int x = globalX = (width - xSize) / 2;
+		final int y = globalY = (height - ySize) / 2;
+		drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
+
+		buttons.render(x, y);
 
 		String tmp;
 
 		for (int t = 0; t < 4; t++) {
 			if (tileentity.getMobTriggered((tmp = Mobs[t]))) {
-				drawTexturedModalRect(j + 12, k + 12 + (18 * t), 8, 166, 10, 7);
+				drawTexturedModalRect(x + 12, y + 12 + (18 * t), 8, 166, 10, 7);
 				if (tileentity.getMobTriggered(tmp)) {
-					drawTexturedModalRect(88 + j, 13 + (18 * t) + k, 88, 172,
+					drawTexturedModalRect(88 + x, 13 + (18 * t) + y, 88, 172,
 							tileentity.getMobPower(tmp) * 2, 6);
 				}
 			}
 		}
 	}
 
-	/**
-	 * Draw the foreground layer for the GuiContainer (everything in front of
-	 * the items)
-	 */
 	@Override
-	protected void drawGuiContainerForegroundLayer(int par1, int par2) {
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-
+	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		if (tileentity == null)
 			return;
 
@@ -206,10 +198,6 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		super.handleMouseInput();
 	}
 
-	private boolean inField(int i, int l, int i1, int j1, int k1, int l1) {
-		return (i >= i1) && (i <= k1) && (l >= j1) && (l <= l1);
-	}
-
 	/**
 	 * Fired when a key is typed. This is the equivalent of
 	 * KeyListener.keyTyped(KeyEvent e).
@@ -234,8 +222,8 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 			return;
 
 		if (button == 0) {
-			x -= j;
-			y -= k;
+			x -= globalX;
+			y -= globalY;
 
 			buttons.onClick(x, y);
 
@@ -260,7 +248,8 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 			hovered = -1;
 
 			for (int i = 0; i < 4; i++) {
-				if (inField(x - j, y - k, 7, 7 + (i * 18), 128, 24 + (i * 18))) {
+				if (inField(x - globalX, y - globalY, 7, 7 + (i * 18), 128,
+						24 + (i * 18))) {
 					hovered = i;
 				}
 			}

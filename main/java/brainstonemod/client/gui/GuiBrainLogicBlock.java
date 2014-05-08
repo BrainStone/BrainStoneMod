@@ -13,7 +13,6 @@ import net.minecraft.util.StatCollector;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
 
 import brainstonemod.BrainStone;
 import brainstonemod.client.gui.template.GuiBrainStoneBase;
@@ -23,18 +22,17 @@ import brainstonemod.common.logicgate.Gate;
 import brainstonemod.common.tileentity.TileEntityBlockBrainLogicBlock;
 
 public class GuiBrainLogicBlock extends GuiBrainStoneBase {
+	private static final int xSizeMain = 176;
+
+	private static final int ySizeMain = 200;
+	private static final int xSizeHelp = 256;
+
 	private static boolean isFormatColor(char par0) {
 		return ((par0 >= 48) && (par0 <= 57))
 				|| ((par0 >= 97) && (par0 <= 102))
 				|| ((par0 >= 65) && (par0 <= 70));
 	}
 
-	private int globalX;
-	private int globalY;
-	private static final int xSizeMain = 176;
-	private static final int ySizeMain = 200;
-	private static final int xSizeHelp = 256;
-	private float factor;
 	private final TileEntityBlockBrainLogicBlock tileentity;
 	private final UUID username;
 	private boolean help;
@@ -47,7 +45,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	private byte mousePos;
 	private BrainStoneDirection movingPin;
 	private int movingPinOffsetX, movingPinOffsetY;
-	private BrainStoneDirection swappedPin;
+	private final BrainStoneDirection swappedPin;
 
 	private int mousePosX, mousePosY;
 	private static final int rowsToScroll = Gate.NumberGates - 6;
@@ -104,33 +102,30 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	}
 
 	@Override
-	public void drawGuiContainerBackgroundLayer(float par1Float,
-			int par2Integer, int par3Integer) {
+	protected void drawGuiContainerBackgroundLayer(float partialTicks,
+			int mouseX, int mouseY) {
 		if (mousePos == -2) {
 			mouseMovedOrUp((Mouse.getEventX() * width) / mc.displayWidth,
 					height - ((Mouse.getEventY() * height) / mc.displayHeight)
 							- 1, -1);
 		}
 
-		this.bindTexture();
+		bindTexture();
 
-		GL11.glPushMatrix();
-
-		factor = 1.0F;
 		int x = globalX = (width - xSizeMain) / 2;
 		int y = globalY = (height - ySizeMain) / 2;
-		this.drawTexturedModalRect(x, y, 0, 0, xSizeMain, ySizeMain);
+		drawTexturedModalRect(x, y, 0, 0, xSizeMain, ySizeMain);
 
 		if (rowsToScroll < 1) {
-			this.drawTexturedModalRect(x + 157, y + 78, 244, 0, 12, 15);
+			drawTexturedModalRect(x + 157, y + 78, 244, 0, 12, 15);
 		} else {
-			this.drawTexturedModalRect(x + 157, y + 78
+			drawTexturedModalRect(x + 157, y + 78
 					+ ((int) (scrollbarPos * pixelPerRow)), 232, 0, 12, 15);
 		}
 
 		for (int i = 0; i < 6; i++) {
 			if ((Gate.NumberGates >= 6) || (i < Gate.NumberGates)) {
-				this.drawTexturedModalRect(x + 8, y + 78 + (19 * i), 8,
+				drawTexturedModalRect(x + 8, y + 78 + (19 * i), 8,
 						((i + scrollbarPos) == tileentity.getGatePos()) ? 219
 								: 200, 143, 19, i == mousePos);
 			}
@@ -187,12 +182,10 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		// END of Textures!
 		// BEGIN of Strings!
 
-		GL11.glTranslatef(globalX, globalY, 0.0F);
-
 		for (int i = 0; i < 6; i++) {
 			if (i < Gate.NumberGates) {
-				this.drawString(Gate.GateNames[i + scrollbarPos], 14,
-						84 + (19 * i), 0);
+				drawString(Gate.GateNames[i + scrollbarPos], 14, 84 + (19 * i),
+						0);
 			}
 		}
 
@@ -207,11 +200,11 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 				.translateToLocal("gui.brainstone."
 						+ direction.getOpposite().toString().toLowerCase());
 
-		this.drawString(topDirection, 35 - getStringWidth(topDirection), 13, 0);
-		this.drawString(bottomDirection, 61, 53, 0);
-		this.drawString(forwardDirection,
-				95 - getStringWidth(forwardDirection), 13, 0);
-		this.drawString(backwardDirection, 121, 53, 0);
+		drawString(topDirection, 35 - getStringWidth(topDirection), 13, 0);
+		drawString(bottomDirection, 61, 53, 0);
+		drawString(forwardDirection, 95 - getStringWidth(forwardDirection), 13,
+				0);
+		drawString(backwardDirection, 121, 53, 0);
 
 		if (movingPin != UP) {
 			renderGateLetterAt(42, 11,
@@ -263,45 +256,36 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 
 		scrollbarPos = 1 * scrollbarPos;
 
-		GL11.glPopMatrix();
-
 		// MovingPin
 
 		if (movingPin != null) {
-			GL11.glPushMatrix();
-			factor = 1.0F;
-			this.bindTexture();
+			bindTexture();
 
 			renderGateFrameAt((x + mousePosX) - movingPinOffsetX,
 					(y + mousePosY) - movingPinOffsetY,
 					localToBlockDirections[movingPin.toArrayIndex()]);
 
-			GL11.glTranslatef(globalX, globalY, 0.0F);
-
 			renderGateLetterAt((mousePosX - movingPinOffsetX) + 4,
 					(mousePosY - movingPinOffsetY) + 4,
 					localToBlockDirections[movingPin.toArrayIndex()]);
-
-			GL11.glPopMatrix();
 		}
 
 		// Help Screen!
 
 		if (help) {
-			this.bindTexture("GuiBrainLogicBlockhelp");
+			bindTexture("GuiBrainLogicBlockHelp");
 
 			final int rows = getLines(HelpText);
 			final int ySizeHelp = 20 + (9 * rows);
 
 			x = (width - xSizeHelp) / 2;
 			y = (height - ySizeHelp) / 2;
-			this.drawTexturedModalRect(x, y, 0, 0, xSizeHelp, 10);
-			this.drawTexturedModalRect(x, (y + ySizeHelp) - 10, 0, 19,
-					xSizeHelp, 10);
+			drawTexturedModalRect(x, y, 0, 0, xSizeHelp, 10);
+			drawTexturedModalRect(x, (y + ySizeHelp) - 10, 0, 19, xSizeHelp, 10);
 
 			for (int row = 0; row < rows; row++) {
-				this.drawTexturedModalRect(x, y + 10 + (row * 9), 0, 10,
-						xSizeHelp, 9);
+				drawTexturedModalRect(x, y + 10 + (row * 9), 0, 10, xSizeHelp,
+						9);
 			}
 
 			fontRendererObj.drawSplitString(HelpText, x + 10, y + 10,
@@ -310,44 +294,10 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	}
 
 	// TODO See if this can be removed!
-	private void drawSplitString(String s, int i, int j, int k, int l) {
-		fontRendererObj.drawSplitString(s, (int) (i / factor),
-				(int) (j / factor), l, k);
-	}
-
-	private void drawString(String s, int i, int j, int k) {
-		fontRendererObj
-				.drawString(s, (int) (i / factor), (int) (j / factor), k);
-	}
-
-	private void drawString(String s, int i, int j, int k, float f) {
-		if (f != factor) {
-			factor = f;
-			GL11.glPopMatrix();
-			GL11.glPushMatrix();
-
-			GL11.glTranslatef(globalX + 1, globalY, 0.0F);
-
-			GL11.glScalef(factor, factor, factor);
-		}
-
-		fontRendererObj
-				.drawString(s, (int) (i / factor), (int) (j / factor), k);
-	}
-
-	private void drawTexturedModalRect(int x, int y, int u, int v, int width,
-			int height, boolean inverted) {
-		if (inverted) {
-			GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
-
-			this.drawTexturedModalRect(-x - width, -y - height, u, v, width,
-					height);
-
-			GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
-		} else {
-			this.drawTexturedModalRect(x, y, u, v, width, height);
-		}
-	}
+	// private void drawSplitString(String s, int i, int j, int k, int l) {
+	// fontRendererObj.drawSplitString(s, (int) (i / factor),
+	// (int) (j / factor), l, k);
+	// }
 
 	private int getLines(String str) {
 		return fontRendererObj.listFormattedStringToWidth(str, stringWidth)
@@ -409,10 +359,6 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		super.handleMouseInput();
 	}
 
-	private boolean inField(int i, int j, int k, int l, int i1, int j1) {
-		return (i >= k) && (i <= i1) && (j >= l) && (j <= j1);
-	}
-
 	@Override
 	protected void keyTyped(char c, int i) {
 		if (help) {
@@ -426,23 +372,23 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 			}
 
 			// if (i == 205) {
-			// this.swap(true);
+			// swap(true);
 			// }
 			//
 			// if (i == 203) {
-			// this.swap(false);
+			// swap(false);
 			// }
 			//
 			// if (i == 54) {
-			// this.rotate(true);
+			// rotate(true);
 			// }
 			//
 			// if (i == 42) {
-			// this.rotate(false);
+			// rotate(false);
 			// }
 			//
 			// if ((i == 42) || (i == 54) || (i == 203) || (i == 205)) {
-			// this.click();
+			// click();
 			// }
 		}
 	}
@@ -519,18 +465,18 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 			// TileEntityBlockBrainLogicBlock.numGates; byte0++) {
 			// final int l = 12 * byte0;
 			//
-			// if (this.inField(i, j, 5, 18 + l, 75, 32 + l)) {
+			// if (inField(i, j, 5, 18 + l, 75, 32 + l)) {
 			// tileentity.setMode(byte0);
 			// }
 			// }
 			//
-			// if (this.inField(i, j, 76, 68, 168, 90)) {
+			// if (inField(i, j, 76, 68, 168, 90)) {
 			// tileentity.invertInvertOutput();
 			// }
 			//
 			// if (!tileentity.isSwapable()) {
 			// tileentity.setFocused(0);
-			// } else if (this.inField(i, j, 124, 7, 143, 26)) {
+			// } else if (inField(i, j, 124, 7, 143, 26)) {
 			// focused = tileentity.getFocused();
 			//
 			// if (focused != 1) {
@@ -538,13 +484,13 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 			// } else {
 			// tileentity.setFocused(0);
 			// }
-			// } else if (this.inField(i, j, 144, 27, 163, 46)) {
+			// } else if (inField(i, j, 144, 27, 163, 46)) {
 			// if (focused != 2) {
 			// tileentity.setFocused(2);
 			// } else {
 			// tileentity.setFocused(0);
 			// }
-			// } else if (this.inField(i, j, 104, 27, 123, 46)) {
+			// } else if (inField(i, j, 104, 27, 123, 46)) {
 			// if (focused != 3) {
 			// tileentity.setFocused(3);
 			// } else {
@@ -614,9 +560,9 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 			final byte powerLevel = tileentity
 					.getPowerLevel(localToBlockDirections2);
 			if (powerLevel == -1) {
-				this.drawTexturedModalRect(x, y, 216, 20, 20, 20);
+				drawTexturedModalRect(x, y, 216, 20, 20, 20);
 			} else {
-				this.drawTexturedModalRect(x, y,
+				drawTexturedModalRect(x, y,
 						176 + (((powerLevel & 8) >> 1) * 5),
 						(powerLevel & 7) * 20, 20, 20);
 			}
@@ -625,7 +571,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 
 	private void renderGateLetterAt(int x, int y, BrainStoneDirection direction) {
 		if (tileentity.shallRenderPin(direction)) {
-			this.drawString(tileentity.getGateLetter(direction), x, y,
+			drawString(tileentity.getGateLetter(direction), x, y,
 					tileentity.getGateColor(direction), 2.0F);
 		}
 	}

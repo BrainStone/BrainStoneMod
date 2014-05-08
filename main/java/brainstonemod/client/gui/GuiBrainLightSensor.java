@@ -51,8 +51,8 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 
 		if (tileentity.getState()) {
 			this.bindTexture("GuiBrainLightSensorClassic");
-			final int x = (width - xSizeClassic) / 2;
-			final int y = (height - ySizeClassic) / 2;
+			final int x = globalX = (width - xSizeClassic) / 2;
+			final int y = globalY = (height - ySizeClassic) / 2;
 			drawTexturedModalRect(x, y, 0, 0, xSizeClassic, ySizeClassic);
 
 			if (direction) {
@@ -67,65 +67,42 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 			curLightLevel = tileentity.getCurLightLevel();
 			drawTexturedModalRect(x + (curLightLevel * 7) + 8, y + 22,
 					8 + (7 * curLightLevel), 158, 6, 66);
-			fontRendererObj.drawString(StatCollector
-					.translateToLocal("tile.brainLightSensor.name"), x + 6,
-					y + 16, 0x404040);
-			fontRendererObj.drawString(
+			drawString(
+					StatCollector
+							.translateToLocal("tile.brainLightSensor.name"),
+					6, 16, 0x404040);
+			drawString(
 					tmp = StatCollector
 							.translateToLocal("gui.brainstone.classic"),
-					(x + 32) - (fontRendererObj.getStringWidth(tmp) / 2),
-					y + 3, 0x404040);
-			fontRendererObj.drawString(
+					32 - (fontRendererObj.getStringWidth(tmp) / 2), 3, 0x404040);
+			drawString(
 					tmp = StatCollector
 							.translateToLocal("gui.brainstone.simple"),
-					(x + 96) - (fontRendererObj.getStringWidth(tmp) / 2),
-					y + 3, 0x404040);
+					96 - (fontRendererObj.getStringWidth(tmp) / 2), 3, 0x404040);
 		} else {
 			this.bindTexture("GuiBrainLightSensorSimple");
-			final int x = (width - xSizeSimple) / 2;
-			final int y = (height - ySizeSimple) / 2;
+			final int x = globalX = (width - xSizeSimple) / 2;
+			final int y = globalY = (height - ySizeSimple) / 2;
 			drawTexturedModalRect(x, y, 0, 0, xSizeSimple, ySizeSimple);
 			drawTexturedModalRect(x + 8, y
 					+ ((tileentity.getDirection()) ? 18 : 36), 8, 52, 9, 8);
 
-			fontRendererObj.drawString(
+			drawString(
 					tmp = StatCollector
 							.translateToLocal("gui.brainstone.classic"),
-					(x + 32) - (fontRendererObj.getStringWidth(tmp) / 2),
-					y + 3, 0x404040);
-			fontRendererObj.drawString(
+					32 - (fontRendererObj.getStringWidth(tmp) / 2), 3, 0x404040);
+			drawString(
 					tmp = StatCollector
 							.translateToLocal("gui.brainstone.simple"),
-					(x + 96) - (fontRendererObj.getStringWidth(tmp) / 2),
-					y + 3, 0x404040);
-			fontRendererObj.drawString(StatCollector
-					.translateToLocal("gui.brainstone.proportional"), x + 20,
-					y + 18, 0x404040);
-			fontRendererObj.drawString(
+					96 - (fontRendererObj.getStringWidth(tmp) / 2), 3, 0x404040);
+			drawString(
+					StatCollector
+							.translateToLocal("gui.brainstone.proportional"),
+					20, 18, 0x404040);
+			drawString(
 					StatCollector.translateToLocal("gui.brainstone.inverted"),
-					x + 20, y + 36, 0x404040);
+					20, 36, 0x404040);
 		}
-	}
-
-	/**
-	 * Takes two coordinates and checks if they are in a given rectangle
-	 * 
-	 * @param x
-	 *            x-Coordinate to check
-	 * @param y
-	 *            y-Coordinate to check
-	 * @param xmin
-	 *            min x-Coordinate
-	 * @param ymin
-	 *            min y-Coordinate
-	 * @param xmax
-	 *            max x-Coordinate
-	 * @param ymax
-	 *            max y-Coordinate
-	 * @return true if the coordinates are in the rectangle and false if not
-	 */
-	private boolean inField(int x, int y, int xmin, int ymin, int xmax, int ymax) {
-		return (x >= xmin) && (x <= xmax) && (y >= ymin) && (y <= ymax);
 	}
 
 	@Override
