@@ -12,10 +12,6 @@ import brainstonemod.network.BrainStonePacketHelper;
 
 public abstract class GuiBrainStoneBase extends GuiContainer {
 	protected TileEntityBrainStoneSyncBase tileentity;
-	/** x coordinate for relative zero */
-	protected int globalX;
-	/** y coordinate for relative zero */
-	protected int globalY;
 
 	public GuiBrainStoneBase(Container par1Container,
 			TileEntityBrainStoneSyncBase tileentity) {
@@ -56,12 +52,105 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 				1.0F, true);
 	}
 
+	protected void drawCenteredString(String text, float x, float y) {
+		drawCenteredString(text, x, y, 0x000000);
+	}
+
+	protected void drawCenteredString(String text, float x, float y, float scale) {
+		drawCenteredString(text, x, y, 0x000000, scale);
+	}
+
+	protected void drawCenteredString(String text, float x, float y, int color) {
+		drawCenteredString(text, x, y, color, 1.0f);
+	}
+
+	protected void drawCenteredString(String text, float x, float y, int color,
+			float scale) {
+		drawString(
+				text,
+				x - (fontRendererObj.getStringWidth(text) / 2.0f),
+				y
+						- (text.split("\r\n|\r|\n").length * (fontRendererObj.FONT_HEIGHT / 2)),
+				color, scale);
+	}
+
+	@Override
+	public final void drawDefaultBackground() {
+		super.drawDefaultBackground();
+	}
+
+	protected abstract void drawGuiBackground(float partialTicks, int mouseX,
+			int mouseY);
+
+	@Override
+	protected final void drawGuiContainerBackgroundLayer(float partialTicks,
+			int mouseX, int mouseY) {
+		final int xSizeOld = xSize;
+		final int ySizeOld = ySize;
+
+		guiLeft = (width - xSize) / 2;
+		guiTop = (height - ySize) / 2;
+
+		GL11.glPushMatrix();
+		GL11.glTranslatef(guiLeft, guiTop, 0.0f);
+
+		bindTexture();
+		drawGuiBackground(partialTicks, mouseX, mouseY);
+
+		GL11.glPopMatrix();
+
+		xSize = xSizeOld;
+		ySize = ySizeOld;
+
+		guiLeft = (width - xSize) / 2;
+		guiTop = (height - ySize) / 2;
+	}
+
+	@Override
+	protected final void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
+
+		final int xSizeOld = xSize;
+		final int ySizeOld = ySize;
+
+		guiLeft = (width - xSize) / 2;
+		guiTop = (height - ySize) / 2;
+
+		GL11.glPushMatrix();
+		GL11.glTranslatef(-guiLeft, -guiTop, 0.0f);
+		GL11.glPushMatrix();
+		GL11.glTranslatef(guiLeft, guiTop, 0.0f);
+
+		drawGuiForeground(mouseX, mouseY);
+
+		GL11.glPopMatrix();
+		GL11.glPopMatrix();
+
+		xSize = xSizeOld;
+		ySize = ySizeOld;
+
+		guiLeft = (width - xSize) / 2;
+		guiTop = (height - ySize) / 2;
+	}
+
+	protected void drawGuiForeground(int mouseX, int mouseY) {
+	}
+
+	public final void drawMyDefaultBackground() {
+		GL11.glPopMatrix();
+
+		drawDefaultBackground();
+
+		GL11.glPushMatrix();
+		GL11.glTranslatef(guiLeft, guiTop, 0.0f);
+	}
+
 	protected void drawString(String text, float x, float y) {
-		drawString(text, x, y, 0, 1.0f);
+		drawString(text, x, y, 0x000000);
 	}
 
 	protected void drawString(String text, float x, float y, float scale) {
-		drawString(text, x, y, 0, scale);
+		drawString(text, x, y, 0x000000, scale);
 	}
 
 	protected void drawString(String text, float x, float y, int color) {
@@ -114,7 +203,7 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 	}
 
 	private void prepareMatrices(float x, float y, float scale) {
-		GL11.glTranslatef(globalX + x, globalY + y, 0.0F);
+		GL11.glTranslatef(x, y, 0.0F);
 		GL11.glScalef(scale, scale, scale);
 	}
 
@@ -127,5 +216,23 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 		mc.setIngameFocus();
 
 		BrainStonePacketHelper.sendUpdateTileEntityPacket(tileentity);
+	}
+
+	protected void setSize(int width, int height) {
+		xSize = width;
+		ySize = height;
+	}
+
+	protected void setTempSize(int width, int height) {
+		GL11.glPopMatrix();
+
+		xSize = width;
+		ySize = height;
+
+		guiLeft = (this.width - xSize) / 2;
+		guiTop = (this.height - ySize) / 2;
+
+		GL11.glPushMatrix();
+		GL11.glTranslatef(guiLeft, guiTop, 0.0f);
 	}
 }

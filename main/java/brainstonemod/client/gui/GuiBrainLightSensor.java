@@ -43,58 +43,53 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 		setLightLevel(tileentity.getLightLevel());
 
 		BrainStonePacketHelper.sendUpdateTileEntityPacket(tileentity);
+
+		if (tileentity.getState()) {
+			setSize(xSizeClassic, ySizeClassic);
+		} else {
+			setSize(xSizeSimple, ySizeSimple);
+		}
 	}
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
-		String tmp;
-
+	protected void drawGuiBackground(float partialTicks, int mouseX, int mouseY) {
 		if (tileentity.getState()) {
 			this.bindTexture("GuiBrainLightSensorClassic");
-			final int x = globalX = (width - xSizeClassic) / 2;
-			final int y = globalY = (height - ySizeClassic) / 2;
-			drawTexturedModalRect(x, y, 0, 0, xSizeClassic, ySizeClassic);
+			drawTexturedModalRect(0, 0, 0, 0, xSizeClassic, ySizeClassic);
 
 			if (direction) {
-				drawTexturedModalRect(x + 9, y + 23, 9, 94,
-						7 * (lightLevel + 1), 64);
+				drawTexturedModalRect(9, 23, 9, 94, 7 * (lightLevel + 1), 64);
 			} else {
 				final int j1 = 7 * (16 - lightLevel);
 				final int k1 = 112 - j1;
-				drawTexturedModalRect(x + 9 + k1, y + 23, 9 + k1, 94, j1, 64);
+				drawTexturedModalRect(9 + k1, 23, 9 + k1, 94, j1, 64);
 			}
 
 			curLightLevel = tileentity.getCurLightLevel();
-			drawTexturedModalRect(x + (curLightLevel * 7) + 8, y + 22,
+			drawTexturedModalRect((curLightLevel * 7) + 8, 22,
 					8 + (7 * curLightLevel), 158, 6, 66);
 			drawString(
 					StatCollector
 							.translateToLocal("tile.brainLightSensor.name"),
 					6, 16, 0x404040);
-			drawString(
-					tmp = StatCollector
-							.translateToLocal("gui.brainstone.classic"),
-					32 - (fontRendererObj.getStringWidth(tmp) / 2), 3, 0x404040);
-			drawString(
-					tmp = StatCollector
-							.translateToLocal("gui.brainstone.simple"),
-					96 - (fontRendererObj.getStringWidth(tmp) / 2), 3, 0x404040);
+			drawCenteredString(
+					StatCollector.translateToLocal("gui.brainstone.classic"),
+					32, 7, 0x404040);
+			drawCenteredString(
+					StatCollector.translateToLocal("gui.brainstone.simple"),
+					96, 7, 0x404040);
 		} else {
 			this.bindTexture("GuiBrainLightSensorSimple");
-			final int x = globalX = (width - xSizeSimple) / 2;
-			final int y = globalY = (height - ySizeSimple) / 2;
-			drawTexturedModalRect(x, y, 0, 0, xSizeSimple, ySizeSimple);
-			drawTexturedModalRect(x + 8, y
-					+ ((tileentity.getDirection()) ? 18 : 36), 8, 52, 9, 8);
+			drawTexturedModalRect(0, 0, 0, 0, xSizeSimple, ySizeSimple);
+			drawTexturedModalRect(8, ((tileentity.getDirection()) ? 18 : 36),
+					8, 52, 9, 8);
 
-			drawString(
-					tmp = StatCollector
-							.translateToLocal("gui.brainstone.classic"),
-					32 - (fontRendererObj.getStringWidth(tmp) / 2), 3, 0x404040);
-			drawString(
-					tmp = StatCollector
-							.translateToLocal("gui.brainstone.simple"),
-					96 - (fontRendererObj.getStringWidth(tmp) / 2), 3, 0x404040);
+			drawCenteredString(
+					StatCollector.translateToLocal("gui.brainstone.classic"),
+					32, 7, 0x404040);
+			drawCenteredString(
+					StatCollector.translateToLocal("gui.brainstone.simple"),
+					96, 7, 0x404040);
 			drawString(
 					StatCollector
 							.translateToLocal("gui.brainstone.proportional"),
@@ -173,6 +168,12 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 				if (inField(x, y, 120, 13, 124, 17)) {
 					quit();
 				}
+			}
+
+			if (tileentity.getState()) {
+				setSize(xSizeClassic, ySizeClassic);
+			} else {
+				setSize(xSizeSimple, ySizeSimple);
 			}
 		}
 	}

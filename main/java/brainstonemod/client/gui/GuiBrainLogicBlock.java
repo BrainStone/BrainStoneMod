@@ -88,6 +88,8 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 				.reorintateNorth(direction);
 		localToBlockDirections[WEST.toArrayIndex()] = WEST
 				.reorintateNorth(direction);
+
+		setSize(xSizeMain, ySizeMain);
 	}
 
 	private void closeHelpGui() {
@@ -102,80 +104,74 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	}
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float partialTicks,
-			int mouseX, int mouseY) {
+	protected void drawGuiBackground(float partialTicks, int mouseX, int mouseY) {
 		if (mousePos == -2) {
 			mouseMovedOrUp((Mouse.getEventX() * width) / mc.displayWidth,
 					height - ((Mouse.getEventY() * height) / mc.displayHeight)
 							- 1, -1);
 		}
 
-		bindTexture();
-
-		int x = globalX = (width - xSizeMain) / 2;
-		int y = globalY = (height - ySizeMain) / 2;
-		drawTexturedModalRect(x, y, 0, 0, xSizeMain, ySizeMain);
+		drawTexturedModalRect(0, 0, 0, 0, xSizeMain, ySizeMain);
 
 		if (rowsToScroll < 1) {
-			drawTexturedModalRect(x + 157, y + 78, 244, 0, 12, 15);
+			drawTexturedModalRect(157, 78, 244, 0, 12, 15);
 		} else {
-			drawTexturedModalRect(x + 157, y + 78
-					+ ((int) (scrollbarPos * pixelPerRow)), 232, 0, 12, 15);
+			drawTexturedModalRect(157,
+					78 + ((int) (scrollbarPos * pixelPerRow)), 232, 0, 12, 15);
 		}
 
 		for (int i = 0; i < 6; i++) {
 			if ((Gate.NumberGates >= 6) || (i < Gate.NumberGates)) {
-				drawTexturedModalRect(x + 8, y + 78 + (19 * i), 8,
+				drawTexturedModalRect(8, 78 + (19 * i), 8,
 						((i + scrollbarPos) == tileentity.getGatePos()) ? 219
 								: 200, 143, 19, i == mousePos);
 			}
 		}
 
 		if (movingPin != UP) {
-			renderGateFrameAt(x + 38, y + 7,
-					localToBlockDirections[UP.toArrayIndex()]);
+			renderGateFrameAt(38, 7, localToBlockDirections[UP.toArrayIndex()]);
 		} else if (swappedPin != null) {
-			renderGateFrameAt(x + 38, y + 7,
+			renderGateFrameAt(38, 7,
 					localToBlockDirections[swappedPin.toArrayIndex()]);
 		}
 
 		if (movingPin != DOWN) {
-			renderGateFrameAt(x + 38, y + 47,
+			renderGateFrameAt(38, 47,
 					localToBlockDirections[DOWN.toArrayIndex()]);
 		} else if (swappedPin != null) {
-			renderGateFrameAt(x + 38, y + 47,
+			renderGateFrameAt(38, 47,
 					localToBlockDirections[swappedPin.toArrayIndex()]);
 		}
 
 		if (movingPin != NORTH) {
-			renderGateFrameAt(x + 98, y + 7,
+			renderGateFrameAt(98, 7,
 					localToBlockDirections[NORTH.toArrayIndex()]);
 		} else if (swappedPin != null) {
-			renderGateFrameAt(x + 98, y + 7,
+			renderGateFrameAt(98, 7,
 					localToBlockDirections[swappedPin.toArrayIndex()]);
 		}
 
 		if (movingPin != EAST) {
-			renderGateFrameAt(x + 118, y + 27,
+			renderGateFrameAt(118, 27,
 					localToBlockDirections[EAST.toArrayIndex()]);
 		} else if (swappedPin != null) {
-			renderGateFrameAt(x + 118, y + 27,
+			renderGateFrameAt(118, 27,
 					localToBlockDirections[swappedPin.toArrayIndex()]);
 		}
 
 		if (movingPin != SOUTH) {
-			renderGateFrameAt(x + 98, y + 47,
+			renderGateFrameAt(98, 47,
 					localToBlockDirections[SOUTH.toArrayIndex()]);
 		} else if (swappedPin != null) {
-			renderGateFrameAt(x + 98, y + 47,
+			renderGateFrameAt(98, 47,
 					localToBlockDirections[swappedPin.toArrayIndex()]);
 		}
 
 		if (movingPin != WEST) {
-			renderGateFrameAt(x + 78, y + 27,
+			renderGateFrameAt(78, 27,
 					localToBlockDirections[WEST.toArrayIndex()]);
 		} else if (swappedPin != null) {
-			renderGateFrameAt(x + 78, y + 27,
+			renderGateFrameAt(78, 27,
 					localToBlockDirections[swappedPin.toArrayIndex()]);
 		}
 
@@ -207,50 +203,50 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		drawString(backwardDirection, 121, 53, 0);
 
 		if (movingPin != UP) {
-			renderGateLetterAt(42, 11,
+			renderGateLetterAt(43, 10,
 					localToBlockDirections[UP.toArrayIndex()]);
 		} else if (swappedPin != null) {
-			renderGateLetterAt(42, 11,
+			renderGateLetterAt(43, 10,
 					localToBlockDirections[swappedPin.toArrayIndex()]);
 		}
 
 		if (movingPin != DOWN) {
-			renderGateLetterAt(42, 51,
+			renderGateLetterAt(43, 50,
 					localToBlockDirections[DOWN.toArrayIndex()]);
 		} else if (swappedPin != null) {
-			renderGateLetterAt(42, 51,
+			renderGateLetterAt(43, 50,
 					localToBlockDirections[swappedPin.toArrayIndex()]);
 		}
 
 		if (movingPin != NORTH) {
-			renderGateLetterAt(102, 11,
+			renderGateLetterAt(103, 10,
 					localToBlockDirections[NORTH.toArrayIndex()]);
 		} else if (swappedPin != null) {
-			renderGateLetterAt(102, 11,
+			renderGateLetterAt(103, 10,
 					localToBlockDirections[swappedPin.toArrayIndex()]);
 		}
 
 		if (movingPin != EAST) {
-			renderGateLetterAt(122, 31,
+			renderGateLetterAt(123, 30,
 					localToBlockDirections[EAST.toArrayIndex()]);
 		} else if (swappedPin != null) {
-			renderGateLetterAt(122, 31,
+			renderGateLetterAt(123, 30,
 					localToBlockDirections[swappedPin.toArrayIndex()]);
 		}
 
 		if (movingPin != SOUTH) {
-			renderGateLetterAt(102, 51,
+			renderGateLetterAt(103, 50,
 					localToBlockDirections[SOUTH.toArrayIndex()]);
 		} else if (swappedPin != null) {
-			renderGateLetterAt(102, 51,
+			renderGateLetterAt(103, 50,
 					localToBlockDirections[swappedPin.toArrayIndex()]);
 		}
 
 		if (movingPin != WEST) {
-			renderGateLetterAt(82, 31,
+			renderGateLetterAt(83, 30,
 					localToBlockDirections[WEST.toArrayIndex()]);
 		} else if (swappedPin != null) {
-			renderGateLetterAt(82, 31,
+			renderGateLetterAt(83, 30,
 					localToBlockDirections[swappedPin.toArrayIndex()]);
 		}
 
@@ -261,35 +257,35 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		if (movingPin != null) {
 			bindTexture();
 
-			renderGateFrameAt((x + mousePosX) - movingPinOffsetX,
-					(y + mousePosY) - movingPinOffsetY,
+			renderGateFrameAt(mousePosX - movingPinOffsetX, mousePosY
+					- movingPinOffsetY,
 					localToBlockDirections[movingPin.toArrayIndex()]);
 
-			renderGateLetterAt((mousePosX - movingPinOffsetX) + 4,
-					(mousePosY - movingPinOffsetY) + 4,
+			renderGateLetterAt((mousePosX - movingPinOffsetX) + 5,
+					(mousePosY - movingPinOffsetY) + 3,
 					localToBlockDirections[movingPin.toArrayIndex()]);
 		}
 
 		// Help Screen!
 
 		if (help) {
+			drawMyDefaultBackground();
+
 			bindTexture("GuiBrainLogicBlockHelp");
 
 			final int rows = getLines(HelpText);
 			final int ySizeHelp = 20 + (9 * rows);
+			setTempSize(xSizeHelp, ySizeHelp);
 
-			x = (width - xSizeHelp) / 2;
-			y = (height - ySizeHelp) / 2;
-			drawTexturedModalRect(x, y, 0, 0, xSizeHelp, 10);
-			drawTexturedModalRect(x, (y + ySizeHelp) - 10, 0, 19, xSizeHelp, 10);
+			drawTexturedModalRect(0, 0, 0, 0, xSizeHelp, 10);
+			drawTexturedModalRect(0, ySizeHelp - 10, 0, 19, xSizeHelp, 10);
 
 			for (int row = 0; row < rows; row++) {
-				drawTexturedModalRect(x, y + 10 + (row * 9), 0, 10, xSizeHelp,
-						9);
+				drawTexturedModalRect(0, 10 + (row * 9), 0, 10, xSizeHelp, 9);
 			}
 
-			fontRendererObj.drawSplitString(HelpText, x + 10, y + 10,
-					stringWidth, 0xeeeeee);
+			fontRendererObj.drawSplitString(HelpText, 10, 10, stringWidth,
+					0xeeeeee);
 		}
 	}
 
@@ -361,6 +357,8 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 
 	@Override
 	protected void keyTyped(char c, int i) {
+		super.keyTyped(c, i);
+
 		if (help) {
 			closeHelpGui();
 		} else {
@@ -370,26 +368,6 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 			} else if (i == Keyboard.KEY_F1) {
 				openHelp();
 			}
-
-			// if (i == 205) {
-			// swap(true);
-			// }
-			//
-			// if (i == 203) {
-			// swap(false);
-			// }
-			//
-			// if (i == 54) {
-			// rotate(true);
-			// }
-			//
-			// if (i == 42) {
-			// rotate(false);
-			// }
-			//
-			// if ((i == 42) || (i == 54) || (i == 203) || (i == 205)) {
-			// click();
-			// }
 		}
 	}
 
@@ -400,8 +378,8 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		if (help) {
 			closeHelpGui();
 		} else {
-			mousePosX = mouseX -= globalX;
-			mousePosY = mouseY -= globalY;
+			mousePosX = mouseX -= guiLeft;
+			mousePosY = mouseY -= guiTop;
 
 			for (int i = 0; i < 6; i++) {
 				if (inField(mouseX, mouseY, 8, 78 + (19 * i), 150,
@@ -433,11 +411,11 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 				movingPin = NORTH;
 				movingPinOffsetX = mouseX - 98;
 				movingPinOffsetY = mouseY - 7;
-			} else if (inField(mouseX, mouseY, 78, 27, 98, 47)
+			} else if (inField(mouseX, mouseY, 118, 27, 138, 47)
 					&& tileentity.canBeMovedByMouse(localToBlockDirections[EAST
 							.toArrayIndex()])) {
 				movingPin = EAST;
-				movingPinOffsetX = mouseX - 78;
+				movingPinOffsetX = mouseX - 118;
 				movingPinOffsetY = mouseY - 27;
 			} else if (inField(mouseX, mouseY, 98, 47, 118, 67)
 					&& tileentity
@@ -446,11 +424,11 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 				movingPin = SOUTH;
 				movingPinOffsetX = mouseX - 98;
 				movingPinOffsetY = mouseY - 47;
-			} else if (inField(mouseX, mouseY, 118, 27, 138, 47)
+			} else if (inField(mouseX, mouseY, 78, 27, 98, 47)
 					&& tileentity.canBeMovedByMouse(localToBlockDirections[WEST
 							.toArrayIndex()])) {
 				movingPin = WEST;
-				movingPinOffsetX = mouseX - 118;
+				movingPinOffsetX = mouseX - 78;
 				movingPinOffsetY = mouseY - 27;
 			}
 
@@ -459,54 +437,14 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 
 				return;
 			}
-
-			// REMOVE
-			// for (byte byte0 = 0; byte0 <
-			// TileEntityBlockBrainLogicBlock.numGates; byte0++) {
-			// final int l = 12 * byte0;
-			//
-			// if (inField(i, j, 5, 18 + l, 75, 32 + l)) {
-			// tileentity.setMode(byte0);
-			// }
-			// }
-			//
-			// if (inField(i, j, 76, 68, 168, 90)) {
-			// tileentity.invertInvertOutput();
-			// }
-			//
-			// if (!tileentity.isSwapable()) {
-			// tileentity.setFocused(0);
-			// } else if (inField(i, j, 124, 7, 143, 26)) {
-			// focused = tileentity.getFocused();
-			//
-			// if (focused != 1) {
-			// tileentity.setFocused(1);
-			// } else {
-			// tileentity.setFocused(0);
-			// }
-			// } else if (inField(i, j, 144, 27, 163, 46)) {
-			// if (focused != 2) {
-			// tileentity.setFocused(2);
-			// } else {
-			// tileentity.setFocused(0);
-			// }
-			// } else if (inField(i, j, 104, 27, 123, 46)) {
-			// if (focused != 3) {
-			// tileentity.setFocused(3);
-			// } else {
-			// tileentity.setFocused(0);
-			// }
-			// } else {
-			// tileentity.setFocused(0);
-			// }
 		}
 	}
 
 	@Override
 	protected void mouseMovedOrUp(int mouseX, int mouseY, int which) {
 		if (!help) {
-			mousePosX = mouseX -= globalX;
-			mousePosY = mouseY -= globalY;
+			mousePosX = mouseX -= guiLeft;
+			mousePosY = mouseY -= guiTop;
 
 			if (which == -1) {
 				mousePos = -1;

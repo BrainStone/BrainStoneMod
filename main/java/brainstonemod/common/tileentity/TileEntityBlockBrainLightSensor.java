@@ -2,19 +2,24 @@ package brainstonemod.common.tileentity;
 
 import net.minecraft.nbt.NBTTagCompound;
 import brainstonemod.common.tileentity.template.TileEntityBrainStoneSyncBase;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
 
 public class TileEntityBlockBrainLightSensor extends
 		TileEntityBrainStoneSyncBase {
 	private int lightLevel;
-	private boolean direction;
+	private boolean classicDirection;
+	private boolean simpleDirection;
 	private boolean powerOn;
+	private boolean classicState;
 	private boolean state;
 	private int curLightLevel;
 	private short power;
 
 	public TileEntityBlockBrainLightSensor() {
 		lightLevel = 8;
-		direction = true;
+		classicDirection = true;
+		simpleDirection = true;
 		powerOn = false;
 		curLightLevel = lightLevel;
 		state = false;
@@ -25,13 +30,18 @@ public class TileEntityBlockBrainLightSensor extends
 	}
 
 	public int getCurLightLevel() {
-		curLightLevel = worldObj.getBlockLightValue(xCoord, yCoord + 1, zCoord);
+		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
+			worldObj.calculateInitialSkylight();
+		}
+
+		curLightLevel = worldObj.getBlockLightValue_do(xCoord, yCoord + 1,
+				zCoord, false);
 
 		return curLightLevel;
 	}
 
 	public boolean getDirection() {
-		return direction;
+		return state ? classicDirection : simpleDirection;
 	}
 
 	public int getLightLevel() {
@@ -70,14 +80,18 @@ public class TileEntityBlockBrainLightSensor extends
 
 		if (state) {
 			lightLevel = nbttagcompound.getByte("TEBBLS_lightLevel");
-			direction = nbttagcompound.getBoolean("TEBBLS_direction");
+			classicDirection = nbttagcompound.getBoolean("TEBBLS_direction");
 		} else {
-			direction = nbttagcompound.getBoolean("TEBBLS_direction");
+			simpleDirection = nbttagcompound.getBoolean("TEBBLS_direction");
 		}
 	}
 
 	public void setDirection(boolean direction) {
-		this.direction = direction;
+		if (state) {
+			classicDirection = direction;
+		} else {
+			simpleDirection = direction;
+		}
 	}
 
 	public void setLightLevel(int lightLevel) {
@@ -108,10 +122,9 @@ public class TileEntityBlockBrainLightSensor extends
 
 		if (state) {
 			nbttagcompound.setByte("TEBBLS_lightLevel", (byte) lightLevel);
-			nbttagcompound.setBoolean("TEBBLS_direction", direction);
-			nbttagcompound.setBoolean("TEBBLS_state", state);
+			nbttagcompound.setBoolean("TEBBLS_direction", classicDirection);
 		} else {
-			nbttagcompound.setBoolean("TEBBLS_direction", direction);
+			nbttagcompound.setBoolean("TEBBLS_direction", simpleDirection);
 		}
 	}
 }

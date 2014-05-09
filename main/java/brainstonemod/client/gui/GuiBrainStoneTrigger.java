@@ -71,6 +71,8 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 
 		buttons.getButton(21).inactive = (tmp == 1);
 		buttons.getButton(20).inactive = (tmp == 9);
+
+		setSize(176, 166);
 	}
 
 	public void buttonClicked(int ID) {
@@ -128,26 +130,21 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 	 * items)
 	 */
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float partialTicks,
-			int mouseX, int mouseY) {
+	protected void drawGuiBackground(float partialTicks, int mouseX, int mouseY) {
 		if (tileentity == null)
 			return;
 
-		this.bindTexture();
+		drawTexturedModalRect(0, 0, 0, 0, xSize, ySize);
 
-		final int x = globalX = (width - xSize) / 2;
-		final int y = globalY = (height - ySize) / 2;
-		drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
-
-		buttons.render(x, y);
+		buttons.render(0, 0);
 
 		String tmp;
 
 		for (int t = 0; t < 4; t++) {
 			if (tileentity.getMobTriggered((tmp = Mobs[t]))) {
-				drawTexturedModalRect(x + 12, y + 12 + (18 * t), 8, 166, 10, 7);
+				drawTexturedModalRect(12, 12 + (18 * t), 8, 166, 10, 7);
 				if (tileentity.getMobTriggered(tmp)) {
-					drawTexturedModalRect(88 + x, 13 + (18 * t) + y, 88, 172,
+					drawTexturedModalRect(88, 13 + (18 * t), 88, 172,
 							tileentity.getMobPower(tmp) * 2, 6);
 				}
 			}
@@ -155,23 +152,21 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 	}
 
 	@Override
-	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+	protected void drawGuiForeground(int mouseX, int mouseY) {
 		if (tileentity == null)
 			return;
 
 		String tmp;
 
 		for (int i = 0; i < 4; i++) {
-			fontRendererObj.drawString(StatCollector
-					.translateToLocal(tmp = Mobs[i]), 25, 12 + (18 * i),
-					tileentity.getMobTriggered(tmp) ? 0xffffff : 0x111111);
+			drawString(StatCollector.translateToLocal(tmp = Mobs[i]), 25,
+					12 + (18 * i), tileentity.getMobTriggered(tmp) ? 0xffffff
+							: 0x111111);
 		}
 
-		fontRendererObj.drawString((page + 1) + "/" + (max_page + 1), 146, 12,
-				0x000000);
-		fontRendererObj.drawString("Delay", 144, 54, 0x000000);
-		fontRendererObj.drawString(String.valueOf(tileentity.max_delay), 148,
-				68, 0xffffff);
+		drawString((page + 1) + "/" + (max_page + 1), 146, 12, 0x000000);
+		drawString("Delay", 144, 54, 0x000000);
+		drawString(String.valueOf(tileentity.max_delay), 148, 68, 0xffffff);
 
 		this.bindTexture();
 
@@ -222,8 +217,8 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 			return;
 
 		if (button == 0) {
-			x -= globalX;
-			y -= globalY;
+			x -= guiLeft;
+			y -= guiTop;
 
 			buttons.onClick(x, y);
 
@@ -248,7 +243,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 			hovered = -1;
 
 			for (int i = 0; i < 4; i++) {
-				if (inField(x - globalX, y - globalY, 7, 7 + (i * 18), 128,
+				if (inField(x - guiLeft, y - guiTop, 7, 7 + (i * 18), 128,
 						24 + (i * 18))) {
 					hovered = i;
 				}

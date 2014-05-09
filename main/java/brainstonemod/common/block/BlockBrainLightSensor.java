@@ -218,7 +218,7 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 				final boolean tmpPower = direction ? worldLight <= lightLevel
 						: worldLight >= lightLevel;
 
-				if ((tmpPower != power) || (oldWorldLight != worldLight)) {
+				if (tmpPower != power) {
 					BrainStonePacketHelper.sendBrainLightSensorSmokePacket(
 							world.provider.dimensionId, x, y, z);
 
