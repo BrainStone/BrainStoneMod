@@ -95,7 +95,7 @@ import cpw.mods.fml.relauncher.Side;
 public class BrainStone {
 	public static final String MOD_ID = "BrainStoneMod";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.45.237 BETA";
+	public static final String VERSION = "v2.47.27 BETA";
 
 	/** The instance of this mod */
 	@Instance(MOD_ID)
@@ -140,11 +140,11 @@ public class BrainStone {
 	public static CommonProxy proxy;
 
 	/** The BrainStone Tool Material */
-	public static ToolMaterial toolBRAINSTONE = EnumHelper.addToolMaterial(
-			"BRAINSTONE", 3, 5368, 6F, 5, 25);
+	public static ToolMaterial toolBRAINSTONE;
 	/** The BrainStone Armor Material */
-	public static ArmorMaterial armorBRAINSTONE = EnumHelper.addArmorMaterial(
-			"BRAINSTONE", 114, new int[] { 2, 6, 5, 2 }, 25);
+	public static ArmorMaterial armorBRAINSTONE;
+	/** The BrainStone Armor Material render index */
+	public static int armorBRAINSTONE_RenderIndex;
 
 	/**
 	 * This Map maps the different mob types of the BrainStoneTrigger to the
@@ -190,6 +190,7 @@ public class BrainStone {
 		loadConfig(event);
 		retriveCurrentVersions();
 		generateMcModInfoFile(event);
+		createEnums();
 		generateBlocksAndItems();
 
 		// Registering blocks and items.
@@ -347,6 +348,15 @@ public class BrainStone {
 			PlayerLoggedInEvent event) {
 		BrainStonePacketHelper
 				.sendBrainStoneTriggerMobInformationPacketToPlayer(player);
+	}
+
+	private static void createEnums() {
+		toolBRAINSTONE = EnumHelper.addToolMaterial("BRAINSTONE", 3, 5368, 6F,
+				5, 25);
+		armorBRAINSTONE = EnumHelper.addArmorMaterial("BRAINSTONE", 114,
+				new int[] { 2, 6, 5, 2 }, 25);
+	
+		armorBRAINSTONE_RenderIndex = proxy.addArmor("brainstone");
 	}
 
 	/**
@@ -663,13 +673,15 @@ public class BrainStone {
 				"axe")));
 		items.put("brainStoneHoe", (new ItemHoeBrainStone(toolBRAINSTONE)));
 		items.put("brainStoneHelmet", (new ItemArmorBrainStone(armorBRAINSTONE,
-				proxy.addArmor("brainstone"), 0)));
+				armorBRAINSTONE_RenderIndex, 0)));
 		items.put("brainStonePlate", (new ItemArmorBrainStone(armorBRAINSTONE,
-				proxy.addArmor("brainstone"), 1)));
+				armorBRAINSTONE_RenderIndex, 1)));
 		items.put("brainStoneLeggings", (new ItemArmorBrainStone(
-				armorBRAINSTONE, proxy.addArmor("brainstone"), 2)));
+				armorBRAINSTONE, armorBRAINSTONE_RenderIndex, 2)));
 		items.put("brainStoneBoots", (new ItemArmorBrainStone(armorBRAINSTONE,
-				proxy.addArmor("brainstone"), 3)));
+				armorBRAINSTONE_RenderIndex, 3)));
+		items.put("essenceOfLive", (new ItemBrainStoneBase())
+				.setCreativeTab(CreativeTabs.tabMaterials));
 	}
 
 	private static void generateAchievements() {
