@@ -10,7 +10,6 @@ import java.net.URLConnection;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -56,7 +55,6 @@ import brainstonemod.common.block.template.BlockBrainStoneBase;
 import brainstonemod.common.handler.BrainStoneEventHandler;
 import brainstonemod.common.handler.BrainStoneGuiHandler;
 import brainstonemod.common.helper.BSP;
-import brainstonemod.common.helper.BrainStoneClassFinder;
 import brainstonemod.common.item.ItemArmorBrainStone;
 import brainstonemod.common.item.ItemHoeBrainStone;
 import brainstonemod.common.item.ItemSwordBrainStone;
@@ -70,9 +68,6 @@ import brainstonemod.common.worldgenerators.BrainStoneWorldGenerator;
 import brainstonemod.network.BrainStonePacketHelper;
 import brainstonemod.network.BrainStonePacketPipeline;
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.FMLContainer;
-import cpw.mods.fml.common.FMLModContainer;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -81,6 +76,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLModDisabledEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -95,7 +91,7 @@ import cpw.mods.fml.relauncher.Side;
 public class BrainStone {
 	public static final String MOD_ID = "BrainStoneMod";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.47.27 BETA";
+	public static final String VERSION = "v2.47.134 BETA";
 
 	/** The instance of this mod */
 	@Instance(MOD_ID)
@@ -234,18 +230,27 @@ public class BrainStone {
 	}
 
 	/**
-	 * Postinitialization. Fills the triggerEntity's for the BrainStoneTrigger
+	 * Postinitialization. Postinitializes the packet pipeline
 	 * 
 	 * @param event
 	 *            The MCForge PostInitializationEvent
-	 * @throws Throwable
 	 */
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		fillTriggerEntities();
-
 		// Post initializing the pipeline
 		packetPipeline.postInitialise();
+	}
+
+	/**
+	 * Fills the triggerEntity's for the BrainStoneTrigger after the server is
+	 * starting.
+	 * 
+	 * @param event
+	 *            The MCForge ServerStartingEvent
+	 */
+	@EventHandler
+	public void onServerStarting(FMLServerStartingEvent event) {
+		fillTriggerEntities();
 	}
 
 	/**
@@ -355,7 +360,7 @@ public class BrainStone {
 				5, 25);
 		armorBRAINSTONE = EnumHelper.addArmorMaterial("BRAINSTONE", 114,
 				new int[] { 2, 6, 5, 2 }, 25);
-	
+
 		armorBRAINSTONE_RenderIndex = proxy.addArmor("brainstone");
 	}
 
@@ -492,7 +497,7 @@ public class BrainStone {
 			// NullPointerException
 
 			currentLanguage = FMLCommonHandler.instance().getCurrentLanguage();
-		} catch (NullPointerException e) {
+		} catch (final NullPointerException e) {
 			// Default to English, print the exception and add a warning to the
 			// mod description!
 
@@ -576,42 +581,32 @@ public class BrainStone {
 
 	// DOCME
 	private static void fillTriggerEntities() {
-		BSP.debug("Filling triggerEntities");
+		if ((getServerSideTiggerEntities() == null)
+				|| (getServerSideTiggerEntities().size() == 0)) {
+			BSP.debug("Filling triggerEntities");
 
-		final LinkedHashMap<String, Class<?>[]> tempTriggerEntities = new LinkedHashMap<String, Class<?>[]>();
+			final LinkedHashMap<String, Class<?>[]> tempTriggerEntities = new LinkedHashMap<String, Class<?>[]>();
 
-		tempTriggerEntities.put("gui.brainstone.player",
-				new Class<?>[] { EntityPlayer.class });
-		tempTriggerEntities.put("gui.brainstone.item",
-				new Class<?>[] { EntityBoat.class, EntityFishHook.class,
-						EntityItem.class, EntityMinecart.class,
-						EntityTNTPrimed.class, EntityXPOrb.class });
-		tempTriggerEntities.put("gui.brainstone.projectile", new Class[] {
-				EntityArrow.class, EntityThrowable.class, EntityEnderEye.class,
-				EntityFireball.class });
+			tempTriggerEntities.put("gui.brainstone.player",
+					new Class<?>[] { EntityPlayer.class });
+			tempTriggerEntities.put("gui.brainstone.item", new Class<?>[] {
+					EntityBoat.class, EntityFishHook.class, EntityItem.class,
+					EntityMinecart.class, EntityTNTPrimed.class,
+					EntityXPOrb.class });
+			tempTriggerEntities.put("gui.brainstone.projectile", new Class[] {
+					EntityArrow.class, EntityThrowable.class,
+					EntityEnderEye.class, EntityFireball.class });
 
-		for (final Entry entry : (Set<Entry>) EntityList.stringToClassMapping
-				.entrySet()) {
-			verifyTriggerEntity(tempTriggerEntities, (String) entry.getKey(),
-					(Class<?>) entry.getValue());
-		}
-
-		if (Loader.isModLoaded("MoCreatures")) {
-			try {
-				for (final Class<?> entityClass : BrainStoneClassFinder
-						.getClassesForPackage("drzhark.mocreatures.entity")) {
-					BSP.info(tempTriggerEntities, entityClass.getSimpleName()
-							.replace("MoCEntity", ""), entityClass);
-				}
-			} catch (final ClassNotFoundException e) {
-				// Just log
-				BSP.debugException_noAddon(e);
+			for (final Entry<String, Class<?>> entry : (Set<Entry<String, Class<?>>>) EntityList.stringToClassMapping
+					.entrySet()) {
+				verifyTriggerEntity(tempTriggerEntities, entry.getKey(),
+						entry.getValue());
 			}
+
+			triggerEntities.put(Side.SERVER, tempTriggerEntities);
+
+			BSP.debug("Done filling triggerEntities");
 		}
-
-		triggerEntities.put(Side.SERVER, tempTriggerEntities);
-
-		BSP.debug("Done filling triggerEntities");
 	}
 
 	/**
@@ -629,8 +624,7 @@ public class BrainStone {
 			Class<?> entityClass) {
 		if ((entityClass != null)
 				&& (!Modifier.isAbstract(entityClass.getModifiers()))
-				&& (EntityLiving.class.isAssignableFrom(entityClass))
-				&& (!EntityLiving.class.equals(entityClass))) {
+				&& (EntityLiving.class.isAssignableFrom(entityClass))) {
 			tempTriggerEntities.put("entity." + name + ".name",
 					new Class[] { entityClass });
 		}
