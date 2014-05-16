@@ -91,7 +91,7 @@ import cpw.mods.fml.relauncher.Side;
 public class BrainStone {
 	public static final String MOD_ID = "BrainStoneMod";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.47.134 BETA";
+	public static final String VERSION = "v2.47.141 BETA";
 
 	/** The instance of this mod */
 	@Instance(MOD_ID)

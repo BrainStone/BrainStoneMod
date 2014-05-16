@@ -5,7 +5,8 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import brainstonemod.BrainStone;
 import brainstonemod.common.block.template.BlockBrainStoneBase;
@@ -46,6 +47,12 @@ public class BlockBrainStone extends BlockBrainStoneBase {
 	}
 
 	@Override
+	public ItemStack getPickBlock(MovingObjectPosition target, World world,
+			int x, int y, int z) {
+		return new ItemStack(BrainStone.brainStone());
+	}
+
+	@Override
 	public void onBlockAdded(World world, int i, int j, int k) {
 		if (!world.isRemote) {
 			if (powered && !world.isBlockIndirectlyGettingPowered(i, j, k)) {
@@ -58,10 +65,8 @@ public class BlockBrainStone extends BlockBrainStoneBase {
 	}
 
 	@Override
-	public void onNeighborChange(IBlockAccess blockAccess, int x, int y, int z,
-			int tileX, int tileY, int tileZ) {
-		final World world = (World) blockAccess;
-
+	public void onNeighborBlockChange(World world, int x, int y, int z,
+			Block block) {
 		if (!world.isRemote) {
 			if (powered && !world.isBlockIndirectlyGettingPowered(x, y, z)) {
 				world.setBlock(x, y, z, BrainStone.brainStone(), 0, 2);

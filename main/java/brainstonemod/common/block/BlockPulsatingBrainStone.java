@@ -59,7 +59,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 	@Override
 	public ItemStack getPickBlock(MovingObjectPosition target, World world,
 			int x, int y, int z) {
-		return new ItemStack(BrainStone.pulsatingBrainStone(), 1);
+		return new ItemStack(BrainStone.pulsatingBrainStone());
 	}
 
 	private int getRandomPotion(Random random) {
