@@ -53,6 +53,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 
 		public void stopSound() {
 			run = false;
+
 			if (currentSound != null) {
 				stopSoundAtClient(currentSound);
 			}
@@ -396,6 +397,17 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 
 	@Override
 	protected void keyTyped(char c, int i) {
+		if (help) {
+			closeHelpGui();
+		} else {
+			if ((i == Keyboard.KEY_ESCAPE)
+					|| (i == mc.gameSettings.keyBindInventory.getKeyCode())) {
+				quit();
+			} else if (i == Keyboard.KEY_F1) {
+				openHelp();
+			}
+		}
+
 		if (nyanCat) {
 			stopEasterEgg();
 		}
@@ -409,29 +421,10 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 						&& (lastChars[1] == 'd') && (lastChars[0] == 'f'))) {
 			startEasterEgg();
 		}
-
-		if (help) {
-			closeHelpGui();
-		} else {
-			if ((i == Keyboard.KEY_ESCAPE)
-					|| (i == mc.gameSettings.keyBindInventory.getKeyCode())) {
-				quit();
-			} else if (i == Keyboard.KEY_F1) {
-				openHelp();
-			}
-		}
-
-		super.keyTyped(c, i);
 	}
 
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int which) {
-		super.mouseClicked(mouseX, mouseY, which);
-
-		if (nyanCat) {
-			stopEasterEgg();
-		}
-
 		if (help) {
 			closeHelpGui();
 		} else {
@@ -491,9 +484,11 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 
 			if (inField(mouseX, mouseY, 168, 3, 172, 7)) {
 				quit();
-
-				return;
 			}
+		}
+
+		if (nyanCat) {
+			stopEasterEgg();
 		}
 	}
 
@@ -546,10 +541,6 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	protected void quit() {
 		super.quit();
 
-		if (soundLoop != null) {
-			soundLoop.stopSound();
-		}
-
 		tileentity.logOut(username);
 	}
 
@@ -593,6 +584,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 			nyanCat = false;
 
 			soundLoop.stopSound();
+			soundLoop = null;
 		}
 	}
 

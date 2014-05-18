@@ -92,7 +92,7 @@ public class BrainStone {
 	public static final String MOD_ID = "BrainStoneMod";
 	public static final String RESOURCE_PREFIX = MOD_ID.toLowerCase() + ":";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.47.203 BETA";
+	public static final String VERSION = "v2.47.214 BETA";
 
 	/** The instance of this mod */
 	@Instance(MOD_ID)
