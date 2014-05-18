@@ -9,6 +9,7 @@ import static brainstonemod.common.helper.BrainStoneDirection.WEST;
 
 import java.util.UUID;
 
+import net.minecraft.client.audio.ISound;
 import net.minecraft.util.StatCollector;
 
 import org.lwjgl.input.Keyboard;
@@ -17,14 +18,50 @@ import org.lwjgl.input.Mouse;
 import brainstonemod.BrainStone;
 import brainstonemod.client.gui.template.GuiBrainStoneBase;
 import brainstonemod.common.container.ContainerBlockBrainLightSensor;
+import brainstonemod.common.helper.BSP;
 import brainstonemod.common.helper.BrainStoneDirection;
 import brainstonemod.common.logicgate.Gate;
 import brainstonemod.common.tileentity.TileEntityBlockBrainLogicBlock;
 
 public class GuiBrainLogicBlock extends GuiBrainStoneBase {
-	private static final int xSizeMain = 176;
+	private class SoundLoop extends Thread {
+		private boolean run;
+		private ISound currentSound;
 
+		public SoundLoop() {
+			run = true;
+
+			setPriority(MAX_PRIORITY);
+		}
+
+		@Override
+		public void run() {
+			try {
+				currentSound = playSoundAtClient(BrainStone.RESOURCE_PREFIX
+						+ "nyan.intro");
+				sleep(4037);
+
+				while (run) {
+					currentSound = playSoundAtClient(BrainStone.RESOURCE_PREFIX
+							+ "nyan.loop");
+					sleep(27066);
+				}
+			} catch (final InterruptedException e) {
+				BSP.warnException(e);
+			}
+		}
+
+		public void stopSound() {
+			run = false;
+			if (currentSound != null) {
+				stopSoundAtClient(currentSound);
+			}
+		}
+	}
+
+	private static final int xSizeMain = 176;
 	private static final int ySizeMain = 200;
+
 	private static final int xSizeHelp = 256;
 
 	private static boolean isFormatColor(char par0) {
@@ -36,23 +73,21 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	private final TileEntityBlockBrainLogicBlock tileentity;
 	private final UUID username;
 	private boolean help;
-
 	private final BrainStoneDirection direction;
 	private final static int stringWidth = xSizeHelp - 20;
-
 	private String HelpText;
 	private int scrollbarPos;
 	private byte mousePos;
 	private BrainStoneDirection movingPin;
 	private int movingPinOffsetX, movingPinOffsetY;
 	private final BrainStoneDirection swappedPin;
-
 	private int mousePosX, mousePosY;
 	private static final int rowsToScroll = Gate.NumberGates - 6;
-
 	private static final float pixelPerRow = 99.0F / rowsToScroll;
-
 	private final BrainStoneDirection[] localToBlockDirections;
+	private final char[] lastChars;
+	private SoundLoop soundLoop;
+	private boolean nyanCat;
 
 	public GuiBrainLogicBlock(
 			TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock) {
@@ -88,6 +123,10 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 				.reorintateNorth(direction);
 		localToBlockDirections[WEST.toArrayIndex()] = WEST
 				.reorintateNorth(direction);
+
+		lastChars = new char[4];
+		soundLoop = null;
+		nyanCat = false;
 
 		setSize(xSizeMain, ySizeMain);
 	}
@@ -357,7 +396,19 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 
 	@Override
 	protected void keyTyped(char c, int i) {
-		super.keyTyped(c, i);
+		if (nyanCat) {
+			stopEasterEgg();
+		}
+
+		// Shift array by one
+		System.arraycopy(lastChars, 0, lastChars, 1, lastChars.length - 1);
+		lastChars[0] = c;
+
+		if (((lastChars[2] == 'l') && (lastChars[1] == 'o') && (lastChars[0] == 'l'))
+				|| ((lastChars[3] == 'a') && (lastChars[2] == 's')
+						&& (lastChars[1] == 'd') && (lastChars[0] == 'f'))) {
+			startEasterEgg();
+		}
 
 		if (help) {
 			closeHelpGui();
@@ -369,11 +420,17 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 				openHelp();
 			}
 		}
+
+		super.keyTyped(c, i);
 	}
 
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int which) {
 		super.mouseClicked(mouseX, mouseY, which);
+
+		if (nyanCat) {
+			stopEasterEgg();
+		}
 
 		if (help) {
 			closeHelpGui();
@@ -489,6 +546,10 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	protected void quit() {
 		super.quit();
 
+		if (soundLoop != null) {
+			soundLoop.stopSound();
+		}
+
 		tileentity.logOut(username);
 	}
 
@@ -511,6 +572,27 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		if (tileentity.shallRenderPin(direction)) {
 			drawString(tileentity.getGateLetter(direction), x, y,
 					tileentity.getGateColor(direction), 2.0F);
+		}
+	}
+
+	private void startEasterEgg() {
+		BSP.info("START");
+
+		if (!nyanCat) {
+			nyanCat = true;
+
+			soundLoop = new SoundLoop();
+			soundLoop.start();
+		}
+	}
+
+	private void stopEasterEgg() {
+		BSP.info("STOP");
+
+		if (nyanCat) {
+			nyanCat = false;
+
+			soundLoop.stopSound();
 		}
 	}
 

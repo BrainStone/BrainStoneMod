@@ -1,5 +1,8 @@
 package brainstonemod.client.gui.template;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.ISound;
+import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
@@ -11,6 +14,78 @@ import brainstonemod.common.tileentity.template.TileEntityBrainStoneSyncBase;
 import brainstonemod.network.BrainStonePacketHelper;
 
 public abstract class GuiBrainStoneBase extends GuiContainer {
+	private class Sound implements ISound {
+		private final float pitch;
+		private final boolean repeat;
+		private final int repeatDelay;
+		private final ResourceLocation resourceLocation;
+		private final float volume;
+
+		public Sound(String sound, float volume, float pitch) {
+			resourceLocation = new ResourceLocation(sound);
+			this.volume = volume;
+			this.pitch = pitch;
+
+			repeat = false;
+			repeatDelay = 0;
+		}
+
+		public Sound(String sound, float volume, float pitch, int repeatDelay) {
+			resourceLocation = new ResourceLocation(sound);
+			this.volume = volume;
+			this.pitch = pitch;
+			this.repeatDelay = repeatDelay;
+
+			repeat = true;
+		}
+
+		@Override
+		public boolean canRepeat() {
+			return repeat;
+		}
+
+		@Override
+		public AttenuationType getAttenuationType() {
+			return AttenuationType.NONE;
+		}
+
+		@Override
+		public float getPitch() {
+			return pitch;
+		}
+
+		@Override
+		public ResourceLocation getPositionedSoundLocation() {
+			return resourceLocation;
+		}
+
+		@Override
+		public int getRepeatDelay() {
+			return repeatDelay;
+		}
+
+		@Override
+		public float getVolume() {
+			return volume;
+		}
+
+		@Override
+		public float getXPosF() {
+			return tileentity.xCoord;
+		}
+
+		@Override
+		public float getYPosF() {
+			return tileentity.yCoord;
+		}
+
+		@Override
+		public float getZPosF() {
+			return tileentity.zCoord;
+		}
+	}
+
+	protected SoundHandler soundHandler;
 	protected TileEntityBrainStoneSyncBase tileentity;
 
 	public GuiBrainStoneBase(Container par1Container,
@@ -18,12 +93,14 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 		super(par1Container);
 
 		this.tileentity = tileentity;
+
+		soundHandler = Minecraft.getMinecraft().getSoundHandler();
 	}
 
 	/**
 	 * Binds a texture with the name of the current class.
 	 */
-	public void bindTexture() {
+	protected void bindTexture() {
 		this.bindTexture(this.getClass().getSimpleName());
 	}
 
@@ -35,21 +112,19 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 	 * @param Name
 	 *            The texture to be bound
 	 */
-	public void bindTexture(String Name) {
+	protected void bindTexture(String Name) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		mc.getTextureManager().bindTexture(
-				new ResourceLocation("brainstonemod:" + BrainStone.guiPath
-						+ Name + ".png"));
+				new ResourceLocation(BrainStone.RESOURCE_PREFIX
+						+ BrainStone.guiPath + Name + ".png"));
 	}
 
 	/**
 	 * Plays the click sound.
 	 */
 	protected void click() {
-		tileentity.getWorldObj().playSound(tileentity.xCoord,
-				tileentity.yCoord, tileentity.zCoord, "random.click", 1.0F,
-				1.0F, true);
+		playSoundAtClient("random.click");
 	}
 
 	protected void drawCenteredString(String text, float x, float y) {
@@ -202,6 +277,33 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 		return (x >= xMin) && (x <= xMax) && (y >= yMin) && (y <= yMax);
 	}
 
+	protected ISound playSoundAtClient(ISound sound) {
+		soundHandler.playSound(sound);
+
+		return sound;
+	}
+
+	protected ISound playSoundAtClient(String sound) {
+		return playSoundAtClient(sound, 1.0F, 1.0F);
+	}
+
+	protected ISound playSoundAtClient(String sound, float volume, float pitch) {
+		final ISound iSound = new Sound(sound, volume, pitch);
+
+		return playSoundAtClient(iSound);
+	}
+
+	protected ISound playSoundAtClient(String sound, float volume, float pitch,
+			int repeatDelay) {
+		final ISound iSound = new Sound(sound, volume, pitch, repeatDelay);
+
+		return playSoundAtClient(iSound);
+	}
+
+	protected ISound playSoundAtClient(String sound, int repeatDelay) {
+		return playSoundAtClient(sound, 1.0F, 1.0F, repeatDelay);
+	}
+
 	private void prepareMatrices(float x, float y, float scale) {
 		GL11.glTranslatef(x, y, 0.0F);
 		GL11.glScalef(scale, scale, scale);
@@ -212,8 +314,7 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 	 */
 	protected void quit() {
 		click();
-		mc.displayGuiScreen(null);
-		mc.setIngameFocus();
+		mc.thePlayer.closeScreen();
 
 		BrainStonePacketHelper.sendUpdateTileEntityPacket(tileentity);
 	}
@@ -234,5 +335,11 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 
 		GL11.glPushMatrix();
 		GL11.glTranslatef(guiLeft, guiTop, 0.0f);
+	}
+
+	protected ISound stopSoundAtClient(ISound sound) {
+		soundHandler.stopSound(sound);
+
+		return sound;
 	}
 }
