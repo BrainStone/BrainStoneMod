@@ -90,9 +90,10 @@ import cpw.mods.fml.relauncher.Side;
 @Mod(modid = BrainStone.MOD_ID, name = BrainStone.NAME, version = BrainStone.VERSION)
 public class BrainStone {
 	public static final String MOD_ID = "BrainStoneMod";
-	public static final String RESOURCE_PREFIX = MOD_ID.toLowerCase() + ":";
+	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
+	public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.47.214 BETA";
+	public static final String VERSION = "v2.47.239 BETA";
 
 	/** The instance of this mod */
 	@Instance(MOD_ID)

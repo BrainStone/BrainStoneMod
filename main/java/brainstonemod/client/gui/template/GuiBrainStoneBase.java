@@ -5,6 +5,7 @@ import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
@@ -87,6 +88,7 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 
 	protected SoundHandler soundHandler;
 	protected TileEntityBrainStoneSyncBase tileentity;
+	protected boolean textureLoaded;
 
 	public GuiBrainStoneBase(Container par1Container,
 			TileEntityBrainStoneSyncBase tileentity) {
@@ -109,15 +111,26 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 	 * The texture is located in the "gui" directory of the brainstonemod-assest
 	 * directory.
 	 * 
-	 * @param Name
+	 * @param name
 	 *            The texture to be bound
 	 */
-	protected void bindTexture(String Name) {
+	protected void bindTexture(String name) {
+		bindTexture(new ResourceLocation(BrainStone.RESOURCE_PACKAGE,
+				BrainStone.guiPath + name + ".png"));
+	}
+
+	/**
+	 * Binds the specified texture into the GUI.<br>
+	 * 
+	 * @param resource
+	 *            The texture to be bound
+	 */
+	protected void bindTexture(ResourceLocation resource) {
+		textureLoaded = true;
+
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-		mc.getTextureManager().bindTexture(
-				new ResourceLocation(BrainStone.RESOURCE_PREFIX
-						+ BrainStone.guiPath + Name + ".png"));
+		mc.getTextureManager().bindTexture(resource);
 	}
 
 	/**
@@ -169,7 +182,7 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 		GL11.glPushMatrix();
 		GL11.glTranslatef(guiLeft, guiTop, 0.0f);
 
-		bindTexture();
+		textureLoaded = false;
 		drawGuiBackground(partialTicks, mouseX, mouseY);
 
 		GL11.glPopMatrix();
@@ -211,7 +224,7 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 	protected void drawGuiForeground(int mouseX, int mouseY) {
 	}
 
-	public final void drawMyDefaultBackground() {
+	protected final void drawMyDefaultBackground() {
 		GL11.glPopMatrix();
 
 		drawDefaultBackground();
@@ -253,6 +266,26 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 		} else {
 			drawTexturedModalRect(x, y, u, v, width, height);
 		}
+	}
+
+	@Override
+	public void drawTexturedModalRect(int x, int y, int u, int v, int width,
+			int height) {
+		if (!textureLoaded) {
+			bindTexture();
+		}
+
+		super.drawTexturedModalRect(x, y, u, v, width, height);
+	}
+
+	@Override
+	public void drawTexturedModelRectFromIcon(int x, int y, IIcon icon,
+			int width, int height) {
+		if (!textureLoaded) {
+			bindTexture();
+		}
+
+		super.drawTexturedModelRectFromIcon(x, y, icon, width, height);
 	}
 
 	/**

@@ -54,7 +54,8 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 	@Override
 	protected void drawGuiBackground(float partialTicks, int mouseX, int mouseY) {
 		if (tileentity.getState()) {
-			this.bindTexture("GuiBrainLightSensorClassic");
+			bindTexture("GuiBrainLightSensorClassic");
+
 			drawTexturedModalRect(0, 0, 0, 0, xSizeClassic, ySizeClassic);
 
 			if (direction) {
@@ -79,7 +80,8 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 					StatCollector.translateToLocal("gui.brainstone.simple"),
 					96, 7, 0x404040);
 		} else {
-			this.bindTexture("GuiBrainLightSensorSimple");
+			bindTexture("GuiBrainLightSensorSimple");
+
 			drawTexturedModalRect(0, 0, 0, 0, xSizeSimple, ySizeSimple);
 			drawTexturedModalRect(8, ((tileentity.getDirection()) ? 18 : 36),
 					8, 52, 9, 8);
