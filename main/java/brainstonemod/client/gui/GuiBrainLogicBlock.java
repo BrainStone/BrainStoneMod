@@ -7,6 +7,7 @@ import static brainstonemod.common.helper.BrainStoneDirection.SOUTH;
 import static brainstonemod.common.helper.BrainStoneDirection.UP;
 import static brainstonemod.common.helper.BrainStoneDirection.WEST;
 
+import java.util.Random;
 import java.util.UUID;
 
 import net.minecraft.client.audio.ISound;
@@ -14,6 +15,7 @@ import net.minecraft.util.StatCollector;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
 
 import brainstonemod.BrainStone;
 import brainstonemod.client.gui.template.GuiBrainStoneBase;
@@ -41,6 +43,10 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 						+ "nyan.intro");
 				sleep(4037);
 
+				renderNyanCat = true;
+				lastAnimationProgress = System.currentTimeMillis()
+						/ millisPerCatFrame;
+
 				while (run) {
 					currentSound = playSoundAtClient(BrainStone.RESOURCE_PREFIX
 							+ "nyan.loop");
@@ -60,10 +66,46 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		}
 	}
 
+	private class StarAnimation {
+		private int x;
+		private final int y;
+		private int frame;
+
+		public StarAnimation() {
+			x = width / (catScale * 2);
+			y = random.nextInt(height / catScale) - (height / (catScale * 2));
+
+			frame = random.nextInt(6);
+		}
+
+		public void ranomizeX() {
+			x = random.nextInt(width / catScale) - (width / (catScale * 2));
+		}
+
+		public void render() {
+			drawTexturedModalRect(x - 3, y - 3, 34, frame * 7, 7, 7);
+		}
+
+		public boolean shift() {
+			frame = (frame + 1) % 6;
+			x -= 10;
+
+			return x > (width / (catScale * -2));
+		}
+	}
+
 	private static final int xSizeMain = 176;
 	private static final int ySizeMain = 200;
 
 	private static final int xSizeHelp = 256;
+
+	private final static int stringWidth = xSizeHelp - 20;
+	private static final int rowsToScroll = Gate.NumberGates - 6;
+	private static final float pixelPerRow = 99.0F / rowsToScroll;
+
+	private static final int catScale = 6;
+	private static final int starEachPixels = 2000 * (catScale * catScale);
+	private static final long millisPerCatFrame = 100L;
 
 	private static boolean isFormatColor(char par0) {
 		return ((par0 >= 48) && (par0 <= 57))
@@ -71,11 +113,11 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 				|| ((par0 >= 65) && (par0 <= 70));
 	}
 
+	private final Random random = new Random();
 	private final TileEntityBlockBrainLogicBlock tileentity;
 	private final UUID username;
 	private boolean help;
 	private final BrainStoneDirection direction;
-	private final static int stringWidth = xSizeHelp - 20;
 	private String HelpText;
 	private int scrollbarPos;
 	private byte mousePos;
@@ -83,12 +125,14 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	private int movingPinOffsetX, movingPinOffsetY;
 	private final BrainStoneDirection swappedPin;
 	private int mousePosX, mousePosY;
-	private static final int rowsToScroll = Gate.NumberGates - 6;
-	private static final float pixelPerRow = 99.0F / rowsToScroll;
 	private final BrainStoneDirection[] localToBlockDirections;
 	private final char[] lastChars;
 	private SoundLoop soundLoop;
 	private boolean nyanCat;
+	private boolean renderNyanCat;
+	private long lastAnimationProgress;
+	private int numberStars;
+	private StarAnimation[] stars;
 
 	public GuiBrainLogicBlock(
 			TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock) {
@@ -326,6 +370,58 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 
 			fontRendererObj.drawSplitString(HelpText, 10, 10, stringWidth,
 					0xeeeeee);
+		}
+
+		if (renderNyanCat) {
+			// Transforming the rendering space
+			bindTexture("GuiBrainLogicBlockEasterEgg");
+			setTempSize(0, 0);
+			GL11.glScalef(catScale, catScale, catScale);
+
+			// Checking for screen size change
+			if (numberStars != ((width * height) / starEachPixels)) {
+				numberStars = (width * height) / starEachPixels;
+				stars = null;
+			}
+
+			// Refilling the stars array
+			if (stars == null) {
+				StarAnimation star;
+
+				stars = new StarAnimation[numberStars];
+
+				for (int i = 0; i < numberStars; i++) {
+					star = new StarAnimation();
+					star.ranomizeX();
+
+					stars[i] = star;
+				}
+			}
+
+			// Render all cat elements
+			for (int i = 0; i < (((width / (catScale * 2)) / 16) + 1); i++) {
+				drawTexturedModalRect((i * -16) - 23, -9, 41,
+						((int) ((lastAnimationProgress / 2) % 2L)) * 19, 16, 19);
+			}
+
+			drawTexturedModalRect(-17, -10, 0,
+					((int) (lastAnimationProgress % 12L)) * 21, 34, 21);
+
+			for (final StarAnimation star : stars) {
+				star.render();
+			}
+
+			// Progress the animation
+			if ((System.currentTimeMillis() / millisPerCatFrame) > lastAnimationProgress) {
+				lastAnimationProgress = System.currentTimeMillis()
+						/ millisPerCatFrame;
+
+				for (int i = 0; i < stars.length; i++) {
+					if (!stars[i].shift()) {
+						stars[i] = new StarAnimation();
+					}
+				}
+			}
 		}
 	}
 
@@ -574,6 +670,9 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 
 			soundLoop = new SoundLoop();
 			soundLoop.start();
+
+			numberStars = (width * height) / starEachPixels;
+			renderNyanCat = false;
 		}
 	}
 
@@ -585,6 +684,9 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 
 			soundLoop.stopSound();
 			soundLoop = null;
+
+			stars = null;
+			renderNyanCat = false;
 		}
 	}
 
