@@ -43,9 +43,11 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 						+ "nyan.intro");
 				sleep(4037);
 
-				renderNyanCat = true;
-				lastAnimationProgress = System.currentTimeMillis()
-						/ millisPerCatFrame;
+				if (run) {
+					renderNyanCat = true;
+					lastAnimationProgress = System.currentTimeMillis()
+							/ millisPerCatFrame;
+				}
 
 				while (run) {
 					currentSound = playSoundAtClient(BrainStone.RESOURCE_PREFIX
@@ -104,7 +106,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	private static final float pixelPerRow = 99.0F / rowsToScroll;
 
 	private static final int catScale = 6;
-	private static final int starEachPixels = 2000 * (catScale * catScale);
+	private static final int starEachPixels = 1000 * (catScale * catScale);
 	private static final long millisPerCatFrame = 100L;
 
 	private static boolean isFormatColor(char par0) {
