@@ -400,12 +400,18 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 				}
 			}
 
-			// Render all cat elements
-			for (int i = 0; i < (((width / (catScale * 2)) / 16) + 1); i++) {
+			// Render the rainbow
+			drawTexturedModalRect(-23, -9, 41,
+					((int) ((lastAnimationProgress / 2) % 2L)) * 19, 16, 18);
+			drawTexturedModalRect(-23, -9, 41,
+					((int) ((lastAnimationProgress / 2) % 2L)) * 19, 14, 19);
+
+			for (int i = 1; i < (((width / (catScale * 2)) / 16) + 1); i++) {
 				drawTexturedModalRect((i * -16) - 23, -9, 41,
 						((int) ((lastAnimationProgress / 2) % 2L)) * 19, 16, 19);
 			}
 
+			// Render the cat
 			drawTexturedModalRect(-17, -10, 0,
 					((int) (lastAnimationProgress % 12L)) * 21, 34, 21);
 
@@ -665,9 +671,9 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	}
 
 	private void startEasterEgg() {
-		BSP.info("START");
-
 		if (!nyanCat) {
+			soundHandler.pauseSounds();
+
 			nyanCat = true;
 
 			soundLoop = new SoundLoop();
@@ -679,8 +685,6 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	}
 
 	private void stopEasterEgg() {
-		BSP.info("STOP");
-
 		if (nyanCat) {
 			nyanCat = false;
 
@@ -689,6 +693,18 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 
 			stars = null;
 			renderNyanCat = false;
+
+			(new Thread() {
+				@Override
+				public void run() {
+					try {
+						sleep(20);
+					} catch (final InterruptedException e) {
+						BSP.warnException(e);
+					}
+					soundHandler.resumeSounds();
+				};
+			}).start();
 		}
 	}
 
