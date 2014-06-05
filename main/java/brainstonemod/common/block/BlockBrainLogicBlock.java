@@ -119,7 +119,7 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 
 		if (tileEntity != null)
 			return tileEntity.getPowerOutputLevel(BrainStoneDirection
-					.fromArrayIndex(side));
+					.fromTextureDirection(side).getOpposite());
 		else
 			return 0;
 	}
@@ -214,7 +214,7 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 			if (tileEntity.shallDoUpdate(time = world.getWorldInfo()
 					.getWorldTotalTime())) {
 
-				tileEntity.tickGate(world, x, y, z, time);
+				tileEntity.tickGate(x, y, z, time);
 
 				BrainStonePacketHelper.sendReRenderBlockAtPacket(
 						world.provider.dimensionId, x, y, z, world);

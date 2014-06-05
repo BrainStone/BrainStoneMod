@@ -108,19 +108,6 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 
 	/**
 	 * Binds the specified texture into the GUI.<br>
-	 * The texture is located in the "gui" directory of the brainstonemod-assest
-	 * directory.
-	 * 
-	 * @param name
-	 *            The texture to be bound
-	 */
-	protected void bindTexture(String name) {
-		bindTexture(new ResourceLocation(BrainStone.RESOURCE_PACKAGE,
-				BrainStone.guiPath + name + ".png"));
-	}
-
-	/**
-	 * Binds the specified texture into the GUI.<br>
 	 * 
 	 * @param resource
 	 *            The texture to be bound
@@ -131,6 +118,19 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		mc.getTextureManager().bindTexture(resource);
+	}
+
+	/**
+	 * Binds the specified texture into the GUI.<br>
+	 * The texture is located in the "gui" directory of the brainstonemod-assest
+	 * directory.
+	 * 
+	 * @param name
+	 *            The texture to be bound
+	 */
+	protected void bindTexture(String name) {
+		bindTexture(new ResourceLocation(BrainStone.RESOURCE_PACKAGE,
+				BrainStone.guiPath + name + ".png"));
 	}
 
 	/**
@@ -255,6 +255,16 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 		GL11.glPopMatrix();
 	}
 
+	@Override
+	public void drawTexturedModalRect(int x, int y, int u, int v, int width,
+			int height) {
+		if (!textureLoaded) {
+			bindTexture();
+		}
+
+		super.drawTexturedModalRect(x, y, u, v, width, height);
+	}
+
 	protected void drawTexturedModalRect(int x, int y, int u, int v, int width,
 			int height, boolean inverted) {
 		if (inverted) {
@@ -266,16 +276,6 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 		} else {
 			drawTexturedModalRect(x, y, u, v, width, height);
 		}
-	}
-
-	@Override
-	public void drawTexturedModalRect(int x, int y, int u, int v, int width,
-			int height) {
-		if (!textureLoaded) {
-			bindTexture();
-		}
-
-		super.drawTexturedModalRect(x, y, u, v, width, height);
 	}
 
 	@Override

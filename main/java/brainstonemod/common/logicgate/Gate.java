@@ -1,8 +1,5 @@
 package brainstonemod.common.logicgate;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
 import java.util.HashMap;
 
 import net.minecraft.nbt.NBTTagCompound;
@@ -91,20 +88,6 @@ public abstract class Gate {
 		}
 
 		return Gates;
-	}
-
-	public final static Gate readFromInputStream(DataInputStream inputStream)
-			throws IOException {
-		final Gate out = Gate.getGate(inputStream.readUTF());
-		out.tickRate = inputStream.readInt();
-
-		for (int i = 0; i < 6; i++) {
-			out.Pins[i] = Pin.readFromInputStream(inputStream);
-		}
-
-		// Options go here!
-
-		return out;
 	}
 
 	public final static Gate readFromNBT(NBTTagCompound nbttagcompound) {
@@ -261,18 +244,6 @@ public abstract class Gate {
 			Pins[i].writeToNBT(currentPin);
 
 			nbttagcompound.setTag("Pin" + i, currentPin);
-		}
-
-		// Options go here!
-	}
-
-	public final void writeToOutputStream(DataOutputStream outputStream)
-			throws IOException {
-		outputStream.writeUTF(Name);
-		outputStream.writeInt(tickRate);
-
-		for (int i = 0; i < 6; i++) {
-			Pins[i].writeToOutputStream(outputStream);
 		}
 
 		// Options go here!

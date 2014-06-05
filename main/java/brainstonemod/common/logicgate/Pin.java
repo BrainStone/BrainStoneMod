@@ -1,29 +1,19 @@
 package brainstonemod.common.logicgate;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-
 import net.minecraft.nbt.NBTTagCompound;
 
 public class Pin {
-	public static final Pin NullPin = new Pin('\0', false, false, false,
+	public static final Pin NullPin = new Pin('\0', false, false, false, false,
 			PinState.NotExisting);
-	public static final Pin MovableNullPin = new Pin('\0', true, false, false,
-			PinState.NotExisting);
-
-	public final static Pin readFromInputStream(DataInputStream inputStream)
-			throws IOException {
-		return new Pin(inputStream.readChar(), inputStream.readBoolean(),
-				inputStream.readBoolean(), inputStream.readBoolean(),
-				PinState.valueOf(inputStream.readUTF()));
-	}
+	public static final Pin MovableNullPin = new Pin('\0', false, false, false,
+			true, PinState.NotExisting);
 
 	public final static Pin readFromNBT(NBTTagCompound nbttagcompound) {
 		return new Pin(nbttagcompound.getString("Name").charAt(0),
 				nbttagcompound.getBoolean("Movable"),
 				nbttagcompound.getBoolean("Output"),
 				nbttagcompound.getBoolean("Inverted"),
+				nbttagcompound.getBoolean("Replaceable"),
 				PinState.valueOf(nbttagcompound.getString("State")));
 	}
 
@@ -31,6 +21,7 @@ public class Pin {
 	public final boolean Movable;
 	public final boolean Output;
 	public final boolean Inverted;
+	public final boolean Replaceable;
 
 	public PinState State;
 
@@ -51,12 +42,18 @@ public class Pin {
 	}
 
 	public Pin(char name, boolean movable, boolean output, boolean inverted,
-			PinState state) {
+			boolean replaceable, PinState state) {
 		Name = name;
 		Movable = movable;
 		Output = output;
 		Inverted = inverted;
 		State = state;
+		Replaceable = replaceable;
+	}
+
+	public Pin(char name, boolean movable, boolean output, boolean inverted,
+			PinState state) {
+		this(name, movable, output, inverted, movable, state);
 	}
 
 	public final void writeToNBT(NBTTagCompound nbttagcompound) {
@@ -64,15 +61,7 @@ public class Pin {
 		nbttagcompound.setBoolean("Movable", Movable);
 		nbttagcompound.setBoolean("Output", Output);
 		nbttagcompound.setBoolean("Inverted", Inverted);
+		nbttagcompound.setBoolean("Replaceable", Replaceable);
 		nbttagcompound.setString("State", State.name());
-	}
-
-	public final void writeToOutputStream(DataOutputStream outputStream)
-			throws IOException {
-		outputStream.writeChar(Name);
-		outputStream.writeBoolean(Movable);
-		outputStream.writeBoolean(Output);
-		outputStream.writeBoolean(Inverted);
-		outputStream.writeUTF(State.name());
 	}
 }

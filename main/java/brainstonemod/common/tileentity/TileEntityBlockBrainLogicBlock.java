@@ -8,6 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
@@ -226,6 +227,20 @@ public class TileEntityBlockBrainLogicBlock extends
 		return this.getPowerLevel((byte) pos);
 	}
 
+	private byte getPowerLevelFromBlock(int x, int y, int z,
+			BrainStoneDirection direction) {
+		final Block block = worldObj.getBlock(x, y, z);
+
+		if (block == Blocks.redstone_wire)
+			return (byte) Math.max(
+					worldObj.getIndirectPowerLevelTo(x, y, z,
+							direction.toTextureDirection()),
+					worldObj.getBlockMetadata(x, y, z));
+		else
+			return (byte) worldObj.getIndirectPowerLevelTo(x, y, z,
+					direction.toTextureDirection());
+	}
+
 	public byte getPowerOutputLevel(BrainStoneDirection direction) {
 		final Pin pin = ActiveGate.Pins[direction.toArrayIndex()];
 
@@ -342,6 +357,7 @@ public class TileEntityBlockBrainLogicBlock extends
 		}
 	}
 
+	@SideOnly(Side.CLIENT)
 	public void renderGate(FontRenderer fontrenderer,
 			BrainStoneDirection direction) {
 		final Pin pin = ActiveGate.Pins[direction.ordinal()];
@@ -477,7 +493,7 @@ public class TileEntityBlockBrainLogicBlock extends
 		PrintErrorBuff = null;
 	}
 
-	public void tickGate(World world, int x, int y, int z, long time) {
+	public void tickGate(int x, int y, int z, long time) {
 		final Side side = FMLCommonHandler.instance().getEffectiveSide();
 		if (side != Side.CLIENT) {
 			time /= 2;
@@ -500,16 +516,13 @@ public class TileEntityBlockBrainLogicBlock extends
 						tmpY = y + yShift[i];
 						tmpZ = z + zShift[i];
 
-						block = world.getBlock(tmpX, tmpY, tmpZ);
+						block = worldObj.getBlock(tmpX, tmpY, tmpZ);
 
-						if (canBlockConnectToGate(world, tmpX, tmpY, tmpZ,
+						if (canBlockConnectToGate(worldObj, tmpX, tmpY, tmpZ,
 								direction, block)) {
 							ActiveGate.Pins[i].State = PinState
-									.getPinState((byte) world
-											.getIndirectPowerLevelTo(tmpX,
-													tmpY, tmpZ, direction
-															.getOpposite()
-															.ordinal()));
+									.getPinState(getPowerLevelFromBlock(tmpX,
+											tmpY, tmpZ, direction));
 						} else {
 							ActiveGate.Pins[i].State = PinState.NotConnected;
 						}
@@ -519,7 +532,7 @@ public class TileEntityBlockBrainLogicBlock extends
 				ActiveGate.onTick();
 			}
 
-			world.markBlockForUpdate(x, y, z);
+			worldObj.markBlockForUpdate(x, y, z);
 		}
 	}
 

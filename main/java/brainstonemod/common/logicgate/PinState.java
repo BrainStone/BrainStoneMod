@@ -65,6 +65,10 @@ public enum PinState {
 		return PowerLevel;
 	}
 
+	public boolean isConnected() {
+		return (this != NotConnected) && (this != NotExisting);
+	}
+
 	public boolean isNotPowered() {
 		return PowerLevel == 0;
 	}
@@ -74,7 +78,7 @@ public enum PinState {
 	}
 
 	public boolean isValid() {
-		return (this != NotConnected) && (this != NotExisting);
+		return this != NotExisting;
 	}
 
 	public boolean shallRender() {

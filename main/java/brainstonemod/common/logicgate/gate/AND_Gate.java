@@ -36,8 +36,8 @@ public class AND_Gate extends Gate {
 		PinState tmp;
 
 		for (char i = 'A'; i <= 'C'; i++) {
-			connected = (tmp = getPinState(i)).isValid() || connected;
-			out = tmp.isValid() ? (out && tmp.isPowered()) : out;
+			connected = (tmp = getPinState(i)).isConnected() || connected;
+			out = tmp.isConnected() ? (out && tmp.isPowered()) : out;
 		}
 
 		this.setPinState('Q', out && connected);
