@@ -1,7 +1,11 @@
 package brainstonemod.common.tileentity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -10,10 +14,24 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import brainstonemod.BrainStone;
 import brainstonemod.common.block.BlockBrainStoneTrigger;
+import brainstonemod.common.helper.BSP;
 import brainstonemod.common.slot.SlotBlockBrainStoneTrigger;
 
 public class TileEntityBlockBrainStoneTrigger extends
 		TileEntityBlockBrainStoneHiders {
+	@SideOnly(Side.CLIENT)
+	private static final ArrayList<TileEntityBlockBrainStoneTrigger> failedTileEntities = new ArrayList<TileEntityBlockBrainStoneTrigger>();
+
+	public static void retryFailedTileEntities() {
+		for (TileEntityBlockBrainStoneTrigger tileEntity : failedTileEntities) {
+			try {
+				tileEntity.fillMobTriggered();
+			} catch (Exception e) {
+				BSP.warnException(e);
+			}
+		}
+	}
+
 	private final HashMap<String, Integer> mobTriggered;
 	public byte delay, max_delay, output, output_buffered;
 	private ItemStack oldStack;
@@ -25,6 +43,21 @@ public class TileEntityBlockBrainStoneTrigger extends
 		max_delay = 4;
 		output = 0;
 
+		try {
+			fillMobTriggered();
+		} catch (NullPointerException e) {
+			// Only catch the exception if we are on the client to put it in the
+			// list of the failed ones.
+
+			if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
+				failedTileEntities.add(this);
+			} else {
+				throw e;
+			}
+		}
+	}
+
+	private void fillMobTriggered() {
 		final int length = BrainStone.getSidedTiggerEntities().size();
 		final String[] keys = BrainStone.getSidedTiggerEntities().keySet()
 				.toArray(new String[length]);

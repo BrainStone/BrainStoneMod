@@ -157,14 +157,25 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 			return;
 
 		String tmp;
+		String message;
 
 		for (int i = 0; i < 4; i++) {
-			drawString(StatCollector.translateToLocal(tmp = Mobs[i]), 25,
+			message = StatCollector.translateToLocal(tmp = Mobs[i]);
+			
+			if(fontRendererObj.getStringWidth(message) > 100) {
+				do {
+					message = message.substring(0, message.length() - 1);
+				} while(fontRendererObj.getStringWidth(message + "...") > 100);
+				
+				message += "...";
+			}
+			
+			drawString(message, 25,
 					12 + (18 * i), tileentity.getMobTriggered(tmp) ? 0xffffff
 							: 0x111111);
 		}
 
-		drawString((page + 1) + "/" + (max_page + 1), 146, 12, 0x000000);
+		drawCenteredString((page + 1) + "/" + (max_page + 1), 156, 17, 0x000000);
 		drawString("Delay", 144, 54, 0x000000);
 		drawString(String.valueOf(tileentity.max_delay), 148, 68, 0xffffff);
 
