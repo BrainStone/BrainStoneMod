@@ -4,11 +4,13 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import brainstonemod.common.helper.BSP;
 import brainstonemod.network.packet.template.BrainStoneToServerBasePacket;
 
 public class BrainStoneUpdateTileEntityPacket extends
@@ -22,10 +24,36 @@ public class BrainStoneUpdateTileEntityPacket extends
 	}
 
 	public BrainStoneUpdateTileEntityPacket(S35PacketUpdateTileEntity packet) {
-		x = packet.func_148856_c();
-		y = packet.func_148855_d();
-		z = packet.func_148854_e();
-		nbt = packet.func_148857_g();
+		// Extremely dirty hack.
+		try {
+			Field field = packet.getClass().getDeclaredField("field_148863_a");
+			field.setAccessible(true);
+			
+			x = field.getInt(packet);
+			
+			field = packet.getClass().getDeclaredField("field_148861_b");
+			field.setAccessible(true);
+			
+			y = field.getInt(packet);
+			
+			field = packet.getClass().getDeclaredField("field_148862_c");
+			field.setAccessible(true);
+			
+			z = field.getInt(packet);
+			
+			field = packet.getClass().getDeclaredField("field_148860_e");
+			field.setAccessible(true);
+			
+			nbt = (NBTTagCompound) field.get(packet);
+		} catch (NoSuchFieldException e) {
+			BSP.infoException(e);
+		} catch (SecurityException e) {
+			BSP.infoException(e);
+		} catch (IllegalArgumentException e) {
+			BSP.infoException(e);
+		} catch (IllegalAccessException e) {
+			BSP.infoException(e);
+		}
 	}
 
 	@Override
