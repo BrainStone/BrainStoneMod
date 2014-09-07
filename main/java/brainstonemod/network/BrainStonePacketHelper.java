@@ -92,12 +92,11 @@ public class BrainStonePacketHelper {
 	// DOCME
 	public static void sendPlayerUpdateMovementPacket(EntityPlayer entity,
 			double x, double y, double z) {
-		entity.setVelocity(x, y, z);
 		final S12PacketEntityVelocity packet = new S12PacketEntityVelocity(
-				entity);
+				entity.getEntityId(), x, y, z);
 
-		sendPacketToClosestPlayers(entity.serverPosX, entity.serverPosY,
-				entity.serverPosZ, entity.worldObj, packet);
+		sendPacketToClosestPlayers((int) entity.posX, (int) entity.posY,
+				(int) entity.posZ, entity.worldObj, packet);
 	}
 
 	// DOCME
