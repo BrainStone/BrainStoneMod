@@ -1,17 +1,24 @@
 package brainstonemod;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Modifier;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import java.util.Set;
+
+import javax.xml.bind.DatatypeConverter;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -55,6 +62,7 @@ import brainstonemod.common.block.template.BlockBrainStoneBase;
 import brainstonemod.common.handler.BrainStoneEventHandler;
 import brainstonemod.common.handler.BrainStoneGuiHandler;
 import brainstonemod.common.helper.BSP;
+import brainstonemod.common.helper.JarNotValidException;
 import brainstonemod.common.item.ItemArmorBrainStone;
 import brainstonemod.common.item.ItemHoeBrainStone;
 import brainstonemod.common.item.ItemSwordBrainStone;
@@ -93,7 +101,7 @@ public class BrainStone {
 	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
 	public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.48.3 BETA release";
+	public static final String VERSION = "v2.49.17 BETA DEV";
 
 	/** The instance of this mod */
 	@Instance(MOD_ID)
@@ -109,6 +117,8 @@ public class BrainStone {
 	/** States if the current mod version is a DEV version or not */
 	public static final boolean DEV = VERSION.toLowerCase().contains("dev")
 			|| VERSION.toLowerCase().contains("prerelease");
+	/** States if this is the eclipse working environment or not */
+	public static final boolean DEV_ENV = isDevEnv();
 
 	/** A String with the English localization (en_EN) */
 	private static final String en = "en_EN";
@@ -177,8 +187,13 @@ public class BrainStone {
 	 */
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		packetPipeline = new BrainStonePacketPipeline();
 		BSP.setUpLogger((Logger) event.getModLog());
+		
+		if ((release || DEV) && !DEV_ENV) {
+			validateJarFile();
+		}
+
+		packetPipeline = new BrainStonePacketPipeline();
 
 		if ((Gate.Gates == null) || Gate.Gates.isEmpty()) {
 			BSP.throwNullPointerException("Well, that should NOT have happenend! This IS a HUGE problem if you notice this please report it to yannick@tedworld.de.\nThanks!\n\nDeveloper Information:\nThe Map of the Gates is EMPTY!\nIs gates null: "
@@ -357,6 +372,65 @@ public class BrainStone {
 				.sendBrainStoneTriggerMobInformationPacketToPlayer(player);
 	}
 
+	private static boolean isDevEnv() {
+		try {
+			Class.forName("a");
+		} catch (ClassNotFoundException e) {
+			return true;
+		}
+
+		return false;
+	}
+
+	private static void validateJarFile() {
+		try {
+			String hash_online = get_content(new URL(
+					"http://download.brainstonemod.tk/"
+							+ VERSION.replace(" BETA ", "_") + "/sha512.hash")
+					.openConnection());
+
+			if (hash_online != getJarHash()) {
+				throw new JarNotValidException();
+			}
+		} catch (MalformedURLException e) {
+		} catch (IOException e) {
+		}
+	}
+
+	private static String getJarHash() {
+		try {
+			InputStream fis = BrainStone.class.getResource(
+					'/' + BrainStone.class.getName().replace('.', '/')
+							+ ".class").openStream();
+
+			byte[] buffer = new byte[1024];
+			MessageDigest complete = MessageDigest.getInstance("SHA-512");
+			int numRead;
+
+			do {
+				numRead = fis.read(buffer);
+
+				if (numRead > 0) {
+					complete.update(buffer, 0, numRead);
+				}
+			} while (numRead != -1);
+
+			fis.close();
+
+			return DatatypeConverter.printHexBinary(complete.digest());
+		} catch (FileNotFoundException e) {
+			BSP.errorException(e);
+		} catch (IOException e) {
+			BSP.errorException(e);
+		} catch (NoSuchAlgorithmException e) {
+			BSP.errorException(
+					e,
+					"This is something reallyy bad! You don't have the SHA-512 algorithm! You should have that!");
+		}
+
+		return "";
+	}
+
 	private static void createEnums() {
 		toolBRAINSTONE = EnumHelper.addToolMaterial("BRAINSTONE", 3, 5368, 6F,
 				5, 25);
@@ -421,15 +495,15 @@ public class BrainStone {
 	private static void retriveCurrentVersions() {
 		try {
 			releaseVersion = get_content(new URL(
-					"http://download.brainstonemod.tk/downloads/release/.version")
+					"http://download.brainstonemod.tk/release/.version")
 					.openConnection());
 
 			recommendedVersion = get_content(new URL(
-					"http://download.brainstonemod.tk/downloads/recommended/.version")
+					"http://download.brainstonemod.tk/recommended/.version")
 					.openConnection());
 
 			latestVersion = get_content(new URL(
-					"http://download.brainstonemod.tk/downloads/latest/.version")
+					"http://download.brainstonemod.tk/latest/.version")
 					.openConnection());
 
 		} catch (final MalformedURLException e) {
