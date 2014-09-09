@@ -101,7 +101,7 @@ public class BrainStone {
 	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
 	public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.49.17 BETA DEV";
+	public static final String VERSION = "v2.49.32 BETA DEV";
 
 	/** The instance of this mod */
 	@Instance(MOD_ID)
@@ -188,7 +188,7 @@ public class BrainStone {
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		BSP.setUpLogger((Logger) event.getModLog());
-		
+
 		if ((release || DEV) && !DEV_ENV) {
 			validateJarFile();
 		}
@@ -386,14 +386,19 @@ public class BrainStone {
 		try {
 			String hash_online = get_content(new URL(
 					"http://download.brainstonemod.tk/"
-							+ VERSION.replace(" BETA ", "_") + "/sha512.hash")
-					.openConnection());
+							+ VERSION.substring(1).replace(" BETA ", "_")
+							+ "/sha512.hash").openConnection());
+			String jarHash = getJarHash();
 
-			if (hash_online != getJarHash()) {
+			BSP.debug("Jar Hash: " + jarHash, "Online Hash: " + hash_online);
+
+			if (!hash_online.equalsIgnoreCase(jarHash)) {
 				throw new JarNotValidException();
 			}
 		} catch (MalformedURLException e) {
+			BSP.debugException_noAddon(e);
 		} catch (IOException e) {
+			BSP.debugException_noAddon(e);
 		}
 	}
 
