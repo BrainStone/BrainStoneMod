@@ -1,11 +1,11 @@
 package brainstonemod;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -62,7 +62,6 @@ import brainstonemod.common.block.template.BlockBrainStoneBase;
 import brainstonemod.common.handler.BrainStoneEventHandler;
 import brainstonemod.common.handler.BrainStoneGuiHandler;
 import brainstonemod.common.helper.BSP;
-import brainstonemod.common.helper.JarNotValidException;
 import brainstonemod.common.item.ItemArmorBrainStone;
 import brainstonemod.common.item.ItemHoeBrainStone;
 import brainstonemod.common.item.ItemSwordBrainStone;
@@ -88,6 +87,7 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.CoreModManager;
 import cpw.mods.fml.relauncher.Side;
 
 /**
@@ -101,7 +101,7 @@ public class BrainStone {
 	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
 	public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.49.32 BETA DEV";
+	public static final String VERSION = "v2.49.78 BETA DEV";
 
 	/** The instance of this mod */
 	@Instance(MOD_ID)
@@ -118,7 +118,9 @@ public class BrainStone {
 	public static final boolean DEV = VERSION.toLowerCase().contains("dev")
 			|| VERSION.toLowerCase().contains("prerelease");
 	/** States if this is the eclipse working environment or not */
-	public static final boolean DEV_ENV = isDevEnv();
+	public static boolean DEV_ENV;
+	/** States if this jar is valid or not. */
+	public static boolean VALID_JAR = false;
 
 	/** A String with the English localization (en_EN) */
 	private static final String en = "en_EN";
@@ -188,10 +190,10 @@ public class BrainStone {
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		BSP.setUpLogger((Logger) event.getModLog());
+		DEV_ENV = isDevEnv();
+		BSP.info(release, DEV, DEV_ENV);
 
-		if ((release || DEV) && !DEV_ENV) {
-			validateJarFile();
-		}
+		VALID_JAR = DEV_ENV || ((!release && !DEV) || validateJarFile());
 
 		packetPipeline = new BrainStonePacketPipeline();
 
@@ -297,6 +299,12 @@ public class BrainStone {
 	 */
 	public static void onPlayerJoinClient(EntityPlayer entity,
 			PlayerLoggedInEvent event) {
+		if (!VALID_JAR) {
+			sendToPlayer(
+					entity,
+					"§4The .jar file of the BrainStoneMod appears to be corrupted or modified!\nPlease DO NOT use it as it may cause harm to your computer!\n§eYou can download a fresh .jar file from here §1http://download.brainstonemod.tk !");
+		}
+
 		if (!latestVersion.equals("") && !recommendedVersion.equals("")
 				&& !releaseVersion.equals("")) {
 			switch (updateNotification) {
@@ -307,7 +315,7 @@ public class BrainStone {
 							"§a A new Version of the BSM is available!\n§l§c========== §4"
 									+ releaseVersion
 									+ "§c ==========\n"
-									+ "§1Download it at §ehttp://adf.ly/2002096/release§1\nor §ehttps://github.com/BrainStone/brainstone§1!");
+									+ "§1Download it at §ehttp://adf.ly/2002096/release§1\nor §ehttp://download.brainstonemod.tk §1!");
 				}
 
 				break;
@@ -319,14 +327,14 @@ public class BrainStone {
 							"§a A new Version of the BSM is available!\n§l§c========== §4"
 									+ releaseVersion
 									+ "§c ==========\n"
-									+ "§1Download it at §ehttp://adf.ly/2002096/release§1\nor §ehttps://github.com/BrainStone/brainstone§1!");
+									+ "§1Download it at §ehttp://adf.ly/2002096/release§1\nor §ehttp://download.brainstonemod.tk §1!");
 				} else if (isHigherVersion(VERSION, recommendedVersion)) {
 					sendToPlayer(
 							entity,
 							"§a A new recommended DEV Version of the BSM is available!\n§l§c========== §4"
 									+ recommendedVersion
 									+ "§c ==========\n"
-									+ "§1Download it at §ehttp://adf.ly/2002096/recommended§1\nor §ehttps://github.com/BrainStone/brainstone§1!");
+									+ "§1Download it at §ehttp://adf.ly/2002096/recommended§1\nor §ehttp://download.brainstonemod.tk §1!");
 				}
 
 				break;
@@ -339,7 +347,7 @@ public class BrainStone {
 							"§a A new Version of the BSM is available!\n§l§c========== §4"
 									+ releaseVersion
 									+ "§c ==========\n"
-									+ "§1Download it at §ehttp://adf.ly/2002096/release§1\nor §ehttps://github.com/BrainStone/brainstone§1!");
+									+ "§1Download it at §ehttp://adf.ly/2002096/release§1\nor §ehttp://download.brainstonemod.tk §1!");
 				} else if (isHigherVersion(VERSION, recommendedVersion)
 						&& !isHigherVersion(recommendedVersion, latestVersion)) {
 					sendToPlayer(
@@ -347,14 +355,14 @@ public class BrainStone {
 							"§a A new recommended DEV Version of the BSM is available!\n§l§c========== §4"
 									+ recommendedVersion
 									+ "§c ==========\n"
-									+ "§1Download it at §ehttp://adf.ly/2002096/recommended§1\nor §ehttps://github.com/BrainStone/brainstone§1!");
+									+ "§1Download it at §ehttp://adf.ly/2002096/recommended§1\nor §ehttp://download.brainstonemod.tk §1!");
 				} else if (isHigherVersion(VERSION, latestVersion)) {
 					sendToPlayer(
 							entity,
 							"§a A new DEV Version of the BSM is available!\n§l§c========== §4"
 									+ latestVersion
 									+ "§c ==========\n"
-									+ "§1Download it at §ehttp://adf.ly/2002096/latest§1\nor §ehttps://github.com/BrainStone/brainstone§1!");
+									+ "§1Download it at §ehttp://adf.ly/2002096/latest§1\nor §ehttp://download.brainstonemod.tk §1!");
 				}
 
 				break;
@@ -374,42 +382,57 @@ public class BrainStone {
 
 	private static boolean isDevEnv() {
 		try {
-			Class.forName("a");
-		} catch (ClassNotFoundException e) {
-			return true;
+			final Field f = CoreModManager.class
+					.getDeclaredField("deobfuscatedEnvironment");
+			final boolean accessible = f.isAccessible();
+			f.setAccessible(true);
+
+			final boolean ouput = f.getBoolean(null);
+
+			f.setAccessible(accessible);
+
+			return ouput;
+		} catch (final NoSuchFieldException e) {
+			BSP.warnException(e);
+		} catch (final SecurityException e) {
+			BSP.warnException(e);
+		} catch (final IllegalArgumentException e) {
+			BSP.warnException(e);
+		} catch (final IllegalAccessException e) {
+			BSP.warnException(e);
 		}
 
 		return false;
 	}
 
-	private static void validateJarFile() {
+	private static boolean validateJarFile() {
 		try {
-			String hash_online = get_content(new URL(
+			final String hash_online = get_content(new URL(
 					"http://download.brainstonemod.tk/"
 							+ VERSION.substring(1).replace(" BETA ", "_")
 							+ "/sha512.hash").openConnection());
-			String jarHash = getJarHash();
+			final String jarHash = getJarHash();
 
-			BSP.debug("Jar Hash: " + jarHash, "Online Hash: " + hash_online);
+			BSP.info("Jar Hash: " + jarHash, "Online Hash: " + hash_online);
 
-			if (!hash_online.equalsIgnoreCase(jarHash)) {
-				throw new JarNotValidException();
-			}
-		} catch (MalformedURLException e) {
-			BSP.debugException_noAddon(e);
-		} catch (IOException e) {
-			BSP.debugException_noAddon(e);
+			return hash_online.equalsIgnoreCase(jarHash);
+		} catch (final MalformedURLException e) {
+			BSP.infoException_noAddon(e);
+		} catch (final IOException e) {
+			BSP.infoException_noAddon(e);
 		}
+
+		return true;
 	}
 
 	private static String getJarHash() {
 		try {
-			InputStream fis = BrainStone.class.getResource(
+			final InputStream fis = BrainStone.class.getResource(
 					'/' + BrainStone.class.getName().replace('.', '/')
 							+ ".class").openStream();
 
-			byte[] buffer = new byte[1024];
-			MessageDigest complete = MessageDigest.getInstance("SHA-512");
+			final byte[] buffer = new byte[1024];
+			final MessageDigest complete = MessageDigest.getInstance("SHA-512");
 			int numRead;
 
 			do {
@@ -423,11 +446,11 @@ public class BrainStone {
 			fis.close();
 
 			return DatatypeConverter.printHexBinary(complete.digest());
-		} catch (FileNotFoundException e) {
+		} catch (final FileNotFoundException e) {
 			BSP.errorException(e);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			BSP.errorException(e);
-		} catch (NoSuchAlgorithmException e) {
+		} catch (final NoSuchAlgorithmException e) {
 			BSP.errorException(
 					e,
 					"This is something reallyy bad! You don't have the SHA-512 algorithm! You should have that!");
