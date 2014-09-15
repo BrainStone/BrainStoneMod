@@ -1,6 +1,7 @@
 package brainstonemod;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -62,6 +63,7 @@ import brainstonemod.common.block.template.BlockBrainStoneBase;
 import brainstonemod.common.handler.BrainStoneEventHandler;
 import brainstonemod.common.handler.BrainStoneGuiHandler;
 import brainstonemod.common.helper.BSP;
+import brainstonemod.common.helper.BrainStoneClassFinder;
 import brainstonemod.common.item.ItemArmorBrainStone;
 import brainstonemod.common.item.ItemHoeBrainStone;
 import brainstonemod.common.item.ItemSwordBrainStone;
@@ -102,7 +104,7 @@ public class BrainStone {
 	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
 	public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.49.109 BETA DEV";
+	public static final String VERSION = "v2.49.115 BETA DEV";
 
 	/** The instance of this mod */
 	@Instance(MOD_ID)
@@ -428,9 +430,7 @@ public class BrainStone {
 
 	private static String getJarHash() {
 		try {
-			final InputStream fis = BrainStone.class.getResource(
-					'/' + BrainStone.class.getName().replace('.', '/')
-							+ ".class").openStream();
+			final InputStream fis = new FileInputStream(BrainStoneClassFinder.findPathJar(null));
 
 			final byte[] buffer = new byte[1024];
 			final MessageDigest complete = MessageDigest.getInstance("SHA-512");
