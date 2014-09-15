@@ -5,12 +5,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import cpw.mods.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
 import cpw.mods.fml.relauncher.Side;
 
 public class BrainStoneEventHandler {
@@ -51,17 +53,32 @@ public class BrainStoneEventHandler {
 	}
 
 	@SubscribeEvent
-	public void onPlayerJoin(PlayerLoggedInEvent event) {
-		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
-			BSP.debug("Calling onPlayerJoinClient for "
-					+ event.player.getCommandSenderName());
+	public void onPlayerJoinServer(PlayerLoggedInEvent event) {
+		BSP.debug("Calling onPlayerJoinServer for "
+				+ event.player.getCommandSenderName());
 
-			BrainStone.onPlayerJoinClient(event.player, event);
-		} else {
-			BSP.debug("Calling onPlayerJoinServer for "
-					+ event.player.getCommandSenderName());
+		BrainStone.onPlayerJoinServer(event.player, event);
+	}
 
-			BrainStone.onPlayerJoinServer(event.player, event);
-		}
+	@SubscribeEvent
+	public void onPlayerJoinClient(final ClientConnectedToServerEvent event) {
+		(new Thread() {
+			public void run() {
+				while (FMLClientHandler.instance().getClientPlayerEntity() == null)
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						BSP.debugException(e);
+					}
+
+				BSP.debug("Calling onPlayerJoinClient for "
+						+ FMLClientHandler.instance().getClientPlayerEntity()
+								.getCommandSenderName());
+
+				BrainStone.onPlayerJoinClient(FMLClientHandler.instance()
+						.getClientPlayerEntity(), event);
+			}
+		}).start();
+
 	}
 }

@@ -85,6 +85,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import cpw.mods.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.CoreModManager;
@@ -101,7 +102,7 @@ public class BrainStone {
 	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
 	public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.49.80 BETA";
+	public static final String VERSION = "v2.49.109 BETA DEV";
 
 	/** The instance of this mod */
 	@Instance(MOD_ID)
@@ -297,12 +298,12 @@ public class BrainStone {
 	 * This method is client side called when a player joins the game. Both for
 	 * a server or a single player world.
 	 */
-	public static void onPlayerJoinClient(EntityPlayer entity,
-			PlayerLoggedInEvent event) {
+	public static void onPlayerJoinClient(EntityPlayer player,
+			ClientConnectedToServerEvent event) {
 		if (!VALID_JAR) {
 			sendToPlayer(
-					entity,
-					"§4The .jar file of the BrainStoneMod appears to be corrupted or modified!\nPlease DO NOT use it as it may cause harm to your computer!\n§eYou can download a fresh .jar file from here §1http://download.brainstonemod.tk !");
+					player,
+					"§4The .jar file of the BrainStoneMod appears to be corrupted\n§4or modified!\n§4Please DO NOT use it as it may cause harm to your computer!\n§eYou can download a fresh .jar file from here\n§1http://download.brainstonemod.tk §e!");
 		}
 
 		if (!latestVersion.equals("") && !recommendedVersion.equals("")
@@ -311,7 +312,7 @@ public class BrainStone {
 			case 0:
 				if (isHigherVersion(VERSION, releaseVersion)) {
 					sendToPlayer(
-							entity,
+							player,
 							"§a A new Version of the BSM is available!\n§l§c========== §4"
 									+ releaseVersion
 									+ "§c ==========\n"
@@ -323,14 +324,14 @@ public class BrainStone {
 				if (isHigherVersion(VERSION, releaseVersion)
 						&& !isHigherVersion(releaseVersion, recommendedVersion)) {
 					sendToPlayer(
-							entity,
+							player,
 							"§a A new Version of the BSM is available!\n§l§c========== §4"
 									+ releaseVersion
 									+ "§c ==========\n"
 									+ "§1Download it at §ehttp://adf.ly/2002096/release§1\nor §ehttp://download.brainstonemod.tk §1!");
 				} else if (isHigherVersion(VERSION, recommendedVersion)) {
 					sendToPlayer(
-							entity,
+							player,
 							"§a A new recommended DEV Version of the BSM is available!\n§l§c========== §4"
 									+ recommendedVersion
 									+ "§c ==========\n"
@@ -343,7 +344,7 @@ public class BrainStone {
 						&& !isHigherVersion(releaseVersion, recommendedVersion)
 						&& !isHigherVersion(releaseVersion, latestVersion)) {
 					sendToPlayer(
-							entity,
+							player,
 							"§a A new Version of the BSM is available!\n§l§c========== §4"
 									+ releaseVersion
 									+ "§c ==========\n"
@@ -351,14 +352,14 @@ public class BrainStone {
 				} else if (isHigherVersion(VERSION, recommendedVersion)
 						&& !isHigherVersion(recommendedVersion, latestVersion)) {
 					sendToPlayer(
-							entity,
+							player,
 							"§a A new recommended DEV Version of the BSM is available!\n§l§c========== §4"
 									+ recommendedVersion
 									+ "§c ==========\n"
 									+ "§1Download it at §ehttp://adf.ly/2002096/recommended§1\nor §ehttp://download.brainstonemod.tk §1!");
 				} else if (isHigherVersion(VERSION, latestVersion)) {
 					sendToPlayer(
-							entity,
+							player,
 							"§a A new DEV Version of the BSM is available!\n§l§c========== §4"
 									+ latestVersion
 									+ "§c ==========\n"
@@ -475,8 +476,11 @@ public class BrainStone {
 	 *            the message to be sent
 	 */
 	private static void sendToPlayer(EntityPlayer player, String message) {
-		((ICommandSender) player)
-				.addChatMessage(new ChatComponentText(message));
+		String[] lines = message.split("\n");
+
+		for (String line : lines)
+			((ICommandSender) player)
+					.addChatMessage(new ChatComponentText(line));
 	}
 
 	/**
