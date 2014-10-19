@@ -30,9 +30,9 @@ public abstract class BlockBrainStoneHiders extends
 	}
 
 	@Override
-	public int colorMultiplier(IBlockAccess iblockaccess, int i, int j, int k) {
+	public int colorMultiplier(IBlockAccess iblockaccess, int x, int y, int z) {
 		final TileEntityBlockBrainStoneHiders tileentityblockbrainstonehiders = (TileEntityBlockBrainStoneHiders) iblockaccess
-				.getTileEntity(i, j, k);
+				.getTileEntity(x, y, z);
 
 		if (tileentityblockbrainstonehiders == null)
 			return 0xffffff;
@@ -48,6 +48,6 @@ public abstract class BlockBrainStoneHiders extends
 		if (block == null)
 			return 0xffffff;
 		else
-			return block.colorMultiplier(iblockaccess, i, j, k);
+			return block.colorMultiplier(iblockaccess, x, y, z);
 	}
 }
