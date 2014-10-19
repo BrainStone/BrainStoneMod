@@ -152,8 +152,8 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 	public void registerBlockIcons(IIconRegister IconReg) {
 		textures = new IIcon[] {
 				IconReg.registerIcon("brainstonemod:brainStoneTrigger"),
-				IconReg.registerIcon("furnace_side"),
-				IconReg.registerIcon("furnace_top") };
+				IconReg.registerIcon("brainstonemod:brainStoneMachineSide"),
+				IconReg.registerIcon("brainstonemod:brainStoneMachineBottom") };
 	}
 
 	@Override
