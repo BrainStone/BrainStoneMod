@@ -165,8 +165,8 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 	public void registerBlockIcons(IIconRegister IconReg) {
 		textures = new IIcon[] {
 				IconReg.registerIcon("brainstonemod:brainLightSensor"),
-				IconReg.registerIcon("furnace_side"),
-				IconReg.registerIcon("furnace_top") };
+				IconReg.registerIcon("brainstonemod:brainStoneMachineSide"),
+				IconReg.registerIcon("brainstonemod:brainStoneMachineBottom") };
 	}
 
 	public void smoke(World world, int x, int y, int z, Random random) {
