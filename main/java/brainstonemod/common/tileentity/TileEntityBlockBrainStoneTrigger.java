@@ -67,7 +67,7 @@ public class TileEntityBlockBrainStoneTrigger extends
 			return false;
 	}
 
-	public IIcon getTextureId(IBlockAccess iblockaccess, int i, int j, int k) {
+	public IIcon getTextureId() {
 		final ItemStack itemstack = ItemStacks[0];
 
 		if (itemstack == null)
@@ -78,7 +78,7 @@ public class TileEntityBlockBrainStoneTrigger extends
 		if (block == null)
 			return BlockBrainStoneTrigger.textures[0];
 		else
-			return block.getIcon(iblockaccess, i, j, k, 1);
+			return block.getIcon(1, itemstack.getItemDamage());
 	}
 
 	@Override

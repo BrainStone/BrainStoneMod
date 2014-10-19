@@ -66,47 +66,47 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 	}
 
 	@Override
-	public IIcon getIcon(IBlockAccess iblockaccess, int i, int j, int k, int l) {
-		if (l == 1) {
+	public IIcon getIcon(IBlockAccess iblockaccess, int x, int y, int z,
+			int side) {
+		if (side == 1) {
 			final TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBlockBrainStoneTrigger) iblockaccess
-					.getTileEntity(i, j, k);
+					.getTileEntity(x, y, z);
 
 			if (tileentityblockbrainstonetrigger == null)
 				return textures[0];
 			else
-				return tileentityblockbrainstonetrigger.getTextureId(
-						iblockaccess, i, j, k);
+				return tileentityblockbrainstonetrigger.getTextureId();
 		}
 
-		if (l == 0)
+		if (side == 0)
 			return textures[2];
 		else
 			return textures[1];
 	}
 
 	@Override
-	public IIcon getIcon(int i, int meta) {
-		if (i == 1)
+	public IIcon getIcon(int side, int meta) {
+		if (side == 1)
 			return textures[0];
-		else if (i == 0)
+		else if (side == 0)
 			return textures[2];
 		else
 			return textures[1];
 	}
 
 	@Override
-	public int isProvidingStrongPower(IBlockAccess iblockaccess, int i, int j,
-			int k, int l) {
+	public int isProvidingStrongPower(IBlockAccess iblockaccess, int x, int y,
+			int z, int side) {
 		final TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBlockBrainStoneTrigger) iblockaccess
-				.getTileEntity(i, j, k);
+				.getTileEntity(x, y, z);
 		return ((tileentityblockbrainstonetrigger != null) && (tileentityblockbrainstonetrigger.delay > 0)) ? tileentityblockbrainstonetrigger.output_buffered
 				: 0;
 	}
 
 	@Override
-	public int isProvidingWeakPower(IBlockAccess iblockaccess, int i, int j,
-			int k, int l) {
-		return isProvidingStrongPower(iblockaccess, i, j, k, l);
+	public int isProvidingWeakPower(IBlockAccess iblockaccess, int x, int y,
+			int z, int side) {
+		return isProvidingStrongPower(iblockaccess, x, y, z, side);
 	}
 
 	@Override
@@ -116,17 +116,17 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, int i, int j, int k,
+	public boolean onBlockActivated(World world, int x, int y, int z,
 			EntityPlayer entityplayer, int par6, float par7, float par8,
 			float par9) {
 		if (world.isRemote)
 			return true;
 
 		final TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBlockBrainStoneTrigger) world
-				.getTileEntity(i, j, k);
+				.getTileEntity(x, y, z);
 
 		if (tileentityblockbrainstonetrigger != null) {
-			entityplayer.openGui(BrainStone.instance, 1, world, i, j, k);
+			entityplayer.openGui(BrainStone.instance, 1, world, x, y, z);
 		}
 
 		return true;
