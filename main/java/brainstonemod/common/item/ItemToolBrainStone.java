@@ -12,6 +12,7 @@ import scala.reflect.internal.Trees.If;
 import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 
 public class ItemToolBrainStone extends ItemTool {
@@ -92,6 +93,7 @@ public class ItemToolBrainStone extends ItemTool {
 	}
 
 	private final int typeId;
+	private final String toolClass;
 
 	/**
 	 * Creates a tool for the BrainStoneMod (Uses several hooks special designed
@@ -107,6 +109,27 @@ public class ItemToolBrainStone extends ItemTool {
 				getBlocksEffectiveAgainstForToolsType(type));
 
 		typeId = getTypeId(type);
+		toolClass = type;
+	}
+
+	@Override
+	public float func_150893_a(ItemStack par1ItemStack, Block par2Block) {
+		switch (typeId) {
+		case 1:
+			return (par2Block.getMaterial() != Material.iron)
+					&& (par2Block.getMaterial() != Material.anvil)
+					&& (par2Block.getMaterial() != Material.rock) ? super
+					.func_150893_a(par1ItemStack, par2Block)
+					: efficiencyOnProperMaterial;
+		case 2:
+			return (par2Block.getMaterial() != Material.wood)
+					&& (par2Block.getMaterial() != Material.plants)
+					&& (par2Block.getMaterial() != Material.vine) ? super
+					.func_150893_a(par1ItemStack, par2Block)
+					: efficiencyOnProperMaterial;
+		default:
+			return super.func_150893_a(par1ItemStack, par2Block);
+		}
 	}
 
 	@Override
@@ -140,9 +163,25 @@ public class ItemToolBrainStone extends ItemTool {
 	}
 
 	@Override
+	public int getHarvestLevel(ItemStack stack, String toolClass) {
+		final int level = super.getHarvestLevel(stack, toolClass);
+		if ((level == -1) && (toolClass != null)
+				&& toolClass.equals(this.toolClass))
+			return toolMaterial.getHarvestLevel();
+		else
+			return level;
+	}
+
+	@Override
 	public boolean getIsRepairable(ItemStack tool, ItemStack material) {
 		return Block.getBlockFromItem(material.getItem()) == BrainStone
 				.brainStone();
+	}
+
+	@Override
+	public Set<String> getToolClasses(ItemStack stack) {
+		return toolClass != null ? ImmutableSet.of(toolClass) : super
+				.getToolClasses(stack);
 	}
 
 	@Override
