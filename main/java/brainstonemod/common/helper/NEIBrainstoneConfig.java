@@ -9,7 +9,6 @@ import cpw.mods.fml.common.Optional;
 
 @Optional.Interface(iface = "codechicken.nei.api.API", modid = "NotEnoughItems")
 public class NEIBrainstoneConfig implements IConfigureNEI {
-
 	@Optional.Method(modid = "NotEnoughItems")
 	@Override
 	public String getName() {
@@ -28,5 +27,4 @@ public class NEIBrainstoneConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(BrainStone.pulsatingBrainStoneEffect()));
 		API.hideItem(new ItemStack(BrainStone.brainStoneOut()));
 	}
-
 }

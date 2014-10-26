@@ -66,7 +66,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 		Potion potion;
 
 		do {
-			potion = Potion.potionTypes[random.nextInt(32)];
+			potion = Potion.potionTypes[random.nextInt(Potion.potionTypes.length)];
 		} while (potion == null);
 
 		return potion.id;
