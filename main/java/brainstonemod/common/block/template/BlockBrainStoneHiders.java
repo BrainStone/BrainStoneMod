@@ -5,6 +5,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.IBlockAccess;
+import brainstonemod.BrainStone;
 import brainstonemod.common.tileentity.TileEntityBlockBrainStoneHiders;
 
 public abstract class BlockBrainStoneHiders extends
@@ -21,7 +22,7 @@ public abstract class BlockBrainStoneHiders extends
 	public BlockBrainStoneHiders() {
 		super(Material.rock);
 
-		setCreativeTab(CreativeTabs.tabRedstone);
+		setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.tabRedstone));
 	}
 
 	@Override

@@ -32,6 +32,8 @@ achievement.intelligentTools.desc=Make Tools out of this green stone!
 achievement.logicBlock=Logic Block
 achievement.logicBlock.desc=First make a processor. Then a Logic Block!
 
+itemGroup.tabBrainStoneMod=Brain Stone Mod
+
 gui.brainstone.item=Item/Object
 gui.brainstone.player=Player
 gui.brainstone.projectile=Projectile

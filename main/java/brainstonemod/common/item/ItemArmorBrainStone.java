@@ -2,6 +2,7 @@ package brainstonemod.common.item;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -10,6 +11,8 @@ import brainstonemod.BrainStone;
 public class ItemArmorBrainStone extends ItemArmor {
 	public ItemArmorBrainStone(ArmorMaterial armorMaterial, int par3, int par4) {
 		super(armorMaterial, par3, par4);
+		
+		setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.tabCombat));
 	}
 
 	@Override

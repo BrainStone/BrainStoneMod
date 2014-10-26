@@ -24,6 +24,7 @@ import brainstonemod.network.BrainStonePacketHelper;
 public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 	private final boolean effect;
 	private static Block hasEffectBlock, hasNoEffectBlock;
+	private static long lastGravityChange = 0;
 
 	public BlockPulsatingBrainStone(boolean effect) {
 		super(Material.rock);
@@ -38,12 +39,12 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 		if (effect) {
 			hasEffectBlock = this;
 		} else {
-			setCreativeTab(CreativeTabs.tabBlock);
+			setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.tabBlock));
 			hasNoEffectBlock = this;
 		}
 
 		blockParticleGravity = (float) MathHelper.getRandomDoubleInRange(
-				new Random(), 3.0, -3.0);
+				new Random(), -3.0, 3.0);
 	}
 
 	@Override
@@ -66,7 +67,8 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 		Potion potion;
 
 		do {
-			potion = Potion.potionTypes[random.nextInt(Potion.potionTypes.length)];
+			potion = Potion.potionTypes[random
+					.nextInt(Potion.potionTypes.length)];
 		} while (potion == null);
 
 		return potion.id;
@@ -194,6 +196,13 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 					}
 				}
 			}
+		}
+
+		if (world.getTotalWorldTime() > lastGravityChange) {
+			blockParticleGravity = (float) MathHelper.getRandomDoubleInRange(
+					random, -3.0, 3.0);
+
+			lastGravityChange = world.getTotalWorldTime();
 		}
 
 		world.scheduleBlockUpdate(x, y, z, this, tickRate(world));

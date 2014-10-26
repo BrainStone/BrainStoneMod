@@ -14,7 +14,6 @@ import java.net.URLConnection;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -52,6 +51,8 @@ import net.minecraftforge.common.util.EnumHelper;
 
 import org.apache.logging.log4j.core.Logger;
 
+import scala.tools.nsc.settings.MutableSettings.EnableSettings;
+import brainstonemod.client.gui.helper.BrainStoneModCreativeTab;
 import brainstonemod.common.CommonProxy;
 import brainstonemod.common.block.BlockBrainLightSensor;
 import brainstonemod.common.block.BlockBrainLogicBlock;
@@ -104,7 +105,7 @@ public class BrainStone {
 	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
 	public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.49.142 BETA";
+	public static final String VERSION = "v2.49.157 BETA DEV";
 
 	/** The instance of this mod */
 	@Instance(MOD_ID)
@@ -138,6 +139,8 @@ public class BrainStone {
 	 * <tt><table><tr><td>0:</td><td>release</td></tr><tr><td>1:</td><td>recommended</td></tr><tr><td>2:</td><td>latest</td></tr><tr><td>-1:</td><td><i>none</i></td></tr></table></tt>
 	 */
 	private static byte updateNotification;
+	/** Should the custom Creative tab be used? */
+	private static boolean enableCreativeTab;
 
 	public static final String guiPath = "textures/gui/";
 	public static final String armorPath = "textures/armor/";
@@ -163,25 +166,27 @@ public class BrainStone {
 	 * This Map maps the different mob types of the BrainStoneTrigger to the
 	 * corresponding Classes
 	 */
-	private static final HashMap<Side, LinkedHashMap<String, Class<?>[]>> triggerEntities = new HashMap<Side, LinkedHashMap<String, Class<?>[]>>();
+	private static final LinkedHashMap<Side, LinkedHashMap<String, Class<?>[]>> triggerEntities = new LinkedHashMap<Side, LinkedHashMap<String, Class<?>[]>>();
 	/**
 	 * A HashMap with the all blocks.<br>
 	 * &emsp;<b>key:</b> The internal id<br>
 	 * &emsp;<b>value:</b> The actual block
 	 */
-	private static final HashMap<String, Block> blocks = new HashMap<String, Block>();
+	private static final LinkedHashMap<String, Block> blocks = new LinkedHashMap<String, Block>();
 	/**
 	 * A HashMap with the all items.<br>
 	 * &emsp;<b>key:</b> The internal id<br>
 	 * &emsp;<b>value:</b> The actual item
 	 */
-	private static final HashMap<String, Item> items = new HashMap<String, Item>();
+	private static final LinkedHashMap<String, Item> items = new LinkedHashMap<String, Item>();
 	/**
 	 * A HashMap with the all items.<br>
 	 * &emsp;<b>key:</b> The internal id<br>
 	 * &emsp;<b>value:</b> The actual item
 	 */
-	private static final HashMap<String, Achievement> achievements = new HashMap<String, Achievement>();
+	private static final LinkedHashMap<String, Achievement> achievements = new LinkedHashMap<String, Achievement>();
+	/** The custom creative tab */
+	private static BrainStoneModCreativeTab tabBrainStoneMod = null;
 
 	/**
 	 * Preinitialization. Reads the ids from the config file and fills the block
@@ -430,7 +435,8 @@ public class BrainStone {
 
 	private static String getJarHash() {
 		try {
-			final InputStream fis = new FileInputStream(BrainStoneClassFinder.findPathJar(null));
+			final InputStream fis = new FileInputStream(
+					BrainStoneClassFinder.findPathJar(null));
 
 			final byte[] buffer = new byte[1024];
 			final MessageDigest complete = MessageDigest.getInstance("SHA-512");
@@ -817,12 +823,23 @@ public class BrainStone {
 				event.getSuggestedConfigurationFile());
 		config.load();
 
-		final String str = config.get("DisplayUpdates", "DisplayUpdates",
-				DEV ? "recommended" : (release ? "release" : "latest"))
-				.getString();
+		final String str = config
+				.getString(
+						"DisplayUpdates",
+						"Display",
+						DEV ? "recommended" : (release ? "release" : "latest"),
+						"What update notifications do you want to recieve?\nValues are: release, recommended, latest");
 		updateNotification = (byte) ((str.equals("none") || str.equals("off")) ? -1
 				: (str.equals("recommended") ? 1 : (str.equals("latest") ? 2
 						: 0)));
+
+		enableCreativeTab = config
+				.getBoolean("EnableCreativeTab", "Display", true,
+						"Do you want to have a custom Creative Tab for this mod?");
+
+		if (enableCreativeTab) {
+			tabBrainStoneMod = new BrainStoneModCreativeTab();
+		}
 
 		config.save();
 	}
@@ -869,6 +886,10 @@ public class BrainStone {
 				"TileEntityBlockBrainStoneTrigger");
 		GameRegistry.registerTileEntity(TileEntityBlockBrainLogicBlock.class,
 				"TileEntityBlockBrainLogicBlock");
+	}
+
+	public static final CreativeTabs getCreativeTab(CreativeTabs defaultTab) {
+		return (enableCreativeTab) ? tabBrainStoneMod : defaultTab;
 	}
 
 	public static final LinkedHashMap<String, Class<?>[]> getClientSideTiggerEntities() {

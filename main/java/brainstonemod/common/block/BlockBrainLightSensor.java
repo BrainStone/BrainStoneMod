@@ -35,7 +35,7 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 
 		setHardness(2.4F);
 		setResistance(0.5F);
-		setCreativeTab(CreativeTabs.tabRedstone);
+		setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.tabRedstone));
 		setHarvestLevel("pickaxe", 1);
 
 		blockParticleGravity = -0.2F;

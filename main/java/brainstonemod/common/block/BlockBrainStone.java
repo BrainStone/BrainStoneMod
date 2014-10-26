@@ -34,7 +34,7 @@ public class BlockBrainStone extends BlockBrainStoneBase {
 
 		if (!flag) {
 			setLightLevel(1.0F);
-			setCreativeTab(CreativeTabs.tabBlock);
+			setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.tabBlock));
 		}
 
 		powered = flag;

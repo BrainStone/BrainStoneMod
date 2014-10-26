@@ -32,6 +32,8 @@ achievement.intelligentTools.desc=Stelle Werkzeuge aus diesem grünen Stein her!
 achievement.logicBlock=Logikblock!
 achievement.logicBlock.desc=Mache als erstes einen Prozessor. Dann einen Logikblock!
 
+itemGroup.tabBrainStoneMod=Brain Stone Mod
+
 gui.brainstone.item=Item/Objekt
 gui.brainstone.player=Spieler
 gui.brainstone.projectile=Projektil

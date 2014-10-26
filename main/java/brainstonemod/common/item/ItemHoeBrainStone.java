@@ -1,5 +1,6 @@
 package brainstonemod.common.item;
 
+import brainstonemod.BrainStone;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemHoe;
@@ -8,7 +9,7 @@ public class ItemHoeBrainStone extends ItemHoe {
 	public ItemHoeBrainStone(ToolMaterial enumtoolmaterial) {
 		super(enumtoolmaterial);
 
-		setCreativeTab(CreativeTabs.tabTools);
+		setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.tabTools));
 	}
 
 	@Override

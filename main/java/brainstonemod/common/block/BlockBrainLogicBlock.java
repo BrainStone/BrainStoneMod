@@ -36,7 +36,7 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 
 		setHardness(3.0F);
 		setResistance(1.0F);
-		setCreativeTab(CreativeTabs.tabRedstone);
+		setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.tabRedstone));
 		setHarvestLevel("pickaxe", 1);
 
 		blockParticleGravity = 0.0F;

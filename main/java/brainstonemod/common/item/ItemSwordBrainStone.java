@@ -2,6 +2,7 @@ package brainstonemod.common.item;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import brainstonemod.BrainStone;
@@ -9,6 +10,8 @@ import brainstonemod.BrainStone;
 public class ItemSwordBrainStone extends ItemSword {
 	public ItemSwordBrainStone(ToolMaterial enumtoolmaterial) {
 		super(enumtoolmaterial);
+
+		setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.tabCombat));
 	}
 
 	@Override
