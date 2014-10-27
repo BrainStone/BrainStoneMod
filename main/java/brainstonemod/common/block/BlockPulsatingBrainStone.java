@@ -88,7 +88,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random random) {
-		final int metaData = (int) ((world.getWorldInfo().getWorldTime() / tickRate(world)) % 16);
+		final int metaData = (int) ((world.getTotalWorldTime() / tickRate(world)) % 16);
 
 		if (metaData >= 15) {
 			if (effect) {
