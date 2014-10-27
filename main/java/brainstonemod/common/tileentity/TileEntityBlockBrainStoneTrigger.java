@@ -19,7 +19,6 @@ import brainstonemod.common.slot.SlotBlockBrainStoneTrigger;
 
 public class TileEntityBlockBrainStoneTrigger extends
 		TileEntityBlockBrainStoneHiders {
-	@SideOnly(Side.CLIENT)
 	private static final ArrayList<TileEntityBlockBrainStoneTrigger> failedTileEntities = new ArrayList<TileEntityBlockBrainStoneTrigger>();
 
 	public static void retryFailedTileEntities() {
