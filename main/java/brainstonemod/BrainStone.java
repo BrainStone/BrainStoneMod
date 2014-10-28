@@ -46,6 +46,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.util.ChatComponentText;
+import net.minecraftforge.common.AchievementPage;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.util.EnumHelper;
 
@@ -105,7 +106,7 @@ public class BrainStone {
 	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
 	public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.49.160 BETA DEV";
+	public static final String VERSION = "v2.49.203 BETA DEV";
 
 	/** The instance of this mod */
 	@Instance(MOD_ID)
@@ -141,6 +142,8 @@ public class BrainStone {
 	private static byte updateNotification;
 	/** Should the custom Creative tab be used? */
 	private static boolean enableCreativeTab;
+	/** Should the custom Achievement page be used? */
+	private static boolean enableAchievementPage;
 
 	public static final String guiPath = "textures/gui/";
 	public static final String armorPath = "textures/armor/";
@@ -185,6 +188,10 @@ public class BrainStone {
 	 * &emsp;<b>value:</b> The actual item
 	 */
 	private static final LinkedHashMap<String, Achievement> achievements = new LinkedHashMap<String, Achievement>();
+	/** the x positions of the achievements */
+	private static final LinkedHashMap<String, Integer> achievementXPositions = new LinkedHashMap<String, Integer>();
+	/** the y positions of the achievements */
+	private static final LinkedHashMap<String, Integer> achievementYPositions = new LinkedHashMap<String, Integer>();
 	/** The custom creative tab */
 	private static BrainStoneModCreativeTab tabBrainStoneMod = null;
 
@@ -795,20 +802,37 @@ public class BrainStone {
 	private static void generateAchievements() {
 		// Achievements
 
-		achievements.put("WTHIT", (new Achievement("WTHIT", "WTHIT", 8, 2,
-				brainStoneDust(), AchievementList.buildBetterPickaxe))
-				.registerStat());
-		achievements.put("itLives", (new Achievement("itLives", "itLives", 8,
-				4, brainStone(), WTHIT())).registerStat());
-		achievements.put("intelligentBlocks", (new Achievement(
-				"intelligentBlocks", "intelligentBlocks", 10, 5,
-				brainLightSensor(), itLives())).registerStat());
-		achievements.put("intelligentTools", (new Achievement(
-				"intelligentTools", "intelligentTools", 6, 5,
-				brainStonePickaxe(), itLives())).registerStat());
-		achievements.put("logicBlock", (new Achievement("logicBlock",
-				"logicBlock", 12, 7, brainProcessor(), intelligentBlocks()))
-				.registerStat());
+		String curAch;
+
+		achievements.put(
+				curAch = "WTHIT",
+				(new Achievement(curAch, curAch, achievementYPositions
+						.get(curAch), achievementXPositions.get(curAch),
+						brainStoneDust(), AchievementList.buildBetterPickaxe))
+						.registerStat());
+		achievements.put(
+				curAch = "itLives",
+				(new Achievement(curAch, curAch, achievementYPositions
+						.get(curAch), achievementXPositions.get(curAch),
+						brainStone(), WTHIT())).registerStat());
+		achievements.put(curAch = "intelligentBlocks", (new Achievement(curAch,
+				curAch, achievementYPositions.get(curAch),
+				achievementXPositions.get(curAch), brainLightSensor(),
+				itLives())).registerStat());
+		achievements.put(curAch = "intelligentTools", (new Achievement(curAch,
+				curAch, achievementYPositions.get(curAch),
+				achievementXPositions.get(curAch), brainStonePickaxe(),
+				itLives())).registerStat());
+		achievements.put(curAch = "logicBlock", (new Achievement(curAch,
+				curAch, achievementYPositions.get(curAch),
+				achievementXPositions.get(curAch), brainProcessor(),
+				intelligentBlocks())).registerStat());
+
+		if (enableAchievementPage) {
+			AchievementPage.registerAchievementPage(new AchievementPage(
+					"Brain Stone Mod", achievements.values().toArray(
+							new Achievement[achievements.size()])));
+		}
 	}
 
 	/**
@@ -828,7 +852,7 @@ public class BrainStone {
 						"DisplayUpdates",
 						"Display",
 						DEV ? "recommended" : (release ? "release" : "latest"),
-						"What update notifications do you want to recieve?\nValues are: release, recommended, latest");
+						"What update notifications do you want to recieve?\nValues are: release, recommended, latest, none (or off)");
 		updateNotification = (byte) ((str.equals("none") || str.equals("off")) ? -1
 				: (str.equals("recommended") ? 1 : (str.equals("latest") ? 2
 						: 0)));
@@ -836,10 +860,75 @@ public class BrainStone {
 		enableCreativeTab = config
 				.getBoolean("EnableCreativeTab", "Display", true,
 						"Do you want to have a custom Creative Tab for this mod?");
+		enableAchievementPage = config.getBoolean("EnableAchievementPage",
+				"Display", true,
+				"Do you want to have a custom Achievement Page for this mod?");
 
 		if (enableCreativeTab) {
 			tabBrainStoneMod = new BrainStoneModCreativeTab();
 		}
+
+		String curAch;
+		String achievementPageType = enableAchievementPage ? "custom"
+				: "regular";
+		String[] achievementNames = new String[] { "WTHIT", "itLives",
+				"intelligentBlocks", "intelligentTools", "logicBlock" };
+		int[] xPos = enableAchievementPage ? new int[] { 0, 2, 3, 3, 5 }
+				: new int[] { 2, 4, 5, 5, 7 };
+		int[] yPos = enableAchievementPage ? new int[] { 0, 0, 2, -2, 4 }
+				: new int[] { 8, 8, 10, 6, 12 };
+
+		// Save the positions of the achievements
+		for (int i = 0; i < achievementNames.length; i++) {
+			achievementXPositions.put(curAch = achievementNames[i], config
+					.getInt("Xpos" + Character.toUpperCase(curAch.charAt(0))
+							+ curAch.substring(1), achievementPageType
+							+ "achievementpageachievementpositions", xPos[i],
+							-20, 20, "Choose a x coordinate on the "
+									+ achievementPageType
+									+ " Achievement Page for the " + curAch
+									+ " achievement"));
+			achievementYPositions.put(curAch, config.getInt(
+					"Ypos" + Character.toUpperCase(curAch.charAt(0))
+							+ curAch.substring(1), achievementPageType
+							+ "achievementpageachievementpositions", yPos[i],
+					-20, 20, "Choose a y coordinate on the "
+							+ achievementPageType
+							+ " Achievement Page for the " + curAch
+							+ " achievement"));
+		}
+
+		achievementPageType = enableAchievementPage ? "regular" : "custom";
+		xPos = enableAchievementPage ? new int[] { 2, 4, 5, 5, 7 } : new int[] {
+				0, 2, 3, 3, 5 };
+		yPos = enableAchievementPage ? new int[] { 8, 8, 10, 6, 12 }
+				: new int[] { 0, 0, 2, -2, 4 };
+
+		// Generate the other achievement positions for the sake of completeness
+		for (int i = 0; i < achievementNames.length; i++) {
+			curAch = achievementNames[i];
+			config.getInt("Xpos" + Character.toUpperCase(curAch.charAt(0))
+					+ curAch.substring(1), achievementPageType
+					+ "achievementpageachievementpositions", xPos[i], -20, 20,
+					"Choose a x coordinate on the " + achievementPageType
+							+ " Achievement Page for the " + curAch
+							+ " achievement");
+			config.getInt("Ypos" + Character.toUpperCase(curAch.charAt(0))
+					+ curAch.substring(1), achievementPageType
+					+ "achievementpageachievementpositions", yPos[i], -20, 20,
+					"Choose a y coordinate on the " + achievementPageType
+							+ " Achievement Page for the " + curAch
+							+ " achievement");
+		}
+
+		config.addCustomCategoryComment("display",
+				"This set defines some basic ingame display settings");
+		config.addCustomCategoryComment(
+				"regularachievementpageachievementpositions",
+				"This set defines the positions of the achievements on the default Minecraft Achievement Page.\nOnly applies when \"B:EnableAchievementPage\" is set to false.");
+		config.addCustomCategoryComment(
+				"customachievementpageachievementpositions",
+				"This set defines the positions of the achievements on the custom Brain Stone Mod Achievement Page.\nOnly applies when \"B:EnableAchievementPage\" is set to true.");
 
 		config.save();
 	}
