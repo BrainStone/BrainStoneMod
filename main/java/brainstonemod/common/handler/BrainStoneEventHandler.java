@@ -1,19 +1,20 @@
 package brainstonemod.common.handler;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
 import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
-import cpw.mods.fml.relauncher.Side;
 
 public class BrainStoneEventHandler {
 	@SubscribeEvent
@@ -80,5 +81,29 @@ public class BrainStoneEventHandler {
 			}
 		}).start();
 
+	}
+
+	@SubscribeEvent
+	public void onEntityConstructing(EntityConstructing event) {
+		Entity entity = event.entity;
+
+		if (entity instanceof EntityLightningBolt) {
+			EntityPlayer player = (EntityPlayer) entity.worldObj.playerEntities
+					.get(0);
+
+			BSP.info("" + entity.posX + " " + entity.posY + " " + entity.posZ,
+					"" + player.posX + " " + player.posY + " " + player.posZ,
+					"");
+
+			if (entity.posX != player.posX || entity.posY != player.posY
+					|| entity.posZ != player.posZ) {
+				entity.setDead();
+
+				entity.worldObj
+						.spawnEntityInWorld(new EntityLightningBolt(
+								entity.worldObj, player.posX, player.posY,
+								player.posZ));
+			}
+		}
 	}
 }

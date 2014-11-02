@@ -47,6 +47,7 @@ import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.AchievementPage;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.util.EnumHelper;
 
@@ -106,7 +107,7 @@ public class BrainStone {
 	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
 	public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.49.203 BETA DEV";
+	public static final String VERSION = "v2.49.238 BETA";
 
 	/** The instance of this mod */
 	@Instance(MOD_ID)
@@ -242,6 +243,8 @@ public class BrainStone {
 	 */
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
+		BrainStoneEventHandler eventHandler = new BrainStoneEventHandler();
+		
 		proxy.registerRenderInformation();
 		NetworkRegistry.INSTANCE.registerGuiHandler(this,
 				new BrainStoneGuiHandler());
@@ -256,7 +259,8 @@ public class BrainStone {
 		GameRegistry.registerWorldGenerator(new BrainStoneWorldGenerator(), 0);
 		// Event Handler
 		FMLCommonHandler.instance().bus()
-				.register(new BrainStoneEventHandler());
+				.register(eventHandler);
+		MinecraftForge.EVENT_BUS.register(eventHandler);
 		// Register PacketPipeline
 		packetPipeline.initialise();
 
