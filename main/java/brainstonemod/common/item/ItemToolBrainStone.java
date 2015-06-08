@@ -30,7 +30,7 @@ public class ItemToolBrainStone extends ItemTool {
 	 *             would crash in unexpected locations (like trying to destroy a
 	 *             block with this tool)
 	 */
-	private final static Set getBlocksEffectiveAgainstForToolsType(String type) {
+	private final static Set<Block> getBlocksEffectiveAgainstForToolsType(String type) {
 		type = type.toLowerCase();
 
 		if (type.contains("spade"))

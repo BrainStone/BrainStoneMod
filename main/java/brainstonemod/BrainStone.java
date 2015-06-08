@@ -53,7 +53,6 @@ import net.minecraftforge.common.util.EnumHelper;
 
 import org.apache.logging.log4j.core.Logger;
 
-import scala.tools.nsc.settings.MutableSettings.EnableSettings;
 import brainstonemod.client.gui.helper.BrainStoneModCreativeTab;
 import brainstonemod.common.CommonProxy;
 import brainstonemod.common.block.BlockBrainLightSensor;
@@ -107,7 +106,7 @@ public class BrainStone {
 	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
 	public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.49.238 BETA";
+	public static final String VERSION = "v2.49.243 BETA";
 
 	/** The instance of this mod */
 	@Instance(MOD_ID)
@@ -705,6 +704,7 @@ public class BrainStone {
 	}
 
 	// DOCME
+	@SuppressWarnings("unchecked")
 	private static void fillTriggerEntities() {
 		if ((getServerSideTiggerEntities() == null)
 				|| (getServerSideTiggerEntities().size() == 0)) {

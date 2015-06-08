@@ -4,7 +4,6 @@ import net.minecraft.item.ItemStack;
 import brainstonemod.BrainStone;
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
-import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Optional;
 
 @Optional.Interface(iface = "codechicken.nei.api.API", modid = "NotEnoughItems")

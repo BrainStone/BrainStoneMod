@@ -57,6 +57,7 @@ public class BrainStonePacketPipeline extends
 	 * This method automatically registers all packets found in
 	 * brainstonemod.network.packets
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void autoRegisterPackets() {
 		try {
 			for (final Class clazz : BrainStoneClassFinder
