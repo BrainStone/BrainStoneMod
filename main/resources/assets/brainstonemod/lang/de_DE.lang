@@ -60,3 +60,6 @@ gui.brainstone.classic=Klassik
 gui.brainstone.simple=Einfach
 gui.brainstone.proportional=Proportional
 gui.brainstone.inverted=Invertiert
+
+
+tc.aspect.brainstone=Hirn+Stein
