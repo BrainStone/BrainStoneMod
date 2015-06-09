@@ -55,6 +55,7 @@ import org.apache.logging.log4j.core.Logger;
 
 import brainstonemod.client.gui.helper.BrainStoneModCreativeTab;
 import brainstonemod.common.CommonProxy;
+import brainstonemod.common.api.thaumcraft.AspectCreator;
 import brainstonemod.common.block.BlockBrainLightSensor;
 import brainstonemod.common.block.BlockBrainLogicBlock;
 import brainstonemod.common.block.BlockBrainStone;
@@ -229,7 +230,7 @@ public class BrainStone {
 		registerItems();
 		
 		if(Loader.isModLoaded("Thaumcraft")) {
-			// thaumcraft aspects
+			new AspectCreator();
 		}
 
 		// Generating Achievements here because the blocks and items need to be
