@@ -79,6 +79,7 @@ import brainstonemod.common.worldgenerators.BrainStoneWorldGenerator;
 import brainstonemod.network.BrainStonePacketHelper;
 import brainstonemod.network.BrainStonePacketPipeline;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -106,7 +107,7 @@ public class BrainStone {
 	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
 	public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.49.243 BETA";
+	public static final String VERSION = "v2.49.247 BETA";
 
 	/** The instance of this mod */
 	@Instance(MOD_ID)
@@ -226,6 +227,10 @@ public class BrainStone {
 		// Registering blocks and items.
 		registerBlocks();
 		registerItems();
+		
+		if(Loader.isModLoaded("Thaumcraft")) {
+			// thaumcraft aspects
+		}
 
 		// Generating Achievements here because the blocks and items need to be
 		// registered at this moment.

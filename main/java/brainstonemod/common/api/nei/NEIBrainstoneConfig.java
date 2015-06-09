@@ -1,4 +1,4 @@
-package brainstonemod.common.helper;
+package brainstonemod.common.api.nei;
 
 import net.minecraft.item.ItemStack;
 import brainstonemod.BrainStone;
