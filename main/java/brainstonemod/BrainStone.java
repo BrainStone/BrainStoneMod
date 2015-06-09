@@ -108,7 +108,7 @@ public class BrainStone {
 	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
 	public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.49.247 BETA";
+	public static final String VERSION = "v2.49.258 BETA";
 
 	/** The instance of this mod */
 	@Instance(MOD_ID)
@@ -230,7 +230,7 @@ public class BrainStone {
 		registerItems();
 		
 		if(Loader.isModLoaded("Thaumcraft")) {
-			new AspectCreator();
+			AspectCreator.initAspects();
 		}
 
 		// Generating Achievements here because the blocks and items need to be
