@@ -1,11 +1,13 @@
 package brainstonemod.common.api.thaumcraft;
 
-import brainstonemod.BrainStone;
 import net.minecraft.item.ItemStack;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
+import brainstonemod.BrainStone;
+import cpw.mods.fml.common.Optional;
 
+@Optional.Interface(iface = "thaumcraft.api.ThaumcraftApi", modid = "Thaumcraft")
 public class AspectCreator {
 
 	public AspectCreator() {
