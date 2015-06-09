@@ -6,7 +6,9 @@ import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import brainstonemod.BrainStone;
+import cpw.mods.fml.common.Optional;
 
+@Optional.Interface(iface = "thaumcraft.api.ThaumcraftApi", modid = "Thaumcraft")
 public class AspectCreator {
 	
 	public static final Aspect BRAINSTONE = new Aspect("brainstone",0x56c000,new Aspect[]{Aspect.ENTROPY,Aspect.ENTROPY},new ResourceLocation("thaumcraft","textures/aspects/victus.png"),1);
