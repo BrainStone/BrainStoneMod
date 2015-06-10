@@ -10,9 +10,9 @@ import cpw.mods.fml.common.Optional;
 
 @Optional.Interface(iface = "thaumcraft.api.ThaumcraftApi", modid = "Thaumcraft")
 public class AspectCreator {
-	public static final Aspect BRAINSTONE = new Aspect("brainstone", 0x56c000,
+	public static final Aspect BRAINSTONE = new Aspect("brainstone", 0x24FF45,
 			new Aspect[] { Aspect.EARTH, Aspect.MIND },
-			new ResourceLocation("thaumcraft", "textures/aspects/cognitio.png"),
+			new ResourceLocation("brainstonemod", "textures/aspects/brainstone.png"),
 			1);
 
 	@Optional.Method(modid = "Thaumcraft")
