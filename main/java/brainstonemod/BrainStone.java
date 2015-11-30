@@ -55,6 +55,8 @@ import org.apache.logging.log4j.core.Logger;
 
 import brainstonemod.client.gui.helper.BrainStoneModCreativeTab;
 import brainstonemod.common.CommonProxy;
+import brainstonemod.common.api.cofh.mfr.MFRBrainstoneConfig;
+import brainstonemod.common.api.enderio.EnderIORecipies;
 import brainstonemod.common.api.thaumcraft.AspectCreator;
 import brainstonemod.common.block.BlockBrainLightSensor;
 import brainstonemod.common.block.BlockBrainLogicBlock;
@@ -108,7 +110,7 @@ public class BrainStone {
 	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
 	public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.49.261 BETA";
+	public static final String VERSION = "v2.49.283 BETA";
 
 	/** The instance of this mod */
 	@Instance(MOD_ID)
@@ -228,9 +230,17 @@ public class BrainStone {
 		// Registering blocks and items.
 		registerBlocks();
 		registerItems();
-		
-		if(Loader.isModLoaded("Thaumcraft")) {
+
+		if (Loader.isModLoaded("Thaumcraft")) {
 			AspectCreator.initAspects();
+		}
+
+		if (Loader.isModLoaded("MineFactoryReloaded")) {
+			MFRBrainstoneConfig.registerMFRItems();
+		}
+
+		if (Loader.isModLoaded("EnderIO")) {
+			EnderIORecipies.registerEnderIORecipies();
 		}
 
 		// Generating Achievements here because the blocks and items need to be
@@ -249,7 +259,7 @@ public class BrainStone {
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		BrainStoneEventHandler eventHandler = new BrainStoneEventHandler();
-		
+
 		proxy.registerRenderInformation();
 		NetworkRegistry.INSTANCE.registerGuiHandler(this,
 				new BrainStoneGuiHandler());
@@ -263,8 +273,7 @@ public class BrainStone {
 		// generator
 		GameRegistry.registerWorldGenerator(new BrainStoneWorldGenerator(), 0);
 		// Event Handler
-		FMLCommonHandler.instance().bus()
-				.register(eventHandler);
+		FMLCommonHandler.instance().bus().register(eventHandler);
 		MinecraftForge.EVENT_BUS.register(eventHandler);
 		// Register PacketPipeline
 		packetPipeline.initialise();
@@ -476,7 +485,7 @@ public class BrainStone {
 		} catch (final NoSuchAlgorithmException e) {
 			BSP.errorException(
 					e,
-					"This is something reallyy bad! You don't have the SHA-512 algorithm! You should have that!");
+					"This is something really bad! You don't have the SHA-512 algorithm! You should have that!");
 		}
 
 		return "";

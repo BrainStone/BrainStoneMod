@@ -56,7 +56,9 @@ public class CommonProxy {
 	 * Registers the ore(s) in the OreDictionary
 	 */
 	public void registerOre() {
-		OreDictionary.registerOre("brainstoneore", BrainStone.brainStoneOre());
+		OreDictionary.registerOre("oreBrainstone", BrainStone.brainStoneOre());
+		OreDictionary.registerOre("dustBrainstone", BrainStone.brainStoneDust());
+		OreDictionary.registerOre("brainstone", BrainStone.brainStone());
 	}
 
 	/**
