@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import cpw.mods.fml.common.Loader;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -17,6 +18,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import brainstonemod.BrainStone;
+import brainstonemod.common.api.enderio.BrainStoneUpgrade;
 import brainstonemod.common.block.template.BlockBrainStoneBase;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.network.BrainStonePacketHelper;
@@ -101,7 +103,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 				}
 			}
 		} else if ((metaData == 8) && (effect)) {
-			BSP.debug("Effect Time!");
+			BSP.debug("", "Effect Time!");
 
 			double radius;
 			int taskRand;
@@ -118,45 +120,15 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 
 				BSP.debug(tmpEntity.getClass().getName());
 
-				if (tmpEntity instanceof EntityPlayer) {
-					final ItemStack[] playerArmor = ((EntityPlayer) tmpEntity).inventory.armorInventory;
-
-					if ((playerArmor[3] != null)
-							&& (playerArmor[2] != null)
-							&& (playerArmor[1] != null)
-							&& (playerArmor[0] != null)
-							&& (playerArmor[3].getItem() == BrainStone
-									.brainStoneHelmet())
-							&& (playerArmor[2].getItem() == BrainStone
-									.brainStonePlate())
-							&& (playerArmor[1].getItem() == BrainStone
-									.brainStoneLeggings())
-							&& (playerArmor[0].getItem() == BrainStone
-									.brainStoneBoots())) {
-						BSP.debug("Player wears armor! No effect!");
-
-						continue;
-					}
-				}
-
 				if (tmpEntity instanceof EntityLivingBase) {
 					entity = (EntityLivingBase) tmpEntity;
 
 					final ItemStack[] equipment = entity.getLastActiveItems();
 
-					BSP.debug(entity, Arrays.toString(equipment), "");
+					BSP.debug(entity, Arrays.toString(equipment));
 
-					if (((equipment != null) && (equipment.length >= 5))
-							&& (((equipment[1] != null) && (equipment[1]
-									.getItem() == BrainStone.brainStoneBoots()))
-									&& ((equipment[2] != null) && (equipment[2]
-											.getItem() == BrainStone
-											.brainStoneLeggings()))
-									&& ((equipment[3] != null) && (equipment[3]
-											.getItem() == BrainStone
-											.brainStonePlate())) && ((equipment[4] != null) && (equipment[4]
-									.getItem() == BrainStone.brainStoneHelmet())))) {
-						BSP.debug("Mob wears armor! No effect!");
+					if (isProtected(equipment)) {
+						BSP.debug("Mob/Player wears armor! No effect!");
 
 						continue;
 					}
@@ -206,5 +178,41 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 		}
 
 		world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
+	}
+
+	private static boolean isProtected(ItemStack[] armor) {
+		int offset = 0;
+
+		if (armor.length < 4)
+			return false;
+		else if (armor.length == 5)
+			offset = 1;
+		else if (armor.length > 5)
+			return false;
+
+		boolean allArmorSlotsFilled = (armor[3 + offset] != null)
+				&& (armor[2 + offset] != null) && (armor[1 + offset] != null)
+				&& (armor[0 + offset] != null);
+
+		if (!allArmorSlotsFilled)
+			return false;
+
+		boolean enderIOEnabled = Loader.isModLoaded("EnderIO");
+
+		if (!((armor[3 + offset].getItem() == BrainStone.brainStoneHelmet()) || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE
+				.hasUpgrade(armor[3 + offset])))))
+			return false;
+		else if (!((armor[2 + offset].getItem() == BrainStone.brainStonePlate()) || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE
+				.hasUpgrade(armor[2 + offset])))))
+			return false;
+		else if (!((armor[1 + offset].getItem() == BrainStone
+				.brainStoneLeggings()) || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE
+				.hasUpgrade(armor[1 + offset])))))
+			return false;
+		else if (!((armor[0 + offset].getItem() == BrainStone.brainStoneBoots()) || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE
+				.hasUpgrade(armor[0 + offset])))))
+			return false;
+		else
+			return true;
 	}
 }

@@ -6,6 +6,7 @@ import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import brainstonemod.BrainStone;
+import brainstonemod.common.helper.BSP;
 import cpw.mods.fml.common.Optional;
 
 @Optional.Interface(iface = "thaumcraft.api.ThaumcraftApi", modid = "Thaumcraft")
@@ -17,7 +18,10 @@ public class AspectCreator {
 
 	@Optional.Method(modid = "Thaumcraft")
 	public static void initAspects() {
+		BSP.info("Thaumcraft detected! Adding aspect and aspects to items!");
+		
 		registerBlockAspects();
+		registerItemAspects();
 	}
 
 	@Optional.Method(modid = "Thaumcraft")

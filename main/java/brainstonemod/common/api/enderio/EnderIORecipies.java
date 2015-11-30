@@ -5,7 +5,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import brainstonemod.BrainStone;
+import brainstonemod.common.helper.BSP;
 import cpw.mods.fml.common.Optional;
+import crazypants.enderio.item.darksteel.DarkSteelRecipeManager;
 import crazypants.enderio.machine.alloy.AlloyRecipeManager;
 import crazypants.enderio.machine.crusher.CrusherRecipeManager;
 import crazypants.enderio.machine.recipe.BasicManyToOneRecipe;
@@ -17,6 +19,8 @@ import crazypants.enderio.machine.recipe.RecipeOutput;
 public class EnderIORecipies {
 	@Optional.Method(modid = "EnderIO")
 	public static void registerEnderIORecipies() {
+		BSP.info("EnderIO detected! Enabling recipes and armor upgrade!");
+		
 		// SAG Mill
 
 		// BrainStoneOre => BrainStoneDust, BrainStoneDust 50%
@@ -46,6 +50,9 @@ public class EnderIORecipies {
 				new ItemStack(BrainStone.brainStoneDust(), 4), new ItemStack(
 						BrainStone.brainStoneDust(), 4), new ItemStack(
 						BrainStone.brainStoneDust(), 4));
+
+		DarkSteelRecipeManager.instance.getUpgrades().add(
+				BrainStoneUpgrade.UPGRADE);
 	}
 
 	@Optional.Method(modid = "EnderIO")

@@ -63,3 +63,8 @@ gui.brainstone.inverted=Inverted
 
 
 tc.aspect.brainstone=Brain+Stone
+
+enderio.darksteel.upgrade.brainstone.name=Pulsating Brain Stone Protection
+enderio.darksteel.upgrade.brainstone.tooltip.detailed.line1=If applied to all parts of the armor
+enderio.darksteel.upgrade.brainstone.tooltip.detailed.line2=you will be protected from the
+enderio.darksteel.upgrade.brainstone.tooltip.detailed.line3=effects of the Pulsating Brain Stone

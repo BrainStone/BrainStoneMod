@@ -104,13 +104,14 @@ import cpw.mods.fml.relauncher.Side;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = BrainStone.MOD_ID, name = BrainStone.NAME, version = BrainStone.VERSION)
+@Mod(modid = BrainStone.MOD_ID, name = BrainStone.NAME, version = BrainStone.VERSION, dependencies = BrainStone.DEPENDENCIES)
 public class BrainStone {
 	public static final String MOD_ID = "BrainStoneMod";
 	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
 	public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.49.283 BETA";
+	public static final String VERSION = "v2.49.357 BETA";
+	public static final String DEPENDENCIES = "after:EnderIO;after:MineFactoryReloaded;after:Thaumcraft";
 
 	/** The instance of this mod */
 	@Instance(MOD_ID)
@@ -231,18 +232,6 @@ public class BrainStone {
 		registerBlocks();
 		registerItems();
 
-		if (Loader.isModLoaded("Thaumcraft")) {
-			AspectCreator.initAspects();
-		}
-
-		if (Loader.isModLoaded("MineFactoryReloaded")) {
-			MFRBrainstoneConfig.registerMFRItems();
-		}
-
-		if (Loader.isModLoaded("EnderIO")) {
-			EnderIORecipies.registerEnderIORecipies();
-		}
-
 		// Generating Achievements here because the blocks and items need to be
 		// registered at this moment.
 		generateAchievements();
@@ -291,6 +280,18 @@ public class BrainStone {
 	public void postInit(FMLPostInitializationEvent event) {
 		// Post initializing the pipeline
 		packetPipeline.postInitialise();
+		
+		if (Loader.isModLoaded("Thaumcraft")) {
+			AspectCreator.initAspects();
+		}
+
+		if (Loader.isModLoaded("MineFactoryReloaded")) {
+			MFRBrainstoneConfig.registerMFRItems();
+		}
+
+		if (Loader.isModLoaded("EnderIO")) {
+			EnderIORecipies.registerEnderIORecipies();
+		}
 	}
 
 	/**
