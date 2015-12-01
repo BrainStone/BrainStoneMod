@@ -57,6 +57,7 @@ import brainstonemod.client.gui.helper.BrainStoneModCreativeTab;
 import brainstonemod.common.CommonProxy;
 import brainstonemod.common.api.cofh.mfr.MFRBrainstoneConfig;
 import brainstonemod.common.api.enderio.EnderIORecipies;
+import brainstonemod.common.api.tconstruct.TinkersContructMaterialBrainStone;
 import brainstonemod.common.api.thaumcraft.AspectCreator;
 import brainstonemod.common.block.BlockBrainLightSensor;
 import brainstonemod.common.block.BlockBrainLogicBlock;
@@ -110,8 +111,8 @@ public class BrainStone {
 	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
 	public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.49.378 BETA";
-	public static final String DEPENDENCIES = "after:EnderIO;after:MineFactoryReloaded;after:Thaumcraft";
+	public static final String VERSION = "v2.49.412 BETA";
+	public static final String DEPENDENCIES = "after:EnderIO;after:MineFactoryReloaded;after:Thaumcraft;after:TConstruct";
 
 	/** The instance of this mod */
 	@Instance(MOD_ID)
@@ -291,6 +292,10 @@ public class BrainStone {
 
 		if (Loader.isModLoaded("EnderIO")) {
 			EnderIORecipies.registerEnderIORecipies();
+		}
+		
+		if (Loader.isModLoaded("TConstruct")) {
+			TinkersContructMaterialBrainStone.initToolMaterials();
 		}
 	}
 
@@ -493,7 +498,7 @@ public class BrainStone {
 	}
 
 	private static void createEnums() {
-		toolBRAINSTONE = EnumHelper.addToolMaterial("BRAINSTONE", 3, 5368, 6F,
+		toolBRAINSTONE = EnumHelper.addToolMaterial("BRAINSTONE", 4, 5368, 6F,
 				5, 25);
 		armorBRAINSTONE = EnumHelper.addArmorMaterial("BRAINSTONE", 114,
 				new int[] { 2, 6, 5, 2 }, 25);
