@@ -47,7 +47,7 @@ public class TinkersContructMaterialBrainStone {
 					materialID, new ItemStack(TinkerWeaponry.arrowhead, 1,
 							materialID));
 
-			TConstructRegistry.addBowMaterial(materialID, 35, 4.75f);
+			TConstructRegistry.addBowMaterial(materialID, 30, 5.25f);
 			TConstructRegistry.addArrowMaterial(materialID, 1.4F, 0.0F);
 		}
 
