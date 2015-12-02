@@ -111,7 +111,7 @@ public class BrainStone {
 	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
 	public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.49.412 BETA";
+	public static final String VERSION = "v2.49.433 BETA";
 	public static final String DEPENDENCIES = "after:EnderIO;after:MineFactoryReloaded;after:Thaumcraft;after:TConstruct";
 
 	/** The instance of this mod */
@@ -1179,6 +1179,13 @@ public class BrainStone {
 	 */
 	public static final Item brainStoneBoots() {
 		return items.get("brainStoneBoots");
+	}
+	
+	/**
+	 * @return the instance of Essence Of Live
+	 */
+	public static final Item essenceOfLive() {
+		return items.get("essenceOfLive");
 	}
 
 	/**

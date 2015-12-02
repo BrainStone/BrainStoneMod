@@ -83,7 +83,7 @@ public class BrainStoneEventHandler {
 
 	}
 
-	@SubscribeEvent
+	/*@SubscribeEvent
 	public void onEntityConstructing(EntityConstructing event) {
 		Entity entity = event.entity;
 
@@ -105,5 +105,5 @@ public class BrainStoneEventHandler {
 								player.posZ));
 			}
 		}
-	}
+	}*/
 }

@@ -22,34 +22,33 @@ public class TinkersContructMaterialBrainStone {
 		TConstructClientRegistry.addMaterialRenderMapping(materialID, "tinker",
 				"brainstone", true);
 		TConstructRegistry.addToolMaterial(materialID, "BrainStone", 4, 5350,
-				600, 5, 2.5F, 1, 0f, EnumChatFormatting.GREEN.toString(),
+				600, 5, 1.5F, 1, 0f, EnumChatFormatting.GREEN.toString(),
 				0x27B23D);
 		PatternBuilder.instance.registerFullMaterial(
 				new ItemStack(BrainStone.brainStone()), 2, "BrainStone",
-				new ItemStack(TinkerTools.toolShard, 1, 1546), new ItemStack(
-						TinkerTools.toolRod, 1, 1546), 1546);
+				new ItemStack(TinkerTools.toolShard, 1, materialID),
+				new ItemStack(TinkerTools.toolRod, 1, materialID), materialID);
 		for (int meta = 0; meta < TinkerTools.patternOutputs.length; meta++) {
 			if (TinkerTools.patternOutputs[meta] != null)
 				TConstructRegistry.addPartMapping(TinkerTools.woodPattern,
-						meta + 1, 31, new ItemStack(
-								TinkerTools.patternOutputs[meta], 1, 31));
+						meta + 1, materialID,
+						new ItemStack(TinkerTools.patternOutputs[meta], 1,
+								materialID));
 		}
 
-		for (int m = 0; m < TinkerWeaponry.patternOutputs.length; m++)
-			TConstructRegistry.addPartMapping(TinkerWeaponry.woodPattern, m,
-					materialID, new ItemStack(TinkerWeaponry.patternOutputs[m],
-							1, materialID));
-
 		if (TConstruct.pulsar.isPulseLoaded("Tinkers' Weaponry")) {
+			for (int m = 0; m < TinkerWeaponry.patternOutputs.length; m++)
+				TConstructRegistry.addPartMapping(TinkerWeaponry.woodPattern,
+						m, materialID,
+						new ItemStack(TinkerWeaponry.patternOutputs[m], 1,
+								materialID));
+
 			TConstructRegistry.addPartMapping(TinkerTools.woodPattern, 25,
 					materialID, new ItemStack(TinkerWeaponry.arrowhead, 1,
 							materialID));
 
-			TConstructRegistry.addBowstringMaterial(1, 2, new ItemStack(
-					BrainStone.brainStone()), new ItemStack(
-					TinkerWeaponry.bowstring, 1, 3), 1F, 0.8F, 0.9f, 0x24FF45);
 			TConstructRegistry.addBowMaterial(materialID, 35, 4.75f);
-			TConstructRegistry.addArrowMaterial(materialID, 1.8F, 0.5F);
+			TConstructRegistry.addArrowMaterial(materialID, 1.4F, 0.0F);
 		}
 
 		TConstructRegistry.addDefaultToolPartMaterial(materialID);
