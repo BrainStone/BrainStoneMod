@@ -111,7 +111,7 @@ public class BrainStone {
 	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
 	public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.49.442 BETA";
+	public static final String VERSION = "v2.49.444 BETA";
 	public static final String DEPENDENCIES = "after:EnderIO;after:MineFactoryReloaded;after:Thaumcraft;after:TConstruct";
 
 	/** The instance of this mod */
@@ -787,7 +787,7 @@ public class BrainStone {
 		blocks.put("brainStoneOre", new BlockBrainStoneOre());
 		blocks.put("dirtyBrainStone", (new BlockBrainStoneBase(Material.rock))
 				.setHardness(2.4F).setResistance(0.5F).setLightLevel(0.5F)
-				.setCreativeTab(CreativeTabs.tabBlock));
+				.setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.tabBlock)));
 		blocks.put("brainLightSensor", new BlockBrainLightSensor());
 		blocks.put("brainStoneTrigger", new BlockBrainStoneTrigger());
 		blocks.put("brainLogicBlock", new BlockBrainLogicBlock());
@@ -801,9 +801,9 @@ public class BrainStone {
 		// Items
 
 		items.put("brainStoneDust", (new ItemBrainStoneBase())
-				.setCreativeTab(CreativeTabs.tabMaterials));
+				.setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.tabMaterials)));
 		items.put("brainProcessor",
-				(new ItemBrainStoneBase()).setCreativeTab(CreativeTabs.tabMisc));
+				(new ItemBrainStoneBase()).setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.tabMisc)));
 		items.put("brainStoneSword", (new ItemSwordBrainStone(toolBRAINSTONE)));
 		items.put("brainStoneShovel", (new ItemToolBrainStone(toolBRAINSTONE,
 				"spade")));
@@ -821,7 +821,7 @@ public class BrainStone {
 		items.put("brainStoneBoots", (new ItemArmorBrainStone(armorBRAINSTONE,
 				armorBRAINSTONE_RenderIndex, 3)));
 		items.put("essenceOfLive", (new ItemBrainStoneBase())
-				.setCreativeTab(CreativeTabs.tabMaterials));
+				.setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.tabMaterials)));
 	}
 
 	private static void generateAchievements() {
