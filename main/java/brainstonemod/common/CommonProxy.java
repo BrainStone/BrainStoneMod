@@ -5,8 +5,11 @@ import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 import brainstonemod.BrainStone;
+import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class CommonProxy {
+	public static int BrainLogicBlockRenderType;
+
 	/**
 	 * Adds some armor.<br>
 	 * <b><u>!!! Will do nothing !!! This is the server proxy !!!</u></b>
@@ -66,5 +69,6 @@ public class CommonProxy {
 	 * <b><u>!!! Will do nothing !!! This is the server proxy !!!</u></b>
 	 */
 	public void registerRenderInformation() {
+		BrainLogicBlockRenderType = RenderingRegistry.getNextAvailableRenderId();
 	}
 }
