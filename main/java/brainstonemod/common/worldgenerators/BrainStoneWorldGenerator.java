@@ -48,7 +48,7 @@ public class BrainStoneWorldGenerator implements IWorldGenerator {
 			break;
 		// TODO: Move to config
 		case 7: // Twilight Forest
-		case 100: // Deep Dark
+		case -100: // Deep Dark
 			this.genMinable(BrainStone.brainStoneOre(), 20, 1, 32);
 
 			break;
