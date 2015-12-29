@@ -29,8 +29,8 @@ public class BrainStoneWorldGenerator implements IWorldGenerator {
 	}
 
 	@Override
-	public void generate(Random random, int chunkX, int chunkZ, World world,
-			IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
+	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator,
+			IChunkProvider chunkProvider) {
 		this.random = random;
 		this.chunkX = chunkX * 16;
 		this.chunkZ = chunkZ * 16;
@@ -46,6 +46,12 @@ public class BrainStoneWorldGenerator implements IWorldGenerator {
 			break;
 		case 1: // End
 			break;
+		// TODO: Move to config
+		case 7: // Twilight Forest
+		case 100: // Deep Dark
+			this.genMinable(BrainStone.brainStoneOre(), 20, 1, 32);
+
+			break;
 		}
 	}
 
@@ -53,7 +59,7 @@ public class BrainStoneWorldGenerator implements IWorldGenerator {
 	 * Generates a vein. The minimum height is 0.
 	 * 
 	 * @param block
-	 *            The blockIdd of the ore
+	 *            The blockId of the ore
 	 * @param size
 	 *            The size of the vein
 	 * @param perChunk
@@ -79,15 +85,19 @@ public class BrainStoneWorldGenerator implements IWorldGenerator {
 	 * @param low
 	 *            The minimum height
 	 */
-	private void genMinable(Block block, int size, int perChunk, int high,
-			int low) {
-		for (int i = 0; i < perChunk; i++) {
-			final int randPosX = random.nextInt(16) + chunkX;
-			final int randPosY = low + random.nextInt(high - low);
-			final int randPosZ = random.nextInt(16) + chunkZ;
+	private void genMinable(Block block, int size, int perChunk, int high, int low) {
+		int randPosX;
+		int randPosY;
+		int randPosZ;
 
-			new WorldGenMinable(block, size).generate(world, random, randPosX,
-					randPosY, randPosZ);
+		WorldGenMinable generator = new WorldGenMinable(block, size);
+
+		for (int i = 0; i < perChunk; i++) {
+			randPosX = random.nextInt(16) + chunkX;
+			randPosY = low + random.nextInt(high - low);
+			randPosZ = random.nextInt(16) + chunkZ;
+
+			generator.generate(world, random, randPosX, randPosY, randPosZ);
 		}
 	}
 }
