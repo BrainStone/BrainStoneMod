@@ -20,6 +20,55 @@ import java.util.Set;
 
 import javax.xml.bind.DatatypeConverter;
 
+import org.apache.logging.log4j.core.Logger;
+
+import brainstonemod.client.gui.helper.BrainStoneModCreativeTab;
+import brainstonemod.common.CommonProxy;
+import brainstonemod.common.api.cofh.mfr.MFRBrainstoneConfig;
+import brainstonemod.common.api.enderio.EnderIORecipies;
+import brainstonemod.common.api.tconstruct.TinkersContructMaterialBrainStone;
+import brainstonemod.common.api.thaumcraft.AspectCreator;
+import brainstonemod.common.block.BlockBrainLightSensor;
+import brainstonemod.common.block.BlockBrainLogicBlock;
+import brainstonemod.common.block.BlockBrainStone;
+import brainstonemod.common.block.BlockBrainStoneOre;
+import brainstonemod.common.block.BlockBrainStoneTrigger;
+import brainstonemod.common.block.BlockPulsatingBrainStone;
+import brainstonemod.common.block.template.BlockBrainStoneBase;
+import brainstonemod.common.handler.BrainStoneEventHandler;
+import brainstonemod.common.handler.BrainStoneGuiHandler;
+import brainstonemod.common.helper.BSP;
+import brainstonemod.common.helper.BrainStoneClassFinder;
+import brainstonemod.common.item.ItemArmorBrainStone;
+import brainstonemod.common.item.ItemHoeBrainStone;
+import brainstonemod.common.item.ItemSwordBrainStone;
+import brainstonemod.common.item.ItemBrainStoneLiveCapacitor;
+import brainstonemod.common.item.ItemToolBrainStone;
+import brainstonemod.common.item.template.ItemBrainStoneBase;
+import brainstonemod.common.logicgate.Gate;
+import brainstonemod.common.tileentity.TileEntityBlockBrainLightSensor;
+import brainstonemod.common.tileentity.TileEntityBlockBrainLogicBlock;
+import brainstonemod.common.tileentity.TileEntityBlockBrainStoneTrigger;
+import brainstonemod.common.worldgenerators.BrainStoneWorldGenerator;
+import brainstonemod.network.BrainStonePacketHelper;
+import brainstonemod.network.BrainStonePacketPipeline;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.Mod.Instance;
+import cpw.mods.fml.common.SidedProxy;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLModDisabledEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import cpw.mods.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.CoreModManager;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.command.ICommandSender;
@@ -51,55 +100,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.util.EnumHelper;
 
-import org.apache.logging.log4j.core.Logger;
-
-import brainstonemod.client.gui.helper.BrainStoneModCreativeTab;
-import brainstonemod.common.CommonProxy;
-import brainstonemod.common.api.cofh.mfr.MFRBrainstoneConfig;
-import brainstonemod.common.api.enderio.EnderIORecipies;
-import brainstonemod.common.api.tconstruct.TinkersContructMaterialBrainStone;
-import brainstonemod.common.api.thaumcraft.AspectCreator;
-import brainstonemod.common.block.BlockBrainLightSensor;
-import brainstonemod.common.block.BlockBrainLogicBlock;
-import brainstonemod.common.block.BlockBrainStone;
-import brainstonemod.common.block.BlockBrainStoneOre;
-import brainstonemod.common.block.BlockBrainStoneTrigger;
-import brainstonemod.common.block.BlockPulsatingBrainStone;
-import brainstonemod.common.block.template.BlockBrainStoneBase;
-import brainstonemod.common.handler.BrainStoneEventHandler;
-import brainstonemod.common.handler.BrainStoneGuiHandler;
-import brainstonemod.common.helper.BSP;
-import brainstonemod.common.helper.BrainStoneClassFinder;
-import brainstonemod.common.item.ItemArmorBrainStone;
-import brainstonemod.common.item.ItemHoeBrainStone;
-import brainstonemod.common.item.ItemSwordBrainStone;
-import brainstonemod.common.item.ItemToolBrainStone;
-import brainstonemod.common.item.template.ItemBrainStoneBase;
-import brainstonemod.common.logicgate.Gate;
-import brainstonemod.common.tileentity.TileEntityBlockBrainLightSensor;
-import brainstonemod.common.tileentity.TileEntityBlockBrainLogicBlock;
-import brainstonemod.common.tileentity.TileEntityBlockBrainStoneTrigger;
-import brainstonemod.common.worldgenerators.BrainStoneWorldGenerator;
-import brainstonemod.network.BrainStonePacketHelper;
-import brainstonemod.network.BrainStonePacketPipeline;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLModDisabledEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
-import cpw.mods.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.CoreModManager;
-import cpw.mods.fml.relauncher.Side;
-
 /**
  * The main file of the mod
  * 
@@ -111,7 +111,7 @@ public class BrainStone {
 	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
 	public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.49.488 BETA";
+	public static final String VERSION = "v2.50.213 BETA";
 	public static final String DEPENDENCIES = "after:EnderIO;after:MineFactoryReloaded;after:Thaumcraft;after:TConstruct";
 
 	/** The instance of this mod */
@@ -822,6 +822,8 @@ public class BrainStone {
 				armorBRAINSTONE_RenderIndex, 3)));
 		items.put("essenceOfLive", (new ItemBrainStoneBase())
 				.setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.tabMaterials)));
+		
+		items.put("brainStoneLiveCapacitor", (new ItemBrainStoneLiveCapacitor()));
 	}
 
 	private static void generateAchievements() {
@@ -1186,6 +1188,13 @@ public class BrainStone {
 	 */
 	public static final Item essenceOfLive() {
 		return items.get("essenceOfLive");
+	}
+	
+	/**
+	 * @return the instance of test
+	 */
+	public static final ItemBrainStoneLiveCapacitor brainStoneLiveCapacitor() {
+		return (ItemBrainStoneLiveCapacitor) items.get("brainStoneLiveCapacitor");
 	}
 
 	/**

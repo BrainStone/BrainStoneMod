@@ -5,8 +5,8 @@ import net.minecraft.item.Item;
 
 public class ItemBrainStoneBase extends Item {
 	@Override
-	public void registerIcons(IIconRegister par1IconRegister) {
-		itemIcon = par1IconRegister.registerIcon("brainstonemod:"
+	public void registerIcons(IIconRegister iconRegister) {
+		itemIcon = iconRegister.registerIcon("brainstonemod:"
 				+ this.getUnlocalizedName().replaceFirst("item.", ""));
 	}
 }
