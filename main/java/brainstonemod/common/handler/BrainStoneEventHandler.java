@@ -30,12 +30,10 @@ public class BrainStoneEventHandler {
 
 	private static Field getUnlockedFoodTimer() {
 		try {
-			Field reflectionFoodTimer = FoodStats.class.getDeclaredField("foodTimer");
+			Field reflectionFoodTimer = FoodStats.class.getDeclaredFields()[3];
 			reflectionFoodTimer.setAccessible(true);
 
 			return reflectionFoodTimer;
-		} catch (NoSuchFieldException e) {
-			BSP.warnException(e);
 		} catch (SecurityException e) {
 			BSP.warnException(e);
 		}
@@ -134,7 +132,7 @@ public class BrainStoneEventHandler {
 				BrainStone.brainStoneLiveCapacitor().healPlayer(capacitor, player);
 
 				// Prevent natural regeneration
-				if (stats.getFoodLevel() >= 18) {
+				if ((reflectionFoodTimer != null) && (stats.getFoodLevel() >= 18)) {
 					try {
 						reflectionFoodTimer.set(stats, 0);
 					} catch (IllegalArgumentException e) {
@@ -144,14 +142,6 @@ public class BrainStoneEventHandler {
 					}
 				}
 			}
-		}
-	}
-
-	@SubscribeEvent
-	public void onTooltip(ItemTooltipEvent event) {
-		if (event.itemStack.getItem() == BrainStone.brainStoneLiveCapacitor()) {
-			// event.toolTip.add(1, EnumChatFormatting.DARK_AQUA + "Hallo
-			// Welt!");
 		}
 	}
 
