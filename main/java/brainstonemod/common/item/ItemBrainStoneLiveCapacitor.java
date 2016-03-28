@@ -90,12 +90,15 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 		list.add(PowerDisplayUtil.formatPower(getEnergyStored(container)) + "/"
 				+ PowerDisplayUtil.formatPower(getMaxEnergyStored(container)) + " " + PowerDisplayUtil.abrevation());
 	}
-
+	
 	@Override
 	public void onCreated(ItemStack container, World world, EntityPlayer entityPlayer) {
-		setEnergy(container, 0);
-		setCapacityLevel(container, 1);
-		setChargingLevel(container, 1);
+		// Init NBT if new and keep old NBT
+		getEnergyStored(container);
+		getCapacityLevel(container);
+		getChargingLevel(container);
+		
+		updateDamage(container);
 	}
 
 	public float handleDamage(ItemStack container, float damage) {
@@ -124,6 +127,10 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 		return container.stackTagCompound.getInteger("LevelCapacity");
 	}
 
+	public void upgradeCapacity(ItemStack container) {
+		setCapacityLevel(container, getCapacityLevel(container) + 1);
+	}
+
 	public int getChargingLevel(ItemStack container) {
 		if (container.stackTagCompound == null || !container.stackTagCompound.hasKey("LevelCharging")) {
 			setChargingLevel(container, 1);
@@ -131,11 +138,15 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 
 		return container.stackTagCompound.getInteger("LevelCharging");
 	}
+	
+	public void upgradeCharging(ItemStack container) {
+		setChargingLevel(container, getChargingLevel(container) + 1);
+	}
 
 	@Override
 	public int getEnergyStored(ItemStack container) {
 		if (container.stackTagCompound == null || !container.stackTagCompound.hasKey("Energy")) {
-			container.stackTagCompound.setInteger("Energy", 0);
+			setEnergy(container, 0);
 		}
 
 		return container.stackTagCompound.getInteger("Energy");
@@ -202,6 +213,8 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 		}
 
 		container.stackTagCompound.setInteger("LevelCapacity", level);
+		
+		updateDamage(container);
 	}
 
 	private void setChargingLevel(ItemStack container, int level) {

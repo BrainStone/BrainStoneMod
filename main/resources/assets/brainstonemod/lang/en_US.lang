@@ -7,6 +7,7 @@ tile.brainStoneTrigger.name=Brain Stone Trigger
 tile.brainLogicBlock.name=Brain Logic Block
 tile.pulsatingBrainStone.name=Pulsating Brain Stone
 tile.pulsatingBrainStoneEffect.name=Pulsating Brain Stone Effect
+tile.stablePulsatingBrainStone.name=Stable Pulsating Brain Stone
 
 item.brainStoneDust.name=Brain Stone Dust
 item.brainProcessor.name=Brain Processor
@@ -20,6 +21,7 @@ item.brainStonePlate.name=Brain Stone Chestplate
 item.brainStoneLeggings.name=Brain Stone Leggings
 item.brainStoneBoots.name=Brain Stone Boots
 item.essenceOfLive.name=Essence of Live
+item.brainStoneLiveCapacitor.name=Brain Stone Live Capacitor
 
 achievement.WTHIT=What the Hell is that???
 achievement.WTHIT.desc=You have to find a strange green powder.

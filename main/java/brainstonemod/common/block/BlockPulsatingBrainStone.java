@@ -4,6 +4,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import brainstonemod.BrainStone;
+import brainstonemod.common.api.enderio.BrainStoneUpgrade;
+import brainstonemod.common.block.template.BlockBrainStoneBase;
+import brainstonemod.common.helper.BSP;
+import brainstonemod.network.BrainStonePacketHelper;
 import cpw.mods.fml.common.Loader;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -17,11 +22,6 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import brainstonemod.BrainStone;
-import brainstonemod.common.api.enderio.BrainStoneUpgrade;
-import brainstonemod.common.block.template.BlockBrainStoneBase;
-import brainstonemod.common.helper.BSP;
-import brainstonemod.network.BrainStonePacketHelper;
 
 public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 	private final boolean effect;
@@ -45,8 +45,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 			hasNoEffectBlock = this;
 		}
 
-		blockParticleGravity = (float) MathHelper.getRandomDoubleInRange(
-				new Random(), -3.0, 3.0);
+		blockParticleGravity = (float) MathHelper.getRandomDoubleInRange(new Random(), -3.0, 3.0);
 	}
 
 	@Override
@@ -55,13 +54,20 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 	}
 
 	@Override
-	public Block getBlockDropped(int i, Random random, int j) {
+	protected Block getBlockDropped(int meta, Random random, int fortune) {
 		return hasNoEffectBlock;
 	}
 
 	@Override
-	public ItemStack getPickBlock(MovingObjectPosition target, World world,
-			int x, int y, int z) {
+	public int damageDropped(int meta) {
+		if (effect)
+			return 0;
+		else
+			return meta & 0x01;
+	}
+
+	@Override
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z) {
 		return new ItemStack(BrainStone.pulsatingBrainStone());
 	}
 
@@ -69,8 +75,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 		Potion potion;
 
 		do {
-			potion = Potion.potionTypes[random
-					.nextInt(Potion.potionTypes.length)];
+			potion = Potion.potionTypes[random.nextInt(Potion.potionTypes.length)];
 		} while (potion == null);
 
 		return potion.id;
@@ -79,8 +84,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 	@Override
 	public void onBlockAdded(World world, int i, int j, int k) {
 		super.onBlockAdded(world, i, j, k);
-		world.scheduleBlockUpdate(i, j, k, this,
-				(int) world.getTotalWorldTime() % tickRate(world));
+		world.scheduleBlockUpdate(i, j, k, this, (int) world.getTotalWorldTime() % tickRate(world));
 	}
 
 	@Override
@@ -109,9 +113,8 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 			int taskRand;
 			EntityLivingBase entity;
 			Object tmpEntity;
-			final List<?> list = world.getEntitiesWithinAABBExcludingEntity(
-					null, AxisAlignedBB.getBoundingBox(x - 10, y - 10, z - 10,
-							x + 11, y + 11, z + 11));
+			final List<?> list = world.getEntitiesWithinAABBExcludingEntity(null,
+					AxisAlignedBB.getBoundingBox(x - 10, y - 10, z - 10, x + 11, y + 11, z + 11));
 
 			final int size = list.size();
 
@@ -133,8 +136,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 						continue;
 					}
 
-					radius = MathHelper.getRandomDoubleInRange(random, 2.0,
-							10.0);
+					radius = MathHelper.getRandomDoubleInRange(random, 2.0, 10.0);
 
 					if (entity.getDistance((x) + 0.5, (y) + 0.5, (z) + 0.5) <= radius) {
 						taskRand = random.nextInt(10);
@@ -142,25 +144,18 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 						if ((taskRand >= 0) && (taskRand < 6)) {
 							BSP.debug("Potion Effect");
 
-							entity.addPotionEffect(new PotionEffect(
-									getRandomPotion(random), random
-											.nextInt(5980) + 20, random
-											.nextInt(4)));
+							entity.addPotionEffect(new PotionEffect(getRandomPotion(random), random.nextInt(5980) + 20,
+									random.nextInt(4)));
 						} else if ((taskRand >= 6) && (taskRand < 10)) {
 							BSP.debug("Kick");
 
-							final double x1 = MathHelper
-									.getRandomDoubleInRange(random, -1.5, 1.5);
-							final double y1 = MathHelper
-									.getRandomDoubleInRange(random, 0.0, 3.0);
-							final double z1 = MathHelper
-									.getRandomDoubleInRange(random, -1.5, 1.5);
+							final double x1 = MathHelper.getRandomDoubleInRange(random, -1.5, 1.5);
+							final double y1 = MathHelper.getRandomDoubleInRange(random, 0.0, 3.0);
+							final double z1 = MathHelper.getRandomDoubleInRange(random, -1.5, 1.5);
 
 							if (tmpEntity instanceof EntityPlayer) {
-								BrainStonePacketHelper
-										.sendPlayerUpdateMovementPacket(
-												(EntityPlayer) entity, x1, y1,
-												z1);
+								BrainStonePacketHelper.sendPlayerUpdateMovementPacket((EntityPlayer) entity, x1, y1,
+										z1);
 							} else {
 								entity.addVelocity(x1, y1, z1);
 							}
@@ -171,8 +166,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 		}
 
 		if (world.getTotalWorldTime() > lastGravityChange) {
-			blockParticleGravity = (float) MathHelper.getRandomDoubleInRange(
-					random, -3.0, 3.0);
+			blockParticleGravity = (float) MathHelper.getRandomDoubleInRange(random, -3.0, 3.0);
 
 			lastGravityChange = world.getTotalWorldTime();
 		}
@@ -190,27 +184,25 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 		else if (armor.length > 5)
 			return false;
 
-		boolean allArmorSlotsFilled = (armor[3 + offset] != null)
-				&& (armor[2 + offset] != null) && (armor[1 + offset] != null)
-				&& (armor[0 + offset] != null);
+		boolean allArmorSlotsFilled = (armor[3 + offset] != null) && (armor[2 + offset] != null)
+				&& (armor[1 + offset] != null) && (armor[0 + offset] != null);
 
 		if (!allArmorSlotsFilled)
 			return false;
 
 		boolean enderIOEnabled = Loader.isModLoaded("EnderIO");
 
-		if (!((armor[3 + offset].getItem() == BrainStone.brainStoneHelmet()) || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE
-				.hasUpgrade(armor[3 + offset])))))
+		if (!((armor[3 + offset].getItem() == BrainStone.brainStoneHelmet())
+				|| (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[3 + offset])))))
 			return false;
-		else if (!((armor[2 + offset].getItem() == BrainStone.brainStonePlate()) || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE
-				.hasUpgrade(armor[2 + offset])))))
+		else if (!((armor[2 + offset].getItem() == BrainStone.brainStonePlate())
+				|| (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[2 + offset])))))
 			return false;
-		else if (!((armor[1 + offset].getItem() == BrainStone
-				.brainStoneLeggings()) || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE
-				.hasUpgrade(armor[1 + offset])))))
+		else if (!((armor[1 + offset].getItem() == BrainStone.brainStoneLeggings())
+				|| (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[1 + offset])))))
 			return false;
-		else if (!((armor[0 + offset].getItem() == BrainStone.brainStoneBoots()) || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE
-				.hasUpgrade(armor[0 + offset])))))
+		else if (!((armor[0 + offset].getItem() == BrainStone.brainStoneBoots())
+				|| (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[0 + offset])))))
 			return false;
 		else
 			return true;

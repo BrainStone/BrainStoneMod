@@ -2,6 +2,7 @@ package brainstonemod.common.block.template;
 
 import java.util.Random;
 
+import brainstonemod.BrainStone;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -13,18 +14,19 @@ public class BlockBrainStoneBase extends Block {
 		super(par2Material);
 	}
 
-	protected Block getBlockDropped(int par1, Random rand, int par3) {
+	protected Block getBlockDropped(int meta, Random rand, int fortune) {
 		return this;
 	}
 
 	@Override
-	public Item getItemDropped(int par1, Random rand, int par3) {
-		return Item.getItemFromBlock(getBlockDropped(par1, rand, par3));
+	public Item getItemDropped(int meta, Random rand, int fortune) {
+		return Item.getItemFromBlock(getBlockDropped(meta, rand, fortune));
 	}
 
 	@Override
 	public void registerBlockIcons(IIconRegister par1IconRegister) {
-		blockIcon = par1IconRegister.registerIcon("brainstonemod:"
+		blockIcon = par1IconRegister
+				.registerIcon(BrainStone.RESOURCE_PREFIX
 				+ getUnlocalizedName().replaceFirst("tile.", ""));
 	}
 }

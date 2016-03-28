@@ -7,6 +7,7 @@ tile.brainStoneTrigger.name=Hirnsteinauslöser
 tile.brainLogicBlock.name=Hirnlogikblock
 tile.pulsatingBrainStone.name=Pulsierender Hirnstein
 tile.pulsatingBrainStoneEffect.name=Pulsierender Hirnstein-Effekt
+tile.stablePulsatingBrainStone.name=Stabiler Pulsierender Hirnstein
 
 item.brainStoneDust.name=Hirnsteinstaub
 item.brainProcessor.name=Hirnprozessor
@@ -20,6 +21,7 @@ item.brainStonePlate.name=Hirnsteinbrustplatte
 item.brainStoneLeggings.name=Hirnsteinhose
 item.brainStoneBoots.name=Hirsteinstiefel
 item.essenceOfLive.name=Essenz des Lebens
+item.brainStoneLiveCapacitor.name=Hirnsteinlebenskondesator
 
 achievement.WTHIT=Was zur Hölle ist das???
 achievement.WTHIT.desc=Du must ein seltsames grünes Pulver finden.
