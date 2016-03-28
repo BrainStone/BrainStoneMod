@@ -31,7 +31,7 @@ public class ItemEssenceOfLive extends ItemBrainStoneFood {
 			Object[][] potionEffects = new Object[][]{
 				// Absorption X for 120s
 				{Potion.field_76444_x, 120, 9},
-				// Resitiance III for 120s
+				// Resitance III for 120s
 				{Potion.resistance, 120, 2},
 				// Strength III for 120s
 				{Potion.damageBoost, 120, 2},
