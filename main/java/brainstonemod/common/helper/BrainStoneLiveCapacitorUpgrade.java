@@ -60,9 +60,9 @@ public class BrainStoneLiveCapacitorUpgrade implements IRecipe {
 		ItemStack res = capacitor.copy();
 		
 		if (upgrade == Upgrade.CAPACITY)
-			BrainStone.brainStoneLiveCapacitor().upgradeCapacity(res);
+			res = BrainStone.brainStoneLiveCapacitor().upgradeCapacity(res);
 		else if (upgrade == Upgrade.CHARGING)
-			BrainStone.brainStoneLiveCapacitor().upgradeCharging(res);
+			res = BrainStone.brainStoneLiveCapacitor().upgradeCharging(res);
 
 		return res;
 	}

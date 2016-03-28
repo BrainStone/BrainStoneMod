@@ -90,14 +90,14 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 		list.add(PowerDisplayUtil.formatPower(getEnergyStored(container)) + "/"
 				+ PowerDisplayUtil.formatPower(getMaxEnergyStored(container)) + " " + PowerDisplayUtil.abrevation());
 	}
-	
+
 	@Override
 	public void onCreated(ItemStack container, World world, EntityPlayer entityPlayer) {
 		// Init NBT if new and keep old NBT
 		getEnergyStored(container);
 		getCapacityLevel(container);
 		getChargingLevel(container);
-		
+
 		updateDamage(container);
 	}
 
@@ -127,8 +127,17 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 		return container.stackTagCompound.getInteger("LevelCapacity");
 	}
 
-	public void upgradeCapacity(ItemStack container) {
-		setCapacityLevel(container, getCapacityLevel(container) + 1);
+	public ItemStack upgradeCapacity(ItemStack container) {
+		final int capacity = getCapacityLevel(container);
+		final int charging = getChargingLevel(container);
+
+		if (capacity < (charging * 2)) {
+			setCapacityLevel(container, capacity + 1);
+
+			return container;
+		} else {
+			return null;
+		}
 	}
 
 	public int getChargingLevel(ItemStack container) {
@@ -138,9 +147,18 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 
 		return container.stackTagCompound.getInteger("LevelCharging");
 	}
-	
-	public void upgradeCharging(ItemStack container) {
-		setChargingLevel(container, getChargingLevel(container) + 1);
+
+	public ItemStack upgradeCharging(ItemStack container) {
+		final int capacity = getCapacityLevel(container);
+		final int charging = getChargingLevel(container);
+
+		if (charging < (capacity * 2)) {
+			setChargingLevel(container, charging + 1);
+
+			return container;
+		} else {
+			return null;
+		}
 	}
 
 	@Override
@@ -213,7 +231,7 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 		}
 
 		container.stackTagCompound.setInteger("LevelCapacity", level);
-		
+
 		updateDamage(container);
 	}
 

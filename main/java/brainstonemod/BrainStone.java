@@ -112,7 +112,7 @@ public class BrainStone {
 	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
 	public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.50.328 BETA";
+	public static final String VERSION = "v2.50.343 BETA";
 	public static final String DEPENDENCIES = "after:EnderIO;after:MineFactoryReloaded;after:Thaumcraft;after:TConstruct";
 
 	/** The instance of this mod */
@@ -520,7 +520,13 @@ public class BrainStone {
 		final int out[] = new int[size];
 
 		for (int i = 0; i < size; i++) {
-			out[i] = Integer.parseInt(tmp[i]);
+			try {
+				out[i] = Integer.parseInt(tmp[i]);
+			} catch (NumberFormatException e) {
+				out[i] = -1;
+
+				BSP.warnException(e);
+			}
 		}
 
 		return out;
@@ -639,6 +645,12 @@ public class BrainStone {
 				new Object[] { "SRS", "RPR", "SRS", 'S', Blocks.stone, 'P', brainProcessor(), 'R', Items.redstone });
 		GameRegistry.addRecipe(new ItemStack(pulsatingBrainStone(), 1),
 				new Object[] { "dBd", "BDB", "dBd", 'd', brainStoneDust(), 'B', brainStone(), 'D', Items.diamond });
+		GameRegistry.addRecipe(new ItemStack(pulsatingBrainStone(), 1),
+				new Object[] { "BdB", "dDd", "BdB", 'd', brainStoneDust(), 'B', brainStone(), 'D', Items.diamond });
+		GameRegistry.addRecipe(new ItemStack(stablePulsatingBrainStone(), 1), new Object[] { "EPE", "PSP", "EPE", 'E',
+				essenceOfLive(), 'P', pulsatingBrainStone(), 'S', Items.nether_star });
+		GameRegistry.addRecipe(new ItemStack(stablePulsatingBrainStone(), 1), new Object[] { "PEP", "ESE", "PEP",
+				essenceOfLive(), 'P', pulsatingBrainStone(), 'S', Items.nether_star });
 		GameRegistry.addRecipe(new ItemStack(brainStoneSword(), 1),
 				new Object[] { "B", "B", "S", 'S', Items.stick, 'B', brainStone() });
 		GameRegistry.addRecipe(new ItemStack(brainStoneShovel(), 1),
@@ -989,17 +1001,24 @@ public class BrainStone {
 	}
 
 	/**
-	 * @return the instance of BrainLogicBlock
+	 * @return the instance of PulsatingBrainStone
 	 */
 	public static final Block pulsatingBrainStone() {
 		return blocks.get("pulsatingBrainStone");
 	}
 
 	/**
-	 * @return the instance of BrainLogicBlock
+	 * @return the instance of PulsatingBrainStoneEffect
 	 */
 	public static final Block pulsatingBrainStoneEffect() {
 		return blocks.get("pulsatingBrainStoneEffect");
+	}
+
+	/**
+	 * @return the instance of StablePulsatingBrainStone
+	 */
+	public static final Block stablePulsatingBrainStone() {
+		return blocks.get("stablePulsatingBrainStone");
 	}
 
 	/**
