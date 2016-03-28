@@ -113,7 +113,7 @@ public class BrainStone {
 	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
 	public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.50.398 BETA";
+	public static final String VERSION = "v2.51.27 BETA";
 	public static final String DEPENDENCIES = "after:EnderIO;after:MineFactoryReloaded;after:Thaumcraft;after:TConstruct";
 
 	/** The instance of this mod */
@@ -171,6 +171,13 @@ public class BrainStone {
 	public static ArmorMaterial armorBRAINSTONE;
 	/** The BrainStone Armor Material render index */
 	public static int armorBRAINSTONE_RenderIndex;
+
+	/** The Stable Pulsating BrainStone Tool Material */
+	public static ToolMaterial toolSTABLEPULSATINGBS;
+	/** The Stable Pulsating BrainStone Armor Material */
+	public static ArmorMaterial armorSTABLEPULSATINGBS;
+	/** The Stable Pulsating BrainStone Armor Material render index */
+	public static int armorSTABLEPULSATINGBS_RenderIndex;
 
 	/**
 	 * This Map maps the different mob types of the BrainStoneTrigger to the
@@ -476,6 +483,12 @@ public class BrainStone {
 		armorBRAINSTONE = EnumHelper.addArmorMaterial("BRAINSTONE", 114, new int[] { 2, 6, 5, 2 }, 25);
 
 		armorBRAINSTONE_RenderIndex = proxy.addArmor("brainstone");
+
+		toolSTABLEPULSATINGBS = EnumHelper.addToolMaterial("STABLEPULSATINGBS", 5, 21472, 18F, 20, 50);
+		armorSTABLEPULSATINGBS = EnumHelper.addArmorMaterial("STABLEPULSATINGBS", 456, new int[] { 12, 32, 24, 12 },
+				50);
+
+		armorSTABLEPULSATINGBS_RenderIndex = proxy.addArmor("stablepulsatingbs");
 	}
 
 	/**
@@ -766,6 +779,21 @@ public class BrainStone {
 		items.put("brainStonePlate", new ItemArmorBrainStone(armorBRAINSTONE, armorBRAINSTONE_RenderIndex, 1));
 		items.put("brainStoneLeggings", new ItemArmorBrainStone(armorBRAINSTONE, armorBRAINSTONE_RenderIndex, 2));
 		items.put("brainStoneBoots", new ItemArmorBrainStone(armorBRAINSTONE, armorBRAINSTONE_RenderIndex, 3));
+
+		items.put("stablePulsatingBrainStoneSword", new ItemSwordBrainStone(toolSTABLEPULSATINGBS));
+		items.put("stablePulsatingBrainStoneShovel", new ItemToolBrainStone(toolSTABLEPULSATINGBS, "spade"));
+		items.put("stablePulsatingBrainStonePickaxe", new ItemToolBrainStone(toolSTABLEPULSATINGBS, "pickaxe"));
+		items.put("stablePulsatingBrainStoneAxe", new ItemToolBrainStone(toolSTABLEPULSATINGBS, "axe"));
+		items.put("stablePulsatingBrainStoneHoe", new ItemHoeBrainStone(toolSTABLEPULSATINGBS));
+		items.put("stablePulsatingBrainStoneHelmet",
+				new ItemArmorBrainStone(armorSTABLEPULSATINGBS, armorSTABLEPULSATINGBS_RenderIndex, 0));
+		items.put("stablePulsatingBbrainStonePlate",
+				new ItemArmorBrainStone(armorSTABLEPULSATINGBS, armorSTABLEPULSATINGBS_RenderIndex, 1));
+		items.put("stablePulsatingBrainStoneLeggings",
+				new ItemArmorBrainStone(armorSTABLEPULSATINGBS, armorSTABLEPULSATINGBS_RenderIndex, 2));
+		items.put("stablePulsatingBrainStoneBoots",
+				new ItemArmorBrainStone(armorSTABLEPULSATINGBS, armorSTABLEPULSATINGBS_RenderIndex, 3));
+
 		items.put("essenceOfLive", new ItemEssenceOfLive());
 
 		items.put("brainStoneLiveCapacitor", (new ItemBrainStoneLiveCapacitor()));
