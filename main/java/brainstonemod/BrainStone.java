@@ -112,7 +112,7 @@ public class BrainStone {
 	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
 	public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.50.343 BETA";
+	public static final String VERSION = "v2.50.344 BETA";
 	public static final String DEPENDENCIES = "after:EnderIO;after:MineFactoryReloaded;after:Thaumcraft;after:TConstruct";
 
 	/** The instance of this mod */
@@ -649,7 +649,7 @@ public class BrainStone {
 				new Object[] { "BdB", "dDd", "BdB", 'd', brainStoneDust(), 'B', brainStone(), 'D', Items.diamond });
 		GameRegistry.addRecipe(new ItemStack(stablePulsatingBrainStone(), 1), new Object[] { "EPE", "PSP", "EPE", 'E',
 				essenceOfLive(), 'P', pulsatingBrainStone(), 'S', Items.nether_star });
-		GameRegistry.addRecipe(new ItemStack(stablePulsatingBrainStone(), 1), new Object[] { "PEP", "ESE", "PEP",
+		GameRegistry.addRecipe(new ItemStack(stablePulsatingBrainStone(), 1), new Object[] { "PEP", "ESE", "PEP", 'E',
 				essenceOfLive(), 'P', pulsatingBrainStone(), 'S', Items.nether_star });
 		GameRegistry.addRecipe(new ItemStack(brainStoneSword(), 1),
 				new Object[] { "B", "B", "S", 'S', Items.stick, 'B', brainStone() });
