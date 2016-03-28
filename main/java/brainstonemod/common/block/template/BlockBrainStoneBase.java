@@ -26,7 +26,6 @@ public class BlockBrainStoneBase extends Block {
 	@Override
 	public void registerBlockIcons(IIconRegister par1IconRegister) {
 		blockIcon = par1IconRegister
-				.registerIcon(BrainStone.RESOURCE_PREFIX
-				+ getUnlocalizedName().replaceFirst("tile.", ""));
+				.registerIcon(BrainStone.RESOURCE_PREFIX + getUnlocalizedName().replaceFirst("tile.", ""));
 	}
 }

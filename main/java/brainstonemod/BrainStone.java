@@ -89,6 +89,7 @@ import net.minecraft.entity.projectile.EntityFishHook;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
@@ -766,7 +767,7 @@ public class BrainStone {
 		items.put("brainStoneLeggings", new ItemArmorBrainStone(armorBRAINSTONE, armorBRAINSTONE_RenderIndex, 2));
 		items.put("brainStoneBoots", new ItemArmorBrainStone(armorBRAINSTONE, armorBRAINSTONE_RenderIndex, 3));
 		items.put("essenceOfLive",
-				(new ItemBrainStoneBase()).setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.tabMaterials)));
+				(new ItemBrainStoneBase(EnumRarity.uncommon)).setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.tabMaterials)));
 
 		items.put("brainStoneLiveCapacitor", (new ItemBrainStoneLiveCapacitor()));
 	}
