@@ -1,12 +1,13 @@
 package brainstonemod.common.item.template;
 
+import brainstonemod.BrainStone;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class ItemBrainStoneBase extends Item {
-	private EnumRarity customRarity;
+	private final EnumRarity customRarity;
 
 	public ItemBrainStoneBase() {
 		this(null);
@@ -28,6 +29,7 @@ public class ItemBrainStoneBase extends Item {
 
 	@Override
 	public void registerIcons(IIconRegister iconRegister) {
-		itemIcon = iconRegister.registerIcon("brainstonemod:" + this.getUnlocalizedName().replaceFirst("item.", ""));
+		itemIcon = iconRegister
+				.registerIcon(BrainStone.RESOURCE_PREFIX + this.getUnlocalizedName().replaceFirst("item.", ""));
 	}
 }

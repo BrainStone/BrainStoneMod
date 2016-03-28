@@ -42,6 +42,7 @@ import brainstonemod.common.helper.BrainStoneClassFinder;
 import brainstonemod.common.helper.BrainStoneLiveCapacitorUpgrade;
 import brainstonemod.common.item.ItemArmorBrainStone;
 import brainstonemod.common.item.ItemBrainStoneLiveCapacitor;
+import brainstonemod.common.item.ItemEssenceOfLive;
 import brainstonemod.common.item.ItemHoeBrainStone;
 import brainstonemod.common.item.ItemSwordBrainStone;
 import brainstonemod.common.item.ItemToolBrainStone;
@@ -89,7 +90,6 @@ import net.minecraft.entity.projectile.EntityFishHook;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
@@ -113,7 +113,7 @@ public class BrainStone {
 	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
 	public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.50.352 BETA";
+	public static final String VERSION = "v2.50.397 BETA";
 	public static final String DEPENDENCIES = "after:EnderIO;after:MineFactoryReloaded;after:Thaumcraft;after:TConstruct";
 
 	/** The instance of this mod */
@@ -766,8 +766,7 @@ public class BrainStone {
 		items.put("brainStonePlate", new ItemArmorBrainStone(armorBRAINSTONE, armorBRAINSTONE_RenderIndex, 1));
 		items.put("brainStoneLeggings", new ItemArmorBrainStone(armorBRAINSTONE, armorBRAINSTONE_RenderIndex, 2));
 		items.put("brainStoneBoots", new ItemArmorBrainStone(armorBRAINSTONE, armorBRAINSTONE_RenderIndex, 3));
-		items.put("essenceOfLive",
-				(new ItemBrainStoneBase(EnumRarity.uncommon)).setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.tabMaterials)));
+		items.put("essenceOfLive", new ItemEssenceOfLive());
 
 		items.put("brainStoneLiveCapacitor", (new ItemBrainStoneLiveCapacitor()));
 	}
