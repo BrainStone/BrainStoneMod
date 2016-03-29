@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 import java.util.Random;
 import java.util.UUID;
 
+import baubles.api.BaubleType;
+import baubles.api.BaublesApi;
 import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.helper.BrainStoneDamageHelper;
@@ -225,16 +227,24 @@ public class BrainStoneEventHandler {
 
 		if (capacitorUUID == null)
 			return null;
+		
+		ItemStack bStack = BaublesApi.getBaubles(player).getStackInSlot(3);
+		
+		if (checkStack(bStack, capacitorUUID)) {
+			return bStack;
+		}
 
 		for (ItemStack stack : player.inventory.mainInventory) {
-			if ((stack != null) && (stack.getItem() != null)
-					&& (stack.getItem() == BrainStone.brainStoneLiveCapacitor())
-					&& (capacitorUUID.equals(BrainStone.brainStoneLiveCapacitor().getUUID(stack)))) {
-
+			if (checkStack(stack, capacitorUUID)) {
 				return stack;
 			}
 		}
 
 		return null;
+	}
+
+	private static boolean checkStack(ItemStack stack, UUID capacitorUUID) {
+		return (stack != null) && (stack.getItem() != null) && (stack.getItem() == BrainStone.brainStoneLiveCapacitor())
+				&& (capacitorUUID.equals(BrainStone.brainStoneLiveCapacitor().getUUID(stack)));
 	}
 }

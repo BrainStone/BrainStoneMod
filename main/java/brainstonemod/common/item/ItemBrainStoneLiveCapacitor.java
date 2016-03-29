@@ -14,15 +14,20 @@ import java.util.UUID;
 
 import org.lwjgl.input.Keyboard;
 
+import baubles.api.BaubleType;
+import baubles.api.IBauble;
 import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.item.template.ItemBrainStoneBase;
 import cofh.api.energy.IEnergyContainerItem;
+import cpw.mods.fml.common.Optional;
+import cpw.mods.fml.common.Optional.Method;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import crazypants.enderio.machine.power.PowerDisplayUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
@@ -36,7 +41,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.UsernameCache;
 import net.minecraftforge.common.util.Constants.NBT;
 
-public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements IEnergyContainerItem {
+@Optional.Interface(iface = "baubles.api.IBauble", modid = "Baubles|API")
+public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements IEnergyContainerItem, IBauble {
 	public static final int MaxDamage = 32;
 	public static final int RFperHalfHeart = 1000000;
 	private PlayerCapacitorMapping PCmapping;
@@ -375,6 +381,39 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 			out.add(UUID.fromString(tagList.getStringTagAt(i)));
 
 		return out;
+	}
+
+	@Override
+	@Method(modid = "Baubles|API")
+	public boolean canEquip(ItemStack stack, EntityLivingBase entity) {
+		return true;
+	}
+
+	@Override
+	@Method(modid = "Baubles|API")
+	public boolean canUnequip(ItemStack stack, EntityLivingBase entity) {
+		return true;
+	}
+
+	@Override
+	@Method(modid = "Baubles|API")
+	public BaubleType getBaubleType(ItemStack stack) {
+		return BaubleType.BELT;
+	}
+
+	@Override
+	@Method(modid = "Baubles|API")
+	public void onEquipped(ItemStack stack, EntityLivingBase entity) {
+	}
+
+	@Override
+	@Method(modid = "Baubles|API")
+	public void onUnequipped(ItemStack stack, EntityLivingBase entity) {
+	}
+
+	@Override
+	@Method(modid = "Baubles|API")
+	public void onWornTick(ItemStack stack, EntityLivingBase entity) {
 	}
 
 	public class PlayerCapacitorMapping {
