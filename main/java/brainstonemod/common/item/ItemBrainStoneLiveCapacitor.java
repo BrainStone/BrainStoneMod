@@ -102,9 +102,13 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 	}
 
 	public float handleDamage(ItemStack container, float damage) {
+		return handleDamage(container, damage, false);
+	}
+
+	public float handleDamage(ItemStack container, float damage, boolean simulate) {
 		int energyCost = (int) (damage * RFperHalfHeart);
 
-		return (float) (energyCost - extractEnergyIntern(container, energyCost, false)) / (float) RFperHalfHeart;
+		return (float) (energyCost - extractEnergyIntern(container, energyCost, simulate)) / (float) RFperHalfHeart;
 	}
 
 	public void healPlayer(ItemStack container, EntityPlayer player) {

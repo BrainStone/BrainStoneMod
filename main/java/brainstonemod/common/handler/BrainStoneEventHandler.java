@@ -5,6 +5,7 @@ import java.util.Random;
 
 import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
+import brainstonemod.common.helper.BrainStoneDamageHelper;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -22,6 +23,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.FoodStats;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
@@ -112,6 +114,29 @@ public class BrainStoneEventHandler {
 					event.setCanceled(true);
 				} else {
 					event.ammount = newDamage;
+				}
+			}
+		}
+	}
+
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public void onEntityAttack(LivingAttackEvent event) {
+		if (event.entityLiving instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) event.entityLiving;
+			ItemStack capacitor = getBrainStoneLiveCapacitor(player);
+
+			if (capacitor != null) {
+				float adjustedDamage = BrainStoneDamageHelper.getAdjustedDamage(event.source, event.ammount, player,
+						true);
+				float newDamage = BrainStone.brainStoneLiveCapacitor().handleDamage(capacitor, adjustedDamage, true);
+
+				BSP.info("Old: " + event.ammount, "New: " + adjustedDamage);
+
+				if (newDamage == 0.0F) {
+					event.setCanceled(true);
+
+					BrainStoneDamageHelper.getAdjustedDamage(event.source, event.ammount, player, false);
+					BrainStone.brainStoneLiveCapacitor().handleDamage(capacitor, adjustedDamage, false);
 				}
 			}
 		}
