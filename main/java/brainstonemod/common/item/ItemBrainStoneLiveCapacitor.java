@@ -17,7 +17,6 @@ import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.item.template.ItemBrainStoneBase;
 import cofh.api.energy.IEnergyContainerItem;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import crazypants.enderio.machine.power.PowerDisplayUtil;
@@ -29,7 +28,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.UsernameCache;
@@ -315,9 +313,11 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 			container.stackTagCompound = new NBTTagCompound();
 		}
 
-		UUID uuid = UUID.randomUUID();
+		if (!container.stackTagCompound.hasKey("UUID")) {
+			UUID uuid = UUID.randomUUID();
 
-		container.stackTagCompound.setString("UUID", uuid.toString());
+			container.stackTagCompound.setString("UUID", uuid.toString());
+		}
 	}
 
 	public class PlayerCapacitorMapping {
@@ -432,7 +432,7 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 			String player = playerUUID.toString();
 			NBTTagCompound playerNameCache = map.getCompoundTag("playerNameCache");
 
-			if(force || playerNameCache.hasKey(player))
+			if (force || playerNameCache.hasKey(player))
 				playerNameCache.setString(player, UsernameCache.getLastKnownUsername(playerUUID));
 		}
 
@@ -460,7 +460,7 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 			}
 
 			UUID playerUUID = getPlayerUUID(capacitorUUID);
-			String player = (playerUUID == null)? "" : playerUUID.toString();
+			String player = (playerUUID == null) ? "" : playerUUID.toString();
 			NBTTagCompound playerNameCache = map.getCompoundTag("playerNameCache");
 
 			if (!playerNameCache.hasKey(player)) {
