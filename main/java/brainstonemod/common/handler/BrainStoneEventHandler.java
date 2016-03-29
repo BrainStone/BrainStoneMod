@@ -23,6 +23,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
 import net.minecraft.util.FoodStats;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
@@ -141,10 +142,12 @@ public class BrainStoneEventHandler {
 				EntityPlayer player = (EntityPlayer) event.entityLiving;
 				float ammount = event.ammount;
 
+				if (event.source.isFireDamage() && player.isPotionActive(Potion.fireResistance))
+					return;
+
 				if ((float) player.hurtResistantTime > ((float) player.maxHurtResistantTime / 2.0F)) {
-					if (ammount <= reflectionLastDamage.getFloat(player)) {
+					if (ammount <= reflectionLastDamage.getFloat(player))
 						return;
-					}
 
 					ammount -= reflectionLastDamage.getFloat(player);
 					reflectionLastDamage.set(player, event.ammount);
