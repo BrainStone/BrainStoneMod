@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,9 +29,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.UsernameCache;
+import net.minecraftforge.common.util.Constants.NBT;
 
 public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements IEnergyContainerItem {
 	public static final int MaxDamage = 32;
@@ -58,7 +62,7 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean hasEffect(ItemStack container, int pass) {
-		return getEnergyStored(container) >= RFperHalfHeart;
+		return (getEnergyStored(container) >= RFperHalfHeart) && (PCmapping.getPlayerUUID(getUUID(container)) != null);
 	}
 
 	@Override
@@ -90,10 +94,13 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack container, EntityPlayer player, List list, boolean advancedToolTipInfo) {
 		boolean sneak = Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak.getKeyCode());
-
-		list.add("Owner: " + PCmapping.getPlayerName(getUUID(container), true));
+		boolean correctOwner = isCurrentOwner(container, player.getUniqueID());
+		boolean canReown = !correctOwner && !isFormerOwner(container, player.getUniqueID());
 
 		if (sneak) {
+			list.add("Owner: " + PCmapping.getPlayerName(getUUID(container), true)
+					+ (correctOwner ? (EnumChatFormatting.GRAY + " (You)")
+							: (canReown ? (EnumChatFormatting.DARK_GRAY + " (Shift-R-Click to claim)") : "")));
 			list.add(EnumChatFormatting.GREEN + "Absorbs all damage while powered.");
 			list.add(EnumChatFormatting.YELLOW + "Costs " + PowerDisplayUtil.formatPower(RFperHalfHeart * 2) + " "
 					+ PowerDisplayUtil.abrevation() + "/" + EnumChatFormatting.DARK_RED + "\u2764");
@@ -107,6 +114,8 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 					+ " (" + PowerDisplayUtil.formatPower(getMaxRecieve(container)) + " "
 					+ PowerDisplayUtil.abrevation() + "/t)");
 		} else {
+			list.add("Owner: " + PCmapping.getPlayerName(getUUID(container), true)
+					+ (correctOwner ? (EnumChatFormatting.GRAY + " (You)") : ""));
 			list.add("Hold " + EnumChatFormatting.YELLOW + EnumChatFormatting.ITALIC
 					+ Keyboard.getKeyName(Minecraft.getMinecraft().gameSettings.keyBindSneak.getKeyCode())
 					+ EnumChatFormatting.RESET + EnumChatFormatting.GRAY + " for details");
@@ -128,16 +137,25 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 	}
 
 	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side,
-			float hitX, float hitY, float hitZ) {
-		if (!world.isRemote) {
+	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
+		if (!world.isRemote && player.isSneaking()) {
 			UUID playerUUID = player.getUniqueID();
-			UUID capacitorUUID = getUUID(stack);
 
-			PCmapping.updateMapping(playerUUID, capacitorUUID);
+			if (!isCurrentOwner(stack, playerUUID)) {
+				if (!isFormerOwner(stack, playerUUID)) {
+					UUID capacitorUUID = getUUID(stack);
+
+					PCmapping.updateMapping(playerUUID, capacitorUUID);
+
+					addOwnerToList(stack, playerUUID);
+				} else {
+					BrainStone.sendToPlayer(player,
+							EnumChatFormatting.DARK_RED + "You can only claim a Brain Stone Live Capacitor once!");
+				}
+			}
 		}
 
-		return true;
+		return stack;
 	}
 
 	public float handleDamage(ItemStack container, float damage) {
@@ -251,6 +269,14 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 		return UUID.fromString(container.stackTagCompound.getString("UUID"));
 	}
 
+	public boolean isCurrentOwner(ItemStack container, UUID playerUUID) {
+		return playerUUID.equals(PCmapping.getPlayerUUID(getUUID(container)));
+	}
+
+	public boolean isFormerOwner(ItemStack container, UUID playerUUID) {
+		return getOwnerList(container).contains(playerUUID);
+	}
+
 	private int extractEnergyIntern(ItemStack container, int maxExtract, boolean simulate) {
 		if (container.stackTagCompound == null || !container.stackTagCompound.hasKey("Energy")) {
 			return 0;
@@ -318,6 +344,37 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 
 			container.stackTagCompound.setString("UUID", uuid.toString());
 		}
+	}
+
+	private void addOwnerToList(ItemStack container, UUID uuid) {
+		if ((container.stackTagCompound == null) || !container.stackTagCompound.hasKey("OwnerList")) {
+			getOwnerList(container);
+		}
+
+		NBTTagList tagList = container.stackTagCompound.getTagList("OwnerList", NBT.TAG_STRING);
+
+		tagList.appendTag(new NBTTagString(uuid.toString()));
+
+		container.stackTagCompound.setTag("OwnerList", tagList);
+	}
+
+	private List<UUID> getOwnerList(ItemStack container) {
+		if (container.stackTagCompound == null) {
+			container.stackTagCompound = new NBTTagCompound();
+		}
+		if (!container.stackTagCompound.hasKey("OwnerList")) {
+			container.stackTagCompound.setTag("OwnerList", new NBTTagList());
+		}
+
+		NBTTagList tagList = container.stackTagCompound.getTagList("OwnerList", NBT.TAG_STRING);
+		final int size = tagList.tagCount();
+
+		List<UUID> out = new ArrayList<UUID>(size);
+
+		for (int i = 0; i < size; i++)
+			out.add(UUID.fromString(tagList.getStringTagAt(i)));
+
+		return out;
 	}
 
 	public class PlayerCapacitorMapping {
@@ -410,7 +467,6 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 
 			if (playerToCapacitor.hasKey(oldPlayer) || capacitorToPlayer.hasKey(oldCapacitor)) {
 				capacitorToPlayer.removeTag(oldCapacitor);
-				playerNameCache.removeTag(oldPlayer);
 				playerToCapacitor.removeTag(oldPlayer);
 			}
 
@@ -464,7 +520,7 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 			NBTTagCompound playerNameCache = map.getCompoundTag("playerNameCache");
 
 			if (!playerNameCache.hasKey(player)) {
-				return (colorCode ? (EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC) : "") + "<Nobody>";
+				return (colorCode ? (EnumChatFormatting.DARK_AQUA + "" + EnumChatFormatting.ITALIC) : "") + "<Nobody>";
 			}
 
 			return (colorCode ? EnumChatFormatting.AQUA : "") + playerNameCache.getString(player);

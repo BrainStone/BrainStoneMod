@@ -114,7 +114,7 @@ public class BrainStone {
 	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
 	public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.51.374 BETA";
+	public static final String VERSION = "v2.51.412 BETA";
 	public static final String DEPENDENCIES = "after:EnderIO;after:MineFactoryReloaded;after:Thaumcraft;after:TConstruct";
 
 	/** The instance of this mod */
@@ -502,7 +502,7 @@ public class BrainStone {
 	 * @param message
 	 *            the message to be sent
 	 */
-	private static void sendToPlayer(EntityPlayer player, String message) {
+	public static void sendToPlayer(EntityPlayer player, String message) {
 		String[] lines = message.split("\n");
 
 		for (String line : lines)
