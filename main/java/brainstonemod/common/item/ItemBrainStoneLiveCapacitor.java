@@ -1,12 +1,23 @@
 package brainstonemod.common.item;
 
+import java.io.EOFException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
+import java.util.UUID;
 
 import org.lwjgl.input.Keyboard;
 
 import brainstonemod.BrainStone;
+import brainstonemod.common.helper.BSP;
 import brainstonemod.common.item.template.ItemBrainStoneBase;
 import cofh.api.energy.IEnergyContainerItem;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import crazypants.enderio.machine.power.PowerDisplayUtil;
@@ -16,13 +27,17 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.common.UsernameCache;
 
 public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements IEnergyContainerItem {
 	public static final int MaxDamage = 32;
 	public static final int RFperHalfHeart = 1000000;
+	private PlayerCapacitorMapping PCmapping;
 
 	public ItemBrainStoneLiveCapacitor() {
 		super();
@@ -30,6 +45,16 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 		setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.tabTools));
 		setMaxDamage(MaxDamage);
 		setMaxStackSize(1);
+
+		PCmapping = new PlayerCapacitorMapping();
+	}
+
+	public void newPlayerCapacitorMapping(File path) {
+		PCmapping = new PlayerCapacitorMapping(path);
+	}
+
+	public PlayerCapacitorMapping getPlayerCapacitorMapping() {
+		return PCmapping;
 	}
 
 	@Override
@@ -49,7 +74,7 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 		ItemStack is = new ItemStack(this);
 		setCapacityLevel(is, 1);
 		setChargingLevel(is, 1);
-		setEnergy(is, 0);
+		setEnergyStored(is, 0);
 		list.add(is);
 
 		int levels[] = { 1, 2, 3, 5, 9, 19, 99 };
@@ -58,7 +83,7 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 			is = new ItemStack(this);
 			setCapacityLevel(is, i);
 			setChargingLevel(is, i);
-			setEnergy(is, getMaxEnergyStored(is));
+			setEnergyStored(is, getMaxEnergyStored(is));
 			list.add(is);
 		}
 	}
@@ -67,6 +92,8 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack container, EntityPlayer player, List list, boolean advancedToolTipInfo) {
 		boolean sneak = Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak.getKeyCode());
+
+		list.add("Owner: " + PCmapping.getPlayerName(getUUID(container), true));
 
 		if (sneak) {
 			list.add(EnumChatFormatting.GREEN + "Absorbs all damage while powered.");
@@ -97,8 +124,22 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 		getEnergyStored(container);
 		getCapacityLevel(container);
 		getChargingLevel(container);
+		createUUID(container);
 
 		updateDamage(container);
+	}
+
+	@Override
+	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side,
+			float hitX, float hitY, float hitZ) {
+		if (!world.isRemote) {
+			UUID playerUUID = player.getUniqueID();
+			UUID capacitorUUID = getUUID(stack);
+
+			PCmapping.updateMapping(playerUUID, capacitorUUID);
+		}
+
+		return true;
 	}
 
 	public float handleDamage(ItemStack container, float damage) {
@@ -135,7 +176,7 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 		final int capacity = getCapacityLevel(container);
 		final int charging = getChargingLevel(container);
 
-		if (capacity < (charging * 2)) {
+		if (capacity <= (charging * 2)) {
 			setCapacityLevel(container, capacity + 1);
 
 			return container;
@@ -156,7 +197,7 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 		final int capacity = getCapacityLevel(container);
 		final int charging = getChargingLevel(container);
 
-		if (charging < (capacity * 2)) {
+		if (charging <= (capacity * 2)) {
 			setChargingLevel(container, charging + 1);
 
 			return container;
@@ -168,7 +209,7 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 	@Override
 	public int getEnergyStored(ItemStack container) {
 		if (container.stackTagCompound == null || !container.stackTagCompound.hasKey("Energy")) {
-			setEnergy(container, 0);
+			setEnergyStored(container, 0);
 		}
 
 		return container.stackTagCompound.getInteger("Energy");
@@ -202,6 +243,14 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 	@Override
 	public int extractEnergy(ItemStack container, int maxExtract, boolean simulate) {
 		return 0;
+	}
+
+	public UUID getUUID(ItemStack container) {
+		if (container.stackTagCompound == null || !container.stackTagCompound.hasKey("UUID")) {
+			createUUID(container);
+		}
+
+		return UUID.fromString(container.stackTagCompound.getString("UUID"));
 	}
 
 	private int extractEnergyIntern(ItemStack container, int maxExtract, boolean simulate) {
@@ -251,7 +300,7 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 		return (getChargingLevel(container) + 1) * RFperHalfHeart / 200;
 	}
 
-	private void setEnergy(ItemStack container, int energy) {
+	private void setEnergyStored(ItemStack container, int energy) {
 		if (container.stackTagCompound == null) {
 			container.stackTagCompound = new NBTTagCompound();
 		}
@@ -259,5 +308,180 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 		container.stackTagCompound.setInteger("Energy", energy);
 
 		updateDamage(container);
+	}
+
+	private void createUUID(ItemStack container) {
+		if (container.stackTagCompound == null) {
+			container.stackTagCompound = new NBTTagCompound();
+		}
+
+		UUID uuid = UUID.randomUUID();
+
+		container.stackTagCompound.setString("UUID", uuid.toString());
+	}
+
+	public class PlayerCapacitorMapping {
+		private static final String relativePath = "/brainstonemod/brainStoneLiveCapacitor.dat";
+
+		private final File currentFile;
+		private NBTTagCompound map;
+
+		public PlayerCapacitorMapping() {
+			currentFile = null;
+			map = new NBTTagCompound();
+		}
+
+		public PlayerCapacitorMapping(File path) {
+			currentFile = new File(path, relativePath);
+
+			readFromFile();
+		}
+
+		public void readFromStream(InputStream in) {
+			try {
+				map = CompressedStreamTools.readCompressed(in);
+			} catch (EOFException e) {
+				map = new NBTTagCompound();
+			} catch (IOException e) {
+				BSP.errorException(e);
+			}
+		}
+
+		public void writeToStream(OutputStream out) {
+			try {
+				CompressedStreamTools.writeCompressed(map, out);
+			} catch (IOException e) {
+				BSP.errorException(e);
+			}
+		}
+
+		public void readFromFile() {
+			try {
+				currentFile.getParentFile().mkdirs();
+				currentFile.createNewFile();
+
+				FileInputStream fileInpuStream = new FileInputStream(currentFile);
+
+				readFromStream(fileInpuStream);
+
+				fileInpuStream.close();
+			} catch (FileNotFoundException e) {
+				BSP.errorException(e);
+			} catch (IOException e) {
+				BSP.errorException(e);
+			}
+
+			writeToFile();
+		}
+
+		public void writeToFile() {
+			try {
+				FileOutputStream fileOutputStream = new FileOutputStream(currentFile);
+
+				writeToStream(fileOutputStream);
+
+				fileOutputStream.close();
+			} catch (FileNotFoundException e) {
+				BSP.errorException(e);
+			} catch (IOException e) {
+				BSP.errorException(e);
+			}
+		}
+
+		public void updateMapping(UUID playerUUID, UUID capacitorUUID) {
+			if (!map.hasKey("capacitorToPlayer")) {
+				map.setTag("capacitorToPlayer", new NBTTagCompound());
+			}
+			if (!map.hasKey("playerNameCache")) {
+				map.setTag("playerNameCache", new NBTTagCompound());
+			}
+			if (!map.hasKey("playerToCapacitor")) {
+				map.setTag("playerToCapacitor", new NBTTagCompound());
+			}
+
+			NBTTagCompound capacitorToPlayer = map.getCompoundTag("capacitorToPlayer");
+			NBTTagCompound playerNameCache = map.getCompoundTag("playerNameCache");
+			NBTTagCompound playerToCapacitor = map.getCompoundTag("playerToCapacitor");
+
+			final String player = playerUUID.toString();
+			final String capacitor = capacitorUUID.toString();
+			final String oldPlayer = capacitorToPlayer.getString(capacitor);
+			final String oldCapacitor = playerToCapacitor.getString(player);
+
+			if (playerToCapacitor.hasKey(oldPlayer) || capacitorToPlayer.hasKey(oldCapacitor)) {
+				capacitorToPlayer.removeTag(oldCapacitor);
+				playerNameCache.removeTag(oldPlayer);
+				playerToCapacitor.removeTag(oldPlayer);
+			}
+
+			capacitorToPlayer.setString(capacitor, player);
+			playerToCapacitor.setString(player, capacitor);
+
+			updateName(playerUUID, true);
+
+			// update!
+
+			writeToFile();
+		}
+
+		public void updateName(UUID playerUUID, boolean force) {
+			if (!map.hasKey("playerNameCache")) {
+				map.setTag("playerNameCache", new NBTTagCompound());
+			}
+
+			String player = playerUUID.toString();
+			NBTTagCompound playerNameCache = map.getCompoundTag("playerNameCache");
+
+			if(force || playerNameCache.hasKey(player))
+				playerNameCache.setString(player, UsernameCache.getLastKnownUsername(playerUUID));
+		}
+
+		public UUID getPlayerUUID(UUID capacitorUUID) {
+			if (!map.hasKey("capacitorToPlayer")) {
+				map.setTag("capacitorToPlayer", new NBTTagCompound());
+			}
+
+			NBTTagCompound capacitorToPlayer = map.getCompoundTag("capacitorToPlayer");
+
+			if (!capacitorToPlayer.hasKey(capacitorUUID.toString())) {
+				return null;
+			}
+
+			return UUID.fromString(capacitorToPlayer.getString(capacitorUUID.toString()));
+		}
+
+		public String getPlayerName(UUID capacitorUUID) {
+			return getPlayerName(capacitorUUID, false);
+		}
+
+		public String getPlayerName(UUID capacitorUUID, boolean colorCode) {
+			if (!map.hasKey("playerNameCache")) {
+				map.setTag("playerNameCache", new NBTTagCompound());
+			}
+
+			UUID playerUUID = getPlayerUUID(capacitorUUID);
+			String player = (playerUUID == null)? "" : playerUUID.toString();
+			NBTTagCompound playerNameCache = map.getCompoundTag("playerNameCache");
+
+			if (!playerNameCache.hasKey(player)) {
+				return (colorCode ? (EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC) : "") + "<Nobody>";
+			}
+
+			return (colorCode ? EnumChatFormatting.AQUA : "") + playerNameCache.getString(player);
+		}
+
+		public UUID getCapacitorUUID(UUID playerUUID) {
+			if (!map.hasKey("playerToCapacitor")) {
+				map.setTag("playerToCapacitor", new NBTTagCompound());
+			}
+
+			NBTTagCompound playerToCapacitor = map.getCompoundTag("playerToCapacitor");
+
+			if (!playerToCapacitor.hasKey(playerUUID.toString())) {
+				return null;
+			}
+
+			return UUID.fromString(playerToCapacitor.getString(playerUUID.toString()));
+		}
 	}
 }

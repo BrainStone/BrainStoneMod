@@ -2,11 +2,15 @@ package brainstonemod.common.handler;
 
 import java.lang.reflect.Field;
 import java.util.Random;
+import java.util.UUID;
 
 import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.helper.BrainStoneDamageHelper;
+import brainstonemod.common.item.ItemBrainStoneLiveCapacitor;
+import brainstonemod.common.item.ItemBrainStoneLiveCapacitor.PlayerCapacitorMapping;
 import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
@@ -90,7 +94,7 @@ public class BrainStoneEventHandler {
 		}
 	}
 
-	@SubscribeEvent
+	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onPlayerJoinServer(PlayerLoggedInEvent event) {
 		BSP.debug("Calling onPlayerJoinServer for " + event.player.getCommandSenderName());
 
@@ -215,10 +219,20 @@ public class BrainStoneEventHandler {
 	}
 
 	private static ItemStack getBrainStoneLiveCapacitor(EntityPlayer player) {
+		ItemBrainStoneLiveCapacitor capacitor = BrainStone.brainStoneLiveCapacitor();
+		PlayerCapacitorMapping mapping = capacitor.getPlayerCapacitorMapping();
+		UUID capacitorUUID = mapping.getCapacitorUUID(player.getUniqueID());
+
+		if (capacitorUUID == null)
+			return null;
+
 		for (ItemStack stack : player.inventory.mainInventory) {
 			if ((stack != null) && (stack.getItem() != null)
-					&& (stack.getItem() == BrainStone.brainStoneLiveCapacitor()))
+					&& (stack.getItem() == BrainStone.brainStoneLiveCapacitor())
+					&& (capacitorUUID.equals(BrainStone.brainStoneLiveCapacitor().getUUID(stack)))) {
+
 				return stack;
+			}
 		}
 
 		return null;

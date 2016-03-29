@@ -98,6 +98,7 @@ import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.AchievementPage;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.util.EnumHelper;
@@ -113,7 +114,7 @@ public class BrainStone {
 	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
 	public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.51.235 BETA";
+	public static final String VERSION = "v2.51.371 BETA";
 	public static final String DEPENDENCIES = "after:EnderIO;after:MineFactoryReloaded;after:Thaumcraft;after:TConstruct";
 
 	/** The instance of this mod */
@@ -317,6 +318,8 @@ public class BrainStone {
 	@EventHandler
 	public void onServerStarting(FMLServerStartingEvent event) {
 		fillTriggerEntities();
+		
+		brainStoneLiveCapacitor().newPlayerCapacitorMapping(DimensionManager.getCurrentSaveRootDirectory());
 	}
 
 	/**
@@ -402,6 +405,8 @@ public class BrainStone {
 	 */
 	public static void onPlayerJoinServer(EntityPlayer player, PlayerLoggedInEvent event) {
 		BrainStonePacketHelper.sendBrainStoneTriggerMobInformationPacketToPlayer(player);
+		
+		brainStoneLiveCapacitor().getPlayerCapacitorMapping().updateName(player.getUniqueID(), false);
 	}
 
 	private static boolean isDevEnv() {
@@ -539,7 +544,7 @@ public class BrainStone {
 			} catch (NumberFormatException e) {
 				out[i] = -1;
 
-				BSP.warnException(e);
+				BSP.warnException_noAddon(e);
 			}
 		}
 
