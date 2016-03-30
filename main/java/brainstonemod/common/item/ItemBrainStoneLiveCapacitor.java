@@ -386,7 +386,7 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 	@Override
 	@Method(modid = "Baubles|API")
 	public boolean canEquip(ItemStack stack, EntityLivingBase entity) {
-		return true;
+		return isCurrentOwner(stack, entity.getUniqueID());
 	}
 
 	@Override
