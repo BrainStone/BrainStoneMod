@@ -25,8 +25,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileEntityBlockBrainLogicBlock extends
 		TileEntityBrainStoneSyncBase {
-
-	@SideOnly(Side.CLIENT)
 	public static BrainStoneDirection guiDirection;
 
 	public static int getColorForPowerLevel(byte powerLevel) {

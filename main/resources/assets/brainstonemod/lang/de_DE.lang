@@ -21,7 +21,16 @@ item.brainStonePlate.name=Hirnsteinbrustplatte
 item.brainStoneLeggings.name=Hirnsteinhose
 item.brainStoneBoots.name=Hirsteinstiefel
 item.essenceOfLive.name=Essenz des Lebens
-item.brainStoneLiveCapacitor.name=Hirnsteinlebenskondesator
+item.stablePulsatingBrainStoneSword.name=Stabiler Pulsierender Hirnsteinschwert
+item.stablePulsatingBrainStoneShovel.name=Stabiler Pulsierender Hirnsteinschaufel
+item.stablePulsatingBrainStonePickaxe.name=Stabiler Pulsierender Hirnsteinspitzhacke
+item.stablePulsatingBrainStoneAxe.name=Stabiler Pulsierender Hirnsteinaxt
+item.stablePulsatingBrainStoneHoe.name=Stabiler Pulsierender Hirnsteinfeldhacke
+item.stablePulsatingBrainStoneHelmet.name=Stabiler Pulsierender Hirnsteinhelm
+item.stablePulsatingBrainStonePlate.name=Stabiler Pulsierender Hirnsteinbrustplatte
+item.stablePulsatingBrainStoneLeggings.name=Stabiler Pulsierender Hirnsteinhose
+item.stablePulsatingBrainStoneBoots.name=Stabiler Pulsierender Hirsteinstiefel
+item.brainStoneLiveCapacitor.name=Hirnsteinlebenskondensator
 
 achievement.WTHIT=Was zur Hölle ist das???
 achievement.WTHIT.desc=Du must ein seltsames grünes Pulver finden.
@@ -72,3 +81,4 @@ enderio.darksteel.upgrade.brainstone.tooltip.detailed.line2=Pulsierenden Hirnste
 enderio.darksteel.upgrade.brainstone.tooltip.detailed.line3=Upgrade auf allen Rüstungsteilen ist
 
 material.brainstone=Hirnstein
+material.stablepulsatingbrainstone=Stabiler Pulsierender Hirnstein
