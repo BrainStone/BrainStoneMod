@@ -54,6 +54,7 @@ import brainstonemod.common.tileentity.TileEntityBlockBrainStoneTrigger;
 import brainstonemod.common.worldgenerators.BrainStoneWorldGenerator;
 import brainstonemod.network.BrainStonePacketHelper;
 import brainstonemod.network.BrainStonePacketPipeline;
+import brainstonemod.network.packet.BrainStoneLiveCapacitorMap;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
@@ -116,7 +117,7 @@ public class BrainStone {
 	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
 	public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.51.448 BETA";
+	public static final String VERSION = "v2.51.473 BETA";
 	public static final String DEPENDENCIES = "after:EnderIO;after:MineFactoryReloaded;after:Thaumcraft;after:TConstruct";
 
 	/** The instance of this mod */
@@ -409,6 +410,7 @@ public class BrainStone {
 		BrainStonePacketHelper.sendBrainStoneTriggerMobInformationPacketToPlayer(player);
 
 		brainStoneLiveCapacitor().getPlayerCapacitorMapping().updateName(player.getUniqueID(), false);
+		BrainStone.packetPipeline.sendToAll(new BrainStoneLiveCapacitorMap());
 	}
 
 	/**

@@ -19,6 +19,7 @@ import baubles.api.IBauble;
 import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.item.template.ItemBrainStoneBase;
+import brainstonemod.network.packet.BrainStoneLiveCapacitorMap;
 import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.Optional.Method;
@@ -514,7 +515,7 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 
 			updateName(playerUUID, true);
 
-			// update!
+			BrainStone.packetPipeline.sendToAll(new BrainStoneLiveCapacitorMap());
 
 			writeToFile();
 		}
@@ -577,6 +578,14 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 			}
 
 			return UUID.fromString(playerToCapacitor.getString(playerUUID.toString()));
+		}
+
+		public NBTTagCompound getMap() {
+			return map;
+		}
+
+		public void setMap(NBTTagCompound map) {
+			this.map = map;
 		}
 	}
 }
