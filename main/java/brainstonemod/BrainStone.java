@@ -117,7 +117,7 @@ public class BrainStone {
 	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
 	public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.51.489 BETA DEV";
+	public static final String VERSION = "v2.51.501 BETA";
 	public static final String DEPENDENCIES = "after:EnderIO;after:MineFactoryReloaded;after:Thaumcraft;after:TConstruct";
 
 	/** The instance of this mod */
@@ -360,37 +360,35 @@ public class BrainStone {
 			switch (updateNotification) {
 			case 0:
 				if (isHigherVersion(VERSION, releaseVersion)) {
-					sendToPlayer(player, "§a A new Version of the BSM is available!\n§l§c========== §4"
-							+ releaseVersion + "§c ==========\n"
+					sendToPlayer(player, "§a A new Version of the BSM is available!\n§l§c========== §4" + releaseVersion
+							+ "§c ==========\n"
 							+ "§1Download it at §ehttp://adf.ly/2002096/release§1\nor §ehttp://download.brainstonemod.tk §1!");
 				}
 
 				break;
 			case 1:
 				if (isHigherVersion(VERSION, releaseVersion) && !isHigherVersion(releaseVersion, recommendedVersion)) {
-					sendToPlayer(player, "§a A new Version of the BSM is available!\n§l§c========== §4"
-							+ releaseVersion + "§c ==========\n"
+					sendToPlayer(player, "§a A new Version of the BSM is available!\n§l§c========== §4" + releaseVersion
+							+ "§c ==========\n"
 							+ "§1Download it at §ehttp://adf.ly/2002096/release§1\nor §ehttp://download.brainstonemod.tk §1!");
 				} else if (isHigherVersion(VERSION, recommendedVersion)) {
-					sendToPlayer(player,
-							"§a A new recommended DEV Version of the BSM is available!\n§l§c========== §4"
-									+ recommendedVersion + "§c ==========\n"
-									+ "§1Download it at §ehttp://adf.ly/2002096/recommended§1\nor §ehttp://download.brainstonemod.tk §1!");
+					sendToPlayer(player, "§a A new recommended DEV Version of the BSM is available!\n§l§c========== §4"
+							+ recommendedVersion + "§c ==========\n"
+							+ "§1Download it at §ehttp://adf.ly/2002096/recommended§1\nor §ehttp://download.brainstonemod.tk §1!");
 				}
 
 				break;
 			case 2:
 				if (isHigherVersion(VERSION, releaseVersion) && !isHigherVersion(releaseVersion, recommendedVersion)
 						&& !isHigherVersion(releaseVersion, latestVersion)) {
-					sendToPlayer(player, "§a A new Version of the BSM is available!\n§l§c========== §4"
-							+ releaseVersion + "§c ==========\n"
+					sendToPlayer(player, "§a A new Version of the BSM is available!\n§l§c========== §4" + releaseVersion
+							+ "§c ==========\n"
 							+ "§1Download it at §ehttp://adf.ly/2002096/release§1\nor §ehttp://download.brainstonemod.tk §1!");
 				} else if (isHigherVersion(VERSION, recommendedVersion)
 						&& !isHigherVersion(recommendedVersion, latestVersion)) {
-					sendToPlayer(player,
-							"§a A new recommended DEV Version of the BSM is available!\n§l§c========== §4"
-									+ recommendedVersion + "§c ==========\n"
-									+ "§1Download it at §ehttp://adf.ly/2002096/recommended§1\nor §ehttp://download.brainstonemod.tk §1!");
+					sendToPlayer(player, "§a A new recommended DEV Version of the BSM is available!\n§l§c========== §4"
+							+ recommendedVersion + "§c ==========\n"
+							+ "§1Download it at §ehttp://adf.ly/2002096/recommended§1\nor §ehttp://download.brainstonemod.tk §1!");
 				} else if (isHigherVersion(VERSION, latestVersion)) {
 					sendToPlayer(player, "§a A new DEV Version of the BSM is available!\n§l§c========== §4"
 							+ latestVersion + "§c ==========\n"
@@ -683,12 +681,30 @@ public class BrainStone {
 				brainStone());
 		GameRegistry.addRecipe(new ItemStack(brainStoneHoe(), 1), "BB", " S", " S", 'S', Items.stick, 'B',
 				brainStone());
-		GameRegistry.addRecipe(new ItemStack(brainProcessor(), 4), "TRT", "SBS", "TRT", 'B', brainStone(), 'S',
-				Items.redstone, 'T', Blocks.redstone_torch, 'R', Items.repeater);
 		GameRegistry.addRecipe(new ItemStack(brainStoneHelmet(), 1), "BBB", "B B", 'B', brainStone());
 		GameRegistry.addRecipe(new ItemStack(brainStonePlate(), 1), "B B", "BBB", "BBB", 'B', brainStone());
 		GameRegistry.addRecipe(new ItemStack(brainStoneLeggings(), 1), "BBB", "B B", "B B", 'B', brainStone());
 		GameRegistry.addRecipe(new ItemStack(brainStoneBoots(), 1), "B B", "B B", 'B', brainStone());
+		GameRegistry.addRecipe(new ItemStack(brainProcessor(), 4), "TRT", "SBS", "TRT", 'B', brainStone(), 'S',
+				Items.redstone, 'T', Blocks.redstone_torch, 'R', Items.repeater);
+		GameRegistry.addRecipe(new ItemStack(stablePulsatingBrainStoneSword(), 1), "B", "B", "S", 'S',
+				Blocks.redstone_block, 'B', stablePulsatingBrainStone());
+		GameRegistry.addRecipe(new ItemStack(stablePulsatingBrainStoneShovel(), 1), "B", "S", "S", 'S',
+				Blocks.redstone_block, 'B', stablePulsatingBrainStone());
+		GameRegistry.addRecipe(new ItemStack(stablePulsatingBrainStonePickaxe(), 1), "BBB", " S ", " S ", 'S',
+				Blocks.redstone_block, 'B', stablePulsatingBrainStone());
+		GameRegistry.addRecipe(new ItemStack(stablePulsatingBrainStoneAxe(), 1), "BB", "BS", " S", 'S',
+				Blocks.redstone_block, 'B', stablePulsatingBrainStone());
+		GameRegistry.addRecipe(new ItemStack(stablePulsatingBrainStoneHoe(), 1), "BB", " S", " S", 'S',
+				Blocks.redstone_block, 'B', stablePulsatingBrainStone());
+		GameRegistry.addRecipe(new ItemStack(stablePulsatingBrainStoneHelmet(), 1), "BBB", "B B", 'B',
+				stablePulsatingBrainStone());
+		GameRegistry.addRecipe(new ItemStack(stablePulsatingBrainStonePlate(), 1), "B B", "BBB", "BBB", 'B',
+				stablePulsatingBrainStone());
+		GameRegistry.addRecipe(new ItemStack(stablePulsatingBrainStoneLeggings(), 1), "BBB", "B B", "B B", 'B',
+				stablePulsatingBrainStone());
+		GameRegistry.addRecipe(new ItemStack(stablePulsatingBrainStoneBoots(), 1), "B B", "B B", 'B',
+				stablePulsatingBrainStone());
 
 		GameRegistry.addRecipe(new BrainStoneLiveCapacitorUpgrade(BrainStoneLiveCapacitorUpgrade.Upgrade.CAPACITY));
 		GameRegistry.addRecipe(new BrainStoneLiveCapacitorUpgrade(BrainStoneLiveCapacitorUpgrade.Upgrade.CHARGING));
@@ -1153,15 +1169,73 @@ public class BrainStone {
 	}
 
 	/**
-	 * @return the instance of test
+	 * @return the instance of Stable Pulsating Brain Stone Sword
+	 */
+	public static final Item stablePulsatingBrainStoneSword() {
+		return items.get("stablePulsatingBrainStoneSword");
+	}
+
+	/**
+	 * @return the instance of Stable Pulsating Brain Stone Shovel
+	 */
+	public static final Item stablePulsatingBrainStoneShovel() {
+		return items.get("stablePulsatingBrainStoneShovel");
+	}
+
+	/**
+	 * @return the instance of Stable Pulsating Brain Stone Pickaxe
+	 */
+	public static final Item stablePulsatingBrainStonePickaxe() {
+		return items.get("stablePulsatingBrainStonePickaxe");
+	}
+
+	/**
+	 * @return the instance of Stable Pulsating Brain Stone Axe
+	 */
+	public static final Item stablePulsatingBrainStoneAxe() {
+		return items.get("stablePulsatingBrainStoneAxe");
+	}
+
+	/**
+	 * @return the instance of Stable Pulsating Brain Stone Hoe
+	 */
+	public static final Item stablePulsatingBrainStoneHoe() {
+		return items.get("stablePulsatingBrainStoneHoe");
+	}
+
+	/**
+	 * @return the instance of Stable Pulsating Brain Stone Helmet
+	 */
+	public static final Item stablePulsatingBrainStoneHelmet() {
+		return items.get("stablePulsatingBrainStoneHelmet");
+	}
+
+	/**
+	 * @return the instance of Stable Pulsating Brain Stone Chestplate
+	 */
+	public final static Item stablePulsatingBrainStonePlate() {
+		return items.get("stablePulsatingBrainStonePlate");
+	}
+
+	/**
+	 * @return the instance of Stable Pulsating Brain Stone Leggings
+	 */
+	public final static Item stablePulsatingBrainStoneLeggings() {
+		return items.get("stablePulsatingBrainStoneLeggings");
+	}
+
+	/**
+	 * @return the instance of Stable Pulsating Brain Stone Leggings
+	 */
+	public final static Item stablePulsatingBrainStoneBoots() {
+		return items.get("stablePulsatingBrainStoneBoots");
+	}
+
+	/**
+	 * @return the instance of Brain Stone Live Capacitor
 	 */
 	public static final ItemBrainStoneLiveCapacitor brainStoneLiveCapacitor() {
 		return (ItemBrainStoneLiveCapacitor) items.get("brainStoneLiveCapacitor");
-	}
-
-	// TODO Auto-generated method stub
-	public final static Item stablePulsatingBrainStonePlate() {
-		return items.get("stablePulsatingBrainStonePlate");
 	}
 
 	/**
