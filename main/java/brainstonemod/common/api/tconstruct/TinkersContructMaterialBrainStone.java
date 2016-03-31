@@ -19,10 +19,10 @@ public class TinkersContructMaterialBrainStone {
 		BSP.info("Tinker's Construct detected! Registering BrainStone materials as tool materials!");
 
 		addMaterial(1546, "tinker", "brainstone", "BrainStone", Item.getItemFromBlock(BrainStone.brainStone()), 4, 5350,
-				600, 5, 1.5F, 1, 0f, EnumChatFormatting.GREEN.toString(), 0x27B23D, 30, 5.25f, 1.4F, 0.0F);
+				600, 5, 1.5F, 1, 0f, EnumChatFormatting.GREEN.toString(), 0x33FF57, 30, 5.25f, 1.4F, 0.0F);
 		addMaterial(1547, "tinker", "stablepulsatingbrainstone", "StablePulsatingBrainStone",
 				Item.getItemFromBlock(BrainStone.stablePulsatingBrainStone()), 5, 21472, 1800, 20, 3.0F, 2, 0f,
-				EnumChatFormatting.DARK_GREEN.toString(), 0x000000, 45, 8.0f, 4.2F, 0.0F);
+				EnumChatFormatting.DARK_GREEN.toString(), 0x004d00, 45, 8.0f, 4.2F, 0.0F);
 	}
 
 	private static void addMaterial(int materialID, String domain, String renderName, String materialName,
