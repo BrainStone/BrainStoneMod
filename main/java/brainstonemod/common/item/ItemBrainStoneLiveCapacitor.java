@@ -42,11 +42,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.UsernameCache;
 import net.minecraftforge.common.util.Constants.NBT;
 
-@Optional.InterfaceList({
-		// IEnergyContainerItem
-		@Optional.Interface(iface = "cofh.api.energy.IEnergyContainerItem", modid = "CoFHAPI|energy"),
-		// IBauble
-		@Optional.Interface(iface = "baubles.api.IBauble", modid = "Baubles|API") })
+@Optional.Interface(iface = "baubles.api.IBauble", modid = "Baubles|API")
 public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements IEnergyContainerItem, IBauble {
 	public static final int MaxDamage = 32;
 	public static final int RFperHalfHeart = 1000000;
