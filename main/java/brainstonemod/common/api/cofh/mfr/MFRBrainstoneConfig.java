@@ -8,7 +8,7 @@ import cpw.mods.fml.common.Optional;
 
 public class MFRBrainstoneConfig {
 	@Optional.Method(modid = "MineFactoryReloaded")
-	public static void registerMFRItems() {
+	public static void registerMFRProperties() {
 		BSP.info("MineFactory Reloaded detected! Adding BrainStoneOre to the MiningLaser!");
 		
 		// As rare as diamond

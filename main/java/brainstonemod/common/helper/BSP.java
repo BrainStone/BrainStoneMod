@@ -87,8 +87,7 @@ public abstract class BSP {
 	 * @return Return whether the log was logged or not
 	 * @see {@link BSP#printException(Level level, Throwable ex, String additionalMessage)}
 	 */
-	public static final boolean debugException(Throwable ex,
-			String additionalMessage) {
+	public static final boolean debugException(Throwable ex, String additionalMessage) {
 		return logException(Level.DEBUG, ex, additionalMessage);
 	}
 
@@ -116,8 +115,7 @@ public abstract class BSP {
 	 * @return Return whether the log was logged or not
 	 * @see {@link BSP#printException_noAddon(Level level, Throwable ex, String additionalMessage)}
 	 */
-	public static final boolean debugException_noAddon(Throwable ex,
-			String additionalMessage) {
+	public static final boolean debugException_noAddon(Throwable ex, String additionalMessage) {
 		return logException_noAddon(Level.DEBUG, ex, additionalMessage);
 	}
 
@@ -157,8 +155,7 @@ public abstract class BSP {
 	 * @return Return whether the log was logged or not
 	 * @see {@link BSP#printException(Level level, Throwable ex, String additionalMessage)}
 	 */
-	public static final boolean errorException(Throwable ex,
-			String additionalMessage) {
+	public static final boolean errorException(Throwable ex, String additionalMessage) {
 		return logException(Level.ERROR, ex, additionalMessage);
 	}
 
@@ -186,8 +183,7 @@ public abstract class BSP {
 	 * @return Return whether the log was logged or not
 	 * @see {@link BSP#printException_noAddon(Level level, Throwable ex, String additionalMessage)}
 	 */
-	public static final boolean errorException_noAddon(Throwable ex,
-			String additionalMessage) {
+	public static final boolean errorException_noAddon(Throwable ex, String additionalMessage) {
 		return logException_noAddon(Level.ERROR, ex, additionalMessage);
 	}
 
@@ -227,8 +223,7 @@ public abstract class BSP {
 	 * @return Return whether the log was logged or not
 	 * @see {@link BSP#printException(Level level, Throwable ex, String additionalMessage)}
 	 */
-	public static final boolean fatalException(Throwable ex,
-			String additionalMessage) {
+	public static final boolean fatalException(Throwable ex, String additionalMessage) {
 		return logException(Level.FATAL, ex, additionalMessage);
 	}
 
@@ -256,8 +251,7 @@ public abstract class BSP {
 	 * @return Return whether the log was logged or not
 	 * @see {@link BSP#printException_noAddon(Level level, Throwable ex, String additionalMessage)}
 	 */
-	public static final boolean fatalException_noAddon(Throwable ex,
-			String additionalMessage) {
+	public static final boolean fatalException_noAddon(Throwable ex, String additionalMessage) {
 		return logException_noAddon(Level.FATAL, ex, additionalMessage);
 	}
 
@@ -300,8 +294,7 @@ public abstract class BSP {
 	 * @see {@link BSP#printException(Throwable ex, String additionalMessage)}
 	 * @see {@link BSP#printException(Level level, Throwable ex, String additionalMessage)}
 	 */
-	public static final boolean infoException(Throwable ex,
-			String additionalMessage) {
+	public static final boolean infoException(Throwable ex, String additionalMessage) {
 		return logException(ex, additionalMessage);
 	}
 
@@ -331,8 +324,7 @@ public abstract class BSP {
 	 * @see {@link BSP#printException_noAddon(Throwable ex, String additionalMessage)}
 	 * @see {@link BSP#printException_noAddon(Level level, Throwable ex, String additionalMessage)}
 	 */
-	public static final boolean infoException_noAddon(Throwable ex,
-			String additionalMessage) {
+	public static final boolean infoException_noAddon(Throwable ex, String additionalMessage) {
 		return logException_noAddon(ex, additionalMessage);
 	}
 
@@ -395,8 +387,7 @@ public abstract class BSP {
 	 *            a message appended to the standard error message addon
 	 * @return Return whether the log was logged or not
 	 */
-	public static final boolean logException(Level level, Throwable ex,
-			String additionalMessage) {
+	public static final boolean logException(Level level, Throwable ex, String additionalMessage) {
 		logger.log(level, errorMessageAddon + ANLIN(additionalMessage), ex);
 
 		return logger.isEnabled(level);
@@ -428,8 +419,7 @@ public abstract class BSP {
 	 * @see printException(Level.INFO, Throwable ex, String additionalMessage)
 	 * @see infoException(Throwable ex, String additionalMessage)
 	 */
-	public static final boolean logException(Throwable ex,
-			String additionalMessage) {
+	public static final boolean logException(Throwable ex, String additionalMessage) {
 		return logException(Level.INFO, ex, additionalMessage);
 	}
 
@@ -458,8 +448,7 @@ public abstract class BSP {
 	 *            a message put in front of the error log
 	 * @return Return whether the log was logged or not
 	 */
-	public static final boolean logException_noAddon(Level level, Throwable ex,
-			String additionalMessage) {
+	public static final boolean logException_noAddon(Level level, Throwable ex, String additionalMessage) {
 		logger.log(level, additionalMessage, ex);
 
 		return logger.isEnabled(level);
@@ -491,8 +480,7 @@ public abstract class BSP {
 	 *      additionalMessage)
 	 * @see infoException_noAddon(Throwable ex, String additionalMessage)
 	 */
-	public static final boolean logException_noAddon(Throwable ex,
-			String additionalMessage) {
+	public static final boolean logException_noAddon(Throwable ex, String additionalMessage) {
 		return logException_noAddon(Level.INFO, ex, additionalMessage);
 	}
 
@@ -504,19 +492,11 @@ public abstract class BSP {
 	 */
 	public static void setUpLogger(Logger logger) {
 		BSP.logger = logger;
-		BSP.logger.setLevel(Level.INFO);
-
-		// TODO get this logging level stuff to work...
-		// if (BrainStone.debug) {
-		// BSP.logger.setLevel(Level.ALL);
-		// } else if (BrainStone.release) {
-		// BSP.logger.setLevel(Level.INFO);
-		// } else {
-		// BSP.logger.setLevel(Level.DEBUG);
-		// }
 
 		if (BrainStone.debug) {
-			info(BSP.logger.getLevel().name());
+			BSP.logger.setLevel(Level.ALL);
+		} else {
+			BSP.logger.setLevel(Level.DEBUG);
 		}
 	}
 
@@ -534,8 +514,7 @@ public abstract class BSP {
 	 *            a additional message added after the addon
 	 */
 	public static final void throwArithmeticException(String additionalMessage) {
-		throw new ArithmeticException(errorMessageAddon
-				+ ANLIN(additionalMessage));
+		throw new ArithmeticException(errorMessageAddon + ANLIN(additionalMessage));
 	}
 
 	/**
@@ -551,10 +530,8 @@ public abstract class BSP {
 	 * @param additionalMessage
 	 *            a additional message added after the addon
 	 */
-	public static final void throwArrayIndexOutOfBoundsException(
-			String additionalMessage) {
-		throw new ArrayIndexOutOfBoundsException(errorMessageAddon
-				+ ANLIN(additionalMessage));
+	public static final void throwArrayIndexOutOfBoundsException(String additionalMessage) {
+		throw new ArrayIndexOutOfBoundsException(errorMessageAddon + ANLIN(additionalMessage));
 	}
 
 	/**
@@ -571,8 +548,7 @@ public abstract class BSP {
 	 *            a additional message added after the addon
 	 */
 	public static final void throwArrayStoreException(String additionalMessage) {
-		throw new ArrayStoreException(errorMessageAddon
-				+ ANLIN(additionalMessage));
+		throw new ArrayStoreException(errorMessageAddon + ANLIN(additionalMessage));
 	}
 
 	/**
@@ -589,8 +565,7 @@ public abstract class BSP {
 	 *            a additional message added after the addon
 	 */
 	public static final void throwClassCastException(String additionalMessage) {
-		throw new ClassCastException(errorMessageAddon
-				+ ANLIN(additionalMessage));
+		throw new ClassCastException(errorMessageAddon + ANLIN(additionalMessage));
 	}
 
 	/**
@@ -598,8 +573,7 @@ public abstract class BSP {
 	 * 
 	 * @throws ClassNotFoundException
 	 */
-	public static final void throwClassNotFoundException()
-			throws ClassNotFoundException {
+	public static final void throwClassNotFoundException() throws ClassNotFoundException {
 		throwClassNotFoundException("");
 	}
 
@@ -610,10 +584,8 @@ public abstract class BSP {
 	 *            a additional message added after the addon
 	 * @throws ClassNotFoundException
 	 */
-	public static final void throwClassNotFoundException(
-			String additionalMessage) throws ClassNotFoundException {
-		throw new ClassNotFoundException(errorMessageAddon
-				+ ANLIN(additionalMessage));
+	public static final void throwClassNotFoundException(String additionalMessage) throws ClassNotFoundException {
+		throw new ClassNotFoundException(errorMessageAddon + ANLIN(additionalMessage));
 	}
 
 	/**
@@ -621,8 +593,7 @@ public abstract class BSP {
 	 * 
 	 * @throws CloneNotSupportedException
 	 */
-	public static final void throwCloneNotSupportedException()
-			throws CloneNotSupportedException {
+	public static final void throwCloneNotSupportedException() throws CloneNotSupportedException {
 		throwCloneNotSupportedException("");
 	}
 
@@ -633,11 +604,10 @@ public abstract class BSP {
 	 *            a additional message added after the addon
 	 * @throws CloneNotSupportedException
 	 */
-	public static final void throwCloneNotSupportedException(
-			String additionalMessage) throws CloneNotSupportedException {
-		throw new CloneNotSupportedException(errorMessageAddon
-				+ ((additionalMessage.equals("")) ? "" : "\n"
-						+ additionalMessage));
+	public static final void throwCloneNotSupportedException(String additionalMessage)
+			throws CloneNotSupportedException {
+		throw new CloneNotSupportedException(
+				errorMessageAddon + ((additionalMessage.equals("")) ? "" : "\n" + additionalMessage));
 	}
 
 	/**
@@ -658,8 +628,7 @@ public abstract class BSP {
 	 * @throws E
 	 *             the exception type
 	 */
-	public static final <E extends Throwable> void throwException(E exception)
-			throws E {
+	public static final <E extends Throwable> void throwException(E exception) throws E {
 		throwException(exception, "");
 	}
 
@@ -670,8 +639,7 @@ public abstract class BSP {
 	 * @param exception
 	 *            the exception to throw
 	 */
-	public static final <E extends RuntimeException> void throwException(
-			E exception) {
+	public static final <E extends RuntimeException> void throwException(E exception) {
 		throwException(exception, "");
 	}
 
@@ -687,11 +655,9 @@ public abstract class BSP {
 	 *             the exception type
 	 */
 	@SuppressWarnings("unchecked")
-	public static final <E extends Throwable> void throwException(E exception,
-			String additionalMessage) throws E {
-		throw (E) new Throwable("(" + exception.getClass().getName() + ")"
-				+ BSP.errorMessageAddon + ANLIN(additionalMessage + "\n")
-				+ "\nOriginal message: \"" + exception.getMessage() + "\"\n",
+	public static final <E extends Throwable> void throwException(E exception, String additionalMessage) throws E {
+		throw (E) new Throwable("(" + exception.getClass().getName() + ")" + BSP.errorMessageAddon
+				+ ANLIN(additionalMessage + "\n") + "\nOriginal message: \"" + exception.getMessage() + "\"\n",
 				exception);
 	}
 
@@ -705,11 +671,9 @@ public abstract class BSP {
 	 *            the custom message that will be added
 	 */
 	@SuppressWarnings("unchecked")
-	public static final <E extends RuntimeException> void throwException(
-			E exception, String additionalMessage) {
-		throw (E) new RuntimeException("(" + exception.getClass().getName()
-				+ ")" + errorMessageAddon + ANLIN(additionalMessage + "\n")
-				+ "\nOriginal message: \"" + exception.getMessage() + "\"\n",
+	public static final <E extends RuntimeException> void throwException(E exception, String additionalMessage) {
+		throw (E) new RuntimeException("(" + exception.getClass().getName() + ")" + errorMessageAddon
+				+ ANLIN(additionalMessage + "\n") + "\nOriginal message: \"" + exception.getMessage() + "\"\n",
 				exception);
 	}
 
@@ -720,8 +684,7 @@ public abstract class BSP {
 	 *            a additional message added after the addon
 	 * @throws Exception
 	 */
-	public static final void throwException(String additionalMessage)
-			throws Exception {
+	public static final void throwException(String additionalMessage) throws Exception {
 		throw new Exception(errorMessageAddon + ANLIN(additionalMessage));
 	}
 
@@ -730,8 +693,7 @@ public abstract class BSP {
 	 * 
 	 * @throws IllegalAccessException
 	 */
-	public static final void throwIllegalAccessException()
-			throws IllegalAccessException {
+	public static final void throwIllegalAccessException() throws IllegalAccessException {
 		throwIllegalAccessException("");
 	}
 
@@ -742,10 +704,8 @@ public abstract class BSP {
 	 *            a additional message added after the addon
 	 * @throws IllegalAccessException
 	 */
-	public static final void throwIllegalAccessException(
-			String additionalMessage) throws IllegalAccessException {
-		throw new IllegalAccessException(errorMessageAddon
-				+ ANLIN(additionalMessage));
+	public static final void throwIllegalAccessException(String additionalMessage) throws IllegalAccessException {
+		throw new IllegalAccessException(errorMessageAddon + ANLIN(additionalMessage));
 	}
 
 	/**
@@ -761,10 +721,8 @@ public abstract class BSP {
 	 * @param additionalMessage
 	 *            a additional message added after the addon
 	 */
-	public static final void throwIllegalArgumentException(
-			String additionalMessage) {
-		throw new IllegalArgumentException(errorMessageAddon
-				+ ANLIN(additionalMessage));
+	public static final void throwIllegalArgumentException(String additionalMessage) {
+		throw new IllegalArgumentException(errorMessageAddon + ANLIN(additionalMessage));
 	}
 
 	/**
@@ -780,10 +738,8 @@ public abstract class BSP {
 	 * @param additionalMessage
 	 *            a additional message added after the addon
 	 */
-	public static final void throwIllegalMonitorStateException(
-			String additionalMessage) {
-		throw new IllegalMonitorStateException(errorMessageAddon
-				+ ANLIN(additionalMessage));
+	public static final void throwIllegalMonitorStateException(String additionalMessage) {
+		throw new IllegalMonitorStateException(errorMessageAddon + ANLIN(additionalMessage));
 	}
 
 	/**
@@ -799,10 +755,8 @@ public abstract class BSP {
 	 * @param additionalMessage
 	 *            a additional message added after the addon
 	 */
-	public static final void throwIllegalThreadStateException(
-			String additionalMessage) {
-		throw new IllegalThreadStateException(errorMessageAddon
-				+ ANLIN(additionalMessage));
+	public static final void throwIllegalThreadStateException(String additionalMessage) {
+		throw new IllegalThreadStateException(errorMessageAddon + ANLIN(additionalMessage));
 	}
 
 	/**
@@ -818,10 +772,8 @@ public abstract class BSP {
 	 * @param additionalMessage
 	 *            a additional message added after the addon
 	 */
-	public static final void throwIndexOutOfBoundsException(
-			String additionalMessage) {
-		throw new IndexOutOfBoundsException(errorMessageAddon
-				+ ANLIN(additionalMessage));
+	public static final void throwIndexOutOfBoundsException(String additionalMessage) {
+		throw new IndexOutOfBoundsException(errorMessageAddon + ANLIN(additionalMessage));
 	}
 
 	/**
@@ -829,8 +781,7 @@ public abstract class BSP {
 	 * 
 	 * @throws InstantiationException
 	 */
-	public static final void throwInstantiationException()
-			throws InstantiationException {
+	public static final void throwInstantiationException() throws InstantiationException {
 		throwInstantiationException("");
 	}
 
@@ -841,10 +792,8 @@ public abstract class BSP {
 	 *            a additional message added after the addon
 	 * @throws InstantiationException
 	 */
-	public static final void throwInstantiationException(
-			String additionalMessage) throws InstantiationException {
-		throw new InstantiationException(errorMessageAddon
-				+ ANLIN(additionalMessage));
+	public static final void throwInstantiationException(String additionalMessage) throws InstantiationException {
+		throw new InstantiationException(errorMessageAddon + ANLIN(additionalMessage));
 	}
 
 	/**
@@ -852,8 +801,7 @@ public abstract class BSP {
 	 * 
 	 * @throws InterruptedException
 	 */
-	public static final void throwInterruptedException()
-			throws InterruptedException {
+	public static final void throwInterruptedException() throws InterruptedException {
 		throwInterruptedException("");
 	}
 
@@ -864,10 +812,8 @@ public abstract class BSP {
 	 *            a additional message added after the addon
 	 * @throws InterruptedException
 	 */
-	public static final void throwInterruptedException(String additionalMessage)
-			throws InterruptedException {
-		throw new InterruptedException(errorMessageAddon
-				+ ANLIN(additionalMessage));
+	public static final void throwInterruptedException(String additionalMessage) throws InterruptedException {
+		throw new InterruptedException(errorMessageAddon + ANLIN(additionalMessage));
 	}
 
 	/**
@@ -883,10 +829,8 @@ public abstract class BSP {
 	 * @param additionalMessage
 	 *            a additional message added after the addon
 	 */
-	public static final void throwNegativeArraySizeException(
-			String additionalMessage) {
-		throw new NegativeArraySizeException(errorMessageAddon
-				+ ANLIN(additionalMessage));
+	public static final void throwNegativeArraySizeException(String additionalMessage) {
+		throw new NegativeArraySizeException(errorMessageAddon + ANLIN(additionalMessage));
 	}
 
 	/**
@@ -894,8 +838,7 @@ public abstract class BSP {
 	 * 
 	 * @throws NoSuchMethodException
 	 */
-	public static final void throwNoSuchMethodException()
-			throws NoSuchMethodException {
+	public static final void throwNoSuchMethodException() throws NoSuchMethodException {
 		throwNoSuchMethodException("");
 	}
 
@@ -906,10 +849,8 @@ public abstract class BSP {
 	 *            a additional message added after the addon
 	 * @throws NoSuchMethodException
 	 */
-	public static final void throwNoSuchMethodException(String additionalMessage)
-			throws NoSuchMethodException {
-		throw new NoSuchMethodException(errorMessageAddon
-				+ ANLIN(additionalMessage));
+	public static final void throwNoSuchMethodException(String additionalMessage) throws NoSuchMethodException {
+		throw new NoSuchMethodException(errorMessageAddon + ANLIN(additionalMessage));
 	}
 
 	/**
@@ -926,8 +867,7 @@ public abstract class BSP {
 	 *            a additional message added after the addon
 	 */
 	public static final void throwNullPointerException(String additionalMessage) {
-		throw new NullPointerException(errorMessageAddon
-				+ ANLIN(additionalMessage));
+		throw new NullPointerException(errorMessageAddon + ANLIN(additionalMessage));
 	}
 
 	/**
@@ -944,8 +884,7 @@ public abstract class BSP {
 	 *            a additional message added after the addon
 	 */
 	public static final void throwNumberFormatException(String additionalMessage) {
-		throw new NumberFormatException(errorMessageAddon
-				+ ANLIN(additionalMessage));
+		throw new NumberFormatException(errorMessageAddon + ANLIN(additionalMessage));
 	}
 
 	/**
@@ -979,8 +918,7 @@ public abstract class BSP {
 	 *            a additional message added after the addon
 	 */
 	public static final void throwSecurityException(String additionalMessage) {
-		throw new SecurityException(errorMessageAddon
-				+ ANLIN(additionalMessage));
+		throw new SecurityException(errorMessageAddon + ANLIN(additionalMessage));
 	}
 
 	/**
@@ -996,10 +934,8 @@ public abstract class BSP {
 	 * @param additionalMessage
 	 *            a additional message added after the addon
 	 */
-	public static final void throwStringIndexOutOfBoundsException(
-			String additionalMessage) {
-		throw new StringIndexOutOfBoundsException(errorMessageAddon
-				+ ANLIN(additionalMessage));
+	public static final void throwStringIndexOutOfBoundsException(String additionalMessage) {
+		throw new StringIndexOutOfBoundsException(errorMessageAddon + ANLIN(additionalMessage));
 	}
 
 	/**
@@ -1018,8 +954,7 @@ public abstract class BSP {
 	 *            a additional message added after the addon
 	 * @throws Throwable
 	 */
-	public static final void throwThrowable(String additionalMessage)
-			throws Throwable {
+	public static final void throwThrowable(String additionalMessage) throws Throwable {
 		throw new Throwable(errorMessageAddon + ANLIN(additionalMessage));
 	}
 
@@ -1059,8 +994,7 @@ public abstract class BSP {
 	 * @return Return whether the log was logged or not
 	 * @see {@link BSP#printException(Level level, Throwable ex, String additionalMessage)}
 	 */
-	public static final boolean traceException(Throwable ex,
-			String additionalMessage) {
+	public static final boolean traceException(Throwable ex, String additionalMessage) {
 		return logException(Level.TRACE, ex, additionalMessage);
 	}
 
@@ -1088,8 +1022,7 @@ public abstract class BSP {
 	 * @return Return whether the log was logged or not
 	 * @see {@link BSP#printException_noAddon(Level level, Throwable ex, String additionalMessage)}
 	 */
-	public static final boolean traceException_noAddon(Throwable ex,
-			String additionalMessage) {
+	public static final boolean traceException_noAddon(Throwable ex, String additionalMessage) {
 		return logException_noAddon(Level.TRACE, ex, additionalMessage);
 	}
 
@@ -1129,8 +1062,7 @@ public abstract class BSP {
 	 * @return Return whether the log was logged or not
 	 * @see {@link BSP#printException(Level level, Throwable ex, String additionalMessage)}
 	 */
-	public static final boolean warnException(Throwable ex,
-			String additionalMessage) {
+	public static final boolean warnException(Throwable ex, String additionalMessage) {
 		return logException(Level.WARN, ex, additionalMessage);
 	}
 
@@ -1158,8 +1090,7 @@ public abstract class BSP {
 	 * @return Return whether the log was logged or not
 	 * @see {@link BSP#printException_noAddon(Level level, Throwable ex, String additionalMessage)}
 	 */
-	public static final boolean warnException_noAddon(Throwable ex,
-			String additionalMessage) {
+	public static final boolean warnException_noAddon(Throwable ex, String additionalMessage) {
 		return logException_noAddon(Level.WARN, ex, additionalMessage);
 	}
 }

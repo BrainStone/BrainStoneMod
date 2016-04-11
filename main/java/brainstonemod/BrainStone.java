@@ -7,8 +7,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.security.MessageDigest;
@@ -20,10 +23,12 @@ import java.util.Set;
 
 import javax.xml.bind.DatatypeConverter;
 
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.Logger;
 
 import brainstonemod.client.gui.helper.BrainStoneModCreativeTab;
 import brainstonemod.common.CommonProxy;
+import brainstonemod.common.api.Modules;
 import brainstonemod.common.api.cofh.mfr.MFRBrainstoneConfig;
 import brainstonemod.common.api.enderio.EnderIORecipies;
 import brainstonemod.common.api.tconstruct.TinkersContructMaterialBrainStone;
@@ -40,6 +45,7 @@ import brainstonemod.common.handler.BrainStoneGuiHandler;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.helper.BrainStoneClassFinder;
 import brainstonemod.common.helper.BrainStoneLiveCapacitorUpgrade;
+import brainstonemod.common.helper.Module;
 import brainstonemod.common.item.ItemArmorBrainStone;
 import brainstonemod.common.item.ItemBrainStoneLiveCapacitor;
 import brainstonemod.common.item.ItemEssenceOfLive;
@@ -56,7 +62,6 @@ import brainstonemod.network.BrainStonePacketHelper;
 import brainstonemod.network.BrainStonePacketPipeline;
 import brainstonemod.network.packet.BrainStoneLiveCapacitorMap;
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -117,8 +122,9 @@ public class BrainStone {
 	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
 	public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.51.543 BETA DEV";
+	public static final String VERSION = "v2.52.87 BETA";
 	public static final String DEPENDENCIES = "after:EnderIO;after:MineFactoryReloaded;after:Thaumcraft;after:TConstruct";
+	public static final String BASE_URL = "http://download.brainstonemod.com/";
 
 	/** The instance of this mod */
 	@Instance(MOD_ID)
@@ -219,14 +225,24 @@ public class BrainStone {
 	 * 
 	 * @param event
 	 *            The MCForge PreInitializationEvent
+	 * @throws InvocationTargetException
+	 * @throws IllegalArgumentException
+	 * @throws IllegalAccessException
 	 */
 	@EventHandler
-	public void preInit(FMLPreInitializationEvent event) {
+	public void preInit(FMLPreInitializationEvent event)
+			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		BSP.setUpLogger((Logger) event.getModLog());
 		DEV_ENV = isDevEnv();
-		BSP.info(release, DEV, DEV_ENV);
+		BSP.debug("Is release version: " + release, "Is DEV version: " + DEV, "Is DEV environment: " + DEV_ENV);
 
-		VALID_JAR = DEV_ENV || ((!release && !DEV) || validateJarFile());
+		boolean dontCheckJar = DEV_ENV || (!release && !DEV);
+		VALID_JAR = dontCheckJar || validateJarFile();
+
+		BSP.log(VALID_JAR ? Level.INFO : Level.WARN, "Jar is " + (VALID_JAR ? "" : "not ") + "valid!",
+				"Did " + (dontCheckJar ? "not " : "") + "check jar!");
+
+		checkForModules();
 
 		packetPipeline = new BrainStonePacketPipeline();
 
@@ -294,19 +310,19 @@ public class BrainStone {
 		// Post initializing the pipeline
 		packetPipeline.postInitialise();
 
-		if (Loader.isModLoaded("Thaumcraft")) {
+		if (Modules.thaumcraft()) {
 			AspectCreator.initAspects();
 		}
 
-		if (Loader.isModLoaded("MineFactoryReloaded")) {
-			MFRBrainstoneConfig.registerMFRItems();
+		if (Modules.MFR()) {
+			MFRBrainstoneConfig.registerMFRProperties();
 		}
 
-		if (Loader.isModLoaded("EnderIO")) {
+		if (Modules.enderIO()) {
 			EnderIORecipies.registerEnderIORecipies();
 		}
 
-		if (Loader.isModLoaded("TConstruct")) {
+		if (Modules.tinkersConstruct()) {
 			TinkersContructMaterialBrainStone.initToolMaterials();
 		}
 	}
@@ -450,9 +466,7 @@ public class BrainStone {
 
 	private static boolean validateJarFile() {
 		try {
-			final String hash_online = get_content(new URL(
-					"http://download.brainstonemod.tk/" + VERSION.substring(1).replace(" BETA ", "_") + "/sha512.hash")
-							.openConnection());
+			final String hash_online = get_content(VERSION.substring(1).replace(" BETA ", "_") + "/sha512.hash");
 			final String jarHash = getJarHash();
 
 			BSP.info("Jar Hash: " + jarHash, "Online Hash: " + hash_online);
@@ -465,6 +479,23 @@ public class BrainStone {
 		}
 
 		return true;
+	}
+
+	private static void checkForModules()
+			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		BSP.info("Checking available modules:");
+
+		for (Method method : Modules.class.getMethods()) {
+			Module module = method.getAnnotation(Module.class);
+
+			if (module != null) {
+				if ((Boolean) method.invoke(null)) {
+					BSP.info("\t" + module.value());
+				}
+			}
+		}
+
+		BSP.debug("Finished checking available modules!");
 	}
 
 	private static String getJarHash() {
@@ -558,12 +589,11 @@ public class BrainStone {
 	 */
 	private static void retriveCurrentVersions() {
 		try {
-			releaseVersion = get_content(new URL("http://download.brainstonemod.tk/release/.version").openConnection());
+			releaseVersion = get_content("release/.version");
 
-			recommendedVersion = get_content(
-					new URL("http://download.brainstonemod.tk/recommended/.version").openConnection());
+			recommendedVersion = get_content("recommended/.version");
 
-			latestVersion = get_content(new URL("http://download.brainstonemod.tk/latest/.version").openConnection());
+			latestVersion = get_content("latest/.version");
 
 		} catch (final MalformedURLException e) {
 			BSP.warnException_noAddon(e, "The Versions will be empty. No internet connection!");
@@ -581,18 +611,28 @@ public class BrainStone {
 	}
 
 	// DOCME
-	private static String get_content(URLConnection con) throws IOException {
+	private static String get_content(String url) throws IOException {
 		String output = "";
 
-		if (con != null) {
-			final BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+		try {
+			URLConnection con = new URL(BASE_URL + url).openConnection();
 
-			String input;
+			if (con != null) {
+				con.setConnectTimeout(500);
+				con.setReadTimeout(500);
+				con.connect();
 
-			while ((input = br.readLine()) != null) {
-				output = output + input;
+				final BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+				String input;
+
+				while ((input = br.readLine()) != null) {
+					output = output + input;
+				}
+				br.close();
 			}
-			br.close();
+		} catch (SocketTimeoutException e) {
+			BSP.warnException_noAddon(e);
 		}
 
 		return output;
@@ -706,21 +746,29 @@ public class BrainStone {
 		GameRegistry.addRecipe(new ItemStack(stablePulsatingBrainStoneBoots(), 1), "B B", "B B", 'B',
 				stablePulsatingBrainStone());
 
-		GameRegistry.addRecipe(new BrainStoneLiveCapacitorUpgrade(BrainStoneLiveCapacitorUpgrade.Upgrade.CAPACITY));
-		GameRegistry.addRecipe(new BrainStoneLiveCapacitorUpgrade(BrainStoneLiveCapacitorUpgrade.Upgrade.CHARGING));
+		if (Modules.tinkersConstruct()) {
+			GameRegistry.addShapelessRecipe(new ItemStack(TinkerArmor.heartCanister, 1, 5),
+					new ItemStack(pulsatingBrainStone(), 1), new ItemStack(essenceOfLive(), 1),
+					new ItemStack(TinkerArmor.heartCanister, 1, 3));
+			GameRegistry.addShapelessRecipe(new ItemStack(TinkerArmor.heartCanister, 1, 6),
+					new ItemStack(TinkerArmor.heartCanister, 1, 4), new ItemStack(TinkerArmor.heartCanister, 1, 5),
+					new ItemStack(pulsatingBrainStone(), 1), new ItemStack(essenceOfLive(), 1),
+					new ItemStack(TinkerArmor.diamondApple, 1), new ItemStack(Items.golden_apple, 1, 1));
+		}
 
-		GameRegistry.addShapelessRecipe(new ItemStack(TinkerArmor.heartCanister, 1, 5),
-				new ItemStack(pulsatingBrainStone(), 1), new ItemStack(essenceOfLive(), 1),
-				new ItemStack(TinkerArmor.heartCanister, 1, 3));
-		GameRegistry.addShapelessRecipe(new ItemStack(TinkerArmor.heartCanister, 1, 6),
-				new ItemStack(TinkerArmor.heartCanister, 1, 4), new ItemStack(TinkerArmor.heartCanister, 1, 5),
-				new ItemStack(pulsatingBrainStone(), 1), new ItemStack(essenceOfLive(), 1),
-				new ItemStack(TinkerArmor.diamondApple, 1), new ItemStack(Items.golden_apple, 1, 1));
+		if (Modules.energy()) {
+			GameRegistry.addRecipe(new BrainStoneLiveCapacitorUpgrade(BrainStoneLiveCapacitorUpgrade.Upgrade.CAPACITY));
+			GameRegistry.addRecipe(new BrainStoneLiveCapacitorUpgrade(BrainStoneLiveCapacitorUpgrade.Upgrade.CHARGING));
 
-		GameRegistry.addRecipe(new ItemStack(brainStoneLiveCapacitor(), 1), "SBX", "CHC", " P ", 'S',
-				new ItemStack(EnderIO.itemFrankenSkull, 1, 4), 'B', brainProcessor(), 'X', EnderIO.itemXpTransfer, 'C',
-				new ItemStack(EnderIO.itemBasicCapacitor, 1, 2), 'H', new ItemStack(TinkerArmor.heartCanister, 1, 6),
-				'P', stablePulsatingBrainStonePlate());
+			Object craftingX = (Modules.enderIO()) ? EnderIO.itemXpTransfer : Items.blaze_rod;
+			Object craftingC = (Modules.enderIO()) ? new ItemStack(EnderIO.itemBasicCapacitor, 1, 2) : Items.redstone;
+			Object craftingH = (Modules.tinkersConstruct()) ? new ItemStack(TinkerArmor.heartCanister, 1, 6)
+					: new ItemStack(Items.golden_apple, 1, 1);
+
+			GameRegistry.addRecipe(new ItemStack(brainStoneLiveCapacitor(), 1), "SBX", "CHC", " P ", 'S',
+					new ItemStack(EnderIO.itemFrankenSkull, 1, 4), 'B', brainProcessor(), 'X', craftingX, 'C',
+					craftingC, 'H', craftingH, 'P', stablePulsatingBrainStonePlate());
+		}
 	}
 
 	/**
@@ -831,7 +879,9 @@ public class BrainStone {
 		items.put("stablePulsatingBrainStoneBoots",
 				new ItemArmorBrainStone(armorSTABLEPULSATINGBS, armorSTABLEPULSATINGBS_RenderIndex, 3));
 
-		items.put("brainStoneLiveCapacitor", (new ItemBrainStoneLiveCapacitor()));
+		if (Modules.energy()) {
+			items.put("brainStoneLiveCapacitor", (new ItemBrainStoneLiveCapacitor()));
+		}
 	}
 
 	private static void generateAchievements() {
