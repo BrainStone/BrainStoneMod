@@ -30,7 +30,9 @@ import brainstonemod.client.gui.helper.BrainStoneModCreativeTab;
 import brainstonemod.common.CommonProxy;
 import brainstonemod.common.api.Modules;
 import brainstonemod.common.api.cofh.mfr.MFRBrainstoneConfig;
+import brainstonemod.common.api.enderio.EnderIOItems;
 import brainstonemod.common.api.enderio.EnderIORecipies;
+import brainstonemod.common.api.tconstruct.TinkersConstructItems;
 import brainstonemod.common.api.tconstruct.TinkersContructMaterialBrainStone;
 import brainstonemod.common.api.thaumcraft.AspectCreator;
 import brainstonemod.common.block.BlockBrainLightSensor;
@@ -77,7 +79,6 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.CoreModManager;
 import cpw.mods.fml.relauncher.Side;
-import crazypants.enderio.EnderIO;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.command.ICommandSender;
@@ -122,7 +123,7 @@ public class BrainStone {
 	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
 	public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.52.87 BETA";
+	public static final String VERSION = "v2.52.97 BETA";
 	public static final String DEPENDENCIES = "after:EnderIO;after:MineFactoryReloaded;after:Thaumcraft;after:TConstruct";
 	public static final String BASE_URL = "http://download.brainstonemod.com/";
 
@@ -760,14 +761,15 @@ public class BrainStone {
 			GameRegistry.addRecipe(new BrainStoneLiveCapacitorUpgrade(BrainStoneLiveCapacitorUpgrade.Upgrade.CAPACITY));
 			GameRegistry.addRecipe(new BrainStoneLiveCapacitorUpgrade(BrainStoneLiveCapacitorUpgrade.Upgrade.CHARGING));
 
-			Object craftingX = (Modules.enderIO()) ? EnderIO.itemXpTransfer : Items.blaze_rod;
-			Object craftingC = (Modules.enderIO()) ? new ItemStack(EnderIO.itemBasicCapacitor, 1, 2) : Items.redstone;
-			Object craftingH = (Modules.tinkersConstruct()) ? new ItemStack(TinkerArmor.heartCanister, 1, 6)
+			Object craftingS = (Modules.enderIO()) ? EnderIOItems.getSentientEnder() : new ItemStack(Items.skull, 1, 1);
+			Object craftingX = (Modules.enderIO()) ? EnderIOItems.getXPRod() : Items.blaze_rod;
+			Object craftingC = (Modules.enderIO()) ? EnderIOItems.getOctadicCapacitor() : Items.redstone;
+			Object craftingH = (Modules.tinkersConstruct()) ? TinkersConstructItems.getGreenHeartCanister()
 					: new ItemStack(Items.golden_apple, 1, 1);
 
-			GameRegistry.addRecipe(new ItemStack(brainStoneLiveCapacitor(), 1), "SBX", "CHC", " P ", 'S',
-					new ItemStack(EnderIO.itemFrankenSkull, 1, 4), 'B', brainProcessor(), 'X', craftingX, 'C',
-					craftingC, 'H', craftingH, 'P', stablePulsatingBrainStonePlate());
+			GameRegistry.addRecipe(new ItemStack(brainStoneLiveCapacitor(), 1), "SBX", "CHC", " P ", 'S', craftingS,
+					'B', brainProcessor(), 'X', craftingX, 'C', craftingC, 'H', craftingH, 'P',
+					stablePulsatingBrainStonePlate());
 		}
 	}
 
