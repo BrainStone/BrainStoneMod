@@ -7,18 +7,28 @@ public final class Modules {
 	private Modules() {
 	}
 
+	private static Boolean BAUBLES;
 	private static Boolean ENDER_IO;
 	private static Boolean ENERGY;
 	private static Boolean MFR;
 	private static Boolean THAUMCRAFT;
 	private static Boolean TINKERS_CONSTRUCT;
 
+	@Module("Detected BaublesAPI! Enabling brainStoneLiveCapacitor in the BELT slot.")
+	public static boolean baubles() {
+		if (BAUBLES == null) {
+			BAUBLES = isClassAvailable("baubles.api.BaublesApi");
+		}
+
+		return BAUBLES;
+	}
+
 	@Module("Detected EnderIO! Enabling recipes and armor upgrade.")
 	public static boolean enderIO() {
 		if (ENDER_IO == null) {
 			ENDER_IO = Loader.isModLoaded("EnderIO");
 		}
-	
+
 		return ENDER_IO;
 	}
 
@@ -36,7 +46,7 @@ public final class Modules {
 		if (MFR == null) {
 			MFR = Loader.isModLoaded("MineFactoryReloaded");
 		}
-	
+
 		return MFR;
 	}
 

@@ -235,10 +235,12 @@ public class BrainStoneEventHandler {
 		if (capacitorUUID == null)
 			return null;
 
-		ItemStack bStack = BaublesApi.getBaubles(player).getStackInSlot(3);
+		if (Modules.baubles()) {
+			ItemStack bStack = BaublesApi.getBaubles(player).getStackInSlot(3);
 
-		if (checkStack(bStack, capacitorUUID)) {
-			return bStack;
+			if (checkStack(bStack, capacitorUUID)) {
+				return bStack;
+			}
 		}
 
 		for (ItemStack stack : player.inventory.mainInventory) {
