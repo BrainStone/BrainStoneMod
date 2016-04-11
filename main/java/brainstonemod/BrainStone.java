@@ -123,7 +123,7 @@ public class BrainStone {
 	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
 	public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.52.100 BETA";
+	public static final String VERSION = "v2.52.101 BETA";
 	public static final String DEPENDENCIES = "after:EnderIO;after:MineFactoryReloaded;after:Thaumcraft;after:TConstruct";
 	public static final String BASE_URL = "http://download.brainstonemod.com/";
 
@@ -339,7 +339,9 @@ public class BrainStone {
 	public void onServerStarting(FMLServerStartingEvent event) {
 		fillTriggerEntities();
 
-		brainStoneLiveCapacitor().newPlayerCapacitorMapping(DimensionManager.getCurrentSaveRootDirectory());
+		if (Modules.energy()) {
+			brainStoneLiveCapacitor().newPlayerCapacitorMapping(DimensionManager.getCurrentSaveRootDirectory());
+		}
 	}
 
 	/**
