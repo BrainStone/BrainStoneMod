@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -45,7 +46,12 @@ import net.minecraftforge.common.util.Constants.NBT;
 @Optional.Interface(iface = "baubles.api.IBauble", modid = "Baubles|API")
 public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements IEnergyContainerItem, IBauble {
 	public static final int MaxDamage = 32;
-	public static final int RFperHalfHeart = 1000000;
+	public static final long RFperHalfHeart = 1000000;
+	/**
+	 * The maximum level for any type. The real limit should be somewhere around
+	 * 400 000
+	 */
+	public static final int MaxLevel = 100000;
 	private PlayerCapacitorMapping PCmapping;
 
 	public ItemBrainStoneLiveCapacitor() {
@@ -69,7 +75,8 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean hasEffect(ItemStack container, int pass) {
-		return (getEnergyStored(container) >= RFperHalfHeart) && (PCmapping.getPlayerUUID(getUUID(container)) != null);
+		return (getEnergyStoredLong(container) >= RFperHalfHeart)
+				&& (PCmapping.getPlayerUUID(getUUID(container)) != null);
 	}
 
 	@Override
@@ -92,7 +99,7 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 			is = new ItemStack(this);
 			setCapacityLevel(is, i);
 			setChargingLevel(is, i);
-			setEnergyStored(is, getMaxEnergyStored(is));
+			setEnergyStored(is, getMaxEnergyStoredLong(is));
 			list.add(is);
 		}
 	}
@@ -113,7 +120,7 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 					+ PowerDisplayUtil.abrevation() + "/" + EnumChatFormatting.DARK_RED + "\u2764");
 			list.add("Capacity Level: " + EnumChatFormatting.GOLD + EnumChatFormatting.BOLD
 					+ String.valueOf(getCapacityLevel(container)) + EnumChatFormatting.RESET + EnumChatFormatting.GRAY
-					+ " (" + PowerDisplayUtil.formatPower(getMaxEnergyStored(container)) + " "
+					+ " (" + PowerDisplayUtil.formatPower(getMaxEnergyStoredLong(container)) + " "
 					+ PowerDisplayUtil.abrevation() + " " + EnumChatFormatting.DARK_RED
 					+ ((getCapacityLevel(container) + 1) * 5) + "\u2764" + EnumChatFormatting.GRAY + ")");
 			list.add("Charging Level: " + EnumChatFormatting.GOLD + EnumChatFormatting.BOLD
@@ -128,14 +135,15 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 					+ EnumChatFormatting.RESET + EnumChatFormatting.GRAY + " for details");
 		}
 
-		list.add(PowerDisplayUtil.formatPower(getEnergyStored(container)) + "/"
-				+ PowerDisplayUtil.formatPower(getMaxEnergyStored(container)) + " " + PowerDisplayUtil.abrevation());
+		list.add(PowerDisplayUtil.formatPower(getEnergyStoredLong(container)) + "/"
+				+ PowerDisplayUtil.formatPower(getMaxEnergyStoredLong(container)) + " "
+				+ PowerDisplayUtil.abrevation());
 	}
 
 	@Override
 	public void onCreated(ItemStack container, World world, EntityPlayer entityPlayer) {
 		// Init NBT if new and keep old NBT
-		getEnergyStored(container);
+		getEnergyStoredLong(container);
 		getCapacityLevel(container);
 		getChargingLevel(container);
 		createUUID(container);
@@ -176,7 +184,7 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 	}
 
 	public void healPlayer(ItemStack container, EntityPlayer player) {
-		if (getEnergyStored(container) < RFperHalfHeart)
+		if (getEnergyStoredLong(container) < RFperHalfHeart)
 			return;
 
 		double heal = Math.floor(player.getMaxHealth() - player.getHealth());
@@ -188,7 +196,7 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 	}
 
 	public int getCapacityLevel(ItemStack container) {
-		if (container.stackTagCompound == null || !container.stackTagCompound.hasKey("LevelCapacity")) {
+		if ((container.stackTagCompound == null) || !container.stackTagCompound.hasKey("LevelCapacity")) {
 			setCapacityLevel(container, 1);
 		}
 
@@ -199,17 +207,16 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 		final int capacity = getCapacityLevel(container);
 		final int charging = getChargingLevel(container);
 
-		if (capacity <= (charging * 2)) {
+		if ((capacity <= (charging * 2)) && (capacity < MaxLevel)) {
 			setCapacityLevel(container, capacity + 1);
 
 			return container;
-		} else {
+		} else
 			return null;
-		}
 	}
 
 	public int getChargingLevel(ItemStack container) {
-		if (container.stackTagCompound == null || !container.stackTagCompound.hasKey("LevelCharging")) {
+		if ((container.stackTagCompound == null) || !container.stackTagCompound.hasKey("LevelCharging")) {
 			setChargingLevel(container, 1);
 		}
 
@@ -220,27 +227,34 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 		final int capacity = getCapacityLevel(container);
 		final int charging = getChargingLevel(container);
 
-		if (charging <= (capacity * 2)) {
+		if ((charging <= (capacity * 2)) && (charging < MaxLevel)) {
 			setChargingLevel(container, charging + 1);
 
 			return container;
-		} else {
+		} else
 			return null;
-		}
 	}
 
 	@Override
 	public int getEnergyStored(ItemStack container) {
-		if (container.stackTagCompound == null || !container.stackTagCompound.hasKey("Energy")) {
-			setEnergyStored(container, 0);
-		}
+		long energyStored = getEnergyStoredLong(container);
+		long maxEnergyStored = getMaxEnergyStoredLong(container);
 
-		return container.stackTagCompound.getInteger("Energy");
+		if (maxEnergyStored > Integer.MAX_VALUE)
+			return BigInteger.valueOf(energyStored).multiply(BigInteger.valueOf(Integer.MAX_VALUE))
+					.divide(BigInteger.valueOf(maxEnergyStored)).intValue();
+		else
+			return (int) energyStored;
 	}
 
 	@Override
 	public int getMaxEnergyStored(ItemStack container) {
-		return (getCapacityLevel(container) + 1) * 10 * RFperHalfHeart;
+		long maxEnergyStored = getMaxEnergyStoredLong(container);
+
+		if (maxEnergyStored > Integer.MAX_VALUE)
+			return Integer.MAX_VALUE;
+		else
+			return (int) maxEnergyStored;
 	}
 
 	@Override
@@ -250,7 +264,7 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 		}
 
 		int energy = container.stackTagCompound.getInteger("Energy");
-		int energyReceived = Math.min(getMaxEnergyStored(container) - energy,
+		int energyReceived = Math.min((int) (getMaxEnergyStoredLong(container) - energy),
 				Math.min(getMaxRecieve(container), maxReceive));
 
 		if (!simulate) {
@@ -268,8 +282,20 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 		return 0;
 	}
 
+	public long getEnergyStoredLong(ItemStack container) {
+		if ((container.stackTagCompound == null) || !container.stackTagCompound.hasKey("Energy")) {
+			setEnergyStored(container, 0L);
+		}
+
+		return container.stackTagCompound.getLong("Energy");
+	}
+
+	public long getMaxEnergyStoredLong(ItemStack container) {
+		return (getCapacityLevel(container) + 1) * 10 * RFperHalfHeart;
+	}
+
 	public UUID getUUID(ItemStack container) {
-		if (container.stackTagCompound == null || !container.stackTagCompound.hasKey("UUID")) {
+		if ((container.stackTagCompound == null) || !container.stackTagCompound.hasKey("UUID")) {
 			createUUID(container);
 		}
 
@@ -285,9 +311,8 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 	}
 
 	private int extractEnergyIntern(ItemStack container, int maxExtract, boolean simulate) {
-		if (container.stackTagCompound == null || !container.stackTagCompound.hasKey("Energy")) {
+		if ((container.stackTagCompound == null) || !container.stackTagCompound.hasKey("Energy"))
 			return 0;
-		}
 
 		int energy = container.stackTagCompound.getInteger("Energy");
 		int energyExtracted = Math.min(energy, maxExtract);
@@ -303,7 +328,7 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 	}
 
 	private void updateDamage(ItemStack container) {
-		float r = (float) getEnergyStored(container) / getMaxEnergyStored(container);
+		float r = (float) getEnergyStoredLong(container) / getMaxEnergyStoredLong(container);
 		int res = MaxDamage - (int) (r * MaxDamage);
 
 		container.setItemDamage(res);
@@ -328,15 +353,15 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 	}
 
 	private int getMaxRecieve(ItemStack container) {
-		return (getChargingLevel(container) + 1) * RFperHalfHeart / 200;
+		return ((getChargingLevel(container) + 1) * (int) RFperHalfHeart) / 200;
 	}
 
-	private void setEnergyStored(ItemStack container, int energy) {
+	private void setEnergyStored(ItemStack container, long energy) {
 		if (container.stackTagCompound == null) {
 			container.stackTagCompound = new NBTTagCompound();
 		}
 
-		container.stackTagCompound.setInteger("Energy", energy);
+		container.stackTagCompound.setLong("Energy", energy);
 
 		updateDamage(container);
 	}
@@ -378,8 +403,9 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 
 		List<UUID> out = new ArrayList<UUID>(size);
 
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < size; i++) {
 			out.add(UUID.fromString(tagList.getStringTagAt(i)));
+		}
 
 		return out;
 	}
@@ -528,8 +554,9 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 			String player = playerUUID.toString();
 			NBTTagCompound playerNameCache = map.getCompoundTag("playerNameCache");
 
-			if (force || playerNameCache.hasKey(player))
+			if (force || playerNameCache.hasKey(player)) {
 				playerNameCache.setString(player, UsernameCache.getLastKnownUsername(playerUUID));
+			}
 		}
 
 		public UUID getPlayerUUID(UUID capacitorUUID) {
@@ -539,9 +566,8 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 
 			NBTTagCompound capacitorToPlayer = map.getCompoundTag("capacitorToPlayer");
 
-			if (!capacitorToPlayer.hasKey(capacitorUUID.toString())) {
+			if (!capacitorToPlayer.hasKey(capacitorUUID.toString()))
 				return null;
-			}
 
 			return UUID.fromString(capacitorToPlayer.getString(capacitorUUID.toString()));
 		}
@@ -559,9 +585,8 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 			String player = (playerUUID == null) ? "" : playerUUID.toString();
 			NBTTagCompound playerNameCache = map.getCompoundTag("playerNameCache");
 
-			if (!playerNameCache.hasKey(player)) {
+			if (!playerNameCache.hasKey(player))
 				return (colorCode ? (EnumChatFormatting.DARK_AQUA + "" + EnumChatFormatting.ITALIC) : "") + "<Nobody>";
-			}
 
 			return (colorCode ? EnumChatFormatting.AQUA : "") + playerNameCache.getString(player);
 		}
@@ -573,9 +598,8 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 
 			NBTTagCompound playerToCapacitor = map.getCompoundTag("playerToCapacitor");
 
-			if (!playerToCapacitor.hasKey(playerUUID.toString())) {
+			if (!playerToCapacitor.hasKey(playerUUID.toString()))
 				return null;
-			}
 
 			return UUID.fromString(playerToCapacitor.getString(playerUUID.toString()));
 		}

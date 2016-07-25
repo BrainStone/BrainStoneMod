@@ -123,9 +123,9 @@ public class BrainStone {
 	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
 	public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v2.52.145 BETA";
+	public static final String VERSION = "v2.52.156 BETA DEV";
 	public static final String DEPENDENCIES = "after:EnderIO;after:MineFactoryReloaded;after:Thaumcraft;after:TConstruct";
-	public static final String BASE_URL = "http://download.brainstonemod.com/";
+	public static final String BASE_URL = "https://download.brainstonemod.com/";
 
 	/** The instance of this mod */
 	@Instance(MOD_ID)
@@ -372,7 +372,7 @@ public class BrainStone {
 	public static void onPlayerJoinClient(EntityPlayer player, ClientConnectedToServerEvent event) {
 		if (!VALID_JAR) {
 			sendToPlayer(player,
-					"§4The .jar file of the BrainStoneMod appears to be corrupted\n§4or modified!\n§4Please DO NOT use it as it may cause harm to your computer!\n§eYou can download a fresh .jar file from here\n§1http://download.brainstonemod.tk §e!");
+					"§4The .jar file of the BrainStoneMod appears to be corrupted\n§4or modified!\n§4Please DO NOT use it as it may cause harm to your computer!\n§eYou can download a fresh .jar file from here\n§1https://download.brainstonemod.com §e!");
 		}
 
 		if (!latestVersion.equals("") && !recommendedVersion.equals("") && !releaseVersion.equals("")) {
@@ -381,7 +381,7 @@ public class BrainStone {
 				if (isHigherVersion(VERSION, releaseVersion)) {
 					sendToPlayer(player, "§a A new Version of the BSM is available!\n§l§c========== §4" + releaseVersion
 							+ "§c ==========\n"
-							+ "§1Download it at §ehttp://adf.ly/2002096/release§1\nor §ehttp://download.brainstonemod.tk §1!");
+							+ "§1Download it at §ehttp://adf.ly/2002096/release§1\nor §ehttps://download.brainstonemod.com §1!");
 				}
 
 				break;
@@ -389,11 +389,11 @@ public class BrainStone {
 				if (isHigherVersion(VERSION, releaseVersion) && !isHigherVersion(releaseVersion, recommendedVersion)) {
 					sendToPlayer(player, "§a A new Version of the BSM is available!\n§l§c========== §4" + releaseVersion
 							+ "§c ==========\n"
-							+ "§1Download it at §ehttp://adf.ly/2002096/release§1\nor §ehttp://download.brainstonemod.tk §1!");
+							+ "§1Download it at §ehttp://adf.ly/2002096/release§1\nor §ehttps://download.brainstonemod.com §1!");
 				} else if (isHigherVersion(VERSION, recommendedVersion)) {
 					sendToPlayer(player, "§a A new recommended DEV Version of the BSM is available!\n§l§c========== §4"
 							+ recommendedVersion + "§c ==========\n"
-							+ "§1Download it at §ehttp://adf.ly/2002096/recommended§1\nor §ehttp://download.brainstonemod.tk §1!");
+							+ "§1Download it at §ehttp://adf.ly/2002096/recommended§1\nor §ehttps://download.brainstonemod.com §1!");
 				}
 
 				break;
@@ -402,16 +402,16 @@ public class BrainStone {
 						&& !isHigherVersion(releaseVersion, latestVersion)) {
 					sendToPlayer(player, "§a A new Version of the BSM is available!\n§l§c========== §4" + releaseVersion
 							+ "§c ==========\n"
-							+ "§1Download it at §ehttp://adf.ly/2002096/release§1\nor §ehttp://download.brainstonemod.tk §1!");
+							+ "§1Download it at §ehttp://adf.ly/2002096/release§1\nor §ehttps://download.brainstonemod.com §1!");
 				} else if (isHigherVersion(VERSION, recommendedVersion)
 						&& !isHigherVersion(recommendedVersion, latestVersion)) {
 					sendToPlayer(player, "§a A new recommended DEV Version of the BSM is available!\n§l§c========== §4"
 							+ recommendedVersion + "§c ==========\n"
-							+ "§1Download it at §ehttp://adf.ly/2002096/recommended§1\nor §ehttp://download.brainstonemod.tk §1!");
+							+ "§1Download it at §ehttp://adf.ly/2002096/recommended§1\nor §ehttps://download.brainstonemod.com §1!");
 				} else if (isHigherVersion(VERSION, latestVersion)) {
 					sendToPlayer(player, "§a A new DEV Version of the BSM is available!\n§l§c========== §4"
 							+ latestVersion + "§c ==========\n"
-							+ "§1Download it at §ehttp://adf.ly/2002096/latest§1\nor §ehttp://download.brainstonemod.tk §1!");
+							+ "§1Download it at §ehttp://adf.ly/2002096/latest§1\nor §ehttps://download.brainstonemod.com §1!");
 				}
 
 				break;
