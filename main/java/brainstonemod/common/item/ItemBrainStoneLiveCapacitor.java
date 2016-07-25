@@ -263,13 +263,13 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 			container.stackTagCompound = new NBTTagCompound();
 		}
 
-		int energy = container.stackTagCompound.getInteger("Energy");
-		int energyReceived = Math.min((int) (getMaxEnergyStoredLong(container) - energy),
+		long energy = container.stackTagCompound.getLong("Energy");
+		int energyReceived = (int) Math.min(getMaxEnergyStoredLong(container) - energy,
 				Math.min(getMaxRecieve(container), maxReceive));
 
 		if (!simulate) {
 			energy += energyReceived;
-			container.stackTagCompound.setInteger("Energy", energy);
+			container.stackTagCompound.setLong("Energy", energy);
 		}
 
 		updateDamage(container);
@@ -314,12 +314,12 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 		if ((container.stackTagCompound == null) || !container.stackTagCompound.hasKey("Energy"))
 			return 0;
 
-		int energy = container.stackTagCompound.getInteger("Energy");
-		int energyExtracted = Math.min(energy, maxExtract);
+		long energy = container.stackTagCompound.getLong("Energy");
+		int energyExtracted = (int) Math.min(energy, maxExtract);
 
 		if (!simulate) {
 			energy -= energyExtracted;
-			container.stackTagCompound.setInteger("Energy", energy);
+			container.stackTagCompound.setLong("Energy", energy);
 		}
 
 		updateDamage(container);
