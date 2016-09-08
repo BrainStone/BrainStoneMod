@@ -1,4 +1,27 @@
 #################
+## Gradle
+#################
+
+/build/
+/dist/
+/nbproject/
+build.xml
+manifest.mf
+/bin/
+.project
+log.txt
+.settings/org.eclipse.jdt.core.prefs
+**/bin
+**/build
+.gradle
+**/.project
+**/.classpath
+**/.factorypath
+**/.settings
+**/.apt_generated
+gradle-app.setting
+
+#################
 ## Eclipse
 #################
 
@@ -15,6 +38,7 @@ local.properties
 .classpath
 .settings/
 .loadpath
+/eclipse/
 
 # External tool builders
 .externalToolBuilders/
