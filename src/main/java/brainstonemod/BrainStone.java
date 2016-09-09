@@ -46,6 +46,7 @@ import brainstonemod.common.handler.BrainStoneEventHandler;
 import brainstonemod.common.handler.BrainStoneGuiHandler;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.helper.BrainStoneClassFinder;
+import brainstonemod.common.helper.BrainStoneJarUtils;
 import brainstonemod.common.helper.BrainStoneLiveCapacitorUpgrade;
 import brainstonemod.common.helper.Module;
 import brainstonemod.common.item.ItemArmorBrainStone;
@@ -102,6 +103,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
+import net.minecraft.launchwrapper.Launch;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.util.ChatComponentText;
@@ -234,14 +236,19 @@ public class BrainStone {
 	public void preInit(FMLPreInitializationEvent event)
 			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		BSP.setUpLogger((Logger) event.getModLog());
-		DEV_ENV = isDevEnv();
-		BSP.debug("Is release version: " + release, "Is DEV version: " + DEV, "Is DEV environment: " + DEV_ENV);
+		DEV_ENV = (Boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment");
+		BSP.info("Is release version: " + release, "Is DEV version: " + DEV, "Is DEV environment: " + DEV_ENV);
 
-		boolean dontCheckJar = DEV_ENV || (!release && !DEV);
-		VALID_JAR = dontCheckJar || validateJarFile();
+		try {
+			BrainStoneJarUtils.verifyJar();
+			VALID_JAR = true;
+		} catch (SecurityException e) {
+			BSP.warn(e.getMessage());
+			VALID_JAR = false;
+		}
 
 		BSP.log(VALID_JAR ? Level.INFO : Level.WARN, "Jar is " + (VALID_JAR ? "" : "not ") + "valid!",
-				"Did " + (dontCheckJar ? "not " : "") + "check jar!");
+				"Jar is " + (BrainStoneJarUtils.SIGNED_JAR ? "" : "not ") + "signed!");
 
 		checkForModules();
 
@@ -345,27 +352,6 @@ public class BrainStone {
 	}
 
 	/**
-	 * Disabeling the mod. Will unload and unregister everything registered
-	 * before
-	 * 
-	 * @param event
-	 *            The MCForge ModDisabledEvent
-	 */
-	@EventHandler
-	public void disableMod(FMLModDisabledEvent event) {
-		packetPipeline = null;
-
-		triggerEntities.clear();
-		blocks.clear();
-		items.clear();
-		achievements.clear();
-
-		// TODO What do we do here?
-
-		BSP.warn("This mod is not properly unloaded! There might be troubles!");
-	}
-
-	/**
 	 * This method is client side called when a player joins the game. Both for
 	 * a server or a single player world.
 	 */
@@ -443,47 +429,6 @@ public class BrainStone {
 
 		for (String line : lines)
 			((ICommandSender) player).addChatMessage(new ChatComponentText(line));
-	}
-
-	private static boolean isDevEnv() {
-		try {
-			final Field f = CoreModManager.class.getDeclaredField("deobfuscatedEnvironment");
-			final boolean accessible = f.isAccessible();
-			f.setAccessible(true);
-
-			final boolean ouput = f.getBoolean(null);
-
-			f.setAccessible(accessible);
-
-			return ouput;
-		} catch (final NoSuchFieldException e) {
-			BSP.warnException(e);
-		} catch (final SecurityException e) {
-			BSP.warnException(e);
-		} catch (final IllegalArgumentException e) {
-			BSP.warnException(e);
-		} catch (final IllegalAccessException e) {
-			BSP.warnException(e);
-		}
-
-		return false;
-	}
-
-	private static boolean validateJarFile() {
-		try {
-			final String hash_online = get_content(VERSION.substring(1).replace(" BETA ", "_") + "/sha512.hash");
-			final String jarHash = getJarHash();
-
-			BSP.info("Jar Hash: " + jarHash, "Online Hash: " + hash_online);
-
-			return hash_online.equalsIgnoreCase(jarHash);
-		} catch (final MalformedURLException e) {
-			BSP.infoException_noAddon(e);
-		} catch (final IOException e) {
-			BSP.infoException_noAddon(e);
-		}
-
-		return true;
 	}
 
 	private static void checkForModules()

@@ -23,12 +23,15 @@ buildscript {
             name = "sonatype"
             url = "https://oss.sonatype.org/content/repositories/snapshots/"
         }
+        jcenter()
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.13.0'
     }
 }
 
+apply plugin: 'com.github.ben-manes.versions'
 apply plugin: 'forge'
 
 ext.configFile = file "build.properties"
@@ -42,6 +45,8 @@ configFile.withReader {
 version = config.mod_version
 group = "brainstonemod" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "BrainStoneMod"
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
 
 minecraft {
     version = config.minecraft_version + "-" + config.forge_version
@@ -50,19 +55,7 @@ minecraft {
 }
 
 dependencies {
-    // you may put jars on which you depend on in ./libs
-    // or you may define them like so..
-    //compile "some.group:artifact:version:classifier"
-    //compile "some.group:artifact:version"
-      
-    // real examples
-    //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
-    //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
-
-    // for more info...
-    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
-    // http://www.gradle.org/docs/current/userguide/dependency_management.html
-
+    compile "org.projectlombok:lombok:1.16.10"
 }
 
 processResources
