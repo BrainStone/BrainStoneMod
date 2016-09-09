@@ -10,8 +10,8 @@ import brainstonemod.BrainStone;
 import brainstonemod.common.api.Modules;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.helper.BrainStoneDamageHelper;
-import brainstonemod.common.item.ItemBrainStoneLiveCapacitor;
-import brainstonemod.common.item.ItemBrainStoneLiveCapacitor.PlayerCapacitorMapping;
+import brainstonemod.common.item.ItemBrainStoneLifeCapacitor;
+import brainstonemod.common.item.ItemBrainStoneLifeCapacitor.PlayerCapacitorMapping;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.EventPriority;
@@ -228,7 +228,7 @@ public class BrainStoneEventHandler {
 	}
 
 	private static ItemStack getBrainStoneLiveCapacitor(EntityPlayer player) {
-		ItemBrainStoneLiveCapacitor capacitor = BrainStone.brainStoneLiveCapacitor();
+		ItemBrainStoneLifeCapacitor capacitor = BrainStone.brainStoneLiveCapacitor();
 		PlayerCapacitorMapping mapping = capacitor.getPlayerCapacitorMapping();
 		UUID capacitorUUID = mapping.getCapacitorUUID(player.getUniqueID());
 

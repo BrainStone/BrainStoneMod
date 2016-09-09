@@ -10,8 +10,8 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
-public class ItemEssenceOfLive extends ItemBrainStoneFood {
-	public ItemEssenceOfLive() {
+public class ItemEssenceOfLife extends ItemBrainStoneFood {
+	public ItemEssenceOfLife() {
 		super(20, 10.0F);
 
 		setAlwaysEdible();

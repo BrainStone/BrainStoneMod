@@ -20,7 +20,7 @@ item.brainStoneHelmet.name=Brain Stone Helmet
 item.brainStonePlate.name=Brain Stone Chestplate
 item.brainStoneLeggings.name=Brain Stone Leggings
 item.brainStoneBoots.name=Brain Stone Boots
-item.essenceOfLive.name=Essence of Live
+item.essenceOfLife.name=Essence of Life
 item.stablePulsatingBrainStoneSword.name=Stable Pulsating Brain Stone Sword
 item.stablePulsatingBrainStoneShovel.name=Stable Pulsating Brain Stone Shovel
 item.stablePulsatingBrainStonePickaxe.name=Stable Pulsating Brain Stone Pickaxe
@@ -30,7 +30,7 @@ item.stablePulsatingBrainStoneHelmet.name=Stable Pulsating Brain Stone Helmet
 item.stablePulsatingBrainStonePlate.name=Stable Pulsating Brain Stone Chestplate
 item.stablePulsatingBrainStoneLeggings.name=Stable Pulsating Brain Stone Leggings
 item.stablePulsatingBrainStoneBoots.name=Stable Pulsating Brain Stone Boots
-item.brainStoneLiveCapacitor.name=Brain Stone Life Capacitor
+item.brainStoneLifeCapacitor.name=Brain Stone Life Capacitor
 
 achievement.WTHIT=What the Hell is that???
 achievement.WTHIT.desc=You have to find a strange green powder.

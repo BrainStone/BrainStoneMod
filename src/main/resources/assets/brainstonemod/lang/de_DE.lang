@@ -20,7 +20,7 @@ item.brainStoneHelmet.name=Hirnsteinhelm
 item.brainStonePlate.name=Hirnsteinbrustplatte
 item.brainStoneLeggings.name=Hirnsteinhose
 item.brainStoneBoots.name=Hirsteinstiefel
-item.essenceOfLive.name=Essenz des Lebens
+item.essenceOfLife.name=Essenz des Lebens
 item.stablePulsatingBrainStoneSword.name=Stabiler Pulsierender Hirnsteinschwert
 item.stablePulsatingBrainStoneShovel.name=Stabiler Pulsierender Hirnsteinschaufel
 item.stablePulsatingBrainStonePickaxe.name=Stabiler Pulsierender Hirnsteinspitzhacke
@@ -30,7 +30,7 @@ item.stablePulsatingBrainStoneHelmet.name=Stabiler Pulsierender Hirnsteinhelm
 item.stablePulsatingBrainStonePlate.name=Stabiler Pulsierender Hirnsteinbrustplatte
 item.stablePulsatingBrainStoneLeggings.name=Stabiler Pulsierender Hirnsteinhose
 item.stablePulsatingBrainStoneBoots.name=Stabiler Pulsierender Hirsteinstiefel
-item.brainStoneLiveCapacitor.name=Hirnsteinlebenskondensator
+item.brainStoneLifeCapacitor.name=Hirnsteinlebenskondensator
 
 achievement.WTHIT=Was zur Hölle ist das???
 achievement.WTHIT.desc=Du must ein seltsames grünes Pulver finden.

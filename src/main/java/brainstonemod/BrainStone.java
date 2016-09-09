@@ -49,8 +49,8 @@ import brainstonemod.common.helper.BrainStoneClassFinder;
 import brainstonemod.common.helper.BrainStoneLiveCapacitorUpgrade;
 import brainstonemod.common.helper.Module;
 import brainstonemod.common.item.ItemArmorBrainStone;
-import brainstonemod.common.item.ItemBrainStoneLiveCapacitor;
-import brainstonemod.common.item.ItemEssenceOfLive;
+import brainstonemod.common.item.ItemBrainStoneLifeCapacitor;
+import brainstonemod.common.item.ItemEssenceOfLife;
 import brainstonemod.common.item.ItemHoeBrainStone;
 import brainstonemod.common.item.ItemSwordBrainStone;
 import brainstonemod.common.item.ItemToolBrainStone;
@@ -869,7 +869,7 @@ public class BrainStone {
 		items.put("brainStoneLeggings", new ItemArmorBrainStone(armorBRAINSTONE, armorBRAINSTONE_RenderIndex, 2));
 		items.put("brainStoneBoots", new ItemArmorBrainStone(armorBRAINSTONE, armorBRAINSTONE_RenderIndex, 3));
 
-		items.put("essenceOfLive", new ItemEssenceOfLive());
+		items.put("essenceOfLive", new ItemEssenceOfLife());
 
 		items.put("stablePulsatingBrainStoneSword", new ItemSwordBrainStone(toolSTABLEPULSATINGBS));
 		items.put("stablePulsatingBrainStoneShovel", new ItemToolBrainStone(toolSTABLEPULSATINGBS, "spade"));
@@ -886,7 +886,7 @@ public class BrainStone {
 				new ItemArmorBrainStone(armorSTABLEPULSATINGBS, armorSTABLEPULSATINGBS_RenderIndex, 3));
 
 		if (Modules.energy()) {
-			items.put("brainStoneLiveCapacitor", (new ItemBrainStoneLiveCapacitor()));
+			items.put("brainStoneLiveCapacitor", (new ItemBrainStoneLifeCapacitor()));
 		}
 	}
 
@@ -1290,8 +1290,8 @@ public class BrainStone {
 	/**
 	 * @return the instance of Brain Stone Live Capacitor
 	 */
-	public static final ItemBrainStoneLiveCapacitor brainStoneLiveCapacitor() {
-		return (ItemBrainStoneLiveCapacitor) items.get("brainStoneLiveCapacitor");
+	public static final ItemBrainStoneLifeCapacitor brainStoneLiveCapacitor() {
+		return (ItemBrainStoneLifeCapacitor) items.get("brainStoneLiveCapacitor");
 	}
 
 	/**

@@ -44,7 +44,7 @@ import net.minecraftforge.common.UsernameCache;
 import net.minecraftforge.common.util.Constants.NBT;
 
 @Optional.Interface(iface = "baubles.api.IBauble", modid = "Baubles|API")
-public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements IEnergyContainerItem, IBauble {
+public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements IEnergyContainerItem, IBauble {
 	public static final int MaxDamage = 32;
 	public static final long RFperHalfHeart = 1000000;
 	/**
@@ -54,7 +54,7 @@ public class ItemBrainStoneLiveCapacitor extends ItemBrainStoneBase implements I
 	public static final int MaxLevel = 100000;
 	private PlayerCapacitorMapping PCmapping;
 
-	public ItemBrainStoneLiveCapacitor() {
+	public ItemBrainStoneLifeCapacitor() {
 		super();
 
 		setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.tabTools));
