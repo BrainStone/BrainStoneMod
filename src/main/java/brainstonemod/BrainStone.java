@@ -359,6 +359,9 @@ public class BrainStone {
 		if (!VALID_JAR) {
 			sendToPlayer(player,
 					"§4The .jar file of the BrainStoneMod appears to be corrupted\n§4or modified!\n§4Please DO NOT use it as it may cause harm to your computer!\n§eYou can download a fresh .jar file from here\n§1https://download.brainstonemod.com §e!");
+		} else if (!BrainStoneJarUtils.SIGNED_JAR && !DEV_ENV) {
+			sendToPlayer(player,
+					"§4The .jar file of the BrainStoneMod is not signed!\n§eIf you did not create this version yourself download a fresh \n§e.jar file from here §1https://download.brainstonemod.com §e!");
 		}
 
 		if (!latestVersion.equals("") && !recommendedVersion.equals("") && !releaseVersion.equals("")) {
