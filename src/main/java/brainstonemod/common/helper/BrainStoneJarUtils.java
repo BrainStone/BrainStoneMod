@@ -4,7 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.security.cert.Certificate;
@@ -99,12 +98,13 @@ public final class BrainStoneJarUtils {
 
 	public static JarFile getRunningJar(boolean verify) throws IOException {
 		try {
-			File path = new File(BrainStoneJarUtils.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
-			
-			return new JarFile(path, verify);
-		} catch (ZipException | URISyntaxException e) {
+			String path = URLDecoder.decode(
+					BrainStoneJarUtils.class.getProtectionDomain().getCodeSource().getLocation().getPath(), "UTF-8");
+
+			return new JarFile(path.substring(5, path.lastIndexOf('!')), verify);
+		} catch (ZipException e) {
 			BSP.warnException_noAddon(e);
-			
+
 			return null;
 		}
 	}
