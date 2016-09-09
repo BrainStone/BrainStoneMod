@@ -117,7 +117,7 @@ import tconstruct.armor.TinkerArmor;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = BrainStone.MOD_ID, name = BrainStone.NAME, version = BrainStone.VERSION, dependencies = BrainStone.DEPENDENCIES)
+@Mod(modid = BrainStone.MOD_ID, name = BrainStone.NAME, version = BrainStone.VERSION, dependencies = BrainStone.DEPENDENCIES, canBeDeactivated = true)
 public class BrainStone {
 	public static final String MOD_ID = "BrainStoneMod";
 	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
