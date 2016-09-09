@@ -78,7 +78,7 @@ processResources
     }
 }
 
-jar {
+reobf {
     doLast {
         signJar(jar.archivePath)
     }
