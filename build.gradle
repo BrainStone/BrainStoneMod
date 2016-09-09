@@ -1,3 +1,17 @@
+def signJar(archivePath) {
+  if (project.hasProperty('keyStoreAlias') && project.hasProperty('keyStore') && project.hasProperty('keyStorePass')) {
+    ant.signjar(
+      jar:                  archivePath,
+      alias:                project.keyStoreAlias,
+      keystore:             project.keyStore,
+      storepass:            project.keyStorePass,
+      preservelastmodified: true
+    )
+  } else {
+    println 'WARNING!!!\tCannot sign jar!'
+  }
+}
+
 buildscript {
     repositories {
         mavenCentral()
@@ -17,13 +31,22 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "v2.52.159 BETA DEV"
-group= "brainstonemod" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+ext.configFile = file "build.properties"
+configFile.withReader {
+    // Load config.  It shall from now be referenced as simply config or project.config
+    def prop = new Properties()
+    prop.load(it)
+    project.ext.config = new ConfigSlurper().parse prop
+}
+
+version = config.mod_version
+group = "brainstonemod" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "BrainStoneMod"
 
 minecraft {
-    version = "1.7.10-10.13.4.1558-1.7.10"
+    version = config.minecraft_version + "-" + config.forge_version
     runDir = "eclipse"
+    replace '${version}', project.version
 }
 
 dependencies {
@@ -60,4 +83,39 @@ processResources
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
+}
+
+jar {
+    doLast {
+        signJar(jar.archivePath)
+    }
+}
+
+task deobfJar(type: Jar) {
+    from sourceSets.main.output
+    classifier = 'deobf'
+    
+    doLast {
+        signJar(deobfJar.archivePath)
+    }
+}
+
+task srcJar(type: Jar, dependsOn: classes) {
+    classifier = 'src'
+    duplicatesStrategy = 'exclude'
+    
+    from sourceSets.main.allSource
+    
+    doLast {
+        signJar(srcJar.archivePath)
+    }
+    
+    srcJar.shouldRunAfter jar
+    srcJar.shouldRunAfter deobfJar
+}
+
+artifacts {
+    archives jar
+    archives deobfJar
+    archives srcJar
 }
