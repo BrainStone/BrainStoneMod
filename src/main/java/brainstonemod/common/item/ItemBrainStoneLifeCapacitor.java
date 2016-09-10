@@ -207,7 +207,15 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 			setCapacityLevel(container, 1);
 		}
 
-		return container.stackTagCompound.getInteger("LevelCapacity");
+		int capacityLevel = container.stackTagCompound.getInteger("LevelCapacity");
+
+		if (capacityLevel >= MaxLevel) {
+			setCapacityLevel(container, capacityLevel = (MaxLevel - 1));
+		} else if (capacityLevel < 1) {
+			setCapacityLevel(container, capacityLevel = 1);
+		}
+
+		return capacityLevel;
 	}
 
 	public ItemStack upgradeCapacity(ItemStack container) {
@@ -227,7 +235,15 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 			setChargingLevel(container, 1);
 		}
 
-		return container.stackTagCompound.getInteger("LevelCharging");
+		int chargingLevel = container.stackTagCompound.getInteger("LevelCharging");
+
+		if (chargingLevel >= MaxLevel) {
+			setChargingLevel(container, chargingLevel = (MaxLevel - 1));
+		} else if (chargingLevel < 1) {
+			setChargingLevel(container, chargingLevel = 1);
+		}
+
+		return chargingLevel;
 	}
 
 	public ItemStack upgradeCharging(ItemStack container) {
@@ -294,7 +310,16 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 			setEnergyStored(container, 0L);
 		}
 
-		return container.stackTagCompound.getLong("Energy");
+		long energyStored = container.stackTagCompound.getLong("Energy");
+		long maxEnergyStored = getMaxEnergyStoredLong(container);
+
+		if (energyStored > maxEnergyStored) {
+			setEnergyStored(container, energyStored = maxEnergyStored);
+		} else if (energyStored < 0) {
+			setEnergyStored(container, energyStored = 0);
+		}
+
+		return energyStored;
 	}
 
 	public long getMaxEnergyStoredLong(ItemStack container) {
