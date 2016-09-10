@@ -47,12 +47,12 @@ import net.minecraftforge.common.util.Constants.NBT;
 @Optional.Interface(iface = "baubles.api.IBauble", modid = "Baubles|API")
 public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements IEnergyContainerItem, IBauble {
 	public static final int MaxDamage = 32;
-	public static final long RFperHalfHeart = 1000000;
+	public static final long RFperHalfHeart = BrainStoneConfigHelper.BSLC_RFperHalfHeart();
 	/**
-	 * The maximum level for any type. The real limit should be somewhere around
-	 * 400 000
+	 * The maximum level for any type. The limit is calculated by dividing the
+	 * energy limit of 1 000 000 000 000 RF through the RFperHalfHeart * 10
 	 */
-	public static final int MaxLevel = 100000;
+	public static final int MaxLevel = (int) (1000000000000L / (RFperHalfHeart * 10));
 	private PlayerCapacitorMapping PCmapping;
 
 	public ItemBrainStoneLifeCapacitor() {
@@ -111,7 +111,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 		boolean sneak = Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak.getKeyCode());
 		boolean correctOwner = isCurrentOwner(container, player.getUniqueID());
 		boolean canClaim = !correctOwner && !isFormerOwner(container, player.getUniqueID())
-				&& (BrainStoneConfigHelper.allowBSLCstealing() || !hasOwner(container));
+				&& (BrainStoneConfigHelper.BSLC_allowStealing() || !hasOwner(container));
 
 		if (sneak) {
 			list.add("Owner: " + PCmapping.getPlayerName(getUUID(container), true)
@@ -160,7 +160,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 
 			if (!isCurrentOwner(stack, playerUUID)) {
 				if (!isFormerOwner(stack, playerUUID)) {
-					if (BrainStoneConfigHelper.allowBSLCstealing() || !hasOwner(stack)) {
+					if (BrainStoneConfigHelper.BSLC_allowStealing() || !hasOwner(stack)) {
 						UUID capacitorUUID = getUUID(stack);
 
 						PCmapping.updateMapping(playerUUID, capacitorUUID);

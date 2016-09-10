@@ -4,9 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import brainstonemod.BrainStone;
-import brainstonemod.client.gui.helper.BrainStoneModCreativeTab;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import lombok.Getter;
+import brainstonemod.common.api.BrainStoneModules;
 import lombok.experimental.UtilityClass;
 import net.minecraftforge.common.config.Configuration;
 
@@ -15,7 +13,8 @@ public class BrainStoneConfigHelper {
 	private static byte updateNotification;
 	private static boolean enableCreativeTab;
 	private static boolean enableAchievementPage;
-	private static boolean allowBSLCstealing;
+	private static boolean BSLC_AllowStealing;
+	private static long BSLC_RFperHalfHeart;
 	/** The X positions of the achievements */
 	private static Map<String, Integer> achievementXPositions = new LinkedHashMap<String, Integer>();
 	/** The X positions of the achievements */
@@ -34,9 +33,6 @@ public class BrainStoneConfigHelper {
 				"Do you want to have a custom Creative Tab for this mod?");
 		enableAchievementPage = config.getBoolean("EnableAchievementPage", "display", true,
 				"Do you want to have a custom Achievement Page for this mod?");
-
-		allowBSLCstealing = config.getBoolean("AllowBSLCstealing", "general", false,
-				"Do you want to allow the stealing of the BrainStoneLifeCapacitor?");
 
 		String curAch, curAchUp;
 		String achievementPageType = (enableAchievementPage ? "custom" : "regular");
@@ -61,15 +57,24 @@ public class BrainStoneConfigHelper {
 					achievementPageDescY + curAch + " achievement"));
 		}
 
-		config.addCustomCategoryComment("general", "This set defines some basic settings");
-		config.addCustomCategoryComment("display", "This set defines some basic ingame display settings");
+		if (BrainStoneModules.energy()) {
+			BSLC_AllowStealing = config.getBoolean("AllowStealing", "brainstonelivecapacitor", false,
+					"Do you want to allow the stealing of the BrainStoneLifeCapacitor?");
+			BSLC_RFperHalfHeart = config.getInt("RFperHalfHeart", "brainstonelivecapacitor", 1000000, 1,
+					Integer.MAX_VALUE, "How much energy half a heart should cost.");
 
-		if (enableAchievementPage)
-			config.addCustomCategoryComment("customachievementpage",
-					"This set defines the positions of the achievements on the custom Brain Stone Mod Achievement Page.\nOnly applies when \"B:EnableAchievementPage\" is set to true.");
-		else
-			config.addCustomCategoryComment("regularachievementpage",
-					"This set defines the positions of the achievements on the default Minecraft Achievement Page.\nOnly applies when \"B:EnableAchievementPage\" is set to false.");
+			config.addCustomCategoryComment("display", "This set defines some basic ingame display settings");
+
+			if (enableAchievementPage)
+				config.addCustomCategoryComment("customachievementpage",
+						"This set defines the positions of the achievements on the custom Brain Stone Mod Achievement Page.\nOnly applies when \"B:EnableAchievementPage\" is set to true.");
+			else
+				config.addCustomCategoryComment("regularachievementpage",
+						"This set defines the positions of the achievements on the default Minecraft Achievement Page.\nOnly applies when \"B:EnableAchievementPage\" is set to false.");
+
+			config.addCustomCategoryComment("brainstonelivecapacitor",
+					"This set defines the behavior of the BrainStoneLiveCapacitor");
+		}
 
 		config.save();
 	}
@@ -89,8 +94,12 @@ public class BrainStoneConfigHelper {
 		return enableAchievementPage;
 	}
 
-	public static boolean allowBSLCstealing() {
-		return allowBSLCstealing;
+	public static boolean BSLC_allowStealing() {
+		return BSLC_AllowStealing;
+	}
+
+	public static long BSLC_RFperHalfHeart() {
+		return BSLC_RFperHalfHeart;
 	}
 
 	public static int getAchievementXPosition(String achievement) {
