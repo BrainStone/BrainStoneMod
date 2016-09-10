@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -28,7 +27,7 @@ import org.apache.logging.log4j.core.Logger;
 
 import brainstonemod.client.gui.helper.BrainStoneModCreativeTab;
 import brainstonemod.common.CommonProxy;
-import brainstonemod.common.api.Modules;
+import brainstonemod.common.api.BrainStoneModules;
 import brainstonemod.common.api.cofh.mfr.MFRBrainstoneConfig;
 import brainstonemod.common.api.enderio.EnderIOItems;
 import brainstonemod.common.api.enderio.EnderIORecipies;
@@ -46,8 +45,9 @@ import brainstonemod.common.handler.BrainStoneEventHandler;
 import brainstonemod.common.handler.BrainStoneGuiHandler;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.helper.BrainStoneClassFinder;
+import brainstonemod.common.helper.BrainStoneConfigHelper;
 import brainstonemod.common.helper.BrainStoneJarUtils;
-import brainstonemod.common.helper.BrainStoneLiveCapacitorUpgrade;
+import brainstonemod.common.helper.BrainStoneLifeCapacitorUpgrade;
 import brainstonemod.common.helper.Module;
 import brainstonemod.common.item.ItemArmorBrainStone;
 import brainstonemod.common.item.ItemBrainStoneLifeCapacitor;
@@ -63,14 +63,13 @@ import brainstonemod.common.tileentity.TileEntityBlockBrainStoneTrigger;
 import brainstonemod.common.worldgenerators.BrainStoneWorldGenerator;
 import brainstonemod.network.BrainStonePacketHelper;
 import brainstonemod.network.BrainStonePacketPipeline;
-import brainstonemod.network.packet.BrainStoneLiveCapacitorMap;
+import brainstonemod.network.packet.BrainStoneLifeCapacitorMap;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLModDisabledEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
@@ -78,7 +77,6 @@ import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.CoreModManager;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -156,15 +154,6 @@ public class BrainStone {
 	private static String recommendedVersion;
 	private static String latestVersion;
 
-	/**
-	 * <tt><table><tr><td>0:</td><td>release</td></tr><tr><td>1:</td><td>recommended</td></tr><tr><td>2:</td><td>latest</td></tr><tr><td>-1:</td><td><i>none</i></td></tr></table></tt>
-	 */
-	private static byte updateNotification;
-	/** Should the custom Creative tab be used? */
-	private static boolean enableCreativeTab;
-	/** Should the custom Achievement page be used? */
-	private static boolean enableAchievementPage;
-
 	public static final String guiPath = "textures/gui/";
 	public static final String armorPath = "textures/armor/";
 
@@ -215,10 +204,6 @@ public class BrainStone {
 	 * &emsp;<b>value:</b> The actual item
 	 */
 	private static final LinkedHashMap<String, Achievement> achievements = new LinkedHashMap<String, Achievement>();
-	/** the x positions of the achievements */
-	private static final LinkedHashMap<String, Integer> achievementXPositions = new LinkedHashMap<String, Integer>();
-	/** the y positions of the achievements */
-	private static final LinkedHashMap<String, Integer> achievementYPositions = new LinkedHashMap<String, Integer>();
 	/** The custom creative tab */
 	private static BrainStoneModCreativeTab tabBrainStoneMod = null;
 
@@ -260,7 +245,7 @@ public class BrainStone {
 							+ (Gate.Gates == null));
 		}
 
-		loadConfig(event);
+		BrainStoneConfigHelper.loadConfig(new Configuration(event.getSuggestedConfigurationFile()));
 		retriveCurrentVersions();
 		generateMcModInfoFile(event);
 		createEnums();
@@ -318,19 +303,19 @@ public class BrainStone {
 		// Post initializing the pipeline
 		packetPipeline.postInitialise();
 
-		if (Modules.thaumcraft()) {
+		if (BrainStoneModules.thaumcraft()) {
 			AspectCreator.initAspects();
 		}
 
-		if (Modules.MFR()) {
+		if (BrainStoneModules.MFR()) {
 			MFRBrainstoneConfig.registerMFRProperties();
 		}
 
-		if (Modules.enderIO()) {
+		if (BrainStoneModules.enderIO()) {
 			EnderIORecipies.registerEnderIORecipies();
 		}
 
-		if (Modules.tinkersConstruct()) {
+		if (BrainStoneModules.tinkersConstruct()) {
 			TinkersContructMaterialBrainStone.initToolMaterials();
 		}
 	}
@@ -346,7 +331,7 @@ public class BrainStone {
 	public void onServerStarting(FMLServerStartingEvent event) {
 		fillTriggerEntities();
 
-		if (Modules.energy()) {
+		if (BrainStoneModules.energy()) {
 			brainStoneLifeCapacitor().newPlayerCapacitorMapping(DimensionManager.getCurrentSaveRootDirectory());
 		}
 	}
@@ -365,7 +350,7 @@ public class BrainStone {
 		}
 
 		if (!latestVersion.equals("") && !recommendedVersion.equals("") && !releaseVersion.equals("")) {
-			switch (updateNotification) {
+			switch (BrainStoneConfigHelper.updateNotification()) {
 			case 0:
 				if (isHigherVersion(VERSION, releaseVersion)) {
 					sendToPlayer(player, "§a A new Version of the BSM is available!\n§l§c========== §4" + releaseVersion
@@ -415,9 +400,9 @@ public class BrainStone {
 	public static void onPlayerJoinServer(EntityPlayer player, PlayerLoggedInEvent event) {
 		BrainStonePacketHelper.sendBrainStoneTriggerMobInformationPacketToPlayer(player);
 
-		if (Modules.energy()) {
+		if (BrainStoneModules.energy()) {
 			brainStoneLifeCapacitor().getPlayerCapacitorMapping().updateName(player.getUniqueID(), false);
-			BrainStone.packetPipeline.sendToAll(new BrainStoneLiveCapacitorMap());
+			BrainStone.packetPipeline.sendToAll(new BrainStoneLifeCapacitorMap());
 		}
 	}
 
@@ -438,7 +423,7 @@ public class BrainStone {
 			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		BSP.info("Checking available modules:");
 
-		for (Method method : Modules.class.getMethods()) {
+		for (Method method : BrainStoneModules.class.getMethods()) {
 			Module module = method.getAnnotation(Module.class);
 
 			if (module != null) {
@@ -604,9 +589,9 @@ public class BrainStone {
 		event.getModMetadata().description = "This mod adds the mysterious block BrainStone. You can craft almost magical things from it.\nBut see yourself!\n\n\nThanks for downloading and supporting this mod!"
 				+ "\n\n\n\nCurrent Versions:\n    release:          " + releaseVersion + "\n    recommended:   "
 				+ recommendedVersion + "\n    latest:            " + latestVersion;
-		event.getModMetadata().updateUrl = (updateNotification == -1) ? ""
-				: ("http://adf.ly/2002096/" + ((updateNotification == 0) ? "release"
-						: ((updateNotification == 1) ? "recommended" : "latest")));
+		event.getModMetadata().updateUrl = (BrainStoneConfigHelper.updateNotification() == -1) ? ""
+				: ("http://adf.ly/2002096/" + ((BrainStoneConfigHelper.updateNotification() == 0) ? "release"
+						: ((BrainStoneConfigHelper.updateNotification() == 1) ? "recommended" : "latest")));
 		event.getModMetadata().parent = "";
 		event.getModMetadata().screenshots = new String[] {};
 
@@ -699,7 +684,7 @@ public class BrainStone {
 		GameRegistry.addRecipe(new ItemStack(stablePulsatingBrainStoneBoots(), 1), "B B", "B B", 'B',
 				stablePulsatingBrainStone());
 
-		if (Modules.tinkersConstruct()) {
+		if (BrainStoneModules.tinkersConstruct()) {
 			GameRegistry.addShapelessRecipe(new ItemStack(TinkerArmor.heartCanister, 1, 5),
 					new ItemStack(pulsatingBrainStone(), 1), new ItemStack(essenceOfLife(), 1),
 					new ItemStack(TinkerArmor.heartCanister, 1, 3));
@@ -709,14 +694,14 @@ public class BrainStone {
 					new ItemStack(TinkerArmor.diamondApple, 1), new ItemStack(Items.golden_apple, 1, 1));
 		}
 
-		if (Modules.energy()) {
-			GameRegistry.addRecipe(new BrainStoneLiveCapacitorUpgrade(BrainStoneLiveCapacitorUpgrade.Upgrade.CAPACITY));
-			GameRegistry.addRecipe(new BrainStoneLiveCapacitorUpgrade(BrainStoneLiveCapacitorUpgrade.Upgrade.CHARGING));
+		if (BrainStoneModules.energy()) {
+			GameRegistry.addRecipe(new BrainStoneLifeCapacitorUpgrade(BrainStoneLifeCapacitorUpgrade.Upgrade.CAPACITY));
+			GameRegistry.addRecipe(new BrainStoneLifeCapacitorUpgrade(BrainStoneLifeCapacitorUpgrade.Upgrade.CHARGING));
 
-			Object craftingS = (Modules.enderIO()) ? EnderIOItems.getSentientEnder() : new ItemStack(Items.skull, 1, 1);
-			Object craftingX = (Modules.enderIO()) ? EnderIOItems.getXPRod() : Items.blaze_rod;
-			Object craftingC = (Modules.enderIO()) ? EnderIOItems.getOctadicCapacitor() : Items.redstone;
-			Object craftingH = (Modules.tinkersConstruct()) ? TinkersConstructItems.getGreenHeartCanister()
+			Object craftingS = (BrainStoneModules.enderIO()) ? EnderIOItems.getSentientEnder() : new ItemStack(Items.skull, 1, 1);
+			Object craftingX = (BrainStoneModules.enderIO()) ? EnderIOItems.getXPRod() : Items.blaze_rod;
+			Object craftingC = (BrainStoneModules.enderIO()) ? EnderIOItems.getOctadicCapacitor() : Items.redstone;
+			Object craftingH = (BrainStoneModules.tinkersConstruct()) ? TinkersConstructItems.getGreenHeartCanister()
 					: new ItemStack(Items.golden_apple, 1, 1);
 
 			GameRegistry.addRecipe(new ItemStack(brainStoneLifeCapacitor(), 1), "SBX", "CHC", " P ", 'S', craftingS,
@@ -833,7 +818,7 @@ public class BrainStone {
 		items.put("stablePulsatingBrainStoneBoots",
 				new ItemArmorBrainStone(armorSTABLEPULSATINGBS, armorSTABLEPULSATINGBS_RenderIndex, 3));
 
-		if (Modules.energy()) {
+		if (BrainStoneModules.energy()) {
 			items.put("brainStoneLifeCapacitor", (new ItemBrainStoneLifeCapacitor()));
 		}
 	}
@@ -843,102 +828,32 @@ public class BrainStone {
 
 		String curAch;
 
+		achievements.put(curAch = "WTHIT",
+				(new Achievement(curAch, curAch, BrainStoneConfigHelper.getAchievementYPosition(curAch),
+						BrainStoneConfigHelper.getAchievementXPosition(curAch), brainStoneDust(),
+						AchievementList.buildBetterPickaxe)).registerStat());
 		achievements
-				.put(curAch = "WTHIT",
-						(new Achievement(curAch, curAch, achievementYPositions.get(curAch),
-								achievementXPositions.get(curAch), brainStoneDust(),
-								AchievementList.buildBetterPickaxe)).registerStat());
-		achievements.put(curAch = "itLives", (new Achievement(curAch, curAch, achievementYPositions.get(curAch),
-				achievementXPositions.get(curAch), brainStone(), WTHIT())).registerStat());
-		achievements.put(curAch = "intelligentBlocks",
-				(new Achievement(curAch, curAch, achievementYPositions.get(curAch), achievementXPositions.get(curAch),
-						brainLightSensor(), itLives())).registerStat());
-		achievements.put(curAch = "intelligentTools",
-				(new Achievement(curAch, curAch, achievementYPositions.get(curAch), achievementXPositions.get(curAch),
-						brainStonePickaxe(), itLives())).registerStat());
-		achievements
-				.put(curAch = "logicBlock",
-						(new Achievement(curAch, curAch, achievementYPositions.get(curAch),
-								achievementXPositions.get(curAch), brainProcessor(), intelligentBlocks()))
+				.put(curAch = "itLives",
+						(new Achievement(curAch, curAch, BrainStoneConfigHelper.getAchievementYPosition(curAch),
+								BrainStoneConfigHelper.getAchievementXPosition(curAch), brainStone(), WTHIT()))
 										.registerStat());
+		achievements.put(curAch = "intelligentBlocks",
+				(new Achievement(curAch, curAch, BrainStoneConfigHelper.getAchievementYPosition(curAch),
+						BrainStoneConfigHelper.getAchievementXPosition(curAch), brainLightSensor(), itLives()))
+								.registerStat());
+		achievements.put(curAch = "intelligentTools",
+				(new Achievement(curAch, curAch, BrainStoneConfigHelper.getAchievementYPosition(curAch),
+						BrainStoneConfigHelper.getAchievementXPosition(curAch), brainStonePickaxe(), itLives()))
+								.registerStat());
+		achievements.put(curAch = "logicBlock",
+				(new Achievement(curAch, curAch, BrainStoneConfigHelper.getAchievementYPosition(curAch),
+						BrainStoneConfigHelper.getAchievementXPosition(curAch), brainProcessor(), intelligentBlocks()))
+								.registerStat());
 
-		if (enableAchievementPage) {
+		if (BrainStoneConfigHelper.enableAchievementPage()) {
 			AchievementPage.registerAchievementPage(new AchievementPage("Brain Stone Mod",
 					achievements.values().toArray(new Achievement[achievements.size()])));
 		}
-	}
-
-	/**
-	 * Reads the ids from the config file and saves them into "ids".
-	 * 
-	 * @param event
-	 *            The MCForge PreInitializationEven. Needed to access the config
-	 *            file
-	 */
-	private static void loadConfig(FMLPreInitializationEvent event) {
-		final Configuration config = new Configuration(event.getSuggestedConfigurationFile());
-		config.load();
-
-		final String str = config.getString("DisplayUpdates", "Display",
-				DEV ? "recommended" : (release ? "release" : "latest"),
-				"What update notifications do you want to recieve?\nValues are: release, recommended, latest, none (or off)");
-		updateNotification = (byte) ((str.equals("none") || str.equals("off")) ? -1
-				: (str.equals("recommended") ? 1 : (str.equals("latest") ? 2 : 0)));
-
-		enableCreativeTab = config.getBoolean("EnableCreativeTab", "Display", true,
-				"Do you want to have a custom Creative Tab for this mod?");
-		enableAchievementPage = config.getBoolean("EnableAchievementPage", "Display", true,
-				"Do you want to have a custom Achievement Page for this mod?");
-
-		if (enableCreativeTab) {
-			tabBrainStoneMod = new BrainStoneModCreativeTab();
-		}
-
-		String curAch;
-		String achievementPageType = enableAchievementPage ? "custom" : "regular";
-		String[] achievementNames = new String[] { "WTHIT", "itLives", "intelligentBlocks", "intelligentTools",
-				"logicBlock" };
-		int[] xPos = enableAchievementPage ? new int[] { 0, 2, 3, 3, 5 } : new int[] { 2, 4, 5, 5, 7 };
-		int[] yPos = enableAchievementPage ? new int[] { 0, 0, 2, -2, 4 } : new int[] { 8, 8, 10, 6, 12 };
-
-		// Save the positions of the achievements
-		for (int i = 0; i < achievementNames.length; i++) {
-			achievementXPositions.put(curAch = achievementNames[i],
-					config.getInt("Xpos" + Character.toUpperCase(curAch.charAt(0)) + curAch.substring(1),
-							achievementPageType + "achievementpageachievementpositions", xPos[i], -20, 20,
-							"Choose a x coordinate on the " + achievementPageType + " Achievement Page for the "
-									+ curAch + " achievement"));
-			achievementYPositions.put(curAch,
-					config.getInt("Ypos" + Character.toUpperCase(curAch.charAt(0)) + curAch.substring(1),
-							achievementPageType + "achievementpageachievementpositions", yPos[i], -20, 20,
-							"Choose a y coordinate on the " + achievementPageType + " Achievement Page for the "
-									+ curAch + " achievement"));
-		}
-
-		achievementPageType = enableAchievementPage ? "regular" : "custom";
-		xPos = enableAchievementPage ? new int[] { 2, 4, 5, 5, 7 } : new int[] { 0, 2, 3, 3, 5 };
-		yPos = enableAchievementPage ? new int[] { 8, 8, 10, 6, 12 } : new int[] { 0, 0, 2, -2, 4 };
-
-		// Generate the other achievement positions for the sake of completeness
-		for (int i = 0; i < achievementNames.length; i++) {
-			curAch = achievementNames[i];
-			config.getInt("Xpos" + Character.toUpperCase(curAch.charAt(0)) + curAch.substring(1),
-					achievementPageType + "achievementpageachievementpositions", xPos[i], -20, 20,
-					"Choose a x coordinate on the " + achievementPageType + " Achievement Page for the " + curAch
-							+ " achievement");
-			config.getInt("Ypos" + Character.toUpperCase(curAch.charAt(0)) + curAch.substring(1),
-					achievementPageType + "achievementpageachievementpositions", yPos[i], -20, 20,
-					"Choose a y coordinate on the " + achievementPageType + " Achievement Page for the " + curAch
-							+ " achievement");
-		}
-
-		config.addCustomCategoryComment("display", "This set defines some basic ingame display settings");
-		config.addCustomCategoryComment("regularachievementpageachievementpositions",
-				"This set defines the positions of the achievements on the default Minecraft Achievement Page.\nOnly applies when \"B:EnableAchievementPage\" is set to false.");
-		config.addCustomCategoryComment("customachievementpageachievementpositions",
-				"This set defines the positions of the achievements on the custom Brain Stone Mod Achievement Page.\nOnly applies when \"B:EnableAchievementPage\" is set to true.");
-
-		config.save();
 	}
 
 	/**
@@ -983,7 +898,13 @@ public class BrainStone {
 	}
 
 	public static final CreativeTabs getCreativeTab(CreativeTabs defaultTab) {
-		return (enableCreativeTab) ? tabBrainStoneMod : defaultTab;
+		if (BrainStoneConfigHelper.enableCreativeTab()) {
+			if (tabBrainStoneMod == null)
+				tabBrainStoneMod = new BrainStoneModCreativeTab();
+
+			return tabBrainStoneMod;
+		} else
+			return defaultTab;
 	}
 
 	public static final LinkedHashMap<String, Class<?>[]> getClientSideTiggerEntities() {

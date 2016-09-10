@@ -9,7 +9,7 @@ import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.PacketBuffer;
 
-public class BrainStoneLiveCapacitorMap extends BrainStoneToClientBasePacket {
+public class BrainStoneLifeCapacitorMap extends BrainStoneToClientBasePacket {
 
 	@Override
 	public void generatePacketData(ChannelHandlerContext ctx, ByteBuf data) {

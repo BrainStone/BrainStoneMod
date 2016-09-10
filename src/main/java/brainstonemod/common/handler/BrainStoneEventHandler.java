@@ -4,16 +4,14 @@ import java.lang.reflect.Field;
 import java.util.Random;
 import java.util.UUID;
 
-import baubles.api.BaubleType;
 import baubles.api.BaublesApi;
 import brainstonemod.BrainStone;
-import brainstonemod.common.api.Modules;
+import brainstonemod.common.api.BrainStoneModules;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.helper.BrainStoneDamageHelper;
 import brainstonemod.common.item.ItemBrainStoneLifeCapacitor;
 import brainstonemod.common.item.ItemBrainStoneLifeCapacitor.PlayerCapacitorMapping;
 import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
@@ -126,7 +124,7 @@ public class BrainStoneEventHandler {
 
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onEntityDamage(LivingHurtEvent event) {
-		if (Modules.energy()) {
+		if (BrainStoneModules.energy()) {
 			if (event.entityLiving instanceof EntityPlayer) {
 				EntityPlayer player = (EntityPlayer) event.entityLiving;
 				ItemStack capacitor = getBrainStoneLiveCapacitor(player);
@@ -146,7 +144,7 @@ public class BrainStoneEventHandler {
 
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onEntityAttack(LivingAttackEvent event) {
-		if (Modules.energy()) {
+		if (BrainStoneModules.energy()) {
 			try {
 				if (event.entityLiving instanceof EntityPlayer) {
 					EntityPlayer player = (EntityPlayer) event.entityLiving;
@@ -191,7 +189,7 @@ public class BrainStoneEventHandler {
 
 	@SubscribeEvent
 	public void onPlayerPreTick(TickEvent.PlayerTickEvent event) {
-		if (Modules.energy()) {
+		if (BrainStoneModules.energy()) {
 			if (event.phase == Phase.START) {
 				EntityPlayer player = event.player;
 				FoodStats stats = player.getFoodStats();
@@ -235,7 +233,7 @@ public class BrainStoneEventHandler {
 		if (capacitorUUID == null)
 			return null;
 
-		if (Modules.baubles()) {
+		if (BrainStoneModules.baubles()) {
 			ItemStack bStack = BaublesApi.getBaubles(player).getStackInSlot(3);
 
 			if (checkStack(bStack, capacitorUUID)) {

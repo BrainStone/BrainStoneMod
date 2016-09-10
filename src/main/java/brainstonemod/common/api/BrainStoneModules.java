@@ -2,11 +2,10 @@ package brainstonemod.common.api;
 
 import brainstonemod.common.helper.Module;
 import cpw.mods.fml.common.Loader;
+import lombok.experimental.UtilityClass;
 
-public final class Modules {
-	private Modules() {
-	}
-
+@UtilityClass
+public final class BrainStoneModules {
 	private static Boolean BAUBLES;
 	private static Boolean ENDER_IO;
 	private static Boolean ENERGY;

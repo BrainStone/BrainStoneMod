@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.oredict.RecipeSorter;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
-public class BrainStoneLiveCapacitorUpgrade implements IRecipe {
+public class BrainStoneLifeCapacitorUpgrade implements IRecipe {
 	public static enum Upgrade {
 		CAPACITY(BrainStone.essenceOfLife()), CHARGING(BrainStone.pulsatingBrainStone());
 
@@ -34,12 +34,12 @@ public class BrainStoneLiveCapacitorUpgrade implements IRecipe {
 
 	static {
 		RecipeSorter.register(BrainStone.RESOURCE_PREFIX + "BrainStoneLiveCapacitorUpgrade",
-				BrainStoneLiveCapacitorUpgrade.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
+				BrainStoneLifeCapacitorUpgrade.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
 	}
 
 	private final Upgrade upgrade;
 
-	public BrainStoneLiveCapacitorUpgrade(Upgrade upgrade) {
+	public BrainStoneLifeCapacitorUpgrade(Upgrade upgrade) {
 		this.upgrade = upgrade;
 	}
 

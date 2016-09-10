@@ -19,8 +19,9 @@ import baubles.api.BaubleType;
 import baubles.api.IBauble;
 import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
+import brainstonemod.common.helper.BrainStoneConfigHelper;
 import brainstonemod.common.item.template.ItemBrainStoneBase;
-import brainstonemod.network.packet.BrainStoneLiveCapacitorMap;
+import brainstonemod.network.packet.BrainStoneLifeCapacitorMap;
 import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.Optional.Method;
@@ -109,12 +110,13 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	public void addInformation(ItemStack container, EntityPlayer player, List list, boolean advancedToolTipInfo) {
 		boolean sneak = Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak.getKeyCode());
 		boolean correctOwner = isCurrentOwner(container, player.getUniqueID());
-		boolean canReown = !correctOwner && !isFormerOwner(container, player.getUniqueID());
+		boolean canClaim = !correctOwner && !isFormerOwner(container, player.getUniqueID())
+				&& (BrainStoneConfigHelper.allowBSLCstealing() || !hasOwner(container));
 
 		if (sneak) {
 			list.add("Owner: " + PCmapping.getPlayerName(getUUID(container), true)
 					+ (correctOwner ? (EnumChatFormatting.GRAY + " (You)")
-							: (canReown ? (EnumChatFormatting.DARK_GRAY + " (Shift-R-Click to claim)") : "")));
+							: (canClaim ? (EnumChatFormatting.DARK_GRAY + " (Shift-R-Click to claim)") : "")));
 			list.add(EnumChatFormatting.GREEN + "Absorbs all damage while powered.");
 			list.add(EnumChatFormatting.YELLOW + "Costs " + PowerDisplayUtil.formatPower(RFperHalfHeart * 2) + " "
 					+ PowerDisplayUtil.abrevation() + "/" + EnumChatFormatting.DARK_RED + "\u2764");
@@ -158,11 +160,16 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 
 			if (!isCurrentOwner(stack, playerUUID)) {
 				if (!isFormerOwner(stack, playerUUID)) {
-					UUID capacitorUUID = getUUID(stack);
+					if (BrainStoneConfigHelper.allowBSLCstealing() || !hasOwner(stack)) {
+						UUID capacitorUUID = getUUID(stack);
 
-					PCmapping.updateMapping(playerUUID, capacitorUUID);
+						PCmapping.updateMapping(playerUUID, capacitorUUID);
 
-					addOwnerToList(stack, playerUUID);
+						addOwnerToList(stack, playerUUID);
+					} else {
+						BrainStone.sendToPlayer(player,
+								EnumChatFormatting.DARK_RED + "You cannot steal a Brain Stone Live Capacitor!");
+					}
 				} else {
 					BrainStone.sendToPlayer(player,
 							EnumChatFormatting.DARK_RED + "You can only claim a Brain Stone Live Capacitor once!");
@@ -300,6 +307,10 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 		}
 
 		return UUID.fromString(container.stackTagCompound.getString("UUID"));
+	}
+
+	public boolean hasOwner(ItemStack container) {
+		return PCmapping.getPlayerUUID(getUUID(container)) != null;
 	}
 
 	public boolean isCurrentOwner(ItemStack container, UUID playerUUID) {
@@ -541,7 +552,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 
 			updateName(playerUUID, true);
 
-			BrainStone.packetPipeline.sendToAll(new BrainStoneLiveCapacitorMap());
+			BrainStone.packetPipeline.sendToAll(new BrainStoneLifeCapacitorMap());
 
 			writeToFile();
 		}
