@@ -347,7 +347,7 @@ public class BrainStone {
 		fillTriggerEntities();
 
 		if (Modules.energy()) {
-			brainStoneLiveCapacitor().newPlayerCapacitorMapping(DimensionManager.getCurrentSaveRootDirectory());
+			brainStoneLifeCapacitor().newPlayerCapacitorMapping(DimensionManager.getCurrentSaveRootDirectory());
 		}
 	}
 
@@ -416,7 +416,7 @@ public class BrainStone {
 		BrainStonePacketHelper.sendBrainStoneTriggerMobInformationPacketToPlayer(player);
 
 		if (Modules.energy()) {
-			brainStoneLiveCapacitor().getPlayerCapacitorMapping().updateName(player.getUniqueID(), false);
+			brainStoneLifeCapacitor().getPlayerCapacitorMapping().updateName(player.getUniqueID(), false);
 			BrainStone.packetPipeline.sendToAll(new BrainStoneLiveCapacitorMap());
 		}
 	}
@@ -661,9 +661,9 @@ public class BrainStone {
 				brainStone(), 'D', Items.diamond);
 		GameRegistry.addRecipe(new ItemStack(pulsatingBrainStone(), 1), "BdB", "dDd", "BdB", 'd', brainStoneDust(), 'B',
 				brainStone(), 'D', Items.diamond);
-		GameRegistry.addRecipe(new ItemStack(stablePulsatingBrainStone(), 1), "EPE", "PSP", "EPE", 'E', essenceOfLive(),
+		GameRegistry.addRecipe(new ItemStack(stablePulsatingBrainStone(), 1), "EPE", "PSP", "EPE", 'E', essenceOfLife(),
 				'P', pulsatingBrainStone(), 'S', Items.nether_star);
-		GameRegistry.addRecipe(new ItemStack(stablePulsatingBrainStone(), 1), "PEP", "ESE", "PEP", 'E', essenceOfLive(),
+		GameRegistry.addRecipe(new ItemStack(stablePulsatingBrainStone(), 1), "PEP", "ESE", "PEP", 'E', essenceOfLife(),
 				'P', pulsatingBrainStone(), 'S', Items.nether_star);
 		GameRegistry.addRecipe(new ItemStack(brainStoneSword(), 1), "B", "B", "S", 'S', Items.stick, 'B', brainStone());
 		GameRegistry.addRecipe(new ItemStack(brainStoneShovel(), 1), "B", "S", "S", 'S', Items.stick, 'B',
@@ -701,11 +701,11 @@ public class BrainStone {
 
 		if (Modules.tinkersConstruct()) {
 			GameRegistry.addShapelessRecipe(new ItemStack(TinkerArmor.heartCanister, 1, 5),
-					new ItemStack(pulsatingBrainStone(), 1), new ItemStack(essenceOfLive(), 1),
+					new ItemStack(pulsatingBrainStone(), 1), new ItemStack(essenceOfLife(), 1),
 					new ItemStack(TinkerArmor.heartCanister, 1, 3));
 			GameRegistry.addShapelessRecipe(new ItemStack(TinkerArmor.heartCanister, 1, 6),
 					new ItemStack(TinkerArmor.heartCanister, 1, 4), new ItemStack(TinkerArmor.heartCanister, 1, 5),
-					new ItemStack(pulsatingBrainStone(), 1), new ItemStack(essenceOfLive(), 1),
+					new ItemStack(pulsatingBrainStone(), 1), new ItemStack(essenceOfLife(), 1),
 					new ItemStack(TinkerArmor.diamondApple, 1), new ItemStack(Items.golden_apple, 1, 1));
 		}
 
@@ -719,7 +719,7 @@ public class BrainStone {
 			Object craftingH = (Modules.tinkersConstruct()) ? TinkersConstructItems.getGreenHeartCanister()
 					: new ItemStack(Items.golden_apple, 1, 1);
 
-			GameRegistry.addRecipe(new ItemStack(brainStoneLiveCapacitor(), 1), "SBX", "CHC", " P ", 'S', craftingS,
+			GameRegistry.addRecipe(new ItemStack(brainStoneLifeCapacitor(), 1), "SBX", "CHC", " P ", 'S', craftingS,
 					'B', brainProcessor(), 'X', craftingX, 'C', craftingC, 'H', craftingH, 'P',
 					stablePulsatingBrainStonePlate());
 		}
@@ -817,7 +817,7 @@ public class BrainStone {
 		items.put("brainStoneLeggings", new ItemArmorBrainStone(armorBRAINSTONE, armorBRAINSTONE_RenderIndex, 2));
 		items.put("brainStoneBoots", new ItemArmorBrainStone(armorBRAINSTONE, armorBRAINSTONE_RenderIndex, 3));
 
-		items.put("essenceOfLive", new ItemEssenceOfLife());
+		items.put("essenceOfLife", new ItemEssenceOfLife());
 
 		items.put("stablePulsatingBrainStoneSword", new ItemSwordBrainStone(toolSTABLEPULSATINGBS));
 		items.put("stablePulsatingBrainStoneShovel", new ItemToolBrainStone(toolSTABLEPULSATINGBS, "spade"));
@@ -834,7 +834,7 @@ public class BrainStone {
 				new ItemArmorBrainStone(armorSTABLEPULSATINGBS, armorSTABLEPULSATINGBS_RenderIndex, 3));
 
 		if (Modules.energy()) {
-			items.put("brainStoneLiveCapacitor", (new ItemBrainStoneLifeCapacitor()));
+			items.put("brainStoneLifeCapacitor", (new ItemBrainStoneLifeCapacitor()));
 		}
 	}
 
@@ -1168,8 +1168,8 @@ public class BrainStone {
 	/**
 	 * @return the instance of Essence Of Live
 	 */
-	public static final Item essenceOfLive() {
-		return items.get("essenceOfLive");
+	public static final Item essenceOfLife() {
+		return items.get("essenceOfLife");
 	}
 
 	/**
@@ -1238,8 +1238,8 @@ public class BrainStone {
 	/**
 	 * @return the instance of Brain Stone Live Capacitor
 	 */
-	public static final ItemBrainStoneLifeCapacitor brainStoneLiveCapacitor() {
-		return (ItemBrainStoneLifeCapacitor) items.get("brainStoneLiveCapacitor");
+	public static final ItemBrainStoneLifeCapacitor brainStoneLifeCapacitor() {
+		return (ItemBrainStoneLifeCapacitor) items.get("brainStoneLifeCapacitor");
 	}
 
 	/**

@@ -132,7 +132,7 @@ public class BrainStoneEventHandler {
 				ItemStack capacitor = getBrainStoneLiveCapacitor(player);
 
 				if (capacitor != null) {
-					float newDamage = BrainStone.brainStoneLiveCapacitor().handleDamage(capacitor, event.ammount);
+					float newDamage = BrainStone.brainStoneLifeCapacitor().handleDamage(capacitor, event.ammount);
 
 					if (newDamage == 0.0F) {
 						event.setCanceled(true);
@@ -168,14 +168,14 @@ public class BrainStoneEventHandler {
 					if (capacitor != null) {
 						float adjustedDamage = BrainStoneDamageHelper.getAdjustedDamage(event.source, ammount, player,
 								true);
-						float newDamage = BrainStone.brainStoneLiveCapacitor().handleDamage(capacitor, adjustedDamage,
+						float newDamage = BrainStone.brainStoneLifeCapacitor().handleDamage(capacitor, adjustedDamage,
 								true);
 
 						if (newDamage == 0.0F) {
 							event.setCanceled(true);
 
 							BrainStoneDamageHelper.getAdjustedDamage(event.source, ammount, player, false);
-							BrainStone.brainStoneLiveCapacitor().handleDamage(capacitor, adjustedDamage, false);
+							BrainStone.brainStoneLifeCapacitor().handleDamage(capacitor, adjustedDamage, false);
 							player.hurtResistantTime = player.maxHurtResistantTime;
 							reflectionLastDamage.set(player, event.ammount);
 						}
@@ -198,7 +198,7 @@ public class BrainStoneEventHandler {
 				ItemStack capacitor = getBrainStoneLiveCapacitor(player);
 
 				if (capacitor != null) {
-					BrainStone.brainStoneLiveCapacitor().healPlayer(capacitor, player);
+					BrainStone.brainStoneLifeCapacitor().healPlayer(capacitor, player);
 
 					// Prevent natural regeneration
 					if ((reflectionFoodTimer != null) && (stats.getFoodLevel() >= 18)) {
@@ -223,12 +223,12 @@ public class BrainStoneEventHandler {
 
 			if ((new Random()).nextDouble() < chance)
 				event.drops.add(new EntityItem(event.entity.worldObj, event.entity.posX, event.entity.posY,
-						event.entity.posZ, new ItemStack(BrainStone.essenceOfLive())));
+						event.entity.posZ, new ItemStack(BrainStone.essenceOfLife())));
 		}
 	}
 
 	private static ItemStack getBrainStoneLiveCapacitor(EntityPlayer player) {
-		ItemBrainStoneLifeCapacitor capacitor = BrainStone.brainStoneLiveCapacitor();
+		ItemBrainStoneLifeCapacitor capacitor = BrainStone.brainStoneLifeCapacitor();
 		PlayerCapacitorMapping mapping = capacitor.getPlayerCapacitorMapping();
 		UUID capacitorUUID = mapping.getCapacitorUUID(player.getUniqueID());
 
@@ -253,7 +253,7 @@ public class BrainStoneEventHandler {
 	}
 
 	private static boolean checkStack(ItemStack stack, UUID capacitorUUID) {
-		return (stack != null) && (stack.getItem() != null) && (stack.getItem() == BrainStone.brainStoneLiveCapacitor())
-				&& (capacitorUUID.equals(BrainStone.brainStoneLiveCapacitor().getUUID(stack)));
+		return (stack != null) && (stack.getItem() != null) && (stack.getItem() == BrainStone.brainStoneLifeCapacitor())
+				&& (capacitorUUID.equals(BrainStone.brainStoneLifeCapacitor().getUUID(stack)));
 	}
 }

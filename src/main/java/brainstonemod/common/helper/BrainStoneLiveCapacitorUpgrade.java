@@ -12,7 +12,7 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public class BrainStoneLiveCapacitorUpgrade implements IRecipe {
 	public static enum Upgrade {
-		CAPACITY(BrainStone.essenceOfLive()), CHARGING(BrainStone.pulsatingBrainStone());
+		CAPACITY(BrainStone.essenceOfLife()), CHARGING(BrainStone.pulsatingBrainStone());
 
 		private Object upgradeItem;
 
@@ -51,7 +51,7 @@ public class BrainStoneLiveCapacitorUpgrade implements IRecipe {
 		for (int i = 0; i < items.getSizeInventory(); i++) {
 			slot = items.getStackInSlot(i);
 
-			if ((slot != null) && (slot.getItem() == BrainStone.brainStoneLiveCapacitor())) {
+			if ((slot != null) && (slot.getItem() == BrainStone.brainStoneLifeCapacitor())) {
 				capacitor = slot;
 				break;
 			}
@@ -60,9 +60,9 @@ public class BrainStoneLiveCapacitorUpgrade implements IRecipe {
 		ItemStack res = capacitor.copy();
 		
 		if (upgrade == Upgrade.CAPACITY)
-			res = BrainStone.brainStoneLiveCapacitor().upgradeCapacity(res);
+			res = BrainStone.brainStoneLifeCapacitor().upgradeCapacity(res);
 		else if (upgrade == Upgrade.CHARGING)
-			res = BrainStone.brainStoneLiveCapacitor().upgradeCharging(res);
+			res = BrainStone.brainStoneLifeCapacitor().upgradeCharging(res);
 
 		return res;
 	}
@@ -75,7 +75,7 @@ public class BrainStoneLiveCapacitorUpgrade implements IRecipe {
 		ItemStack slot;
 		Item item;
 
-		final Item capacitor = BrainStone.brainStoneLiveCapacitor();
+		final Item capacitor = BrainStone.brainStoneLifeCapacitor();
 		final Item upgradeItem = upgrade.getUpgrade().getItem();
 
 		for (int i = 0; i < items.getSizeInventory(); i++) {
@@ -111,6 +111,6 @@ public class BrainStoneLiveCapacitorUpgrade implements IRecipe {
 
 	@Override
 	public ItemStack getRecipeOutput() {
-		return new ItemStack(BrainStone.brainStoneLiveCapacitor());
+		return new ItemStack(BrainStone.brainStoneLifeCapacitor());
 	}
 }

@@ -17,7 +17,7 @@ public class BrainStoneLiveCapacitorMap extends BrainStoneToClientBasePacket {
 			final PacketBuffer buffer = new PacketBuffer(data);
 
 			buffer.writeNBTTagCompoundToBuffer(
-					BrainStone.brainStoneLiveCapacitor().getPlayerCapacitorMapping().getMap());
+					BrainStone.brainStoneLifeCapacitor().getPlayerCapacitorMapping().getMap());
 		} catch (IOException e) {
 			throw new RuntimeException(
 					"Unexpected Exception \"" + e.getClass().getName() + ": " + e.getMessage() + "\"", e);
@@ -34,7 +34,7 @@ public class BrainStoneLiveCapacitorMap extends BrainStoneToClientBasePacket {
 		try {
 			final PacketBuffer buffer = new PacketBuffer(data);
 
-			BrainStone.brainStoneLiveCapacitor().getPlayerCapacitorMapping()
+			BrainStone.brainStoneLifeCapacitor().getPlayerCapacitorMapping()
 					.setMap(buffer.readNBTTagCompoundFromBuffer());
 		} catch (final IOException e) {
 			throw new RuntimeException(
