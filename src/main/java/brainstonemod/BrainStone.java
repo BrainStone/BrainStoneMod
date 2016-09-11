@@ -69,7 +69,6 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLFingerprintViolationEvent;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -118,7 +117,7 @@ import tconstruct.armor.TinkerArmor;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = BrainStone.MOD_ID, name = BrainStone.NAME, version = BrainStone.VERSION, dependencies = BrainStone.DEPENDENCIES, canBeDeactivated = true, certificateFingerprint = BrainStone.FINGERPRINT)
+@Mod(modid = BrainStone.MOD_ID, name = BrainStone.NAME, version = BrainStone.VERSION, dependencies = BrainStone.DEPENDENCIES, canBeDeactivated = true)
 public class BrainStone {
 	public static final String MOD_ID = "BrainStoneMod";
 	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
@@ -126,7 +125,6 @@ public class BrainStone {
 	public static final String NAME = "Brain Stone Mod";
 	public static final String VERSION = "${version}";
 	public static final String DEPENDENCIES = "after:EnderIO;after:MineFactoryReloaded;after:Thaumcraft;after:TConstruct";
-	public static final String FINGERPRINT = "da39a3ee5e6b4b0d3255bfef95601890afd80709";
 	public static final String BASE_URL = "http://download.brainstonemod.com/";
 
 	/** The instance of this mod */
@@ -208,11 +206,6 @@ public class BrainStone {
 	private static final LinkedHashMap<String, Achievement> achievements = new LinkedHashMap<String, Achievement>();
 	/** The custom creative tab */
 	private static BrainStoneModCreativeTab tabBrainStoneMod = null;
-
-	@EventHandler
-	public void onInvalidCertificate(FMLFingerprintViolationEvent event) throws InterruptedException {
-		System.out.println("Invalid signature!!!!");
-	}
 
 	/**
 	 * Preinitialization. Reads the ids from the config file and fills the block
