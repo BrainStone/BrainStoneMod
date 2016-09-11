@@ -78,6 +78,14 @@ processResources
     }
 }
 
+jar {
+    doLast {
+        if (!gradle.taskGraph.hasTask(reobf)) {
+            signJar(jar.archivePath)
+        }
+    }
+}
+
 reobf {
     doLast {
         signJar(jar.archivePath)

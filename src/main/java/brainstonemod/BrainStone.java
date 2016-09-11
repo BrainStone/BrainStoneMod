@@ -69,6 +69,7 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
+import cpw.mods.fml.common.event.FMLFingerprintViolationEvent;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -117,7 +118,14 @@ import tconstruct.armor.TinkerArmor;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = BrainStone.MOD_ID, name = BrainStone.NAME, version = BrainStone.VERSION, dependencies = BrainStone.DEPENDENCIES, canBeDeactivated = true)
+@Mod(
+		modid = BrainStone.MOD_ID,
+		name = BrainStone.NAME,
+		version = BrainStone.VERSION,
+		dependencies = BrainStone.DEPENDENCIES,
+		canBeDeactivated = true,
+		certificateFingerprint = "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+)
 public class BrainStone {
 	public static final String MOD_ID = "BrainStoneMod";
 	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
@@ -206,6 +214,11 @@ public class BrainStone {
 	private static final LinkedHashMap<String, Achievement> achievements = new LinkedHashMap<String, Achievement>();
 	/** The custom creative tab */
 	private static BrainStoneModCreativeTab tabBrainStoneMod = null;
+	
+	@EventHandler
+	public void onInvalidCertificate(FMLFingerprintViolationEvent event) throws InterruptedException {
+		System.out.println("Invalid signature!!!!");
+	}
 
 	/**
 	 * Preinitialization. Reads the ids from the config file and fills the block
@@ -698,7 +711,8 @@ public class BrainStone {
 			GameRegistry.addRecipe(new BrainStoneLifeCapacitorUpgrade(BrainStoneLifeCapacitorUpgrade.Upgrade.CAPACITY));
 			GameRegistry.addRecipe(new BrainStoneLifeCapacitorUpgrade(BrainStoneLifeCapacitorUpgrade.Upgrade.CHARGING));
 
-			Object craftingS = (BrainStoneModules.enderIO()) ? EnderIOItems.getSentientEnder() : new ItemStack(Items.skull, 1, 1);
+			Object craftingS = (BrainStoneModules.enderIO()) ? EnderIOItems.getSentientEnder()
+					: new ItemStack(Items.skull, 1, 1);
 			Object craftingX = (BrainStoneModules.enderIO()) ? EnderIOItems.getXPRod() : Items.blaze_rod;
 			Object craftingC = (BrainStoneModules.enderIO()) ? EnderIOItems.getOctadicCapacitor() : Items.redstone;
 			Object craftingH = (BrainStoneModules.tinkersConstruct()) ? TinkersConstructItems.getGreenHeartCanister()
