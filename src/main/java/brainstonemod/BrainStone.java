@@ -1,10 +1,7 @@
 package brainstonemod;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -13,14 +10,10 @@ import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import java.util.Set;
-
-import javax.xml.bind.DatatypeConverter;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.Logger;
@@ -44,7 +37,6 @@ import brainstonemod.common.block.template.BlockBrainStoneBase;
 import brainstonemod.common.handler.BrainStoneEventHandler;
 import brainstonemod.common.handler.BrainStoneGuiHandler;
 import brainstonemod.common.helper.BSP;
-import brainstonemod.common.helper.BrainStoneClassFinder;
 import brainstonemod.common.helper.BrainStoneConfigHelper;
 import brainstonemod.common.helper.BrainStoneJarUtils;
 import brainstonemod.common.helper.BrainStoneLifeCapacitorUpgrade;
@@ -77,6 +69,7 @@ import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.versioning.ComparableVersion;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -350,7 +343,8 @@ public class BrainStone {
 					"§4The .jar file of the BrainStoneMod is not signed!\n§eIf you did not create this version yourself download a fresh \n§e.jar file from here §1https://download.brainstonemod.com §e!");
 		}
 
-		if (!latestVersion.equals("") && !recommendedVersion.equals("") && !releaseVersion.equals("")) {
+		if (!VERSION.equals("${ver" + "sion}") && !latestVersion.equals("") && !recommendedVersion.equals("")
+				&& !releaseVersion.equals("")) {
 			switch (BrainStoneConfigHelper.updateNotification()) {
 			case 0:
 				if (isHigherVersion(VERSION, releaseVersion)) {
@@ -437,37 +431,6 @@ public class BrainStone {
 		BSP.debug("Finished checking available modules!");
 	}
 
-	private static String getJarHash() {
-		try {
-			final InputStream fis = new FileInputStream(BrainStoneClassFinder.findPathJar(null));
-
-			final byte[] buffer = new byte[1024];
-			final MessageDigest complete = MessageDigest.getInstance("SHA-512");
-			int numRead;
-
-			do {
-				numRead = fis.read(buffer);
-
-				if (numRead > 0) {
-					complete.update(buffer, 0, numRead);
-				}
-			} while (numRead != -1);
-
-			fis.close();
-
-			return DatatypeConverter.printHexBinary(complete.digest());
-		} catch (final FileNotFoundException e) {
-			BSP.errorException(e);
-		} catch (final IOException e) {
-			BSP.errorException(e);
-		} catch (final NoSuchAlgorithmException e) {
-			BSP.errorException(e,
-					"This is something really bad! You don't have the SHA-512 algorithm! You should have that!");
-		}
-
-		return "";
-	}
-
 	private static void createEnums() {
 		toolBRAINSTONE = EnumHelper.addToolMaterial("BRAINSTONE", 4, 5368, 6F, 5, 25);
 		armorBRAINSTONE = EnumHelper.addArmorMaterial("BRAINSTONE", 114, new int[] { 2, 6, 5, 2 }, 25);
@@ -484,43 +447,17 @@ public class BrainStone {
 	/**
 	 * Checks if the new version is higher than the current one
 	 * 
-	 * @param currentVersion
+	 * @param currentVersionStr
 	 *            The version which is considered current
-	 * @param newVersion
+	 * @param newVersionStr
 	 *            The version which is considered new
 	 * @return Whether the new version is higher than the current one or not
 	 */
-	private static boolean isHigherVersion(String currentVersion, String newVersion) {
-		final int[] _current = splitVersion(currentVersion);
-		final int[] _new = splitVersion(newVersion);
+	private static boolean isHigherVersion(String currentVersionStr, String newVersionStr) {
+		final ComparableVersion currentVersion = new ComparableVersion(currentVersionStr);
+		final ComparableVersion newVersion = new ComparableVersion(newVersionStr);
 
-		return (_current[0] < _new[0]) || ((_current[0] == _new[0]) && (_current[1] < _new[1]))
-				|| ((_current[0] == _new[0]) && (_current[1] == _new[1]) && (_current[2] < _new[2]));
-	}
-
-	/**
-	 * Splits a version in its number components (Format ".\d+\.\d+\.\d+.*" )
-	 * 
-	 * @param Version
-	 *            The version to be splitted (Format is important!
-	 * @return The numeric version components as an integer array
-	 */
-	private static int[] splitVersion(String Version) {
-		final String[] tmp = Version.substring(1).split(" ")[0].split("\\.");
-		final int size = tmp.length;
-		final int out[] = new int[size];
-
-		for (int i = 0; i < size; i++) {
-			try {
-				out[i] = Integer.parseInt(tmp[i]);
-			} catch (NumberFormatException e) {
-				out[i] = -1;
-
-				BSP.warnException_noAddon(e);
-			}
-		}
-
-		return out;
+		return currentVersion.compareTo(newVersion) < 0;
 	}
 
 	/**
