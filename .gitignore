@@ -203,3 +203,6 @@ forge_logo.png
 mcp.png
 mcpmod.info
 Start.java
+*.iml
+*.ipr
+*.iws
