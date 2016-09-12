@@ -61,6 +61,7 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
+import cpw.mods.fml.common.event.FMLFingerprintViolationEvent;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -110,7 +111,7 @@ import tconstruct.armor.TinkerArmor;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = BrainStone.MOD_ID, name = BrainStone.NAME, version = BrainStone.VERSION, dependencies = BrainStone.DEPENDENCIES, canBeDeactivated = true)
+@Mod(modid = BrainStone.MOD_ID, name = BrainStone.NAME, version = BrainStone.VERSION, dependencies = BrainStone.DEPENDENCIES, canBeDeactivated = true, certificateFingerprint = BrainStone.FINGERPRINT)
 public class BrainStone {
 	public static final String MOD_ID = "BrainStoneMod";
 	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
@@ -118,6 +119,7 @@ public class BrainStone {
 	public static final String NAME = "Brain Stone Mod";
 	public static final String VERSION = "${version}";
 	public static final String DEPENDENCIES = "after:EnderIO;after:MineFactoryReloaded;after:Thaumcraft;after:TConstruct";
+	public static final String FINGERPRINT = "2238d4a92d81ab407741a2fdb741cebddfeacba6";
 	public static final String BASE_URL = "http://download.brainstonemod.com/";
 
 	/** The instance of this mod */
@@ -134,9 +136,9 @@ public class BrainStone {
 	public static final boolean DEV = VERSION.toLowerCase().contains("dev")
 			|| VERSION.toLowerCase().contains("prerelease");
 	/** States if this is the eclipse working environment or not */
-	public static boolean DEV_ENV;
+	public static boolean DEV_ENV = (Boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment");
 	/** States if this jar is valid or not. */
-	public static boolean VALID_JAR = false;
+	public static boolean VALID_JAR = true;
 
 	/** A String with the English localization (en_EN) */
 	private static final String en = "en_EN";
@@ -201,6 +203,20 @@ public class BrainStone {
 	private static BrainStoneModCreativeTab tabBrainStoneMod = null;
 
 	/**
+	 * Called when the signature does not match the expected hash. Marks the jar
+	 * invalid in that case.<br>
+	 * Does nothing in case the mod is not running from a jar
+	 * 
+	 * @param event
+	 *            he MCForge FingerprintViolationEvent
+	 */
+	@EventHandler
+	public void onInvalidCertificate(FMLFingerprintViolationEvent event) {
+		if (BrainStoneJarUtils.RUNNING_FROM_JAR)
+			VALID_JAR = false;
+	}
+
+	/**
 	 * Preinitialization. Reads the ids from the config file and fills the block
 	 * and item HashMaps with the blocks and items.
 	 * 
@@ -213,20 +229,23 @@ public class BrainStone {
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		BSP.setUpLogger((Logger) event.getModLog());
-		DEV_ENV = (Boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment");
-		BSP.log(DEV_ENV ? Level.INFO : Level.DEBUG, "Is release version: " + release, "Is DEV version: " + DEV,
-				"Is DEV environment: " + DEV_ENV);
+		Level logLevel = DEV_ENV ? Level.INFO : Level.DEBUG;
 
-		try {
-			BrainStoneJarUtils.verifyJar();
-			VALID_JAR = true;
-		} catch (SecurityException e) {
-			BSP.warn(e.getMessage());
-			VALID_JAR = false;
+		BSP.setUpLogger((Logger) event.getModLog());
+		BSP.log(logLevel, "Is release version: " + release, "Is DEV version: " + DEV, "Is DEV environment: " + DEV_ENV);
+
+		if (VALID_JAR && BrainStoneJarUtils.RUNNING_FROM_JAR) {
+			try {
+				BrainStoneJarUtils.verifyJar();
+			} catch (SecurityException e) {
+				BSP.warn(e.getMessage());
+				VALID_JAR = false;
+			}
 		}
 
-		BSP.log(VALID_JAR ? Level.INFO : Level.WARN, "Jar is " + (VALID_JAR ? "" : "not ") + "valid!",
+		BSP.log(VALID_JAR ? logLevel : Level.WARN,
+				(BrainStoneJarUtils.RUNNING_FROM_JAR ? "R" : "Not r") + "unning from jar!",
+				"Jar is " + (VALID_JAR ? "" : "not ") + "valid!",
 				"Jar is " + (BrainStoneJarUtils.SIGNED_JAR ? "" : "not ") + "signed!");
 
 		checkForModules();
@@ -338,7 +357,7 @@ public class BrainStone {
 		if (!VALID_JAR) {
 			sendToPlayer(player,
 					"§4The .jar file of the BrainStoneMod appears to be corrupted\n§4or modified!\n§4Please DO NOT use it as it may cause harm to your computer!\n§eYou can download a fresh .jar file from here\n§1https://download.brainstonemod.com §e!");
-		} else if (!BrainStoneJarUtils.SIGNED_JAR && !DEV_ENV) {
+		} else if (!BrainStoneJarUtils.SIGNED_JAR) {
 			sendToPlayer(player,
 					"§4The .jar file of the BrainStoneMod is not signed!\n§eIf you did not create this version yourself download a fresh \n§e.jar file from here §1https://download.brainstonemod.com §e!");
 		}

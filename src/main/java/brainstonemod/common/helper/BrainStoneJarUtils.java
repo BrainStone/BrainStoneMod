@@ -1,16 +1,13 @@
 package brainstonemod.common.helper;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.net.URLDecoder;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Enumeration;
 import java.util.Vector;
@@ -27,6 +24,7 @@ import lombok.Cleanup;
  * file.
  */
 public final class BrainStoneJarUtils {
+	public final static boolean RUNNING_FROM_JAR = isRunningFromJar();
 	public final static boolean SIGNED_JAR = isJarSigned();
 
 	/**
@@ -55,48 +53,14 @@ public final class BrainStoneJarUtils {
 		return ret;
 	}
 
-	/**
-	 * Lists all classes in a given package in a specific jar file.
-	 *
-	 * @param jarFile
-	 *            the jar file
-	 * @param pckgname
-	 *            the package name to search for
-	 * @return A ArrayList containing all classes in the given package
-	 * @throws ClassNotFoundException
-	 *             if a class in the jar is not on the classpath
-	 */
-	public static ArrayList<Class<?>> getClassesForPackage(JarFile jarFile, String pckgname)
-			throws ClassNotFoundException {
-		final ArrayList<Class<?>> classes = new ArrayList<Class<?>>();
-
-		final Enumeration<JarEntry> entries = jarFile.entries();
-		String name;
-
-		for (JarEntry jarEntry = null; entries.hasMoreElements() && ((jarEntry = entries.nextElement()) != null);) {
-			name = jarEntry.getName();
-
-			if (name.contains(".class")) {
-				name = name.substring(0, name.length() - 6).replace('/', '.');
-
-				if (name.contains(pckgname)) {
-					classes.add(Class.forName(name));
-				}
-			}
-		}
-
-		return classes;
-	}
-
-	public static URL getJarUrl(final File file) throws IOException {
-		return new URL("jar:" + file.toURI().toURL().toExternalForm() + "!/");
-	}
-
 	public static JarFile getRunningJar() throws IOException {
 		return getRunningJar(false);
 	}
 
 	public static JarFile getRunningJar(boolean verify) throws IOException {
+		if (!RUNNING_FROM_JAR)
+			return null;
+
 		try {
 			String path = URLDecoder.decode(
 					BrainStoneJarUtils.class.getProtectionDomain().getCodeSource().getLocation().getPath(), "UTF-8");
@@ -115,6 +79,9 @@ public final class BrainStoneJarUtils {
 	 * @return <code>true</code> if the jar is signed
 	 */
 	private static boolean isJarSigned() {
+		if (!RUNNING_FROM_JAR)
+			return true;
+
 		try {
 			@Cleanup
 			final JarFile jarFile = getRunningJar();
@@ -128,10 +95,17 @@ public final class BrainStoneJarUtils {
 
 			return !man.getEntries().isEmpty();
 		} catch (final Throwable t) {
-			t.printStackTrace();
+			BSP.warnException_noAddon(t);
 
 			return false;
 		}
+	}
+
+	private static boolean isRunningFromJar() {
+		String className = BrainStoneJarUtils.class.getName().replace('.', '/');
+		String classJar = BrainStoneJarUtils.class.getResource("/" + className + ".class").toString();
+
+		return classJar.startsWith("jar:");
 	}
 
 	private static void verify(X509Certificate targetCert) throws IOException {
@@ -269,16 +243,5 @@ public final class BrainStoneJarUtils {
 		} catch (CertificateException e) {
 			BSP.warnException_noAddon(e);
 		}
-	}
-
-	private static File createDirIfNotExists(File dir) {
-		if (dir.exists() && !dir.isDirectory()) {
-			dir.delete();
-		}
-		if (!dir.exists()) {
-			dir.mkdirs();
-		}
-
-		return dir;
 	}
 }
