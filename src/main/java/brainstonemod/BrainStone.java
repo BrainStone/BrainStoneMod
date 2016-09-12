@@ -73,7 +73,6 @@ import tconstruct.armor.TinkerArmor;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.MalformedURLException;
@@ -202,13 +201,9 @@ public class BrainStone {
 	 * 
 	 * @param event
 	 *            The MCForge PreInitializationEvent
-	 * @throws InvocationTargetException
-	 * @throws IllegalArgumentException
-	 * @throws IllegalAccessException
 	 */
 	@EventHandler
-	public void preInit(FMLPreInitializationEvent event)
-			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public void preInit(FMLPreInitializationEvent event) {
 		Level logLevel = DEV_ENV ? Level.INFO : Level.DEBUG;
 
 		BSP.setUpLogger((Logger) event.getModLog());
@@ -448,16 +443,19 @@ public class BrainStone {
 			((ICommandSender) player).addChatMessage(new ChatComponentText(line));
 	}
 
-	private static void checkForModules()
-			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	private static void checkForModules() {
 		BSP.info("Checking available modules:");
 
 		for (Method method : BrainStoneModules.class.getMethods()) {
 			Module module = method.getAnnotation(Module.class);
 
 			if (module != null) {
-				if ((Boolean) method.invoke(null)) {
-					BSP.info("\t" + module.value());
+				try {
+					if ((Boolean) method.invoke(null)) {
+						BSP.info("\t" + module.value());
+					}
+				}catch(Exception e){
+					e.printStackTrace();
 				}
 			}
 		}
