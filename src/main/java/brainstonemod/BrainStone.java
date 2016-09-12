@@ -1,23 +1,5 @@
 package brainstonemod;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.net.MalformedURLException;
-import java.net.SocketTimeoutException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.Map.Entry;
-import java.util.Set;
-
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.core.Logger;
-
 import brainstonemod.client.gui.helper.BrainStoneModCreativeTab;
 import brainstonemod.common.CommonProxy;
 import brainstonemod.common.api.BrainStoneModules;
@@ -27,32 +9,19 @@ import brainstonemod.common.api.enderio.EnderIORecipies;
 import brainstonemod.common.api.tconstruct.TinkersConstructItems;
 import brainstonemod.common.api.tconstruct.TinkersContructMaterialBrainStone;
 import brainstonemod.common.api.thaumcraft.AspectCreator;
-import brainstonemod.common.block.BlockBrainLightSensor;
-import brainstonemod.common.block.BlockBrainLogicBlock;
-import brainstonemod.common.block.BlockBrainStone;
-import brainstonemod.common.block.BlockBrainStoneOre;
-import brainstonemod.common.block.BlockBrainStoneTrigger;
-import brainstonemod.common.block.BlockPulsatingBrainStone;
+import brainstonemod.common.block.*;
 import brainstonemod.common.block.template.BlockBrainStoneBase;
 import brainstonemod.common.handler.BrainStoneEventHandler;
 import brainstonemod.common.handler.BrainStoneGuiHandler;
-import brainstonemod.common.helper.BSP;
-import brainstonemod.common.helper.BrainStoneConfigHelper;
-import brainstonemod.common.helper.BrainStoneJarUtils;
-import brainstonemod.common.helper.BrainStoneLifeCapacitorUpgrade;
-import brainstonemod.common.helper.Module;
-import brainstonemod.common.item.ItemArmorBrainStone;
-import brainstonemod.common.item.ItemBrainStoneLifeCapacitor;
-import brainstonemod.common.item.ItemEssenceOfLife;
-import brainstonemod.common.item.ItemHoeBrainStone;
-import brainstonemod.common.item.ItemSwordBrainStone;
-import brainstonemod.common.item.ItemToolBrainStone;
+import brainstonemod.common.helper.*;
+import brainstonemod.common.item.*;
 import brainstonemod.common.item.template.ItemBrainStoneBase;
 import brainstonemod.common.logicgate.Gate;
 import brainstonemod.common.tileentity.TileEntityBlockBrainLightSensor;
 import brainstonemod.common.tileentity.TileEntityBlockBrainLogicBlock;
 import brainstonemod.common.tileentity.TileEntityBlockBrainStoneTrigger;
-import brainstonemod.common.worldgenerators.BrainStoneWorldGenerator;
+import brainstonemod.common.worldgenerators.BrainStoneHouseWorldGenerator;
+import brainstonemod.common.worldgenerators.BrainStoneOreWorldGenerator;
 import brainstonemod.network.BrainStonePacketHelper;
 import brainstonemod.network.BrainStonePacketPipeline;
 import brainstonemod.network.packet.BrainStoneLifeCapacitorMap;
@@ -61,11 +30,7 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLFingerprintViolationEvent;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.event.*;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
@@ -78,12 +43,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.item.EntityBoat;
-import net.minecraft.entity.item.EntityEnderEye;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.item.EntityMinecart;
-import net.minecraft.entity.item.EntityTNTPrimed;
-import net.minecraft.entity.item.EntityXPOrb;
+import net.minecraft.entity.item.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityFireball;
@@ -105,7 +65,24 @@ import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.util.EnumHelper;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.Logger;
 import tconstruct.armor.TinkerArmor;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * The main file of the mod
@@ -292,11 +269,9 @@ public class BrainStone {
 		registerTileEntitys(); // TileEntitys
 		addRecipes(); // Recipes
 		addSmeltings(); // Smeltings
-		// Ore Generation
-
-		// TODO split into two classes and find good values for the world
-		// generator
-		GameRegistry.registerWorldGenerator(new BrainStoneWorldGenerator(), 0);
+		// WorldGen
+		GameRegistry.registerWorldGenerator(new BrainStoneHouseWorldGenerator(), 0);
+		GameRegistry.registerWorldGenerator(new BrainStoneOreWorldGenerator(), 1);
 		// Event Handler
 		FMLCommonHandler.instance().bus().register(eventHandler);
 		MinecraftForge.EVENT_BUS.register(eventHandler);

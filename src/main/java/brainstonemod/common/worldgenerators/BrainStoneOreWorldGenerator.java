@@ -1,16 +1,15 @@
 package brainstonemod.common.worldgenerators;
 
-import java.util.Random;
-
+import brainstonemod.BrainStone;
+import cpw.mods.fml.common.IWorldGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
-import brainstonemod.BrainStone;
-import cpw.mods.fml.common.IWorldGenerator;
 
-// TODO split into 2 classes for separate generation of the ore(s) and the dungeon
-public class BrainStoneWorldGenerator implements IWorldGenerator {
+import java.util.Random;
+
+public class BrainStoneOreWorldGenerator implements IWorldGenerator {
 	/** Temporary storage of the random parameter in generate */
 	private Random random;
 	/** Temporary storage of the chunkX parameter in generate */
@@ -20,14 +19,6 @@ public class BrainStoneWorldGenerator implements IWorldGenerator {
 	/** Temporary storage of the World parameter in generate */
 	private World world;
 
-	private void genBrainStoneDungeon() {
-		if (random.nextInt(1000) == 0) {
-			final BrainStoneWorldGeneratorBrainStoneDungeon name = new BrainStoneWorldGeneratorBrainStoneDungeon();
-
-			name.generate(world, random, chunkX, 0, chunkZ);
-		}
-	}
-
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator,
 			IChunkProvider chunkProvider) {
@@ -36,15 +27,9 @@ public class BrainStoneWorldGenerator implements IWorldGenerator {
 		this.chunkZ = chunkZ * 16;
 		this.world = world;
 		switch (this.world.provider.dimensionId) {
-		case -1: // Nether
-			break;
 		case 0: // Overworld
 			this.genMinable(BrainStone.brainStoneOre(), 20, 1, 32);
 
-			genBrainStoneDungeon();
-
-			break;
-		case 1: // End
 			break;
 		// TODO: Move to config
 		case 7: // Twilight Forest
