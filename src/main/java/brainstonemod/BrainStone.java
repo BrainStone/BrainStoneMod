@@ -65,6 +65,7 @@ import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.Logger;
 import tconstruct.armor.TinkerArmor;
@@ -266,6 +267,8 @@ public class BrainStone {
 		proxy.registerRenderInformation();
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new BrainStoneGuiHandler());
 
+		proxy.registerOre();
+
 		registerTileEntitys(); // TileEntitys
 		addRecipes(); // Recipes
 		addSmeltings(); // Smeltings
@@ -277,8 +280,6 @@ public class BrainStone {
 		MinecraftForge.EVENT_BUS.register(eventHandler);
 		// Register PacketPipeline
 		packetPipeline.initialise();
-
-		proxy.registerOre();
 	}
 
 	/**
@@ -606,53 +607,53 @@ public class BrainStone {
 	 * Adds the recipes.
 	 */
 	private static void addRecipes() {
-		GameRegistry.addRecipe(new ItemStack(dirtyBrainStone(), 1), "XX", "XX", 'X', brainStoneDust());
-		GameRegistry.addRecipe(new ItemStack(brainLightSensor(), 1), "XGX", "XBX", "XRX", 'X', Blocks.stone, 'G',
-				Blocks.glass, 'B', brainStone(), 'R', Items.redstone);
-		GameRegistry.addRecipe(new ItemStack(brainStoneTrigger(), 1), "XXX", "RRR", "XBX", 'X', Blocks.stone, 'B',
-				brainStone(), 'R', Items.redstone);
-		GameRegistry.addRecipe(new ItemStack(brainLogicBlock(), 1), "SRS", "RPR", "SRS", 'S', Blocks.stone, 'P',
-				brainProcessor(), 'R', Items.redstone);
-		GameRegistry.addRecipe(new ItemStack(pulsatingBrainStone(), 1), "dBd", "BDB", "dBd", 'd', brainStoneDust(), 'B',
-				brainStone(), 'D', Items.diamond);
-		GameRegistry.addRecipe(new ItemStack(pulsatingBrainStone(), 1), "BdB", "dDd", "BdB", 'd', brainStoneDust(), 'B',
-				brainStone(), 'D', Items.diamond);
-		GameRegistry.addRecipe(new ItemStack(stablePulsatingBrainStone(), 1), "EPE", "PSP", "EPE", 'E', essenceOfLife(),
+		addRecipe(new ItemStack(dirtyBrainStone(), 1), "XX", "XX", 'X', "dustBrainstone");
+		addRecipe(new ItemStack(brainLightSensor(), 1), "XGX", "XBX", "XRX", 'X', "stone", 'G',
+				"blockGlass", 'B', "brainstone", 'R', "dustRedstone");
+		addRecipe(new ItemStack(brainStoneTrigger(), 1), "XXX", "RRR", "XBX", 'X', "stone", 'B',
+				"brainstone", 'R', "dustRedstone");
+		addRecipe(new ItemStack(brainLogicBlock(), 1), "SRS", "RPR", "SRS", 'S', "stone", 'P',
+				brainProcessor(), 'R', "dustRedstone");
+		addRecipe(new ItemStack(pulsatingBrainStone(), 1), "dBd", "BDB", "dBd", 'd', "dustBrainstone", 'B',
+				"brainstone", 'D', "gemDiamond");
+		addRecipe(new ItemStack(pulsatingBrainStone(), 1), "BdB", "dDd", "BdB", 'd', "dustBrainstone", 'B',
+				"brainstone", 'D', "gemDiamond");
+		addRecipe(new ItemStack(stablePulsatingBrainStone(), 1), "EPE", "PSP", "EPE", 'E', essenceOfLife(),
 				'P', pulsatingBrainStone(), 'S', Items.nether_star);
-		GameRegistry.addRecipe(new ItemStack(stablePulsatingBrainStone(), 1), "PEP", "ESE", "PEP", 'E', essenceOfLife(),
+		addRecipe(new ItemStack(stablePulsatingBrainStone(), 1), "PEP", "ESE", "PEP", 'E', essenceOfLife(),
 				'P', pulsatingBrainStone(), 'S', Items.nether_star);
-		GameRegistry.addRecipe(new ItemStack(brainStoneSword(), 1), "B", "B", "S", 'S', Items.stick, 'B', brainStone());
-		GameRegistry.addRecipe(new ItemStack(brainStoneShovel(), 1), "B", "S", "S", 'S', Items.stick, 'B',
-				brainStone());
-		GameRegistry.addRecipe(new ItemStack(brainStonePickaxe(), 1), "BBB", " S ", " S ", 'S', Items.stick, 'B',
-				brainStone());
-		GameRegistry.addRecipe(new ItemStack(brainStoneAxe(), 1), "BB", "BS", " S", 'S', Items.stick, 'B',
-				brainStone());
-		GameRegistry.addRecipe(new ItemStack(brainStoneHoe(), 1), "BB", " S", " S", 'S', Items.stick, 'B',
-				brainStone());
-		GameRegistry.addRecipe(new ItemStack(brainStoneHelmet(), 1), "BBB", "B B", 'B', brainStone());
-		GameRegistry.addRecipe(new ItemStack(brainStonePlate(), 1), "B B", "BBB", "BBB", 'B', brainStone());
-		GameRegistry.addRecipe(new ItemStack(brainStoneLeggings(), 1), "BBB", "B B", "B B", 'B', brainStone());
-		GameRegistry.addRecipe(new ItemStack(brainStoneBoots(), 1), "B B", "B B", 'B', brainStone());
-		GameRegistry.addRecipe(new ItemStack(brainProcessor(), 4), "TRT", "SBS", "TRT", 'B', brainStone(), 'S',
-				Items.redstone, 'T', Blocks.redstone_torch, 'R', Items.repeater);
-		GameRegistry.addRecipe(new ItemStack(stablePulsatingBrainStoneSword(), 1), "B", "B", "S", 'S',
-				Blocks.redstone_block, 'B', stablePulsatingBrainStone());
-		GameRegistry.addRecipe(new ItemStack(stablePulsatingBrainStoneShovel(), 1), "B", "S", "S", 'S',
-				Blocks.redstone_block, 'B', stablePulsatingBrainStone());
-		GameRegistry.addRecipe(new ItemStack(stablePulsatingBrainStonePickaxe(), 1), "BBB", " S ", " S ", 'S',
-				Blocks.redstone_block, 'B', stablePulsatingBrainStone());
-		GameRegistry.addRecipe(new ItemStack(stablePulsatingBrainStoneAxe(), 1), "BB", "BS", " S", 'S',
-				Blocks.redstone_block, 'B', stablePulsatingBrainStone());
-		GameRegistry.addRecipe(new ItemStack(stablePulsatingBrainStoneHoe(), 1), "BB", " S", " S", 'S',
-				Blocks.redstone_block, 'B', stablePulsatingBrainStone());
-		GameRegistry.addRecipe(new ItemStack(stablePulsatingBrainStoneHelmet(), 1), "BBB", "B B", 'B',
+		addRecipe(new ItemStack(brainStoneSword(), 1), "B", "B", "S", 'S', "stickWood", 'B', "brainstone");
+		addRecipe(new ItemStack(brainStoneShovel(), 1), "B", "S", "S", 'S', "stickWood", 'B',
+				"brainstone");
+		addRecipe(new ItemStack(brainStonePickaxe(), 1), "BBB", " S ", " S ", 'S', "stickWood", 'B',
+				"brainstone");
+		addRecipe(new ItemStack(brainStoneAxe(), 1), "BB", "BS", " S", 'S', "stickWood", 'B',
+				"brainstone");
+		addRecipe(new ItemStack(brainStoneHoe(), 1), "BB", " S", " S", 'S', "stickWood", 'B',
+				"brainstone");
+		addRecipe(new ItemStack(brainStoneHelmet(), 1), "BBB", "B B", 'B', "brainstone");
+		addRecipe(new ItemStack(brainStonePlate(), 1), "B B", "BBB", "BBB", 'B', "brainstone");
+		addRecipe(new ItemStack(brainStoneLeggings(), 1), "BBB", "B B", "B B", 'B', "brainstone");
+		addRecipe(new ItemStack(brainStoneBoots(), 1), "B B", "B B", 'B', "brainstone");
+		addRecipe(new ItemStack(brainProcessor(), 4), "TRT", "SBS", "TRT", 'B', "brainstone", 'S',
+				"dustRedstone", 'T', Blocks.redstone_torch, 'R', Items.repeater);
+		addRecipe(new ItemStack(stablePulsatingBrainStoneSword(), 1), "B", "B", "S", 'S',
+				"blockRedstone", 'B', stablePulsatingBrainStone());
+		addRecipe(new ItemStack(stablePulsatingBrainStoneShovel(), 1), "B", "S", "S", 'S',
+				"blockRedstone", 'B', stablePulsatingBrainStone());
+		addRecipe(new ItemStack(stablePulsatingBrainStonePickaxe(), 1), "BBB", " S ", " S ", 'S',
+				"blockRedstone", 'B', stablePulsatingBrainStone());
+		addRecipe(new ItemStack(stablePulsatingBrainStoneAxe(), 1), "BB", "BS", " S", 'S',
+				"blockRedstone", 'B', stablePulsatingBrainStone());
+		addRecipe(new ItemStack(stablePulsatingBrainStoneHoe(), 1), "BB", " S", " S", 'S',
+				"blockRedstone", 'B', stablePulsatingBrainStone());
+		addRecipe(new ItemStack(stablePulsatingBrainStoneHelmet(), 1), "BBB", "B B", 'B',
 				stablePulsatingBrainStone());
-		GameRegistry.addRecipe(new ItemStack(stablePulsatingBrainStonePlate(), 1), "B B", "BBB", "BBB", 'B',
+		addRecipe(new ItemStack(stablePulsatingBrainStonePlate(), 1), "B B", "BBB", "BBB", 'B',
 				stablePulsatingBrainStone());
-		GameRegistry.addRecipe(new ItemStack(stablePulsatingBrainStoneLeggings(), 1), "BBB", "B B", "B B", 'B',
+		addRecipe(new ItemStack(stablePulsatingBrainStoneLeggings(), 1), "BBB", "B B", "B B", 'B',
 				stablePulsatingBrainStone());
-		GameRegistry.addRecipe(new ItemStack(stablePulsatingBrainStoneBoots(), 1), "B B", "B B", 'B',
+		addRecipe(new ItemStack(stablePulsatingBrainStoneBoots(), 1), "B B", "B B", 'B',
 				stablePulsatingBrainStone());
 
 		if (BrainStoneModules.tinkersConstruct()) {
@@ -672,14 +673,18 @@ public class BrainStone {
 			Object craftingS = (BrainStoneModules.enderIO()) ? EnderIOItems.getSentientEnder()
 					: new ItemStack(Items.skull, 1, 1);
 			Object craftingX = (BrainStoneModules.enderIO()) ? EnderIOItems.getXPRod() : Items.blaze_rod;
-			Object craftingC = (BrainStoneModules.enderIO()) ? EnderIOItems.getOctadicCapacitor() : Items.redstone;
+			Object craftingC = (BrainStoneModules.enderIO()) ? EnderIOItems.getOctadicCapacitor() : "dustRedstone";
 			Object craftingH = (BrainStoneModules.tinkersConstruct()) ? TinkersConstructItems.getGreenHeartCanister()
 					: new ItemStack(Items.golden_apple, 1, 1);
 
-			GameRegistry.addRecipe(new ItemStack(brainStoneLifeCapacitor(), 1), "SBX", "CHC", " P ", 'S', craftingS,
+			addRecipe(new ItemStack(brainStoneLifeCapacitor(), 1), "SBX", "CHC", " P ", 'S', craftingS,
 					'B', brainProcessor(), 'X', craftingX, 'C', craftingC, 'H', craftingH, 'P',
 					stablePulsatingBrainStonePlate());
 		}
+	}
+
+	public static void addRecipe(ItemStack stack, Object... args){
+		GameRegistry.addRecipe(new ShapedOreRecipe(stack, args));
 	}
 
 	/**
