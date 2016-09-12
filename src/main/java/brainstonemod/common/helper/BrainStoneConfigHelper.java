@@ -1,19 +1,17 @@
 package brainstonemod.common.helper;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import brainstonemod.BrainStone;
 import brainstonemod.common.api.BrainStoneModules;
-import cpw.mods.fml.client.config.GuiConfig;
 import cpw.mods.fml.client.config.IConfigElement;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import lombok.experimental.UtilityClass;
-import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
+
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @UtilityClass
 public class BrainStoneConfigHelper {
@@ -99,7 +97,7 @@ public class BrainStoneConfigHelper {
 	/**
 	 * <tt><table><tr><td>0:</td><td>release</td></tr><tr><td>1:</td><td>recommended</td></tr><tr><td>2:</td><td>latest</td></tr><tr><td>-1:</td><td><i>none</i></td></tr></table></tt>
 	 */
-	public byte updateNotification() {
+	public static byte updateNotification() {
 		return updateNotification;
 	}
 
