@@ -24,7 +24,6 @@ import brainstonemod.common.item.template.ItemBrainStoneBase;
 import brainstonemod.network.packet.BrainStoneLifeCapacitorMap;
 import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.common.Optional;
-import cpw.mods.fml.common.Optional.Method;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import crazypants.enderio.machine.power.PowerDisplayUtil;
@@ -47,12 +46,18 @@ import net.minecraftforge.common.util.Constants.NBT;
 @Optional.Interface(iface = "baubles.api.IBauble", modid = "Baubles|API")
 public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements IEnergyContainerItem, IBauble {
 	public static final int MaxDamage = 32;
-	public static final long RFperHalfHeart = BrainStoneConfigHelper.BSLC_RFperHalfHeart();
+	public static long RFperHalfHeart = BrainStoneConfigHelper.BSLC_RFperHalfHeart();
 	/**
 	 * The maximum level for any type. The limit is calculated by dividing the
 	 * energy limit of 1 000 000 000 000 RF through the RFperHalfHeart * 10
 	 */
-	public static final int MaxLevel = (int) (1000000000000L / (RFperHalfHeart * 10));
+	public static int MaxLevel = (int) (1000000000000L / (RFperHalfHeart * 10));
+
+	public static void updateRFperHalfHeart() {
+		RFperHalfHeart = BrainStoneConfigHelper.BSLC_RFperHalfHeart();
+		MaxLevel = (int) (1000000000000L / (RFperHalfHeart * 10));
+	}
+
 	private PlayerCapacitorMapping PCmapping;
 
 	public ItemBrainStoneLifeCapacitor() {
@@ -76,8 +81,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean hasEffect(ItemStack container, int pass) {
-		return (getEnergyStoredLong(container) >= RFperHalfHeart)
-				&& (PCmapping.getPlayerUUID(getUUID(container)) != null);
+		return (getEnergyStoredLong(container) >= RFperHalfHeart) && hasOwner(container);
 	}
 
 	@Override
@@ -447,35 +451,35 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	}
 
 	@Override
-	@Method(modid = "Baubles|API")
+	@Optional.Method(modid = "Baubles|API")
 	public boolean canEquip(ItemStack stack, EntityLivingBase entity) {
 		return isCurrentOwner(stack, entity.getUniqueID());
 	}
 
 	@Override
-	@Method(modid = "Baubles|API")
+	@Optional.Method(modid = "Baubles|API")
 	public boolean canUnequip(ItemStack stack, EntityLivingBase entity) {
 		return true;
 	}
 
 	@Override
-	@Method(modid = "Baubles|API")
+	@Optional.Method(modid = "Baubles|API")
 	public BaubleType getBaubleType(ItemStack stack) {
 		return BaubleType.BELT;
 	}
 
 	@Override
-	@Method(modid = "Baubles|API")
+	@Optional.Method(modid = "Baubles|API")
 	public void onEquipped(ItemStack stack, EntityLivingBase entity) {
 	}
 
 	@Override
-	@Method(modid = "Baubles|API")
+	@Optional.Method(modid = "Baubles|API")
 	public void onUnequipped(ItemStack stack, EntityLivingBase entity) {
 	}
 
 	@Override
-	@Method(modid = "Baubles|API")
+	@Optional.Method(modid = "Baubles|API")
 	public void onWornTick(ItemStack stack, EntityLivingBase entity) {
 	}
 

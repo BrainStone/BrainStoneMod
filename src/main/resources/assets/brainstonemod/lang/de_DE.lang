@@ -71,6 +71,10 @@ gui.brainstone.classic=Klassik
 gui.brainstone.simple=Einfach
 gui.brainstone.proportional=Proportional
 gui.brainstone.inverted=Invertiert
+gui.brainstone.config.cat.display=Anzeige
+gui.brainstone.config.cat.display.tooltip=Modifiziere alle Anzeige-Einstellungen
+gui.brainstone.config.cat.brainstonelivecapacitor=Hirnsteinlebenskondensator
+gui.brainstone.config.cat.brainstonelivecapacitor.tooltip=Modifiziere alle Hirnsteinlebenskondensator-Einstellungen
 
 
 tc.aspect.brainstone=Hirn+Stein

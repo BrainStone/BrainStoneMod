@@ -1,15 +1,27 @@
 package brainstonemod.common.helper;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import brainstonemod.BrainStone;
 import brainstonemod.common.api.BrainStoneModules;
+import cpw.mods.fml.client.config.GuiConfig;
+import cpw.mods.fml.client.config.IConfigElement;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import lombok.experimental.UtilityClass;
+import net.minecraftforge.common.config.ConfigCategory;
+import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
 
 @UtilityClass
 public class BrainStoneConfigHelper {
+	public static final String CAT_DISPLAY = "display";
+	public static final String CAT_BSLC = "brainstonelivecapacitor";
+
+	private static Configuration configStorage;
+
 	private static byte updateNotification;
 	private static boolean enableCreativeTab;
 	private static boolean enableAchievementPage;
@@ -20,18 +32,24 @@ public class BrainStoneConfigHelper {
 	/** The X positions of the achievements */
 	private static Map<String, Integer> achievementYPositions = new LinkedHashMap<String, Integer>();
 
+	public static void loadConfig() {
+		loadConfig(configStorage);
+	}
+
 	public static void loadConfig(Configuration config) {
+		configStorage = config;
+
 		config.load();
 
-		final String str = config.getString("DisplayUpdates", "Display",
+		final String str = config.getString("DisplayUpdates", CAT_DISPLAY,
 				BrainStone.DEV ? "recommended" : (BrainStone.release ? "release" : "latest"),
 				"What update notifications do you want to recieve?\nValues are: release, recommended, latest, none (or off)");
 		updateNotification = (byte) ((str.equals("none") || str.equals("off")) ? -1
 				: (str.equals("recommended") ? 1 : (str.equals("latest") ? 2 : 0)));
 
-		enableCreativeTab = config.getBoolean("EnableCreativeTab", "display", true,
+		enableCreativeTab = config.getBoolean("EnableCreativeTab", CAT_DISPLAY, true,
 				"Do you want to have a custom Creative Tab for this mod?");
-		enableAchievementPage = config.getBoolean("EnableAchievementPage", "display", true,
+		enableAchievementPage = config.getBoolean("EnableAchievementPage", CAT_DISPLAY, true,
 				"Do you want to have a custom Achievement Page for this mod?");
 
 		String curAch, curAchUp;
@@ -58,23 +76,22 @@ public class BrainStoneConfigHelper {
 		}
 
 		if (BrainStoneModules.energy()) {
-			BSLC_AllowStealing = config.getBoolean("AllowStealing", "brainstonelivecapacitor", false,
+			BSLC_AllowStealing = config.getBoolean("AllowStealing", CAT_BSLC, false,
 					"Do you want to allow the stealing of the BrainStoneLifeCapacitor?");
-			BSLC_RFperHalfHeart = config.getInt("RFperHalfHeart", "brainstonelivecapacitor", 1000000, 1,
-					Integer.MAX_VALUE, "How much energy half a heart should cost.");
+			BSLC_RFperHalfHeart = config.getInt("RFperHalfHeart", CAT_BSLC, 1000000, 1, Integer.MAX_VALUE,
+					"How much energy half a heart should cost.");
 
-			config.addCustomCategoryComment("display", "This set defines some basic ingame display settings");
-
-			if (enableAchievementPage)
-				config.addCustomCategoryComment("customachievementpage",
-						"This set defines the positions of the achievements on the custom Brain Stone Mod Achievement Page.\nOnly applies when \"B:EnableAchievementPage\" is set to true.");
-			else
-				config.addCustomCategoryComment("regularachievementpage",
-						"This set defines the positions of the achievements on the default Minecraft Achievement Page.\nOnly applies when \"B:EnableAchievementPage\" is set to false.");
-
-			config.addCustomCategoryComment("brainstonelivecapacitor",
-					"This set defines the behavior of the BrainStoneLiveCapacitor");
+			config.addCustomCategoryComment(CAT_BSLC, "This set defines the behavior of the BrainStoneLiveCapacitor");
 		}
+
+		config.addCustomCategoryComment(CAT_DISPLAY, "This set defines some basic ingame display settings");
+
+		if (enableAchievementPage)
+			config.addCustomCategoryComment("customachievementpage",
+					"This set defines the positions of the achievements on the custom Brain Stone Mod Achievement Page.\nOnly applies when \"B:EnableAchievementPage\" is set to true.");
+		else
+			config.addCustomCategoryComment("regularachievementpage",
+					"This set defines the positions of the achievements on the default Minecraft Achievement Page.\nOnly applies when \"B:EnableAchievementPage\" is set to false.");
 
 		config.save();
 	}
@@ -108,5 +125,15 @@ public class BrainStoneConfigHelper {
 
 	public static int getAchievementYPosition(String achievement) {
 		return achievementYPositions.get(achievement);
+	}
+
+	@SideOnly(Side.CLIENT)
+	public static List<IConfigElement> getDisplayCategory() {
+		return new ConfigElement(configStorage.getCategory(CAT_DISPLAY)).getChildElements();
+	}
+
+	@SideOnly(Side.CLIENT)
+	public static List<IConfigElement> getBrainStoneLiveCapacitorCategory() {
+		return new ConfigElement(configStorage.getCategory(CAT_BSLC)).getChildElements();
 	}
 }

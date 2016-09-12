@@ -71,6 +71,10 @@ gui.brainstone.classic=Classic
 gui.brainstone.simple=Simple
 gui.brainstone.proportional=Proportional
 gui.brainstone.inverted=Inverted
+gui.brainstone.config.cat.display=Display
+gui.brainstone.config.cat.display.tooltip=Modify all the settings related to the display
+gui.brainstone.config.cat.brainstonelivecapacitor=Brain Stone Life Capacitor
+gui.brainstone.config.cat.brainstonelivecapacitor.tooltip=Modify all the settings related to the Brain Stone Life Capacitor
 
 
 tc.aspect.brainstone=Brain+Stone

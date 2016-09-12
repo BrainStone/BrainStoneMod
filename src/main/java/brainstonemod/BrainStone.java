@@ -112,7 +112,7 @@ import tconstruct.armor.TinkerArmor;
  * 
  * @author Yannick Schinko (alias The_BrainStone)
  */
-@Mod(modid = BrainStone.MOD_ID, name = BrainStone.NAME, version = BrainStone.VERSION, dependencies = BrainStone.DEPENDENCIES, canBeDeactivated = true, certificateFingerprint = BrainStone.FINGERPRINT)
+@Mod(modid = BrainStone.MOD_ID, name = BrainStone.NAME, version = BrainStone.VERSION, dependencies = BrainStone.DEPENDENCIES, canBeDeactivated = true, certificateFingerprint = BrainStone.FINGERPRINT, guiFactory = BrainStone.GUI_FACTORY)
 public class BrainStone {
 	public static final String MOD_ID = "BrainStoneMod";
 	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
@@ -121,6 +121,7 @@ public class BrainStone {
 	public static final String VERSION = "${version}";
 	public static final String DEPENDENCIES = "after:EnderIO;after:MineFactoryReloaded;after:Thaumcraft;after:TConstruct";
 	public static final String FINGERPRINT = "2238d4a92d81ab407741a2fdb741cebddfeacba6";
+	public static final String GUI_FACTORY = "brainstonemod.client.gui.config.BrainStoneGuiFactory";
 	public static final String BASE_URL = "http://download.brainstonemod.com/";
 
 	/** The instance of this mod */
@@ -212,7 +213,7 @@ public class BrainStone {
 	 *            he MCForge FingerprintViolationEvent
 	 */
 	@EventHandler
-	public void onInvalidCertificate(FMLFingerprintViolationEvent event) {
+	public static void onInvalidCertificate(FMLFingerprintViolationEvent event) {
 		if (BrainStoneJarUtils.RUNNING_FROM_JAR && BrainStoneJarUtils.SIGNED_JAR)
 			VALID_JAR = false;
 	}
@@ -341,7 +342,7 @@ public class BrainStone {
 	 *            The MCForge ServerStartingEvent
 	 */
 	@EventHandler
-	public void onServerStarting(FMLServerStartingEvent event) {
+	public static void onServerStarting(FMLServerStartingEvent event) {
 		fillTriggerEntities();
 
 		if (BrainStoneModules.energy()) {

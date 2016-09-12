@@ -8,10 +8,12 @@ import baubles.api.BaublesApi;
 import brainstonemod.BrainStone;
 import brainstonemod.common.api.BrainStoneModules;
 import brainstonemod.common.helper.BSP;
+import brainstonemod.common.helper.BrainStoneConfigHelper;
 import brainstonemod.common.helper.BrainStoneDamageHelper;
 import brainstonemod.common.item.ItemBrainStoneLifeCapacitor;
 import brainstonemod.common.item.ItemBrainStoneLifeCapacitor.PlayerCapacitorMapping;
 import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
@@ -222,6 +224,16 @@ public class BrainStoneEventHandler {
 			if ((new Random()).nextDouble() < chance)
 				event.drops.add(new EntityItem(event.entity.worldObj, event.entity.posX, event.entity.posY,
 						event.entity.posZ, new ItemStack(BrainStone.essenceOfLife())));
+		}
+	}
+
+	@SubscribeEvent
+	public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
+		if (eventArgs.modID.equals(BrainStone.MOD_ID)) {
+			BrainStoneConfigHelper.loadConfig();
+
+			if (BrainStoneModules.energy())
+				ItemBrainStoneLifeCapacitor.updateRFperHalfHeart();
 		}
 	}
 
