@@ -25,6 +25,7 @@ public class BrainStoneConfigHelper {
 	private static boolean enableAchievementPage;
 	private static boolean BSLC_AllowStealing;
 	private static long BSLC_RFperHalfHeart;
+	//TODO: Add 2 integer arrays, one for Brainstone Ore dimension IDs, one for Brainstone House dimension IDs
 	/** The X positions of the achievements */
 	private static Map<String, Integer> achievementXPositions = new LinkedHashMap<String, Integer>();
 	/** The X positions of the achievements */
