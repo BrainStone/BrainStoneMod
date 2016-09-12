@@ -99,6 +99,7 @@ import net.minecraft.launchwrapper.Launch;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.AchievementPage;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
@@ -212,7 +213,7 @@ public class BrainStone {
 	 */
 	@EventHandler
 	public void onInvalidCertificate(FMLFingerprintViolationEvent event) {
-		if (BrainStoneJarUtils.RUNNING_FROM_JAR)
+		if (BrainStoneJarUtils.RUNNING_FROM_JAR && BrainStoneJarUtils.SIGNED_JAR)
 			VALID_JAR = false;
 	}
 
@@ -232,7 +233,8 @@ public class BrainStone {
 		Level logLevel = DEV_ENV ? Level.INFO : Level.DEBUG;
 
 		BSP.setUpLogger((Logger) event.getModLog());
-		BSP.log(logLevel, "Is release version: " + release, "Is DEV version: " + DEV, "Is DEV environment: " + DEV_ENV);
+		BSP.log(logLevel, "Is release version: " + release, "Is DEV version: " + DEV, "Is DEV environment: " + DEV_ENV,
+				"Is running from jar: " + BrainStoneJarUtils.RUNNING_FROM_JAR);
 
 		if (VALID_JAR && BrainStoneJarUtils.RUNNING_FROM_JAR) {
 			try {
@@ -243,9 +245,7 @@ public class BrainStone {
 			}
 		}
 
-		BSP.log(VALID_JAR ? logLevel : Level.WARN,
-				(BrainStoneJarUtils.RUNNING_FROM_JAR ? "R" : "Not r") + "unning from jar!",
-				"Jar is " + (VALID_JAR ? "" : "not ") + "valid!",
+		BSP.log(VALID_JAR ? logLevel : Level.WARN, "Jar is " + (VALID_JAR ? "" : "not ") + "valid!",
 				"Jar is " + (BrainStoneJarUtils.SIGNED_JAR ? "" : "not ") + "signed!");
 
 		checkForModules();
@@ -356,10 +356,18 @@ public class BrainStone {
 	public static void onPlayerJoinClient(EntityPlayer player, ClientConnectedToServerEvent event) {
 		if (!VALID_JAR) {
 			sendToPlayer(player,
-					"§4The .jar file of the BrainStoneMod appears to be corrupted\n§4or modified!\n§4Please DO NOT use it as it may cause harm to your computer!\n§eYou can download a fresh .jar file from here\n§1https://download.brainstonemod.com §e!");
+					EnumChatFormatting.DARK_RED + "The .jar file of the BrainStoneMod appears to be corrupted\n"
+							+ EnumChatFormatting.DARK_RED + "or modified!\n" + EnumChatFormatting.DARK_RED
+							+ "Please DO NOT use it as it may cause harm to your computer!\n"
+							+ EnumChatFormatting.YELLOW + "You can download a fresh .jar file from here\n"
+							+ EnumChatFormatting.DARK_BLUE + "https://download.brainstonemod.com "
+							+ EnumChatFormatting.YELLOW + "!");
 		} else if (!BrainStoneJarUtils.SIGNED_JAR) {
 			sendToPlayer(player,
-					"§4The .jar file of the BrainStoneMod is not signed!\n§eIf you did not create this version yourself download a fresh \n§e.jar file from here §1https://download.brainstonemod.com §e!");
+					EnumChatFormatting.DARK_RED + "The .jar file of the BrainStoneMod is not signed!\n"
+							+ EnumChatFormatting.YELLOW + "If you did not create this version yourself download a\n"
+							+ EnumChatFormatting.YELLOW + "fresh .jar file from here " + EnumChatFormatting.DARK_BLUE
+							+ "https://download.brainstonemod.com " + EnumChatFormatting.YELLOW + "!");
 		}
 
 		if (!VERSION.equals("${ver" + "sion}") && !latestVersion.equals("") && !recommendedVersion.equals("")
@@ -367,39 +375,69 @@ public class BrainStone {
 			switch (BrainStoneConfigHelper.updateNotification()) {
 			case 0:
 				if (isHigherVersion(VERSION, releaseVersion)) {
-					sendToPlayer(player, "§a A new Version of the BSM is available!\n§l§c========== §4" + releaseVersion
-							+ "§c ==========\n"
-							+ "§1Download it at §ehttp://adf.ly/2002096/release§1\nor §ehttps://download.brainstonemod.com §1!");
+					sendToPlayer(player,
+							EnumChatFormatting.GREEN + "A new Version of the BSM is available!\n"
+									+ EnumChatFormatting.BOLD + EnumChatFormatting.RED + "========== "
+									+ EnumChatFormatting.DARK_RED + latestVersion + EnumChatFormatting.RED
+									+ " ==========\n" + EnumChatFormatting.DARK_BLUE + "Download it at "
+									+ EnumChatFormatting.YELLOW + "http://adf.ly/2002096/release\n"
+									+ EnumChatFormatting.DARK_BLUE + "or " + EnumChatFormatting.YELLOW
+									+ "https://download.brainstonemod.com " + EnumChatFormatting.DARK_BLUE + "!");
 				}
 
 				break;
 			case 1:
 				if (isHigherVersion(VERSION, releaseVersion) && !isHigherVersion(releaseVersion, recommendedVersion)) {
-					sendToPlayer(player, "§a A new Version of the BSM is available!\n§l§c========== §4" + releaseVersion
-							+ "§c ==========\n"
-							+ "§1Download it at §ehttp://adf.ly/2002096/release§1\nor §ehttps://download.brainstonemod.com §1!");
+					sendToPlayer(player,
+							EnumChatFormatting.GREEN + "A new Version of the BSM is available!\n"
+									+ EnumChatFormatting.BOLD + EnumChatFormatting.RED + "========== "
+									+ EnumChatFormatting.DARK_RED + latestVersion + EnumChatFormatting.RED
+									+ " ==========\n" + EnumChatFormatting.DARK_BLUE + "Download it at "
+									+ EnumChatFormatting.YELLOW + "http://adf.ly/2002096/release\n"
+									+ EnumChatFormatting.DARK_BLUE + "or " + EnumChatFormatting.YELLOW
+									+ "https://download.brainstonemod.com " + EnumChatFormatting.DARK_BLUE + "!");
 				} else if (isHigherVersion(VERSION, recommendedVersion)) {
-					sendToPlayer(player, "§a A new recommended DEV Version of the BSM is available!\n§l§c========== §4"
-							+ recommendedVersion + "§c ==========\n"
-							+ "§1Download it at §ehttp://adf.ly/2002096/recommended§1\nor §ehttps://download.brainstonemod.com §1!");
+					sendToPlayer(player,
+							EnumChatFormatting.GREEN + "A new recommended DEV Version of the BSM is available!\n"
+									+ EnumChatFormatting.BOLD + EnumChatFormatting.RED + "========== "
+									+ EnumChatFormatting.DARK_RED + latestVersion + EnumChatFormatting.RED
+									+ " ==========\n" + EnumChatFormatting.DARK_BLUE + "Download it at "
+									+ EnumChatFormatting.YELLOW + "http://adf.ly/2002096/recommended\n"
+									+ EnumChatFormatting.DARK_BLUE + "or " + EnumChatFormatting.YELLOW
+									+ "https://download.brainstonemod.com " + EnumChatFormatting.DARK_BLUE + "!");
 				}
 
 				break;
 			case 2:
 				if (isHigherVersion(VERSION, releaseVersion) && !isHigherVersion(releaseVersion, recommendedVersion)
 						&& !isHigherVersion(releaseVersion, latestVersion)) {
-					sendToPlayer(player, "§a A new Version of the BSM is available!\n§l§c========== §4" + releaseVersion
-							+ "§c ==========\n"
-							+ "§1Download it at §ehttp://adf.ly/2002096/release§1\nor §ehttps://download.brainstonemod.com §1!");
+					sendToPlayer(player,
+							EnumChatFormatting.GREEN + "A new Version of the BSM is available!\n"
+									+ EnumChatFormatting.BOLD + EnumChatFormatting.RED + "========== "
+									+ EnumChatFormatting.DARK_RED + latestVersion + EnumChatFormatting.RED
+									+ " ==========\n" + EnumChatFormatting.DARK_BLUE + "Download it at "
+									+ EnumChatFormatting.YELLOW + "http://adf.ly/2002096/release\n"
+									+ EnumChatFormatting.DARK_BLUE + "or " + EnumChatFormatting.YELLOW
+									+ "https://download.brainstonemod.com " + EnumChatFormatting.DARK_BLUE + "!");
 				} else if (isHigherVersion(VERSION, recommendedVersion)
 						&& !isHigherVersion(recommendedVersion, latestVersion)) {
-					sendToPlayer(player, "§a A new recommended DEV Version of the BSM is available!\n§l§c========== §4"
-							+ recommendedVersion + "§c ==========\n"
-							+ "§1Download it at §ehttp://adf.ly/2002096/recommended§1\nor §ehttps://download.brainstonemod.com §1!");
+					sendToPlayer(player,
+							EnumChatFormatting.GREEN + "A new recommended DEV Version of the BSM is available!\n"
+									+ EnumChatFormatting.BOLD + EnumChatFormatting.RED + "========== "
+									+ EnumChatFormatting.DARK_RED + latestVersion + EnumChatFormatting.RED
+									+ " ==========\n" + EnumChatFormatting.DARK_BLUE + "Download it at "
+									+ EnumChatFormatting.YELLOW + "http://adf.ly/2002096/recommended\n"
+									+ EnumChatFormatting.DARK_BLUE + "or " + EnumChatFormatting.YELLOW
+									+ "https://download.brainstonemod.com " + EnumChatFormatting.DARK_BLUE + "!");
 				} else if (isHigherVersion(VERSION, latestVersion)) {
-					sendToPlayer(player, "§a A new DEV Version of the BSM is available!\n§l§c========== §4"
-							+ latestVersion + "§c ==========\n"
-							+ "§1Download it at §ehttp://adf.ly/2002096/latest§1\nor §ehttps://download.brainstonemod.com §1!");
+					sendToPlayer(player,
+							EnumChatFormatting.GREEN + "A new DEV Version of the BSM is available!\n"
+									+ EnumChatFormatting.BOLD + EnumChatFormatting.RED + "========== "
+									+ EnumChatFormatting.DARK_RED + latestVersion + EnumChatFormatting.RED
+									+ " ==========\n" + EnumChatFormatting.DARK_BLUE + "Download it at "
+									+ EnumChatFormatting.YELLOW + "http://adf.ly/2002096/latest\n"
+									+ EnumChatFormatting.DARK_BLUE + "or " + EnumChatFormatting.YELLOW
+									+ "https://download.brainstonemod.com " + EnumChatFormatting.DARK_BLUE + "!");
 				}
 
 				break;
