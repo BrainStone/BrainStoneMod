@@ -362,7 +362,7 @@ public class BrainStone {
 							+ EnumChatFormatting.YELLOW + "You can download a fresh .jar file from here\n"
 							+ EnumChatFormatting.DARK_BLUE + "https://download.brainstonemod.com "
 							+ EnumChatFormatting.YELLOW + "!");
-		} else if (!BrainStoneJarUtils.SIGNED_JAR) {
+		} else if (!BrainStoneJarUtils.SIGNED_JAR && !DEV_ENV) {
 			sendToPlayer(player,
 					EnumChatFormatting.DARK_RED + "The .jar file of the BrainStoneMod is not signed!\n"
 							+ EnumChatFormatting.YELLOW + "If you did not create this version yourself download a\n"
