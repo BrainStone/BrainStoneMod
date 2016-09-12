@@ -11,6 +11,7 @@ import brainstonemod.common.helper.BSP;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 
+// TODO Rework this entire system!!!
 public abstract class TileEntityBrainStoneSyncBase extends TileEntity {
 	protected boolean inventorySaving = true;
 

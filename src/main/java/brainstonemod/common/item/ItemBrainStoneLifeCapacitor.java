@@ -483,6 +483,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	public void onWornTick(ItemStack stack, EntityLivingBase entity) {
 	}
 
+	// TODO rework synchronizing!
 	public class PlayerCapacitorMapping {
 		private static final String relativePath = "/brainstonemod/brainStoneLiveCapacitor.dat";
 

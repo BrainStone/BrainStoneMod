@@ -30,6 +30,7 @@ import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
+// TODO all networking needs to be reworked.
 /**
  * Packet pipeline class. Directs all registered packet data to be handled by
  * the packets themselves.

@@ -29,8 +29,7 @@ public class ContainerBlockBrainStoneTrigger extends Container {
 
 		for (i = 0; i < 3; ++i) {
 			for (int j = 0; j < 9; ++j) {
-				addSlotToContainer(new Slot(inventoryplayer, j + (i * 9) + 9,
-						8 + (j * 18), 84 + (i * 18)));
+				addSlotToContainer(new Slot(inventoryplayer, j + (i * 9) + 9, 8 + (j * 18), 84 + (i * 18)));
 			}
 		}
 
@@ -51,6 +50,8 @@ public class ContainerBlockBrainStoneTrigger extends Container {
 		return trigger.isUseableByPlayer(entityplayer);
 	}
 
+	// TODO Not working properly. Only one item should be able to be inserted
+	// into the slot.
 	/**
 	 * Called when a player shift-clicks on a slot. You must override this or
 	 * you will crash when someone does that.
