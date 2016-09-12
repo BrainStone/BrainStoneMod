@@ -555,8 +555,8 @@ public class BrainStone {
 		event.getModMetadata().name = NAME;
 		event.getModMetadata().version = VERSION;
 		event.getModMetadata().url = "http://www.planetminecraft.com/mod/125sspwip-brainstonemod-v14827-beta-release/";
-		event.getModMetadata().credits = "The_BrainStone(Code, Textures, Ideas), Herr_Kermit(Textures), Jobbel(Name)";
-		event.getModMetadata().authorList = Arrays.asList(new String[] { "The_BrainStone", "Herr_Kermit" });
+		event.getModMetadata().credits = "The_BrainStone(Code, Textures, Ideas), The_Fireplace(Code), Herr_Kermit(Textures), Jobbel(Name)";
+		event.getModMetadata().authorList = Arrays.asList("The_BrainStone", "The_Fireplace", "Herr_Kermit");
 		event.getModMetadata().description = "This mod adds the mysterious block BrainStone. You can craft almost magical things from it.\nBut see yourself!\n\n\nThanks for downloading and supporting this mod!"
 				+ "\n\n\n\nCurrent Versions:\n    release:          " + releaseVersion + "\n    recommended:   "
 				+ recommendedVersion + "\n    latest:            " + latestVersion;
