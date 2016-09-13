@@ -35,26 +35,26 @@ public class ItemToolBrainStone extends ItemTool {
 
 		if (type.contains("spade"))
 			// Copied from ItemSpade
-			return Sets.newHashSet(new Block[] { Blocks.grass, Blocks.dirt,
-					Blocks.sand, Blocks.gravel, Blocks.snow_layer, Blocks.snow,
-					Blocks.clay, Blocks.farmland, Blocks.soul_sand,
-					Blocks.mycelium });
+			return Sets.newHashSet(Blocks.grass, Blocks.dirt,
+                    Blocks.sand, Blocks.gravel, Blocks.snow_layer, Blocks.snow,
+                    Blocks.clay, Blocks.farmland, Blocks.soul_sand,
+                    Blocks.mycelium);
 		else if (type.contains("pickaxe"))
 			// Copied from ItemPickaxe
-			return Sets.newHashSet(new Block[] { Blocks.cobblestone,
-					Blocks.double_stone_slab, Blocks.stone_slab, Blocks.stone,
-					Blocks.sandstone, Blocks.mossy_cobblestone,
-					Blocks.iron_ore, Blocks.iron_block, Blocks.coal_ore,
-					Blocks.gold_block, Blocks.gold_ore, Blocks.diamond_ore,
-					Blocks.diamond_block, Blocks.ice, Blocks.netherrack,
-					Blocks.lapis_ore, Blocks.lapis_block, Blocks.redstone_ore,
-					Blocks.lit_redstone_ore, Blocks.rail, Blocks.detector_rail,
-					Blocks.golden_rail, Blocks.activator_rail });
+			return Sets.newHashSet(Blocks.cobblestone,
+                    Blocks.double_stone_slab, Blocks.stone_slab, Blocks.stone,
+                    Blocks.sandstone, Blocks.mossy_cobblestone,
+                    Blocks.iron_ore, Blocks.iron_block, Blocks.coal_ore,
+                    Blocks.gold_block, Blocks.gold_ore, Blocks.diamond_ore,
+                    Blocks.diamond_block, Blocks.ice, Blocks.netherrack,
+                    Blocks.lapis_ore, Blocks.lapis_block, Blocks.redstone_ore,
+                    Blocks.lit_redstone_ore, Blocks.rail, Blocks.detector_rail,
+                    Blocks.golden_rail, Blocks.activator_rail);
 		else if (type.contains("axe"))
 			// Copied from ItemAxe
-			return Sets.newHashSet(new Block[] { Blocks.planks,
-					Blocks.bookshelf, Blocks.log, Blocks.log2, Blocks.chest,
-					Blocks.pumpkin, Blocks.lit_pumpkin });
+			return Sets.newHashSet(Blocks.planks,
+                    Blocks.bookshelf, Blocks.log, Blocks.log2, Blocks.chest,
+                    Blocks.pumpkin, Blocks.lit_pumpkin);
 
 		BSP.throwIllegalArgumentException("The tool type \""
 				+ type
@@ -139,8 +139,7 @@ public class ItemToolBrainStone extends ItemTool {
 	public boolean func_150897_b(Block par1Block) {
 		switch (typeId) {
 		case 0:
-			return par1Block == Blocks.snow_layer ? true
-					: par1Block == Blocks.snow;
+			return par1Block == Blocks.snow_layer || par1Block == Blocks.snow;
 		case 1:
 			return par1Block == Blocks.obsidian ? toolMaterial
 					.getHarvestLevel() == 3
@@ -151,9 +150,9 @@ public class ItemToolBrainStone extends ItemTool {
 							&& (par1Block != Blocks.iron_ore) ? ((par1Block != Blocks.lapis_block)
 							&& (par1Block != Blocks.lapis_ore) ? ((par1Block != Blocks.redstone_ore)
 							&& (par1Block != Blocks.lit_redstone_ore) ? (par1Block
-							.getMaterial() == Material.rock ? true : (par1Block
-							.getMaterial() == Material.iron ? true : par1Block
-							.getMaterial() == Material.anvil)) : toolMaterial
+                    .getMaterial() == Material.rock || (par1Block
+                    .getMaterial() == Material.iron || par1Block
+                    .getMaterial() == Material.anvil)) : toolMaterial
 							.getHarvestLevel() >= 2)
 							: toolMaterial.getHarvestLevel() >= 1)
 							: toolMaterial.getHarvestLevel() >= 1)

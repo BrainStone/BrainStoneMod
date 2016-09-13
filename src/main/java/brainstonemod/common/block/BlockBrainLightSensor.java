@@ -76,11 +76,9 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 	@Override
 	public boolean canConnectRedstone(IBlockAccess world, int x, int y, int z,
 			int side) {
-		if (side == -1)
-			return false;
+        return side != -1;
 
-		return true;
-	}
+    }
 
 	@Override
 	public boolean canProvidePower() {

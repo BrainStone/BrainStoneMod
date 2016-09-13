@@ -703,8 +703,8 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 						BSP.warnException(e);
 					}
 					soundHandler.resumeSounds();
-				};
-			}).start();
+				}
+            }).start();
 		}
 	}
 

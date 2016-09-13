@@ -672,7 +672,7 @@ public abstract class BSP {
 	 */
 	@SuppressWarnings("unchecked")
 	public static final <E extends RuntimeException> void throwException(E exception, String additionalMessage) {
-		throw (E) new RuntimeException("(" + exception.getClass().getName() + ")" + errorMessageAddon
+		throw new RuntimeException("(" + exception.getClass().getName() + ")" + errorMessageAddon
 				+ ANLIN(additionalMessage + "\n") + "\nOriginal message: \"" + exception.getMessage() + "\"\n",
 				exception);
 	}

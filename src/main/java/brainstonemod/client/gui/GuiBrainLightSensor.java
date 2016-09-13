@@ -117,8 +117,7 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 				click();
 			}
 		} else {
-			;
-		}
+        }
 	}
 
 	@Override

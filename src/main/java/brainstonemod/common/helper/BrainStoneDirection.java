@@ -185,7 +185,7 @@ public enum BrainStoneDirection {
 		return fromTextureDirectionMap.get(side);
 	}
 
-	private BrainStoneDirection() {
+	BrainStoneDirection() {
 	}
 
 	public BrainStoneDirection getOpposite() {

@@ -133,12 +133,10 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 				z + 4)))
 			return false;
 
-		if (!(isReplaceable(x + 2, y + 5, z + 2) && isReplaceable(x + 3, y + 5,
-				z + 2)))
-			return false;
+        return isReplaceable(x + 2, y + 5, z + 2) && isReplaceable(x + 3, y + 5,
+                z + 2);
 
-		return true;
-	}
+    }
 
 	private boolean canPlaceStairsHere() {
 		int i, j, k;

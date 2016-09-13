@@ -201,10 +201,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 		else if (!((armor[1 + offset].getItem() == BrainStone.brainStoneLeggings())
 				|| (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[1 + offset])))))
 			return false;
-		else if (!((armor[0 + offset].getItem() == BrainStone.brainStoneBoots())
-				|| (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[0 + offset])))))
-			return false;
-		else
-			return true;
+		else return (armor[0 + offset].getItem() == BrainStone.brainStoneBoots())
+                    || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[0 + offset])));
 	}
 }

@@ -39,7 +39,6 @@ import cpw.mods.fml.common.versioning.ComparableVersion;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.command.ICommandSender;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
@@ -432,7 +431,7 @@ public class BrainStone {
 		String[] lines = message.split("\n");
 
 		for (String line : lines)
-			((ICommandSender) player).addChatMessage(new ChatComponentText(line));
+			player.addChatMessage(new ChatComponentText(line));
 	}
 
 	private static void checkForModules() {

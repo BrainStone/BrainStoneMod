@@ -107,7 +107,8 @@ public class BrainStoneEventHandler {
 	@SubscribeEvent
 	public void onPlayerJoinClient(final ClientConnectedToServerEvent event) {
 		(new Thread() {
-			public void run() {
+			@Override
+            public void run() {
 				while (FMLClientHandler.instance().getClientPlayerEntity() == null)
 					try {
 						Thread.sleep(100);

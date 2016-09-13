@@ -11,12 +11,12 @@ import net.minecraftforge.oredict.RecipeSorter;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public class BrainStoneLifeCapacitorUpgrade implements IRecipe {
-	public static enum Upgrade {
+	public enum Upgrade {
 		CAPACITY(BrainStone.essenceOfLife()), CHARGING(BrainStone.pulsatingBrainStone());
 
 		private Object upgradeItem;
 
-		private Upgrade(Object upgradeItem) {
+		Upgrade(Object upgradeItem) {
 			this.upgradeItem = upgradeItem;
 		}
 

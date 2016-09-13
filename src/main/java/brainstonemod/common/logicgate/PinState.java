@@ -53,7 +53,7 @@ public enum PinState {
 
 	private final byte PowerLevel;
 
-	private PinState(byte PowerLevel) {
+	PinState(byte PowerLevel) {
 		this.PowerLevel = PowerLevel;
 	}
 
