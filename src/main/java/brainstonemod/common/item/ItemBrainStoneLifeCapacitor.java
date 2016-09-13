@@ -1,27 +1,13 @@
 package brainstonemod.common.item;
 
-import java.io.EOFException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import org.lwjgl.input.Keyboard;
-
 import baubles.api.BaubleType;
 import baubles.api.IBauble;
 import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.helper.BrainStoneConfigHelper;
 import brainstonemod.common.item.template.ItemBrainStoneBase;
-import brainstonemod.network.packet.BrainStoneLifeCapacitorMap;
+import brainstonemod.network.PacketDispatcher;
+import brainstonemod.network.packet.PacketCapacitorData;
 import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
@@ -42,6 +28,13 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.UsernameCache;
 import net.minecraftforge.common.util.Constants.NBT;
+import org.lwjgl.input.Keyboard;
+
+import java.io.*;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @Optional.Interface(iface = "baubles.api.IBauble", modid = "Baubles|API")
 public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements IEnergyContainerItem, IBauble {
@@ -582,7 +575,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 
 			updateName(playerUUID, true);
 
-			BrainStone.packetPipeline.sendToAll(new BrainStoneLifeCapacitorMap());
+			PacketDispatcher.sendToAll(new PacketCapacitorData(getPlayerCapacitorMapping().getMap()));
 
 			writeToFile();
 		}

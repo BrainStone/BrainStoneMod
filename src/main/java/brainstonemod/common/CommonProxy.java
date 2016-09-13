@@ -1,11 +1,13 @@
 package brainstonemod.common;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
-import net.minecraft.world.World;
-import net.minecraftforge.oredict.OreDictionary;
 import brainstonemod.BrainStone;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class CommonProxy {
 	public static int BrainLogicBlockRenderType;
@@ -70,5 +72,9 @@ public class CommonProxy {
 	 */
 	public void registerRenderInformation() {
 		BrainLogicBlockRenderType = RenderingRegistry.getNextAvailableRenderId();
+	}
+
+	public EntityPlayer getPlayerEntity(MessageContext ctx) {
+		return ctx.getServerHandler().playerEntity;
 	}
 }

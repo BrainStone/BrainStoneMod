@@ -1,40 +1,38 @@
 package brainstonemod.network;
 
+import brainstonemod.BrainStone;
+import brainstonemod.common.helper.BSP;
+import brainstonemod.common.tileentity.template.TileEntityBrainStoneSyncBase;
+import brainstonemod.network.packet.PacketRedoRender;
+import brainstonemod.network.packet.PacketSmokeParticle;
+import brainstonemod.network.packet.PacketTriggerMobs;
+import brainstonemod.network.packet.PacketSyncNBT;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import io.netty.channel.ChannelHandler.Sharable;
-import net.minecraft.client.Minecraft;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
-import brainstonemod.BrainStone;
-import brainstonemod.common.helper.BSP;
-import brainstonemod.common.tileentity.template.TileEntityBrainStoneSyncBase;
-import brainstonemod.network.packet.BrainLightSensorSmokePacket;
-import brainstonemod.network.packet.BrainStoneReRenderBlockAtPacket;
-import brainstonemod.network.packet.BrainStoneTriggerMobInformationPacket;
-import brainstonemod.network.packet.BrainStoneUpdateTileEntityPacket;
-import cpw.mods.fml.common.network.NetworkRegistry;
 
 @Sharable
 public class BrainStonePacketHelper {
-	public static void sendBrainLightSensorSmokePacket(int dimension, int x,
-			int y, int z) {
-		BrainStone.packetPipeline.sendToAllAround(
-				new BrainLightSensorSmokePacket(x, y, z),
+	public static void sendBrainLightSensorSmokePacket(int dimension, int x, int y, int z) {
+		PacketDispatcher.sendToAllAround(
+				new PacketSmokeParticle(x, y, z),
 				new NetworkRegistry.TargetPoint(dimension, x, y, z, 100));
+		//Is 100 the radius in blocks? If so, isn't that a bit excessive, given how far away you need to see particles?
 	}
 
 	public static void sendBrainStoneTriggerMobInformationPacketToPlayer(
 			EntityPlayer player) {
 		BSP.debug("Sending BrainStoneTriggerMobInformation Packet...");
 
-		BrainStone.packetPipeline.sendTo(
-				new BrainStoneTriggerMobInformationPacket(BrainStone
+		PacketDispatcher.sendTo(
+				new PacketTriggerMobs(BrainStone
 						.getServerSideTiggerEntities()),
 				(EntityPlayerMP) player);
 
@@ -67,7 +65,7 @@ public class BrainStonePacketHelper {
 			public boolean isEntityApplicable(Entity var1) {
 				if (var1 instanceof EntityPlayerMP) {
 					final EntityPlayerMP pl = (EntityPlayerMP) var1;
-					pl.playerNetServerHandler.sendPacket(packet);
+					pl.playerNetServerHandler.sendPacket(packet);//TODO: NO. Don't use the vanilla packet system.
 				}
 				return false;
 			}
@@ -75,23 +73,9 @@ public class BrainStonePacketHelper {
 
 	}
 
-	/**
-	 * Sends a snyc packet to the server.
-	 * 
-	 * @param data
-	 *            The data which contains the syncing information
-	 */
-	public static void sendPacketToServer(Packet packet) {
-		try {
-			Minecraft.getMinecraft().getNetHandler().addToSendQueue(packet);
-		} catch (final NullPointerException e) {
-			BSP.infoException(e);
-		}
-	}
-
 	// DOCME
 	public static void sendPlayerUpdateMovementPacket(EntityPlayer entity,
-			double x, double y, double z) {
+			double x, double y, double z) {//TODO: Don't use vanilla packets
 		final S12PacketEntityVelocity packet = new S12PacketEntityVelocity(
 				entity.getEntityId(), x, y, z);
 
@@ -100,19 +84,14 @@ public class BrainStonePacketHelper {
 	}
 
 	// DOCME
-	public static void sendReRenderBlockAtPacket(int dimension, int x, int y,
-			int z, World world) {
-		BrainStone.packetPipeline.sendToAllAround(
-				new BrainStoneReRenderBlockAtPacket(x, y, z),
+	public static void sendReRenderBlockAtPacket(int dimension, int x, int y, int z, World world) {
+		PacketDispatcher.sendToAllAround(
+				new PacketRedoRender(x, y, z),
 				new NetworkRegistry.TargetPoint(dimension, x, y, z, 100));
 	}
 
 	// DOCME
-	public static void sendUpdateTileEntityPacket(
-			TileEntityBrainStoneSyncBase tileentity) {
-		BrainStone.packetPipeline
-				.sendToServer(new BrainStoneUpdateTileEntityPacket(
-						(S35PacketUpdateTileEntity) tileentity
-								.getDescriptionPacket(false)));
+	public static void sendUpdateTileEntityPacket(TileEntityBrainStoneSyncBase tileentity) {
+		PacketDispatcher.sendToServer(new PacketSyncNBT(tileentity));
 	}
 }

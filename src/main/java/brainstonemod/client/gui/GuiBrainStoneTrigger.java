@@ -235,9 +235,8 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 
 			if (inField(x, y, 167, 4, 171, 8)) {
 				quit();
-			}
-
-			BrainStonePacketHelper.sendUpdateTileEntityPacket(tileentity);
+			}else
+				BrainStonePacketHelper.sendUpdateTileEntityPacket(tileentity);
 		}
 	}
 

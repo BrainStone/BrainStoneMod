@@ -23,8 +23,8 @@ import brainstonemod.common.tileentity.TileEntityBlockBrainStoneTrigger;
 import brainstonemod.common.worldgenerators.BrainStoneHouseWorldGenerator;
 import brainstonemod.common.worldgenerators.BrainStoneOreWorldGenerator;
 import brainstonemod.network.BrainStonePacketHelper;
-import brainstonemod.network.BrainStonePacketPipeline;
-import brainstonemod.network.packet.BrainStoneLifeCapacitorMap;
+import brainstonemod.network.PacketDispatcher;
+import brainstonemod.network.packet.PacketCapacitorData;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -104,8 +104,6 @@ public class BrainStone {
 	/** The instance of this mod */
 	@Instance(MOD_ID)
 	public static BrainStone instance;
-
-	public static BrainStonePacketPipeline packetPipeline;
 
 	/** States if the current mod version is a release version or not */
 	public static final boolean release = VERSION.toLowerCase().contains("release");
@@ -204,6 +202,7 @@ public class BrainStone {
 	 */
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
+		PacketDispatcher.registerPackets();
 		Level logLevel = DEV_ENV ? Level.INFO : Level.DEBUG;
 
 		BSP.setUpLogger((Logger) event.getModLog());
@@ -223,8 +222,6 @@ public class BrainStone {
 				"Jar is " + (BrainStoneJarUtils.SIGNED_JAR ? "" : "not ") + "signed!");
 
 		checkForModules();
-
-		packetPipeline = new BrainStonePacketPipeline();
 
 		if ((Gate.Gates == null) || Gate.Gates.isEmpty()) {
 			BSP.throwNullPointerException(
@@ -273,8 +270,6 @@ public class BrainStone {
 		// Event Handler
 		FMLCommonHandler.instance().bus().register(eventHandler);
 		MinecraftForge.EVENT_BUS.register(eventHandler);
-		// Register PacketPipeline
-		packetPipeline.initialise();
 	}
 
 	/**
@@ -285,9 +280,6 @@ public class BrainStone {
 	 */
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		// Post initializing the pipeline
-		packetPipeline.postInitialise();
-
 		if (BrainStoneModules.thaumcraft()) {
 			AspectCreator.initAspects();
 		}
@@ -426,7 +418,7 @@ public class BrainStone {
 
 		if (BrainStoneModules.energy()) {
 			brainStoneLifeCapacitor().getPlayerCapacitorMapping().updateName(player.getUniqueID(), false);
-			BrainStone.packetPipeline.sendToAll(new BrainStoneLifeCapacitorMap());
+			PacketDispatcher.sendToAll(new PacketCapacitorData(brainStoneLifeCapacitor().getPlayerCapacitorMapping().getMap()));
 		}
 	}
 

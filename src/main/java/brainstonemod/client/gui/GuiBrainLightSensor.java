@@ -34,15 +34,11 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 	 * @param tileentityblockbrainlightsensor
 	 *            The TileEntity
 	 */
-	public GuiBrainLightSensor(
-			TileEntityBlockBrainLightSensor tileentityblockbrainlightsensor) {
-		super(new ContainerBlockBrainLightSensor(),
-				tileentityblockbrainlightsensor);
+	public GuiBrainLightSensor(TileEntityBlockBrainLightSensor tileentityblockbrainlightsensor) {
+		super(new ContainerBlockBrainLightSensor(), tileentityblockbrainlightsensor);
 		tileentity = tileentityblockbrainlightsensor;
 		direction = tileentity.getDirection();
 		setLightLevel(tileentity.getLightLevel());
-
-		BrainStonePacketHelper.sendUpdateTileEntityPacket(tileentity);
 
 		if (tileentity.getState()) {
 			setSize(xSizeClassic, ySizeClassic);
