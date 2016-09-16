@@ -50,31 +50,30 @@ public class ContainerBlockBrainStoneTrigger extends Container {
 		return trigger.isUseableByPlayer(entityplayer);
 	}
 
-	// TODO Not working properly. Only one item should be able to be inserted
-	// into the slot.
+	// TODO Not working properly. Only one item should be able to be inserted into the slot.
 	/**
 	 * Called when a player shift-clicks on a slot. You must override this or
 	 * you will crash when someone does that.
 	 */
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2) {
+	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int index) {
 		ItemStack itemstack = null;
-		final Slot slot = (Slot) inventorySlots.get(par2);
+		final Slot slot = (Slot) inventorySlots.get(index);
 
 		if ((slot != null) && slot.getHasStack()) {
 			final ItemStack itemstack1 = slot.getStack();
 			itemstack1.getMaxStackSize();
 			itemstack = itemstack1.copy();
 
-			if (par2 == 0) {
+			if (index == 0) {
 				if (!mergeItemStack(itemstack1, 1, 37, true))
 					return null;
 
 				slot.onSlotChange(itemstack1, itemstack);
-			} else if ((par2 >= 1) && (par2 < 28)) {
+			} else if ((index >= 1) && (index < 28)) {
 				if (!mergeItemStack(itemstack1, 28, 37, false))
 					return null;
-			} else if ((par2 >= 28) && (par2 < 37)) {
+			} else if ((index >= 28) && (index < 37)) {
 				if (!mergeItemStack(itemstack1, 1, 28, false))
 					return null;
 			} else if (!mergeItemStack(itemstack1, 1, 37, false))

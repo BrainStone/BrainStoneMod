@@ -1,19 +1,19 @@
 package brainstonemod.common.tileentity;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import net.minecraft.block.Block;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.IIcon;
 import brainstonemod.BrainStone;
 import brainstonemod.common.block.BlockBrainStoneTrigger;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.slot.SlotBlockBrainStoneTrigger;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
+import net.minecraft.block.Block;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.IIcon;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class TileEntityBlockBrainStoneTrigger extends
 		TileEntityBlockBrainStoneHiders {
@@ -27,6 +27,11 @@ public class TileEntityBlockBrainStoneTrigger extends
 				BSP.warnException(e);
 			}
 		}
+	}
+
+	@Override
+	public int getInventoryStackLimit() {
+		return 1;
 	}
 
 	private final HashMap<String, Integer> mobTriggered;
