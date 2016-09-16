@@ -65,7 +65,7 @@ public class BrainStonePacketHelper {
 			public boolean isEntityApplicable(Entity var1) {
 				if (var1 instanceof EntityPlayerMP) {
 					final EntityPlayerMP pl = (EntityPlayerMP) var1;
-					pl.playerNetServerHandler.sendPacket(packet);//TODO: NO. Don't use the vanilla packet system.
+					pl.playerNetServerHandler.sendPacket(packet);
 				}
 				return false;
 			}
@@ -75,7 +75,7 @@ public class BrainStonePacketHelper {
 
 	// DOCME
 	public static void sendPlayerUpdateMovementPacket(EntityPlayer entity,
-			double x, double y, double z) {//TODO: Don't use vanilla packets
+			double x, double y, double z) {
 		final S12PacketEntityVelocity packet = new S12PacketEntityVelocity(
 				entity.getEntityId(), x, y, z);
 

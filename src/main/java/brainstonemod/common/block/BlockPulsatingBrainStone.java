@@ -154,8 +154,8 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 							final double z1 = MathHelper.getRandomDoubleInRange(random, -1.5, 1.5);
 
 							if (tmpEntity instanceof EntityPlayer) {
-								BrainStonePacketHelper.sendPlayerUpdateMovementPacket((EntityPlayer) entity, x1, y1,
-										z1);
+								//TODO: Use custom packets, not the vanilla packet.
+								BrainStonePacketHelper.sendPlayerUpdateMovementPacket((EntityPlayer) entity, x1, y1, z1);
 							} else {
 								entity.addVelocity(x1, y1, z1);
 							}
