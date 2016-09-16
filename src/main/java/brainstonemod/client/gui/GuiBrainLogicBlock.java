@@ -1,22 +1,5 @@
 package brainstonemod.client.gui;
 
-import static brainstonemod.common.helper.BrainStoneDirection.DOWN;
-import static brainstonemod.common.helper.BrainStoneDirection.EAST;
-import static brainstonemod.common.helper.BrainStoneDirection.NORTH;
-import static brainstonemod.common.helper.BrainStoneDirection.SOUTH;
-import static brainstonemod.common.helper.BrainStoneDirection.UP;
-import static brainstonemod.common.helper.BrainStoneDirection.WEST;
-
-import java.util.Random;
-import java.util.UUID;
-
-import net.minecraft.client.audio.ISound;
-import net.minecraft.util.StatCollector;
-
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
-
 import brainstonemod.BrainStone;
 import brainstonemod.client.gui.template.GuiBrainStoneBase;
 import brainstonemod.common.container.ContainerBlockBrainLightSensor;
@@ -24,6 +7,16 @@ import brainstonemod.common.helper.BSP;
 import brainstonemod.common.helper.BrainStoneDirection;
 import brainstonemod.common.logicgate.Gate;
 import brainstonemod.common.tileentity.TileEntityBlockBrainLogicBlock;
+import net.minecraft.client.audio.ISound;
+import net.minecraft.util.StatCollector;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
+
+import java.util.Random;
+import java.util.UUID;
+
+import static brainstonemod.common.helper.BrainStoneDirection.*;
 
 public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	private class SoundLoop extends Thread {
@@ -432,12 +425,6 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 			}
 		}
 	}
-
-	// TODO See if this can be removed!
-	// private void drawSplitString(String s, int i, int j, int k, int l) {
-	// fontRendererObj.drawSplitString(s, (int) (i / factor),
-	// (int) (j / factor), l, k);
-	// }
 
 	private int getLines(String str) {
 		return fontRendererObj.listFormattedStringToWidth(str, stringWidth)
