@@ -116,8 +116,7 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 			if ((i == 208) || (i == 203) || (i == 200) || (i == 205)) {
 				click();
 			}
-		} else {
-        }
+		}
 	}
 
 	@Override
