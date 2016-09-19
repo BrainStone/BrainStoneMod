@@ -1,8 +1,6 @@
 package brainstonemod.client.gui;
 
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.StatCollector;
-
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import brainstonemod.BrainStone;
@@ -12,6 +10,8 @@ import brainstonemod.client.gui.template.GuiBrainStoneBase;
 import brainstonemod.common.container.ContainerBlockBrainStoneTrigger;
 import brainstonemod.common.tileentity.TileEntityBlockBrainStoneTrigger;
 import brainstonemod.network.BrainStonePacketHelper;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.StatCollector;
 
 public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 	private final TileEntityBlockBrainStoneTrigger tileentity;
@@ -22,42 +22,32 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 
 	public GuiBrainStoneTrigger(InventoryPlayer inventoryplayer,
 			TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger) {
-		super(new ContainerBlockBrainStoneTrigger(inventoryplayer,
-				tileentityblockbrainstonetrigger),
+		super(new ContainerBlockBrainStoneTrigger(inventoryplayer, tileentityblockbrainstonetrigger),
 				tileentityblockbrainstonetrigger);
 		tileentity = tileentityblockbrainstonetrigger;
 		Mobs = new String[4];
 		page = 0;
 		hovered = -1;
 		max_page = (BrainStone.getClientSideTiggerEntities().size() / 4)
-				+ (((BrainStone.getClientSideTiggerEntities().size() % 4) == 0) ? -1
-						: 0);
+				+ (((BrainStone.getClientSideTiggerEntities().size() % 4) == 0) ? -1 : 0);
 		buttons = new BrainStoneGuiButton(this);
-		buttons.addButton(new BrainStoneButton(0, 10, 32, 131, 9, 194, 9, 204,
-				9));
-		buttons.addButton(new BrainStoneButton(1, 10, 32, 131, 45, 194, 45,
-				204, 45));
+		buttons.addButton(new BrainStoneButton(0, 10, 32, 131, 9, 194, 9, 204, 9));
+		buttons.addButton(new BrainStoneButton(1, 10, 32, 131, 45, 194, 45, 204, 45));
 
 		for (int i = 0; i < 4; i++) {
-			buttons.addButton(new BrainStoneButton(i + 10, 8, 8, 12,
-					12 + (i * 18), 0, 166, 0, 174).changeTriggerBox(7,
+			buttons.addButton(new BrainStoneButton(i + 10, 8, 8, 12, 12 + (i * 18), 0, 166, 0, 174).changeTriggerBox(7,
 					7 + (i * 18), 78, 24 + (i * 18)));
 
-			buttons.addButton(new BrainStoneButton((i * 20) + 30, 10, 10, 78,
-					11 + (18 * i), true));
-			buttons.addButton(new BrainStoneButton((i * 20) + 31, 10, 10, 118,
-					11 + (18 * i), true));
+			buttons.addButton(new BrainStoneButton((i * 20) + 30, 10, 10, 78, 11 + (18 * i), true));
+			buttons.addButton(new BrainStoneButton((i * 20) + 31, 10, 10, 118, 11 + (18 * i), true));
 
 			for (int j = 0; j < 15; j++) {
-				buttons.addButton(new BrainStoneButton((i * 20) + 32 + j, 2, 3,
-						88 + (2 * j), 13 + (18 * i), true));
+				buttons.addButton(new BrainStoneButton((i * 20) + 32 + j, 2, 3, 88 + (2 * j), 13 + (18 * i), true));
 			}
 		}
 
-		buttons.addButton(new BrainStoneButton(20, 9, 6, 160, 65, 176, 65, 185,
-				65));
-		buttons.addButton(new BrainStoneButton(21, 9, 6, 160, 73, 176, 73, 185,
-				73));
+		buttons.addButton(new BrainStoneButton(20, 9, 6, 160, 65, 176, 65, 185, 65));
+		buttons.addButton(new BrainStoneButton(21, 9, 6, 160, 73, 176, 73, 185, 73));
 
 		setMobs();
 
@@ -144,8 +134,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 			if (tileentity.getMobTriggered((tmp = Mobs[t]))) {
 				drawTexturedModalRect(12, 12 + (18 * t), 8, 166, 10, 7);
 				if (tileentity.getMobTriggered(tmp)) {
-					drawTexturedModalRect(88, 13 + (18 * t), 88, 172,
-							tileentity.getMobPower(tmp) * 2, 6);
+					drawTexturedModalRect(88, 13 + (18 * t), 88, 172, tileentity.getMobPower(tmp) * 2, 6);
 				}
 			}
 		}
@@ -161,18 +150,16 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 
 		for (int i = 0; i < 4; i++) {
 			message = StatCollector.translateToLocal(tmp = Mobs[i]);
-			
-			if(fontRendererObj.getStringWidth(message) > 100) {
+
+			if (fontRendererObj.getStringWidth(message) > 100) {
 				do {
 					message = message.substring(0, message.length() - 1);
-				} while(fontRendererObj.getStringWidth(message + "...") > 100);
-				
+				} while (fontRendererObj.getStringWidth(message + "...") > 100);
+
 				message += "...";
 			}
-			
-			drawString(message, 25,
-					12 + (18 * i), tileentity.getMobTriggered(tmp) ? 0xffffff
-							: 0x111111);
+
+			drawString(message, 25, 12 + (18 * i), tileentity.getMobTriggered(tmp) ? 0xffffff : 0x111111);
 		}
 
 		drawCenteredString((page + 1) + "/" + (max_page + 1), 156, 17, 0x000000);
@@ -181,12 +168,10 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 
 		this.bindTexture();
 
-		if ((hovered != -1)
-				&& tileentity.getMobTriggered((tmp = Mobs[hovered]))) {
+		if ((hovered != -1) && tileentity.getMobTriggered((tmp = Mobs[hovered]))) {
 			drawTexturedModalRect(80, 13 + (18 * hovered), 80, 166, 6, 6);
 			drawTexturedModalRect(120, 13 + (18 * hovered), 120, 166, 6, 6);
-			drawTexturedModalRect(88, 13 + (18 * hovered), 88, 166,
-					tileentity.getMobPower(tmp) * 2, 6);
+			drawTexturedModalRect(88, 13 + (18 * hovered), 88, 166, tileentity.getMobPower(tmp) * 2, 6);
 		}
 	}
 
@@ -197,8 +182,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 	public void handleMouseInput() {
 		if (Mouse.getEventButton() == -1) {
 			mouseMovedOrUp((Mouse.getEventX() * width) / mc.displayWidth,
-					height - ((Mouse.getEventY() * height) / mc.displayHeight)
-							- 1, Mouse.getEventButton());
+					height - ((Mouse.getEventY() * height) / mc.displayHeight) - 1, Mouse.getEventButton());
 		}
 
 		super.handleMouseInput();
@@ -209,10 +193,10 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 	 * KeyListener.keyTyped(KeyEvent e).
 	 */
 	@Override
-	protected void keyTyped(char c, int i) {
-		super.keyTyped(c, i);
+	protected void keyTyped(char letter, int key) {
+		super.keyTyped(letter, key);
 
-		if ((i == 1) || (i == mc.gameSettings.keyBindInventory.getKeyCode())) {
+		if ((key == Keyboard.KEY_ESCAPE) || (key == mc.gameSettings.keyBindInventory.getKeyCode())) {
 			quit();
 		}
 	}
@@ -235,7 +219,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 
 			if (inField(x, y, 167, 4, 171, 8)) {
 				quit();
-			}else
+			} else
 				BrainStonePacketHelper.sendUpdateTileEntityPacket(tileentity);
 		}
 	}
@@ -253,8 +237,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 			hovered = -1;
 
 			for (int i = 0; i < 4; i++) {
-				if (inField(x - guiLeft, y - guiTop, 7, 7 + (i * 18), 128,
-						24 + (i * 18))) {
+				if (inField(x - guiLeft, y - guiTop, 7, 7 + (i * 18), 128, 24 + (i * 18))) {
 					hovered = i;
 				}
 			}
@@ -276,8 +259,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		buttons.getButton(1).inactive = (page == max_page);
 
 		final int length = BrainStone.getClientSideTiggerEntities().size();
-		final String[] keys = BrainStone.getClientSideTiggerEntities().keySet()
-				.toArray(new String[length]);
+		final String[] keys = BrainStone.getClientSideTiggerEntities().keySet().toArray(new String[length]);
 		final int page4 = page * 4;
 
 		if ((page == max_page) && (length != ((max_page - 1) * 4))) {

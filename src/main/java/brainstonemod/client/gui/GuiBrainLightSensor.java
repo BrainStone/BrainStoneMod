@@ -1,10 +1,12 @@
 package brainstonemod.client.gui;
 
-import net.minecraft.util.StatCollector;
+import org.lwjgl.input.Keyboard;
+
 import brainstonemod.client.gui.template.GuiBrainStoneBase;
 import brainstonemod.common.container.ContainerBlockBrainLightSensor;
 import brainstonemod.common.tileentity.TileEntityBlockBrainLightSensor;
 import brainstonemod.network.BrainStonePacketHelper;
+import net.minecraft.util.StatCollector;
 
 public class GuiBrainLightSensor extends GuiBrainStoneBase {
 	/** The temporary storage of the light level (red bars) */
@@ -63,61 +65,45 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 			}
 
 			curLightLevel = tileentity.getCurLightLevel();
-			drawTexturedModalRect((curLightLevel * 7) + 8, 22,
-					8 + (7 * curLightLevel), 158, 6, 66);
-			drawString(
-					StatCollector
-							.translateToLocal("tile.brainLightSensor.name"),
-					6, 16, 0x404040);
-			drawCenteredString(
-					StatCollector.translateToLocal("gui.brainstone.classic"),
-					32, 7, 0x404040);
-			drawCenteredString(
-					StatCollector.translateToLocal("gui.brainstone.simple"),
-					96, 7, 0x404040);
+			drawTexturedModalRect((curLightLevel * 7) + 8, 22, 8 + (7 * curLightLevel), 158, 6, 66);
+			drawString(StatCollector.translateToLocal("tile.brainLightSensor.name"), 6, 16, 0x404040);
+			drawCenteredString(StatCollector.translateToLocal("gui.brainstone.classic"), 32, 7, 0x404040);
+			drawCenteredString(StatCollector.translateToLocal("gui.brainstone.simple"), 96, 7, 0x404040);
 		} else {
 			bindTexture("GuiBrainLightSensorSimple");
 
 			drawTexturedModalRect(0, 0, 0, 0, xSizeSimple, ySizeSimple);
-			drawTexturedModalRect(8, ((tileentity.getDirection()) ? 18 : 36),
-					8, 52, 9, 8);
+			drawTexturedModalRect(8, ((tileentity.getDirection()) ? 18 : 36), 8, 52, 9, 8);
 
-			drawCenteredString(
-					StatCollector.translateToLocal("gui.brainstone.classic"),
-					32, 7, 0x404040);
-			drawCenteredString(
-					StatCollector.translateToLocal("gui.brainstone.simple"),
-					96, 7, 0x404040);
-			drawString(
-					StatCollector
-							.translateToLocal("gui.brainstone.proportional"),
-					20, 18, 0x404040);
-			drawString(
-					StatCollector.translateToLocal("gui.brainstone.inverted"),
-					20, 36, 0x404040);
+			drawCenteredString(StatCollector.translateToLocal("gui.brainstone.classic"), 32, 7, 0x404040);
+			drawCenteredString(StatCollector.translateToLocal("gui.brainstone.simple"), 96, 7, 0x404040);
+			drawString(StatCollector.translateToLocal("gui.brainstone.proportional"), 20, 18, 0x404040);
+			drawString(StatCollector.translateToLocal("gui.brainstone.inverted"), 20, 36, 0x404040);
 		}
 	}
 
 	@Override
-	protected void keyTyped(char c, int i) {
-		if ((i == 1) || (i == mc.gameSettings.keyBindInventory.getKeyCode())) {
+	protected void keyTyped(char letter, int key) {
+		if ((key == Keyboard.KEY_ESCAPE) || (key == mc.gameSettings.keyBindInventory.getKeyCode())) {
 			quit();
 		}
 
 		if (tileentity.getState()) {
-			if (((i == 200) || (i == 205)) && (lightLevel != 15)) {
+			if (((key == Keyboard.KEY_UP) || (key == Keyboard.KEY_RIGHT)) && (lightLevel != 15)) {
 				setLightLevel(lightLevel + 1);
 			}
 
-			if (((i == 208) || (i == 203)) && (lightLevel != 0)) {
+			if (((key == Keyboard.KEY_DOWN) || (key == Keyboard.KEY_LEFT)) && (lightLevel != 0)) {
 				setLightLevel(lightLevel - 1);
 			}
 
-			if ((i == 208) || (i == 203) || (i == 200) || (i == 205)) {
+			if ((key == Keyboard.KEY_DOWN) || (key == Keyboard.KEY_LEFT) || (key == Keyboard.KEY_UP)
+					|| (key == Keyboard.KEY_RIGHT)) {
 				click();
 			}
 		} else {
-        }
+			// No key actions for simple mode
+		}
 	}
 
 	@Override

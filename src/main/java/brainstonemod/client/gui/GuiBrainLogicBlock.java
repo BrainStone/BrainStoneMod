@@ -487,14 +487,14 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	}
 
 	@Override
-	protected void keyTyped(char c, int i) {
+	protected void keyTyped(char letter, int key) {
 		if (help) {
 			closeHelpGui();
 		} else {
-			if ((i == Keyboard.KEY_ESCAPE)
-					|| (i == mc.gameSettings.keyBindInventory.getKeyCode())) {
+			if ((key == Keyboard.KEY_ESCAPE)
+					|| (key == mc.gameSettings.keyBindInventory.getKeyCode())) {
 				quit();
-			} else if (i == Keyboard.KEY_F1) {
+			} else if (key == Keyboard.KEY_F1) {
 				openHelp();
 			}
 		}
@@ -505,7 +505,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 
 		// Shift array by one
 		System.arraycopy(lastChars, 0, lastChars, 1, lastChars.length - 1);
-		lastChars[0] = c;
+		lastChars[0] = letter;
 
 		if (((lastChars[2] == 'l') && (lastChars[1] == 'o') && (lastChars[0] == 'l'))
 				|| ((lastChars[3] == 'a') && (lastChars[2] == 's')
