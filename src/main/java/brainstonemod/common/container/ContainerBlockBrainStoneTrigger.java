@@ -50,6 +50,7 @@ public class ContainerBlockBrainStoneTrigger extends Container {
 		return trigger.isUseableByPlayer(entityplayer);
 	}
 
+	// TODO Not working properly. Only one item should be able to be inserted into the slot.
 	/**
 	 * Called when a player shift-clicks on a slot. You must override this or
 	 * you will crash when someone does that.
