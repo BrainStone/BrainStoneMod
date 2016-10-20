@@ -35,6 +35,7 @@ public class TileEntityBrainStoneTrigger extends
 	}
 
 	private final HashMap<String, Integer> mobTriggered;
+	//TODO: Make getters and setters for these
 	public byte delay, max_delay, output, output_buffered;
 	private ItemStack oldStack;
 

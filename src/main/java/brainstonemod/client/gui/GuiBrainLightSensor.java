@@ -194,6 +194,7 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 			lightLevel = i;
 		}
 
+		//TODO: Send packet here with light level and direction. Server should set the data in the tile entity.
 		tileentity.setLightLevel(lightLevel);
 		tileentity.setDirection(direction);
 

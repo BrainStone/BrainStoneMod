@@ -73,6 +73,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 			page++;
 			setMobs();
 		} else if ((ID >= 10) && (ID < 14)) {
+			//TODO: Packet here
 			tileentity.invertMobTriggered(Mobs[ID - 10]);
 		} else if ((ID >= 20) && (ID < 30)) {
 			int tmp = tileentity.max_delay + (((ID * 2) - 41) * -1);
@@ -86,6 +87,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 			buttons.getButton(21).inactive = (tmp == 1);
 			buttons.getButton(20).inactive = (tmp == 9);
 
+			//TODO: Packet here
 			tileentity.max_delay = (byte) tmp;
 		} else if (ID >= 30) {
 			ID -= 30;
@@ -110,6 +112,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 					power = 15;
 				}
 
+				//TODO: Packet here
 				tileentity.setMobTriggered(mob, power);
 			}
 		}

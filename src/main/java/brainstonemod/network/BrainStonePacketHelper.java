@@ -91,6 +91,7 @@ public class BrainStonePacketHelper {
 	}
 
 	// DOCME
+	@Deprecated
 	public static void sendUpdateTileEntityPacket(TileEntityBrainStoneSyncBase tileentity) {
 		PacketDispatcher.sendToServer(new PacketSyncNBT(tileentity));
 	}
