@@ -1,18 +1,5 @@
 package brainstonemod.common.tileentity;
 
-import java.util.ArrayList;
-import java.util.UUID;
-import java.util.Vector;
-
-import net.minecraft.block.Block;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.world.World;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.helper.BrainStoneDirection;
 import brainstonemod.common.logicgate.Gate;
@@ -22,8 +9,21 @@ import brainstonemod.common.tileentity.template.TileEntityBrainStoneSyncBase;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.world.World;
 
-public class TileEntityBlockBrainLogicBlock extends
+import java.util.ArrayList;
+import java.util.UUID;
+import java.util.Vector;
+
+public class TileEntityBrainLogicBlock extends
 		TileEntityBrainStoneSyncBase {
 	public static BrainStoneDirection guiDirection;
 
@@ -47,7 +47,7 @@ public class TileEntityBlockBrainLogicBlock extends
 
 	public BrainStoneDirection currentRenderDirection;
 
-	public TileEntityBlockBrainLogicBlock() {
+	public TileEntityBrainLogicBlock() {
 		TASKS = new Vector<String>();
 		lastUpdate = -100L;
 		GuiFocused = 0;

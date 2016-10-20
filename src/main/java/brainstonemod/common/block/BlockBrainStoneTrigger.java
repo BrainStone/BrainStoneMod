@@ -16,7 +16,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import brainstonemod.BrainStone;
 import brainstonemod.common.block.template.BlockBrainStoneHiders;
 import brainstonemod.common.helper.BSP;
-import brainstonemod.common.tileentity.TileEntityBlockBrainStoneTrigger;
+import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
 import brainstonemod.network.BrainStonePacketHelper;
 
 public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
@@ -43,7 +43,7 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block,
 			int meta) {
-		final TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBlockBrainStoneTrigger) world
+		final TileEntityBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBrainStoneTrigger) world
 				.getTileEntity(x, y, z);
 
 		if (tileentityblockbrainstonetrigger != null) {
@@ -62,14 +62,14 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int par2) {
-		return new TileEntityBlockBrainStoneTrigger();
+		return new TileEntityBrainStoneTrigger();
 	}
 
 	@Override
 	public IIcon getIcon(IBlockAccess iblockaccess, int x, int y, int z,
 			int side) {
 		if (side == 1) {
-			final TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBlockBrainStoneTrigger) iblockaccess
+			final TileEntityBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBrainStoneTrigger) iblockaccess
 					.getTileEntity(x, y, z);
 
 			if (tileentityblockbrainstonetrigger == null)
@@ -97,7 +97,7 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 	@Override
 	public int isProvidingStrongPower(IBlockAccess iblockaccess, int x, int y,
 			int z, int side) {
-		final TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBlockBrainStoneTrigger) iblockaccess
+		final TileEntityBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBrainStoneTrigger) iblockaccess
 				.getTileEntity(x, y, z);
 		return ((tileentityblockbrainstonetrigger != null) && (tileentityblockbrainstonetrigger.delay > 0)) ? tileentityblockbrainstonetrigger.output_buffered
 				: 0;
@@ -122,7 +122,7 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 		if (world.isRemote)
 			return true;
 
-		final TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBlockBrainStoneTrigger) world
+		final TileEntityBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBrainStoneTrigger) world
 				.getTileEntity(x, y, z);
 
 		if (tileentityblockbrainstonetrigger != null) {
@@ -178,7 +178,7 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 	private byte triggerCorrectMob(World world, int i, int j, int k) {
 		final List<?> list = world.getEntitiesWithinAABBExcludingEntity(null,
 				AxisAlignedBB.getBoundingBox(i, j + 1, k, i + 1, j + 2, k + 1));
-		final TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBlockBrainStoneTrigger) world
+		final TileEntityBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBrainStoneTrigger) world
 				.getTileEntity(i, j, k);
 
 		if (tileentityblockbrainstonetrigger == null)
@@ -223,7 +223,7 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random random) {
-		final TileEntityBlockBrainStoneTrigger tileEntityBlockBrainStoneTrigger = (TileEntityBlockBrainStoneTrigger) world
+		final TileEntityBrainStoneTrigger tileEntityBlockBrainStoneTrigger = (TileEntityBrainStoneTrigger) world
 				.getTileEntity(x, y, z);
 
 		if (tileEntityBlockBrainStoneTrigger == null) {

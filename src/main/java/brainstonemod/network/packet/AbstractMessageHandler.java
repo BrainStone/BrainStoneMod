@@ -1,4 +1,4 @@
-package brainstonemod.network;
+package brainstonemod.network.packet;
 
 import brainstonemod.BrainStone;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;

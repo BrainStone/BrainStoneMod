@@ -8,7 +8,7 @@ import org.lwjgl.opengl.GL11;
 
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.helper.BrainStoneDirection;
-import brainstonemod.common.tileentity.TileEntityBlockBrainLogicBlock;
+import brainstonemod.common.tileentity.TileEntityBrainLogicBlock;
 
 public class TileEntityBlockBrainLogicBlockRenderer extends
 		TileEntitySpecialRenderer {
@@ -16,8 +16,8 @@ public class TileEntityBlockBrainLogicBlockRenderer extends
 	}
 
 	private void renderGate(TileEntity tileEntity, BrainStoneDirection direction) {
-		if (tileEntity instanceof TileEntityBlockBrainLogicBlock) {
-			final TileEntityBlockBrainLogicBlock tileEntityBLB = (TileEntityBlockBrainLogicBlock) tileEntity;
+		if (tileEntity instanceof TileEntityBrainLogicBlock) {
+			final TileEntityBrainLogicBlock tileEntityBLB = (TileEntityBrainLogicBlock) tileEntity;
 
 			if (tileEntityBLB != null) {
 				final FontRenderer fontrenderer = func_147498_b();

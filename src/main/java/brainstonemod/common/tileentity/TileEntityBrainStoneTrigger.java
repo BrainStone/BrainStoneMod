@@ -15,12 +15,12 @@ import net.minecraft.util.IIcon;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class TileEntityBlockBrainStoneTrigger extends
-		TileEntityBlockBrainStoneHiders {
-	private static final ArrayList<TileEntityBlockBrainStoneTrigger> failedTileEntities = new ArrayList<TileEntityBlockBrainStoneTrigger>();
+public class TileEntityBrainStoneTrigger extends
+		TileEntityBrainStoneHiders {
+	private static final ArrayList<TileEntityBrainStoneTrigger> failedTileEntities = new ArrayList<TileEntityBrainStoneTrigger>();
 
 	public static void retryFailedTileEntities() {
-		for (TileEntityBlockBrainStoneTrigger tileEntity : failedTileEntities) {
+		for (TileEntityBrainStoneTrigger tileEntity : failedTileEntities) {
 			try {
 				tileEntity.fillMobTriggered();
 			} catch (Exception e) {
@@ -38,7 +38,7 @@ public class TileEntityBlockBrainStoneTrigger extends
 	public byte delay, max_delay, output, output_buffered;
 	private ItemStack oldStack;
 
-	public TileEntityBlockBrainStoneTrigger() {
+	public TileEntityBrainStoneTrigger() {
 		ItemStacks = new ItemStack[1];
 		mobTriggered = new HashMap<String, Integer>();
 		delay = 0;

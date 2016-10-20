@@ -5,7 +5,7 @@ import brainstonemod.common.tileentity.template.TileEntityBrainStoneSyncBase;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 
-public class TileEntityBlockBrainLightSensor extends
+public class TileEntityBrainLightSensor extends
 		TileEntityBrainStoneSyncBase {
 	private int lightLevel;
 	private boolean classicDirection;
@@ -16,7 +16,7 @@ public class TileEntityBlockBrainLightSensor extends
 	private int curLightLevel;
 	private short power;
 
-	public TileEntityBlockBrainLightSensor() {
+	public TileEntityBrainLightSensor() {
 		lightLevel = 8;
 		classicDirection = true;
 		simpleDirection = true;
@@ -66,7 +66,7 @@ public class TileEntityBlockBrainLightSensor extends
 	 * @return <tt>true</tt> when in Classsic Mode, <tt>false</tt> when in
 	 *         Simple Mode
 	 */
-	public boolean getState() {
+	public boolean isClassic() {
 		return state;
 	}
 

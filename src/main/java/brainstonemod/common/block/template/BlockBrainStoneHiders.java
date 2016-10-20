@@ -6,7 +6,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.IBlockAccess;
 import brainstonemod.BrainStone;
-import brainstonemod.common.tileentity.TileEntityBlockBrainStoneHiders;
+import brainstonemod.common.tileentity.TileEntityBrainStoneHiders;
 
 public abstract class BlockBrainStoneHiders extends
 		BlockBrainStoneContainerBase {
@@ -32,7 +32,7 @@ public abstract class BlockBrainStoneHiders extends
 
 	@Override
 	public int colorMultiplier(IBlockAccess iblockaccess, int x, int y, int z) {
-		final TileEntityBlockBrainStoneHiders tileentityblockbrainstonehiders = (TileEntityBlockBrainStoneHiders) iblockaccess
+		final TileEntityBrainStoneHiders tileentityblockbrainstonehiders = (TileEntityBrainStoneHiders) iblockaccess
 				.getTileEntity(x, y, z);
 
 		if (tileentityblockbrainstonehiders == null)

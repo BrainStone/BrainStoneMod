@@ -162,11 +162,6 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 				color, scale);
 	}
 
-	@Override
-	public final void drawDefaultBackground() {
-		super.drawDefaultBackground();
-	}
-
 	protected abstract void drawGuiBackground(float partialTicks, int mouseX,
 			int mouseY);
 

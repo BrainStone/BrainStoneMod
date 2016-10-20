@@ -6,7 +6,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import brainstonemod.BrainStone;
-import brainstonemod.common.tileentity.TileEntityBlockBrainStoneTrigger;
+import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
 
 public class SlotBlockBrainStoneTrigger extends Slot {
 	public static boolean staticIsItemValid(ItemStack itemstack) {
@@ -25,7 +25,7 @@ public class SlotBlockBrainStoneTrigger extends Slot {
 	}
 
 	public SlotBlockBrainStoneTrigger(
-			TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger,
+			TileEntityBrainStoneTrigger tileentityblockbrainstonetrigger,
 			int i, int j, int k) {
 		super(tileentityblockbrainstonetrigger, i, j, k);
 	}

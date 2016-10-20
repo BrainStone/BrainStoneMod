@@ -1,17 +1,16 @@
 package brainstonemod.common.item;
 
+import brainstonemod.BrainStone;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import brainstonemod.BrainStone;
-import brainstonemod.common.helper.BSP;
 
 public class ItemArmorBrainStone extends ItemArmor {
-	public ItemArmorBrainStone(ArmorMaterial armorMaterial, int par3, int par4) {
-		super(armorMaterial, par3, par4);
+	public ItemArmorBrainStone(ArmorMaterial armorMaterial, int par3, int slot) {
+		super(armorMaterial, par3, slot);
 
 		setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.tabCombat));
 	}

@@ -18,7 +18,7 @@ import brainstonemod.BrainStone;
 import brainstonemod.client.ClientProxy;
 import brainstonemod.common.block.template.BlockBrainStoneContainerBase;
 import brainstonemod.common.helper.BrainStoneDirection;
-import brainstonemod.common.tileentity.TileEntityBlockBrainLogicBlock;
+import brainstonemod.common.tileentity.TileEntityBrainLogicBlock;
 import brainstonemod.network.BrainStonePacketHelper;
 
 public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
@@ -63,7 +63,7 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 		if (side == -1)
 			return true;
 
-		final TileEntityBlockBrainLogicBlock tileEntity = (TileEntityBlockBrainLogicBlock) world
+		final TileEntityBrainLogicBlock tileEntity = (TileEntityBrainLogicBlock) world
 				.getTileEntity(x, y, z);
 
 		if (tileEntity == null)
@@ -75,7 +75,7 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 
 	@Override
 	public int colorMultiplier(IBlockAccess world, int x, int y, int z) {
-		final TileEntityBlockBrainLogicBlock tileEntity = (TileEntityBlockBrainLogicBlock) world
+		final TileEntityBrainLogicBlock tileEntity = (TileEntityBrainLogicBlock) world
 				.getTileEntity(x, y, z);
 
 		if ((tileEntity != null) && (tileEntity.currentRenderDirection != null))
@@ -86,7 +86,7 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int unknown_1) {
-		return new TileEntityBlockBrainLogicBlock();
+		return new TileEntityBrainLogicBlock();
 	}
 
 	@Override
@@ -114,7 +114,7 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	@Override
 	public int isProvidingStrongPower(IBlockAccess iblockaccess, int x, int y,
 			int z, int side) {
-		final TileEntityBlockBrainLogicBlock tileEntity = (TileEntityBlockBrainLogicBlock) iblockaccess
+		final TileEntityBrainLogicBlock tileEntity = (TileEntityBrainLogicBlock) iblockaccess
 				.getTileEntity(x, y, z);
 
 		if (tileEntity != null)
@@ -139,13 +139,13 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z,
 			EntityPlayer player, int unknown, float px, float py, float pz) {
-		final TileEntityBlockBrainLogicBlock tileEntity = (TileEntityBlockBrainLogicBlock) world
+		final TileEntityBrainLogicBlock tileEntity = (TileEntityBrainLogicBlock) world
 				.getTileEntity(x, y, z);
 
 		if (tileEntity == null)
 			return false;
 		else {
-			TileEntityBlockBrainLogicBlock.guiDirection = BrainStoneDirection
+			TileEntityBrainLogicBlock.guiDirection = BrainStoneDirection
 					.fromPlayerYaw(player.rotationYaw);
 
 			player.openGui(BrainStone.instance, 2, world, x, y, z);
@@ -173,7 +173,7 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z,
 			EntityLivingBase player, ItemStack itemStack) {
-		((TileEntityBlockBrainLogicBlock) world.getTileEntity(x, y, z))
+		((TileEntityBrainLogicBlock) world.getTileEntity(x, y, z))
 				.changeGate(BrainStoneDirection
 						.fromPlayerYaw(player.rotationYaw));
 	}
@@ -203,7 +203,7 @@ public class BlockBrainLogicBlock extends BlockBrainStoneContainerBase {
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random random) {
 		super.updateTick(world, x, y, z, random);
-		final TileEntityBlockBrainLogicBlock tileEntity = (TileEntityBlockBrainLogicBlock) world
+		final TileEntityBrainLogicBlock tileEntity = (TileEntityBrainLogicBlock) world
 				.getTileEntity(x, y, z);
 
 		if (tileEntity != null) {

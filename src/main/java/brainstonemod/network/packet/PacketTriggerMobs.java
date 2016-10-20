@@ -2,7 +2,6 @@ package brainstonemod.network.packet;
 
 import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
-import brainstonemod.network.AbstractClientMessageHandler;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;

@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import brainstonemod.common.tileentity.template.TileEntityBrainStoneSyncBase;
 
-public abstract class TileEntityBlockBrainStoneHiders extends
+public abstract class TileEntityBrainStoneHiders extends
 		TileEntityBrainStoneSyncBase implements IInventory {
 	protected ItemStack ItemStacks[];
 

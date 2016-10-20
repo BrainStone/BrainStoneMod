@@ -3,7 +3,7 @@ package brainstonemod.client;
 import brainstonemod.client.render.BrainStoneRenderBrainLogicBlockHandler;
 import brainstonemod.client.render.TileEntityBlockBrainLogicBlockRenderer;
 import brainstonemod.common.CommonProxy;
-import brainstonemod.common.tileentity.TileEntityBlockBrainLogicBlock;
+import brainstonemod.common.tileentity.TileEntityBrainLogicBlock;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -63,7 +63,7 @@ public class ClientProxy extends CommonProxy {
 	public void registerRenderInformation() {
 		super.registerRenderInformation();
 		
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBlockBrainLogicBlock.class,
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBrainLogicBlock.class,
 				new TileEntityBlockBrainLogicBlockRenderer());
 
 		RenderingRegistry.registerBlockHandler(new BrainStoneRenderBrainLogicBlockHandler());

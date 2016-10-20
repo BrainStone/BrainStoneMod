@@ -6,11 +6,11 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import brainstonemod.common.slot.SlotBlockBrainStoneTrigger;
-import brainstonemod.common.tileentity.TileEntityBlockBrainStoneTrigger;
+import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
 
-public class ContainerBlockBrainStoneTrigger extends Container {
+public class ContainerBrainStoneTrigger extends Container {
 	/** Temporary storage of the TileEntity */
-	private final TileEntityBlockBrainStoneTrigger trigger;
+	private final TileEntityBrainStoneTrigger trigger;
 
 	/**
 	 * Sets all the slots on the Gui.
@@ -21,8 +21,8 @@ public class ContainerBlockBrainStoneTrigger extends Container {
 	 * @param tileentityblockbrainstonetrigger
 	 *            The TileEntity
 	 */
-	public ContainerBlockBrainStoneTrigger(InventoryPlayer inventoryplayer,
-			TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger) {
+	public ContainerBrainStoneTrigger(InventoryPlayer inventoryplayer,
+									  TileEntityBrainStoneTrigger tileentityblockbrainstonetrigger) {
 		trigger = tileentityblockbrainstonetrigger;
 		int i;
 		addSlotToContainer(new SlotBlockBrainStoneTrigger(trigger, 0, 148, 29));

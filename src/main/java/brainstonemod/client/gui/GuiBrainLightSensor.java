@@ -2,8 +2,8 @@ package brainstonemod.client.gui;
 
 import net.minecraft.util.StatCollector;
 import brainstonemod.client.gui.template.GuiBrainStoneBase;
-import brainstonemod.common.container.ContainerBlockBrainLightSensor;
-import brainstonemod.common.tileentity.TileEntityBlockBrainLightSensor;
+import brainstonemod.common.container.ContainerGeneric;
+import brainstonemod.common.tileentity.TileEntityBrainLightSensor;
 import brainstonemod.network.BrainStonePacketHelper;
 
 public class GuiBrainLightSensor extends GuiBrainStoneBase {
@@ -26,21 +26,21 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 	private boolean direction;
 
 	/** The temporary storage of the TileEntity */
-	private final TileEntityBlockBrainLightSensor tileentity;
+	private final TileEntityBrainLightSensor tileentity;
 
 	/**
 	 * Saves all given values to the variables. And updates the TileEntity.
 	 * 
-	 * @param tileentityblockbrainlightsensor
+	 * @param te
 	 *            The TileEntity
 	 */
-	public GuiBrainLightSensor(TileEntityBlockBrainLightSensor tileentityblockbrainlightsensor) {
-		super(new ContainerBlockBrainLightSensor(), tileentityblockbrainlightsensor);
-		tileentity = tileentityblockbrainlightsensor;
+	public GuiBrainLightSensor(TileEntityBrainLightSensor te) {
+		super(new ContainerGeneric(), te);
+		tileentity = te;
 		direction = tileentity.getDirection();
 		setLightLevel(tileentity.getLightLevel());
 
-		if (tileentity.getState()) {
+		if (tileentity.isClassic()) {
 			setSize(xSizeClassic, ySizeClassic);
 		} else {
 			setSize(xSizeSimple, ySizeSimple);
@@ -49,7 +49,7 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 
 	@Override
 	protected void drawGuiBackground(float partialTicks, int mouseX, int mouseY) {
-		if (tileentity.getState()) {
+		if (tileentity.isClassic()) {
 			bindTexture("GuiBrainLightSensorClassic");
 
 			drawTexturedModalRect(0, 0, 0, 0, xSizeClassic, ySizeClassic);
@@ -104,7 +104,7 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 			quit();
 		}
 
-		if (tileentity.getState()) {
+		if (tileentity.isClassic()) {
 			if (((i == 200) || (i == 205)) && (lightLevel != 15)) {
 				setLightLevel(lightLevel + 1);
 			}
@@ -122,7 +122,7 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 	@Override
 	protected void mouseClicked(int x, int y, int mouseButton) {
 		if (mouseButton == 0) {
-			if (tileentity.getState()) {
+			if (tileentity.isClassic()) {
 				x -= (width - xSizeClassic) / 2;
 				y -= (height - ySizeClassic) / 2;
 
@@ -166,7 +166,7 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 				}
 			}
 
-			if (tileentity.getState()) {
+			if (tileentity.isClassic()) {
 				setSize(xSizeClassic, ySizeClassic);
 			} else {
 				setSize(xSizeSimple, ySizeSimple);

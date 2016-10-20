@@ -12,14 +12,14 @@ import brainstonemod.common.api.thaumcraft.AspectCreator;
 import brainstonemod.common.block.*;
 import brainstonemod.common.block.template.BlockBrainStoneBase;
 import brainstonemod.common.handler.BrainStoneEventHandler;
-import brainstonemod.common.handler.BrainStoneGuiHandler;
+import brainstonemod.network.BrainStoneGuiHandler;
 import brainstonemod.common.helper.*;
 import brainstonemod.common.item.*;
 import brainstonemod.common.item.template.ItemBrainStoneBase;
 import brainstonemod.common.logicgate.Gate;
-import brainstonemod.common.tileentity.TileEntityBlockBrainLightSensor;
-import brainstonemod.common.tileentity.TileEntityBlockBrainLogicBlock;
-import brainstonemod.common.tileentity.TileEntityBlockBrainStoneTrigger;
+import brainstonemod.common.tileentity.TileEntityBrainLightSensor;
+import brainstonemod.common.tileentity.TileEntityBrainLogicBlock;
+import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
 import brainstonemod.common.worldgenerators.BrainStoneHouseWorldGenerator;
 import brainstonemod.common.worldgenerators.BrainStoneOreWorldGenerator;
 import brainstonemod.network.BrainStonePacketHelper;
@@ -858,9 +858,9 @@ public class BrainStone {
 	 * Registers all the TileEntiys.
 	 */
 	private static final void registerTileEntitys() {
-		GameRegistry.registerTileEntity(TileEntityBlockBrainLightSensor.class, "TileEntityBlockBrainLightSensor");
-		GameRegistry.registerTileEntity(TileEntityBlockBrainStoneTrigger.class, "TileEntityBlockBrainStoneTrigger");
-		GameRegistry.registerTileEntity(TileEntityBlockBrainLogicBlock.class, "TileEntityBlockBrainLogicBlock");
+		GameRegistry.registerTileEntity(TileEntityBrainLightSensor.class, "TileEntityBlockBrainLightSensor");
+		GameRegistry.registerTileEntity(TileEntityBrainStoneTrigger.class, "TileEntityBlockBrainStoneTrigger");
+		GameRegistry.registerTileEntity(TileEntityBrainLogicBlock.class, "TileEntityBlockBrainLogicBlock");
 	}
 
 	public static final CreativeTabs getCreativeTab(CreativeTabs defaultTab) {
@@ -890,7 +890,7 @@ public class BrainStone {
 
 		// Make sure all TileEntityBlockBrainStoneTrigger objects are
 		// initialized correctly
-		TileEntityBlockBrainStoneTrigger.retryFailedTileEntities();
+		TileEntityBrainStoneTrigger.retryFailedTileEntities();
 	}
 
 	public static final LinkedHashMap<String, Class<?>[]> getServerSideTiggerEntities() {

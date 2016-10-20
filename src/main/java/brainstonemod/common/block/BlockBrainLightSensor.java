@@ -15,7 +15,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import brainstonemod.BrainStone;
 import brainstonemod.common.block.template.BlockBrainStoneContainerBase;
 import brainstonemod.common.helper.BSP;
-import brainstonemod.common.tileentity.TileEntityBlockBrainLightSensor;
+import brainstonemod.common.tileentity.TileEntityBrainLightSensor;
 import brainstonemod.network.BrainStonePacketHelper;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -87,7 +87,7 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int par1) {
-		return new TileEntityBlockBrainLightSensor();
+		return new TileEntityBrainLightSensor();
 	}
 
 	@Override
@@ -103,13 +103,13 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 	@Override
 	public int isProvidingStrongPower(IBlockAccess iblockaccess, int x, int y,
 			int z, int meta) {
-		final TileEntityBlockBrainLightSensor tileentity = (TileEntityBlockBrainLightSensor) iblockaccess
+		final TileEntityBrainLightSensor tileentity = (TileEntityBrainLightSensor) iblockaccess
 				.getTileEntity(x, y, z);
 
 		if (tileentity == null)
 			return 0;
 
-		if (tileentity.getState())
+		if (tileentity.isClassic())
 			return tileentity.getPowerOn() ? 15 : 0;
 		else
 			return tileentity.getPower();
@@ -130,7 +130,7 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z,
 			EntityPlayer entityplayer, int unknown, float px, float py, float pz) {
-		final TileEntityBlockBrainLightSensor tileentity = (TileEntityBlockBrainLightSensor) world
+		final TileEntityBrainLightSensor tileentity = (TileEntityBrainLightSensor) world
 				.getTileEntity(x, y, z);
 
 		if (tileentity == null) {
@@ -202,11 +202,11 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random random) {
-		final TileEntityBlockBrainLightSensor tileentity = (TileEntityBlockBrainLightSensor) world
+		final TileEntityBrainLightSensor tileentity = (TileEntityBrainLightSensor) world
 				.getTileEntity(x, y, z);
 
 		if (tileentity != null) {
-			if (tileentity.getState()) {
+			if (tileentity.isClassic()) {
 				final boolean power = tileentity.getPowerOn();
 				final boolean direction = tileentity.getDirection();
 				final int oldWorldLight = tileentity.getOldCurLightLevel();

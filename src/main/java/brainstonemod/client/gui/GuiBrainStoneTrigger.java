@@ -7,22 +7,22 @@ import brainstonemod.BrainStone;
 import brainstonemod.client.gui.helper.BrainStoneButton;
 import brainstonemod.client.gui.helper.BrainStoneGuiButton;
 import brainstonemod.client.gui.template.GuiBrainStoneBase;
-import brainstonemod.common.container.ContainerBlockBrainStoneTrigger;
-import brainstonemod.common.tileentity.TileEntityBlockBrainStoneTrigger;
+import brainstonemod.common.container.ContainerBrainStoneTrigger;
+import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
 import brainstonemod.network.BrainStonePacketHelper;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.StatCollector;
 
 public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
-	private final TileEntityBlockBrainStoneTrigger tileentity;
+	private final TileEntityBrainStoneTrigger tileentity;
 	private int page, hovered;
 	private final int max_page;
 	private final String[] Mobs;
 	private final BrainStoneGuiButton buttons;
 
 	public GuiBrainStoneTrigger(InventoryPlayer inventoryplayer,
-			TileEntityBlockBrainStoneTrigger tileentityblockbrainstonetrigger) {
-		super(new ContainerBlockBrainStoneTrigger(inventoryplayer, tileentityblockbrainstonetrigger),
+			TileEntityBrainStoneTrigger tileentityblockbrainstonetrigger) {
+		super(new ContainerBrainStoneTrigger(inventoryplayer, tileentityblockbrainstonetrigger),
 				tileentityblockbrainstonetrigger);
 		tileentity = tileentityblockbrainstonetrigger;
 		Mobs = new String[4];

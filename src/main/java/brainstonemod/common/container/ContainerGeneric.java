@@ -3,7 +3,7 @@ package brainstonemod.common.container;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 
-public class ContainerBlockBrainLightSensor extends Container {
+public class ContainerGeneric extends Container {
 	/**
 	 * Determines if the player can use this.
 	 * 

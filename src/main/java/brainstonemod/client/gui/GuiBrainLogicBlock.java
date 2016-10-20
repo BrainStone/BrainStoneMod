@@ -2,12 +2,13 @@ package brainstonemod.client.gui;
 
 import brainstonemod.BrainStone;
 import brainstonemod.client.gui.template.GuiBrainStoneBase;
-import brainstonemod.common.container.ContainerBlockBrainLightSensor;
+import brainstonemod.common.container.ContainerGeneric;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.helper.BrainStoneDirection;
 import brainstonemod.common.logicgate.Gate;
-import brainstonemod.common.tileentity.TileEntityBlockBrainLogicBlock;
+import brainstonemod.common.tileentity.TileEntityBrainLogicBlock;
 import net.minecraft.client.audio.ISound;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.StatCollector;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -109,7 +110,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	}
 
 	private final Random random = new Random();
-	private final TileEntityBlockBrainLogicBlock tileentity;
+	private final TileEntityBrainLogicBlock tileentity;
 	private final UUID username;
 	private boolean help;
 	private final BrainStoneDirection direction;
@@ -129,12 +130,10 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	private int numberStars;
 	private StarAnimation[] stars;
 
-	public GuiBrainLogicBlock(
-			TileEntityBlockBrainLogicBlock tileentityblockbrainlogicblock) {
-		super(new ContainerBlockBrainLightSensor(),
-				tileentityblockbrainlogicblock);
-		username = BrainStone.proxy.getPlayer().getUniqueID();
-		tileentity = tileentityblockbrainlogicblock;
+	public GuiBrainLogicBlock(TileEntityBrainLogicBlock te, EntityPlayer player) {
+		super(new ContainerGeneric(), te);
+		username = player.getUniqueID();
+		tileentity = te;
 		tileentity.logIn(username);
 		help = false;
 
@@ -148,7 +147,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		mousePosX = 0;
 		mousePosY = 0;
 
-		direction = TileEntityBlockBrainLogicBlock.guiDirection;
+		direction = TileEntityBrainLogicBlock.guiDirection;
 
 		localToBlockDirections = new BrainStoneDirection[6];
 
@@ -491,8 +490,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		if (help) {
 			closeHelpGui();
 		} else {
-			if ((key == Keyboard.KEY_ESCAPE)
-					|| (key == mc.gameSettings.keyBindInventory.getKeyCode())) {
+			if ((key == Keyboard.KEY_ESCAPE) || (key == mc.gameSettings.keyBindInventory.getKeyCode())) {
 				quit();
 			} else if (key == Keyboard.KEY_F1) {
 				openHelp();
@@ -527,7 +525,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 						96 + (19 * i))
 						&& ((i + scrollbarPos) < Gate.NumberGates)) {
 					tileentity.changeGate(Gate.GateNames[i + scrollbarPos],
-							direction);
+							direction);//TODO: Use packet here
 
 					break;
 				}

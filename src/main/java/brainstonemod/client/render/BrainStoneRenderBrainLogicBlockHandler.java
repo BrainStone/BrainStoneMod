@@ -15,7 +15,7 @@ import org.lwjgl.opengl.GL11;
 
 import brainstonemod.client.ClientProxy;
 import brainstonemod.common.block.BlockBrainLogicBlock;
-import brainstonemod.common.tileentity.TileEntityBlockBrainLogicBlock;
+import brainstonemod.common.tileentity.TileEntityBrainLogicBlock;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
 public class BrainStoneRenderBrainLogicBlockHandler implements
@@ -69,7 +69,7 @@ public class BrainStoneRenderBrainLogicBlockHandler implements
 		GL11.glTranslatef(0.5F, 0.5F, 0.5F);
 	}
 
-	private void renderPins(TileEntityBlockBrainLogicBlock tileEntity,
+	private void renderPins(TileEntityBrainLogicBlock tileEntity,
 			IBlockAccess world, RenderBlocks renderer, Block block, int x,
 			int y, int z) {
 		renderer.setOverrideBlockTexture(BlockBrainLogicBlock.textures[0]);
@@ -138,7 +138,7 @@ public class BrainStoneRenderBrainLogicBlockHandler implements
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z,
 			Block block, int modelId, RenderBlocks renderer) {
-		final TileEntityBlockBrainLogicBlock tileEntity = (TileEntityBlockBrainLogicBlock) renderer.blockAccess
+		final TileEntityBrainLogicBlock tileEntity = (TileEntityBrainLogicBlock) renderer.blockAccess
 				.getTileEntity(x, y, z);
 
 		if (tileEntity != null) {
