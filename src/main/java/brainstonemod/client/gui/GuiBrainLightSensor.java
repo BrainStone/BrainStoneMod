@@ -5,6 +5,7 @@ import brainstonemod.client.gui.template.GuiBrainStoneBase;
 import brainstonemod.common.container.ContainerGeneric;
 import brainstonemod.common.tileentity.TileEntityBrainLightSensor;
 import brainstonemod.network.BrainStonePacketHelper;
+import org.lwjgl.input.Keyboard;
 
 public class GuiBrainLightSensor extends GuiBrainStoneBase {
 	/** The temporary storage of the light level (red bars) */
@@ -100,20 +101,20 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 
 	@Override
 	protected void keyTyped(char c, int i) {
-		if ((i == 1) || (i == mc.gameSettings.keyBindInventory.getKeyCode())) {
+		if ((i == Keyboard.KEY_ESCAPE) || (i == mc.gameSettings.keyBindInventory.getKeyCode())) {
 			quit();
 		}
 
 		if (tileentity.isClassic()) {
-			if (((i == 200) || (i == 205)) && (lightLevel != 15)) {
+			if (((i == Keyboard.KEY_RIGHT) || (i == Keyboard.KEY_UP)) && (lightLevel != 15)) {
 				setLightLevel(lightLevel + 1);
 			}
 
-			if (((i == 208) || (i == 203)) && (lightLevel != 0)) {
+			if (((i == Keyboard.KEY_LEFT) || (i == Keyboard.KEY_DOWN)) && (lightLevel != 0)) {
 				setLightLevel(lightLevel - 1);
 			}
 
-			if ((i == 208) || (i == 203) || (i == 200) || (i == 205)) {
+			if ((i == Keyboard.KEY_LEFT) || (i == Keyboard.KEY_DOWN) || (i == Keyboard.KEY_RIGHT) || (i == Keyboard.KEY_UP)) {
 				click();
 			}
 		}
