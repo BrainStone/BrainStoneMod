@@ -21,8 +21,12 @@ public class PacketDispatcher {
         registerMessage(PacketSmokeParticle.Handler.class, PacketSmokeParticle.class, Side.CLIENT);
         registerMessage(PacketCapacitorData.Handler.class, PacketCapacitorData.class, Side.CLIENT);
         registerMessage(PacketRedoRender.Handler.class, PacketRedoRender.class, Side.CLIENT);
-        registerMessage(PacketSyncNBT.Handler.class, PacketSyncNBT.class, Side.SERVER);
         registerMessage(PacketTriggerMobs.Handler.class, PacketTriggerMobs.class, Side.CLIENT);
+        registerMessage(PacketLightSensor.Handler.class, PacketLightSensor.class, Side.SERVER);
+        registerMessage(PacketChangeGate.Handler.class, PacketChangeGate.class, Side.SERVER);
+        registerMessage(PacketInvertMobTriggered.Handler.class, PacketInvertMobTriggered.class, Side.SERVER);
+        registerMessage(PacketSetMaxDelay.Handler.class, PacketSetMaxDelay.class, Side.SERVER);
+        registerMessage(PacketSetMobTriggered.Handler.class, PacketSetMobTriggered.class, Side.SERVER);
     }
 
     /**

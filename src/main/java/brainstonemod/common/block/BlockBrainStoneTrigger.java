@@ -1,8 +1,10 @@
 package brainstonemod.common.block;
 
-import java.util.List;
-import java.util.Random;
-
+import brainstonemod.BrainStone;
+import brainstonemod.common.block.template.BlockBrainStoneHiders;
+import brainstonemod.common.helper.BSP;
+import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
+import brainstonemod.network.BrainStonePacketHelper;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
@@ -13,22 +15,13 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import brainstonemod.BrainStone;
-import brainstonemod.common.block.template.BlockBrainStoneHiders;
-import brainstonemod.common.helper.BSP;
-import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
-import brainstonemod.network.BrainStonePacketHelper;
+
+import java.util.List;
+import java.util.Random;
 
 public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 	public static IIcon[] textures;
 
-	/**
-	 * Constructor of the block. Registers all properties and sets the id and
-	 * the material
-	 * 
-	 * @param i
-	 *            The internal BrainStone id
-	 */
 	public BlockBrainStoneTrigger() {
 		super();
 
@@ -99,7 +92,7 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 			int z, int side) {
 		final TileEntityBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBrainStoneTrigger) iblockaccess
 				.getTileEntity(x, y, z);
-		return ((tileentityblockbrainstonetrigger != null) && (tileentityblockbrainstonetrigger.delay > 0)) ? tileentityblockbrainstonetrigger.output_buffered
+		return ((tileentityblockbrainstonetrigger != null) && (tileentityblockbrainstonetrigger.getDelay() > 0)) ? tileentityblockbrainstonetrigger.getOutputBuffered()
 				: 0;
 	}
 
@@ -231,15 +224,14 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 			return;
 		}
 
-		tileEntityBlockBrainStoneTrigger.output = triggerCorrectMob(world, x,
-				y, z);
-		if (tileEntityBlockBrainStoneTrigger.output > 0) {
-			tileEntityBlockBrainStoneTrigger.output_buffered = tileEntityBlockBrainStoneTrigger.output;
+		tileEntityBlockBrainStoneTrigger.setOutput(triggerCorrectMob(world, x, y, z));
+		if (tileEntityBlockBrainStoneTrigger.getOutput() > 0) {
+			tileEntityBlockBrainStoneTrigger.setOutputBuffered(tileEntityBlockBrainStoneTrigger.getOutput());
 		}
 
-		tileEntityBlockBrainStoneTrigger.delay = (byte) ((tileEntityBlockBrainStoneTrigger.output > 0) ? tileEntityBlockBrainStoneTrigger.max_delay
-				: tileEntityBlockBrainStoneTrigger.delay <= 0 ? 0
-						: tileEntityBlockBrainStoneTrigger.delay - 1);
+		tileEntityBlockBrainStoneTrigger.setDelay((byte) ((tileEntityBlockBrainStoneTrigger.getOutput() > 0) ? tileEntityBlockBrainStoneTrigger.getMaxDelay()
+				: tileEntityBlockBrainStoneTrigger.getDelay() <= 0 ? 0
+				: tileEntityBlockBrainStoneTrigger.getDelay() - 1));
 
 		if (tileEntityBlockBrainStoneTrigger.checkForSlotChange()) {
 			BrainStonePacketHelper.sendReRenderBlockAtPacket(

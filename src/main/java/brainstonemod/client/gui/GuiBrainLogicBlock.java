@@ -7,6 +7,8 @@ import brainstonemod.common.helper.BSP;
 import brainstonemod.common.helper.BrainStoneDirection;
 import brainstonemod.common.logicgate.Gate;
 import brainstonemod.common.tileentity.TileEntityBrainLogicBlock;
+import brainstonemod.network.PacketDispatcher;
+import brainstonemod.network.packet.PacketChangeGate;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.StatCollector;
@@ -524,8 +526,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 				if (inField(mouseX, mouseY, 8, 78 + (19 * i), 150,
 						96 + (19 * i))
 						&& ((i + scrollbarPos) < Gate.NumberGates)) {
-					tileentity.changeGate(Gate.GateNames[i + scrollbarPos],
-							direction);//TODO: Use packet here
+					PacketDispatcher.sendToServer(new PacketChangeGate(tileentity, Gate.GateNames[i + scrollbarPos], direction.ordinal()));
 
 					break;
 				}

@@ -2,11 +2,9 @@ package brainstonemod.network;
 
 import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
-import brainstonemod.common.tileentity.template.TileEntityBrainStoneSyncBase;
 import brainstonemod.network.packet.PacketRedoRender;
 import brainstonemod.network.packet.PacketSmokeParticle;
 import brainstonemod.network.packet.PacketTriggerMobs;
-import brainstonemod.network.packet.PacketSyncNBT;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import io.netty.channel.ChannelHandler.Sharable;
 import net.minecraft.command.IEntitySelector;
@@ -88,11 +86,5 @@ public class BrainStonePacketHelper {
 		PacketDispatcher.sendToAllAround(
 				new PacketRedoRender(x, y, z),
 				new NetworkRegistry.TargetPoint(dimension, x, y, z, 100));
-	}
-
-	// DOCME
-	@Deprecated
-	public static void sendUpdateTileEntityPacket(TileEntityBrainStoneSyncBase tileentity) {
-		PacketDispatcher.sendToServer(new PacketSyncNBT(tileentity));
 	}
 }

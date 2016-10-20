@@ -1,5 +1,7 @@
 package brainstonemod.client.gui.template;
 
+import brainstonemod.BrainStone;
+import brainstonemod.common.tileentity.template.TileEntityBrainStoneSyncBase;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.SoundHandler;
@@ -7,12 +9,7 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
-
-import brainstonemod.BrainStone;
-import brainstonemod.common.tileentity.template.TileEntityBrainStoneSyncBase;
-import brainstonemod.network.BrainStonePacketHelper;
 
 public abstract class GuiBrainStoneBase extends GuiContainer {
 	private class Sound implements ISound {
@@ -343,8 +340,6 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 	protected void quit() {
 		click();
 		mc.thePlayer.closeScreen();
-
-		BrainStonePacketHelper.sendUpdateTileEntityPacket(tileentity);
 	}
 
 	protected void setSize(int width, int height) {

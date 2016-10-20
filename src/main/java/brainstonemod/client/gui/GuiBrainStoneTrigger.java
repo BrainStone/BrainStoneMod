@@ -1,17 +1,19 @@
 package brainstonemod.client.gui;
 
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-
 import brainstonemod.BrainStone;
 import brainstonemod.client.gui.helper.BrainStoneButton;
 import brainstonemod.client.gui.helper.BrainStoneGuiButton;
 import brainstonemod.client.gui.template.GuiBrainStoneBase;
 import brainstonemod.common.container.ContainerBrainStoneTrigger;
 import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
-import brainstonemod.network.BrainStonePacketHelper;
+import brainstonemod.network.PacketDispatcher;
+import brainstonemod.network.packet.PacketInvertMobTriggered;
+import brainstonemod.network.packet.PacketSetMaxDelay;
+import brainstonemod.network.packet.PacketSetMobTriggered;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.StatCollector;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 
 public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 	private final TileEntityBrainStoneTrigger tileentity;
@@ -51,7 +53,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 
 		setMobs();
 
-		int tmp = tileentity.max_delay;
+		int tmp = tileentity.getMaxDelay();
 
 		if (tmp < 1) {
 			tmp = 1;
@@ -73,10 +75,9 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 			page++;
 			setMobs();
 		} else if ((ID >= 10) && (ID < 14)) {
-			//TODO: Packet here
-			tileentity.invertMobTriggered(Mobs[ID - 10]);
+			PacketDispatcher.sendToServer(new PacketInvertMobTriggered(tileentity, Mobs[ID - 10]));
 		} else if ((ID >= 20) && (ID < 30)) {
-			int tmp = tileentity.max_delay + (((ID * 2) - 41) * -1);
+			int tmp = tileentity.getMaxDelay() + (((ID * 2) - 41) * -1);
 
 			if (tmp < 1) {
 				tmp = 1;
@@ -87,8 +88,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 			buttons.getButton(21).inactive = (tmp == 1);
 			buttons.getButton(20).inactive = (tmp == 9);
 
-			//TODO: Packet here
-			tileentity.max_delay = (byte) tmp;
+			PacketDispatcher.sendToServer(new PacketSetMaxDelay(tileentity, (byte) tmp));
 		} else if (ID >= 30) {
 			ID -= 30;
 			final int row = ID / 20;
@@ -112,8 +112,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 					power = 15;
 				}
 
-				//TODO: Packet here
-				tileentity.setMobTriggered(mob, power);
+				PacketDispatcher.sendToServer(new PacketSetMobTriggered(tileentity, mob, power));
 			}
 		}
 	}
@@ -167,7 +166,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 
 		drawCenteredString((page + 1) + "/" + (max_page + 1), 156, 17, 0x000000);
 		drawString("Delay", 144, 54, 0x000000);
-		drawString(String.valueOf(tileentity.max_delay), 148, 68, 0xffffff);
+		drawString(String.valueOf(tileentity.getMaxDelay()), 148, 68, 0xffffff);
 
 		this.bindTexture();
 
@@ -222,8 +221,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 
 			if (inField(x, y, 167, 4, 171, 8)) {
 				quit();
-			} else
-				BrainStonePacketHelper.sendUpdateTileEntityPacket(tileentity);
+			}
 		}
 	}
 

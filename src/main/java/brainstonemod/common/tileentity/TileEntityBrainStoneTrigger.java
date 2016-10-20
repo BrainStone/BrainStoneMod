@@ -35,15 +35,15 @@ public class TileEntityBrainStoneTrigger extends
 	}
 
 	private final HashMap<String, Integer> mobTriggered;
-	//TODO: Make getters and setters for these
-	public byte delay, max_delay, output, output_buffered;
+	private byte delay, maxDelay, output, outputBuffered;
+
 	private ItemStack oldStack;
 
 	public TileEntityBrainStoneTrigger() {
 		ItemStacks = new ItemStack[1];
 		mobTriggered = new HashMap<String, Integer>();
 		delay = 0;
-		max_delay = 4;
+		maxDelay = 4;
 		output = 0;
 
 		try {
@@ -189,7 +189,7 @@ public class TileEntityBrainStoneTrigger extends
 		}
 
 		delay = nbttagcompound.getByte("BrainStoneDelay");
-		max_delay = nbttagcompound.getByte("BrainStoneMaxDelay");
+		maxDelay = nbttagcompound.getByte("BrainStoneMaxDelay");
 	}
 
 	// DOCME
@@ -233,6 +233,38 @@ public class TileEntityBrainStoneTrigger extends
 		}
 
 		nbttagcompound.setByte("BrainStoneDelay", delay);
-		nbttagcompound.setByte("BrainStoneMaxDelay", max_delay);
+		nbttagcompound.setByte("BrainStoneMaxDelay", maxDelay);
+	}
+
+	public byte getDelay() {
+		return delay;
+	}
+
+	public void setDelay(byte delay) {
+		this.delay = delay;
+	}
+
+	public byte getMaxDelay() {
+		return maxDelay;
+	}
+
+	public void setMaxDelay(byte maxDelay) {
+		this.maxDelay = maxDelay;
+	}
+
+	public byte getOutput() {
+		return output;
+	}
+
+	public void setOutput(byte output) {
+		this.output = output;
+	}
+
+	public byte getOutputBuffered() {
+		return outputBuffered;
+	}
+
+	public void setOutputBuffered(byte outputBuffered) {
+		this.outputBuffered = outputBuffered;
 	}
 }

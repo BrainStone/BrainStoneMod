@@ -1,10 +1,11 @@
 package brainstonemod.client.gui;
 
-import net.minecraft.util.StatCollector;
 import brainstonemod.client.gui.template.GuiBrainStoneBase;
 import brainstonemod.common.container.ContainerGeneric;
 import brainstonemod.common.tileentity.TileEntityBrainLightSensor;
-import brainstonemod.network.BrainStonePacketHelper;
+import brainstonemod.network.PacketDispatcher;
+import brainstonemod.network.packet.PacketLightSensor;
+import net.minecraft.util.StatCollector;
 import org.lwjgl.input.Keyboard;
 
 public class GuiBrainLightSensor extends GuiBrainStoneBase {
@@ -195,10 +196,6 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 			lightLevel = i;
 		}
 
-		//TODO: Send packet here with light level and direction. Server should set the data in the tile entity.
-		tileentity.setLightLevel(lightLevel);
-		tileentity.setDirection(direction);
-
-		BrainStonePacketHelper.sendUpdateTileEntityPacket(tileentity);
+		PacketDispatcher.sendToServer(new PacketLightSensor(tileentity, lightLevel, direction));
 	}
 }
