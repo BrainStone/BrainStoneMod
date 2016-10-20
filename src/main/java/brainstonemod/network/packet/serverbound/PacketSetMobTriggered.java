@@ -1,28 +1,31 @@
-package brainstonemod.network.packet;
+package brainstonemod.network.packet.serverbound;
 
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
+import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 
-public class PacketSetMaxDelay implements IMessage {
+public class PacketSetMobTriggered implements IMessage {
 	private int x;
 	private short y;
 	private int z;
 
-	private byte maxDelay;
+	private String mob;
+	private int power;
 
-	public PacketSetMaxDelay() {
+	public PacketSetMobTriggered() {
 	}
 
-	public PacketSetMaxDelay(TileEntity tileentity, byte maxDelay) {
+	public PacketSetMobTriggered(TileEntity tileentity, String mob, int power) {
 		x=tileentity.xCoord;
 		y=(short)tileentity.yCoord;
 		z=tileentity.zCoord;
-		this.maxDelay=maxDelay;
+		this.mob=mob;
+		this.power=power;
 	}
 
 	@Override
@@ -30,7 +33,8 @@ public class PacketSetMaxDelay implements IMessage {
 		x=buf.readInt();
 		y=buf.readShort();
 		z=buf.readInt();
-		maxDelay=buf.readByte();
+		mob=ByteBufUtils.readUTF8String(buf);
+		power=buf.readInt();
 	}
 
 	@Override
@@ -38,15 +42,16 @@ public class PacketSetMaxDelay implements IMessage {
 		buf.writeInt(x);
 		buf.writeShort(y);
 		buf.writeInt(z);
-		buf.writeByte(maxDelay);
+		ByteBufUtils.writeUTF8String(buf, mob);
+		buf.writeInt(power);
 	}
 
-	public static class Handler extends AbstractServerMessageHandler<PacketSetMaxDelay> {
+	public static class Handler extends AbstractServerMessageHandler<PacketSetMobTriggered> {
 		@Override
-		public IMessage handleServerMessage(EntityPlayer player, PacketSetMaxDelay message, MessageContext ctx) {
+		public IMessage handleServerMessage(EntityPlayer player, PacketSetMobTriggered message, MessageContext ctx) {
 			TileEntity te = player.worldObj.getTileEntity(message.x, message.y, message.z);
 			if(te instanceof TileEntityBrainStoneTrigger){
-				((TileEntityBrainStoneTrigger) te).setMaxDelay(message.maxDelay);
+				((TileEntityBrainStoneTrigger) te).setMobTriggered(message.mob, message.power);
 			}else{
 				BSP.error("Tile Entity at "+message.x+", "+message.y+", "+message.z+" was "+te+" and not TileEntityBrainStoneTrigger.");
 			}

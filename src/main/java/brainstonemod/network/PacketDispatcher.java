@@ -1,7 +1,11 @@
 package brainstonemod.network;
 
 import brainstonemod.BrainStone;
-import brainstonemod.network.packet.*;
+import brainstonemod.network.packet.clientbound.PacketCapacitorData;
+import brainstonemod.network.packet.clientbound.PacketRedoRender;
+import brainstonemod.network.packet.clientbound.PacketSmokeParticle;
+import brainstonemod.network.packet.clientbound.PacketTriggerMobs;
+import brainstonemod.network.packet.serverbound.*;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;

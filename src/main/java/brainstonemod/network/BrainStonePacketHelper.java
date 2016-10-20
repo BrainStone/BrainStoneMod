@@ -2,9 +2,9 @@ package brainstonemod.network;
 
 import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
-import brainstonemod.network.packet.PacketRedoRender;
-import brainstonemod.network.packet.PacketSmokeParticle;
-import brainstonemod.network.packet.PacketTriggerMobs;
+import brainstonemod.network.packet.clientbound.PacketRedoRender;
+import brainstonemod.network.packet.clientbound.PacketSmokeParticle;
+import brainstonemod.network.packet.clientbound.PacketTriggerMobs;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import io.netty.channel.ChannelHandler.Sharable;
 import net.minecraft.command.IEntitySelector;

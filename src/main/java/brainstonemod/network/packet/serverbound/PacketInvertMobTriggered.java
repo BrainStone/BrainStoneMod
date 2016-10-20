@@ -1,4 +1,4 @@
-package brainstonemod.network.packet;
+package brainstonemod.network.packet.serverbound;
 
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;

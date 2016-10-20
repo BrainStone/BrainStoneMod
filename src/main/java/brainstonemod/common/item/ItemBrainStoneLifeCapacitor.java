@@ -7,7 +7,7 @@ import brainstonemod.common.helper.BSP;
 import brainstonemod.common.helper.BrainStoneConfigHelper;
 import brainstonemod.common.item.template.ItemBrainStoneBase;
 import brainstonemod.network.PacketDispatcher;
-import brainstonemod.network.packet.PacketCapacitorData;
+import brainstonemod.network.packet.clientbound.PacketCapacitorData;
 import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;

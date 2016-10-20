@@ -4,7 +4,7 @@ import brainstonemod.client.gui.template.GuiBrainStoneBase;
 import brainstonemod.common.container.ContainerGeneric;
 import brainstonemod.common.tileentity.TileEntityBrainLightSensor;
 import brainstonemod.network.PacketDispatcher;
-import brainstonemod.network.packet.PacketLightSensor;
+import brainstonemod.network.packet.serverbound.PacketLightSensor;
 import net.minecraft.util.StatCollector;
 import org.lwjgl.input.Keyboard;
 

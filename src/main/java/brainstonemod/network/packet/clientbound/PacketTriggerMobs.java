@@ -1,4 +1,4 @@
-package brainstonemod.network.packet;
+package brainstonemod.network.packet.clientbound;
 
 import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;

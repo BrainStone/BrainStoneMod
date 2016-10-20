@@ -24,7 +24,7 @@ import brainstonemod.common.worldgenerators.BrainStoneHouseWorldGenerator;
 import brainstonemod.common.worldgenerators.BrainStoneOreWorldGenerator;
 import brainstonemod.network.BrainStonePacketHelper;
 import brainstonemod.network.PacketDispatcher;
-import brainstonemod.network.packet.PacketCapacitorData;
+import brainstonemod.network.packet.clientbound.PacketCapacitorData;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;

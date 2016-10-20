@@ -8,7 +8,7 @@ import brainstonemod.common.helper.BrainStoneDirection;
 import brainstonemod.common.logicgate.Gate;
 import brainstonemod.common.tileentity.TileEntityBrainLogicBlock;
 import brainstonemod.network.PacketDispatcher;
-import brainstonemod.network.packet.PacketChangeGate;
+import brainstonemod.network.packet.serverbound.PacketChangeGate;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.StatCollector;
