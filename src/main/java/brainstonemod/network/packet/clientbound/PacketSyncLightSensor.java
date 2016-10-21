@@ -1,15 +1,14 @@
-package brainstonemod.network.packet.serverbound;
+package brainstonemod.network.packet.clientbound;
 
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.tileentity.TileEntityBrainLightSensor;
-import brainstonemod.network.packet.clientbound.PacketSyncLightSensor;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 
-public class PacketLightSensor implements IMessage {
+public class PacketSyncLightSensor implements IMessage {
 	private int x;
 	private short y;
 	private int z;
@@ -17,10 +16,10 @@ public class PacketLightSensor implements IMessage {
 	private int lightlevel;
 	private boolean direction;
 
-	public PacketLightSensor() {
+	public PacketSyncLightSensor() {
 	}
 
-	public PacketLightSensor(TileEntity tileentity, int lightlevel, boolean direction) {
+	public PacketSyncLightSensor(TileEntity tileentity, int lightlevel, boolean direction) {
 		x=tileentity.xCoord;
 		y=(short)tileentity.yCoord;
 		z=tileentity.zCoord;
@@ -46,18 +45,17 @@ public class PacketLightSensor implements IMessage {
 		buf.writeBoolean(direction);
 	}
 
-	public static class Handler extends AbstractServerMessageHandler<PacketLightSensor> {
+	public static class Handler extends AbstractClientMessageHandler<PacketSyncLightSensor> {
 		@Override
-		public IMessage handleServerMessage(EntityPlayer player, PacketLightSensor message, MessageContext ctx) {
+		public IMessage handleClientMessage(EntityPlayer player, PacketSyncLightSensor message, MessageContext ctx) {
 			TileEntity te = player.worldObj.getTileEntity(message.x, message.y, message.z);
 			if(te instanceof TileEntityBrainLightSensor){
 				((TileEntityBrainLightSensor) te).setLightLevel(message.lightlevel);
 				((TileEntityBrainLightSensor) te).setDirection(message.direction);
-				return new PacketSyncLightSensor(te, message.lightlevel, message.direction);
 			}else{
 				BSP.error("Tile Entity at "+message.x+", "+message.y+", "+message.z+" was "+te+" and not TileEntityBrainLightSensor.");
-				return null;
 			}
+			return null;
 		}
 	}
 }

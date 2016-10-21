@@ -2,6 +2,7 @@ package brainstonemod.network.packet.serverbound;
 
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
+import brainstonemod.network.packet.clientbound.PacketSyncSetMobTriggered;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -52,10 +53,11 @@ public class PacketSetMobTriggered implements IMessage {
 			TileEntity te = player.worldObj.getTileEntity(message.x, message.y, message.z);
 			if(te instanceof TileEntityBrainStoneTrigger){
 				((TileEntityBrainStoneTrigger) te).setMobTriggered(message.mob, message.power);
+				return new PacketSyncSetMobTriggered(te, message.mob, message.power);
 			}else{
 				BSP.error("Tile Entity at "+message.x+", "+message.y+", "+message.z+" was "+te+" and not TileEntityBrainStoneTrigger.");
+				return null;
 			}
-			return null;
 		}
 	}
 }

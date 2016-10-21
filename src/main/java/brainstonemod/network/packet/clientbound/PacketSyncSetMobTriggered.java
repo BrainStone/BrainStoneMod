@@ -1,8 +1,7 @@
-package brainstonemod.network.packet.serverbound;
+package brainstonemod.network.packet.clientbound;
 
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
-import brainstonemod.network.packet.clientbound.PacketSyncInvertMobTriggered;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -10,21 +9,23 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 
-public class PacketInvertMobTriggered implements IMessage {
+public class PacketSyncSetMobTriggered implements IMessage {
 	private int x;
 	private short y;
 	private int z;
 
 	private String mob;
+	private int power;
 
-	public PacketInvertMobTriggered() {
+	public PacketSyncSetMobTriggered() {
 	}
 
-	public PacketInvertMobTriggered(TileEntity tileentity, String mob) {
+	public PacketSyncSetMobTriggered(TileEntity tileentity, String mob, int power) {
 		x=tileentity.xCoord;
 		y=(short)tileentity.yCoord;
 		z=tileentity.zCoord;
 		this.mob=mob;
+		this.power=power;
 	}
 
 	@Override
@@ -33,6 +34,7 @@ public class PacketInvertMobTriggered implements IMessage {
 		y=buf.readShort();
 		z=buf.readInt();
 		mob=ByteBufUtils.readUTF8String(buf);
+		power=buf.readInt();
 	}
 
 	@Override
@@ -41,19 +43,19 @@ public class PacketInvertMobTriggered implements IMessage {
 		buf.writeShort(y);
 		buf.writeInt(z);
 		ByteBufUtils.writeUTF8String(buf, mob);
+		buf.writeInt(power);
 	}
 
-	public static class Handler extends AbstractServerMessageHandler<PacketInvertMobTriggered> {
+	public static class Handler extends AbstractClientMessageHandler<PacketSyncSetMobTriggered> {
 		@Override
-		public IMessage handleServerMessage(EntityPlayer player, PacketInvertMobTriggered message, MessageContext ctx) {
+		public IMessage handleClientMessage(EntityPlayer player, PacketSyncSetMobTriggered message, MessageContext ctx) {
 			TileEntity te = player.worldObj.getTileEntity(message.x, message.y, message.z);
 			if(te instanceof TileEntityBrainStoneTrigger){
-				((TileEntityBrainStoneTrigger) te).invertMobTriggered(message.mob);
-				return new PacketSyncInvertMobTriggered(te, message.mob);
+				((TileEntityBrainStoneTrigger) te).setMobTriggered(message.mob, message.power);
 			}else{
 				BSP.error("Tile Entity at "+message.x+", "+message.y+", "+message.z+" was "+te+" and not TileEntityBrainStoneTrigger.");
-				return null;
 			}
+			return null;
 		}
 	}
 }

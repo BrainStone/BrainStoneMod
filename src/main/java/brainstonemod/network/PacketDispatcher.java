@@ -1,10 +1,7 @@
 package brainstonemod.network;
 
 import brainstonemod.BrainStone;
-import brainstonemod.network.packet.clientbound.PacketCapacitorData;
-import brainstonemod.network.packet.clientbound.PacketRedoRender;
-import brainstonemod.network.packet.clientbound.PacketSmokeParticle;
-import brainstonemod.network.packet.clientbound.PacketTriggerMobs;
+import brainstonemod.network.packet.clientbound.*;
 import brainstonemod.network.packet.serverbound.*;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -27,10 +24,15 @@ public class PacketDispatcher {
         registerMessage(PacketRedoRender.Handler.class, PacketRedoRender.class, Side.CLIENT);
         registerMessage(PacketTriggerMobs.Handler.class, PacketTriggerMobs.class, Side.CLIENT);
         registerMessage(PacketLightSensor.Handler.class, PacketLightSensor.class, Side.SERVER);
+        registerMessage(PacketSyncLightSensor.Handler.class, PacketSyncLightSensor.class, Side.CLIENT);
         registerMessage(PacketChangeGate.Handler.class, PacketChangeGate.class, Side.SERVER);
+        registerMessage(PacketSyncChangeGate.Handler.class, PacketSyncChangeGate.class, Side.CLIENT);
         registerMessage(PacketInvertMobTriggered.Handler.class, PacketInvertMobTriggered.class, Side.SERVER);
+        registerMessage(PacketSyncInvertMobTriggered.Handler.class, PacketSyncInvertMobTriggered.class, Side.CLIENT);
         registerMessage(PacketSetMaxDelay.Handler.class, PacketSetMaxDelay.class, Side.SERVER);
+        registerMessage(PacketSyncSetMaxDelay.Handler.class, PacketSyncSetMaxDelay.class, Side.CLIENT);
         registerMessage(PacketSetMobTriggered.Handler.class, PacketSetMobTriggered.class, Side.SERVER);
+        registerMessage(PacketSyncSetMobTriggered.Handler.class, PacketSyncSetMobTriggered.class, Side.CLIENT);
     }
 
     /**

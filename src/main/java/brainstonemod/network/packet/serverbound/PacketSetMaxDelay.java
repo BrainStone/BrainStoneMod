@@ -2,6 +2,7 @@ package brainstonemod.network.packet.serverbound;
 
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
+import brainstonemod.network.packet.clientbound.PacketSyncSetMaxDelay;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
@@ -47,10 +48,11 @@ public class PacketSetMaxDelay implements IMessage {
 			TileEntity te = player.worldObj.getTileEntity(message.x, message.y, message.z);
 			if(te instanceof TileEntityBrainStoneTrigger){
 				((TileEntityBrainStoneTrigger) te).setMaxDelay(message.maxDelay);
+				return new PacketSyncSetMaxDelay(te, message.maxDelay);
 			}else{
 				BSP.error("Tile Entity at "+message.x+", "+message.y+", "+message.z+" was "+te+" and not TileEntityBrainStoneTrigger.");
+				return null;
 			}
-			return null;
 		}
 	}
 }

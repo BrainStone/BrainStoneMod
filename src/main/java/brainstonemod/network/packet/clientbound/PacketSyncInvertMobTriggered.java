@@ -1,8 +1,7 @@
-package brainstonemod.network.packet.serverbound;
+package brainstonemod.network.packet.clientbound;
 
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
-import brainstonemod.network.packet.clientbound.PacketSyncInvertMobTriggered;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -10,17 +9,17 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 
-public class PacketInvertMobTriggered implements IMessage {
+public class PacketSyncInvertMobTriggered implements IMessage {
 	private int x;
 	private short y;
 	private int z;
 
 	private String mob;
 
-	public PacketInvertMobTriggered() {
+	public PacketSyncInvertMobTriggered() {
 	}
 
-	public PacketInvertMobTriggered(TileEntity tileentity, String mob) {
+	public PacketSyncInvertMobTriggered(TileEntity tileentity, String mob) {
 		x=tileentity.xCoord;
 		y=(short)tileentity.yCoord;
 		z=tileentity.zCoord;
@@ -43,17 +42,16 @@ public class PacketInvertMobTriggered implements IMessage {
 		ByteBufUtils.writeUTF8String(buf, mob);
 	}
 
-	public static class Handler extends AbstractServerMessageHandler<PacketInvertMobTriggered> {
+	public static class Handler extends AbstractClientMessageHandler<PacketSyncInvertMobTriggered> {
 		@Override
-		public IMessage handleServerMessage(EntityPlayer player, PacketInvertMobTriggered message, MessageContext ctx) {
+		public IMessage handleClientMessage(EntityPlayer player, PacketSyncInvertMobTriggered message, MessageContext ctx) {
 			TileEntity te = player.worldObj.getTileEntity(message.x, message.y, message.z);
 			if(te instanceof TileEntityBrainStoneTrigger){
 				((TileEntityBrainStoneTrigger) te).invertMobTriggered(message.mob);
-				return new PacketSyncInvertMobTriggered(te, message.mob);
 			}else{
 				BSP.error("Tile Entity at "+message.x+", "+message.y+", "+message.z+" was "+te+" and not TileEntityBrainStoneTrigger.");
-				return null;
 			}
+			return null;
 		}
 	}
 }
