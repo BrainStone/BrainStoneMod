@@ -219,6 +219,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		}
 		if (renderNyanCat) {
 			// Transforming the rendering space
+			this.zLevel = 101F;
 			bindTexture("GuiBrainLogicBlockEasterEgg");
 			setTempSize(0, 0);
 			GL11.glScalef(catScale, catScale, catScale);
@@ -273,6 +274,9 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 					}
 				}
 			}
+
+			//Reset the render space
+			this.zLevel = 0F;
 		}
 	}
 
