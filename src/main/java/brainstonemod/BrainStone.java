@@ -16,7 +16,6 @@ import brainstonemod.network.BrainStoneGuiHandler;
 import brainstonemod.common.helper.*;
 import brainstonemod.common.item.*;
 import brainstonemod.common.item.template.ItemBrainStoneBase;
-import brainstonemod.common.logicgate.Gate;
 import brainstonemod.common.tileentity.TileEntityBrainLightSensor;
 import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
 import brainstonemod.common.worldgenerators.BrainStoneHouseWorldGenerator;
@@ -221,12 +220,6 @@ public class BrainStone {
 				"Jar is " + (BrainStoneJarUtils.SIGNED_JAR ? "" : "not ") + "signed!");
 
 		checkForModules();
-
-		if ((Gate.Gates == null) || Gate.Gates.isEmpty()) {
-			BSP.throwNullPointerException(
-					"Well, that should NOT have happenend! This IS a HUGE problem if you notice this please report it to yannick@tedworld.de.\nThanks!\n\nDeveloper Information:\nThe Map of the Gates is EMPTY!\nIs gates null: "
-							+ (Gate.Gates == null));
-		}
 
 		BrainStoneConfigHelper.loadConfig(new Configuration(event.getSuggestedConfigurationFile()));
 		retriveCurrentVersions();
