@@ -5,17 +5,22 @@ import brainstonemod.client.gui.helper.BrainStoneButton;
 import brainstonemod.client.gui.helper.BrainStoneGuiButton;
 import brainstonemod.client.gui.template.GuiBrainStoneBase;
 import brainstonemod.common.container.ContainerBrainStoneTrigger;
+import brainstonemod.common.helper.BSP;
 import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
 import brainstonemod.network.PacketDispatcher;
 import brainstonemod.network.packet.serverbound.PacketInvertMobTriggered;
 import brainstonemod.network.packet.serverbound.PacketSetMaxDelay;
 import brainstonemod.network.packet.serverbound.PacketSetMobTriggered;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.ISound;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.StatCollector;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
+
+import java.util.Random;
 
 public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 	private final TileEntityBrainStoneTrigger tileentity;
@@ -24,6 +29,18 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 	private final int max_page;
 	private final String[] mobs;
 	private final BrainStoneGuiButton buttons;
+
+	private static final int catScale = 6;
+	private static final int starEachPixels = 1000 * (catScale * catScale);
+	private static final long millisPerCatFrame = 100L;
+	private final char[] lastChars;
+	private SoundLoop soundLoop;
+	private boolean nyanCat;
+	private boolean renderNyanCat;
+	private long lastAnimationProgress;
+	private int numberStars;
+	private StarAnimation[] stars;
+	private final Random nyanrand = new Random();
 
 	public GuiBrainStoneTrigger(InventoryPlayer inventoryplayer, TileEntityBrainStoneTrigger te) {
 		super(new ContainerBrainStoneTrigger(inventoryplayer, te), te);
@@ -43,6 +60,10 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		hovered = -1;
 		max_page = (BrainStone.getClientSideTiggerEntities().size() / 4) + (((BrainStone.getClientSideTiggerEntities().size() % 4) == 0) ? -1 : 0);
 		buttons = new BrainStoneGuiButton(this);
+
+		lastChars = new char[4];
+		soundLoop = null;
+		nyanCat = false;
 	}
 
 
@@ -196,6 +217,63 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 			drawTexturedModalRect(120, 13 + (18 * hovered), 120, 166, 6, 6);
 			drawTexturedModalRect(88, 13 + (18 * hovered), 88, 166, tileentity.getMobPower(tmp) * 2, 6);
 		}
+		if (renderNyanCat) {
+			// Transforming the rendering space
+			bindTexture("GuiBrainLogicBlockEasterEgg");
+			setTempSize(0, 0);
+			GL11.glScalef(catScale, catScale, catScale);
+
+			// Checking for screen size change
+			if (numberStars != ((width * height) / starEachPixels)) {
+				numberStars = (width * height) / starEachPixels;
+				stars = null;
+			}
+
+			// Refilling the stars array
+			if (stars == null) {
+				StarAnimation star;
+
+				stars = new StarAnimation[numberStars];
+
+				for (int i = 0; i < numberStars; i++) {
+					star = new StarAnimation();
+					star.ranomizeX();
+
+					stars[i] = star;
+				}
+			}
+
+			// Render the rainbow
+			drawTexturedModalRect(-23, -9, 41,
+					((int) ((lastAnimationProgress / 2) % 2L)) * 19, 16, 18);
+			drawTexturedModalRect(-23, -9, 41,
+					((int) ((lastAnimationProgress / 2) % 2L)) * 19, 14, 19);
+
+			for (int i = 1; i < (((width / (catScale * 2)) / 16) + 1); i++) {
+				drawTexturedModalRect((i * -16) - 23, -9, 41,
+						((int) ((lastAnimationProgress / 2) % 2L)) * 19, 16, 19);
+			}
+
+			// Render the cat
+			drawTexturedModalRect(-17, -10, 0,
+					((int) (lastAnimationProgress % 12L)) * 21, 34, 21);
+
+			for (final StarAnimation star : stars) {
+				star.render();
+			}
+
+			// Progress the animation
+			if ((System.currentTimeMillis() / millisPerCatFrame) > lastAnimationProgress) {
+				lastAnimationProgress = System.currentTimeMillis()
+						/ millisPerCatFrame;
+
+				for (int i = 0; i < stars.length; i++) {
+					if (!stars[i].shift()) {
+						stars[i] = new StarAnimation();
+					}
+				}
+			}
+		}
 	}
 
 	@Override
@@ -204,6 +282,20 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 
 		if ((key == Keyboard.KEY_ESCAPE) || (key == mc.gameSettings.keyBindInventory.getKeyCode())) {
 			quit();
+		}
+
+		if (nyanCat) {
+			stopEasterEgg();
+		}
+
+		// Shift array by one
+		System.arraycopy(lastChars, 0, lastChars, 1, lastChars.length - 1);
+		lastChars[0] = letter;
+
+		if (((lastChars[2] == 'l') && (lastChars[1] == 'o') && (lastChars[0] == 'l'))
+				|| ((lastChars[3] == 'a') && (lastChars[2] == 's')
+				&& (lastChars[1] == 'd') && (lastChars[0] == 'f'))) {
+			startEasterEgg();
 		}
 	}
 
@@ -223,6 +315,10 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 			if (inField(x, y, 167, 4, 171, 8)) {
 				quit();
 			}
+		}
+
+		if (nyanCat) {
+			stopEasterEgg();
 		}
 	}
 
@@ -292,6 +388,114 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 					buttons.getButton((i * 20) + 30 + j).inactive = false;
 				}
 			}
+		}
+	}
+
+	private class SoundLoop extends Thread {
+		private boolean run;
+		private ISound currentSound;
+
+		public SoundLoop() {
+			run = true;
+
+			setPriority(MAX_PRIORITY);
+		}
+
+		@Override
+		public void run() {
+			try {
+				currentSound = playSoundAtClient(BrainStone.RESOURCE_PREFIX
+						+ "nyan.intro");
+				sleep(4037);
+
+				if (run) {
+					renderNyanCat = true;
+					lastAnimationProgress = System.currentTimeMillis()
+							/ millisPerCatFrame;
+				}
+
+				while (run) {
+					currentSound = playSoundAtClient(BrainStone.RESOURCE_PREFIX
+							+ "nyan.loop");
+					sleep(27066);
+				}
+			} catch (final InterruptedException e) {
+				BSP.warnException(e);
+			}
+		}
+
+		public void stopSound() {
+			run = false;
+
+			if (currentSound != null) {
+				stopSoundAtClient(currentSound);
+			}
+		}
+	}
+
+	private class StarAnimation {
+		private int x;
+		private final int y;
+		private int frame;
+
+		public StarAnimation() {
+			x = width / (catScale * 2);
+			y = nyanrand.nextInt(height / catScale) - (height / (catScale * 2));
+
+			frame = nyanrand.nextInt(6);
+		}
+
+		public void ranomizeX() {
+			x = nyanrand.nextInt(width / catScale) - (width / (catScale * 2));
+		}
+
+		public void render() {
+			drawTexturedModalRect(x - 3, y - 3, 34, frame * 7, 7, 7);
+		}
+
+		public boolean shift() {
+			frame = (frame + 1) % 6;
+			x -= 10;
+
+			return x > (width / (catScale * -2));
+		}
+	}
+
+	private void startEasterEgg() {
+		if (!nyanCat) {
+			soundHandler.pauseSounds();
+
+			nyanCat = true;
+
+			soundLoop = new SoundLoop();
+			soundLoop.start();
+
+			numberStars = (width * height) / starEachPixels;
+			renderNyanCat = false;
+		}
+	}
+
+	private void stopEasterEgg() {
+		if (nyanCat) {
+			nyanCat = false;
+
+			soundLoop.stopSound();
+			soundLoop = null;
+
+			stars = null;
+			renderNyanCat = false;
+
+			(new Thread() {
+				@Override
+				public void run() {
+					try {
+						sleep(20);
+					} catch (final InterruptedException e) {
+						BSP.warnException(e);
+					}
+					soundHandler.resumeSounds();
+				}
+			}).start();
 		}
 	}
 }

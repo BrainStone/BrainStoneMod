@@ -1,96 +1,23 @@
 package brainstonemod.client.gui;
 
-import brainstonemod.BrainStone;
 import brainstonemod.client.gui.template.GuiBrainStoneBase;
 import brainstonemod.common.container.ContainerGeneric;
-import brainstonemod.common.helper.BSP;
 import brainstonemod.common.helper.BrainStoneDirection;
 import brainstonemod.common.logicgate.Gate;
 import brainstonemod.common.tileentity.TileEntityBrainLogicBlock;
 import brainstonemod.network.PacketDispatcher;
 import brainstonemod.network.packet.serverbound.PacketChangeGate;
-import net.minecraft.client.audio.ISound;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.StatCollector;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
 
-import java.util.Random;
 import java.util.UUID;
 
 import static brainstonemod.common.helper.BrainStoneDirection.*;
 
 public class GuiBrainLogicBlock extends GuiBrainStoneBase {
-	private class SoundLoop extends Thread {
-		private boolean run;
-		private ISound currentSound;
 
-		public SoundLoop() {
-			run = true;
-
-			setPriority(MAX_PRIORITY);
-		}
-
-		@Override
-		public void run() {
-			try {
-				currentSound = playSoundAtClient(BrainStone.RESOURCE_PREFIX
-						+ "nyan.intro");
-				sleep(4037);
-
-				if (run) {
-					renderNyanCat = true;
-					lastAnimationProgress = System.currentTimeMillis()
-							/ millisPerCatFrame;
-				}
-
-				while (run) {
-					currentSound = playSoundAtClient(BrainStone.RESOURCE_PREFIX
-							+ "nyan.loop");
-					sleep(27066);
-				}
-			} catch (final InterruptedException e) {
-				BSP.warnException(e);
-			}
-		}
-
-		public void stopSound() {
-			run = false;
-
-			if (currentSound != null) {
-				stopSoundAtClient(currentSound);
-			}
-		}
-	}
-
-	private class StarAnimation {
-		private int x;
-		private final int y;
-		private int frame;
-
-		public StarAnimation() {
-			x = width / (catScale * 2);
-			y = random.nextInt(height / catScale) - (height / (catScale * 2));
-
-			frame = random.nextInt(6);
-		}
-
-		public void ranomizeX() {
-			x = random.nextInt(width / catScale) - (width / (catScale * 2));
-		}
-
-		public void render() {
-			drawTexturedModalRect(x - 3, y - 3, 34, frame * 7, 7, 7);
-		}
-
-		public boolean shift() {
-			frame = (frame + 1) % 6;
-			x -= 10;
-
-			return x > (width / (catScale * -2));
-		}
-	}
 
 	private static final int xSizeMain = 176;
 	private static final int ySizeMain = 200;
@@ -101,17 +28,12 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	private static final int rowsToScroll = Gate.NumberGates - 6;
 	private static final float pixelPerRow = 99.0F / rowsToScroll;
 
-	private static final int catScale = 6;
-	private static final int starEachPixels = 1000 * (catScale * catScale);
-	private static final long millisPerCatFrame = 100L;
-
 	private static boolean isFormatColor(char par0) {
 		return ((par0 >= 48) && (par0 <= 57))
 				|| ((par0 >= 97) && (par0 <= 102))
 				|| ((par0 >= 65) && (par0 <= 70));
 	}
 
-	private final Random random = new Random();
 	private final TileEntityBrainLogicBlock tileentity;
 	private final UUID username;
 	private boolean help;
@@ -124,13 +46,6 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 	private final BrainStoneDirection swappedPin;
 	private int mousePosX, mousePosY;
 	private final BrainStoneDirection[] localToBlockDirections;
-	private final char[] lastChars;
-	private SoundLoop soundLoop;
-	private boolean nyanCat;
-	private boolean renderNyanCat;
-	private long lastAnimationProgress;
-	private int numberStars;
-	private StarAnimation[] stars;
 
 	public GuiBrainLogicBlock(TileEntityBrainLogicBlock te, EntityPlayer player) {
 		super(new ContainerGeneric(), te);
@@ -164,10 +79,6 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 				.reorintateNorth(direction);
 		localToBlockDirections[WEST.toArrayIndex()] = WEST
 				.reorintateNorth(direction);
-
-		lastChars = new char[4];
-		soundLoop = null;
-		nyanCat = false;
 
 		setSize(xSizeMain, ySizeMain);
 	}
@@ -368,63 +279,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 					0xeeeeee);
 		}
 
-		if (renderNyanCat) {
-			// Transforming the rendering space
-			bindTexture("GuiBrainLogicBlockEasterEgg");
-			setTempSize(0, 0);
-			GL11.glScalef(catScale, catScale, catScale);
 
-			// Checking for screen size change
-			if (numberStars != ((width * height) / starEachPixels)) {
-				numberStars = (width * height) / starEachPixels;
-				stars = null;
-			}
-
-			// Refilling the stars array
-			if (stars == null) {
-				StarAnimation star;
-
-				stars = new StarAnimation[numberStars];
-
-				for (int i = 0; i < numberStars; i++) {
-					star = new StarAnimation();
-					star.ranomizeX();
-
-					stars[i] = star;
-				}
-			}
-
-			// Render the rainbow
-			drawTexturedModalRect(-23, -9, 41,
-					((int) ((lastAnimationProgress / 2) % 2L)) * 19, 16, 18);
-			drawTexturedModalRect(-23, -9, 41,
-					((int) ((lastAnimationProgress / 2) % 2L)) * 19, 14, 19);
-
-			for (int i = 1; i < (((width / (catScale * 2)) / 16) + 1); i++) {
-				drawTexturedModalRect((i * -16) - 23, -9, 41,
-						((int) ((lastAnimationProgress / 2) % 2L)) * 19, 16, 19);
-			}
-
-			// Render the cat
-			drawTexturedModalRect(-17, -10, 0,
-					((int) (lastAnimationProgress % 12L)) * 21, 34, 21);
-
-			for (final StarAnimation star : stars) {
-				star.render();
-			}
-
-			// Progress the animation
-			if ((System.currentTimeMillis() / millisPerCatFrame) > lastAnimationProgress) {
-				lastAnimationProgress = System.currentTimeMillis()
-						/ millisPerCatFrame;
-
-				for (int i = 0; i < stars.length; i++) {
-					if (!stars[i].shift()) {
-						stars[i] = new StarAnimation();
-					}
-				}
-			}
-		}
 	}
 
 	private int getLines(String str) {
@@ -499,19 +354,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 			}
 		}
 
-		if (nyanCat) {
-			stopEasterEgg();
-		}
 
-		// Shift array by one
-		System.arraycopy(lastChars, 0, lastChars, 1, lastChars.length - 1);
-		lastChars[0] = letter;
-
-		if (((lastChars[2] == 'l') && (lastChars[1] == 'o') && (lastChars[0] == 'l'))
-				|| ((lastChars[3] == 'a') && (lastChars[2] == 's')
-						&& (lastChars[1] == 'd') && (lastChars[0] == 'f'))) {
-			startEasterEgg();
-		}
 	}
 
 	@Override
@@ -577,9 +420,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 			}
 		}
 
-		if (nyanCat) {
-			stopEasterEgg();
-		}
+
 	}
 
 	@Override
@@ -656,43 +497,7 @@ public class GuiBrainLogicBlock extends GuiBrainStoneBase {
 		}
 	}
 
-	private void startEasterEgg() {
-		if (!nyanCat) {
-			soundHandler.pauseSounds();
 
-			nyanCat = true;
-
-			soundLoop = new SoundLoop();
-			soundLoop.start();
-
-			numberStars = (width * height) / starEachPixels;
-			renderNyanCat = false;
-		}
-	}
-
-	private void stopEasterEgg() {
-		if (nyanCat) {
-			nyanCat = false;
-
-			soundLoop.stopSound();
-			soundLoop = null;
-
-			stars = null;
-			renderNyanCat = false;
-
-			(new Thread() {
-				@Override
-				public void run() {
-					try {
-						sleep(20);
-					} catch (final InterruptedException e) {
-						BSP.warnException(e);
-					}
-					soundHandler.resumeSounds();
-				}
-            }).start();
-		}
-	}
 
 	// private void rotate(boolean flag) {
 	// if (flag) {
