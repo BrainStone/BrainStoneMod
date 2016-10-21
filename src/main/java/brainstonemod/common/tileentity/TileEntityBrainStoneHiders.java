@@ -1,34 +1,27 @@
 package brainstonemod.common.tileentity;
 
+import brainstonemod.common.tileentity.template.TileEntityBrainStoneSyncBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import brainstonemod.common.tileentity.template.TileEntityBrainStoneSyncBase;
 
-public abstract class TileEntityBrainStoneHiders extends
-		TileEntityBrainStoneSyncBase implements IInventory {
+public abstract class TileEntityBrainStoneHiders extends TileEntityBrainStoneSyncBase implements IInventory {
 	protected ItemStack ItemStacks[];
 
 	@Override
-	public ItemStack decrStackSize(int slot, int amount) {
-		if (ItemStacks[slot] != null) {
-			if (ItemStacks[slot].stackSize <= amount) {
-				final ItemStack itemstack = ItemStacks[slot];
-				ItemStacks[slot] = null;
-				return itemstack;
+	public ItemStack decrStackSize(int index, int count) {
+		ItemStack is = getStackInSlot(index);
+		if (is != null) {
+			if (is.stackSize <= count) {
+				setInventorySlotContents(index, null);
+			} else {
+				is = is.splitStack(count);
+				markDirty();
 			}
-
-			final ItemStack itemstack1 = ItemStacks[slot].splitStack(amount);
-
-			if (ItemStacks[slot].stackSize == 0) {
-				ItemStacks[slot] = null;
-			}
-
-			return itemstack1;
-		} else
-			return null;
+		}
+		return is;
 	}
 
 	// DOCME
@@ -66,33 +59,25 @@ public abstract class TileEntityBrainStoneHiders extends
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int slot) {
-		// if (ItemStacks[slot] != null) {
-		// final ItemStack itemstack = ItemStacks[slot];
-		// ItemStacks[slot] = null;
-		// return itemstack;
-		// } else
-		// return null;
-
-		return null;
+	public ItemStack getStackInSlotOnClosing(int index) {
+		ItemStack is = getStackInSlot(index);
+		setInventorySlotContents(index, null);
+		return is;
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-		if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this)
-			return false;
-		else
-			return entityplayer.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D,
-					zCoord + 0.5D) <= 64D;
+	public boolean isUseableByPlayer(EntityPlayer player) {
+		return player.getDistanceSq(this.xCoord + 0.5D, this.yCoord + 0.5D, this.zCoord + 0.5D) <= 64;
 	}
 
 	@Override
 	public void setInventorySlotContents(int slot, ItemStack itemstack) {
 		ItemStacks[slot] = itemstack;
 
-		if ((itemstack != null)
-				&& (itemstack.stackSize > getInventoryStackLimit())) {
+		if ((itemstack != null) && (itemstack.stackSize > getInventoryStackLimit())) {
 			itemstack.stackSize = getInventoryStackLimit();
 		}
+
+		markDirty();
 	}
 }

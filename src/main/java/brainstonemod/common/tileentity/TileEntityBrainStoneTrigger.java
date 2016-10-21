@@ -3,10 +3,11 @@ package brainstonemod.common.tileentity;
 import brainstonemod.BrainStone;
 import brainstonemod.common.block.BlockBrainStoneTrigger;
 import brainstonemod.common.helper.BSP;
-import brainstonemod.common.slot.SlotBlockBrainStoneTrigger;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -130,7 +131,17 @@ public class TileEntityBrainStoneTrigger extends
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
-		return SlotBlockBrainStoneTrigger.staticIsItemValid(itemstack);
+		if (!(itemstack.getItem() instanceof ItemBlock))
+			return false;
+
+		final Block block = Block.getBlockFromItem(itemstack.getItem());
+		if (block == null)
+			return false;
+
+		if (block == BrainStone.brainStoneTrigger() || block == Blocks.leaves)
+			return false;
+		else
+			return block.isOpaqueCube();
 	}
 
 	@Override

@@ -87,8 +87,7 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 	protected TileEntityBrainStoneSyncBase tileentity;
 	protected boolean textureLoaded;
 
-	public GuiBrainStoneBase(Container par1Container,
-			TileEntityBrainStoneSyncBase tileentity) {
+	public GuiBrainStoneBase(Container par1Container, TileEntityBrainStoneSyncBase tileentity) {
 		super(par1Container);
 
 		this.tileentity = tileentity;

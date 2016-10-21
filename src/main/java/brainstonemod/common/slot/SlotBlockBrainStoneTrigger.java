@@ -9,21 +9,6 @@ import brainstonemod.BrainStone;
 import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
 
 public class SlotBlockBrainStoneTrigger extends Slot {
-	public static boolean staticIsItemValid(ItemStack itemstack) {
-		if (!(itemstack.getItem() instanceof ItemBlock))
-			return false;
-
-		final Block block = Block.getBlockFromItem(itemstack.getItem());
-		if (block == null)
-			return false;
-
-		if ((block == BrainStone.brainStoneTrigger())
-				|| (block == Blocks.leaves))
-			return false;
-		else
-			return block.isOpaqueCube();
-	}
-
 	public SlotBlockBrainStoneTrigger(
 			TileEntityBrainStoneTrigger tileentityblockbrainstonetrigger,
 			int i, int j, int k) {
@@ -37,6 +22,16 @@ public class SlotBlockBrainStoneTrigger extends Slot {
 
 	@Override
 	public boolean isItemValid(ItemStack itemstack) {
-		return staticIsItemValid(itemstack);
+		if (!(itemstack.getItem() instanceof ItemBlock))
+			return false;
+
+		final Block block = Block.getBlockFromItem(itemstack.getItem());
+		if (block == null)
+			return false;
+
+		if (block == BrainStone.brainStoneTrigger() || block == Blocks.leaves)
+			return false;
+		else
+			return block.isOpaqueCube();
 	}
 }

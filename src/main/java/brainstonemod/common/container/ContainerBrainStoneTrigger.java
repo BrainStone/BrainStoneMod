@@ -12,17 +12,7 @@ public class ContainerBrainStoneTrigger extends Container {
 	/** Temporary storage of the TileEntity */
 	private final TileEntityBrainStoneTrigger trigger;
 
-	/**
-	 * Sets all the slots on the Gui.
-	 * 
-	 * @param inventoryplayer
-	 *            The inventory of the player. Needed to display the player
-	 *            inventory on the Gui
-	 * @param tileentityblockbrainstonetrigger
-	 *            The TileEntity
-	 */
-	public ContainerBrainStoneTrigger(InventoryPlayer inventoryplayer,
-									  TileEntityBrainStoneTrigger tileentityblockbrainstonetrigger) {
+	public ContainerBrainStoneTrigger(InventoryPlayer inventoryplayer, TileEntityBrainStoneTrigger tileentityblockbrainstonetrigger) {
 		trigger = tileentityblockbrainstonetrigger;
 		int i;
 		addSlotToContainer(new SlotBlockBrainStoneTrigger(trigger, 0, 148, 29));
@@ -38,62 +28,33 @@ public class ContainerBrainStoneTrigger extends Container {
 		}
 	}
 
-	/**
-	 * Determines if the player can use this.
-	 * 
-	 * @param entityplayer
-	 *            The player
-	 * @return Depends on the distance of the player to the block
-	 */
 	@Override
 	public boolean canInteractWith(EntityPlayer entityplayer) {
 		return trigger.isUseableByPlayer(entityplayer);
 	}
 
-	// TODO Not working properly. Only one item should be able to be inserted into the slot.
-	/**
-	 * Called when a player shift-clicks on a slot. You must override this or
-	 * you will crash when someone does that.
-	 */
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int index) {
-		ItemStack itemstack = null;
-		final Slot slot = (Slot) inventorySlots.get(index);
+	public ItemStack transferStackInSlot(EntityPlayer player, int i) {
+		Slot slot = getSlot(i);
+		if (slot != null && slot.getHasStack()) {
+			ItemStack is = slot.getStack();
+			ItemStack result = is.copy();
 
-		if ((slot != null) && slot.getHasStack()) {
-			final ItemStack itemstack1 = slot.getStack();
-			itemstack1.getMaxStackSize();
-			itemstack = itemstack1.copy();
-
-			if (index == 0) {
-				if (!mergeItemStack(itemstack1, 1, 37, true))
+			if (i >= 36) {
+				if (!mergeItemStack(is, 0, 36, false)) {
 					return null;
-
-				slot.onSlotChange(itemstack1, itemstack);
-			} else if ((index >= 1) && (index < 28)) {
-				if (!mergeItemStack(itemstack1, 28, 37, false))
-					return null;
-			} else if ((index >= 28) && (index < 37)) {
-				if (!mergeItemStack(itemstack1, 1, 28, false))
-					return null;
-			} else if (!mergeItemStack(itemstack1, 1, 37, false))
+				}
+			} else if (!mergeItemStack(is, 36, 36 + trigger.getSizeInventory(), false)) {
 				return null;
-
-			if (itemstack1.stackSize == 0) {
+			}
+			if (is.stackSize == 0) {
 				slot.putStack(null);
 			} else {
 				slot.onSlotChanged();
 			}
-
-			if (itemstack1.stackSize == itemstack.stackSize)
-				return null;
-
-			if (itemstack.stackSize == 0)
-				return null;
-
-			slot.onPickupFromSlot(par1EntityPlayer, itemstack1);
+			slot.onPickupFromSlot(player, is);
+			return result;
 		}
-
-		return itemstack;
+		return null;
 	}
 }

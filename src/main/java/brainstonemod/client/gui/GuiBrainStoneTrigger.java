@@ -22,11 +22,9 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 	private final String[] Mobs;
 	private final BrainStoneGuiButton buttons;
 
-	public GuiBrainStoneTrigger(InventoryPlayer inventoryplayer,
-			TileEntityBrainStoneTrigger tileentityblockbrainstonetrigger) {
-		super(new ContainerBrainStoneTrigger(inventoryplayer, tileentityblockbrainstonetrigger),
-				tileentityblockbrainstonetrigger);
-		tileentity = tileentityblockbrainstonetrigger;
+	public GuiBrainStoneTrigger(InventoryPlayer inventoryplayer, TileEntityBrainStoneTrigger te) {
+		super(new ContainerBrainStoneTrigger(inventoryplayer, te), te);
+		tileentity = te;
 		Mobs = new String[4];
 		page = 0;
 		hovered = -1;
