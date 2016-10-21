@@ -221,10 +221,6 @@ public class TileEntityBrainLogicBlock extends
 		return ActiveGate.Pins[direction.toArrayIndex()].State.getPowerLevel();
 	}
 
-	public byte getPowerLevel(int pos) {
-		return this.getPowerLevel((byte) pos);
-	}
-
 	private byte getPowerLevelFromBlock(int x, int y, int z,
 			BrainStoneDirection direction) {
 		final Block block = worldObj.getBlock(x, y, z);
@@ -278,8 +274,7 @@ public class TileEntityBrainLogicBlock extends
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net,
-			S35PacketUpdateTileEntity packet) {
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
 		super.onDataPacket(net, packet);
 
 		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {

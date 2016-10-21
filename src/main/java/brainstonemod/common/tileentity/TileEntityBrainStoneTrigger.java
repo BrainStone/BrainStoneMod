@@ -152,11 +152,9 @@ public class TileEntityBrainStoneTrigger extends
 	public void readFromNBT(NBTTagCompound nbttagcompound) {
 		super.readFromNBT(nbttagcompound);
 
-		if (inventorySaving) {
 			final NBTTagList nbttaglist = nbttagcompound
 					.getTagList("Items", 10);
 
-			// Making sure it won't mess up when the Container is behind
 			if ((nbttaglist != null) && (nbttaglist.tagCount() > 0)) {
 				ItemStacks = new ItemStack[getSizeInventory()];
 
@@ -170,7 +168,6 @@ public class TileEntityBrainStoneTrigger extends
 								.loadItemStackFromNBT(nbttagcompound1);
 					}
 				}
-			}
 		}
 
 		final int length = nbttagcompound.getInteger("TriggerSize");
@@ -214,7 +211,6 @@ public class TileEntityBrainStoneTrigger extends
 	public void writeToNBT(NBTTagCompound nbttagcompound) {
 		super.writeToNBT(nbttagcompound);
 
-		if (inventorySaving) {
 			final NBTTagList nbttaglist = new NBTTagList();
 
 			for (int i = 0; i < ItemStacks.length; i++) {
@@ -227,7 +223,6 @@ public class TileEntityBrainStoneTrigger extends
 			}
 
 			nbttagcompound.setTag("Items", nbttaglist);
-		}
 
 		final int length = BrainStone.getSidedTiggerEntities().size();
 		nbttagcompound.setInteger("TriggerSize", length);
