@@ -1,12 +1,10 @@
 package brainstonemod.network;
 
 import brainstonemod.client.gui.GuiBrainLightSensor;
-import brainstonemod.client.gui.GuiBrainLogicBlock;
 import brainstonemod.client.gui.GuiBrainStoneTrigger;
 import brainstonemod.common.container.ContainerBrainStoneTrigger;
 import brainstonemod.common.container.ContainerGeneric;
 import brainstonemod.common.tileentity.TileEntityBrainLightSensor;
-import brainstonemod.common.tileentity.TileEntityBrainLogicBlock;
 import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
 import cpw.mods.fml.common.network.IGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,7 +18,6 @@ public class BrainStoneGuiHandler implements IGuiHandler {
 		if(entity != null)
 		switch (ID) {
 			case 0:
-			case 2:
 				return new ContainerGeneric();
 			case 1:
 				if(entity instanceof TileEntityBrainStoneTrigger)
@@ -44,11 +41,6 @@ public class BrainStoneGuiHandler implements IGuiHandler {
 		case 1:
 			if(entity instanceof TileEntityBrainStoneTrigger)
 				return new GuiBrainStoneTrigger(player.inventory, (TileEntityBrainStoneTrigger) entity);
-			else
-				return null;
-		case 2:
-			if(entity instanceof TileEntityBrainLogicBlock)
-				return new GuiBrainLogicBlock((TileEntityBrainLogicBlock) entity, player);
 			else
 				return null;
 		}

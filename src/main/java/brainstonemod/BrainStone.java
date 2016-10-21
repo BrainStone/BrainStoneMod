@@ -18,7 +18,6 @@ import brainstonemod.common.item.*;
 import brainstonemod.common.item.template.ItemBrainStoneBase;
 import brainstonemod.common.logicgate.Gate;
 import brainstonemod.common.tileentity.TileEntityBrainLightSensor;
-import brainstonemod.common.tileentity.TileEntityBrainLogicBlock;
 import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
 import brainstonemod.common.worldgenerators.BrainStoneHouseWorldGenerator;
 import brainstonemod.common.worldgenerators.BrainStoneOreWorldGenerator;
@@ -861,7 +860,6 @@ public class BrainStone {
 	private static final void registerTileEntitys() {
 		GameRegistry.registerTileEntity(TileEntityBrainLightSensor.class, "TileEntityBlockBrainLightSensor");
 		GameRegistry.registerTileEntity(TileEntityBrainStoneTrigger.class, "TileEntityBlockBrainStoneTrigger");
-		GameRegistry.registerTileEntity(TileEntityBrainLogicBlock.class, "TileEntityBlockBrainLogicBlock");
 	}
 
 	public static final CreativeTabs getCreativeTab(CreativeTabs defaultTab) {
