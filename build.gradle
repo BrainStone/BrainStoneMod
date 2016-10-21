@@ -42,6 +42,7 @@ configFile.withReader {
     project.ext.config = new ConfigSlurper().parse prop
 }
 
+def MainDirResources = fileTree(dir: '.', includes: ['*.md', 'CHANGELOG', 'LICENSE'])
 version = config.mod_version
 group = "brainstonemod" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "BrainStoneMod"
@@ -76,6 +77,8 @@ processResources
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
+    
+    from MainDirResources
 }
 
 jar {
@@ -106,6 +109,7 @@ task srcJar(type: Jar, dependsOn: classes) {
     duplicatesStrategy = 'exclude'
     
     from sourceSets.main.allSource
+    from MainDirResources
     
     doLast {
         signJar(srcJar.archivePath)
