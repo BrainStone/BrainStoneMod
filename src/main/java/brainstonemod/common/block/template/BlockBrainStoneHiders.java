@@ -1,24 +1,15 @@
 package brainstonemod.common.block.template;
 
+import brainstonemod.BrainStone;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
-import brainstonemod.BrainStone;
-import brainstonemod.common.tileentity.TileEntityBrainStoneHiders;
 
-public abstract class BlockBrainStoneHiders extends
-		BlockBrainStoneContainerBase {
-	// protected boolean renderGrass;
-
-	/**
-	 * Constructor of the block. Registers all properties and sets the id and
-	 * the material
-	 * 
-	 * @param i
-	 *            The internal BrainStone id
-	 */
+public abstract class BlockBrainStoneHiders extends BlockBrainStoneContainerBase {
 	public BlockBrainStoneHiders() {
 		super(Material.rock);
 
@@ -32,23 +23,22 @@ public abstract class BlockBrainStoneHiders extends
 
 	@Override
 	public int colorMultiplier(IBlockAccess iblockaccess, int x, int y, int z) {
-		final TileEntityBrainStoneHiders tileentityblockbrainstonehiders = (TileEntityBrainStoneHiders) iblockaccess
-				.getTileEntity(x, y, z);
+		final TileEntity te = iblockaccess.getTileEntity(x, y, z);
 
-		if (tileentityblockbrainstonehiders == null)
-			return 0xffffff;
+		if(te != null && te instanceof IInventory) {
+			ItemStack itemstack = ((IInventory) te).getStackInSlot(0);
 
-		final ItemStack itemstack = tileentityblockbrainstonehiders
-				.getStackInSlot(0);
+			if (itemstack == null)
+				return 0xffffff;
 
-		if (itemstack == null)
-			return 0xffffff;
+			Block block = Block.getBlockFromItem(itemstack.getItem());
 
-		final Block block = Block.getBlockFromItem(itemstack.getItem());
+			if (block == null)
+				return 0xffffff;
+			else
+				return block.colorMultiplier(iblockaccess, x, y, z);
+		}
 
-		if (block == null)
-			return 0xffffff;
-		else
-			return block.colorMultiplier(iblockaccess, x, y, z);
+		return 0xffffff;
 	}
 }

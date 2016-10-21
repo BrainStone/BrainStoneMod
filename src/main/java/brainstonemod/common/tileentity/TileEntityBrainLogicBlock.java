@@ -5,7 +5,6 @@ import brainstonemod.common.helper.BrainStoneDirection;
 import brainstonemod.common.logicgate.Gate;
 import brainstonemod.common.logicgate.Pin;
 import brainstonemod.common.logicgate.PinState;
-import brainstonemod.common.tileentity.template.TileEntityBrainStoneSyncBase;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -16,15 +15,16 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.Vector;
 
-public class TileEntityBrainLogicBlock extends
-		TileEntityBrainStoneSyncBase {
+public class TileEntityBrainLogicBlock extends TileEntity {
 	public static BrainStoneDirection guiDirection;
 
 	public static int getColorForPowerLevel(byte powerLevel) {
@@ -274,8 +274,19 @@ public class TileEntityBrainLogicBlock extends
 	}
 
 	@Override
+	public Packet getDescriptionPacket() {
+		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, getBlockMetadata(), getUpdateTag());
+	}
+
+	public NBTTagCompound getUpdateTag(){
+		NBTTagCompound compound = new NBTTagCompound();
+		writeToNBT(compound);
+		return compound;
+	}
+
+	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
-		super.onDataPacket(net, packet);
+		readFromNBT(packet.func_148857_g());//func_148857_g=getNBTCompound()
 
 		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
 			worldObj.markBlockRangeForRenderUpdate(xCoord, yCoord, zCoord,

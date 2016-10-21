@@ -6,19 +6,27 @@ import brainstonemod.common.helper.BSP;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.block.Block;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class TileEntityBrainStoneTrigger extends
-		TileEntityBrainStoneHiders {
+public class TileEntityBrainStoneTrigger extends TileEntity implements IInventory {
 	private static final ArrayList<TileEntityBrainStoneTrigger> failedTileEntities = new ArrayList<TileEntityBrainStoneTrigger>();
+	private ItemStack inventory[];
 
 	public static void retryFailedTileEntities() {
 		for (TileEntityBrainStoneTrigger tileEntity : failedTileEntities) {
@@ -41,7 +49,7 @@ public class TileEntityBrainStoneTrigger extends
 	private ItemStack oldStack;
 
 	public TileEntityBrainStoneTrigger() {
-		ItemStacks = new ItemStack[1];
+		inventory = new ItemStack[1];
 		mobTriggered = new HashMap<String, Integer>();
 		delay = 0;
 		maxDelay = 4;
@@ -105,7 +113,7 @@ public class TileEntityBrainStoneTrigger extends
 	}
 
 	public IIcon getTextureId() {
-		final ItemStack itemstack = ItemStacks[0];
+		final ItemStack itemstack = inventory[0];
 
 		if (itemstack == null)
 			return BlockBrainStoneTrigger.textures[0];
@@ -134,7 +142,7 @@ public class TileEntityBrainStoneTrigger extends
 		if (!(itemstack.getItem() instanceof ItemBlock))
 			return false;
 
-		final Block block = Block.getBlockFromItem(itemstack.getItem());
+		Block block = Block.getBlockFromItem(itemstack.getItem());
 		if (block == null)
 			return false;
 
@@ -149,55 +157,50 @@ public class TileEntityBrainStoneTrigger extends
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbttagcompound) {
-		super.readFromNBT(nbttagcompound);
+	public void readFromNBT(NBTTagCompound compound) {
+		super.readFromNBT(compound);
 
-			final NBTTagList nbttaglist = nbttagcompound
-					.getTagList("Items", 10);
-
-			if ((nbttaglist != null) && (nbttaglist.tagCount() > 0)) {
-				ItemStacks = new ItemStack[getSizeInventory()];
-
-				for (int i = 0; i < nbttaglist.tagCount(); i++) {
-					final NBTTagCompound nbttagcompound1 = nbttaglist
-							.getCompoundTagAt(i);
-					final byte byte0 = nbttagcompound1.getByte("Slot");
-
-					if ((byte0 >= 0) && (byte0 < ItemStacks.length)) {
-						ItemStacks[byte0] = ItemStack
-								.loadItemStackFromNBT(nbttagcompound1);
-					}
+		NBTTagList list = (NBTTagList) compound.getTag("Items");
+		if (list != null) {
+			for (int i = 0; i < list.tagCount(); i++) {
+				NBTTagCompound item = list.getCompoundTagAt(i);//list.get(i)
+				int slot = item.getByte("Slot");
+				if (slot >= 0 && slot < getSizeInventory()) {
+					setInventorySlotContents(slot, ItemStack.loadItemStackFromNBT(item));
 				}
+			}
+		} else {
+			BSP.error("List was null when reading TileEntityBrainStoneTrigger NBTTagCompound");
 		}
 
-		final int length = nbttagcompound.getInteger("TriggerSize");
+		final int length = compound.getInteger("TriggerSize");
 		String trigger;
 
 		for (int i = 0; i < length; i++) {
 			trigger = "Trigger" + String.valueOf(i);
 
 			try {
-				mobTriggered.put(nbttagcompound.getString(trigger + "Key"),
-						nbttagcompound.getInteger(trigger));
+				mobTriggered.put(compound.getString(trigger + "Key"),
+						compound.getInteger(trigger));
 			} catch (final Exception e) {
 				try {
-					mobTriggered.put(nbttagcompound.getString(trigger + "Key"),
-							nbttagcompound.getBoolean(trigger) ? 15 : 1);
+					mobTriggered.put(compound.getString(trigger + "Key"),
+							compound.getBoolean(trigger) ? 15 : 1);
 				} catch (final Exception e1) {
 					try {
 						mobTriggered.put(
-								nbttagcompound.getString(trigger + "Key"),
-								(int) (nbttagcompound.getByte(trigger)));
+								compound.getString(trigger + "Key"),
+								(int) (compound.getByte(trigger)));
 					} catch (final Exception e2) {
 						mobTriggered.put(
-								nbttagcompound.getString(trigger + "Key"), 15);
+								compound.getString(trigger + "Key"), 15);
 					}
 				}
 			}
 		}
 
-		delay = nbttagcompound.getByte("BrainStoneDelay");
-		maxDelay = nbttagcompound.getByte("BrainStoneMaxDelay");
+		delay = compound.getByte("BrainStoneDelay");
+		maxDelay = compound.getByte("BrainStoneMaxDelay");
 	}
 
 	// DOCME
@@ -208,24 +211,25 @@ public class TileEntityBrainStoneTrigger extends
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbttagcompound) {
-		super.writeToNBT(nbttagcompound);
+	public void writeToNBT(NBTTagCompound compound) {
+		super.writeToNBT(compound);
 
-			final NBTTagList nbttaglist = new NBTTagList();
+		NBTTagList list = new NBTTagList();
+		for (int i = 0; i < getSizeInventory(); i++) {
+			ItemStack is = getStackInSlot(i);
+			if (is != null) {
+				NBTTagCompound item = new NBTTagCompound();
 
-			for (int i = 0; i < ItemStacks.length; i++) {
-				if (ItemStacks[i] != null) {
-					final NBTTagCompound nbttagcompound1 = new NBTTagCompound();
-					nbttagcompound1.setByte("Slot", (byte) i);
-					ItemStacks[i].writeToNBT(nbttagcompound1);
-					nbttaglist.appendTag(nbttagcompound1);
-				}
+				item.setByte("Slot", (byte) i);
+				is.writeToNBT(item);
+
+				list.appendTag(item);
 			}
-
-			nbttagcompound.setTag("Items", nbttaglist);
+		}
+		compound.setTag("Items", list);
 
 		final int length = BrainStone.getSidedTiggerEntities().size();
-		nbttagcompound.setInteger("TriggerSize", length);
+		compound.setInteger("TriggerSize", length);
 		final String[] keys = BrainStone.getSidedTiggerEntities().keySet()
 				.toArray(new String[length]);
 		String trigger, key;
@@ -234,12 +238,12 @@ public class TileEntityBrainStoneTrigger extends
 			key = keys[i];
 			trigger = "Trigger" + String.valueOf(i);
 
-			nbttagcompound.setString(trigger + "Key", key);
-			nbttagcompound.setInteger(trigger, mobTriggered.get(key));
+			compound.setString(trigger + "Key", key);
+			compound.setInteger(trigger, mobTriggered.get(key));
 		}
 
-		nbttagcompound.setByte("BrainStoneDelay", delay);
-		nbttagcompound.setByte("BrainStoneMaxDelay", maxDelay);
+		compound.setByte("BrainStoneDelay", delay);
+		compound.setByte("BrainStoneMaxDelay", maxDelay);
 	}
 
 	public byte getDelay() {
@@ -272,5 +276,87 @@ public class TileEntityBrainStoneTrigger extends
 
 	public void setOutputBuffered(byte outputBuffered) {
 		this.outputBuffered = outputBuffered;
+	}
+
+	@Override
+	public Packet getDescriptionPacket() {
+		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, getBlockMetadata(), getUpdateTag());
+	}
+
+	public NBTTagCompound getUpdateTag(){
+		NBTTagCompound compound = new NBTTagCompound();
+		writeToNBT(compound);
+		return compound;
+	}
+
+	@Override
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
+		readFromNBT(pkt.func_148857_g());//func_148857_g=getNBTCompound()
+	}
+
+	@Override
+	public ItemStack decrStackSize(int index, int count) {
+		ItemStack is = getStackInSlot(index);
+		if (is != null) {
+			if (is.stackSize <= count) {
+				setInventorySlotContents(index, null);
+			} else {
+				is = is.splitStack(count);
+				markDirty();
+			}
+		}
+		return is;
+	}
+
+	// DOCME
+	public void dropItems(World world, int x, int y, int z) {
+		for (final ItemStack itemstack : inventory) {
+			if (itemstack != null) {
+				final float f = 0.7F;
+				final double dx = (world.rand.nextFloat() * f)
+						+ ((1.0F - f) * 0.5D);
+				final double dy = (world.rand.nextFloat() * f)
+						+ ((1.0F - f) * 0.5D);
+				final double dz = (world.rand.nextFloat() * f)
+						+ ((1.0F - f) * 0.5D);
+				final EntityItem entityitem = new EntityItem(world, x + dx, y
+						+ dy, z + dz, itemstack);
+				entityitem.delayBeforeCanPickup = 10;
+				world.spawnEntityInWorld(entityitem);
+			}
+		}
+	}
+
+	@Override
+	public int getSizeInventory() {
+		return inventory.length;
+	}
+
+	@Override
+	public ItemStack getStackInSlot(int slot) {
+		return inventory[slot];
+	}
+
+	@Override
+	public ItemStack getStackInSlotOnClosing(int index) {
+		ItemStack is = getStackInSlot(index);
+		setInventorySlotContents(index, null);
+		return is;
+	}
+
+	@Override
+	public boolean isUseableByPlayer(EntityPlayer player) {
+		return player.getDistanceSq(this.xCoord + 0.5D, this.yCoord + 0.5D, this.zCoord + 0.5D) <= 64;
+	}
+
+	@Override
+	public void setInventorySlotContents(int slot, ItemStack itemstack) {
+		inventory[slot] = itemstack;
+
+		if ((itemstack != null) && (itemstack.stackSize > getInventoryStackLimit())) {
+			itemstack.stackSize = getInventoryStackLimit();
+		}
+
+		markDirty();
 	}
 }

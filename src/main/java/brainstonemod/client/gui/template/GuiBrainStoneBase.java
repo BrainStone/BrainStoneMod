@@ -1,12 +1,12 @@
 package brainstonemod.client.gui.template;
 
 import brainstonemod.BrainStone;
-import brainstonemod.common.tileentity.template.TileEntityBrainStoneSyncBase;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
@@ -84,10 +84,10 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 	}
 
 	protected SoundHandler soundHandler;
-	protected TileEntityBrainStoneSyncBase tileentity;
+	protected TileEntity tileentity;
 	protected boolean textureLoaded;
 
-	public GuiBrainStoneBase(Container par1Container, TileEntityBrainStoneSyncBase tileentity) {
+	public GuiBrainStoneBase(Container par1Container, TileEntity tileentity) {
 		super(par1Container);
 
 		this.tileentity = tileentity;
