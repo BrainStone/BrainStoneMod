@@ -10,27 +10,50 @@ import brainstonemod.network.PacketDispatcher;
 import brainstonemod.network.packet.serverbound.PacketInvertMobTriggered;
 import brainstonemod.network.packet.serverbound.PacketSetMaxDelay;
 import brainstonemod.network.packet.serverbound.PacketSetMobTriggered;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.StatCollector;
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 
 public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 	private final TileEntityBrainStoneTrigger tileentity;
+	private EntityPlayer playerUsing;
 	private int page, hovered;
 	private final int max_page;
-	private final String[] Mobs;
+	private final String[] mobs;
 	private final BrainStoneGuiButton buttons;
 
 	public GuiBrainStoneTrigger(InventoryPlayer inventoryplayer, TileEntityBrainStoneTrigger te) {
 		super(new ContainerBrainStoneTrigger(inventoryplayer, te), te);
+		xSize = 176;
+		ySize = 166;
+		ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft(), width, height);
+		width = res.getScaledWidth();
+		height = res.getScaledHeight();
+		guiLeft = (width - xSize) / 2;
+		guiTop = (height - ySize) / 2;
 		tileentity = te;
-		Mobs = new String[4];
+		playerUsing=inventoryplayer.player;
+
+
+		mobs = new String[4];
 		page = 0;
 		hovered = -1;
-		max_page = (BrainStone.getClientSideTiggerEntities().size() / 4)
-				+ (((BrainStone.getClientSideTiggerEntities().size() % 4) == 0) ? -1 : 0);
+		max_page = (BrainStone.getClientSideTiggerEntities().size() / 4) + (((BrainStone.getClientSideTiggerEntities().size() % 4) == 0) ? -1 : 0);
 		buttons = new BrainStoneGuiButton(this);
+	}
+
+
+	@Override
+	public void initGui() {
+		ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft(), width, height);
+		width = res.getScaledWidth();
+		height = res.getScaledHeight();
+		guiLeft = (width - xSize) / 2;
+		guiTop = (height - ySize) / 2;
+
 		buttons.addButton(new BrainStoneButton(0, 10, 32, 131, 9, 194, 9, 204, 9));
 		buttons.addButton(new BrainStoneButton(1, 10, 32, 131, 45, 194, 45, 204, 45));
 
@@ -62,7 +85,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		buttons.getButton(21).inactive = (tmp == 1);
 		buttons.getButton(20).inactive = (tmp == 9);
 
-		setSize(176, 166);
+		super.initGui();
 	}
 
 	public void buttonClicked(int ID) {
@@ -73,7 +96,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 			page++;
 			setMobs();
 		} else if ((ID >= 10) && (ID < 14)) {
-			PacketDispatcher.sendToServer(new PacketInvertMobTriggered(tileentity, Mobs[ID - 10]));
+			PacketDispatcher.sendToServer(new PacketInvertMobTriggered(tileentity, mobs[ID - 10]));
 		} else if ((ID >= 20) && (ID < 30)) {
 			int tmp = tileentity.getMaxDelay() + (((ID * 2) - 41) * -1);
 
@@ -92,7 +115,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 			final int row = ID / 20;
 			ID = ID % 20;
 			int power;
-			final String mob = Mobs[row];
+			final String mob = mobs[row];
 
 			if (tileentity.getMobTriggered(mob)) {
 				power = tileentity.getMobPower(mob);
@@ -131,7 +154,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		String tmp;
 
 		for (int t = 0; t < 4; t++) {
-			if (tileentity.getMobTriggered((tmp = Mobs[t]))) {
+			if (tileentity.getMobTriggered((tmp = mobs[t]))) {
 				drawTexturedModalRect(12, 12 + (18 * t), 8, 166, 10, 7);
 				if (tileentity.getMobTriggered(tmp)) {
 					drawTexturedModalRect(88, 13 + (18 * t), 88, 172, tileentity.getMobPower(tmp) * 2, 6);
@@ -149,7 +172,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		String message;
 
 		for (int i = 0; i < 4; i++) {
-			message = StatCollector.translateToLocal(tmp = Mobs[i]);
+			message = StatCollector.translateToLocal(tmp = mobs[i]);
 
 			if (fontRendererObj.getStringWidth(message) > 100) {
 				do {
@@ -168,30 +191,13 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 
 		this.bindTexture();
 
-		if ((hovered != -1) && tileentity.getMobTriggered((tmp = Mobs[hovered]))) {
+		if ((hovered != -1) && tileentity.getMobTriggered((tmp = mobs[hovered]))) {
 			drawTexturedModalRect(80, 13 + (18 * hovered), 80, 166, 6, 6);
 			drawTexturedModalRect(120, 13 + (18 * hovered), 120, 166, 6, 6);
 			drawTexturedModalRect(88, 13 + (18 * hovered), 88, 166, tileentity.getMobPower(tmp) * 2, 6);
 		}
 	}
 
-	/**
-	 * Handles mouse input.
-	 */
-	@Override
-	public void handleMouseInput() {
-		if (Mouse.getEventButton() == -1) {
-			mouseMovedOrUp((Mouse.getEventX() * width) / mc.displayWidth,
-					height - ((Mouse.getEventY() * height) / mc.displayHeight) - 1, Mouse.getEventButton());
-		}
-
-		super.handleMouseInput();
-	}
-
-	/**
-	 * Fired when a key is typed. This is the equivalent of
-	 * KeyListener.keyTyped(KeyEvent e).
-	 */
 	@Override
 	protected void keyTyped(char letter, int key) {
 		super.keyTyped(letter, key);
@@ -201,9 +207,6 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		}
 	}
 
-	/**
-	 * Called when the mouse is clicked.
-	 */
 	@Override
 	protected void mouseClicked(int x, int y, int button) {
 		super.mouseClicked(x, y, button);
@@ -268,13 +271,13 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 				tmp = i + page4;
 
 				if (tmp < length) {
-					Mobs[i] = keys[tmp];
+					mobs[i] = keys[tmp];
 					buttons.getButton(i + 10).inactive = false;
 					for (int j = 0; j < 17; j++) {
 						buttons.getButton((i * 20) + 30 + j).inactive = false;
 					}
 				} else {
-					Mobs[i] = "";
+					mobs[i] = "";
 					buttons.getButton(i + 10).inactive = true;
 					for (int j = 0; j < 17; j++) {
 						buttons.getButton((i * 20) + 30 + j).inactive = true;
@@ -283,7 +286,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 			}
 		} else {
 			for (int i = 0; i < 4; i++) {
-				Mobs[i] = keys[i + page4];
+				mobs[i] = keys[i + page4];
 				buttons.getButton(i + 10).inactive = false;
 				for (int j = 0; j < 17; j++) {
 					buttons.getButton((i * 20) + 30 + j).inactive = false;

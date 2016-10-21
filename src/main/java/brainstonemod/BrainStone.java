@@ -87,10 +87,11 @@ import java.util.Set;
  * The main file of the mod
  * 
  * @author Yannick Schinko (alias The_BrainStone)
+ * @author The_Fireplace
  */
 @Mod(modid = BrainStone.MOD_ID, name = BrainStone.NAME, version = BrainStone.VERSION, dependencies = BrainStone.DEPENDENCIES, canBeDeactivated = true, certificateFingerprint = BrainStone.FINGERPRINT, guiFactory = BrainStone.GUI_FACTORY)
 public class BrainStone {
-	public static final String MOD_ID = "BrainStoneMod";
+	public static final String MOD_ID = "BrainStoneMod";//TODO: lowercase the modid when we update, because it will be enforced in 1.11
 	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
 	public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
 	public static final String NAME = "Brain Stone Mod";
