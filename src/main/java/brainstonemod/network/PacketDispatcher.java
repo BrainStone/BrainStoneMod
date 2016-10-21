@@ -25,8 +25,6 @@ public class PacketDispatcher {
         registerMessage(PacketTriggerMobs.Handler.class, PacketTriggerMobs.class, Side.CLIENT);
         registerMessage(PacketLightSensor.Handler.class, PacketLightSensor.class, Side.SERVER);
         registerMessage(PacketSyncLightSensor.Handler.class, PacketSyncLightSensor.class, Side.CLIENT);
-        registerMessage(PacketChangeGate.Handler.class, PacketChangeGate.class, Side.SERVER);
-        registerMessage(PacketSyncChangeGate.Handler.class, PacketSyncChangeGate.class, Side.CLIENT);
         registerMessage(PacketInvertMobTriggered.Handler.class, PacketInvertMobTriggered.class, Side.SERVER);
         registerMessage(PacketSyncInvertMobTriggered.Handler.class, PacketSyncInvertMobTriggered.class, Side.CLIENT);
         registerMessage(PacketSetMaxDelay.Handler.class, PacketSetMaxDelay.class, Side.SERVER);

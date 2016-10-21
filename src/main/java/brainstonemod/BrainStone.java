@@ -254,8 +254,6 @@ public class BrainStone {
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		BrainStoneEventHandler eventHandler = new BrainStoneEventHandler();
-
-		proxy.registerRenderInformation();
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new BrainStoneGuiHandler());
 
 		proxy.registerOre();
@@ -601,8 +599,6 @@ public class BrainStone {
 				"blockGlass", 'B', "brainstone", 'R', "dustRedstone");
 		addRecipe(new ItemStack(brainStoneTrigger(), 1), "XXX", "RRR", "XBX", 'X', "stone", 'B',
 				"brainstone", 'R', "dustRedstone");
-		addRecipe(new ItemStack(brainLogicBlock(), 1), "SRS", "RPR", "SRS", 'S', "stone", 'P',
-				brainProcessor(), 'R', "dustRedstone");
 		addRecipe(new ItemStack(pulsatingBrainStone(), 1), "dBd", "BDB", "dBd", 'd', "dustBrainstone", 'B',
 				"brainstone", 'D', "gemDiamond");
 		addRecipe(new ItemStack(pulsatingBrainStone(), 1), "BdB", "dDd", "BdB", 'd', "dustBrainstone", 'B',

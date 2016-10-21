@@ -1,17 +1,13 @@
 package brainstonemod.common;
 
 import brainstonemod.BrainStone;
-import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class CommonProxy {
-	public static int BrainLogicBlockRenderType;
-
 	/**
 	 * Adds some armor.<br>
 	 * <b><u>!!! Will do nothing !!! This is the server proxy !!!</u></b>
@@ -36,17 +32,6 @@ public class CommonProxy {
 	}
 
 	/**
-	 * Returns the Client World.<br>
-	 * <b><u>!!! Will do nothing!!! This is the server proxy !!!</u></b>
-	 * 
-	 * @return the Client World<br>
-	 *         <b><u>!!! Returns null !!! This is the server proxy !!!</u></b>
-	 */
-	public World getClientWorld() {
-		return null;
-	}
-
-	/**
 	 * Returns the Client Player Instance.<br>
 	 * <b><u>!!! Will do nothing !!! This is the server proxy !!!</u></b>
 	 * 
@@ -64,14 +49,6 @@ public class CommonProxy {
 		OreDictionary.registerOre("oreBrainstone", BrainStone.brainStoneOre());
 		OreDictionary.registerOre("dustBrainstone", BrainStone.brainStoneDust());
 		OreDictionary.registerOre("brainstone", BrainStone.brainStone());
-	}
-
-	/**
-	 * Registers all the render information.<br>
-	 * <b><u>!!! Will do nothing !!! This is the server proxy !!!</u></b>
-	 */
-	public void registerRenderInformation() {
-		BrainLogicBlockRenderType = RenderingRegistry.getNextAvailableRenderId();
 	}
 
 	public EntityPlayer getPlayerEntity(MessageContext ctx) {

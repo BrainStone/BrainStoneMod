@@ -1,80 +1,57 @@
 package brainstonemod.common.block;
 
 import brainstonemod.BrainStone;
-import brainstonemod.client.ClientProxy;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockBrainLogicBlock extends Block {
-	public static IIcon[] textures;
+
+	private boolean dropped;
 
 	public BlockBrainLogicBlock() {
 		super(Material.rock);
-		setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.tabBlock));//TODO: Remove from Creative before release
 		blockParticleGravity = 0.0F;
+		dropped = false;
+	}
+
+	public void dropItems(World world, int x, int y, int z){
+		if(!world.isRemote && !dropped){
+			//4 stone
+			EntityItem stone = new EntityItem(world);
+			stone.setEntityItemStack(new ItemStack(Blocks.stone, 4));
+			//4 redstone
+			EntityItem redstone = new EntityItem(world);
+			redstone.setEntityItemStack(new ItemStack(Items.redstone, 4));
+			//1 brainprocessor
+			EntityItem processor = new EntityItem(world);
+			processor.setEntityItemStack(new ItemStack(BrainStone.brainProcessor()));
+
+			stone.setLocationAndAngles(x, y, z, 0, 0);
+			redstone.setLocationAndAngles(x, y, z, 0, 0);
+			processor.setLocationAndAngles(x, y, z, 0, 0);
+
+			world.spawnEntityInWorld(stone);
+			world.spawnEntityInWorld(redstone);
+			world.spawnEntityInWorld(processor);
+			world.setBlockToAir(x, y, z);
+			dropped = true;
+		}
 	}
 
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
-		//TODO: Drop items
-	}
-
-	@Override
-	public IIcon getIcon(IBlockAccess iblockaccess, int x, int y, int z, int side) {
-		if (side < 2)
-			return textures[2];
-
-		return textures[1];
-	}
-
-	@Override
-	public IIcon getIcon(int side, int meta) {
-		if (side >= 2)
-			return textures[1 + side];
-
-		return textures[2];
-	}
-
-	@Override
-	public int getRenderType() {
-		return ClientProxy.BrainLogicBlockRenderType;
-	}
-
-	@Override
-	public int isProvidingWeakPower(IBlockAccess iblockaccess, int x, int y, int z, int side) {
-		return isProvidingStrongPower(iblockaccess, x, y, z, side);
-	}
-
-	@Override
-	public boolean isSideSolid(IBlockAccess world, int x, int y, int z, ForgeDirection side) {
-		return true;
+		dropItems(world, x, y, z);
 	}
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int unknown, float px, float py, float pz) {
-		//TODO: Drop items and destroy block
-		return false;
-	}
-
-	@Override
-	public void registerBlockIcons(IIconRegister IconReg) {
-		textures = new IIcon[] { IconReg.registerIcon("brainstonemod:brainLogicBlockPin"),
-				IconReg.registerIcon("furnace_side"), IconReg.registerIcon("furnace_top"),
-				IconReg.registerIcon("brainstonemod:brainLogicBlockNotConnectedA"),
-				IconReg.registerIcon("brainstonemod:brainLogicBlockOffC"),
-				IconReg.registerIcon("brainstonemod:brainLogicBlockOnQ"),
-				IconReg.registerIcon("brainstonemod:brainLogicBlockOnB") };
-	}
-
-	@Override
-	public boolean renderAsNormalBlock() {
+		dropItems(world, x, y, z);
 		return false;
 	}
 }

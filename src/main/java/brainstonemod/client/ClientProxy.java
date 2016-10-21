@@ -1,17 +1,12 @@
 package brainstonemod.client;
 
-import brainstonemod.client.render.BrainStoneRenderBrainLogicBlockHandler;
-import brainstonemod.client.render.TileEntityBlockBrainLogicBlockRenderer;
 import brainstonemod.common.CommonProxy;
-import brainstonemod.common.tileentity.TileEntityBrainLogicBlock;
 import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
 
 public class ClientProxy extends CommonProxy {
 	/**
@@ -37,16 +32,6 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	/**
-	 * Returns the Client World.
-	 * 
-	 * @return the Client World
-	 */
-	@Override
-	public World getClientWorld() {
-		return getClient().theWorld;
-	}
-
-	/**
 	 * Returns the Client Player Instance.
 	 * 
 	 * @return the Client player Instance
@@ -54,19 +39,6 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public EntityClientPlayerMP getPlayer() {
 		return getClient().thePlayer;
-	}
-
-	/**
-	 * Registers all the render information.
-	 */
-	@Override
-	public void registerRenderInformation() {
-		super.registerRenderInformation();
-		
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBrainLogicBlock.class,
-				new TileEntityBlockBrainLogicBlockRenderer());
-
-		RenderingRegistry.registerBlockHandler(new BrainStoneRenderBrainLogicBlockHandler());
 	}
 
 	@Override
