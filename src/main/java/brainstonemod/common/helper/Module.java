@@ -9,8 +9,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-/**
- * Annotation to mark module getters so that they can be easily found!
+/*
+  Annotation to mark module getters so that they can be easily found!
  */
 public @interface Module {
 	String value();

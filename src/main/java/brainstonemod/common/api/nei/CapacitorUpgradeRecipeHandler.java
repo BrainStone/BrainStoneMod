@@ -125,10 +125,12 @@ public class CapacitorUpgradeRecipeHandler extends ShapelessRecipeHandler {
 
         }
 
+        @Override
         public List<PositionedStack> getIngredients() {
             return this.getCycledIngredients(CapacitorUpgradeRecipeHandler.this.cycleticks / 20, this.ingredients);
         }
 
+        @Override
         public PositionedStack getResult() {
             return this.result;
         }

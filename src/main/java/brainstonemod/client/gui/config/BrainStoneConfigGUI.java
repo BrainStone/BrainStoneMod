@@ -10,8 +10,6 @@ import cpw.mods.fml.client.config.DummyConfigElement;
 import cpw.mods.fml.client.config.GuiConfig;
 import cpw.mods.fml.client.config.IConfigElement;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraftforge.common.config.ConfigElement;
-import net.minecraftforge.common.config.Configuration;
 
 public class BrainStoneConfigGUI extends GuiConfig {
 	public BrainStoneConfigGUI(GuiScreen parent) {
@@ -20,7 +18,7 @@ public class BrainStoneConfigGUI extends GuiConfig {
 
 	/** Compiles a list of config elements */
 	private static List<IConfigElement> getConfigElements() {
-		List<IConfigElement> list = new ArrayList<IConfigElement>();
+		List<IConfigElement> list = new ArrayList<>();
 
 		// Add categories to config GUI
 		list.add(categoryElement(BrainStoneConfigHelper.getDisplayCategory(), "Display",

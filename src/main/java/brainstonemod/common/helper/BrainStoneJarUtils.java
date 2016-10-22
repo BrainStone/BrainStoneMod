@@ -1,5 +1,7 @@
 package brainstonemod.common.helper;
 
+import lombok.Cleanup;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,8 +17,6 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 import java.util.zip.ZipException;
-
-import lombok.Cleanup;
 
 /**
  * A universal static helper class.<br>
@@ -83,18 +83,16 @@ public final class BrainStoneJarUtils {
 			return true;
 
 		try {
-			@Cleanup
-			final JarFile jarFile = getRunningJar();
-			if (jarFile == null)
-				return false;
+            @Cleanup
+            final JarFile jarFile = getRunningJar();
+            if (jarFile == null)
+                return false;
 
-			// Ensure the jar file is signed.
-			final Manifest man = jarFile.getManifest();
-			if (man == null)
-				return false;
+            // Ensure the jar file is signed.
+            final Manifest man = jarFile.getManifest();
+            return man != null && !man.getEntries().isEmpty();
 
-			return !man.getEntries().isEmpty();
-		} catch (final Throwable t) {
+        } catch (final Throwable t) {
 			BSP.warnException_noAddon(t);
 
 			return false;
@@ -116,7 +114,7 @@ public final class BrainStoneJarUtils {
 		@Cleanup
 		final JarFile jarFile = getRunningJar(true);
 
-		final Vector<JarEntry> entriesVec = new Vector<JarEntry>();
+		final Vector<JarEntry> entriesVec = new Vector<>();
 
 		// Ensure the jar file is signed.
 		final Manifest man = jarFile.getManifest();

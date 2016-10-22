@@ -27,9 +27,9 @@ public class BrainStoneConfigHelper {
 	private static long BSLC_RFperHalfHeart;
 	//TODO: Add 2 integer arrays, one for Brainstone Ore dimension IDs, one for Brainstone House dimension IDs
 	/** The X positions of the achievements */
-	private static Map<String, Integer> achievementXPositions = new LinkedHashMap<String, Integer>();
+	private static Map<String, Integer> achievementXPositions = new LinkedHashMap<>();
 	/** The X positions of the achievements */
-	private static Map<String, Integer> achievementYPositions = new LinkedHashMap<String, Integer>();
+	private static Map<String, Integer> achievementYPositions = new LinkedHashMap<>();
 
 	public static void loadConfig() {
 		loadConfig(configStorage);

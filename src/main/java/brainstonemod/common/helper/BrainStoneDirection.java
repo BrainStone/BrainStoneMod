@@ -27,8 +27,8 @@ public enum BrainStoneDirection {
 	WEST();
 
 	// opposite mapping
-	private static final HashMap<BrainStoneDirection, BrainStoneDirection> oppositeMap = new HashMap<BrainStoneDirection, BrainStoneDirection>(
-			6);
+	private static final HashMap<BrainStoneDirection, BrainStoneDirection> oppositeMap = new HashMap<>(
+            6);
 	static {
 		oppositeMap.put(UP, DOWN);
 		oppositeMap.put(DOWN, UP);
@@ -39,13 +39,13 @@ public enum BrainStoneDirection {
 	}
 
 	// reorintated North mapping
-	private static final HashMap<BrainStoneDirection, HashMap<BrainStoneDirection, BrainStoneDirection>> reorintateNorthMap = new HashMap<BrainStoneDirection, HashMap<BrainStoneDirection, BrainStoneDirection>>(
-			4);
+	private static final HashMap<BrainStoneDirection, HashMap<BrainStoneDirection, BrainStoneDirection>> reorintateNorthMap = new HashMap<>(
+            4);
 	static {
 		HashMap<BrainStoneDirection, BrainStoneDirection> tmpMap;
 
 		// New orientations for NORTH as the new North
-		tmpMap = new HashMap<BrainStoneDirection, BrainStoneDirection>(4);
+		tmpMap = new HashMap<>(4);
 
 		tmpMap.put(NORTH, NORTH);
 		tmpMap.put(EAST, EAST);
@@ -55,7 +55,7 @@ public enum BrainStoneDirection {
 		reorintateNorthMap.put(NORTH, tmpMap);
 
 		// New orientations for EAST as the new North
-		tmpMap = new HashMap<BrainStoneDirection, BrainStoneDirection>(4);
+		tmpMap = new HashMap<>(4);
 
 		tmpMap.put(NORTH, EAST);
 		tmpMap.put(EAST, SOUTH);
@@ -65,7 +65,7 @@ public enum BrainStoneDirection {
 		reorintateNorthMap.put(EAST, tmpMap);
 
 		// New orientations for SOUTH as the new North
-		tmpMap = new HashMap<BrainStoneDirection, BrainStoneDirection>(4);
+		tmpMap = new HashMap<>(4);
 
 		tmpMap.put(NORTH, SOUTH);
 		tmpMap.put(EAST, WEST);
@@ -75,7 +75,7 @@ public enum BrainStoneDirection {
 		reorintateNorthMap.put(SOUTH, tmpMap);
 
 		// New orientations for WEST as the new North
-		tmpMap = new HashMap<BrainStoneDirection, BrainStoneDirection>(4);
+		tmpMap = new HashMap<>(4);
 
 		tmpMap.put(NORTH, WEST);
 		tmpMap.put(EAST, NORTH);

@@ -29,7 +29,7 @@ public class PacketTriggerMobs implements IMessage {
 		String key;
 		Class<?>[] entities;
 
-		triggerEntities = new LinkedHashMap<String, Class<?>[]>(size);
+		triggerEntities = new LinkedHashMap<>(size);
 
 		for (i = 0; i < size; i++) {
 				key = ByteBufUtils.readUTF8String(buf);

@@ -1,9 +1,5 @@
 package brainstonemod.common.block;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
-
 import brainstonemod.BrainStone;
 import brainstonemod.common.api.enderio.BrainStoneUpgrade;
 import brainstonemod.common.block.template.BlockBrainStoneBase;
@@ -22,6 +18,10 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 	private final boolean effect;
@@ -185,23 +185,18 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 			return false;
 
 		boolean allArmorSlotsFilled = (armor[3 + offset] != null) && (armor[2 + offset] != null)
-				&& (armor[1 + offset] != null) && (armor[0 + offset] != null);
+				&& (armor[1 + offset] != null) && (armor[offset] != null);
 
 		if (!allArmorSlotsFilled)
 			return false;
 
 		boolean enderIOEnabled = Loader.isModLoaded("EnderIO");
 
-		if (!((armor[3 + offset].getItem() == BrainStone.brainStoneHelmet())
-				|| (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[3 + offset])))))
-			return false;
-		else if (!((armor[2 + offset].getItem() == BrainStone.brainStonePlate())
-				|| (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[2 + offset])))))
-			return false;
-		else if (!((armor[1 + offset].getItem() == BrainStone.brainStoneLeggings())
-				|| (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[1 + offset])))))
-			return false;
-		else return (armor[0 + offset].getItem() == BrainStone.brainStoneBoots())
-                    || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[0 + offset])));
-	}
+        if (!((armor[3 + offset].getItem() == BrainStone.brainStoneHelmet())
+                || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[3 + offset])))))
+            return false;
+        else
+            return ((armor[2 + offset].getItem() == BrainStone.brainStonePlate())
+                    || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[2 + offset])))) && ((armor[1 + offset].getItem() == BrainStone.brainStoneLeggings()) || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[1 + offset])))) && ((armor[0 + offset].getItem() == BrainStone.brainStoneBoots()) || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[0 + offset]))));
+    }
 }

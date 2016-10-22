@@ -11,7 +11,7 @@ public class BrainStoneGuiButton {
 
 	public BrainStoneGuiButton(GuiBrainStoneTrigger Gui) {
 		gui = Gui;
-		buttons = new ArrayList<BrainStoneButton>();
+		buttons = new ArrayList<>();
 		length = 0;
 	}
 

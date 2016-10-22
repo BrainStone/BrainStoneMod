@@ -26,7 +26,6 @@ gradle-app.setting
 #################
 
 *.pydevproject
-.project
 .metadata
 bin/
 tmp/
@@ -81,7 +80,6 @@ local.properties
 *.tlb
 *.tli
 *.tlh
-*.tmp
 *.vspscc
 .builds
 *.dotCover
@@ -202,13 +200,7 @@ mcp.png
 mcpmod.info
 Start.java
 # eclipse
-bin
-*.launch
 .settings
-.metadata
-.classpath
-.project
-
 # idea
 out
 *.ipr
@@ -216,11 +208,6 @@ out
 *.iml
 .idea
 
-# gradle
-build
-.gradle
-
 # other
-eclipse
 run
 

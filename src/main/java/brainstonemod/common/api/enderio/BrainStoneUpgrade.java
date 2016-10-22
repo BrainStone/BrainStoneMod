@@ -7,13 +7,11 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.MathHelper;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 
 import org.lwjgl.opengl.GL11;
 
 import brainstonemod.BrainStone;
-import brainstonemod.common.helper.BSP;
 
 import com.enderio.core.client.render.RenderUtil;
 
@@ -45,15 +43,12 @@ public class BrainStoneUpgrade extends AbstractUpgrade {
 	@Override
 	@Optional.Method(modid = "EnderIO")
 	public boolean canAddToItem(ItemStack stack) {
-		if (stack == null
+		return !(stack == null
 				|| (stack.getItem() != DarkSteelItems.itemDarkSteelBoots
-						&& stack.getItem() != DarkSteelItems.itemDarkSteelLeggings
-						&& stack.getItem() != DarkSteelItems.itemDarkSteelChestplate && stack
-						.getItem() != DarkSteelItems.itemDarkSteelHelmet)) {
-			return false;
-		}
+				&& stack.getItem() != DarkSteelItems.itemDarkSteelLeggings
+				&& stack.getItem() != DarkSteelItems.itemDarkSteelChestplate && stack
+				.getItem() != DarkSteelItems.itemDarkSteelHelmet)) && !hasUpgrade(stack);
 
-		return !hasUpgrade(stack);
 	}
 
 	@Override

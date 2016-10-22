@@ -82,10 +82,11 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 		return EnumRarity.epic;
 	}
 
+	final ItemStack base = new ItemStack(this);
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs creativeTab, List list) {
-		ItemStack is = new ItemStack(this);
+		ItemStack is = base.copy();
 		setCapacityLevel(is, 1);
 		setChargingLevel(is, 1);
 		setEnergyStored(is, 0);
@@ -94,7 +95,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 		int levels[] = { 1, 2, 3, 5, 9, 19, 99 };
 
 		for (int i : levels) {
-			is = new ItemStack(this);
+			is = base.copy();
 			setCapacityLevel(is, i);
 			setChargingLevel(is, i);
 			setEnergyStored(is, getMaxEnergyStoredLong(is));
@@ -107,7 +108,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	public void addInformation(ItemStack container, EntityPlayer player, List list, boolean advancedToolTipInfo) {
 		boolean sneak = Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak.getKeyCode());
 		boolean correctOwner = isCurrentOwner(container, player.getUniqueID());
-		boolean canClaim = !correctOwner && !isFormerOwner(container, player.getUniqueID())
+		boolean canClaim = !correctOwner && isNotFormerOwner(container, player.getUniqueID())
 				&& (BrainStoneConfigHelper.BSLC_allowStealing() || !hasOwner(container));
 
 		if (sneak) {
@@ -156,7 +157,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 			UUID playerUUID = player.getUniqueID();
 
 			if (!isCurrentOwner(stack, playerUUID)) {
-				if (!isFormerOwner(stack, playerUUID)) {
+				if (isNotFormerOwner(stack, playerUUID)) {
 					if (BrainStoneConfigHelper.BSLC_allowStealing() || !hasOwner(stack)) {
 						UUID capacitorUUID = getUUID(stack);
 
@@ -339,8 +340,8 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 		return playerUUID.equals(PCmapping.getPlayerUUID(getUUID(container)));
 	}
 
-	public boolean isFormerOwner(ItemStack container, UUID playerUUID) {
-		return getOwnerList(container).contains(playerUUID);
+	public boolean isNotFormerOwner(ItemStack container, UUID playerUUID) {
+		return !getOwnerList(container).contains(playerUUID);
 	}
 
 	private int extractEnergyIntern(ItemStack container, int maxExtract, boolean simulate) {
@@ -434,7 +435,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 		NBTTagList tagList = container.stackTagCompound.getTagList("OwnerList", NBT.TAG_STRING);
 		final int size = tagList.tagCount();
 
-		List<UUID> out = new ArrayList<UUID>(size);
+		List<UUID> out = new ArrayList<>(size);
 
 		for (int i = 0; i < size; i++) {
 			out.add(UUID.fromString(tagList.getStringTagAt(i)));

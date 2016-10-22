@@ -21,7 +21,7 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 		private Random random;
 
 		public SlotMemory(int chestSize) {
-			chestSlots = new ArrayList<Integer>(chestSize);
+			chestSlots = new ArrayList<>(chestSize);
 
 			for (int i = 0; i < chestSize; i++) {
 				chestSlots.add(i);
@@ -68,7 +68,7 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 		for (i = 3; i < 10; i++) {
 			for (j = -1; j < 6; j++) {
 				for (k = height + 1; k > (height - 8); k--)
-					if (!isSolid(x + i, y - k, z + j))
+					if (isNotSolid(x + i, y - k, z + j))
 						return false;
 			}
 		}
@@ -77,64 +77,60 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 	}
 
 	private boolean canPlaceShackHere() {
-		int i, j, k;
+        int i, j, k;
 
-		for (i = 0; i < 6; i++) {
-			for (j = 0; j < 5; j++)
-				if (!isSolid(x + i, y - 1, z + j))
-					return false;
-		}
+        for (i = 0; i < 6; i++) {
+            for (j = 0; j < 5; j++)
+                if (isNotSolid(x + i, y - 1, z + j))
+                    return false;
+        }
 
-		for (i = 0; i < 4; i++)
-			if (!isSolid(x + i, y - 1, z + 5))
-				return false;
+        for (i = 0; i < 4; i++)
+            if (isNotSolid(x + i, y - 1, z + 5))
+                return false;
 
-		for (i = 0; i < 6; i++) {
-			for (j = 0; j < 5; j++) {
-				for (k = 0; k < 4; k++)
-					if (!isReplaceable(x + i, y + k, z + j))
-						return false;
-			}
-		}
+        for (i = 0; i < 6; i++) {
+            for (j = 0; j < 5; j++) {
+                for (k = 0; k < 4; k++)
+                    if (!isReplaceable(x + i, y + k, z + j))
+                        return false;
+            }
+        }
 
-		for (i = 0; i < 4; i++) {
-			for (j = 0; j < 4; j++)
-				if (!isReplaceable(x + i, y + j, z + 5))
-					return false;
-		}
+        for (i = 0; i < 4; i++) {
+            for (j = 0; j < 4; j++)
+                if (!isReplaceable(x + i, y + j, z + 5))
+                    return false;
+        }
 
-		if (!(isReplaceable(x + 4, y + 2, z + 5) && isReplaceable(x + 5, y + 2,
-				z + 5)))
-			return false;
+        if (!(isReplaceable(x + 4, y + 2, z + 5) && isReplaceable(x + 5, y + 2,
+                z + 5)))
+            return false;
 
-		for (i = -1; i < 5; i++)
-			if (!isReplaceable(x + i, y + 2, z + 6))
-				return false;
+        for (i = -1; i < 5; i++)
+            if (!isReplaceable(x + i, y + 2, z + 6))
+                return false;
 
-		for (i = -1; i < 6; i++)
-			if (!isReplaceable(x - 1, y + 2, z + i))
-				return false;
+        for (i = -1; i < 6; i++)
+            if (!isReplaceable(x - 1, y + 2, z + i))
+                return false;
 
-		for (i = 0; i < 7; i++)
-			if (!isReplaceable(x + i, y + 2, z - 1))
-				return false;
+        for (i = 0; i < 7; i++)
+            if (!isReplaceable(x + i, y + 2, z - 1))
+                return false;
 
-		for (i = 0; i < 6; i++)
-			if (!isReplaceable(x + 6, y + 2, z + i))
-				return false;
+        for (i = 0; i < 6; i++)
+            if (!isReplaceable(x + 6, y + 2, z + i))
+                return false;
 
-		for (i = 1; i < 4; i++) {
-			for (j = 1; j < 5; j++)
-				if (!isReplaceable(x + j, y + 4, z + i))
-					return false;
-		}
+        for (i = 1; i < 4; i++) {
+            for (j = 1; j < 5; j++)
+                if (!isReplaceable(x + j, y + 4, z + i))
+                    return false;
+        }
 
-		if (!(isReplaceable(x + 1, y + 4, z + 4) && isReplaceable(x + 2, y + 4,
-				z + 4)))
-			return false;
-
-        return isReplaceable(x + 2, y + 5, z + 2) && isReplaceable(x + 3, y + 5,
-                z + 2);
+        return (isReplaceable(x + 1, y + 4, z + 4) && isReplaceable(x + 2, y + 4,
+                z + 4)) && isReplaceable(x + 2, y + 5, z + 2) && isReplaceable(x + 3, y + 5, z + 2);
 
     }
 
@@ -146,7 +142,7 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 		for (i = -1; i < 6; i++) {
 			for (j = -1; j < 6; j++) {
 				for (k = 2; k < height; k++)
-					if (!isSolid(x + i, y - k, z + j))
+					if (isNotSolid(x + i, y - k, z + j))
 						return false;
 			}
 		}
@@ -723,8 +719,8 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 		return world.getBlock(x, y, z).getMaterial().isReplaceable();
 	}
 
-	private boolean isSolid(int x, int y, int z) {
-		return world.getBlock(x, y, z).getMaterial().isSolid();
+	private boolean isNotSolid(int x, int y, int z) {
+		return !world.getBlock(x, y, z).getMaterial().isSolid();
 	}
 
 	/**

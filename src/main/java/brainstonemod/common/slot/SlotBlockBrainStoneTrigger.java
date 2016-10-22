@@ -22,16 +22,11 @@ public class SlotBlockBrainStoneTrigger extends Slot {
 
 	@Override
 	public boolean isItemValid(ItemStack itemstack) {
-		if (!(itemstack.getItem() instanceof ItemBlock))
-			return false;
+        if (!(itemstack.getItem() instanceof ItemBlock))
+            return false;
 
-		final Block block = Block.getBlockFromItem(itemstack.getItem());
-		if (block == null)
-			return false;
+        final Block block = Block.getBlockFromItem(itemstack.getItem());
+        return block != null && !(block == BrainStone.brainStoneTrigger() || block == Blocks.leaves) && block.isOpaqueCube();
 
-		if (block == BrainStone.brainStoneTrigger() || block == Blocks.leaves)
-			return false;
-		else
-			return block.isOpaqueCube();
-	}
+    }
 }

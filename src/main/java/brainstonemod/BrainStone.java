@@ -324,8 +324,8 @@ public class BrainStone {
 							+ "https://download.brainstonemod.com " + EnumChatFormatting.YELLOW + "!");
 		}
 
-		if (!VERSION.equals("${ver" + "sion}") && !latestVersion.equals("") && !recommendedVersion.equals("")
-				&& !releaseVersion.equals("")) {
+		if (!VERSION.equals("${ver" + "sion}") && !latestVersion.isEmpty() && !recommendedVersion.isEmpty()
+				&& !releaseVersion.isEmpty()) {
 			switch (BrainStoneConfigHelper.updateNotification()) {
 			case 0:
 				if (isHigherVersion(VERSION, releaseVersion)) {

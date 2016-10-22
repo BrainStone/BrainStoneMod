@@ -26,10 +26,8 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 	/**
 	 * Constructor of the block. Registers all properties and sets the id and
 	 * the material
-	 * 
-	 * @param i
-	 *            The internal BrainStone id
-	 */
+	 *
+     */
 	public BlockBrainLightSensor() {
 		super(Material.rock);
 

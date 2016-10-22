@@ -1,5 +1,7 @@
 package brainstonemod.common.helper;
 
+import sun.net.www.protocol.file.FileURLConnection;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -12,8 +14,6 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-
-import sun.net.www.protocol.file.FileURLConnection;
 
 public class BrainStoneClassFinder {
 	/**
@@ -148,7 +148,7 @@ public class BrainStoneClassFinder {
 	 *             if something went wrong
 	 */
 	public static ArrayList<Class<?>> getClassesForPackage(String pckgname) throws ClassNotFoundException {
-		final ArrayList<Class<?>> classes = new ArrayList<Class<?>>();
+		final ArrayList<Class<?>> classes = new ArrayList<>();
 
 		try {
 			final ClassLoader cld = Thread.currentThread().getContextClassLoader();

@@ -1,8 +1,5 @@
 package brainstonemod.common.helper;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,6 +9,9 @@ import net.minecraft.potion.Potion;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.common.ISpecialArmor.ArmorProperties;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class BrainStoneDamageHelper {
 	public static float getAdjustedDamage(DamageSource damageSource, float initalDamage, EntityPlayer player,
@@ -92,7 +92,7 @@ public class BrainStoneDamageHelper {
 	private static float ApplyArmor(EntityLivingBase entity, ItemStack[] inventory, DamageSource source, double damage,
 			boolean simulate) {
 		damage *= 25;
-		ArrayList<ArmorProperties> dmgVals = new ArrayList<ArmorProperties>();
+		ArrayList<ArmorProperties> dmgVals = new ArrayList<>();
 		for (int x = 0; x < inventory.length; x++) {
 			ItemStack stack = inventory[x];
 			if (stack == null) {

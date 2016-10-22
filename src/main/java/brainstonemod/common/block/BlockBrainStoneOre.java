@@ -13,10 +13,8 @@ public class BlockBrainStoneOre extends BlockBrainStoneOreBase {
 	/**
 	 * Constructor of the block. Registers all properties and sets the id and
 	 * the material
-	 * 
-	 * @param i
-	 *            The internal BrainStone id
-	 */
+	 *
+     */
 	public BlockBrainStoneOre() {
 		super();
 

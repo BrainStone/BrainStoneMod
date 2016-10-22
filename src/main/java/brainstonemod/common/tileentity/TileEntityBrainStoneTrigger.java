@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TileEntityBrainStoneTrigger extends TileEntity implements IInventory {
-	private static final ArrayList<TileEntityBrainStoneTrigger> failedTileEntities = new ArrayList<TileEntityBrainStoneTrigger>();
+	private static final ArrayList<TileEntityBrainStoneTrigger> failedTileEntities = new ArrayList<>();
 	private ItemStack inventory[];
 
 	public static void retryFailedTileEntities() {
@@ -50,7 +50,7 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 
 	public TileEntityBrainStoneTrigger() {
 		inventory = new ItemStack[1];
-		mobTriggered = new HashMap<String, Integer>();
+		mobTriggered = new HashMap<>();
 		delay = 0;
 		maxDelay = 4;
 		output = 0;
@@ -106,11 +106,8 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 	}
 
 	public boolean getMobTriggered(String s) {
-		if (mobTriggered.containsKey(s))
-			return mobTriggered.get(s) > 0;
-		else
-			return false;
-	}
+        return mobTriggered.containsKey(s) && mobTriggered.get(s) > 0;
+    }
 
 	public IIcon getTextureId() {
 		final ItemStack itemstack = inventory[0];
@@ -139,18 +136,13 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
-		if (!(itemstack.getItem() instanceof ItemBlock))
-			return false;
+        if (!(itemstack.getItem() instanceof ItemBlock))
+            return false;
 
-		Block block = Block.getBlockFromItem(itemstack.getItem());
-		if (block == null)
-			return false;
+        Block block = Block.getBlockFromItem(itemstack.getItem());
+        return block != null && !(block == BrainStone.brainStoneTrigger() || block == Blocks.leaves) && block.isOpaqueCube();
 
-		if (block == BrainStone.brainStoneTrigger() || block == Blocks.leaves)
-			return false;
-		else
-			return block.isOpaqueCube();
-	}
+    }
 
 	@Override
 	public void openInventory() {
