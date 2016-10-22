@@ -3,6 +3,8 @@
 
 Starts where all others end
 
+Build status: [![build status](https://gitlab.crazyblock-network.net/BrainStone/brainstone/badges/master/build.svg)](https://gitlab.crazyblock-network.net/BrainStone/brainstone/commits/master)
+
 Setting up a Workspace/Compiling from Source
 --------------------------------------------
 
