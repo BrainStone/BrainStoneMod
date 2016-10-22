@@ -34,7 +34,7 @@ build:
 deploy:
   stage: deploy
   script:
-  - echo "Nothing yet..."
+  - ./gradlew curseforge
   when: on_success
   only:
   - tags
