@@ -57,6 +57,16 @@ gui.brainstone.config.cat.display.tooltip=Modifiziere alle Anzeige-Einstellungen
 gui.brainstone.config.cat.brainstonelivecapacitor=Hirnsteinlebenskondensator
 gui.brainstone.config.cat.brainstonelivecapacitor.tooltip=Modifiziere alle Hirnsteinlebenskondensator-Einstellungen
 
+recipe.capacitorupgrade=Kondensator Upgrades
+
+capacitor.owner=Besitzer:
+capacitor.you= (Du)
+capacitor.claim= (Shift-R-Click für Besitzergreifung)
+capacitor.summary=Absorbiert allen Schaden, so lange Energie vorhanden ist.
+capacitor.costs=Kosten
+capacitor.capacity=Kapazitäts-Level:
+capacitor.charging=Auflade-Level:
+capacitor.details=Halte %s für Details
 
 tc.aspect.brainstone=Hirn+Stein
 

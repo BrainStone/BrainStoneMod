@@ -1,13 +1,20 @@
-#[Brain Stone Mod](https://minecraft.curseforge.com/projects/brain-stone-mod)
+[Brain Stone Mod](https://minecraft.curseforge.com/projects/brain-stone-mod)
+============================================================================
 
 Starts where all others end
 
-##Setting up a Workspace/Compiling from Source
-* Setup: Run [gradle]in the repository root: `gradlew[.bat] [setupDevWorkspace|setupDecompWorkspace] [eclipse|idea]`
-* Build: Run [gradle]in the repository root: `gradlew[.bat] build`
+Build status: [![build status](https://gitlab.crazyblock-network.net/BrainStone/brainstone/badges/master/build.svg)](https://gitlab.crazyblock-network.net/BrainStone/brainstone/commits/master)
+
+Setting up a Workspace/Compiling from Source
+--------------------------------------------
+
+* Setup: Run [gradle] in the repository root: `gradlew[.bat] [setupDevWorkspace|setupDecompWorkspace] [eclipse|idea]`
+* Build: Run [gradle] in the repository root: `gradlew[.bat] build`
 * If obscure Gradle issues are found try running 'gradlew clean' and 'gradlew cleanCache'
 
-##Issue reporting
+Issue reporting
+---------------
+
 Please include the following:
 
 * Minecraft version
@@ -19,7 +26,9 @@ Please include the following:
 	* Steps to reproduce
 	* ForgeModLoader-client-0.log (the FML log) from the root folder of the client
 
-##Licenses
+Licenses
+--------
+
 Code, Textures and binaries are licensed under the [GPLv3](https://www.gnu.org/licenses/#GPL).
 
 You are allowed to use the mod in your modpack.
@@ -27,5 +36,7 @@ Any modpack which uses Brain Stone Mod takes **full** responsibility for user su
 
 Any alternate licenses are noted where appropriate.
 
-##Jar Signing
+Jar Signing
+-----------
+
 All jars from all official download sources will be signed begining from version v2.53.115 BETA DEV. The signature will always be `2238d4a92d81ab407741a2fdb741cebddfeacba6` and you are free to verify it.
