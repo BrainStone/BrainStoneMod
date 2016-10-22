@@ -59,6 +59,15 @@ gui.brainstone.config.cat.brainstonelivecapacitor.tooltip=Modify all the setting
 
 recipe.capacitorupgrade=Capacitor Upgrades
 
+capacitor.owner=Owner:
+capacitor.you= (You)
+capacitor.claim= (Shift-R-Click to claim)
+capacitor.summary=Absorbs all damage while powered.
+capacitor.costs=Costs
+capacitor.capacity=Capacity Level:
+capacitor.charging=Charging Level:
+capacitor.details=Hold %s for details
+
 tc.aspect.brainstone=Brain+Stone
 
 enderio.darksteel.upgrade.brainstone.name=Pulsating Brain Stone Protection

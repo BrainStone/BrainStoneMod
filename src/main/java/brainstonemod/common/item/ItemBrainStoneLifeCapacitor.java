@@ -111,27 +111,27 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 				&& (BrainStoneConfigHelper.BSLC_allowStealing() || !hasOwner(container));
 
 		if (sneak) {
-			list.add("Owner: " + PCmapping.getPlayerName(getUUID(container), true)
-					+ (correctOwner ? (EnumChatFormatting.GRAY + " (You)")
-							: (canClaim ? (EnumChatFormatting.DARK_GRAY + " (Shift-R-Click to claim)") : "")));
-			list.add(EnumChatFormatting.GREEN + "Absorbs all damage while powered.");
-			list.add(EnumChatFormatting.YELLOW + "Costs " + PowerDisplayUtil.formatPower(RFperHalfHeart * 2) + " "
+			list.add(BrainStone.proxy.format("capacitor.owner")+" " + PCmapping.getPlayerName(getUUID(container), true)
+					+ (correctOwner ? (EnumChatFormatting.GRAY + BrainStone.proxy.format("capacitor.you"))
+							: (canClaim ? (EnumChatFormatting.DARK_GRAY + BrainStone.proxy.format("capacitor.claim")) : "")));
+			list.add(EnumChatFormatting.GREEN + BrainStone.proxy.format("capacitor.summary"));
+			list.add(EnumChatFormatting.YELLOW + BrainStone.proxy.format("capacitor.costs")+" " + PowerDisplayUtil.formatPower(RFperHalfHeart * 2) + " "
 					+ PowerDisplayUtil.abrevation() + "/" + EnumChatFormatting.DARK_RED + "\u2764");
-			list.add("Capacity Level: " + EnumChatFormatting.GOLD + EnumChatFormatting.BOLD
+			list.add(BrainStone.proxy.format("capacitor.capacity")+" " + EnumChatFormatting.GOLD + EnumChatFormatting.BOLD
 					+ String.valueOf(getCapacityLevel(container)) + EnumChatFormatting.RESET + EnumChatFormatting.GRAY
 					+ " (" + PowerDisplayUtil.formatPower(getMaxEnergyStoredLong(container)) + " "
 					+ PowerDisplayUtil.abrevation() + " " + EnumChatFormatting.DARK_RED
 					+ ((getCapacityLevel(container) + 1) * 5) + "\u2764" + EnumChatFormatting.GRAY + ")");
-			list.add("Charging Level: " + EnumChatFormatting.GOLD + EnumChatFormatting.BOLD
+			list.add(BrainStone.proxy.format("capacitor.charging")+" " + EnumChatFormatting.GOLD + EnumChatFormatting.BOLD
 					+ String.valueOf(getChargingLevel(container)) + EnumChatFormatting.RESET + EnumChatFormatting.GRAY
 					+ " (" + PowerDisplayUtil.formatPower(getMaxRecieve(container)) + " "
 					+ PowerDisplayUtil.abrevation() + "/t)");
 		} else {
-			list.add("Owner: " + PCmapping.getPlayerName(getUUID(container), true)
-					+ (correctOwner ? (EnumChatFormatting.GRAY + " (You)") : ""));
-			list.add("Hold " + EnumChatFormatting.YELLOW + EnumChatFormatting.ITALIC
+			list.add(BrainStone.proxy.format("capacitor.owner")+" " + PCmapping.getPlayerName(getUUID(container), true)
+					+ (correctOwner ? (EnumChatFormatting.GRAY + BrainStone.proxy.format("capacitor.you")) : ""));
+			list.add(BrainStone.proxy.format("capacitor.details", ""+EnumChatFormatting.YELLOW + EnumChatFormatting.ITALIC
 					+ Keyboard.getKeyName(Minecraft.getMinecraft().gameSettings.keyBindSneak.getKeyCode())
-					+ EnumChatFormatting.RESET + EnumChatFormatting.GRAY + " for details");
+					+ EnumChatFormatting.RESET + EnumChatFormatting.GRAY));
 		}
 
 		list.add(PowerDisplayUtil.formatPower(getEnergyStoredLong(container)) + "/"

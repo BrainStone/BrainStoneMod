@@ -6,6 +6,7 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class ClientProxy extends CommonProxy {
@@ -44,5 +45,10 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public EntityPlayer getPlayerEntity(MessageContext ctx) {
 		return (ctx.side.isClient() ? Minecraft.getMinecraft().thePlayer : super.getPlayerEntity(ctx));
+	}
+
+	@Override
+	public String format(String key, Object... args){
+		return I18n.format(key, args);
 	}
 }
