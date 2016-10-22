@@ -70,8 +70,8 @@ public abstract class BSP {
 	 * @param ex
 	 *            the exception to be logged
 	 * @return Return whether the log was logged or not
-	 * @see
-     */
+	 * @see {@link BSP#logException(Level level, Object... obj)}
+	 */
 	public static final boolean debugException(Throwable ex) {
 		return debugException(ex, "");
 	}
@@ -85,8 +85,8 @@ public abstract class BSP {
 	 * @param additionalMessage
 	 *            a message appended to the standard error message addon
 	 * @return Return whether the log was logged or not
-	 * @see
-     */
+	 * @see {@link BSP#printException(Level level, Throwable ex, String additionalMessage)}
+	 */
 	public static final boolean debugException(Throwable ex, String additionalMessage) {
 		return logException(Level.DEBUG, ex, additionalMessage);
 	}
@@ -98,8 +98,8 @@ public abstract class BSP {
 	 *            the exception to be logged
 	 * @return Return whether the log was logged or not
 	 *         printException_noAddon(Level.INFO, Throwable ex)
-	 * @see
-     */
+	 * @see {@link BSP#logException_noAddon(Level level, Object... obj)}
+	 */
 	public static final boolean debugException_noAddon(Throwable ex) {
 		return debugException_noAddon(ex, "");
 	}
@@ -113,8 +113,8 @@ public abstract class BSP {
 	 * @param additionalMessage
 	 *            a message put in front of the error log
 	 * @return Return whether the log was logged or not
-	 * @see
-     */
+	 * @see {@link BSP#printException_noAddon(Level level, Throwable ex, String additionalMessage)}
+	 */
 	public static final boolean debugException_noAddon(Throwable ex, String additionalMessage) {
 		return logException_noAddon(Level.DEBUG, ex, additionalMessage);
 	}
@@ -138,8 +138,8 @@ public abstract class BSP {
 	 * @param ex
 	 *            the exception to be logged
 	 * @return Return whether the log was logged or not
-	 * @see
-     */
+	 * @see {@link BSP#logException(Level level, Object... obj)}
+	 */
 	public static final boolean errorException(Throwable ex) {
 		return errorException(ex, "");
 	}
@@ -153,8 +153,8 @@ public abstract class BSP {
 	 * @param additionalMessage
 	 *            a message appended to the standard error message addon
 	 * @return Return whether the log was logged or not
-	 * @see
-     */
+	 * @see {@link BSP#printException(Level level, Throwable ex, String additionalMessage)}
+	 */
 	public static final boolean errorException(Throwable ex, String additionalMessage) {
 		return logException(Level.ERROR, ex, additionalMessage);
 	}
@@ -166,8 +166,8 @@ public abstract class BSP {
 	 *            the exception to be logged
 	 * @return Return whether the log was logged or not
 	 *         printException_noAddon(Level.INFO, Throwable ex)
-	 * @see
-     */
+	 * @see {@link BSP#logException_noAddon(Level level, Object... obj)}
+	 */
 	public static final boolean errorException_noAddon(Throwable ex) {
 		return errorException_noAddon(ex, "");
 	}
@@ -181,8 +181,8 @@ public abstract class BSP {
 	 * @param additionalMessage
 	 *            a message put in front of the error log
 	 * @return Return whether the log was logged or not
-	 * @see
-     */
+	 * @see {@link BSP#printException_noAddon(Level level, Throwable ex, String additionalMessage)}
+	 */
 	public static final boolean errorException_noAddon(Throwable ex, String additionalMessage) {
 		return logException_noAddon(Level.ERROR, ex, additionalMessage);
 	}
@@ -206,8 +206,8 @@ public abstract class BSP {
 	 * @param ex
 	 *            the exception to be logged
 	 * @return Return whether the log was logged or not
-	 * @see
-     */
+	 * @see {@link BSP#logException(Level level, Object... obj)}
+	 */
 	public static final boolean fatalException(Throwable ex) {
 		return fatalException(ex, "");
 	}
@@ -221,8 +221,8 @@ public abstract class BSP {
 	 * @param additionalMessage
 	 *            a message appended to the standard error message addon
 	 * @return Return whether the log was logged or not
-	 * @see
-     */
+	 * @see {@link BSP#printException(Level level, Throwable ex, String additionalMessage)}
+	 */
 	public static final boolean fatalException(Throwable ex, String additionalMessage) {
 		return logException(Level.FATAL, ex, additionalMessage);
 	}
@@ -234,8 +234,8 @@ public abstract class BSP {
 	 *            the exception to be logged
 	 * @return Return whether the log was logged or not
 	 *         printException_noAddon(Level.INFO, Throwable ex)
-	 * @see
-     */
+	 * @see {@link BSP#logException_noAddon(Level level, Object... obj)}
+	 */
 	public static final boolean fatalException_noAddon(Throwable ex) {
 		return fatalException_noAddon(ex, "");
 	}
@@ -249,8 +249,8 @@ public abstract class BSP {
 	 * @param additionalMessage
 	 *            a message put in front of the error log
 	 * @return Return whether the log was logged or not
-	 * @see
-     */
+	 * @see {@link BSP#printException_noAddon(Level level, Throwable ex, String additionalMessage)}
+	 */
 	public static final boolean fatalException_noAddon(Throwable ex, String additionalMessage) {
 		return logException_noAddon(Level.FATAL, ex, additionalMessage);
 	}
@@ -275,9 +275,9 @@ public abstract class BSP {
 	 * @param ex
 	 *            the exception to be logged
 	 * @return Return whether the log was logged or not
-	 * @see
-     * @see
-     */
+	 * @see {@link BSP#logException(Object... obj)}
+	 * @see {@link BSP#logException(Level level, Object... obj)}
+	 */
 	public static final boolean infoException(Throwable ex) {
 		return infoException(ex, "");
 	}
@@ -291,9 +291,9 @@ public abstract class BSP {
 	 * @param additionalMessage
 	 *            a message appended to the standard error message addon
 	 * @return Return whether the log was logged or not
-	 * @see
-     * @see
-     */
+	 * @see {@link BSP#printException(Throwable ex, String additionalMessage)}
+	 * @see {@link BSP#printException(Level level, Throwable ex, String additionalMessage)}
+	 */
 	public static final boolean infoException(Throwable ex, String additionalMessage) {
 		return logException(ex, additionalMessage);
 	}
@@ -305,9 +305,9 @@ public abstract class BSP {
 	 *            the exception to be logged
 	 * @return Return whether the log was logged or not
 	 *         printException_noAddon(Level.INFO, Throwable ex)
-	 * @see
-     * @see
-     */
+	 * @see {@link BSP#logException_noAddon(Object... obj)}
+	 * @see {@link BSP#logException_noAddon(Level level, Object... obj)}
+	 */
 	public static final boolean infoException_noAddon(Throwable ex) {
 		return infoException_noAddon(ex, "");
 	}
@@ -321,9 +321,9 @@ public abstract class BSP {
 	 * @param additionalMessage
 	 *            a message put in front of the error log
 	 * @return Return whether the log was logged or not
-	 * @see
-     * @see
-     */
+	 * @see {@link BSP#printException_noAddon(Throwable ex, String additionalMessage)}
+	 * @see {@link BSP#printException_noAddon(Level level, Throwable ex, String additionalMessage)}
+	 */
 	public static final boolean infoException_noAddon(Throwable ex, String additionalMessage) {
 		return logException_noAddon(ex, additionalMessage);
 	}
@@ -607,7 +607,7 @@ public abstract class BSP {
 	public static final void throwCloneNotSupportedException(String additionalMessage)
 			throws CloneNotSupportedException {
 		throw new CloneNotSupportedException(
-				errorMessageAddon + ((additionalMessage.isEmpty()) ? "" : "\n" + additionalMessage));
+				errorMessageAddon + ((additionalMessage.equals("")) ? "" : "\n" + additionalMessage));
 	}
 
 	/**
@@ -977,8 +977,8 @@ public abstract class BSP {
 	 * @param ex
 	 *            the exception to be logged
 	 * @return Return whether the log was logged or not
-	 * @see
-     */
+	 * @see {@link BSP#logException(Level level, Object... obj)}
+	 */
 	public static final boolean traceException(Throwable ex) {
 		return traceException(ex, "");
 	}
@@ -992,8 +992,8 @@ public abstract class BSP {
 	 * @param additionalMessage
 	 *            a message appended to the standard error message addon
 	 * @return Return whether the log was logged or not
-	 * @see
-     */
+	 * @see {@link BSP#printException(Level level, Throwable ex, String additionalMessage)}
+	 */
 	public static final boolean traceException(Throwable ex, String additionalMessage) {
 		return logException(Level.TRACE, ex, additionalMessage);
 	}
@@ -1005,8 +1005,8 @@ public abstract class BSP {
 	 *            the exception to be logged
 	 * @return Return whether the log was logged or not
 	 *         printException_noAddon(Level.INFO, Throwable ex)
-	 * @see
-     */
+	 * @see {@link BSP#logException_noAddon(Level level, Object... obj)}
+	 */
 	public static final boolean traceException_noAddon(Throwable ex) {
 		return traceException_noAddon(ex, "");
 	}
@@ -1020,8 +1020,8 @@ public abstract class BSP {
 	 * @param additionalMessage
 	 *            a message put in front of the error log
 	 * @return Return whether the log was logged or not
-	 * @see
-     */
+	 * @see {@link BSP#printException_noAddon(Level level, Throwable ex, String additionalMessage)}
+	 */
 	public static final boolean traceException_noAddon(Throwable ex, String additionalMessage) {
 		return logException_noAddon(Level.TRACE, ex, additionalMessage);
 	}
@@ -1045,8 +1045,8 @@ public abstract class BSP {
 	 * @param ex
 	 *            the exception to be logged
 	 * @return Return whether the log was logged or not
-	 * @see
-     */
+	 * @see {@link BSP#logException(Level level, Object... obj)}
+	 */
 	public static final boolean warnException(Throwable ex) {
 		return warnException(ex, "");
 	}
@@ -1060,8 +1060,8 @@ public abstract class BSP {
 	 * @param additionalMessage
 	 *            a message appended to the standard error message addon
 	 * @return Return whether the log was logged or not
-	 * @see
-     */
+	 * @see {@link BSP#printException(Level level, Throwable ex, String additionalMessage)}
+	 */
 	public static final boolean warnException(Throwable ex, String additionalMessage) {
 		return logException(Level.WARN, ex, additionalMessage);
 	}
@@ -1073,8 +1073,8 @@ public abstract class BSP {
 	 *            the exception to be logged
 	 * @return Return whether the log was logged or not
 	 *         printException_noAddon(Level.INFO, Throwable ex)
-	 * @see
-     */
+	 * @see {@link BSP#logException_noAddon(Level level, Object... obj)}
+	 */
 	public static final boolean warnException_noAddon(Throwable ex) {
 		return warnException_noAddon(ex, "");
 	}
@@ -1088,8 +1088,8 @@ public abstract class BSP {
 	 * @param additionalMessage
 	 *            a message put in front of the error log
 	 * @return Return whether the log was logged or not
-	 * @see
-     */
+	 * @see {@link BSP#printException_noAddon(Level level, Throwable ex, String additionalMessage)}
+	 */
 	public static final boolean warnException_noAddon(Throwable ex, String additionalMessage) {
 		return logException_noAddon(Level.WARN, ex, additionalMessage);
 	}
