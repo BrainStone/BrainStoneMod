@@ -26,6 +26,9 @@ build:
   - ./gradlew assemble
   - cp $ORIG_ARTIFACTS .
   when: on_success
+  only:
+  - master
+  - tags
   artifacts:
     name: "BrainStoneMod-$(grep 'mod_version=' build.properties | sed 's/^.*=//')"
     paths:
@@ -34,7 +37,7 @@ build:
 deploy:
   stage: deploy
   script:
-  - echo "Nothing yet..."
+  - ./gradlew curseforge
   when: on_success
   only:
   - tags
@@ -46,3 +49,6 @@ cleanup:
   - rm -vf $ARTIFACTS
   - mkdir -p $CACHE_DIR $CACHE_DIR2
   when: always
+  only:
+  - master
+  - tags
