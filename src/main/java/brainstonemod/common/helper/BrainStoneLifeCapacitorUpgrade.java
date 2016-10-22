@@ -8,7 +8,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.RecipeSorter;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public class BrainStoneLifeCapacitorUpgrade implements IRecipe {
 	public enum Upgrade {
@@ -111,6 +110,18 @@ public class BrainStoneLifeCapacitorUpgrade implements IRecipe {
 
 	@Override
 	public ItemStack getRecipeOutput() {
-		return new ItemStack(BrainStone.brainStoneLifeCapacitor());
+		ItemStack higherCapacity = new ItemStack(BrainStone.brainStoneLifeCapacitor());
+		higherCapacity = BrainStone.brainStoneLifeCapacitor().upgradeCapacity(higherCapacity);
+		ItemStack higherCharging = new ItemStack(BrainStone.brainStoneLifeCapacitor());
+		higherCharging = BrainStone.brainStoneLifeCapacitor().upgradeCharging(higherCharging);
+		if(upgrade == Upgrade.CAPACITY)
+			return higherCapacity;
+		else{
+			return higherCharging;
+		}
+	}
+
+	public ItemStack[] getStacks(){
+		return new ItemStack[]{new ItemStack(BrainStone.brainStoneLifeCapacitor()), upgrade.getUpgrade()};
 	}
 }

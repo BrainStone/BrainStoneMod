@@ -1,10 +1,11 @@
 package brainstonemod.common.api.nei;
 
-import net.minecraft.item.ItemStack;
 import brainstonemod.BrainStone;
+import brainstonemod.common.api.BrainStoneModules;
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
 import cpw.mods.fml.common.Optional;
+import net.minecraft.item.ItemStack;
 
 @Optional.Interface(iface = "codechicken.nei.api.API", modid = "NotEnoughItems")
 public class NEIBrainstoneConfig implements IConfigureNEI {
@@ -25,5 +26,7 @@ public class NEIBrainstoneConfig implements IConfigureNEI {
 	public void loadConfig() {
 		API.hideItem(new ItemStack(BrainStone.pulsatingBrainStoneEffect()));
 		API.hideItem(new ItemStack(BrainStone.brainStoneOut()));
+		if(BrainStoneModules.energy())
+			API.registerRecipeHandler(new CapacitorUpgradeRecipeHandler());
 	}
 }
