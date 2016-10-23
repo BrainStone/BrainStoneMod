@@ -30,7 +30,7 @@ build:
   - master
   - tags
   artifacts:
-    name: "BrainStoneMod-$(grep 'mod_version=' build.properties | sed 's/^.*=//' | sed "s/\?/$(git rev-list --count $(git log --follow -1 --pretty=%H build.properties)..HEAD)/g")"
+    name: "BrainStoneMod-$(grep 'mod_version=' build.properties | sed 's/^.*=//')"
     paths:
     - $ARTIFACTS
     

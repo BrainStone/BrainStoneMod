@@ -23,29 +23,6 @@ plugins {
 apply plugin: 'com.github.ben-manes.versions'
 apply plugin: 'forge'
 
-def getFullVersionNumber(version_stub) {
-  try {
-    def stdout1 = new ByteArrayOutputStream()
-    def stdout2 = new ByteArrayOutputStream()
-    def commit
-    
-    exec {
-      commandLine 'git', 'log', '--follow', '-1', '--pretty=%H', 'build.properties'
-      standardOutput = stdout1
-    }
-    
-    commit = stdout1.toString().trim()
-    
-    exec {
-      commandLine 'git', 'rev-list', '--count', commit + '..HEAD'
-      standardOutput = stdout2
-    }
-    
-    return version_stub.replace('?', stdout2.toString().trim())
-  } catch(Exception e) {
-    return version_stub
-  }
-}
 def getChangelog() {
   try {
     def stdout = new ByteArrayOutputStream()
@@ -90,8 +67,6 @@ configFile.withReader {
     def prop = new Properties()
     prop.load(it)
     project.ext.config = new ConfigSlurper().parse prop
-    
-    config.mod_version = getFullVersionNumber(config.mod_version)
 }
 
 def MainDirResources = fileTree(dir: '.', includes: ['*.md', 'CHANGELOG', 'LICENSE'])
