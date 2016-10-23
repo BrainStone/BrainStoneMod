@@ -70,6 +70,9 @@ capacitor.capacity=Capacity Level:
 capacitor.charging=Charging Level:
 capacitor.details=Hold %s for details
 
+trigger.delay=Delay
+trigger.all=All:
+
 tc.aspect.brainstone=Brain+Stone
 
 enderio.darksteel.upgrade.brainstone.name=Pulsating Brain Stone Protection

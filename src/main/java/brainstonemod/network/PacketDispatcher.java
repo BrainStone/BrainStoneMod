@@ -31,6 +31,10 @@ public class PacketDispatcher {
         registerMessage(PacketSyncSetMaxDelay.Handler.class, PacketSyncSetMaxDelay.class, Side.CLIENT);
         registerMessage(PacketSetMobTriggered.Handler.class, PacketSetMobTriggered.class, Side.SERVER);
         registerMessage(PacketSyncSetMobTriggered.Handler.class, PacketSyncSetMobTriggered.class, Side.CLIENT);
+        registerMessage(PacketDisableMobs.Handler.class, PacketDisableMobs.class, Side.SERVER);
+        registerMessage(PacketSyncDisableMobs.Handler.class, PacketSyncDisableMobs.class, Side.CLIENT);
+        registerMessage(PacketEnableMobs.Handler.class, PacketEnableMobs.class, Side.SERVER);
+        registerMessage(PacketSyncEnableMobs.Handler.class, PacketSyncEnableMobs.class, Side.CLIENT);
     }
 
     /**

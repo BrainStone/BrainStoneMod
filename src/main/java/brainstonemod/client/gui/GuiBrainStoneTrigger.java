@@ -8,12 +8,11 @@ import brainstonemod.common.container.ContainerBrainStoneTrigger;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
 import brainstonemod.network.PacketDispatcher;
-import brainstonemod.network.packet.serverbound.PacketInvertMobTriggered;
-import brainstonemod.network.packet.serverbound.PacketSetMaxDelay;
-import brainstonemod.network.packet.serverbound.PacketSetMobTriggered;
+import brainstonemod.network.packet.serverbound.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.StatCollector;
@@ -206,8 +205,9 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 			drawString(message, 25, 12 + (18 * i), tileentity.getMobTriggered(tmp) ? 0xffffff : 0x111111);
 		}
 
-		drawCenteredString((page + 1) + "/" + (max_page + 1), 156, 17, 0x000000);
-		drawString("Delay", 144, 54, 0x000000);
+		drawCenteredString(I18n.format("trigger.all"), 153, 13, 0x000000);
+		drawCenteredString((page + 1) + "/" + (max_page + 1), 156, 27, 0x000000);
+		drawString(I18n.format("trigger.delay"), 144, 54, 0x000000);
 		drawString(String.valueOf(tileentity.getMaxDelay()), 148, 68, 0xffffff);
 
 		this.bindTexture();
@@ -315,6 +315,14 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 			y -= guiTop;
 
 			buttons.onClick(x, y);
+
+			if (inField(x, y, 162, 3, 169, 10)) {
+				PacketDispatcher.sendToServer(new PacketEnableMobs(tileentity));
+				click();
+			} else if (inField(x, y, 162, 12, 169, 19)) {
+				PacketDispatcher.sendToServer(new PacketDisableMobs(tileentity));
+				click();
+			}
 		}
 
 		if (nyanCat) {

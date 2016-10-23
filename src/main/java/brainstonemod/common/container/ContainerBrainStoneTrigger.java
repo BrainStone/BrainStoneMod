@@ -15,7 +15,7 @@ public class ContainerBrainStoneTrigger extends Container {
 	public ContainerBrainStoneTrigger(InventoryPlayer inventoryplayer, TileEntityBrainStoneTrigger tileentityblockbrainstonetrigger) {
 		trigger = tileentityblockbrainstonetrigger;
 		int i;
-		addSlotToContainer(new SlotBlockBrainStoneTrigger(trigger, 0, 148, 29));
+		addSlotToContainer(new SlotBlockBrainStoneTrigger(trigger, 0, 152, 33));
 
 		for (i = 0; i < 3; ++i) {
 			for (int j = 0; j < 9; ++j) {
