@@ -26,7 +26,9 @@ public class NEIBrainstoneConfig implements IConfigureNEI {
 	public void loadConfig() {
 		API.hideItem(new ItemStack(BrainStone.pulsatingBrainStoneEffect()));
 		API.hideItem(new ItemStack(BrainStone.brainStoneOut()));
-		if(BrainStoneModules.energy())
+		if(BrainStoneModules.energy()) {
 			API.registerRecipeHandler(new CapacitorUpgradeRecipeHandler());
+			API.registerUsageHandler(new CapacitorUpgradeRecipeHandler());
+		}
 	}
 }
