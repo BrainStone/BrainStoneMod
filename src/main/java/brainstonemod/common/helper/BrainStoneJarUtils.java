@@ -236,10 +236,8 @@ public final class BrainStoneJarUtils {
 			final X509Certificate cert = (X509Certificate) cf.generateCertificate(inStream);
 
 			verify(cert);
-		} catch (IOException e) {
-			BSP.warnException_noAddon(e);
-		} catch (CertificateException e) {
+		} catch (IOException | CertificateException e) {
 			BSP.warnException_noAddon(e);
 		}
-	}
+    }
 }

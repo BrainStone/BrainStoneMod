@@ -135,17 +135,11 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 	}
 
 	public void disableAllMobs(){
-		for(String mob:mobTriggered.keySet()){
-			if(mobTriggered.get(mob) > 0)
-				mobTriggered.put(mob, -1*mobTriggered.get(mob));
-		}
+		mobTriggered.keySet().stream().filter(mob -> mobTriggered.get(mob) > 0).forEach(mob -> mobTriggered.put(mob, -1 * mobTriggered.get(mob)));
 	}
 
 	public void enableAllMobs(){
-		for(String mob:mobTriggered.keySet()){
-			if(mobTriggered.get(mob) < 0)
-				mobTriggered.put(mob, -1*mobTriggered.get(mob));
-		}
+		mobTriggered.keySet().stream().filter(mob -> mobTriggered.get(mob) < 0).forEach(mob -> mobTriggered.put(mob, -1 * mobTriggered.get(mob)));
 	}
 
 	@Override

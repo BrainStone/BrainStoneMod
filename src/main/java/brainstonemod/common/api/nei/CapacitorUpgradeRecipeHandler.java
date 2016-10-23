@@ -11,7 +11,6 @@ import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -34,16 +33,15 @@ public class CapacitorUpgradeRecipeHandler extends ShapelessRecipeHandler {
     @Override
     public void loadCraftingRecipes(String outputId, Object... results) {
         if(outputId.equals("crafting") && this.getClass() == CapacitorUpgradeRecipeHandler.class) {
-            Iterator i$ = CraftingManager.getInstance().getRecipeList().iterator();
 
-            while(i$.hasNext()) {
-                IRecipe irecipe = (IRecipe)i$.next();
+            for (Object o : CraftingManager.getInstance().getRecipeList()) {
+                IRecipe irecipe = (IRecipe) o;
                 CachedCapacitorRecipe recipe = null;
-                if(irecipe instanceof BrainStoneLifeCapacitorUpgrade) {
+                if (irecipe instanceof BrainStoneLifeCapacitorUpgrade) {
                     recipe = new CachedCapacitorRecipe((BrainStoneLifeCapacitorUpgrade) irecipe);
                 }
 
-                if(recipe != null) {
+                if (recipe != null) {
                     recipe.computeVisuals();
                     this.arecipes.add(recipe);
                 }
@@ -56,17 +54,16 @@ public class CapacitorUpgradeRecipeHandler extends ShapelessRecipeHandler {
 
     @Override
     public void loadCraftingRecipes(ItemStack result) {
-        Iterator i$ = CraftingManager.getInstance().getRecipeList().iterator();
 
-        while(i$.hasNext()) {
-            IRecipe irecipe = (IRecipe)i$.next();
-            if(NEIServerUtils.areStacksSameTypeCrafting(irecipe.getRecipeOutput(), result)) {
+        for (Object o : CraftingManager.getInstance().getRecipeList()) {
+            IRecipe irecipe = (IRecipe) o;
+            if (NEIServerUtils.areStacksSameTypeCrafting(irecipe.getRecipeOutput(), result)) {
                 CachedCapacitorRecipe recipe = null;
-                if(irecipe instanceof BrainStoneLifeCapacitorUpgrade) {
+                if (irecipe instanceof BrainStoneLifeCapacitorUpgrade) {
                     recipe = new CachedCapacitorRecipe((BrainStoneLifeCapacitorUpgrade) irecipe);
                 }
 
-                if(recipe != null) {
+                if (recipe != null) {
                     recipe.computeVisuals();
                     this.arecipes.add(recipe);
                 }
@@ -77,18 +74,17 @@ public class CapacitorUpgradeRecipeHandler extends ShapelessRecipeHandler {
 
     @Override
     public void loadUsageRecipes(ItemStack ingredient) {
-        Iterator i$ = CraftingManager.getInstance().getRecipeList().iterator();
 
-        while(i$.hasNext()) {
-            IRecipe irecipe = (IRecipe)i$.next();
+        for (Object o : CraftingManager.getInstance().getRecipeList()) {
+            IRecipe irecipe = (IRecipe) o;
             CachedCapacitorRecipe recipe = null;
-            if(irecipe instanceof BrainStoneLifeCapacitorUpgrade) {
-                recipe = new CachedCapacitorRecipe((BrainStoneLifeCapacitorUpgrade)irecipe);
+            if (irecipe instanceof BrainStoneLifeCapacitorUpgrade) {
+                recipe = new CachedCapacitorRecipe((BrainStoneLifeCapacitorUpgrade) irecipe);
             }
 
-            if(recipe != null && recipe.contains(recipe.ingredients, ingredient.getItem())) {
+            if (recipe != null && recipe.contains(recipe.ingredients, ingredient.getItem())) {
                 recipe.computeVisuals();
-                if(recipe.contains(recipe.ingredients, ingredient)) {
+                if (recipe.contains(recipe.ingredients, ingredient)) {
                     recipe.setIngredientPermutation(recipe.ingredients, ingredient);
                     this.arecipes.add(recipe);
                 }
@@ -97,6 +93,7 @@ public class CapacitorUpgradeRecipeHandler extends ShapelessRecipeHandler {
 
     }
 
+    @SuppressWarnings("unchecked")
     public class CachedCapacitorRecipe extends CachedRecipe {
         public ArrayList<PositionedStack> ingredients;
         public PositionedStack result;
@@ -136,13 +133,10 @@ public class CapacitorUpgradeRecipeHandler extends ShapelessRecipeHandler {
         }
 
         public void computeVisuals() {
-            Iterator i$ = this.ingredients.iterator();
 
-            while(i$.hasNext()) {
-                PositionedStack p = (PositionedStack)i$.next();
+            for (PositionedStack p : this.ingredients) {
                 p.generatePermutations();
             }
-
         }
     }
 }

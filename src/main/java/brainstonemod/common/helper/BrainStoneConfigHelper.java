@@ -13,6 +13,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("unchecked")
 @UtilityClass
 public class BrainStoneConfigHelper {
 	public static final String CAT_DISPLAY = "display";

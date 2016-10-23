@@ -118,8 +118,8 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 
 			final int size = list.size();
 
-			for (int i = 0; i < size; i++) {
-				tmpEntity = list.get(i);
+			for (Object aList : list) {
+				tmpEntity = aList;
 
 				BSP.debug(tmpEntity.getClass().getName());
 
@@ -175,28 +175,24 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 	}
 
 	private static boolean isProtected(ItemStack[] armor) {
-		int offset = 0;
+        int offset = 0;
 
-		if (armor.length < 4)
-			return false;
-		else if (armor.length == 5)
-			offset = 1;
-		else if (armor.length > 5)
-			return false;
-
-		boolean allArmorSlotsFilled = (armor[3 + offset] != null) && (armor[2 + offset] != null)
-				&& (armor[1 + offset] != null) && (armor[offset] != null);
-
-		if (!allArmorSlotsFilled)
-			return false;
-
-		boolean enderIOEnabled = Loader.isModLoaded("EnderIO");
-
-        if (!((armor[3 + offset].getItem() == BrainStone.brainStoneHelmet())
-                || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[3 + offset])))))
+        if (armor.length < 4)
             return false;
-        else
-            return ((armor[2 + offset].getItem() == BrainStone.brainStonePlate())
-                    || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[2 + offset])))) && ((armor[1 + offset].getItem() == BrainStone.brainStoneLeggings()) || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[1 + offset])))) && ((armor[0 + offset].getItem() == BrainStone.brainStoneBoots()) || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[0 + offset]))));
+        else if (armor.length == 5)
+            offset = 1;
+        else if (armor.length > 5)
+            return false;
+
+        boolean allArmorSlotsFilled = (armor[3 + offset] != null) && (armor[2 + offset] != null)
+                && (armor[1 + offset] != null) && (armor[offset] != null);
+
+        if (!allArmorSlotsFilled)
+            return false;
+
+        boolean enderIOEnabled = Loader.isModLoaded("EnderIO");
+
+        return ((armor[3 + offset].getItem() == BrainStone.brainStoneHelmet())
+                || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[3 + offset])))) && ((armor[2 + offset].getItem() == BrainStone.brainStonePlate()) || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[2 + offset])))) && ((armor[1 + offset].getItem() == BrainStone.brainStoneLeggings()) || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[1 + offset])))) && ((armor[0 + offset].getItem() == BrainStone.brainStoneBoots()) || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[0 + offset]))));
     }
 }

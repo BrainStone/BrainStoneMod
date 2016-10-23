@@ -182,12 +182,10 @@ public class BrainStoneEventHandler {
 						}
 					}
 				}
-			} catch (IllegalArgumentException e) {
-				BSP.warnException(e);
-			} catch (IllegalAccessException e) {
+			} catch (IllegalArgumentException | IllegalAccessException e) {
 				BSP.warnException(e);
 			}
-		}
+        }
 	}
 
 	@SubscribeEvent
@@ -205,12 +203,10 @@ public class BrainStoneEventHandler {
 					if ((reflectionFoodTimer != null) && (stats.getFoodLevel() >= 18)) {
 						try {
 							reflectionFoodTimer.set(stats, 0);
-						} catch (IllegalArgumentException e) {
-							BSP.warnException(e);
-						} catch (IllegalAccessException e) {
+						} catch (IllegalArgumentException | IllegalAccessException e) {
 							BSP.warnException(e);
 						}
-					}
+                    }
 				}
 			}
 		}

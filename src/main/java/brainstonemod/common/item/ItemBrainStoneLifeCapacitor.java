@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@SuppressWarnings("unchecked")
 @Optional.Interface(iface = "baubles.api.IBauble", modid = "Baubles|API")
 public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements IEnergyContainerItem, IBauble {
 	public static final int MaxDamage = 32;
@@ -522,8 +523,6 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 				readFromStream(fileInpuStream);
 
 				fileInpuStream.close();
-			} catch (FileNotFoundException e) {
-				BSP.errorException(e);
 			} catch (IOException e) {
 				BSP.errorException(e);
 			}
@@ -538,8 +537,6 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 				writeToStream(fileOutputStream);
 
 				fileOutputStream.close();
-			} catch (FileNotFoundException e) {
-				BSP.errorException(e);
 			} catch (IOException e) {
 				BSP.errorException(e);
 			}

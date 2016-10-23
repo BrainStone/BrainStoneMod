@@ -14,6 +14,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
  * @author coolAlias
  * @author The_Fireplace
  */
+@SuppressWarnings("unchecked")
 public class PacketDispatcher {
     private static byte packetId = 0;
     private static final SimpleNetworkWrapper dispatcher = NetworkRegistry.INSTANCE.newSimpleChannel(BrainStone.MOD_ID);

@@ -607,7 +607,7 @@ public abstract class BSP {
 	public static final void throwCloneNotSupportedException(String additionalMessage)
 			throws CloneNotSupportedException {
 		throw new CloneNotSupportedException(
-				errorMessageAddon + ((additionalMessage.equals("")) ? "" : "\n" + additionalMessage));
+				errorMessageAddon + ((additionalMessage.isEmpty()) ? "" : "\n" + additionalMessage));
 	}
 
 	/**

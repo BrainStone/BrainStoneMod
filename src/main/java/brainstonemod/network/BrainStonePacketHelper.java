@@ -57,17 +57,13 @@ public class BrainStonePacketHelper {
 
 		world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB
 				.getBoundingBox(x - radius, y - radius, z - radius, x + radius,
-						y + radius, z + radius), new IEntitySelector() {
-
-			@Override
-			public boolean isEntityApplicable(Entity var1) {
-				if (var1 instanceof EntityPlayerMP) {
-					final EntityPlayerMP pl = (EntityPlayerMP) var1;
-					pl.playerNetServerHandler.sendPacket(packet);
-				}
-				return false;
-			}
-		});
+						y + radius, z + radius), var1 -> {
+                            if (var1 instanceof EntityPlayerMP) {
+                                final EntityPlayerMP pl = (EntityPlayerMP) var1;
+                                pl.playerNetServerHandler.sendPacket(packet);
+                            }
+                            return false;
+                        });
 
 	}
 

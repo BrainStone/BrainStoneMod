@@ -12,7 +12,6 @@ import brainstonemod.common.api.thaumcraft.AspectCreator;
 import brainstonemod.common.block.*;
 import brainstonemod.common.block.template.BlockBrainStoneBase;
 import brainstonemod.common.handler.BrainStoneEventHandler;
-import brainstonemod.network.BrainStoneGuiHandler;
 import brainstonemod.common.helper.*;
 import brainstonemod.common.item.*;
 import brainstonemod.common.item.template.ItemBrainStoneBase;
@@ -20,6 +19,7 @@ import brainstonemod.common.tileentity.TileEntityBrainLightSensor;
 import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
 import brainstonemod.common.worldgenerators.BrainStoneHouseWorldGenerator;
 import brainstonemod.common.worldgenerators.BrainStoneOreWorldGenerator;
+import brainstonemod.network.BrainStoneGuiHandler;
 import brainstonemod.network.BrainStonePacketHelper;
 import brainstonemod.network.PacketDispatcher;
 import brainstonemod.network.packet.clientbound.PacketCapacitorData;
@@ -72,7 +72,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -157,25 +156,25 @@ public class BrainStone {
 	 * This Map maps the different mob types of the BrainStoneTrigger to the
 	 * corresponding Classes
 	 */
-	private static final LinkedHashMap<Side, LinkedHashMap<String, Class<?>[]>> triggerEntities = new LinkedHashMap<Side, LinkedHashMap<String, Class<?>[]>>();
+	private static final LinkedHashMap<Side, LinkedHashMap<String, Class<?>[]>> triggerEntities = new LinkedHashMap<>();
 	/**
 	 * A HashMap with the all blocks.<br>
 	 * &emsp;<b>key:</b> The internal id<br>
 	 * &emsp;<b>value:</b> The actual block
 	 */
-	private static final LinkedHashMap<String, Block> blocks = new LinkedHashMap<String, Block>();
+	private static final LinkedHashMap<String, Block> blocks = new LinkedHashMap<>();
 	/**
 	 * A HashMap with the all items.<br>
 	 * &emsp;<b>key:</b> The internal id<br>
 	 * &emsp;<b>value:</b> The actual item
 	 */
-	private static final LinkedHashMap<String, Item> items = new LinkedHashMap<String, Item>();
+	private static final LinkedHashMap<String, Item> items = new LinkedHashMap<>();
 	/**
 	 * A HashMap with the all items.<br>
 	 * &emsp;<b>key:</b> The internal id<br>
 	 * &emsp;<b>value:</b> The actual item
 	 */
-	private static final LinkedHashMap<String, Achievement> achievements = new LinkedHashMap<String, Achievement>();
+	private static final LinkedHashMap<String, Achievement> achievements = new LinkedHashMap<>();
 	/** The custom creative tab */
 	private static BrainStoneModCreativeTab tabBrainStoneMod = null;
 
@@ -491,12 +490,6 @@ public class BrainStone {
 
 			latestVersion = get_content("latest/.version");
 
-		} catch (final MalformedURLException e) {
-			BSP.warnException_noAddon(e, "The Versions will be empty. No internet connection!");
-
-			releaseVersion = "";
-			recommendedVersion = "";
-			latestVersion = "";
 		} catch (final IOException e) {
 			BSP.warnException_noAddon(e, "The Versions will be empty. No internet connection!");
 
@@ -571,19 +564,23 @@ public class BrainStone {
 			event.getModMetadata().description += "\n\nSomething went wrong while trying to detect your language at start up. Please check the current Forge log and report the stack trace.\nThank you!";
 		}
 
-		if (currentLanguage.equals(de)) {
-			// German logo
+		switch (currentLanguage) {
+			case de:
+				// German logo
 
-			logoFile += "de";
-		} else if (currentLanguage.equals(en)) {
-			// English logo
+				logoFile += "de";
+				break;
+			case en:
+				// English logo
 
-			logoFile += "en";
-		} else {
-			// Unsupported language =>
-			// English logo
+				logoFile += "en";
+				break;
+			default:
+				// Unsupported language =>
+				// English logo
 
-			logoFile += "en";
+				logoFile += "en";
+				break;
 		}
 
 		event.getModMetadata().logoFile = logoFile + ".png";
@@ -678,7 +675,7 @@ public class BrainStone {
 		if ((getServerSideTiggerEntities() == null) || (getServerSideTiggerEntities().size() == 0)) {
 			BSP.debug("Filling triggerEntities");
 
-			final LinkedHashMap<String, Class<?>[]> tempTriggerEntities = new LinkedHashMap<String, Class<?>[]>();
+			final LinkedHashMap<String, Class<?>[]> tempTriggerEntities = new LinkedHashMap<>();
 
 			tempTriggerEntities.put("gui.brainstone.player", new Class<?>[] { EntityPlayer.class });
 			tempTriggerEntities.put("gui.brainstone.item", new Class<?>[] { EntityBoat.class, EntityFishHook.class,
