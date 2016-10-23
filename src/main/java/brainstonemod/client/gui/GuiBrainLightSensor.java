@@ -17,10 +17,6 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 	private static final int xSizeClassic = 128;
 	/** The the horizontal size of the Classic Gui */
 	private static final int ySizeClassic = 94;
-	/** The the vertical size of the Simple Gui */
-	private static final int xSizeSimple = 128;
-	/** The the horizontal size of the Simple Gui */
-	private static final int ySizeSimple = 52;
 	/** The temporary storage of the current light level (yellow box) */
 	private int curLightLevel;
 	/**
@@ -44,11 +40,7 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 		direction = tileentity.getDirection();
 		setLightLevel(tileentity.getLightLevel());
 
-		if (tileentity.isClassic()) {
-			setSize(xSizeClassic, ySizeClassic);
-		} else {
-			setSize(xSizeSimple, ySizeSimple);
-		}
+		setSize(xSizeClassic, ySizeClassic);
 	}
 
 	@Override
@@ -82,9 +74,9 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 		} else {
 			bindTexture("GuiBrainLightSensorSimple");
 
-			drawTexturedModalRect(0, 0, 0, 0, xSizeSimple, ySizeSimple);
+			drawTexturedModalRect(0, 0, 0, 0, xSizeClassic, ySizeClassic);
 			drawTexturedModalRect(8, ((tileentity.getDirection()) ? 18 : 36),
-					8, 52, 9, 8);
+					8, 94, 9, 8);
 
 			drawCenteredString(
 					StatCollector.translateToLocal("gui.brainstone.classic"),
@@ -144,8 +136,8 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 					PacketDispatcher.sendToServer(new PacketChangeState(tileentity));
 				}
 			} else {
-				x -= (width - xSizeSimple) / 2;
-				y -= (height - ySizeSimple) / 2;
+				x -= (width - xSizeClassic) / 2;
+				y -= (height - ySizeClassic) / 2;
 
 				if (inField(x, y, 0, 0, 63, 9)) {
 					PacketDispatcher.sendToServer(new PacketChangeState(tileentity));
@@ -160,11 +152,7 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 				}
 			}
 
-			if (tileentity.isClassic()) {
-				setSize(xSizeClassic, ySizeClassic);
-			} else {
-				setSize(xSizeSimple, ySizeSimple);
-			}
+
 		}
 	}
 
