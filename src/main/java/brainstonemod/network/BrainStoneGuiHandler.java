@@ -15,14 +15,14 @@ public class BrainStoneGuiHandler implements IGuiHandler {
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity entity = world.getTileEntity(x, y, z);
-		if(entity != null)
-		switch (ID) {
+		if (entity != null)
+			switch (ID) {
 			case 0:
 				return new ContainerGeneric();
 			case 1:
-				if(entity instanceof TileEntityBrainStoneTrigger)
+				if (entity instanceof TileEntityBrainStoneTrigger)
 					return new ContainerBrainStoneTrigger(player.inventory, (TileEntityBrainStoneTrigger) entity);
-		}
+			}
 
 		return null;
 	}
@@ -31,19 +31,21 @@ public class BrainStoneGuiHandler implements IGuiHandler {
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity entity = world.getTileEntity(x, y, z);
 
-		if(entity != null)
-		switch (ID) {
-		case 0:
-			if(entity instanceof TileEntityBrainLightSensor)
-				return new GuiBrainLightSensor((TileEntityBrainLightSensor) entity);
-			else
+		if (entity != null)
+			switch (ID) {
+			case 0:
+				if (entity instanceof TileEntityBrainLightSensor)
+					return new GuiBrainLightSensor((TileEntityBrainLightSensor) entity);
+				else
+					return null;
+			case 1:
+				if (entity instanceof TileEntityBrainStoneTrigger)
+					return new GuiBrainStoneTrigger(player.inventory, (TileEntityBrainStoneTrigger) entity);
+				else
+					return null;
+			default:
 				return null;
-		case 1:
-			if(entity instanceof TileEntityBrainStoneTrigger)
-				return new GuiBrainStoneTrigger(player.inventory, (TileEntityBrainStoneTrigger) entity);
-			else
-				return null;
-		}
+			}
 
 		return null;
 	}

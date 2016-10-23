@@ -89,7 +89,9 @@ import java.util.Set;
  */
 @Mod(modid = BrainStone.MOD_ID, name = BrainStone.NAME, version = BrainStone.VERSION, dependencies = BrainStone.DEPENDENCIES, canBeDeactivated = true, certificateFingerprint = BrainStone.FINGERPRINT, guiFactory = BrainStone.GUI_FACTORY)
 public class BrainStone {
-	public static final String MOD_ID = "BrainStoneMod";//TODO: lowercase the modid when we update, because it will be enforced in 1.11
+	// TODO: lowercase the modid when we update, because it will be enforced in
+	// 1.11
+	public static final String MOD_ID = "BrainStoneMod";
 	public static final String RESOURCE_PACKAGE = MOD_ID.toLowerCase();
 	public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
 	public static final String NAME = "Brain Stone Mod";
@@ -395,6 +397,9 @@ public class BrainStone {
 				}
 
 				break;
+			default:
+				// Should not be reached
+				break;
 			}
 		}
 	}
@@ -408,7 +413,8 @@ public class BrainStone {
 
 		if (BrainStoneModules.energy()) {
 			brainStoneLifeCapacitor().getPlayerCapacitorMapping().updateName(player.getUniqueID(), false);
-			PacketDispatcher.sendToAll(new PacketCapacitorData(brainStoneLifeCapacitor().getPlayerCapacitorMapping().getMap()));
+			PacketDispatcher
+					.sendToAll(new PacketCapacitorData(brainStoneLifeCapacitor().getPlayerCapacitorMapping().getMap()));
 		}
 	}
 
@@ -436,7 +442,7 @@ public class BrainStone {
 					if ((Boolean) method.invoke(null)) {
 						BSP.info("\t" + module.value());
 					}
-				}catch(Exception e){
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
@@ -588,51 +594,45 @@ public class BrainStone {
 	 */
 	private static void addRecipes() {
 		addRecipe(new ItemStack(dirtyBrainStone(), 1), "XX", "XX", 'X', "dustBrainstone");
-		addRecipe(new ItemStack(brainLightSensor(), 1), "XGX", "XBX", "XRX", 'X', "stone", 'G',
-				"blockGlass", 'B', "brainstone", 'R', "dustRedstone");
-		addRecipe(new ItemStack(brainStoneTrigger(), 1), "XXX", "RRR", "XBX", 'X', "stone", 'B',
+		addRecipe(new ItemStack(brainLightSensor(), 1), "XGX", "XBX", "XRX", 'X', "stone", 'G', "blockGlass", 'B',
 				"brainstone", 'R', "dustRedstone");
+		addRecipe(new ItemStack(brainStoneTrigger(), 1), "XXX", "RRR", "XBX", 'X', "stone", 'B', "brainstone", 'R',
+				"dustRedstone");
 		addRecipe(new ItemStack(pulsatingBrainStone(), 1), "dBd", "BDB", "dBd", 'd', "dustBrainstone", 'B',
 				"brainstone", 'D', "gemDiamond");
 		addRecipe(new ItemStack(pulsatingBrainStone(), 1), "BdB", "dDd", "BdB", 'd', "dustBrainstone", 'B',
 				"brainstone", 'D', "gemDiamond");
-		addRecipe(new ItemStack(stablePulsatingBrainStone(), 1), "EPE", "PSP", "EPE", 'E', essenceOfLife(),
-				'P', pulsatingBrainStone(), 'S', Items.nether_star);
-		addRecipe(new ItemStack(stablePulsatingBrainStone(), 1), "PEP", "ESE", "PEP", 'E', essenceOfLife(),
-				'P', pulsatingBrainStone(), 'S', Items.nether_star);
+		addRecipe(new ItemStack(stablePulsatingBrainStone(), 1), "EPE", "PSP", "EPE", 'E', essenceOfLife(), 'P',
+				pulsatingBrainStone(), 'S', Items.nether_star);
+		addRecipe(new ItemStack(stablePulsatingBrainStone(), 1), "PEP", "ESE", "PEP", 'E', essenceOfLife(), 'P',
+				pulsatingBrainStone(), 'S', Items.nether_star);
 		addRecipe(new ItemStack(brainStoneSword(), 1), "B", "B", "S", 'S', "stickWood", 'B', "brainstone");
-		addRecipe(new ItemStack(brainStoneShovel(), 1), "B", "S", "S", 'S', "stickWood", 'B',
-				"brainstone");
-		addRecipe(new ItemStack(brainStonePickaxe(), 1), "BBB", " S ", " S ", 'S', "stickWood", 'B',
-				"brainstone");
-		addRecipe(new ItemStack(brainStoneAxe(), 1), "BB", "BS", " S", 'S', "stickWood", 'B',
-				"brainstone");
-		addRecipe(new ItemStack(brainStoneHoe(), 1), "BB", " S", " S", 'S', "stickWood", 'B',
-				"brainstone");
+		addRecipe(new ItemStack(brainStoneShovel(), 1), "B", "S", "S", 'S', "stickWood", 'B', "brainstone");
+		addRecipe(new ItemStack(brainStonePickaxe(), 1), "BBB", " S ", " S ", 'S', "stickWood", 'B', "brainstone");
+		addRecipe(new ItemStack(brainStoneAxe(), 1), "BB", "BS", " S", 'S', "stickWood", 'B', "brainstone");
+		addRecipe(new ItemStack(brainStoneHoe(), 1), "BB", " S", " S", 'S', "stickWood", 'B', "brainstone");
 		addRecipe(new ItemStack(brainStoneHelmet(), 1), "BBB", "B B", 'B', "brainstone");
 		addRecipe(new ItemStack(brainStonePlate(), 1), "B B", "BBB", "BBB", 'B', "brainstone");
 		addRecipe(new ItemStack(brainStoneLeggings(), 1), "BBB", "B B", "B B", 'B', "brainstone");
 		addRecipe(new ItemStack(brainStoneBoots(), 1), "B B", "B B", 'B', "brainstone");
-		addRecipe(new ItemStack(brainProcessor(), 4), "TRT", "SBS", "TRT", 'B', "brainstone", 'S',
-				"dustRedstone", 'T', Blocks.redstone_torch, 'R', Items.repeater);
-		addRecipe(new ItemStack(stablePulsatingBrainStoneSword(), 1), "B", "B", "S", 'S',
-				"blockRedstone", 'B', stablePulsatingBrainStone());
-		addRecipe(new ItemStack(stablePulsatingBrainStoneShovel(), 1), "B", "S", "S", 'S',
-				"blockRedstone", 'B', stablePulsatingBrainStone());
-		addRecipe(new ItemStack(stablePulsatingBrainStonePickaxe(), 1), "BBB", " S ", " S ", 'S',
-				"blockRedstone", 'B', stablePulsatingBrainStone());
-		addRecipe(new ItemStack(stablePulsatingBrainStoneAxe(), 1), "BB", "BS", " S", 'S',
-				"blockRedstone", 'B', stablePulsatingBrainStone());
-		addRecipe(new ItemStack(stablePulsatingBrainStoneHoe(), 1), "BB", " S", " S", 'S',
-				"blockRedstone", 'B', stablePulsatingBrainStone());
-		addRecipe(new ItemStack(stablePulsatingBrainStoneHelmet(), 1), "BBB", "B B", 'B',
+		addRecipe(new ItemStack(brainProcessor(), 4), "TRT", "SBS", "TRT", 'B', "brainstone", 'S', "dustRedstone", 'T',
+				Blocks.redstone_torch, 'R', Items.repeater);
+		addRecipe(new ItemStack(stablePulsatingBrainStoneSword(), 1), "B", "B", "S", 'S', "blockRedstone", 'B',
 				stablePulsatingBrainStone());
+		addRecipe(new ItemStack(stablePulsatingBrainStoneShovel(), 1), "B", "S", "S", 'S', "blockRedstone", 'B',
+				stablePulsatingBrainStone());
+		addRecipe(new ItemStack(stablePulsatingBrainStonePickaxe(), 1), "BBB", " S ", " S ", 'S', "blockRedstone", 'B',
+				stablePulsatingBrainStone());
+		addRecipe(new ItemStack(stablePulsatingBrainStoneAxe(), 1), "BB", "BS", " S", 'S', "blockRedstone", 'B',
+				stablePulsatingBrainStone());
+		addRecipe(new ItemStack(stablePulsatingBrainStoneHoe(), 1), "BB", " S", " S", 'S', "blockRedstone", 'B',
+				stablePulsatingBrainStone());
+		addRecipe(new ItemStack(stablePulsatingBrainStoneHelmet(), 1), "BBB", "B B", 'B', stablePulsatingBrainStone());
 		addRecipe(new ItemStack(stablePulsatingBrainStonePlate(), 1), "B B", "BBB", "BBB", 'B',
 				stablePulsatingBrainStone());
 		addRecipe(new ItemStack(stablePulsatingBrainStoneLeggings(), 1), "BBB", "B B", "B B", 'B',
 				stablePulsatingBrainStone());
-		addRecipe(new ItemStack(stablePulsatingBrainStoneBoots(), 1), "B B", "B B", 'B',
-				stablePulsatingBrainStone());
+		addRecipe(new ItemStack(stablePulsatingBrainStoneBoots(), 1), "B B", "B B", 'B', stablePulsatingBrainStone());
 
 		if (BrainStoneModules.tinkersConstruct()) {
 			GameRegistry.addShapelessRecipe(new ItemStack(TinkerArmor.heartCanister, 1, 5),
@@ -655,13 +655,13 @@ public class BrainStone {
 			Object craftingH = (BrainStoneModules.tinkersConstruct()) ? TinkersConstructItems.getGreenHeartCanister()
 					: new ItemStack(Items.golden_apple, 1, 1);
 
-			addRecipe(new ItemStack(brainStoneLifeCapacitor(), 1), "SBX", "CHC", " P ", 'S', craftingS,
-					'B', brainProcessor(), 'X', craftingX, 'C', craftingC, 'H', craftingH, 'P',
+			addRecipe(new ItemStack(brainStoneLifeCapacitor(), 1), "SBX", "CHC", " P ", 'S', craftingS, 'B',
+					brainProcessor(), 'X', craftingX, 'C', craftingC, 'H', craftingH, 'P',
 					stablePulsatingBrainStonePlate());
 		}
 	}
 
-	public static void addRecipe(ItemStack stack, Object... args){
+	public static void addRecipe(ItemStack stack, Object... args) {
 		GameRegistry.addRecipe(new ShapedOreRecipe(stack, args));
 	}
 
