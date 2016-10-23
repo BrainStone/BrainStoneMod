@@ -334,10 +334,9 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 	}
 
 	/**
-	 * Closes the Gui, plays the click sound and updates the TileEntity
+	 * Closes the Gui
 	 */
 	protected void quit() {
-		click();
 		mc.thePlayer.closeScreen();
 	}
 
