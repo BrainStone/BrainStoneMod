@@ -23,7 +23,6 @@ import java.util.Random;
 
 public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 	private final TileEntityBrainStoneTrigger tileentity;
-	private EntityPlayer playerUsing;
 	private int page, hovered;
 	private final int max_page;
 	private final String[] mobs;
@@ -51,20 +50,18 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		guiLeft = (width - xSize) / 2;
 		guiTop = (height - ySize) / 2;
 		tileentity = te;
-		playerUsing=inventoryplayer.player;
-
 
 		mobs = new String[4];
 		page = 0;
 		hovered = -1;
-		max_page = (BrainStone.getClientSideTiggerEntities().size() / 4) + (((BrainStone.getClientSideTiggerEntities().size() % 4) == 0) ? -1 : 0);
+		max_page = (BrainStone.getClientSideTiggerEntities().size() / 4)
+				+ (((BrainStone.getClientSideTiggerEntities().size() % 4) == 0) ? -1 : 0);
 		buttons = new BrainStoneGuiButton(this);
 
 		lastChars = new char[4];
 		soundLoop = null;
 		nyanCat = false;
 	}
-
 
 	@Override
 	public void initGui() {
@@ -217,6 +214,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 			drawTexturedModalRect(120, 13 + (18 * hovered), 120, 166, 6, 6);
 			drawTexturedModalRect(88, 13 + (18 * hovered), 88, 166, tileentity.getMobPower(tmp) * 2, 6);
 		}
+
 		if (renderNyanCat) {
 			// Transforming the rendering space
 			this.zLevel = 101F;
@@ -245,19 +243,15 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 			}
 
 			// Render the rainbow
-			drawTexturedModalRect(-23, -9, 41,
-					((int) ((lastAnimationProgress / 2) % 2L)) * 19, 16, 18);
-			drawTexturedModalRect(-23, -9, 41,
-					((int) ((lastAnimationProgress / 2) % 2L)) * 19, 14, 19);
+			drawTexturedModalRect(-23, -9, 41, ((int) ((lastAnimationProgress / 2) % 2L)) * 19, 16, 18);
+			drawTexturedModalRect(-23, -9, 41, ((int) ((lastAnimationProgress / 2) % 2L)) * 19, 14, 19);
 
 			for (int i = 1; i < (((width / (catScale * 2)) / 16) + 1); i++) {
-				drawTexturedModalRect((i * -16) - 23, -9, 41,
-						((int) ((lastAnimationProgress / 2) % 2L)) * 19, 16, 19);
+				drawTexturedModalRect((i * -16) - 23, -9, 41, ((int) ((lastAnimationProgress / 2) % 2L)) * 19, 16, 19);
 			}
 
 			// Render the cat
-			drawTexturedModalRect(-17, -10, 0,
-					((int) (lastAnimationProgress % 12L)) * 21, 34, 21);
+			drawTexturedModalRect(-17, -10, 0, ((int) (lastAnimationProgress % 12L)) * 21, 34, 21);
 
 			for (final StarAnimation star : stars) {
 				star.render();
@@ -265,8 +259,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 
 			// Progress the animation
 			if ((System.currentTimeMillis() / millisPerCatFrame) > lastAnimationProgress) {
-				lastAnimationProgress = System.currentTimeMillis()
-						/ millisPerCatFrame;
+				lastAnimationProgress = System.currentTimeMillis() / millisPerCatFrame;
 
 				for (int i = 0; i < stars.length; i++) {
 					if (!stars[i].shift()) {
@@ -275,7 +268,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 				}
 			}
 
-			//Reset the render space
+			// Reset the render space
 			this.zLevel = 0F;
 		}
 	}
@@ -297,8 +290,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		lastChars[0] = letter;
 
 		if (((lastChars[2] == 'l') && (lastChars[1] == 'o') && (lastChars[0] == 'l'))
-				|| ((lastChars[3] == 'a') && (lastChars[2] == 's')
-				&& (lastChars[1] == 'd') && (lastChars[0] == 'f'))) {
+				|| ((lastChars[3] == 'a') && (lastChars[2] == 's') && (lastChars[1] == 'd') && (lastChars[0] == 'f'))) {
 			startEasterEgg();
 		}
 	}
@@ -330,11 +322,6 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		}
 	}
 
-	/**
-	 * Called when the mouse is moved or a mouse button is released. Signature:
-	 * (mouseX, mouseY, which) which==-1 is mouseMove, which==0 or which==1 is
-	 * mouseUp
-	 */
 	@Override
 	protected void mouseMovedOrUp(int x, int y, int button) {
 		super.mouseMovedOrUp(x, y, button);
@@ -412,19 +399,16 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		@Override
 		public void run() {
 			try {
-				currentSound = playSoundAtClient(BrainStone.RESOURCE_PREFIX
-						+ "nyan.intro");
+				currentSound = playSoundAtClient(BrainStone.RESOURCE_PREFIX + "nyan.intro");
 				sleep(4037);
 
 				if (run) {
 					renderNyanCat = true;
-					lastAnimationProgress = System.currentTimeMillis()
-							/ millisPerCatFrame;
+					lastAnimationProgress = System.currentTimeMillis() / millisPerCatFrame;
 				}
 
 				while (run) {
-					currentSound = playSoundAtClient(BrainStone.RESOURCE_PREFIX
-							+ "nyan.loop");
+					currentSound = playSoundAtClient(BrainStone.RESOURCE_PREFIX + "nyan.loop");
 					sleep(27066);
 				}
 			} catch (final InterruptedException e) {

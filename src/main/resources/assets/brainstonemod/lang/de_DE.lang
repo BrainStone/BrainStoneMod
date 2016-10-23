@@ -70,6 +70,9 @@ capacitor.capacity=Kapazitäts-Level:
 capacitor.charging=Auflade-Level:
 capacitor.details=Halte %s für Details
 
+trigger.delay=Delay
+trigger.all=Alle:
+
 tc.aspect.brainstone=Hirn+Stein
 
 enderio.darksteel.upgrade.brainstone.name=Pulsierender Hirnstein-Schutz
