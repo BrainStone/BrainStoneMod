@@ -155,27 +155,28 @@ artifacts {
 }
 
 curseforge {
-  apiKey = project.curseForgeApiKey
-  project {
-    id = '250836'
-    changelog = getChangelog()
-    releaseType = getVersionType()
-    addGameVersion config.minecraft_version
-    addGameVersion 'Java 8'
+    apiKey = project.curseForgeApiKey
     
-    mainArtifact(jar) {
-      displayName = config.mod_version
+    project {
+        id = '250836'
+        changelog = getChangelog()
+        releaseType = getVersionType()
+        addGameVersion config.minecraft_version
+        addGameVersion 'Java 8'
+        
+        mainArtifact(jar) {
+            displayName = config.mod_version
+        }
+        addArtifact deobfJar
+        addArtifact srcJar
+        
+        relations {
+            optionalLibrary 'ender-io'
+            optionalLibrary 'minefactory-reloaded'
+            optionalLibrary 'tinkers-construct'
+            optionalLibrary 'thermal-foundation'
+            optionalLibrary 'thaumcraft'
+            optionalLibrary 'baubles'
+        }
     }
-    addArtifact deobfJar
-    addArtifact srcJar
-    
-    relations {
-      optionalLibrary 'ender-io'
-      optionalLibrary 'minefactory-reloaded'
-      optionalLibrary 'tinkers-construct'
-      optionalLibrary 'thermal-foundation'
-      optionalLibrary 'thaumcraft'
-      optionalLibrary 'baubles'
-    }
-  }
 }
