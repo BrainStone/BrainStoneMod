@@ -57,7 +57,7 @@ gui.brainstone.config.cat.display.tooltip=Modify all the settings related to the
 gui.brainstone.config.cat.brainstonelivecapacitor=Brain Stone Life Capacitor
 gui.brainstone.config.cat.brainstonelivecapacitor.tooltip=Modify all the settings related to the Brain Stone Life Capacitor
 
-recipe.capacitorupgrade=Capacitor Upgrades
+nei.recipe.capacitorupgrade=Capacitor Upgrade
 
 capacitor.owner=Owner:
 capacitor.you= (You)

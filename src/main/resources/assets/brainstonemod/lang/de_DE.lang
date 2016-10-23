@@ -57,7 +57,7 @@ gui.brainstone.config.cat.display.tooltip=Modifiziere alle Anzeige-Einstellungen
 gui.brainstone.config.cat.brainstonelivecapacitor=Hirnsteinlebenskondensator
 gui.brainstone.config.cat.brainstonelivecapacitor.tooltip=Modifiziere alle Hirnsteinlebenskondensator-Einstellungen
 
-recipe.capacitorupgrade=Kondensator Upgrades
+nei.recipe.capacitorupgrade=Kondensator Aufwertung
 
 capacitor.owner=Besitzer:
 capacitor.you= (Du)
