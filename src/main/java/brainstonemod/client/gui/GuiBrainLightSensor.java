@@ -4,6 +4,8 @@ import brainstonemod.client.gui.template.GuiBrainStoneBase;
 import brainstonemod.common.container.ContainerGeneric;
 import brainstonemod.common.tileentity.TileEntityBrainLightSensor;
 import brainstonemod.network.PacketDispatcher;
+import brainstonemod.network.packet.serverbound.PacketChangeDirection;
+import brainstonemod.network.packet.serverbound.PacketChangeState;
 import brainstonemod.network.packet.serverbound.PacketLightSensor;
 import net.minecraft.util.StatCollector;
 import org.lwjgl.input.Keyboard;
@@ -139,24 +141,22 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 				}
 
 				if (inField(x, y, 63, 0, 127, 9)) {
-					tileentity.changeState();
-					tileentity.updateEntity();
+					PacketDispatcher.sendToServer(new PacketChangeState(tileentity));
 				}
 			} else {
 				x -= (width - xSizeSimple) / 2;
 				y -= (height - ySizeSimple) / 2;
 
 				if (inField(x, y, 0, 0, 63, 9)) {
-					tileentity.changeState();
-					tileentity.updateEntity();
+					PacketDispatcher.sendToServer(new PacketChangeState(tileentity));
 				}
 
 				if (inField(x, y, 8, 18, 15, 25)) {
-					tileentity.setDirection(true);
+					PacketDispatcher.sendToServer(new PacketChangeDirection(tileentity, true));
 				}
 
 				if (inField(x, y, 8, 36, 15, 43)) {
-					tileentity.setDirection(false);
+					PacketDispatcher.sendToServer(new PacketChangeDirection(tileentity, false));
 				}
 			}
 

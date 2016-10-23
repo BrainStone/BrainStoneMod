@@ -25,6 +25,10 @@ public class PacketDispatcher {
         registerMessage(PacketTriggerMobs.Handler.class, PacketTriggerMobs.class, Side.CLIENT);
         registerMessage(PacketLightSensor.Handler.class, PacketLightSensor.class, Side.SERVER);
         registerMessage(PacketSyncLightSensor.Handler.class, PacketSyncLightSensor.class, Side.CLIENT);
+        registerMessage(PacketChangeDirection.Handler.class, PacketChangeDirection.class, Side.SERVER);
+        registerMessage(PacketSyncChangeDirection.Handler.class, PacketSyncChangeDirection.class, Side.CLIENT);
+        registerMessage(PacketChangeState.Handler.class, PacketChangeState.class, Side.SERVER);
+        registerMessage(PacketSyncChangeState.Handler.class, PacketSyncChangeState.class, Side.CLIENT);
         registerMessage(PacketInvertMobTriggered.Handler.class, PacketInvertMobTriggered.class, Side.SERVER);
         registerMessage(PacketSyncInvertMobTriggered.Handler.class, PacketSyncInvertMobTriggered.class, Side.CLIENT);
         registerMessage(PacketSetMaxDelay.Handler.class, PacketSetMaxDelay.class, Side.SERVER);
