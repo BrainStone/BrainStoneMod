@@ -13,13 +13,17 @@ public class PacketSyncChangeState implements IMessage {
 	private short y;
 	private int z;
 
+	private boolean state;
+
 	public PacketSyncChangeState() {
 	}
 
-	public PacketSyncChangeState(TileEntity tileentity) {
+	public PacketSyncChangeState(TileEntity tileentity, boolean state) {
 		x=tileentity.xCoord;
 		y=(short)tileentity.yCoord;
 		z=tileentity.zCoord;
+
+		this.state=state;
 	}
 
 	@Override
@@ -27,6 +31,8 @@ public class PacketSyncChangeState implements IMessage {
 		x=buf.readInt();
 		y=buf.readShort();
 		z=buf.readInt();
+
+		state=buf.readBoolean();
 	}
 
 	@Override
@@ -34,6 +40,8 @@ public class PacketSyncChangeState implements IMessage {
 		buf.writeInt(x);
 		buf.writeShort(y);
 		buf.writeInt(z);
+
+		buf.writeBoolean(state);
 	}
 
 	public static class Handler extends AbstractClientMessageHandler<PacketSyncChangeState> {
@@ -41,7 +49,7 @@ public class PacketSyncChangeState implements IMessage {
 		public IMessage handleClientMessage(EntityPlayer player, PacketSyncChangeState message, MessageContext ctx) {
 			TileEntity te = player.worldObj.getTileEntity(message.x, message.y, message.z);
 			if(te instanceof TileEntityBrainLightSensor){
-				((TileEntityBrainLightSensor) te).changeState();
+				((TileEntityBrainLightSensor) te).setState(message.state);
 				te.updateEntity();
 			}else{
 				BSP.error("Tile Entity at "+message.x+", "+message.y+", "+message.z+" was "+te+" and not TileEntityBrainLightSensor.");

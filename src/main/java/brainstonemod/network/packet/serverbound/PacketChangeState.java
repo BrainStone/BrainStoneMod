@@ -45,7 +45,7 @@ public class PacketChangeState implements IMessage {
 			if(te instanceof TileEntityBrainLightSensor){
 				((TileEntityBrainLightSensor) te).changeState();
 				te.updateEntity();
-				return new PacketSyncChangeState(te);
+				return new PacketSyncChangeState(te, ((TileEntityBrainLightSensor) te).getState());
 			}else{
 				BSP.error("Tile Entity at "+message.x+", "+message.y+", "+message.z+" was "+te+" and not TileEntityBrainLightSensor.");
 				return null;

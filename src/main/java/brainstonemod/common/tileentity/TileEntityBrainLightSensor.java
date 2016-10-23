@@ -13,7 +13,6 @@ public class TileEntityBrainLightSensor extends TileEntity {
 	private boolean classicDirection;
 	private boolean simpleDirection;
 	private boolean powerOn;
-	private boolean classicState;
 	private boolean state;
 	private int curLightLevel;
 	private short power;
@@ -112,6 +111,10 @@ public class TileEntityBrainLightSensor extends TileEntity {
 
 	public void setState(boolean state) {
 		this.state = state;
+	}
+
+	public boolean getState() {
+		return this.state;
 	}
 
 	/**
