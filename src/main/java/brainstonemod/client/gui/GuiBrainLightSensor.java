@@ -142,10 +142,6 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 					tileentity.changeState();
 					tileentity.updateEntity();
 				}
-
-				if (inField(x, y, 120, 13, 124, 17)) {
-					quit();
-				}
 			} else {
 				x -= (width - xSizeSimple) / 2;
 				y -= (height - ySizeSimple) / 2;
@@ -161,10 +157,6 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 
 				if (inField(x, y, 8, 36, 15, 43)) {
 					tileentity.setDirection(false);
-				}
-
-				if (inField(x, y, 120, 13, 124, 17)) {
-					quit();
 				}
 			}
 

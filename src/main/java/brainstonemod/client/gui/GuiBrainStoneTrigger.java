@@ -315,10 +315,6 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 			y -= guiTop;
 
 			buttons.onClick(x, y);
-
-			if (inField(x, y, 167, 4, 171, 8)) {
-				quit();
-			}
 		}
 
 		if (nyanCat) {
