@@ -133,6 +133,7 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 				}
 
 				if (inField(x, y, 63, 0, 127, 9)) {
+					click();
 					PacketDispatcher.sendToServer(new PacketChangeState(tileentity));
 				}
 			} else {
@@ -140,6 +141,7 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 				y -= (height - ySizeClassic) / 2;
 
 				if (inField(x, y, 0, 0, 63, 9)) {
+					click();
 					PacketDispatcher.sendToServer(new PacketChangeState(tileentity));
 				}
 
