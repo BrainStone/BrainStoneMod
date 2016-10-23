@@ -17,15 +17,17 @@ import java.util.Map;
 public class BrainStoneConfigHelper {
 	public static final String CAT_DISPLAY = "display";
 	public static final String CAT_BSLC = "brainstonelivecapacitor";
+	public static final String CAT_GEN = "worldgen";
 
 	private static Configuration configStorage;
 
 	private static byte updateNotification;
 	private static boolean enableCreativeTab;
 	private static boolean enableAchievementPage;
+	private static int[] brainStoneOreDims;
+	private static int[] brainStoneHouseDims;
 	private static boolean BSLC_AllowStealing;
 	private static long BSLC_RFperHalfHeart;
-	//TODO: Add 2 integer arrays, one for Brainstone Ore dimension IDs, one for Brainstone House dimension IDs
 	/** The X positions of the achievements */
 	private static Map<String, Integer> achievementXPositions = new LinkedHashMap<>();
 	/** The X positions of the achievements */
@@ -50,6 +52,11 @@ public class BrainStoneConfigHelper {
 				"Do you want to have a custom Creative Tab for this mod?");
 		enableAchievementPage = config.getBoolean("EnableAchievementPage", CAT_DISPLAY, true,
 				"Do you want to have a custom Achievement Page for this mod?");
+
+		brainStoneOreDims = config.get(CAT_GEN, "Brain Stone Ore Dimensions Whitelist", new int[] { 0, 7, -100 },
+				"In which dimensions should Brain Stone Ore be generated").getIntList();
+		brainStoneHouseDims = config.get(CAT_GEN, "Brain Stone House Dimensions Whitelist", new int[] { 0 },
+				"In which dimensions should the Brain Stone House be generated").getIntList();
 
 		String curAch, curAchUp;
 		String achievementPageType = (enableAchievementPage ? "custom" : "regular");
@@ -84,6 +91,7 @@ public class BrainStoneConfigHelper {
 		}
 
 		config.addCustomCategoryComment(CAT_DISPLAY, "This set defines some basic ingame display settings");
+		config.addCustomCategoryComment(CAT_GEN, "This set defines world generation settings");
 
 		if (enableAchievementPage)
 			config.addCustomCategoryComment("customachievementpage",
@@ -110,6 +118,14 @@ public class BrainStoneConfigHelper {
 		return enableAchievementPage;
 	}
 
+	public static int[] getBrainStoneOreDims() {
+		return brainStoneOreDims;
+	}
+
+	public static int[] getBrainStoneHouseDims() {
+		return brainStoneHouseDims;
+	}
+
 	public static boolean BSLC_allowStealing() {
 		return BSLC_AllowStealing;
 	}
@@ -129,6 +145,11 @@ public class BrainStoneConfigHelper {
 	@SideOnly(Side.CLIENT)
 	public static List<IConfigElement> getDisplayCategory() {
 		return new ConfigElement(configStorage.getCategory(CAT_DISPLAY)).getChildElements();
+	}
+
+	@SideOnly(Side.CLIENT)
+	public static List<IConfigElement> getWorldgenCategory() {
+		return new ConfigElement(configStorage.getCategory(CAT_GEN)).getChildElements();
 	}
 
 	@SideOnly(Side.CLIENT)

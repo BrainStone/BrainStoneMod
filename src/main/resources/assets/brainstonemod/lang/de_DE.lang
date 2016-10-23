@@ -54,6 +54,8 @@ gui.brainstone.proportional=Proportional
 gui.brainstone.inverted=Invertiert
 gui.brainstone.config.cat.display=Anzeige
 gui.brainstone.config.cat.display.tooltip=Modifiziere alle Anzeige-Einstellungen
+gui.brainstone.config.cat.worldgen=Generierung
+gui.brainstone.config.cat.worldgen.tooltip=Modifiziere alle Generierungs-Einstellungen
 gui.brainstone.config.cat.brainstonelivecapacitor=Hirnsteinlebenskondensator
 gui.brainstone.config.cat.brainstonelivecapacitor.tooltip=Modifiziere alle Hirnsteinlebenskondensator-Einstellungen
 

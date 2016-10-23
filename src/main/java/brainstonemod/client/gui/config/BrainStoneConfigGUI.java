@@ -23,6 +23,8 @@ public class BrainStoneConfigGUI extends GuiConfig {
 		// Add categories to config GUI
 		list.add(categoryElement(BrainStoneConfigHelper.getDisplayCategory(), "Display",
 				"gui.brainstone.config.cat.display"));
+		list.add(categoryElement(BrainStoneConfigHelper.getWorldgenCategory(), "Worldgen",
+				"gui.brainstone.config.cat.worldgen"));
 
 		if (BrainStoneModules.energy())
 			list.add(categoryElement(BrainStoneConfigHelper.getBrainStoneLiveCapacitorCategory(),
