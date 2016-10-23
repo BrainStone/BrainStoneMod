@@ -39,4 +39,4 @@ Any alternate licenses are noted where appropriate.
 Jar Signing
 -----------
 
-All jars from all official download sources will be signed begining from version v2.53.115 BETA DEV. The signature will always be `2238d4a92d81ab407741a2fdb741cebddfeacba6` and you are free to verify it.
+All jars from all official download sources will be signed begining from version v2.53.115 BETA DEV. The signature will always have a SHA-1 hash of `2238d4a92d81ab407741a2fdb741cebddfeacba6` and you are free to verify it.
