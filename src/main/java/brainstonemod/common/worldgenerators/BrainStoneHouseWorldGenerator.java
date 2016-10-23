@@ -1,8 +1,10 @@
 package brainstonemod.common.worldgenerators;
 
+import brainstonemod.common.helper.BrainStoneConfigHelper;
 import cpw.mods.fml.common.IWorldGenerator;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Random;
 
@@ -31,10 +33,7 @@ public class BrainStoneHouseWorldGenerator implements IWorldGenerator {
 		this.chunkX = chunkX * 16;
 		this.chunkZ = chunkZ * 16;
 		this.world = world;
-		switch (this.world.provider.dimensionId) {
-		case 0: // Overworld
+		if (ArrayUtils.contains(BrainStoneConfigHelper.getBrainStoneHouseDims(), this.world.provider.dimensionId))
 			genBrainStoneDungeon();
-			break;
-		}
 	}
 }

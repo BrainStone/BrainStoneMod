@@ -1,11 +1,13 @@
 package brainstonemod.common.worldgenerators;
 
 import brainstonemod.BrainStone;
+import brainstonemod.common.helper.BrainStoneConfigHelper;
 import cpw.mods.fml.common.IWorldGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Random;
 
@@ -26,18 +28,8 @@ public class BrainStoneOreWorldGenerator implements IWorldGenerator {
 		this.chunkX = chunkX * 16;
 		this.chunkZ = chunkZ * 16;
 		this.world = world;
-		switch (this.world.provider.dimensionId) {
-		case 0: // Overworld
+		if (ArrayUtils.contains(BrainStoneConfigHelper.getBrainStoneOreDims(), this.world.provider.dimensionId))
 			this.genMinable(BrainStone.brainStoneOre(), 20, 1, 32);
-
-			break;
-		// TODO: Move to config
-		case 7: // Twilight Forest
-		case -100: // Deep Dark
-			this.genMinable(BrainStone.brainStoneOre(), 20, 1, 32);
-
-			break;
-		}
 	}
 
 	/**
