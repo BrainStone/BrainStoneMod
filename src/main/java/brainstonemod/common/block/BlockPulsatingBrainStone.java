@@ -4,6 +4,7 @@ import brainstonemod.BrainStone;
 import brainstonemod.common.api.enderio.BrainStoneUpgrade;
 import brainstonemod.common.block.template.BlockBrainStoneBase;
 import brainstonemod.common.helper.BSP;
+import brainstonemod.common.item.ItemArmorBrainStone;
 import brainstonemod.network.BrainStonePacketHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -201,7 +202,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 
         boolean enderIOEnabled = Loader.isModLoaded("EnderIO");
 
-        return ((armor[3 + offset].getItem() == BrainStone.brainStoneHelmet())//TODO: Fix this. If we want SPBS to protect, an instanceof check would be best
-                || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[3 + offset])))) && ((armor[2 + offset].getItem() == BrainStone.brainStonePlate()) || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[2 + offset])))) && ((armor[1 + offset].getItem() == BrainStone.brainStoneLeggings()) || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[1 + offset])))) && ((armor[0 + offset].getItem() == BrainStone.brainStoneBoots()) || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[0 + offset]))));
+        return ((armor[3 + offset].getItem() instanceof ItemArmorBrainStone)
+                || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[3 + offset])))) && ((armor[2 + offset].getItem() instanceof ItemArmorBrainStone) || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[2 + offset])))) && ((armor[1 + offset].getItem() instanceof ItemArmorBrainStone) || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[1 + offset])))) && ((armor[offset].getItem() instanceof ItemArmorBrainStone) || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[0 + offset]))));
     }
 }
