@@ -4,7 +4,6 @@ tile.brainStoneOre.name=Brain Stone Ore
 tile.dirtyBrainStone.name=Dirty Brain Stone
 tile.brainLightSensor.name=Brain Light Sensor
 tile.brainStoneTrigger.name=Brain Stone Trigger
-tile.brainLogicBlock.name=PLACE THIS IN YOUR WORLD AND DESTROY IT
 tile.pulsatingBrainStone.name=Pulsating Brain Stone
 tile.pulsatingBrainStoneEffect.name=Pulsating Brain Stone Effect
 tile.stablePulsatingBrainStone.name=Stable Pulsating Brain Stone
@@ -40,10 +39,8 @@ achievement.intelligentBlocks=Intelligent Blocks
 achievement.intelligentBlocks.desc=Make useful intelligent Blocks out of this green stone!
 achievement.intelligentTools=Intelligent Tools
 achievement.intelligentTools.desc=Make Tools out of this green stone!
-achievement.logicBlock=Logic Block
-achievement.logicBlock.desc=First make a processor. Then a Logic Block!
 
-itemGroup.tabBrainStoneMod=Brain Stone Mod
+itemGroup.tabbrainstonemod=Brain Stone Mod
 
 gui.brainstone.item=Item/Object
 gui.brainstone.player=Player

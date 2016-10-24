@@ -1,9 +1,11 @@
 package brainstonemod.common;
 
 import brainstonemod.BrainStone;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -46,5 +48,13 @@ public class CommonProxy {
 
 	public String format(String key, Object... args){
 		return key;
+	}
+
+	public void rmm(Item i){
+
+	}
+
+	public void rmm(Block b){
+
 	}
 }

@@ -4,7 +4,6 @@ tile.brainStoneOre.name=Hirnsteinerz
 tile.dirtyBrainStone.name=Dreckiger Hirnstein
 tile.brainLightSensor.name=Hirnlichtsensor
 tile.brainStoneTrigger.name=Hirnsteinauslöser
-tile.brainLogicBlock.name=SETZTE DEN BLOCK IN DER WELT UND BAUE IHN AB
 tile.pulsatingBrainStone.name=Pulsierender Hirnstein
 tile.pulsatingBrainStoneEffect.name=Pulsierender Hirnstein-Effekt
 tile.stablePulsatingBrainStone.name=Stabiler Pulsierender Hirnstein
@@ -40,10 +39,8 @@ achievement.intelligentBlocks=Intelligente Blöcke
 achievement.intelligentBlocks.desc=Stelle nützliche intelligente Blöcke aus diesem grünen Stein her!
 achievement.intelligentTools=Intelligente Werkzeuge
 achievement.intelligentTools.desc=Stelle Werkzeuge aus diesem grünen Stein her!
-achievement.logicBlock=Logikblock!
-achievement.logicBlock.desc=Mache als erstes einen Prozessor. Dann einen Logikblock!
 
-itemGroup.tabBrainStoneMod=Brain Stone Mod
+itemGroup.tabbrainstonemod=Brain Stone Mod
 
 gui.brainstone.item=Item/Objekt
 gui.brainstone.player=Spieler

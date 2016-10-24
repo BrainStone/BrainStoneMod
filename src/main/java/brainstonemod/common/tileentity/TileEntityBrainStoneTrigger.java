@@ -234,7 +234,8 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 			trigger = "Trigger" + String.valueOf(i);
 
 			compound.setString(trigger + "Key", key);
-			compound.setInteger(trigger, mobTriggered.get(key));
+			if(mobTriggered.get(key) != null)
+				compound.setInteger(trigger, mobTriggered.get(key));
 		}
 
 		compound.setByte("BrainStoneDelay", delay);

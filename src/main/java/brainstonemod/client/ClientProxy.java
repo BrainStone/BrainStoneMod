@@ -1,12 +1,18 @@
 package brainstonemod.client;
 
 import brainstonemod.common.CommonProxy;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+
+import static brainstonemod.BrainStone.MOD_ID;
 
 public class ClientProxy extends CommonProxy {
 
@@ -38,5 +44,15 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public String format(String key, Object... args){
 		return I18n.format(key, args);
+	}
+
+	@Override
+	public void rmm(Item i){
+		ModelLoader.setCustomModelResourceLocation(i, 0, new ModelResourceLocation(MOD_ID + ":" + i.getUnlocalizedName().substring(5), "inventory"));
+	}
+
+	@Override
+	public void rmm(Block b){
+		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(b), 0, new ModelResourceLocation(MOD_ID + ":" + b.getUnlocalizedName().substring(5), "inventory"));
 	}
 }

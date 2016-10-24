@@ -705,7 +705,6 @@ public class BrainStone {
 	 */
 	private static void generateBlocksAndItems() {
 		// Blocks
-
 		blocks.put("brainStone", new BlockBrainStone(false));
 		blocks.put("brainStoneOut", new BlockBrainStone(true));
 		blocks.put("brainStoneOre", new BlockBrainStoneOre());
@@ -726,7 +725,6 @@ public class BrainStone {
 		blocks.get("stablePulsatingBrainStone").setHarvestLevel("pickaxe", 4);
 
 		// Items
-
 		items.put("brainStoneDust",
 				(new ItemBrainStoneBase()).setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.MATERIALS)));
 		items.put("brainProcessor",
@@ -806,6 +804,7 @@ public class BrainStone {
 			block.setRegistryName(key);
 			GameRegistry.register(block);
 			GameRegistry.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
+			proxy.rmm(block);
 		}
 	}
 
@@ -823,6 +822,7 @@ public class BrainStone {
 			item.setUnlocalizedName(key);
 			item.setRegistryName(key);
 			GameRegistry.register(item);
+			proxy.rmm(item);
 		}
 	}
 
