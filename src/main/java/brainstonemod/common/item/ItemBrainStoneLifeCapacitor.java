@@ -25,6 +25,8 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.UsernameCache;
 import net.minecraftforge.common.util.Constants.NBT;
@@ -87,6 +89,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	}
 
 	final ItemStack base = new ItemStack(this);
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs creativeTab, List list) {
@@ -168,6 +171,9 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 						PCmapping.updateMapping(playerUUID, capacitorUUID);
 
 						addOwnerToList(stack, playerUUID);
+						
+						player.addStat(BrainStone.lifeCapacitor(), 1);
+
 						return new ActionResult(EnumActionResult.SUCCESS, stack);
 					} else {
 						BrainStone.sendToPlayer(player,
