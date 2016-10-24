@@ -73,6 +73,9 @@ capacitor.details=Halte %s für Details
 trigger.delay=Delay
 trigger.all=Alle:
 
+brainstone.power.rf=RF
+brainstone.power.tick=/t
+
 tc.aspect.brainstone=Hirn+Stein
 
 enderio.darksteel.upgrade.brainstone.name=Pulsierender Hirnstein-Schutz

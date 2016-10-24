@@ -19,6 +19,7 @@ import baubles.api.IBauble;
 import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.helper.BrainStoneConfigHelper;
+import brainstonemod.common.helper.BrainStonePowerDisplayUtil;
 import brainstonemod.common.item.template.ItemBrainStoneBase;
 import brainstonemod.network.PacketDispatcher;
 import brainstonemod.network.packet.clientbound.PacketCapacitorData;
@@ -26,7 +27,6 @@ import cofh.api.energy.IEnergyContainerItem;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import crazypants.enderio.machine.power.PowerDisplayUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
@@ -130,17 +130,18 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 											+ BrainStone.proxy.format("capacitor.claim")) : "")));
 			list.add(EnumChatFormatting.GREEN + BrainStone.proxy.format("capacitor.summary"));
 			list.add(EnumChatFormatting.YELLOW + BrainStone.proxy.format("capacitor.costs") + " "
-					+ PowerDisplayUtil.formatPower(RFperHalfHeart * 2) + " " + PowerDisplayUtil.abrevation() + "/"
-					+ EnumChatFormatting.DARK_RED + "\u2764");
+					+ BrainStonePowerDisplayUtil.formatPower(RFperHalfHeart * 2) + " "
+					+ BrainStonePowerDisplayUtil.abrevation() + "/" + EnumChatFormatting.DARK_RED + "\u2764");
 			list.add(BrainStone.proxy.format("capacitor.capacity") + " " + EnumChatFormatting.GOLD
 					+ EnumChatFormatting.BOLD + String.valueOf(getCapacityLevel(container)) + EnumChatFormatting.RESET
-					+ EnumChatFormatting.GRAY + " (" + PowerDisplayUtil.formatPower(getMaxEnergyStoredLong(container))
-					+ " " + PowerDisplayUtil.abrevation() + " " + EnumChatFormatting.DARK_RED
+					+ EnumChatFormatting.GRAY + " ("
+					+ BrainStonePowerDisplayUtil.formatPower(getMaxEnergyStoredLong(container)) + " "
+					+ BrainStonePowerDisplayUtil.abrevation() + " " + EnumChatFormatting.DARK_RED
 					+ ((getCapacityLevel(container) + 1) * 5) + "\u2764" + EnumChatFormatting.GRAY + ")");
 			list.add(BrainStone.proxy.format("capacitor.charging") + " " + EnumChatFormatting.GOLD
 					+ EnumChatFormatting.BOLD + String.valueOf(getChargingLevel(container)) + EnumChatFormatting.RESET
-					+ EnumChatFormatting.GRAY + " (" + PowerDisplayUtil.formatPower(getMaxRecieve(container)) + " "
-					+ PowerDisplayUtil.abrevation() + "/t)");
+					+ EnumChatFormatting.GRAY + " ("
+					+ BrainStonePowerDisplayUtil.formatPowerPerTick(getMaxRecieve(container)) + ")");
 		} else {
 			list.add(BrainStone.proxy.format("capacitor.owner") + " "
 					+ PCmapping.getPlayerName(getUUID(container), true)
@@ -151,9 +152,8 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 							+ EnumChatFormatting.RESET + EnumChatFormatting.GRAY));
 		}
 
-		list.add(PowerDisplayUtil.formatPower(getEnergyStoredLong(container)) + "/"
-				+ PowerDisplayUtil.formatPower(getMaxEnergyStoredLong(container)) + " "
-				+ PowerDisplayUtil.abrevation());
+		list.add(BrainStonePowerDisplayUtil.formatStoredPower(getEnergyStoredLong(container),
+				getMaxEnergyStoredLong(container)));
 	}
 
 	@Override
@@ -180,7 +180,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 						PCmapping.updateMapping(playerUUID, capacitorUUID);
 
 						addOwnerToList(stack, playerUUID);
-						
+
 						player.addStat(BrainStone.lifeCapacitor(), 1);
 					} else {
 						BrainStone.sendToPlayer(player,
