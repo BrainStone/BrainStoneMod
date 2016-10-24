@@ -72,6 +72,9 @@ capacitor.details=Hold %s for details
 trigger.delay=Delay
 trigger.all=All:
 
+brainstone.power.rf=RF
+brainstone.power.tick=/t
+
 tc.aspect.brainstone=Brain+Stone
 
 enderio.darksteel.upgrade.brainstone.name=Pulsating Brain Stone Protection

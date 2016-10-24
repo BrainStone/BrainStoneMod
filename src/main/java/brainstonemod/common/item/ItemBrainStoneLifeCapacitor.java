@@ -5,11 +5,11 @@ import baubles.api.IBauble;
 import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.helper.BrainStoneConfigHelper;
+import brainstonemod.common.helper.BrainStonePowerDisplayUtil;
 import brainstonemod.common.item.template.ItemBrainStoneBase;
 import brainstonemod.network.PacketDispatcher;
 import brainstonemod.network.packet.clientbound.PacketCapacitorData;
 import cofh.api.energy.IEnergyContainerItem;
-import crazypants.enderio.machine.power.PowerDisplayUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
@@ -118,21 +118,27 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 				&& (BrainStoneConfigHelper.BSLC_allowStealing() || !hasOwner(container));
 
 		if (sneak) {
-			list.add(BrainStone.proxy.format("capacitor.owner")+" " + PCmapping.getPlayerName(getUUID(container), true)
-					+ (correctOwner ? (TextFormatting.GRAY + BrainStone.proxy.format("capacitor.you"))
-							: (canClaim ? (TextFormatting.DARK_GRAY + BrainStone.proxy.format("capacitor.claim")) : "")));
-			list.add(TextFormatting.GREEN + BrainStone.proxy.format("capacitor.summary"));
-			list.add(TextFormatting.YELLOW + BrainStone.proxy.format("capacitor.costs")+" " + PowerDisplayUtil.formatPower(RFperHalfHeart * 2) + " "
-					+ PowerDisplayUtil.abrevation() + "/" + TextFormatting.DARK_RED + "\u2764");
-			list.add(BrainStone.proxy.format("capacitor.capacity")+" " + TextFormatting.GOLD + TextFormatting.BOLD
-					+ String.valueOf(getCapacityLevel(container)) + TextFormatting.RESET + TextFormatting.GRAY
-					+ " (" + PowerDisplayUtil.formatPower(getMaxEnergyStoredLong(container)) + " "
-					+ PowerDisplayUtil.abrevation() + " " + TextFormatting.DARK_RED
-					+ ((getCapacityLevel(container) + 1) * 5) + "\u2764" + TextFormatting.GRAY + ")");
-			list.add(BrainStone.proxy.format("capacitor.charging")+" " + TextFormatting.GOLD + TextFormatting.BOLD
-					+ String.valueOf(getChargingLevel(container)) + TextFormatting.RESET + TextFormatting.GRAY
-					+ " (" + PowerDisplayUtil.formatPower(getMaxRecieve(container)) + " "
-					+ PowerDisplayUtil.abrevation() + "/t)");
+			list.add(
+					BrainStone.proxy.format("capacitor.owner") + " " + PCmapping.getPlayerName(getUUID(container), true)
+							+ (correctOwner
+									? (EnumChatFormatting.GRAY + BrainStone.proxy
+											.format("capacitor.you"))
+									: (canClaim ? (EnumChatFormatting.DARK_GRAY
+											+ BrainStone.proxy.format("capacitor.claim")) : "")));
+			list.add(EnumChatFormatting.GREEN + BrainStone.proxy.format("capacitor.summary"));
+			list.add(EnumChatFormatting.YELLOW + BrainStone.proxy.format("capacitor.costs") + " "
+					+ BrainStonePowerDisplayUtil.formatPower(RFperHalfHeart * 2) + " "
+					+ BrainStonePowerDisplayUtil.abrevation() + "/" + EnumChatFormatting.DARK_RED + "\u2764");
+			list.add(BrainStone.proxy.format("capacitor.capacity") + " " + EnumChatFormatting.GOLD
+					+ EnumChatFormatting.BOLD + String.valueOf(getCapacityLevel(container)) + EnumChatFormatting.RESET
+					+ EnumChatFormatting.GRAY + " ("
+					+ BrainStonePowerDisplayUtil.formatPower(getMaxEnergyStoredLong(container)) + " "
+					+ BrainStonePowerDisplayUtil.abrevation() + " " + EnumChatFormatting.DARK_RED
+					+ ((getCapacityLevel(container) + 1) * 5) + "\u2764" + EnumChatFormatting.GRAY + ")");
+			list.add(BrainStone.proxy.format("capacitor.charging") + " " + EnumChatFormatting.GOLD
+					+ EnumChatFormatting.BOLD + String.valueOf(getChargingLevel(container)) + EnumChatFormatting.RESET
+					+ EnumChatFormatting.GRAY + " ("
+					+ BrainStonePowerDisplayUtil.formatPowerPerTick(getMaxRecieve(container)) + ")");
 		} else {
 			list.add(BrainStone.proxy.format("capacitor.owner")+" " + PCmapping.getPlayerName(getUUID(container), true)
 					+ (correctOwner ? (TextFormatting.GRAY + BrainStone.proxy.format("capacitor.you")) : ""));
@@ -141,9 +147,8 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 					+ TextFormatting.RESET + TextFormatting.GRAY));
 		}
 
-		list.add(PowerDisplayUtil.formatPower(getEnergyStoredLong(container)) + "/"
-				+ PowerDisplayUtil.formatPower(getMaxEnergyStoredLong(container)) + " "
-				+ PowerDisplayUtil.abrevation());
+		list.add(BrainStonePowerDisplayUtil.formatStoredPower(getEnergyStoredLong(container),
+				getMaxEnergyStoredLong(container)));
 	}
 
 	@Override
@@ -170,7 +175,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 						PCmapping.updateMapping(playerUUID, capacitorUUID);
 
 						addOwnerToList(stack, playerUUID);
-						
+
 						player.addStat(BrainStone.lifeCapacitor(), 1);
 
 						return new ActionResult(EnumActionResult.SUCCESS, stack);
