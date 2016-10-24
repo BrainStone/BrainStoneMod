@@ -14,10 +14,10 @@ import net.minecraft.client.audio.ISound;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.StatCollector;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import java.io.IOException;
 import java.util.Random;
 
 public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
@@ -43,7 +43,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		super(new ContainerBrainStoneTrigger(inventoryplayer, te), te);
 		xSize = 176;
 		ySize = 166;
-		ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft(), width, height);
+		ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft());
 		width = res.getScaledWidth();
 		height = res.getScaledHeight();
 		guiLeft = (width - xSize) / 2;
@@ -64,7 +64,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 
 	@Override
 	public void initGui() {
-		ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft(), width, height);
+		ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft());
 		width = res.getScaledWidth();
 		height = res.getScaledHeight();
 		guiLeft = (width - xSize) / 2;
@@ -188,7 +188,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		String message;
 
 		for (int i = 0; i < 4; i++) {
-			message = StatCollector.translateToLocal(tmp = mobs[i]);
+			message = I18n.format(tmp = mobs[i]);
 
 			if (fontRendererObj.getStringWidth(message) > 100) {
 				do {
@@ -273,7 +273,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 	}
 
 	@Override
-	protected void keyTyped(char letter, int key) {
+	protected void keyTyped(char letter, int key) throws IOException {
 		super.keyTyped(letter, key);
 
 		if ((key == Keyboard.KEY_ESCAPE) || (key == mc.gameSettings.keyBindInventory.getKeyCode())) {
@@ -295,7 +295,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 	}
 
 	@Override
-	protected void mouseClicked(int x, int y, int button) {
+	protected void mouseClicked(int x, int y, int button) throws IOException {
 		super.mouseClicked(x, y, button);
 
 		if (tileentity == null)
@@ -322,8 +322,8 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 	}
 
 	@Override
-	protected void mouseMovedOrUp(int x, int y, int button) {
-		super.mouseMovedOrUp(x, y, button);
+	protected void mouseClickMove(int x, int y, int button, long timeSinceClick) {
+		super.mouseClickMove(x, y, button, timeSinceClick);
 
 		if (button == -1) {
 			hovered = -1;

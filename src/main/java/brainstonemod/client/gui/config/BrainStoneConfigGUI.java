@@ -6,9 +6,9 @@ import java.util.List;
 import brainstonemod.BrainStone;
 import brainstonemod.common.api.BrainStoneModules;
 import brainstonemod.common.helper.BrainStoneConfigHelper;
-import cpw.mods.fml.client.config.DummyConfigElement;
-import cpw.mods.fml.client.config.GuiConfig;
-import cpw.mods.fml.client.config.IConfigElement;
+import net.minecraftforge.fml.client.config.DummyConfigElement;
+import net.minecraftforge.fml.client.config.GuiConfig;
+import net.minecraftforge.fml.client.config.IConfigElement;
 import net.minecraft.client.gui.GuiScreen;
 
 public class BrainStoneConfigGUI extends GuiConfig {

@@ -1,9 +1,5 @@
 package brainstonemod.common.handler;
 
-import java.lang.reflect.Field;
-import java.util.Random;
-import java.util.UUID;
-
 import baubles.api.BaublesApi;
 import brainstonemod.BrainStone;
 import brainstonemod.common.api.BrainStoneModules;
@@ -12,29 +8,33 @@ import brainstonemod.common.helper.BrainStoneConfigHelper;
 import brainstonemod.common.helper.BrainStoneDamageHelper;
 import brainstonemod.common.item.ItemBrainStoneLifeCapacitor;
 import brainstonemod.common.item.ItemBrainStoneLifeCapacitor.PlayerCapacitorMapping;
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.client.event.ConfigChangedEvent;
-import cpw.mods.fml.common.eventhandler.EventPriority;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.Phase;
-import cpw.mods.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
 import net.minecraft.util.FoodStats;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
+
+import java.lang.reflect.Field;
+import java.util.Random;
+import java.util.UUID;
 
 public class BrainStoneEventHandler {
 	private static final Field reflectionFoodTimer = getUnlockedFoodTimer();
@@ -78,8 +78,6 @@ public class BrainStoneEventHandler {
 				|| (item == BrainStone.brainStonePickaxe()) || (item == BrainStone.brainStoneAxe())
 				|| (item == BrainStone.brainStoneHoe())) {
 			player.addStat(BrainStone.intelligentTools(), 1);
-		} else if (block == BrainStone.brainLogicBlock()) {
-			player.addStat(BrainStone.logicBlock(), 1);
 		}
 	}
 
@@ -99,7 +97,7 @@ public class BrainStoneEventHandler {
 
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onPlayerJoinServer(PlayerLoggedInEvent event) {
-		BSP.debug("Calling onPlayerJoinServer for " + event.player.getCommandSenderName());
+		BSP.debug("Calling onPlayerJoinServer for " + event.player.getDisplayNameString());
 
 		BrainStone.onPlayerJoinServer(event.player, event);
 	}
@@ -117,7 +115,7 @@ public class BrainStoneEventHandler {
 					}
 
 				BSP.debug("Calling onPlayerJoinClient for "
-						+ FMLClientHandler.instance().getClientPlayerEntity().getCommandSenderName());
+						+ FMLClientHandler.instance().getClientPlayerEntity().getDisplayNameString());
 
 				BrainStone.onPlayerJoinClient(FMLClientHandler.instance().getClientPlayerEntity(), event);
 			}
@@ -128,17 +126,17 @@ public class BrainStoneEventHandler {
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onEntityDamage(LivingHurtEvent event) {
 		if (BrainStoneModules.energy()) {
-			if (event.entityLiving instanceof EntityPlayer) {
-				EntityPlayer player = (EntityPlayer) event.entityLiving;
+			if (event.getEntityLiving() instanceof EntityPlayer) {
+				EntityPlayer player = (EntityPlayer) event.getEntityLiving();
 				ItemStack capacitor = getBrainStoneLiveCapacitor(player);
 
 				if (capacitor != null) {
-					float newDamage = BrainStone.brainStoneLifeCapacitor().handleDamage(capacitor, event.ammount);
+					float newDamage = BrainStone.brainStoneLifeCapacitor().handleDamage(capacitor, event.getAmount());
 
 					if (newDamage == 0.0F) {
 						event.setCanceled(true);
 					} else {
-						event.ammount = newDamage;
+						event.setAmount(newDamage);
 					}
 				}
 			}
@@ -149,11 +147,11 @@ public class BrainStoneEventHandler {
 	public void onEntityAttack(LivingAttackEvent event) {
 		if (BrainStoneModules.energy()) {
 			try {
-				if (event.entityLiving instanceof EntityPlayer) {
-					EntityPlayer player = (EntityPlayer) event.entityLiving;
-					float ammount = event.ammount;
+				if (event.getEntityLiving() instanceof EntityPlayer) {
+					EntityPlayer player = (EntityPlayer) event.getEntityLiving();
+					float ammount = event.getAmount();
 
-					if (event.source.isFireDamage() && player.isPotionActive(Potion.fireResistance))
+					if (event.getSource().isFireDamage() && player.isPotionActive(MobEffects.FIRE_RESISTANCE))
 						return;
 
 					if ((float) player.hurtResistantTime > ((float) player.maxHurtResistantTime / 2.0F)) {
@@ -161,13 +159,13 @@ public class BrainStoneEventHandler {
 							return;
 
 						ammount -= reflectionLastDamage.getFloat(player);
-						reflectionLastDamage.set(player, event.ammount);
+						reflectionLastDamage.set(player, event.getAmount());
 					}
 
 					ItemStack capacitor = getBrainStoneLiveCapacitor(player);
 
 					if (capacitor != null) {
-						float adjustedDamage = BrainStoneDamageHelper.getAdjustedDamage(event.source, ammount, player,
+						float adjustedDamage = BrainStoneDamageHelper.getAdjustedDamage(event.getSource(), ammount, player,
 								true);
 						float newDamage = BrainStone.brainStoneLifeCapacitor().handleDamage(capacitor, adjustedDamage,
 								true);
@@ -175,10 +173,10 @@ public class BrainStoneEventHandler {
 						if (newDamage == 0.0F) {
 							event.setCanceled(true);
 
-							BrainStoneDamageHelper.getAdjustedDamage(event.source, ammount, player, false);
+							BrainStoneDamageHelper.getAdjustedDamage(event.getSource(), ammount, player, false);
 							BrainStone.brainStoneLifeCapacitor().handleDamage(capacitor, adjustedDamage, false);
 							player.hurtResistantTime = player.maxHurtResistantTime;
-							reflectionLastDamage.set(player, event.ammount);
+							reflectionLastDamage.set(player, event.getAmount());
 						}
 					}
 				}
@@ -214,19 +212,19 @@ public class BrainStoneEventHandler {
 
 	@SubscribeEvent
 	public void onEntityLoot(LivingDropsEvent event) {
-		if (event.entity instanceof EntityWither) {
+		if (event.getEntity() instanceof EntityWither) {
 			final double base_chance = 0.1;
-			final double chance = 1.0 - Math.pow(1.0 - base_chance, event.lootingLevel + 1);
+			final double chance = 1.0 - Math.pow(1.0 - base_chance, event.getLootingLevel() + 1);
 
 			if ((new Random()).nextDouble() < chance)
-				event.drops.add(new EntityItem(event.entity.worldObj, event.entity.posX, event.entity.posY,
-						event.entity.posZ, new ItemStack(BrainStone.essenceOfLife())));
+				event.getDrops().add(new EntityItem(event.getEntity().worldObj, event.getEntity().posX, event.getEntity().posY,
+						event.getEntity().posZ, new ItemStack(BrainStone.essenceOfLife())));
 		}
 	}
 
 	@SubscribeEvent
 	public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
-		if (eventArgs.modID.equals(BrainStone.MOD_ID)) {
+		if (eventArgs.getModID().equals(BrainStone.MOD_ID)) {
 			BrainStoneConfigHelper.loadConfig();
 
 			if (BrainStoneModules.energy())

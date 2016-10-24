@@ -5,22 +5,23 @@ import brainstonemod.common.block.template.BlockBrainStoneHiders;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
 import brainstonemod.network.BrainStonePacketHelper;
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
 public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
-	public static IIcon[] textures;
 
 	public BlockBrainStoneTrigger() {
 		super();
@@ -34,23 +35,22 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 	}
 
 	@Override
-	public void breakBlock(World world, int x, int y, int z, Block block,
-			int meta) {
+	public void breakBlock(World world, BlockPos pos, IBlockState state) {
 		final TileEntityBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBrainStoneTrigger) world
-				.getTileEntity(x, y, z);
+				.getTileEntity(pos);
 
 		if (tileentityblockbrainstonetrigger != null) {
-			tileentityblockbrainstonetrigger.dropItems(world, x, y, z);
+			tileentityblockbrainstonetrigger.dropItems(world, pos.getX(), pos.getY(), pos.getZ());
 		}
 
-		world.removeTileEntity(x, y, z);
-		world.notifyBlocksOfNeighborChange(x, y, z, this);
-		world.notifyBlocksOfNeighborChange(x - 1, y, z, this);
-		world.notifyBlocksOfNeighborChange(x + 1, y, z, this);
-		world.notifyBlocksOfNeighborChange(x, y - 1, z, this);
-		world.notifyBlocksOfNeighborChange(x, y + 1, z, this);
-		world.notifyBlocksOfNeighborChange(x, y, z - 1, this);
-		world.notifyBlocksOfNeighborChange(x, y, z + 1, this);
+		world.removeTileEntity(pos);
+		world.notifyNeighborsOfStateChange(pos, this);
+		world.notifyNeighborsOfStateChange(pos.add(-1, 0, 0), this);
+		world.notifyNeighborsOfStateChange(pos.add(1, 0, 0), this);
+		world.notifyNeighborsOfStateChange(pos.down(), this);
+		world.notifyNeighborsOfStateChange(pos.up(), this);
+		world.notifyNeighborsOfStateChange(pos.add(0, 0, -1), this);
+		world.notifyNeighborsOfStateChange(pos.add(0, 0, 1), this);
 	}
 
 	@Override
@@ -59,94 +59,52 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 	}
 
 	@Override
-	public IIcon getIcon(IBlockAccess iblockaccess, int x, int y, int z,
-			int side) {
-		if (side == 1) {
-			final TileEntityBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBrainStoneTrigger) iblockaccess
-					.getTileEntity(x, y, z);
-
-			if (tileentityblockbrainstonetrigger == null)
-				return textures[0];
-			else
-				return tileentityblockbrainstonetrigger.getTextureId();
-		}
-
-		if (side == 0)
-			return textures[2];
-		else
-			return textures[1];
-	}
-
-	@Override
-	public IIcon getIcon(int side, int meta) {
-		if (side == 1)
-			return textures[0];
-		else if (side == 0)
-			return textures[2];
-		else
-			return textures[1];
-	}
-
-	@Override
-	public int isProvidingStrongPower(IBlockAccess iblockaccess, int x, int y,
-			int z, int side) {
-		final TileEntityBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBrainStoneTrigger) iblockaccess
-				.getTileEntity(x, y, z);
+	public int getStrongPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
+		final TileEntityBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBrainStoneTrigger) blockAccess
+				.getTileEntity(pos);
 		return ((tileentityblockbrainstonetrigger != null) && (tileentityblockbrainstonetrigger.getDelay() > 0)) ? tileentityblockbrainstonetrigger.getOutputBuffered()
 				: 0;
 	}
 
 	@Override
-	public int isProvidingWeakPower(IBlockAccess iblockaccess, int x, int y,
-			int z, int side) {
-		return isProvidingStrongPower(iblockaccess, x, y, z, side);
+	public int getWeakPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
+		return getStrongPower(blockState, blockAccess, pos, side);
 	}
 
 	@Override
-	public boolean isSideSolid(IBlockAccess world, int x, int y, int z,
-			ForgeDirection side) {
+	public boolean isSideSolid(IBlockState base_state, IBlockAccess world, BlockPos pos, EnumFacing side) {
 		return true;
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z,
-			EntityPlayer entityplayer, int par6, float par7, float par8,
-			float par9) {
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (world.isRemote)
 			return true;
 
 		final TileEntityBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBrainStoneTrigger) world
-				.getTileEntity(x, y, z);
+				.getTileEntity(pos);
 
 		if (tileentityblockbrainstonetrigger != null) {
-			entityplayer.openGui(BrainStone.instance, 1, world, x, y, z);
+			playerIn.openGui(BrainStone.instance, 1, world, pos.getX(), pos.getY(), pos.getZ());
 		}
 
 		return true;
 	}
 
 	@Override
-	public void onBlockAdded(World world, int x, int y, int z) {
-		world.setTileEntity(x, y, z, createNewTileEntity(world, 0));
-		world.notifyBlocksOfNeighborChange(x, y, z, this);
-		world.notifyBlocksOfNeighborChange(x - 1, y, z, this);
-		world.notifyBlocksOfNeighborChange(x + 1, y, z, this);
-		world.notifyBlocksOfNeighborChange(x, y - 1, z, this);
-		world.notifyBlocksOfNeighborChange(x, y + 1, z, this);
-		world.notifyBlocksOfNeighborChange(x, y, z - 1, this);
-		world.notifyBlocksOfNeighborChange(x, y, z + 1, this);
+	public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
+		world.setTileEntity(pos, createNewTileEntity(world, 0));
+		world.notifyNeighborsOfStateChange(pos, this);
+		world.notifyNeighborsOfStateChange(pos.add(-1, 0, 0), this);
+		world.notifyNeighborsOfStateChange(pos.add(1, 0, 0), this);
+		world.notifyNeighborsOfStateChange(pos.down(), this);
+		world.notifyNeighborsOfStateChange(pos.up(), this);
+		world.notifyNeighborsOfStateChange(pos.add(0, 0, -1), this);
+		world.notifyNeighborsOfStateChange(pos.add(0, 0, 1), this);
 
-		world.scheduleBlockUpdate(x, y, z, this,
+		world.scheduleBlockUpdate(pos, this,
 				tickRate(world)
-						- ((int) world.getTotalWorldTime() % tickRate(world)));
-	}
-
-	@Override
-	public void registerBlockIcons(IIconRegister IconReg) {
-		textures = new IIcon[] {
-				IconReg.registerIcon("brainstonemod:brainStoneTrigger"),
-				IconReg.registerIcon("brainstonemod:brainStoneMachineSide"),
-				IconReg.registerIcon("brainstonemod:brainStoneMachineBottom") };
+						- ((int) world.getTotalWorldTime() % tickRate(world)), 0);//TODO: Check that priority
 	}
 
 	@Override
@@ -170,9 +128,9 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 	 */
 	private byte triggerCorrectMob(World world, int i, int j, int k) {
 		final List<?> list = world.getEntitiesWithinAABBExcludingEntity(null,
-				AxisAlignedBB.getBoundingBox(i, j + 1, k, i + 1, j + 2, k + 1));
+				new AxisAlignedBB(i, j + 1, k, i + 1, j + 2, k + 1));
 		final TileEntityBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBrainStoneTrigger) world
-				.getTileEntity(i, j, k);
+				.getTileEntity(new BlockPos(i, j, k));
 
 		if (tileentityblockbrainstonetrigger == null)
 			return 0;
@@ -215,16 +173,16 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 	}
 
 	@Override
-	public void updateTick(World world, int x, int y, int z, Random random) {
+	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
 		final TileEntityBrainStoneTrigger tileEntityBlockBrainStoneTrigger = (TileEntityBrainStoneTrigger) world
-				.getTileEntity(x, y, z);
+				.getTileEntity(pos);
 
 		if (tileEntityBlockBrainStoneTrigger == null) {
-			world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
+			world.scheduleBlockUpdate(pos, this, tickRate(world), 0);//TODO: Check that priority
 			return;
 		}
 
-		tileEntityBlockBrainStoneTrigger.setOutput(triggerCorrectMob(world, x, y, z));
+		tileEntityBlockBrainStoneTrigger.setOutput(triggerCorrectMob(world, pos.getX(), pos.getY(), pos.getZ()));
 		if (tileEntityBlockBrainStoneTrigger.getOutput() > 0) {
 			tileEntityBlockBrainStoneTrigger.setOutputBuffered(tileEntityBlockBrainStoneTrigger.getOutput());
 		}
@@ -235,17 +193,17 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 
 		if (tileEntityBlockBrainStoneTrigger.checkForSlotChange()) {
 			BrainStonePacketHelper.sendReRenderBlockAtPacket(
-					world.provider.dimensionId, x, y, z, world);
+					world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), world);
 		}
 
-		world.notifyBlocksOfNeighborChange(x, y, z, this);
-		world.notifyBlocksOfNeighborChange(x - 1, y, z, this);
-		world.notifyBlocksOfNeighborChange(x + 1, y, z, this);
-		world.notifyBlocksOfNeighborChange(x, y - 1, z, this);
-		world.notifyBlocksOfNeighborChange(x, y + 1, z, this);
-		world.notifyBlocksOfNeighborChange(x, y, z - 1, this);
-		world.notifyBlocksOfNeighborChange(x, y, z + 1, this);
+		world.notifyNeighborsOfStateChange(pos, this);
+		world.notifyNeighborsOfStateChange(pos.add(-1, 0, 0), this);
+		world.notifyNeighborsOfStateChange(pos.add(1, 0, 0), this);
+		world.notifyNeighborsOfStateChange(pos.down(), this);
+		world.notifyNeighborsOfStateChange(pos.up(), this);
+		world.notifyNeighborsOfStateChange(pos.add(0, 0, -1), this);
+		world.notifyNeighborsOfStateChange(pos.add(0, 0, 1), this);
 
-		world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
+		world.scheduleBlockUpdate(pos, this, tickRate(world), 0);//TODO: Check that priority
 	}
 }

@@ -3,9 +3,9 @@ package brainstonemod.common.helper;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.common.ISpecialArmor.ArmorProperties;
@@ -44,8 +44,8 @@ public class BrainStoneDamageHelper {
 			int j;
 			float f1;
 
-			if (player.isPotionActive(Potion.resistance) && damageSource != DamageSource.outOfWorld) {
-				i = (player.getActivePotionEffect(Potion.resistance).getAmplifier() + 1) * 5;
+			if (player.isPotionActive(MobEffects.RESISTANCE) && damageSource != DamageSource.outOfWorld) {
+				i = (player.getActivePotionEffect(MobEffects.RESISTANCE).getAmplifier() + 1) * 5;
 				j = 25 - i;
 				f1 = initalDamage * (float) j;
 				initalDamage = f1 / 25.0F;
@@ -54,7 +54,7 @@ public class BrainStoneDamageHelper {
 			if (initalDamage <= 0.0F) {
 				return 0.0F;
 			} else {
-				i = EnchantmentHelper.getEnchantmentModifierDamage(player.getLastActiveItems(), damageSource);
+				i = EnchantmentHelper.getEnchantmentModifierDamage(player.getEquipmentAndArmor(), damageSource);
 
 				if (i > 20) {
 					i = 20;

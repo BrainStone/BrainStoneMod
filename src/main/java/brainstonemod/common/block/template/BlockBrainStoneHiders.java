@@ -1,29 +1,26 @@
 package brainstonemod.common.block.template;
 
 import brainstonemod.BrainStone;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.IBlockAccess;
 
 public abstract class BlockBrainStoneHiders extends BlockBrainStoneContainerBase {
 	public BlockBrainStoneHiders() {
-		super(Material.rock);
+		super(Material.ROCK);
 
-		setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.tabRedstone));
+		setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.REDSTONE));
 	}
 
 	@Override
-	public boolean canProvidePower() {
+	public boolean canProvidePower(IBlockState state) {
 		return true;
 	}
 
-	@Override
-	public int colorMultiplier(IBlockAccess iblockaccess, int x, int y, int z) {
-		final TileEntity te = iblockaccess.getTileEntity(x, y, z);
+	//TODO: Find out if there is an equivalent to this now. MapColor, perhaps?
+	/*@Override
+	public int colorMultiplier(IBlockAccess iblockaccess, BlockPos pos) {
+		final TileEntity te = iblockaccess.getTileEntity(pos);
 
 		if(te != null && te instanceof IInventory) {
 			ItemStack itemstack = ((IInventory) te).getStackInSlot(0);
@@ -36,9 +33,9 @@ public abstract class BlockBrainStoneHiders extends BlockBrainStoneContainerBase
 			if (block == null)
 				return 0xffffff;
 			else
-				return block.colorMultiplier(iblockaccess, x, y, z);
+				return block.colorMultiplier(iblockaccess, pos);
 		}
 
 		return 0xffffff;
-	}
+	}*/
 }

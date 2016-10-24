@@ -1,9 +1,11 @@
 package brainstonemod.common.worldgenerators;
 
 import brainstonemod.common.helper.BrainStoneConfigHelper;
-import cpw.mods.fml.common.IWorldGenerator;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.IChunkGenerator;
 import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraftforge.fml.common.IWorldGenerator;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Random;
@@ -22,18 +24,18 @@ public class BrainStoneHouseWorldGenerator implements IWorldGenerator {
 		if (random.nextInt(1000) == 0) {
 			final BrainStoneWorldGeneratorBrainStoneDungeon name = new BrainStoneWorldGeneratorBrainStoneDungeon();
 
-			name.generate(world, random, chunkX, 0, chunkZ);
+			name.generate(world, random, new BlockPos(chunkX, 0, chunkZ));
 		}
 	}
 
 	@Override
-	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator,
+	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator,
 			IChunkProvider chunkProvider) {
 		this.random = random;
 		this.chunkX = chunkX * 16;
 		this.chunkZ = chunkZ * 16;
 		this.world = world;
-		if (ArrayUtils.contains(BrainStoneConfigHelper.getBrainStoneHouseDims(), this.world.provider.dimensionId))
+		if (ArrayUtils.contains(BrainStoneConfigHelper.getBrainStoneHouseDims(), this.world.provider.getDimension()))
 			genBrainStoneDungeon();
 	}
 }

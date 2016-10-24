@@ -1,11 +1,10 @@
 package brainstonemod.common.helper;
 
-import java.util.HashMap;
-
-import net.minecraftforge.common.util.ForgeDirection;
-
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import net.minecraft.util.EnumFacing;
+
+import java.util.HashMap;
 
 public enum BrainStoneDirection {
 	/** +Y */
@@ -99,17 +98,17 @@ public enum BrainStoneDirection {
 			.inverse();
 
 	// Create the bidirectional mapping for the ForgeDirections
-	private static final BiMap<ForgeDirection, BrainStoneDirection> fromForgeDirectionMap = HashBiMap
+	private static final BiMap<EnumFacing, BrainStoneDirection> fromForgeDirectionMap = HashBiMap
 			.create(6);
 	static {
-		fromForgeDirectionMap.put(ForgeDirection.UP, UP);
-		fromForgeDirectionMap.put(ForgeDirection.DOWN, DOWN);
-		fromForgeDirectionMap.put(ForgeDirection.NORTH, NORTH);
-		fromForgeDirectionMap.put(ForgeDirection.SOUTH, SOUTH);
-		fromForgeDirectionMap.put(ForgeDirection.WEST, WEST);
-		fromForgeDirectionMap.put(ForgeDirection.EAST, EAST);
+		fromForgeDirectionMap.put(EnumFacing.UP, UP);
+		fromForgeDirectionMap.put(EnumFacing.DOWN, DOWN);
+		fromForgeDirectionMap.put(EnumFacing.NORTH, NORTH);
+		fromForgeDirectionMap.put(EnumFacing.SOUTH, SOUTH);
+		fromForgeDirectionMap.put(EnumFacing.WEST, WEST);
+		fromForgeDirectionMap.put(EnumFacing.EAST, EAST);
 	}
-	private static final BiMap<BrainStoneDirection, ForgeDirection> toForgeDirectionMap = fromForgeDirectionMap
+	private static final BiMap<BrainStoneDirection, EnumFacing> toForgeDirectionMap = fromForgeDirectionMap
 			.inverse();
 
 	// Create the bidirectional mapping for the redstone connect indices
@@ -146,7 +145,7 @@ public enum BrainStoneDirection {
 	}
 
 	public static BrainStoneDirection fromForgeDirection(
-			ForgeDirection forgeDirection) {
+			EnumFacing forgeDirection) {
 		assert fromForgeDirectionMap.containsKey(forgeDirection);
 
 		return fromForgeDirectionMap.get(forgeDirection);
@@ -207,7 +206,7 @@ public enum BrainStoneDirection {
 		return toArrayIndexMap.get(this);
 	}
 
-	public ForgeDirection toForgeDirection() {
+	public EnumFacing toForgeDirection() {
 		assert toForgeDirectionMap.containsKey(this);
 
 		return toForgeDirectionMap.get(this);

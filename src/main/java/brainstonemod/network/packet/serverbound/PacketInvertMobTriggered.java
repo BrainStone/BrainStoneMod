@@ -3,12 +3,13 @@ package brainstonemod.network.packet.serverbound;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
 import brainstonemod.network.packet.clientbound.PacketSyncInvertMobTriggered;
-import cpw.mods.fml.common.network.ByteBufUtils;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketInvertMobTriggered implements IMessage {
 	private int x;
@@ -21,9 +22,9 @@ public class PacketInvertMobTriggered implements IMessage {
 	}
 
 	public PacketInvertMobTriggered(TileEntity tileentity, String mob) {
-		x=tileentity.xCoord;
-		y=(short)tileentity.yCoord;
-		z=tileentity.zCoord;
+		x=tileentity.getPos().getX();
+		y=(short)tileentity.getPos().getY();
+		z=tileentity.getPos().getZ();
 		this.mob=mob;
 	}
 
@@ -46,7 +47,7 @@ public class PacketInvertMobTriggered implements IMessage {
 	public static class Handler extends AbstractServerMessageHandler<PacketInvertMobTriggered> {
 		@Override
 		public IMessage handleServerMessage(EntityPlayer player, PacketInvertMobTriggered message, MessageContext ctx) {
-			TileEntity te = player.worldObj.getTileEntity(message.x, message.y, message.z);
+			TileEntity te = player.worldObj.getTileEntity(new BlockPos(message.x, message.y, message.z));
 			if(te instanceof TileEntityBrainStoneTrigger){
 				((TileEntityBrainStoneTrigger) te).invertMobTriggered(message.mob);
 				return new PacketSyncInvertMobTriggered(te, message.mob);

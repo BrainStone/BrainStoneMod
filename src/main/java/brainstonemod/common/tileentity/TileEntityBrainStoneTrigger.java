@@ -1,10 +1,7 @@
 package brainstonemod.common.tileentity;
 
 import brainstonemod.BrainStone;
-import brainstonemod.common.block.BlockBrainStoneTrigger;
 import brainstonemod.common.helper.BSP;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.relauncher.Side;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,11 +12,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -87,11 +84,7 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 	}
 
 	@Override
-	public void closeInventory() {
-	}
-
-	@Override
-	public String getInventoryName() {
+	public String getName() {
 		return "container.brainstonetrigger";
 	}
 
@@ -109,22 +102,8 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
         return mobTriggered.containsKey(s) && mobTriggered.get(s) > 0;
     }
 
-	public IIcon getTextureId() {
-		final ItemStack itemstack = inventory[0];
-
-		if (itemstack == null)
-			return BlockBrainStoneTrigger.textures[0];
-
-		final Block block = Block.getBlockFromItem(itemstack.getItem());
-
-		if (block == null)
-			return BlockBrainStoneTrigger.textures[0];
-		else
-			return block.getIcon(1, itemstack.getItemDamage());
-	}
-
 	@Override
-	public boolean hasCustomInventoryName() {
+	public boolean hasCustomName() {
 		return false;
 	}
 
@@ -148,12 +127,28 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
             return false;
 
         Block block = Block.getBlockFromItem(itemstack.getItem());
-        return block != null && !(block == BrainStone.brainStoneTrigger() || block == Blocks.leaves) && block.isOpaqueCube();
+        return block != null && !(block == BrainStone.brainStoneTrigger() || block == Blocks.LEAVES) && block.isOpaqueCube(block.getDefaultState());
 
     }
 
 	@Override
-	public void openInventory() {
+	public int getField(int id) {
+		return 0;
+	}
+
+	@Override
+	public void setField(int id, int value) {
+
+	}
+
+	@Override
+	public int getFieldCount() {
+		return 0;
+	}
+
+	@Override
+	public void clear() {
+
 	}
 
 	@Override
@@ -211,7 +206,7 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound compound) {
+	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
 
 		NBTTagList list = new NBTTagList();
@@ -244,6 +239,8 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 
 		compound.setByte("BrainStoneDelay", delay);
 		compound.setByte("BrainStoneMaxDelay", maxDelay);
+
+		return compound;
 	}
 
 	public byte getDelay() {
@@ -279,19 +276,18 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 	}
 
 	@Override
-	public Packet getDescriptionPacket() {
-		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, getBlockMetadata(), getUpdateTag());
-	}
-
-	public NBTTagCompound getUpdateTag(){
-		NBTTagCompound compound = new NBTTagCompound();
-		writeToNBT(compound);
-		return compound;
+	public SPacketUpdateTileEntity getUpdatePacket() {
+		return new SPacketUpdateTileEntity(pos, getBlockMetadata(), getUpdateTag());
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
-		readFromNBT(pkt.func_148857_g());//func_148857_g=getNBTCompound()
+	public NBTTagCompound getUpdateTag(){
+		return writeToNBT(new NBTTagCompound());
+	}
+
+	@Override
+	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+		readFromNBT(pkt.getNbtCompound());
 	}
 
 	@Override
@@ -321,7 +317,7 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 						+ ((1.0F - f) * 0.5D);
 				final EntityItem entityitem = new EntityItem(world, x + dx, y
 						+ dy, z + dz, itemstack);
-				entityitem.delayBeforeCanPickup = 10;
+				entityitem.setPickupDelay(10);
 				world.spawnEntityInWorld(entityitem);
 			}
 		}
@@ -338,7 +334,7 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int index) {
+	public ItemStack removeStackFromSlot(int index) {
 		ItemStack is = getStackInSlot(index);
 		setInventorySlotContents(index, null);
 		return is;
@@ -346,7 +342,17 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player) {
-		return player.getDistanceSq(this.xCoord + 0.5D, this.yCoord + 0.5D, this.zCoord + 0.5D) <= 64;
+		return player.getDistanceSq(this.pos.getX() + 0.5D, this.pos.getY() + 0.5D, this.pos.getZ() + 0.5D) <= 64;
+	}
+
+	@Override
+	public void openInventory(EntityPlayer player) {
+
+	}
+
+	@Override
+	public void closeInventory(EntityPlayer player) {
+
 	}
 
 	@Override

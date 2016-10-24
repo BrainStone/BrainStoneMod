@@ -1,12 +1,11 @@
 package brainstonemod.common.tileentity;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.relauncher.Side;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.relauncher.Side;
 
 public class TileEntityBrainLightSensor extends TileEntity {
 	private int lightLevel;
@@ -35,8 +34,7 @@ public class TileEntityBrainLightSensor extends TileEntity {
 			worldObj.calculateInitialSkylight();
 		}
 
-		curLightLevel = worldObj.getBlockLightValue_do(xCoord, yCoord + 1,
-				zCoord, false);
+		curLightLevel = worldObj.getLight(pos.up(), false);
 
 		return curLightLevel;
 	}
@@ -121,7 +119,7 @@ public class TileEntityBrainLightSensor extends TileEntity {
 	 * Writes a tile entity to NBT.
 	 */
 	@Override
-	public void writeToNBT(NBTTagCompound nbttagcompound) {
+	public NBTTagCompound writeToNBT(NBTTagCompound nbttagcompound) {
 		super.writeToNBT(nbttagcompound);
 		nbttagcompound.setBoolean("TEBBLS_state", state);
 
@@ -131,21 +129,21 @@ public class TileEntityBrainLightSensor extends TileEntity {
 		} else {
 			nbttagcompound.setBoolean("TEBBLS_direction", simpleDirection);
 		}
+		return nbttagcompound;
 	}
 
 	@Override
-	public Packet getDescriptionPacket() {
-		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, getBlockMetadata(), getUpdateTag());
+	public SPacketUpdateTileEntity getUpdatePacket() {
+		return new SPacketUpdateTileEntity(pos, getBlockMetadata(), getUpdateTag());
 	}
 
+	@Override
 	public NBTTagCompound getUpdateTag(){
-		NBTTagCompound compound = new NBTTagCompound();
-		writeToNBT(compound);
-		return compound;
+		return writeToNBT(new NBTTagCompound());
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
-		readFromNBT(pkt.func_148857_g());//func_148857_g=getNBTCompound()
+	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+		readFromNBT(pkt.getNbtCompound());
 	}
 }

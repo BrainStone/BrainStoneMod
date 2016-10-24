@@ -26,7 +26,7 @@ public class SlotBlockBrainStoneTrigger extends Slot {
             return false;
 
         final Block block = Block.getBlockFromItem(itemstack.getItem());
-        return block != null && !(block == BrainStone.brainStoneTrigger() || block == Blocks.leaves) && block.isOpaqueCube();
+        return block != null && !(block == BrainStone.brainStoneTrigger() || block == Blocks.LEAVES) && block.isOpaqueCube(block.getDefaultState());
 
     }
 }

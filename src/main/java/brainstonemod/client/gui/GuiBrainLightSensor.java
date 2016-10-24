@@ -7,7 +7,7 @@ import brainstonemod.network.PacketDispatcher;
 import brainstonemod.network.packet.serverbound.PacketChangeDirection;
 import brainstonemod.network.packet.serverbound.PacketChangeState;
 import brainstonemod.network.packet.serverbound.PacketLightSensor;
-import net.minecraft.util.StatCollector;
+import net.minecraft.client.resources.I18n;
 import org.lwjgl.input.Keyboard;
 
 public class GuiBrainLightSensor extends GuiBrainStoneBase {
@@ -62,14 +62,13 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 			drawTexturedModalRect((curLightLevel * 7) + 8, 22,
 					8 + (7 * curLightLevel), 158, 6, 66);
 			drawString(
-					StatCollector
-							.translateToLocal("tile.brainLightSensor.name"),
+					I18n.format("tile.brainLightSensor.name"),
 					6, 16, 0x404040);
 			drawCenteredString(
-					StatCollector.translateToLocal("gui.brainstone.classic"),
+					I18n.format("gui.brainstone.classic"),
 					32, 7, 0x404040);
 			drawCenteredString(
-					StatCollector.translateToLocal("gui.brainstone.simple"),
+					I18n.format("gui.brainstone.simple"),
 					96, 7, 0x404040);
 		} else {
 			bindTexture("GuiBrainLightSensorSimple");
@@ -79,17 +78,16 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 					8, 94, 9, 8);
 
 			drawCenteredString(
-					StatCollector.translateToLocal("gui.brainstone.classic"),
+					I18n.format("gui.brainstone.classic"),
 					32, 7, 0x404040);
 			drawCenteredString(
-					StatCollector.translateToLocal("gui.brainstone.simple"),
+					I18n.format("gui.brainstone.simple"),
 					96, 7, 0x404040);
 			drawString(
-					StatCollector
-							.translateToLocal("gui.brainstone.proportional"),
+					I18n.format("gui.brainstone.proportional"),
 					20, 18, 0x404040);
 			drawString(
-					StatCollector.translateToLocal("gui.brainstone.inverted"),
+					I18n.format("gui.brainstone.inverted"),
 					20, 36, 0x404040);
 		}
 	}

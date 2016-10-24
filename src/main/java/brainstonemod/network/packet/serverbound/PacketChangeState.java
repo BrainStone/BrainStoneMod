@@ -3,11 +3,12 @@ package brainstonemod.network.packet.serverbound;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.tileentity.TileEntityBrainLightSensor;
 import brainstonemod.network.packet.clientbound.PacketSyncChangeState;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketChangeState implements IMessage {
 	private int x;
@@ -19,9 +20,9 @@ public class PacketChangeState implements IMessage {
 	}
 
 	public PacketChangeState(TileEntity tileentity) {
-		x=tileentity.xCoord;
-		y=(short)tileentity.yCoord;
-		z=tileentity.zCoord;
+		x=tileentity.getPos().getX();
+		y=(short)tileentity.getPos().getY();
+		z=tileentity.getPos().getZ();
 	}
 
 	@Override
@@ -41,10 +42,9 @@ public class PacketChangeState implements IMessage {
 	public static class Handler extends AbstractServerMessageHandler<PacketChangeState> {
 		@Override
 		public IMessage handleServerMessage(EntityPlayer player, PacketChangeState message, MessageContext ctx) {
-			TileEntity te = player.worldObj.getTileEntity(message.x, message.y, message.z);
+			TileEntity te = player.worldObj.getTileEntity(new BlockPos(message.x, message.y, message.z));
 			if(te instanceof TileEntityBrainLightSensor){
 				((TileEntityBrainLightSensor) te).changeState();
-				te.updateEntity();
 				return new PacketSyncChangeState(te, ((TileEntityBrainLightSensor) te).getState());
 			}else{
 				BSP.error("Tile Entity at "+message.x+", "+message.y+", "+message.z+" was "+te+" and not TileEntityBrainLightSensor.");

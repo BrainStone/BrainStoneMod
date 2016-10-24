@@ -1,27 +1,22 @@
 package brainstonemod.common.helper;
 
-import java.util.HashMap;
-
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
 
+import java.util.HashMap;
+
 public abstract class BrainStoneEnchantmentHelper extends EnchantmentHelper {
 	public static final ItemStack addEnchantment(ItemStack item,
 			Enchantment enchantment, int level) {
-		return addEnchantment(item, enchantment.effectId, level);
-	}
-
-	public static final ItemStack addEnchantment(ItemStack item,
-			int enchantment, int level) {
 		@SuppressWarnings("unchecked")
-		final HashMap<Integer, Integer> enchantments = (HashMap<Integer, Integer>) EnchantmentHelper
+		final HashMap<Enchantment, Integer> enchantments = (HashMap<Enchantment, Integer>) EnchantmentHelper
 				.getEnchantments(item);
 		final int size = enchantments.size();
-		final Integer[] keys = enchantments.keySet().toArray(new Integer[size]);
+		final Enchantment[] keys = enchantments.keySet().toArray(new Enchantment[size]);
 
 		if (enchantments.containsKey(enchantment)) {
-			int key;
+			Enchantment key;
 			int tmp;
 
 			for (int i = 0; i < size; i++) {
@@ -31,7 +26,7 @@ public abstract class BrainStoneEnchantmentHelper extends EnchantmentHelper {
 				enchantments.remove(key);
 
 				if (key == enchantment) {
-					final int maxLevel = getEnchantment(enchantment)
+					final int maxLevel = enchantment
 							.getMaxLevel();
 					level += tmp;
 
@@ -41,7 +36,7 @@ public abstract class BrainStoneEnchantmentHelper extends EnchantmentHelper {
 				enchantments.put(key, tmp);
 			}
 		} else {
-			final Enchantment newEnchantment = getEnchantment(enchantment);
+			final Enchantment newEnchantment = enchantment;
 
 			if (!canEnchantItem(newEnchantment, item))
 				return item;
@@ -49,7 +44,7 @@ public abstract class BrainStoneEnchantmentHelper extends EnchantmentHelper {
 			Enchantment tmpEnch;
 
 			for (int i = 0; i < size; i++) {
-				tmpEnch = getEnchantment(keys[i]);
+				tmpEnch = keys[i];
 
 				if (!canApplyTogether(newEnchantment, tmpEnch))
 					return item;
@@ -72,50 +67,20 @@ public abstract class BrainStoneEnchantmentHelper extends EnchantmentHelper {
 				&& enchantment2.canApplyTogether(enchantment1);
 	}
 
-	public static final boolean canApplyTogether(Enchantment enchantment1,
-			int enchantment2) {
-		return canApplyTogether(enchantment1, getEnchantment(enchantment2));
-	}
-
-	public static final boolean canApplyTogether(int enchantment1,
-			Enchantment enchantment2) {
-		return canApplyTogether(getEnchantment(enchantment1), enchantment2);
-	}
-
-	public static final boolean canApplyTogether(int enchantment1,
-			int enchantment2) {
-		return canApplyTogether(getEnchantment(enchantment1),
-				getEnchantment(enchantment2));
-	}
-
-	public static final boolean canEnchantItem(Enchantment enchantment,
-			ItemStack item) {
+	public static final boolean canEnchantItem(Enchantment enchantment, ItemStack item) {
 		return enchantment.canApply(item);
-	}
-
-	public static final boolean canEnchantItem(int enchantment, ItemStack item) {
-		return canEnchantItem(getEnchantment(enchantment), item);
-	}
-
-	public static final Enchantment getEnchantment(int enchantmentId) {
-		return Enchantment.enchantmentsList[enchantmentId];
 	}
 
 	public static final ItemStack setEnchantment(ItemStack item,
 			Enchantment enchantment, int level) {
-		return setEnchantment(item, enchantment.effectId, level);
-	}
-
-	public static final ItemStack setEnchantment(ItemStack item,
-			int enchantment, int level) {
 		@SuppressWarnings("unchecked")
-		final HashMap<Integer, Integer> enchantments = (HashMap<Integer, Integer>) EnchantmentHelper
+		final HashMap<Enchantment, Integer> enchantments = (HashMap<Enchantment, Integer>) EnchantmentHelper
 				.getEnchantments(item);
 		final int size = enchantments.size();
-		final Integer[] keys = enchantments.keySet().toArray(new Integer[size]);
+		final Enchantment[] keys = enchantments.keySet().toArray(new Enchantment[size]);
 
 		if (enchantments.containsKey(enchantment)) {
-			int key;
+			Enchantment key;
 			int tmp;
 
 			for (int i = 0; i < size; i++) {
@@ -125,7 +90,7 @@ public abstract class BrainStoneEnchantmentHelper extends EnchantmentHelper {
 				enchantments.remove(key);
 
 				if (key == enchantment) {
-					final int maxLevel = getEnchantment(enchantment)
+					final int maxLevel = enchantment
 							.getMaxLevel();
 
 					tmp = (level > maxLevel) ? maxLevel : level;
@@ -134,7 +99,7 @@ public abstract class BrainStoneEnchantmentHelper extends EnchantmentHelper {
 				enchantments.put(key, tmp);
 			}
 		} else {
-			final Enchantment newEnchantment = getEnchantment(enchantment);
+			final Enchantment newEnchantment = enchantment;
 
 			if (!canEnchantItem(newEnchantment, item))
 				return item;
@@ -142,7 +107,7 @@ public abstract class BrainStoneEnchantmentHelper extends EnchantmentHelper {
 			Enchantment tmpEnch;
 
 			for (int i = 0; i < size; i++) {
-				tmpEnch = getEnchantment(keys[i]);
+				tmpEnch = keys[i];
 
 				if (!canApplyTogether(newEnchantment, tmpEnch))
 					return item;

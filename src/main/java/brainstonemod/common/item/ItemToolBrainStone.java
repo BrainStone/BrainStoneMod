@@ -1,20 +1,25 @@
 package brainstonemod.common.item;
 
-import java.util.Set;
-
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemTool;
-import scala.reflect.internal.Trees.If;
 import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
-
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.item.*;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import scala.reflect.internal.Trees.If;
+
+import java.util.Set;
 
 public class ItemToolBrainStone extends ItemTool {
 	/**
@@ -34,27 +39,11 @@ public class ItemToolBrainStone extends ItemTool {
 		type = type.toLowerCase();
 
 		if (type.contains("spade"))
-			// Copied from ItemSpade
-			return Sets.newHashSet(Blocks.grass, Blocks.dirt,
-                    Blocks.sand, Blocks.gravel, Blocks.snow_layer, Blocks.snow,
-                    Blocks.clay, Blocks.farmland, Blocks.soul_sand,
-                    Blocks.mycelium);
+			return ItemSpade.EFFECTIVE_ON;
 		else if (type.contains("pickaxe"))
-			// Copied from ItemPickaxe
-			return Sets.newHashSet(Blocks.cobblestone,
-                    Blocks.double_stone_slab, Blocks.stone_slab, Blocks.stone,
-                    Blocks.sandstone, Blocks.mossy_cobblestone,
-                    Blocks.iron_ore, Blocks.iron_block, Blocks.coal_ore,
-                    Blocks.gold_block, Blocks.gold_ore, Blocks.diamond_ore,
-                    Blocks.diamond_block, Blocks.ice, Blocks.netherrack,
-                    Blocks.lapis_ore, Blocks.lapis_block, Blocks.redstone_ore,
-                    Blocks.lit_redstone_ore, Blocks.rail, Blocks.detector_rail,
-                    Blocks.golden_rail, Blocks.activator_rail);
+			return ItemPickaxe.EFFECTIVE_ON;
 		else if (type.contains("axe"))
-			// Copied from ItemAxe
-			return Sets.newHashSet(Blocks.planks,
-                    Blocks.bookshelf, Blocks.log, Blocks.log2, Blocks.chest,
-                    Blocks.pumpkin, Blocks.lit_pumpkin);
+			return ItemAxe.EFFECTIVE_ON;
 
 		BSP.throwIllegalArgumentException("The tool type \""
 				+ type
@@ -106,61 +95,85 @@ public class ItemToolBrainStone extends ItemTool {
 	 *            What tool is it. Can either be "spade", "pickaxe", or "axe"
 	 */
 	public ItemToolBrainStone(ToolMaterial enumtoolmaterial, String type) {
-		super(getTypeId(type) + 1, enumtoolmaterial,
+		super(enumtoolmaterial,
 				getBlocksEffectiveAgainstForToolsType(type));
 
 		typeId = getTypeId(type);
 		toolClass = type;
 		
-		setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.tabTools));
+		setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.TOOLS));
 	}
 
 	@Override
-	public float func_150893_a(ItemStack par1ItemStack, Block par2Block) {
+	public float getStrVsBlock(ItemStack stack, IBlockState state) {
+		Material material = state.getMaterial();
 		switch (typeId) {
-		case 1:
-			return (par2Block.getMaterial() != Material.iron)
-					&& (par2Block.getMaterial() != Material.anvil)
-					&& (par2Block.getMaterial() != Material.rock) ? super
-					.func_150893_a(par1ItemStack, par2Block)
-					: efficiencyOnProperMaterial;
-		case 2:
-			return (par2Block.getMaterial() != Material.wood)
-					&& (par2Block.getMaterial() != Material.plants)
-					&& (par2Block.getMaterial() != Material.vine) ? super
-					.func_150893_a(par1ItemStack, par2Block)
-					: efficiencyOnProperMaterial;
-		default:
-			return super.func_150893_a(par1ItemStack, par2Block);
+			case 1:
+				return material != Material.IRON && material != Material.ANVIL && material != Material.ROCK ? super.getStrVsBlock(stack, state) : this.efficiencyOnProperMaterial;
+			case 2:
+				return material != Material.WOOD && material != Material.PLANTS && material != Material.VINE ? super.getStrVsBlock(stack, state) : this.efficiencyOnProperMaterial;
+			default:
+				return super.getStrVsBlock(stack, state);
 		}
 	}
 
 	@Override
-	public boolean func_150897_b(Block par1Block) {
+	public boolean canHarvestBlock(IBlockState blockIn) {
+		Block block = blockIn.getBlock();
 		switch (typeId) {
 		case 0:
-			return par1Block == Blocks.snow_layer || par1Block == Blocks.snow;
+			return block == Blocks.SNOW_LAYER ? true : block == Blocks.SNOW;
 		case 1:
-			return par1Block == Blocks.obsidian ? toolMaterial
-					.getHarvestLevel() == 3
-					: ((par1Block != Blocks.diamond_block)
-							&& (par1Block != Blocks.diamond_ore) ? ((par1Block != Blocks.emerald_ore)
-							&& (par1Block != Blocks.emerald_block) ? ((par1Block != Blocks.gold_block)
-							&& (par1Block != Blocks.gold_ore) ? ((par1Block != Blocks.iron_block)
-							&& (par1Block != Blocks.iron_ore) ? ((par1Block != Blocks.lapis_block)
-							&& (par1Block != Blocks.lapis_ore) ? ((par1Block != Blocks.redstone_ore)
-							&& (par1Block != Blocks.lit_redstone_ore) ? (par1Block
-                    .getMaterial() == Material.rock || (par1Block
-                    .getMaterial() == Material.iron || par1Block
-                    .getMaterial() == Material.anvil)) : toolMaterial
-							.getHarvestLevel() >= 2)
-							: toolMaterial.getHarvestLevel() >= 1)
-							: toolMaterial.getHarvestLevel() >= 1)
-							: toolMaterial.getHarvestLevel() >= 2)
-							: toolMaterial.getHarvestLevel() >= 2)
-							: toolMaterial.getHarvestLevel() >= 2);
+			if (block == Blocks.OBSIDIAN)
+			{
+				return this.toolMaterial.getHarvestLevel() == 3;
+			}
+			else if (block != Blocks.DIAMOND_BLOCK && block != Blocks.DIAMOND_ORE)
+			{
+				if (block != Blocks.EMERALD_ORE && block != Blocks.EMERALD_BLOCK)
+				{
+					if (block != Blocks.GOLD_BLOCK && block != Blocks.GOLD_ORE)
+					{
+						if (block != Blocks.IRON_BLOCK && block != Blocks.IRON_ORE)
+						{
+							if (block != Blocks.LAPIS_BLOCK && block != Blocks.LAPIS_ORE)
+							{
+								if (block != Blocks.REDSTONE_ORE && block != Blocks.LIT_REDSTONE_ORE)
+								{
+									Material material = blockIn.getMaterial();
+									return material == Material.ROCK ? true : (material == Material.IRON ? true : material == Material.ANVIL);
+								}
+								else
+								{
+									return this.toolMaterial.getHarvestLevel() >= 2;
+								}
+							}
+							else
+							{
+								return this.toolMaterial.getHarvestLevel() >= 1;
+							}
+						}
+						else
+						{
+							return this.toolMaterial.getHarvestLevel() >= 1;
+						}
+					}
+					else
+					{
+						return this.toolMaterial.getHarvestLevel() >= 2;
+					}
+				}
+				else
+				{
+					return this.toolMaterial.getHarvestLevel() >= 2;
+				}
+			}
+			else
+			{
+				return this.toolMaterial.getHarvestLevel() >= 2;
+			}
 		default:
-			return super.func_150897_b(par1Block);
+			return super.canHarvestBlock(blockIn);
 		}
 	}
 
@@ -187,8 +200,30 @@ public class ItemToolBrainStone extends ItemTool {
 	}
 
 	@Override
-	public void registerIcons(IIconRegister par1IconRegister) {
-		itemIcon = par1IconRegister.registerIcon("brainstonemod:"
-				+ this.getUnlocalizedName().replaceFirst("item.", ""));
+	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+	{
+		if(typeId == 0) {
+			if (!playerIn.canPlayerEdit(pos.offset(facing), facing, stack)) {
+				return EnumActionResult.FAIL;
+			} else {
+				IBlockState iblockstate = worldIn.getBlockState(pos);
+				Block block = iblockstate.getBlock();
+
+				if (facing != EnumFacing.DOWN && worldIn.getBlockState(pos.up()).getMaterial() == Material.AIR && block == Blocks.GRASS) {
+					IBlockState iblockstate1 = Blocks.GRASS_PATH.getDefaultState();
+					worldIn.playSound(playerIn, pos, SoundEvents.ITEM_SHOVEL_FLATTEN, SoundCategory.BLOCKS, 1.0F, 1.0F);
+
+					if (!worldIn.isRemote) {
+						worldIn.setBlockState(pos, iblockstate1, 11);
+						stack.damageItem(1, playerIn);
+					}
+
+					return EnumActionResult.SUCCESS;
+				} else {
+					return EnumActionResult.PASS;
+				}
+			}
+		}
+		return EnumActionResult.PASS;
 	}
 }

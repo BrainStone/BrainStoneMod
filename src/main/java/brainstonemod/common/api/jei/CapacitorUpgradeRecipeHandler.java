@@ -1,6 +1,6 @@
-package brainstonemod.common.api.nei;
+package brainstonemod.common.api.jei;
 
-import brainstonemod.common.helper.BrainStoneLifeCapacitorUpgrade;
+/*import brainstonemod.common.helper.BrainStoneLifeCapacitorUpgrade;
 import codechicken.nei.NEIClientUtils;
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
@@ -13,9 +13,6 @@ import net.minecraft.item.crafting.IRecipe;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author The_Fireplace
- */
 public class CapacitorUpgradeRecipeHandler extends ShapelessRecipeHandler {
     @Override
     public void loadTransferRects() {}
@@ -140,3 +137,4 @@ public class CapacitorUpgradeRecipeHandler extends ShapelessRecipeHandler {
         }
     }
 }
+*/

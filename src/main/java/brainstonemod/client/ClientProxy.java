@@ -1,26 +1,14 @@
 package brainstonemod.client;
 
 import brainstonemod.common.CommonProxy;
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class ClientProxy extends CommonProxy {
-	/**
-	 * Adds some armor.
-	 * 
-	 * @param armor
-	 *            The armor name
-	 * @return the Armor-Renderer-Prefix
-	 */
-	@Override
-	public int addArmor(String armor) {
-		return RenderingRegistry.addNewArmourRendererPrefix(armor);
-	}
 
 	/**
 	 * Returns the Client Minecraft Instance.
@@ -38,7 +26,7 @@ public class ClientProxy extends CommonProxy {
 	 * @return the Client player Instance
 	 */
 	@Override
-	public EntityClientPlayerMP getPlayer() {
+	public EntityPlayerSP getPlayer() {
 		return getClient().thePlayer;
 	}
 

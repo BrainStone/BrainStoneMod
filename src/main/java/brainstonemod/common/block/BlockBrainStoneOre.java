@@ -1,15 +1,17 @@
 package brainstonemod.common.block;
 
-import java.util.Random;
-
+import brainstonemod.BrainStone;
+import net.minecraft.block.BlockOre;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import brainstonemod.BrainStone;
-import brainstonemod.common.block.template.BlockBrainStoneOreBase;
 
-public class BlockBrainStoneOre extends BlockBrainStoneOreBase {
+import java.util.Random;
+
+public class BlockBrainStoneOre extends BlockOre {
 	/**
 	 * Constructor of the block. Registers all properties and sets the id and
 	 * the material
@@ -21,32 +23,30 @@ public class BlockBrainStoneOre extends BlockBrainStoneOreBase {
 		setHardness(2.0F);
 		setResistance(0.25F);
 		setLightLevel(0.3F);
-		setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.tabBlock));
+		setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.BUILDING_BLOCKS));
 		setHarvestLevel("pickaxe", 2);
 		blockParticleGravity = 0.2F;
 	}
 
 	@Override
-	public void dropBlockAsItemWithChance(World par1World, int par2, int par3,
-			int par4, int par5, float par6, int par7) {
-		super.dropBlockAsItemWithChance(par1World, par2, par3, par4, par5,
-				par6, par7);
+	public void dropBlockAsItemWithChance(World world, BlockPos pos, IBlockState state, float chance, int fortune) {
+		super.dropBlockAsItemWithChance(world, pos, state, chance, fortune);
 
-		if (getItemDropped(par5, par1World.rand, par7) != Item
+		if (getItemDropped(state, world.rand, fortune) != Item
 				.getItemFromBlock(this)) {
 			int var8 = 0;
 
 			if (this == BrainStone.brainStoneOre()) {
-				var8 = MathHelper.getRandomIntegerInRange(par1World.rand, 10,
+				var8 = MathHelper.getRandomIntegerInRange(world.rand, 10,
 						20);
 			}
 
-			dropXpOnBlockBreak(par1World, par2, par3, par4, var8);
+			dropXpOnBlockBreak(world, pos, var8);
 		}
 	}
 
 	@Override
-	public Item getItemDropped(int i, Random random, int j) {
+	public Item getItemDropped(IBlockState i, Random random, int j) {
 		return BrainStone.brainStoneDust();
 	}
 

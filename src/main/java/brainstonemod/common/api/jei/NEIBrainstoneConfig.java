@@ -1,10 +1,10 @@
-package brainstonemod.common.api.nei;
+package brainstonemod.common.api.jei;
 
-import brainstonemod.BrainStone;
+/*import brainstonemod.BrainStone;
 import brainstonemod.common.api.BrainStoneModules;
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
-import cpw.mods.fml.common.Optional;
+import net.minecraftforge.fml.common.Optional;
 import net.minecraft.item.ItemStack;
 
 @Optional.Interface(iface = "codechicken.nei.api.API", modid = "NotEnoughItems")
@@ -31,4 +31,4 @@ public class NEIBrainstoneConfig implements IConfigureNEI {
 			API.registerUsageHandler(new CapacitorUpgradeRecipeHandler());
 		}
 	}
-}
+}*/

@@ -1,7 +1,7 @@
 package brainstonemod.common.api;
 
 import brainstonemod.common.helper.Module;
-import cpw.mods.fml.common.Loader;
+import net.minecraftforge.fml.common.Loader;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass

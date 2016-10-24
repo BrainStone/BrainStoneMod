@@ -1,8 +1,8 @@
 package brainstonemod.common.api.thaumcraft;
 
-import brainstonemod.BrainStone;
+/*import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
-import cpw.mods.fml.common.Optional;
+import net.minecraftforge.fml.common.Optional;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import thaumcraft.api.ThaumcraftApi;
@@ -120,3 +120,4 @@ public class AspectCreator {
 		ThaumcraftApi.registerObjectTag(new ItemStack(BrainStone.brainStoneBoots()), brainstone);
 	}
 }
+*/

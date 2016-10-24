@@ -1,55 +1,56 @@
 package brainstonemod.common.block;
 
-import java.util.Random;
-
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import brainstonemod.BrainStone;
 import brainstonemod.common.block.template.BlockBrainStoneContainerBase;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.tileentity.TileEntityBrainLightSensor;
 import brainstonemod.network.BrainStonePacketHelper;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.relauncher.Side;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.relauncher.Side;
+
+import javax.annotation.Nullable;
+import java.util.Random;
 
 public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
-	public static IIcon[] textures;
-
 	/**
 	 * Constructor of the block. Registers all properties and sets the id and
 	 * the material
-	 *
      */
 	public BlockBrainLightSensor() {
-		super(Material.rock);
+		super(Material.ROCK);
 
 		setHardness(2.4F);
 		setResistance(0.5F);
-		setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.tabRedstone));
+		setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.REDSTONE));
 		setHarvestLevel("pickaxe", 1);
 
 		blockParticleGravity = -0.2F;
 	}
 
 	@Override
-	public void breakBlock(World world, int x, int y, int z, Block block,
-			int meta) {
-		world.removeTileEntity(x, y, z);
-		world.notifyBlocksOfNeighborChange(x, y, z, this);
-		world.notifyBlocksOfNeighborChange(x - 1, y, z, this);
-		world.notifyBlocksOfNeighborChange(x + 1, y, z, this);
-		world.notifyBlocksOfNeighborChange(x, y - 1, z, this);
-		world.notifyBlocksOfNeighborChange(x, y + 1, z, this);
-		world.notifyBlocksOfNeighborChange(x, y, z - 1, this);
-		world.notifyBlocksOfNeighborChange(x, y, z + 1, this);
+	public void breakBlock(World world, BlockPos pos, IBlockState state) {
+		world.removeTileEntity(pos);
+		world.notifyNeighborsOfStateChange(pos, this);
+		world.notifyNeighborsOfStateChange(pos.add(-1, 0, 0), this);
+		world.notifyNeighborsOfStateChange(pos.add(1, 0, 0), this);
+		world.notifyNeighborsOfStateChange(pos.down(), this);
+		world.notifyNeighborsOfStateChange(pos.up(), this);
+		world.notifyNeighborsOfStateChange(pos.add(0, 0, -1), this);
+		world.notifyNeighborsOfStateChange(pos.add(0, 0, 1), this);
 	}
 
 	/**
@@ -72,14 +73,12 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 	 * @return True to make the connection
 	 */
 	@Override
-	public boolean canConnectRedstone(IBlockAccess world, int x, int y, int z,
-			int side) {
-        return side != -1;
-
+	public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
+        return side != EnumFacing.UP;
     }
 
 	@Override
-	public boolean canProvidePower() {
+	public boolean canProvidePower(IBlockState state) {
 		return true;
 	}
 
@@ -89,20 +88,9 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 	}
 
 	@Override
-	public IIcon getIcon(int side, int meta) {
-		if (side == 1)
-			return textures[0];
-		else if (side == 0)
-			return textures[2];
-		else
-			return textures[1];
-	}
-
-	@Override
-	public int isProvidingStrongPower(IBlockAccess iblockaccess, int x, int y,
-			int z, int meta) {
-		final TileEntityBrainLightSensor tileentity = (TileEntityBrainLightSensor) iblockaccess
-				.getTileEntity(x, y, z);
+	public int getStrongPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
+		final TileEntityBrainLightSensor tileentity = (TileEntityBrainLightSensor) blockAccess
+				.getTileEntity(pos);
 
 		if (tileentity == null)
 			return 0;
@@ -114,65 +102,54 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 	}
 
 	@Override
-	public int isProvidingWeakPower(IBlockAccess iblockaccess, int x, int y,
-			int z, int meta) {
-		return isProvidingStrongPower(iblockaccess, x, y, z, meta);
+	public int getWeakPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
+		return getStrongPower(blockState, blockAccess, pos, side);
 	}
 
 	@Override
-	public boolean isSideSolid(IBlockAccess world, int x, int y, int z,
-			ForgeDirection side) {
+	public boolean isSideSolid(IBlockState base_state, IBlockAccess world, BlockPos pos, EnumFacing side) {
 		return true;
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z,
-			EntityPlayer entityplayer, int unknown, float px, float py, float pz) {
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
 		final TileEntityBrainLightSensor tileentity = (TileEntityBrainLightSensor) world
-				.getTileEntity(x, y, z);
+				.getTileEntity(pos);
 
 		if (tileentity == null) {
 			BSP.log("The TileEntity is null!");
 
 			return false;
 		} else {
-			entityplayer.openGui(BrainStone.instance, 0, world, x, y, z);
+			playerIn.openGui(BrainStone.instance, 0, world, pos.getX(), pos.getY(), pos.getZ());
 			return true;
 		}
 	}
 
 	@Override
-	public void onBlockAdded(World world, int x, int y, int z) {
-		world.setTileEntity(x, y, z, createNewTileEntity(world, 0));
-		world.notifyBlocksOfNeighborChange(x, y, z, this);
-		world.notifyBlocksOfNeighborChange(x - 1, y, z, this);
-		world.notifyBlocksOfNeighborChange(x + 1, y, z, this);
-		world.notifyBlocksOfNeighborChange(x, y - 1, z, this);
-		world.notifyBlocksOfNeighborChange(x, y + 1, z, this);
-		world.notifyBlocksOfNeighborChange(x, y, z - 1, this);
-		world.notifyBlocksOfNeighborChange(x, y, z + 1, this);
+	public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
+		world.setTileEntity(pos, createNewTileEntity(world, 0));
+		world.notifyNeighborsOfStateChange(pos, this);
+		world.notifyNeighborsOfStateChange(pos.add(-1, 0, 0), this);
+		world.notifyNeighborsOfStateChange(pos.add(1, 0, 0), this);
+		world.notifyNeighborsOfStateChange(pos.down(), this);
+		world.notifyNeighborsOfStateChange(pos.up(), this);
+		world.notifyNeighborsOfStateChange(pos.add(0, 0, -1), this);
+		world.notifyNeighborsOfStateChange(pos.add(0, 0, 1), this);
 
-		world.scheduleBlockUpdate(x, y, z, this,
+		world.scheduleBlockUpdate(pos, this,
 				tickRate(world)
-						- ((int) world.getTotalWorldTime() % tickRate(world)));
-	}
-
-	@Override
-	public void registerBlockIcons(IIconRegister IconReg) {
-		textures = new IIcon[] {
-				IconReg.registerIcon("brainstonemod:brainLightSensor"),
-				IconReg.registerIcon("brainstonemod:brainStoneMachineSide"),
-				IconReg.registerIcon("brainstonemod:brainStoneMachineBottom") };
+						- ((int) world.getTotalWorldTime() % tickRate(world)), 0);//TODO: Check that priority
 	}
 
 	public void smoke(World world, int x, int y, int z, Random random) {
 		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
-			world.playSound(x, y, z, "random.click", 1.0F, 1.0F, true);
+			world.playSound(x, y, z, SoundEvents.UI_BUTTON_CLICK, SoundCategory.BLOCKS, 1.0F, 1.0F, true);
 			int randInt = random.nextInt(5) + random.nextInt(6) + 5;
 
 			int i;
 			for (i = 0; i < randInt; i++) {
-				world.spawnParticle("smoke",
+				world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL,
 						(x + (random.nextDouble() * 1.4)) - 0.2, y + 0.8
 								+ (random.nextDouble() * 0.6),
 						(z + (random.nextDouble() * 1.4)) - 0.2, 0.0D, 0.0D,
@@ -182,7 +159,7 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 			randInt = random.nextInt(3);
 
 			for (i = 0; i < randInt; i++) {
-				world.spawnParticle("largesmoke",
+				world.spawnParticle(EnumParticleTypes.SMOKE_LARGE,
 						(x + (random.nextDouble() * 1.4)) - 0.2, y + 0.8
 								+ (random.nextDouble() * 0.6),
 						(z + (random.nextDouble() * 1.4)) - 0.2, 0.0D, 0.0D,
@@ -199,9 +176,9 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 	}
 
 	@Override
-	public void updateTick(World world, int x, int y, int z, Random random) {
+	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
 		final TileEntityBrainLightSensor tileentity = (TileEntityBrainLightSensor) world
-				.getTileEntity(x, y, z);
+				.getTileEntity(pos);
 
 		if (tileentity != null) {
 			if (tileentity.isClassic()) {
@@ -216,43 +193,43 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 
 				if (tmpPower != power) {
 					BrainStonePacketHelper.sendBrainLightSensorSmokePacket(
-							world.provider.dimensionId, x, y, z);
+							world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ());
 
 					tileentity.setPowerOn(tmpPower);
 
-					world.markBlockForUpdate(x, y, z);
-					world.notifyBlocksOfNeighborChange(x, y, z, this);
-					world.notifyBlocksOfNeighborChange(x - 1, y, z, this);
-					world.notifyBlocksOfNeighborChange(x + 1, y, z, this);
-					world.notifyBlocksOfNeighborChange(x, y - 1, z, this);
-					world.notifyBlocksOfNeighborChange(x, y + 1, z, this);
-					world.notifyBlocksOfNeighborChange(x, y, z - 1, this);
-					world.notifyBlocksOfNeighborChange(x, y, z + 1, this);
+					world.scheduleBlockUpdate(pos, this, tickRate(world), 0);//TODO: Check that priority
+					world.notifyNeighborsOfStateChange(pos, this);
+					world.notifyNeighborsOfStateChange(pos.add(-1, 0, 0), this);
+					world.notifyNeighborsOfStateChange(pos.add(1, 0, 0), this);
+					world.notifyNeighborsOfStateChange(pos.down(), this);
+					world.notifyNeighborsOfStateChange(pos.up(), this);
+					world.notifyNeighborsOfStateChange(pos.add(0, 0, -1), this);
+					world.notifyNeighborsOfStateChange(pos.add(0, 0, 1), this);
 				}
 			} else {
-				final int worldLight = world.getBlockLightValue(x, y + 1, z);
+				final int worldLight = world.getLight(pos.up());
 				final short tmpPower = tileentity.getPower();
 				final short power = (short) (tileentity.getDirection() ? worldLight
 						: 15 - worldLight);
 
 				if (tmpPower != power) {
 					BrainStonePacketHelper.sendBrainLightSensorSmokePacket(
-							world.provider.dimensionId, x, y, z);
+							world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ());
 
 					tileentity.setPower(power);
 
-					world.markBlockForUpdate(x, y, z);
-					world.notifyBlocksOfNeighborChange(x, y, z, this);
-					world.notifyBlocksOfNeighborChange(x - 1, y, z, this);
-					world.notifyBlocksOfNeighborChange(x + 1, y, z, this);
-					world.notifyBlocksOfNeighborChange(x, y - 1, z, this);
-					world.notifyBlocksOfNeighborChange(x, y + 1, z, this);
-					world.notifyBlocksOfNeighborChange(x, y, z - 1, this);
-					world.notifyBlocksOfNeighborChange(x, y, z + 1, this);
+					world.scheduleBlockUpdate(pos, this, tickRate(world), 0);//TODO: Check that priority
+					world.notifyNeighborsOfStateChange(pos, this);
+					world.notifyNeighborsOfStateChange(pos.add(-1, 0, 0), this);
+					world.notifyNeighborsOfStateChange(pos.add(1, 0, 0), this);
+					world.notifyNeighborsOfStateChange(pos.down(), this);
+					world.notifyNeighborsOfStateChange(pos.up(), this);
+					world.notifyNeighborsOfStateChange(pos.add(0, 0, -1), this);
+					world.notifyNeighborsOfStateChange(pos.add(0, 0, 1), this);
 				}
 			}
 
-			world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
+			world.scheduleBlockUpdate(pos, this, tickRate(world), 0);//TODO: Check that priority
 		} else {
 			BSP.fatal("Die TileEntity fehlt!");
 		}

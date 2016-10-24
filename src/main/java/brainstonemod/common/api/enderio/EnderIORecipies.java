@@ -1,15 +1,15 @@
 package brainstonemod.common.api.enderio;
 
+import crazypants.enderio.machine.sagmill.SagMillRecipeManager;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
-import cpw.mods.fml.common.Optional;
+import net.minecraftforge.fml.common.Optional;
 import crazypants.enderio.item.darksteel.DarkSteelRecipeManager;
 import crazypants.enderio.machine.alloy.AlloyRecipeManager;
-import crazypants.enderio.machine.crusher.CrusherRecipeManager;
 import crazypants.enderio.machine.recipe.BasicManyToOneRecipe;
 import crazypants.enderio.machine.recipe.Recipe;
 import crazypants.enderio.machine.recipe.RecipeBonusType;
@@ -27,7 +27,7 @@ public class EnderIORecipies {
 		addSAGMillRecipe(BrainStone.brainStoneOre(), 4000,
 				BrainStone.brainStoneDust(), new RecipeOutput(new ItemStack(
 						BrainStone.brainStoneDust()), 0.5f), new RecipeOutput(
-						new ItemStack(Blocks.cobblestone), 0.15f));
+						new ItemStack(Blocks.COBBLESTONE), 0.15f));
 		// BrainStone => 4xBrainStoneDust
 		addSAGMillRecipe(BrainStone.brainStone(), 5000, RecipeBonusType.NONE,
 				new ItemStack(BrainStone.brainStoneDust(), 4));
@@ -72,7 +72,7 @@ public class EnderIORecipies {
 			rOutputs[i] = objectToOutput(outputs[i]);
 		}
 
-		CrusherRecipeManager.getInstance().addRecipe(
+		SagMillRecipeManager.getInstance().addRecipe(
 				new Recipe(rInput, energyRequired, bonusType, rOutputs));
 	}
 

@@ -121,6 +121,11 @@ public class BrainStoneLifeCapacitorUpgrade implements IRecipe {
 		}
 	}
 
+	@Override
+	public ItemStack[] getRemainingItems(InventoryCrafting inv) {
+		return new ItemStack[0];//TODO: Check this
+	}
+
 	public ItemStack[] getStacks(){
 		return new ItemStack[]{new ItemStack(BrainStone.brainStoneLifeCapacitor()), upgrade.getUpgrade()};
 	}

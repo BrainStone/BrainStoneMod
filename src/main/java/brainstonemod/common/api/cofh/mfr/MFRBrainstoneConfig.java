@@ -1,10 +1,10 @@
 package brainstonemod.common.api.cofh.mfr;
 
-import net.minecraft.item.ItemStack;
+/*import net.minecraft.item.ItemStack;
 import powercrystals.minefactoryreloaded.MFRRegistry;
 import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
-import cpw.mods.fml.common.Optional;
+import net.minecraftforge.fml.common.Optional;
 
 public class MFRBrainstoneConfig {
 	@Optional.Method(modid = "MineFactoryReloaded")
@@ -18,4 +18,4 @@ public class MFRBrainstoneConfig {
 		MFRRegistry.addLaserPreferredOre(13,
 				new ItemStack(BrainStone.brainStoneOre()));
 	}
-}
+}*/

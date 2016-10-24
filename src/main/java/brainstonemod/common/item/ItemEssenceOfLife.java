@@ -4,6 +4,7 @@ import brainstonemod.BrainStone;
 import brainstonemod.common.item.template.ItemBrainStoneFood;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
@@ -15,12 +16,12 @@ public class ItemEssenceOfLife extends ItemBrainStoneFood {
 		super(20, 10.0F);
 
 		setAlwaysEdible();
-		setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.tabMaterials));
+		setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.MATERIALS));
 	}
 
 	@Override
 	public EnumRarity getRarity(ItemStack stack) {
-		return EnumRarity.uncommon;
+		return EnumRarity.UNCOMMON;
 	}
 
 	@Override
@@ -30,17 +31,17 @@ public class ItemEssenceOfLife extends ItemBrainStoneFood {
 			PotionEffect potion;
 			Object[][] potionEffects = new Object[][]{
 				// Absorption X for 120s
-				{Potion.field_76444_x, 120, 9},
+				{MobEffects.ABSORPTION, 120, 9},
 				// Resitance III for 120s
-				{Potion.resistance, 120, 2},
+				{MobEffects.RESISTANCE, 120, 2},
 				// Strength III for 120s
-				{Potion.damageBoost, 120, 2},
+				{MobEffects.STRENGTH, 120, 2},
 				// Regeneration III for 30s
-				{Potion.regeneration, 30, 2},
+				{MobEffects.REGENERATION, 30, 2},
 				// Fire Resistance for 300s
-				{Potion.fireResistance, 300, 0},
+				{MobEffects.FIRE_RESISTANCE, 300, 0},
 				// Water Breathing for 300s
-				{Potion.waterBreathing, 300, 0}
+				{MobEffects.WATER_BREATHING, 300, 0}
 			};
 			
 			for(Object[] potionToAdd : potionEffects) {
@@ -48,7 +49,7 @@ public class ItemEssenceOfLife extends ItemBrainStoneFood {
 				potion = player.getActivePotionEffect((Potion) potionToAdd[0]);
 				if (potion != null)
 					duration = potion.getDuration();
-				player.addPotionEffect(new PotionEffect(((Potion) potionToAdd[0]).id, (Integer)potionToAdd[1] * 20, (Integer)potionToAdd[2]));
+				player.addPotionEffect(new PotionEffect(((Potion) potionToAdd[0]), (Integer)potionToAdd[1] * 20, (Integer)potionToAdd[2]));
 			}
 		}
 	}

@@ -5,23 +5,29 @@ import brainstonemod.common.api.enderio.BrainStoneUpgrade;
 import brainstonemod.common.block.template.BlockBrainStoneBase;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.network.BrainStonePacketHelper;
-import cpw.mods.fml.common.Loader;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Loader;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+
+import static slimeknights.tconstruct.TConstruct.random;
 
 public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 	private final boolean effect;
@@ -29,7 +35,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 	private static long lastGravityChange = 0;
 
 	public BlockPulsatingBrainStone(boolean effect) {
-		super(Material.rock);
+		super(Material.ROCK);
 
 		this.effect = effect;
 
@@ -41,7 +47,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 		if (effect) {
 			hasEffectBlock = this;
 		} else {
-			setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.tabBlock));
+			setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.BUILDING_BLOCKS));
 			hasNoEffectBlock = this;
 		}
 
@@ -54,37 +60,37 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 	}
 
 	@Override
-	protected Block getBlockDropped(int meta, Random random, int fortune) {
-		return hasNoEffectBlock;
+	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+		return Item.getItemFromBlock(hasNoEffectBlock);
 	}
 
 	@Override
-	public int damageDropped(int meta) {
+	public int damageDropped(IBlockState state) {
 		if (effect)
 			return 0;
 		else
-			return meta & 0x01;
+			return getMetaFromState(state) & 0x01;
 	}
 
 	@Override
-	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z) {
+	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
 		return new ItemStack(BrainStone.pulsatingBrainStone());
 	}
 
-	private int getRandomPotion(Random random) {
+	private Potion getRandomPotion(Random random) {
 		Potion potion;
 
 		do {
-			potion = Potion.potionTypes[random.nextInt(Potion.potionTypes.length)];
+			potion = Potion.getPotionById(random.nextInt(Potion.REGISTRY.getKeys().size()));
 		} while (potion == null);
 
-		return potion.id;
+		return potion;
 	}
 
 	@Override
-	public void onBlockAdded(World world, int i, int j, int k) {
-		super.onBlockAdded(world, i, j, k);
-		world.scheduleBlockUpdate(i, j, k, this, (int) world.getTotalWorldTime() % tickRate(world));
+	public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
+		super.onBlockAdded(worldIn, pos, state);
+		worldIn.scheduleBlockUpdate(pos, this, (int) worldIn.getTotalWorldTime() % tickRate(worldIn), 0);//TODO: Check that priority
 	}
 
 	@Override
@@ -93,17 +99,17 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 	}
 
 	@Override
-	public void updateTick(World world, int x, int y, int z, Random random) {
+	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
 		final int metaData = (int) ((world.getTotalWorldTime() / tickRate(world)) % 16);
 
 		if (metaData >= 15) {
 			if (effect) {
 				if (random.nextInt(2) == 0) {
-					world.setBlock(x, y, z, hasNoEffectBlock, 0, 2);
+					world.setBlockState(pos, hasNoEffectBlock.getDefaultState(), 2);
 				}
 			} else {
 				if (random.nextInt(4) == 0) {
-					world.setBlock(x, y, z, hasEffectBlock, 0, 2);
+					world.setBlockState(pos, hasEffectBlock.getDefaultState(), 2);
 				}
 			}
 		} else if ((metaData == 8) && (effect)) {
@@ -114,7 +120,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 			EntityLivingBase entity;
 			Object tmpEntity;
 			final List<?> list = world.getEntitiesWithinAABBExcludingEntity(null,
-					AxisAlignedBB.getBoundingBox(x - 10, y - 10, z - 10, x + 11, y + 11, z + 11));
+					new AxisAlignedBB(pos.add(-10,-10,-10), pos.add(11,11,11)));
 
 			final int size = list.size();
 
@@ -126,11 +132,9 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 				if (tmpEntity instanceof EntityLivingBase) {
 					entity = (EntityLivingBase) tmpEntity;
 
-					final ItemStack[] equipment = entity.getLastActiveItems();
+					BSP.debug(entity, entity.getArmorInventoryList());
 
-					BSP.debug(entity, Arrays.toString(equipment));
-
-					if (isProtected(equipment)) {
+					if (isProtected(entity.getArmorInventoryList())) {
 						BSP.debug("Mob/Player wears armor! No effect!");
 
 						continue;
@@ -138,7 +142,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 
 					radius = MathHelper.getRandomDoubleInRange(random, 2.0, 10.0);
 
-					if (entity.getDistance((x) + 0.5, (y) + 0.5, (z) + 0.5) <= radius) {
+					if (entity.getDistance(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5) <= radius) {
 						taskRand = random.nextInt(10);
 
 						if ((taskRand >= 0) && (taskRand < 6)) {
@@ -171,10 +175,18 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 			lastGravityChange = world.getTotalWorldTime();
 		}
 
-		world.scheduleBlockUpdate(x, y, z, this, tickRate(world));
+		world.scheduleBlockUpdate(pos, this, tickRate(world), 0);//TODO: Check that priority
 	}
 
-	private static boolean isProtected(ItemStack[] armor) {
+	private static boolean isProtected(Iterable<ItemStack> armors) {
+		ItemStack[] armor = new ItemStack[]{};
+
+		for(ItemStack armorStack:armors){
+			ArrayUtils.add(armor, armorStack);//TODO: Ensure that this gets the order right
+		}
+
+		BSP.debug(Arrays.toString(armor));
+
         int offset = 0;
 
         if (armor.length < 4)

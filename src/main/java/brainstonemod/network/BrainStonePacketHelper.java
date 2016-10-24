@@ -5,16 +5,15 @@ import brainstonemod.common.helper.BSP;
 import brainstonemod.network.packet.clientbound.PacketRedoRender;
 import brainstonemod.network.packet.clientbound.PacketSmokeParticle;
 import brainstonemod.network.packet.clientbound.PacketTriggerMobs;
-import cpw.mods.fml.common.network.NetworkRegistry;
 import io.netty.channel.ChannelHandler.Sharable;
-import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S12PacketEntityVelocity;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.network.play.server.SPacketEntityVelocity;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 @Sharable
 public class BrainStonePacketHelper {
@@ -55,22 +54,19 @@ public class BrainStonePacketHelper {
 			World world, final Packet packet) {
 		final int radius = 256;
 
-		world.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB
-				.getBoundingBox(x - radius, y - radius, z - radius, x + radius,
-						y + radius, z + radius), var1 -> {
-                            if (var1 instanceof EntityPlayerMP) {
-                                final EntityPlayerMP pl = (EntityPlayerMP) var1;
-                                pl.playerNetServerHandler.sendPacket(packet);
-                            }
-                            return false;
-                        });
+		for(Entity pl:world.getEntitiesWithinAABBExcludingEntity(null, new AxisAlignedBB(x - radius, y - radius, z - radius, x + radius,
+				y + radius, z + radius))){
+			if(pl instanceof EntityPlayerMP){
+				((EntityPlayerMP)pl).connection.sendPacket(packet);
+			}
+		}
 
 	}
 
 	// DOCME
 	public static void sendPlayerUpdateMovementPacket(EntityPlayer entity,
 			double x, double y, double z) {
-		final S12PacketEntityVelocity packet = new S12PacketEntityVelocity(
+		final SPacketEntityVelocity packet = new SPacketEntityVelocity(
 				entity.getEntityId(), x, y, z);
 
 		sendPacketToClosestPlayers((int) entity.posX, (int) entity.posY,

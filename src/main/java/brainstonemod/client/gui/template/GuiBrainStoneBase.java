@@ -3,13 +3,16 @@ package brainstonemod.client.gui.template;
 import brainstonemod.BrainStone;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
+import net.minecraft.client.audio.SoundEventAccessor;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import org.lwjgl.opengl.GL11;
+
+import javax.annotation.Nullable;
 
 public abstract class GuiBrainStoneBase extends GuiContainer {
 	private class Sound implements ISound {
@@ -53,8 +56,24 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 		}
 
 		@Override
-		public ResourceLocation getPositionedSoundLocation() {
+		public ResourceLocation getSoundLocation() {
 			return resourceLocation;
+		}
+
+		@Nullable
+		@Override
+		public SoundEventAccessor createAccessor(SoundHandler handler) {
+			return null;//TODO
+		}
+
+		@Override
+		public net.minecraft.client.audio.Sound getSound() {
+			return null;//TODO
+		}
+
+		@Override
+		public SoundCategory getCategory() {
+			return SoundCategory.BLOCKS;
 		}
 
 		@Override
@@ -69,17 +88,17 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 
 		@Override
 		public float getXPosF() {
-			return tileentity.xCoord;
+			return tileentity.getPos().getX();
 		}
 
 		@Override
 		public float getYPosF() {
-			return tileentity.yCoord;
+			return tileentity.getPos().getY();
 		}
 
 		@Override
 		public float getZPosF() {
-			return tileentity.zCoord;
+			return tileentity.getPos().getZ();
 		}
 	}
 
@@ -267,16 +286,6 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 		} else {
 			drawTexturedModalRect(x, y, u, v, width, height);
 		}
-	}
-
-	@Override
-	public void drawTexturedModelRectFromIcon(int x, int y, IIcon icon,
-			int width, int height) {
-		if (!textureLoaded) {
-			bindTexture();
-		}
-
-		super.drawTexturedModelRectFromIcon(x, y, icon, width, height);
 	}
 
 	/**

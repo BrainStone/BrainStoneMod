@@ -2,11 +2,13 @@ package brainstonemod.common.worldgenerators;
 
 import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BrainStoneConfigHelper;
-import cpw.mods.fml.common.IWorldGenerator;
 import net.minecraft.block.Block;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.IChunkGenerator;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
+import net.minecraftforge.fml.common.IWorldGenerator;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Random;
@@ -22,13 +24,13 @@ public class BrainStoneOreWorldGenerator implements IWorldGenerator {
 	private World world;
 
 	@Override
-	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator,
+	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator,
 			IChunkProvider chunkProvider) {
 		this.random = random;
 		this.chunkX = chunkX * 16;
 		this.chunkZ = chunkZ * 16;
 		this.world = world;
-		if (ArrayUtils.contains(BrainStoneConfigHelper.getBrainStoneOreDims(), this.world.provider.dimensionId))
+		if (ArrayUtils.contains(BrainStoneConfigHelper.getBrainStoneOreDims(), this.world.provider.getDimension()))
 			this.genMinable(BrainStone.brainStoneOre(), 20, 1, 32);
 	}
 
@@ -67,14 +69,14 @@ public class BrainStoneOreWorldGenerator implements IWorldGenerator {
 		int randPosY;
 		int randPosZ;
 
-		WorldGenMinable generator = new WorldGenMinable(block, size);
+		WorldGenMinable generator = new WorldGenMinable(block.getDefaultState(), size);
 
 		for (int i = 0; i < perChunk; i++) {
 			randPosX = random.nextInt(16) + chunkX;
 			randPosY = low + random.nextInt(high - low);
 			randPosZ = random.nextInt(16) + chunkZ;
 
-			generator.generate(world, random, randPosX, randPosY, randPosZ);
+			generator.generate(world, random, new BlockPos(randPosX, randPosY, randPosZ));
 		}
 	}
 }
