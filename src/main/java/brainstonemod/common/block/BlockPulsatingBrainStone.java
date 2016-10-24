@@ -4,6 +4,7 @@ import brainstonemod.BrainStone;
 import brainstonemod.common.api.enderio.BrainStoneUpgrade;
 import brainstonemod.common.block.template.BlockBrainStoneBase;
 import brainstonemod.common.helper.BSP;
+import brainstonemod.common.item.ItemArmorBrainStone;
 import brainstonemod.network.BrainStonePacketHelper;
 import cpw.mods.fml.common.Loader;
 import net.minecraft.block.Block;
@@ -154,7 +155,6 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 							final double z1 = MathHelper.getRandomDoubleInRange(random, -1.5, 1.5);
 
 							if (tmpEntity instanceof EntityPlayer) {
-								//TODO: Use custom packets, not the vanilla packet.
 								BrainStonePacketHelper.sendPlayerUpdateMovementPacket((EntityPlayer) entity, x1, y1, z1);
 							} else {
 								entity.addVelocity(x1, y1, z1);
@@ -192,7 +192,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 
         boolean enderIOEnabled = Loader.isModLoaded("EnderIO");
 
-        return ((armor[3 + offset].getItem() == BrainStone.brainStoneHelmet())
-                || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[3 + offset])))) && ((armor[2 + offset].getItem() == BrainStone.brainStonePlate()) || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[2 + offset])))) && ((armor[1 + offset].getItem() == BrainStone.brainStoneLeggings()) || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[1 + offset])))) && ((armor[0 + offset].getItem() == BrainStone.brainStoneBoots()) || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[0 + offset]))));
+        return ((armor[3 + offset].getItem() instanceof ItemArmorBrainStone)
+                || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[3 + offset])))) && ((armor[2 + offset].getItem() instanceof ItemArmorBrainStone) || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[2 + offset])))) && ((armor[1 + offset].getItem() instanceof ItemArmorBrainStone) || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[1 + offset])))) && ((armor[offset].getItem() instanceof ItemArmorBrainStone) || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[0 + offset]))));
     }
 }
