@@ -47,7 +47,7 @@ def getVersionType() {
   else
     return "alpha";
 }
-/*def signJar(archivePath) {
+def signJar(archivePath) {
   if (project.hasProperty('keyStoreAlias') && project.hasProperty('keyStore') && project.hasProperty('keyStorePass')) {
     ant.signjar(
       jar:                  archivePath,
@@ -59,7 +59,7 @@ def getVersionType() {
   } else {
     println 'WARNING!!!\tCannot sign jar!'
   }
-}*/
+}
 
 ext.configFile = file "build.properties"
 configFile.withReader {
@@ -127,47 +127,38 @@ processResources {
 }
 
 jar {
-    /*doLast {
-        if (!gradle.taskGraph.hasTask(reobf)) {
-            signJar(jar.archivePath)
+    doLast {
+        if (!gradle.taskGraph.hasTask(reobfJar)) {
+            signJar(jar)
         }
-    }*/
+    }
 }
 
-reobf {
-    /*doLast {
-        signJar(jar.archivePath)
-    }*/
+reobfJar {
+    doLast {
+        signJar(jar)
+    }
 }
 
 task deobfJar(type: Jar) {
     from sourceSets.main.output
     classifier = 'deobf'
     
-    /*doLast {
+    doLast {
         signJar(deobfJar.archivePath)
-    }*/
+    }
 }
 
-task srcJar(type: Jar, dependsOn: classes) {
-    classifier = 'src'
-    duplicatesStrategy = 'exclude'
-    
-    from sourceSets.main.allSource
-    from MainDirResources
-    
-    /*doLast {
-        signJar(srcJar.archivePath)
+sourceJar {
+    doLast {
+        signJar(sourceJar.archivePath)
     }
-    
-    srcJar.shouldRunAfter jar
-    srcJar.shouldRunAfter deobfJar*/
 }
 
 artifacts {
     archives jar
     archives deobfJar
-    archives srcJar
+    archives sourceJar
 }
 
 curseforge {
@@ -186,7 +177,7 @@ curseforge {
             displayName = config.mod_version
         }
         addArtifact deobfJar
-        addArtifact srcJar
+        addArtifact sourceJar
         
         relations {
             optionalLibrary 'ender-io'
