@@ -660,7 +660,7 @@ public class BrainStone {
 	// DOCME
 	@SuppressWarnings("unchecked")
 	private static void fillTriggerEntities() {
-		if ((getServerSideTiggerEntities() == null) || (getServerSideTiggerEntities().size() == 0)) {
+		if ((getServerSideTriggerEntities() == null) || (getServerSideTriggerEntities().size() == 0)) {
 			BSP.debug("Filling triggerEntities");
 
 			final LinkedHashMap<String, Class<?>[]> tempTriggerEntities = new LinkedHashMap<>();
@@ -864,15 +864,11 @@ public class BrainStone {
 		TileEntityBrainStoneTrigger.retryFailedTileEntities();
 	}
 
-	public static final LinkedHashMap<String, Class<?>[]> getServerSideTiggerEntities() {
+	public static final LinkedHashMap<String, Class<?>[]> getServerSideTriggerEntities() {
 		return triggerEntities.get(Side.SERVER);
 	}
 
-	public static final LinkedHashMap<String, Class<?>[]> getSidedTiggerEntities(Side side) {
-		return triggerEntities.get(side);
-	}
-
-	public static final LinkedHashMap<String, Class<?>[]> getSidedTiggerEntities() {
+	public static final LinkedHashMap<String, Class<?>[]> getSidedTriggerEntities() {
 		return triggerEntities.get(FMLCommonHandler.instance().getEffectiveSide());
 	}
 

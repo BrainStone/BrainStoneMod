@@ -145,8 +145,8 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 				continue;
 			}
 
-			final int length = BrainStone.getSidedTiggerEntities().size();
-			final String[] keys = BrainStone.getSidedTiggerEntities().keySet()
+			final int length = BrainStone.getSidedTriggerEntities().size();
+			final String[] keys = BrainStone.getSidedTriggerEntities().keySet()
 					.toArray(new String[length]);
 			String key;
 			Class<?>[] classes;
@@ -155,7 +155,7 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 				key = keys[count1];
 
 				if (tileentityblockbrainstonetrigger.getMobTriggered(key)) {
-					classes = BrainStone.getSidedTiggerEntities().get(key);
+					classes = BrainStone.getSidedTriggerEntities().get(key);
 
 					for (final Class<?> classe : classes) {
 						if (classe.isAssignableFrom(entity)) {

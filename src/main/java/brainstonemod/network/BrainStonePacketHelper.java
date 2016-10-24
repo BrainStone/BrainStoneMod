@@ -30,7 +30,7 @@ public class BrainStonePacketHelper {
 
 		PacketDispatcher.sendTo(
 				new PacketTriggerMobs(BrainStone
-						.getServerSideTiggerEntities()),
+						.getServerSideTriggerEntities()),
 				(EntityPlayerMP) player);
 
 		BSP.debug("Done sending BrainStoneTriggerMobInformation Packet");

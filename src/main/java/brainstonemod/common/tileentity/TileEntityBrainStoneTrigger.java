@@ -67,8 +67,8 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 	}
 
 	private void fillMobTriggered() {
-		final int length = BrainStone.getSidedTiggerEntities().size();
-		final String[] keys = BrainStone.getSidedTiggerEntities().keySet()
+		final int length = BrainStone.getSidedTriggerEntities().size();
+		final String[] keys = BrainStone.getSidedTriggerEntities().keySet()
 				.toArray(new String[length]);
 
 		for (int i = 0; i < length; i++) {
@@ -223,9 +223,9 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 		}
 		compound.setTag("Items", list);
 
-		final int length = BrainStone.getSidedTiggerEntities().size();
+		final int length = BrainStone.getSidedTriggerEntities().size();
 		compound.setInteger("TriggerSize", length);
-		final String[] keys = BrainStone.getSidedTiggerEntities().keySet()
+		final String[] keys = BrainStone.getSidedTriggerEntities().keySet()
 				.toArray(new String[length]);
 		String trigger, key;
 
