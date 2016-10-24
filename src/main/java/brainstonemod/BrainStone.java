@@ -5,6 +5,7 @@ import brainstonemod.common.CommonProxy;
 import brainstonemod.common.api.BrainStoneModules;
 import brainstonemod.common.api.enderio.EnderIOItems;
 import brainstonemod.common.api.enderio.EnderIORecipies;
+import brainstonemod.common.api.overlord.BrainStoneAugment;
 import brainstonemod.common.api.tconstruct.TinkersContructMaterialBrainStone;
 import brainstonemod.common.block.*;
 import brainstonemod.common.block.template.BlockBrainStoneBase;
@@ -276,6 +277,10 @@ public class BrainStone {
 
 		if (BrainStoneModules.tinkersConstruct()) {
 			TinkersContructMaterialBrainStone.initToolMaterials();
+		}
+
+		if(BrainStoneModules.overlord()){
+			new BrainStoneAugment();
 		}
 	}
 

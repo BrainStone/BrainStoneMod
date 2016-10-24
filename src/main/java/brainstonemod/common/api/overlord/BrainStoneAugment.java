@@ -1,0 +1,116 @@
+package brainstonemod.common.api.overlord;
+
+import brainstonemod.BrainStone;
+import brainstonemod.common.block.BlockPulsatingBrainStone;
+import brainstonemod.common.helper.BSP;
+import brainstonemod.network.BrainStonePacketHelper;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Optional;
+import the_fireplace.overlord.entity.EntityArmyMember;
+import the_fireplace.overlord.registry.AugmentRegistry;
+import the_fireplace.overlord.tools.Augment;
+
+import java.util.List;
+import java.util.Random;
+
+/**
+ * @author The_Fireplace
+ */
+@Optional.Interface(modid = "overlord", iface = "the_fireplace.overlord.tileentity.ISkeletonMaker")
+public class BrainStoneAugment extends Augment {
+    private final Random random;
+
+    public BrainStoneAugment(){
+        random = new Random();
+        AugmentRegistry.registerAugment(new ItemStack(BrainStone.pulsatingBrainStone()), this);
+    }
+
+    @Override
+    @Optional.Method(modid = "overlord")
+    public void onEntityTick(EntityArmyMember entityArmyMember) {
+        updateTick(entityArmyMember.worldObj, entityArmyMember.getPosition(), entityArmyMember);
+    }
+
+    @Override
+    @Optional.Method(modid = "overlord")
+    public void onStrike(EntityArmyMember entityArmyMember, Entity entity) {
+
+    }
+
+    @Override
+    @Optional.Method(modid = "overlord")
+    public String augmentId() {
+        return "pulsatingbrainstone";
+    }
+
+    public void updateTick(World world, BlockPos pos, EntityArmyMember augmented) {
+        final int metaData = (int) ((world.getTotalWorldTime() / 2) % 16);
+
+        if ((metaData == 8)) {
+            BSP.debug("", "Effect Time!");
+
+            double radius;
+            int taskRand;
+            EntityLivingBase entity;
+            Object tmpEntity;
+            final List<?> list = world.getEntitiesWithinAABBExcludingEntity(augmented,
+                    new AxisAlignedBB(pos.add(-10,-10,-10), pos.add(11,11,11)));
+
+            for (Object aList : list) {
+                tmpEntity = aList;
+
+                BSP.debug(tmpEntity.getClass().getName());
+
+                if (tmpEntity instanceof EntityLivingBase) {
+                    entity = (EntityLivingBase) tmpEntity;
+
+                    BSP.debug(entity, entity.getArmorInventoryList());
+
+                    if (BlockPulsatingBrainStone.isProtected(entity.getArmorInventoryList())) {
+                        BSP.debug("Mob/Player wears armor! No effect!");
+
+                        continue;
+                    }else if(entity instanceof EntityArmyMember && ((EntityArmyMember)entity).getAugment() instanceof BrainStoneAugment){
+                        BSP.debug("Army Member has BrainStone Augment! No effect!");
+
+                        continue;
+                    }
+
+
+                    radius = MathHelper.getRandomDoubleInRange(random, 2.0, 10.0);
+
+                    if (entity.getDistance(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5) <= radius) {
+                        taskRand = random.nextInt(10);
+
+                        if ((taskRand >= 0) && (taskRand < 6)) {
+                            BSP.debug("Potion Effect");
+
+                            entity.addPotionEffect(new PotionEffect(BlockPulsatingBrainStone.getRandomPotion(random), random.nextInt(5980) + 20,
+                                    random.nextInt(4)));
+                        } else if ((taskRand >= 6) && (taskRand < 10)) {
+                            BSP.debug("Kick");
+
+                            final double x1 = MathHelper.getRandomDoubleInRange(random, -1.5, 1.5);
+                            final double y1 = MathHelper.getRandomDoubleInRange(random, 0.0, 3.0);
+                            final double z1 = MathHelper.getRandomDoubleInRange(random, -1.5, 1.5);
+
+                            if (tmpEntity instanceof EntityPlayer) {
+                                BrainStonePacketHelper.sendPlayerUpdateMovementPacket((EntityPlayer) entity, x1, y1, z1);
+                            } else {
+                                entity.addVelocity(x1, y1, z1);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

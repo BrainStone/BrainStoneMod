@@ -77,7 +77,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 		return new ItemStack(BrainStone.pulsatingBrainStone());
 	}
 
-	private Potion getRandomPotion(Random random) {
+	public static Potion getRandomPotion(Random random) {
 		Potion potion;
 
 		do {
@@ -156,7 +156,6 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 							final double z1 = MathHelper.getRandomDoubleInRange(random, -1.5, 1.5);
 
 							if (tmpEntity instanceof EntityPlayer) {
-								//TODO: Use custom packets, not the vanilla packet.
 								BrainStonePacketHelper.sendPlayerUpdateMovementPacket((EntityPlayer) entity, x1, y1, z1);
 							} else {
 								entity.addVelocity(x1, y1, z1);
@@ -176,11 +175,11 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 		world.scheduleBlockUpdate(pos, this, tickRate(world), 0);//TODO: Check that priority
 	}
 
-	private static boolean isProtected(Iterable<ItemStack> armors) {
+	public static boolean isProtected(Iterable<ItemStack> armors) {
 		ItemStack[] armor = new ItemStack[]{};
 
 		for(ItemStack armorStack:armors){
-			ArrayUtils.add(armor, armorStack);//TODO: Ensure that this gets the order right
+			ArrayUtils.add(armor, armorStack);
 		}
 
 		BSP.debug(Arrays.toString(armor));

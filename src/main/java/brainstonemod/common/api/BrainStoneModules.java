@@ -10,6 +10,7 @@ public final class BrainStoneModules {
 	private static Boolean ENDER_IO;
 	private static Boolean ENERGY;
 	private static Boolean MFR;
+	private static Boolean OVERLORD;
 	private static Boolean THAUMCRAFT;
 	private static Boolean TINKERS_CONSTRUCT;
 
@@ -47,6 +48,15 @@ public final class BrainStoneModules {
 		}
 
 		return MFR;
+	}
+
+	@Module("Overlord detected! Adding Pulsating BrainStone Augment.")
+	public static boolean overlord(){
+		if(OVERLORD == null){
+			OVERLORD = Loader.isModLoaded("overlord");
+		}
+
+		return OVERLORD;
 	}
 
 	@Module("Thaumcraft detected! Adding aspect and fitting aspects to items.")
