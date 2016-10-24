@@ -201,7 +201,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 
         boolean enderIOEnabled = Loader.isModLoaded("EnderIO");
 
-        return ((armor[3 + offset].getItem() == BrainStone.brainStoneHelmet())
+        return ((armor[3 + offset].getItem() == BrainStone.brainStoneHelmet())//TODO: Fix this. If we want SPBS to protect, an instanceof check would be best
                 || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[3 + offset])))) && ((armor[2 + offset].getItem() == BrainStone.brainStonePlate()) || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[2 + offset])))) && ((armor[1 + offset].getItem() == BrainStone.brainStoneLeggings()) || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[1 + offset])))) && ((armor[0 + offset].getItem() == BrainStone.brainStoneBoots()) || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[0 + offset]))));
     }
 }

@@ -26,10 +26,7 @@ import javax.annotation.Nullable;
 import java.util.Random;
 
 public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
-	/**
-	 * Constructor of the block. Registers all properties and sets the id and
-	 * the material
-     */
+
 	public BlockBrainLightSensor() {
 		super(Material.ROCK);
 
@@ -53,25 +50,6 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 		world.notifyNeighborsOfStateChange(pos.add(0, 0, 1), this);
 	}
 
-	/**
-	 * Determine if this block can make a redstone connection on the side
-	 * provided, Useful to control which sides are inputs and outputs for
-	 * redstone wires.
-	 * 
-	 * Side: -1: UP 0: NORTH 1: EAST 2: SOUTH 3: WEST
-	 * 
-	 * @param world
-	 *            The current world
-	 * @param x
-	 *            X Position
-	 * @param y
-	 *            Y Position
-	 * @param z
-	 *            Z Position
-	 * @param side
-	 *            The side that is trying to make the connection
-	 * @return True to make the connection
-	 */
 	@Override
 	public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
         return side != EnumFacing.UP;
@@ -143,7 +121,7 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 	}
 
 	public void smoke(World world, int x, int y, int z, Random random) {
-		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
+		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {//Why are we using this and not world.isRemote?
 			world.playSound(x, y, z, SoundEvents.UI_BUTTON_CLICK, SoundCategory.BLOCKS, 1.0F, 1.0F, true);
 			int randInt = random.nextInt(5) + random.nextInt(6) + 5;
 
@@ -184,7 +162,6 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 			if (tileentity.isClassic()) {
 				final boolean power = tileentity.getPowerOn();
 				final boolean direction = tileentity.getDirection();
-				final int oldWorldLight = tileentity.getOldCurLightLevel();
 				final int worldLight = tileentity.getCurLightLevel();
 				final int lightLevel = tileentity.getLightLevel();
 
