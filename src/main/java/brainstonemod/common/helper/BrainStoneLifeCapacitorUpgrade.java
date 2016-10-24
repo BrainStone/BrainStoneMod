@@ -105,7 +105,7 @@ public class BrainStoneLifeCapacitorUpgrade implements IRecipe {
 
 	@Override
 	public int getRecipeSize() {
-		return 0;
+		return 2;
 	}
 
 	@Override

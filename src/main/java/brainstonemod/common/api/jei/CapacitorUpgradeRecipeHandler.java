@@ -1,140 +1,65 @@
 package brainstonemod.common.api.jei;
 
-/*import brainstonemod.common.helper.BrainStoneLifeCapacitorUpgrade;
-import codechicken.nei.NEIClientUtils;
-import codechicken.nei.NEIServerUtils;
-import codechicken.nei.PositionedStack;
-import codechicken.nei.recipe.ShapelessRecipeHandler;
-import net.minecraft.client.gui.inventory.GuiContainer;
+import brainstonemod.common.helper.BSP;
+import brainstonemod.common.helper.BrainStoneLifeCapacitorUpgrade;
+import mezz.jei.api.recipe.IRecipeHandler;
+import mezz.jei.api.recipe.IRecipeWrapper;
+import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
+import mezz.jei.util.ErrorUtil;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
-import net.minecraft.item.crafting.IRecipe;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.annotation.Nonnull;
 
-public class CapacitorUpgradeRecipeHandler extends ShapelessRecipeHandler {
+/**
+ * @author The_Fireplace
+ */
+public class CapacitorUpgradeRecipeHandler implements IRecipeHandler<BrainStoneLifeCapacitorUpgrade> {
+    @Nonnull
     @Override
-    public void loadTransferRects() {}
+    public Class getRecipeClass() {
+        return BrainStoneLifeCapacitorUpgrade.class;
+    }
 
+    @Nonnull
     @Override
-    public String getRecipeName() {
-        return NEIClientUtils.translate("recipe.capacitorupgrade");
+    public String getRecipeCategoryUid() {
+        return VanillaRecipeCategoryUid.CRAFTING;
+    }
+
+    @Nonnull
+    @Override
+    public String getRecipeCategoryUid(@Nonnull BrainStoneLifeCapacitorUpgrade recipe) {
+        return VanillaRecipeCategoryUid.CRAFTING;
+    }
+
+    @Nonnull
+    @Override
+    public IRecipeWrapper getRecipeWrapper(@Nonnull BrainStoneLifeCapacitorUpgrade recipe) {
+        return new CapacitorUpgradeRecipeWrapper(recipe);
     }
 
     @Override
-    public Class<? extends GuiContainer> getGuiClass() {
-        return null;
-    }
-
-    @Override
-    public void loadCraftingRecipes(String outputId, Object... results) {
-        if(outputId.equals("crafting") && this.getClass() == CapacitorUpgradeRecipeHandler.class) {
-
-            for (Object o : CraftingManager.getInstance().getRecipeList()) {
-                IRecipe irecipe = (IRecipe) o;
-                CachedCapacitorRecipe recipe = null;
-                if (irecipe instanceof BrainStoneLifeCapacitorUpgrade) {
-                    recipe = new CachedCapacitorRecipe((BrainStoneLifeCapacitorUpgrade) irecipe);
-                }
-
-                if (recipe != null) {
-                    recipe.computeVisuals();
-                    this.arecipes.add(recipe);
-                }
-            }
-        } else {
-            super.loadCraftingRecipes(outputId, results);
+    public boolean isRecipeValid(@Nonnull BrainStoneLifeCapacitorUpgrade recipe) {
+        if (recipe.getRecipeOutput() == null) {
+            String recipeInfo = ErrorUtil.getInfoFromBrokenRecipe(recipe, this);
+            BSP.error("Recipe has no output. {}", recipeInfo);
+            return false;
         }
-
-    }
-
-    @Override
-    public void loadCraftingRecipes(ItemStack result) {
-
-        for (Object o : CraftingManager.getInstance().getRecipeList()) {
-            IRecipe irecipe = (IRecipe) o;
-            if (NEIServerUtils.areStacksSameTypeCrafting(irecipe.getRecipeOutput(), result)) {
-                CachedCapacitorRecipe recipe = null;
-                if (irecipe instanceof BrainStoneLifeCapacitorUpgrade) {
-                    recipe = new CachedCapacitorRecipe((BrainStoneLifeCapacitorUpgrade) irecipe);
-                }
-
-                if (recipe != null) {
-                    recipe.computeVisuals();
-                    this.arecipes.add(recipe);
-                }
+        int inputCount = 0;
+        for (Object input : recipe.getStacks()) {
+            if (input instanceof ItemStack) {
+                inputCount++;
+            } else {
+                String recipeInfo = ErrorUtil.getInfoFromBrokenRecipe(recipe, this);
+                BSP.error("Recipe has an input that is not an ItemStack. {}", recipeInfo);
+                return false;
             }
         }
-
-    }
-
-    @Override
-    public void loadUsageRecipes(ItemStack ingredient) {
-
-        for (Object o : CraftingManager.getInstance().getRecipeList()) {
-            IRecipe irecipe = (IRecipe) o;
-            CachedCapacitorRecipe recipe = null;
-            if (irecipe instanceof BrainStoneLifeCapacitorUpgrade) {
-                recipe = new CachedCapacitorRecipe((BrainStoneLifeCapacitorUpgrade) irecipe);
-            }
-
-            if (recipe != null && recipe.contains(recipe.ingredients, ingredient.getItem())) {
-                recipe.computeVisuals();
-                if (recipe.contains(recipe.ingredients, ingredient)) {
-                    recipe.setIngredientPermutation(recipe.ingredients, ingredient);
-                    this.arecipes.add(recipe);
-                }
-            }
+        if (inputCount > 9) {
+            String recipeInfo = ErrorUtil.getInfoFromBrokenRecipe(recipe, this);
+            BSP.error("Recipe has too many inputs. {}", recipeInfo);
+            return false;
         }
-
-    }
-
-    @SuppressWarnings("unchecked")
-    public class CachedCapacitorRecipe extends CachedRecipe {
-        public ArrayList<PositionedStack> ingredients;
-        public PositionedStack result;
-
-        public CachedCapacitorRecipe(int width, int height, Object[] items, ItemStack out) {
-            super();
-            this.result = new PositionedStack(out, 119, 24);
-            this.ingredients = new ArrayList();
-            this.setIngredients(width, height, items);
-        }
-
-        public CachedCapacitorRecipe(BrainStoneLifeCapacitorUpgrade recipe) {
-            this(2, 1, recipe.getStacks(), recipe.getRecipeOutput());
-        }
-
-        public void setIngredients(int width, int height, Object[] items) {
-            for(int x = 0; x < width; ++x) {
-                for(int y = 0; y < height; ++y) {
-                    if(items[y * width + x] != null) {
-                        PositionedStack stack = new PositionedStack(items[y * width + x], 25 + x * 18, 6 + y * 18, false);
-                        stack.setMaxSize(1);
-                        this.ingredients.add(stack);
-                    }
-                }
-            }
-
-        }
-
-        @Override
-        public List<PositionedStack> getIngredients() {
-            return this.getCycledIngredients(CapacitorUpgradeRecipeHandler.this.cycleticks / 20, this.ingredients);
-        }
-
-        @Override
-        public PositionedStack getResult() {
-            return this.result;
-        }
-
-        public void computeVisuals() {
-
-            for (PositionedStack p : this.ingredients) {
-                p.generatePermutations();
-            }
-        }
+        return inputCount > 0;
     }
 }
-*/
