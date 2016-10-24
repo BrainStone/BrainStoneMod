@@ -25,6 +25,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.UsernameCache;
 import net.minecraftforge.common.util.Constants.NBT;
@@ -84,6 +85,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	}
 
 	final ItemStack base = new ItemStack(this);
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs creativeTab, List list) {
@@ -113,27 +115,34 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 				&& (BrainStoneConfigHelper.BSLC_allowStealing() || !hasOwner(container));
 
 		if (sneak) {
-			list.add(BrainStone.proxy.format("capacitor.owner")+" " + PCmapping.getPlayerName(getUUID(container), true)
-					+ (correctOwner ? (EnumChatFormatting.GRAY + BrainStone.proxy.format("capacitor.you"))
-							: (canClaim ? (EnumChatFormatting.DARK_GRAY + BrainStone.proxy.format("capacitor.claim")) : "")));
+			list.add(
+					BrainStone.proxy.format("capacitor.owner") + " " + PCmapping.getPlayerName(getUUID(container), true)
+							+ (correctOwner
+									? (EnumChatFormatting.GRAY + BrainStone.proxy
+											.format("capacitor.you"))
+									: (canClaim ? (EnumChatFormatting.DARK_GRAY
+											+ BrainStone.proxy.format("capacitor.claim")) : "")));
 			list.add(EnumChatFormatting.GREEN + BrainStone.proxy.format("capacitor.summary"));
-			list.add(EnumChatFormatting.YELLOW + BrainStone.proxy.format("capacitor.costs")+" " + PowerDisplayUtil.formatPower(RFperHalfHeart * 2) + " "
-					+ PowerDisplayUtil.abrevation() + "/" + EnumChatFormatting.DARK_RED + "\u2764");
-			list.add(BrainStone.proxy.format("capacitor.capacity")+" " + EnumChatFormatting.GOLD + EnumChatFormatting.BOLD
-					+ String.valueOf(getCapacityLevel(container)) + EnumChatFormatting.RESET + EnumChatFormatting.GRAY
-					+ " (" + PowerDisplayUtil.formatPower(getMaxEnergyStoredLong(container)) + " "
-					+ PowerDisplayUtil.abrevation() + " " + EnumChatFormatting.DARK_RED
+			list.add(EnumChatFormatting.YELLOW + BrainStone.proxy.format("capacitor.costs") + " "
+					+ PowerDisplayUtil.formatPower(RFperHalfHeart * 2) + " " + PowerDisplayUtil.abrevation() + "/"
+					+ EnumChatFormatting.DARK_RED + "\u2764");
+			list.add(BrainStone.proxy.format("capacitor.capacity") + " " + EnumChatFormatting.GOLD
+					+ EnumChatFormatting.BOLD + String.valueOf(getCapacityLevel(container)) + EnumChatFormatting.RESET
+					+ EnumChatFormatting.GRAY + " (" + PowerDisplayUtil.formatPower(getMaxEnergyStoredLong(container))
+					+ " " + PowerDisplayUtil.abrevation() + " " + EnumChatFormatting.DARK_RED
 					+ ((getCapacityLevel(container) + 1) * 5) + "\u2764" + EnumChatFormatting.GRAY + ")");
-			list.add(BrainStone.proxy.format("capacitor.charging")+" " + EnumChatFormatting.GOLD + EnumChatFormatting.BOLD
-					+ String.valueOf(getChargingLevel(container)) + EnumChatFormatting.RESET + EnumChatFormatting.GRAY
-					+ " (" + PowerDisplayUtil.formatPower(getMaxRecieve(container)) + " "
+			list.add(BrainStone.proxy.format("capacitor.charging") + " " + EnumChatFormatting.GOLD
+					+ EnumChatFormatting.BOLD + String.valueOf(getChargingLevel(container)) + EnumChatFormatting.RESET
+					+ EnumChatFormatting.GRAY + " (" + PowerDisplayUtil.formatPower(getMaxRecieve(container)) + " "
 					+ PowerDisplayUtil.abrevation() + "/t)");
 		} else {
-			list.add(BrainStone.proxy.format("capacitor.owner")+" " + PCmapping.getPlayerName(getUUID(container), true)
+			list.add(BrainStone.proxy.format("capacitor.owner") + " "
+					+ PCmapping.getPlayerName(getUUID(container), true)
 					+ (correctOwner ? (EnumChatFormatting.GRAY + BrainStone.proxy.format("capacitor.you")) : ""));
-			list.add(BrainStone.proxy.format("capacitor.details", ""+EnumChatFormatting.YELLOW + EnumChatFormatting.ITALIC
-					+ Keyboard.getKeyName(Minecraft.getMinecraft().gameSettings.keyBindSneak.getKeyCode())
-					+ EnumChatFormatting.RESET + EnumChatFormatting.GRAY));
+			list.add(BrainStone.proxy.format("capacitor.details",
+					"" + EnumChatFormatting.YELLOW + EnumChatFormatting.ITALIC
+							+ Keyboard.getKeyName(Minecraft.getMinecraft().gameSettings.keyBindSneak.getKeyCode())
+							+ EnumChatFormatting.RESET + EnumChatFormatting.GRAY));
 		}
 
 		list.add(PowerDisplayUtil.formatPower(getEnergyStoredLong(container)) + "/"
@@ -165,6 +174,8 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 						PCmapping.updateMapping(playerUUID, capacitorUUID);
 
 						addOwnerToList(stack, playerUUID);
+						
+						player.addStat(BrainStone.lifeCapacitor(), 1);
 					} else {
 						BrainStone.sendToPlayer(player,
 								EnumChatFormatting.DARK_RED + "You cannot steal a Brain Stone Live Capacitor!");

@@ -565,22 +565,22 @@ public class BrainStone {
 		}
 
 		switch (currentLanguage) {
-			case de:
-				// German logo
+		case de:
+			// German logo
 
-				logoFile += "de";
-				break;
-			case en:
-				// English logo
+			logoFile += "de";
+			break;
+		case en:
+			// English logo
 
-				logoFile += "en";
-				break;
-			default:
-				// Unsupported language =>
-				// English logo
+			logoFile += "en";
+			break;
+		default:
+			// Unsupported language =>
+			// English logo
 
-				logoFile += "en";
-				break;
+			logoFile += "en";
+			break;
 		}
 
 		event.getModMetadata().logoFile = logoFile + ".png";
@@ -797,10 +797,12 @@ public class BrainStone {
 				(new Achievement(curAch, curAch, BrainStoneConfigHelper.getAchievementYPosition(curAch),
 						BrainStoneConfigHelper.getAchievementXPosition(curAch), brainStonePickaxe(), itLives()))
 								.registerStat());
-		achievements.put(curAch = "logicBlock",
-				(new Achievement(curAch, curAch, BrainStoneConfigHelper.getAchievementYPosition(curAch),
-						BrainStoneConfigHelper.getAchievementXPosition(curAch), brainProcessor(), intelligentBlocks()))
-								.registerStat());
+
+		if (BrainStoneModules.energy())
+			achievements.put(curAch = "lifeCapacitor",
+					(new Achievement(curAch, curAch, BrainStoneConfigHelper.getAchievementYPosition(curAch),
+							BrainStoneConfigHelper.getAchievementXPosition(curAch), brainStoneLifeCapacitor(),
+							intelligentTools())).setSpecial().registerStat());
 
 		if (BrainStoneConfigHelper.enableAchievementPage()) {
 			AchievementPage.registerAchievementPage(new AchievementPage("Brain Stone Mod",
@@ -1143,9 +1145,9 @@ public class BrainStone {
 	}
 
 	/**
-	 * @return the instance of logicBlock
+	 * @return the instance of lifeCapacitor
 	 */
-	public static final Achievement logicBlock() {
-		return achievements.get("logicBlock");
+	public static final Achievement lifeCapacitor() {
+		return achievements.get("lifeCapacitor");
 	}
 }

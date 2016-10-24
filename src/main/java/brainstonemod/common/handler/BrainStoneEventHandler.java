@@ -78,8 +78,6 @@ public class BrainStoneEventHandler {
 				|| (item == BrainStone.brainStonePickaxe()) || (item == BrainStone.brainStoneAxe())
 				|| (item == BrainStone.brainStoneHoe())) {
 			player.addStat(BrainStone.intelligentTools(), 1);
-		} else if (block == BrainStone.brainLogicBlock()) {
-			player.addStat(BrainStone.logicBlock(), 1);
 		}
 	}
 

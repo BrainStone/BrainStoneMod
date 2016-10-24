@@ -40,8 +40,8 @@ achievement.intelligentBlocks=Intelligent Blocks
 achievement.intelligentBlocks.desc=Make useful intelligent Blocks out of this green stone!
 achievement.intelligentTools=Intelligent Tools
 achievement.intelligentTools.desc=Make Tools out of this green stone!
-achievement.logicBlock=Logic Block
-achievement.logicBlock.desc=First make a processor. Then a Logic Block!
+achievement.lifeCapacitor=Life Capacitor
+achievement.lifeCapacitor.desc=Make and claim a Brain Stone Life Capacitor!
 
 itemGroup.tabBrainStoneMod=Brain Stone Mod
 
