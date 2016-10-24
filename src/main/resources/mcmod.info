@@ -1,6 +1,6 @@
 [
 {
-  "modid" : "BrainStoneMod",
+  "modid" : "brainstonemod",
   "name" : "Brain Stone Mod",
   "dependencies": [
     "FML",
