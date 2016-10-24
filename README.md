@@ -11,7 +11,7 @@ Setting up a Workspace/Compiling from Source
 
 * Setup: Run [gradle] in the repository root: `gradlew[.bat] [setupDevWorkspace|setupDecompWorkspace] [eclipse|idea]`
 * Build: Run [gradle] in the repository root: `gradlew[.bat] build`
-* If obscure Gradle issues are found try running 'gradlew clean' and 'gradlew cleanCache'
+* If obscure Gradle issues are found try running `gradlew clean` and `gradlew cleanCache`
 
 Issue reporting
 ---------------
