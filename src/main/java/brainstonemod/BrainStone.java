@@ -292,7 +292,7 @@ public class BrainStone {
 	 *            The MCForge ServerStartingEvent
 	 */
 	@EventHandler
-	public static void onServerStarting(FMLServerStartingEvent event) {
+	public static void onServerStarting(FMLServerAboutToStartEvent event) {
 		fillTriggerEntities();
 
 		if (BrainStoneModules.energy()) {
