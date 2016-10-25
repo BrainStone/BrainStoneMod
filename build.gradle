@@ -89,11 +89,11 @@ minecraft {
 
 dependencies {
     compile "org.projectlombok:lombok:1.16.10"
-    deobfCompile group: "mezz.jei", name: "jei_1.10.2", version: "3.9.0.246"
-    deobfCompile group: "slimeknights", name: "TConstruct", version: "1.10.2-2.5.6b.jenkins425"
-    deobfCompile group: "slimeknights.mantle", name: "Mantle", version: "1.10.2-1.1.1.194"
-	compile "com.enderio.core:EnderCore:1.10.2-0.4.1.56-beta"
-	compile "com.enderio:EnderIO:1.10.2-3.0.1.98_beta:dev"
+    deobfProvided group: "mezz.jei", name: "jei_1.10.2", version: "3.9.0.246"
+    deobfProvided group: "slimeknights", name: "TConstruct", version: "1.10.2-2.5.6b.jenkins425"
+    deobfProvided group: "slimeknights.mantle", name: "Mantle", version: "1.10.2-1.1.1.194"
+    provided "com.enderio.core:EnderCore:1.10.2-0.4.1.56-beta"
+    provided "com.enderio:EnderIO:1.10.2-3.0.1.98_beta:dev"
 }
 
 repositories{
