@@ -168,13 +168,12 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 			if (inField(mouseX - guiLeft, mouseY - guiTop, 7, 7 + (i * 18), 128, 24 + (i * 18))) {
 				hovered = i;
 			}
-		}
 
-		for (int t = 0; t < 4; t++) {
-			if (tileentity.getMobTriggered((tmp = mobs[t]))) {
-				drawTexturedModalRect(12, 12 + (18 * t), 8, 166, 10, 7);
+			if (tileentity.getMobTriggered((tmp = mobs[i]))) {
+				drawTexturedModalRect(12, 12 + (18 * i), 8, 166, 10, 7);
+
 				if (tileentity.getMobTriggered(tmp)) {
-					drawTexturedModalRect(88, 13 + (18 * t), 88, 172, tileentity.getMobPower(tmp) * 2, 6);
+					drawTexturedModalRect(88, 13 + (18 * i), 88, 172, tileentity.getMobPower(tmp) * 2, 6);
 				}
 			}
 		}
