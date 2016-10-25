@@ -1,6 +1,7 @@
 package brainstonemod.common.api.jei;
 
 import brainstonemod.BrainStone;
+import brainstonemod.common.api.BrainStoneModules;
 import mezz.jei.api.*;
 import net.minecraft.item.ItemStack;
 
@@ -13,7 +14,8 @@ public class BrainstoneJEIPlugin implements IModPlugin {
         IJeiHelpers helpers = registry.getJeiHelpers();
         helpers.getItemBlacklist().addItemToBlacklist(new ItemStack(BrainStone.pulsatingBrainStoneEffect()));
         helpers.getItemBlacklist().addItemToBlacklist(new ItemStack(BrainStone.brainStoneOut()));
-        registry.addRecipeHandlers(new CapacitorUpgradeRecipeHandler());
+        if(BrainStoneModules.energy())
+            registry.addRecipeHandlers(new CapacitorUpgradeRecipeHandler());
     }
 
     @Override
