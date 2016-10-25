@@ -1,21 +1,31 @@
 package brainstonemod.common.block;
 
 import brainstonemod.BrainStone;
+import brainstonemod.common.block.property.UnlistedPropertyCopiedBlock;
 import brainstonemod.common.block.template.BlockBrainStoneHiders;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
 import brainstonemod.network.BrainStonePacketHelper;
+import net.minecraft.block.Block;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.property.ExtendedBlockState;
+import net.minecraftforge.common.property.IExtendedBlockState;
+import net.minecraftforge.common.property.IUnlistedProperty;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -206,4 +216,34 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 
 		world.scheduleBlockUpdate(pos, this, tickRate(world), 0);//TODO: Check that priority
 	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public BlockRenderLayer getBlockLayer()
+	{
+		return BlockRenderLayer.SOLID;
+	}
+
+	@Override
+	protected BlockStateContainer createBlockState() {
+		IProperty[] listedProperties = new IProperty[0]; // no listed properties
+		IUnlistedProperty[] unlistedProperties = new IUnlistedProperty[] {COPIEDBLOCK};
+		return new ExtendedBlockState(this, listedProperties, unlistedProperties);
+	}
+
+	@Override
+	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
+		if (state instanceof IExtendedBlockState) {  // avoid crash in case of mismatch
+			IExtendedBlockState retval = (IExtendedBlockState)state;
+			if(world.getTileEntity(pos) instanceof TileEntityBrainStoneTrigger) {
+				IBlockState copiedBlock = Block.getBlockFromItem(((TileEntityBrainStoneTrigger) world.getTileEntity(pos)).getStackInSlot(0).getItem()).getStateFromMeta(((TileEntityBrainStoneTrigger) world.getTileEntity(pos)).getStackInSlot(0).getMetadata());
+				retval = retval.withProperty(COPIEDBLOCK, copiedBlock);
+				return retval;
+			}
+		}
+		return state;
+	}
+
+	public static final UnlistedPropertyCopiedBlock COPIEDBLOCK = new UnlistedPropertyCopiedBlock();
+
 }

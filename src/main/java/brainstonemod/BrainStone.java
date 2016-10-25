@@ -1,6 +1,8 @@
 package brainstonemod;
 
 import brainstonemod.client.gui.helper.BrainStoneModCreativeTab;
+import brainstonemod.client.handler.BrainStoneClientEvents;
+import brainstonemod.client.render.BSTriggerModel;
 import brainstonemod.common.CommonProxy;
 import brainstonemod.common.api.BrainStoneModules;
 import brainstonemod.common.api.enderio.EnderIOItems;
@@ -23,6 +25,9 @@ import brainstonemod.network.PacketDispatcher;
 import brainstonemod.network.packet.clientbound.PacketCapacitorData;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
@@ -47,6 +52,7 @@ import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.AchievementPage;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
@@ -64,6 +70,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.common.versioning.ComparableVersion;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.Logger;
@@ -228,6 +235,9 @@ public class BrainStone {
 		// Generating Achievements here because the blocks and items need to be
 		// registered at this moment.
 		generateAchievements();
+
+		if(event.getSide().isClient())
+			clPreInit();
 	}
 
 	/**
@@ -649,6 +659,22 @@ public class BrainStone {
 					brainProcessor(), 'X', craftingX, 'C', craftingC, 'H', craftingH, 'P',
 					stablePulsatingBrainStonePlate());
 		}
+	}
+	@SideOnly(Side.CLIENT)
+	public void clPreInit(){
+		StateMapperBase ignoreState = new StateMapperBase() {
+			@Override
+			protected ModelResourceLocation getModelResourceLocation(IBlockState iBlockState) {
+				return BSTriggerModel.variantTag;
+			}
+		};
+		ModelLoader.setCustomStateMapper(brainStoneTrigger(), ignoreState);
+
+		MinecraftForge.EVENT_BUS.register(new BrainStoneClientEvents());
+
+		ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation("minecraftbyexample:mbe04_block_camouflage", "inventory");
+		final int DEFAULT_ITEM_SUBTYPE = 0;
+		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(brainStoneTrigger()), DEFAULT_ITEM_SUBTYPE, itemModelResourceLocation);
 	}
 
 	public static void addRecipe(ItemStack stack, Object... args) {
