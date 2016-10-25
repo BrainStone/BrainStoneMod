@@ -43,9 +43,6 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		super(new ContainerBrainStoneTrigger(inventoryplayer, te), te);
 		xSize = 176;
 		ySize = 166;
-		ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft(), width, height);
-		width = res.getScaledWidth();
-		height = res.getScaledHeight();
 		guiLeft = (width - xSize) / 2;
 		guiTop = (height - ySize) / 2;
 		tileentity = te;
@@ -64,9 +61,6 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 
 	@Override
 	public void initGui() {
-		ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft(), width, height);
-		width = res.getScaledWidth();
-		height = res.getScaledHeight();
 		guiLeft = (width - xSize) / 2;
 		guiTop = (height - ySize) / 2;
 
