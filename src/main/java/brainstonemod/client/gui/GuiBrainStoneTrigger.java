@@ -162,6 +162,13 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		buttons.render(0, 0);
 
 		String tmp;
+		hovered = -1;
+
+		for (int i = 0; i < 4; i++) {
+			if (inField(mouseX - guiLeft, mouseY - guiTop, 7, 7 + (i * 18), 128, 24 + (i * 18))) {
+				hovered = i;
+			}
+		}
 
 		for (int t = 0; t < 4; t++) {
 			if (tileentity.getMobTriggered((tmp = mobs[t]))) {
@@ -319,15 +326,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 	protected void mouseMovedOrUp(int x, int y, int button) {
 		super.mouseMovedOrUp(x, y, button);
 
-		if (button == -1) {
-			hovered = -1;
-
-			for (int i = 0; i < 4; i++) {
-				if (inField(x - guiLeft, y - guiTop, 7, 7 + (i * 18), 128, 24 + (i * 18))) {
-					hovered = i;
-				}
-			}
-		} else {
+		if (button != -1) {
 			buttons.hover();
 		}
 	}
