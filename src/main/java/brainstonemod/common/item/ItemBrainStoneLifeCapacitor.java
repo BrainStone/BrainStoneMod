@@ -1,5 +1,19 @@
 package brainstonemod.common.item;
 
+import java.io.EOFException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import org.lwjgl.input.Keyboard;
+
 import baubles.api.BaubleType;
 import baubles.api.IBauble;
 import brainstonemod.BrainStone;
@@ -25,20 +39,12 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.UsernameCache;
 import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.input.Keyboard;
-
-import java.io.*;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 @SuppressWarnings("unchecked")
 @Optional.Interface(iface = "baubles.api.IBauble", modid = "Baubles|API")
@@ -119,32 +125,34 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 
 		if (sneak) {
 			list.add(
-					BrainStone.proxy.format("capacitor.owner") + " " + PCmapping.getPlayerName(getUUID(container), true)
-							+ (correctOwner
-									? (EnumChatFormatting.GRAY + BrainStone.proxy
-											.format("capacitor.you"))
-									: (canClaim ? (EnumChatFormatting.DARK_GRAY
-											+ BrainStone.proxy.format("capacitor.claim")) : "")));
-			list.add(EnumChatFormatting.GREEN + BrainStone.proxy.format("capacitor.summary"));
-			list.add(EnumChatFormatting.YELLOW + BrainStone.proxy.format("capacitor.costs") + " "
+					BrainStone.proxy.format("capacitor.owner") + " "
+							+ PCmapping
+									.getPlayerName(getUUID(container),
+											true)
+							+ (correctOwner ? (TextFormatting.GRAY + BrainStone.proxy.format("capacitor.you"))
+									: (canClaim
+											? (TextFormatting.DARK_GRAY + BrainStone.proxy.format("capacitor.claim"))
+											: "")));
+			list.add(TextFormatting.GREEN + BrainStone.proxy.format("capacitor.summary"));
+			list.add(TextFormatting.YELLOW + BrainStone.proxy.format("capacitor.costs") + " "
 					+ BrainStonePowerDisplayUtil.formatPower(RFperHalfHeart * 2) + " "
-					+ BrainStonePowerDisplayUtil.abrevation() + "/" + EnumChatFormatting.DARK_RED + "\u2764");
-			list.add(BrainStone.proxy.format("capacitor.capacity") + " " + EnumChatFormatting.GOLD
-					+ EnumChatFormatting.BOLD + String.valueOf(getCapacityLevel(container)) + EnumChatFormatting.RESET
-					+ EnumChatFormatting.GRAY + " ("
+					+ BrainStonePowerDisplayUtil.abrevation() + "/" + TextFormatting.DARK_RED + "\u2764");
+			list.add(BrainStone.proxy.format("capacitor.capacity") + " " + TextFormatting.GOLD + TextFormatting.BOLD
+					+ String.valueOf(getCapacityLevel(container)) + TextFormatting.RESET + TextFormatting.GRAY + " ("
 					+ BrainStonePowerDisplayUtil.formatPower(getMaxEnergyStoredLong(container)) + " "
-					+ BrainStonePowerDisplayUtil.abrevation() + " " + EnumChatFormatting.DARK_RED
-					+ ((getCapacityLevel(container) + 1) * 5) + "\u2764" + EnumChatFormatting.GRAY + ")");
-			list.add(BrainStone.proxy.format("capacitor.charging") + " " + EnumChatFormatting.GOLD
-					+ EnumChatFormatting.BOLD + String.valueOf(getChargingLevel(container)) + EnumChatFormatting.RESET
-					+ EnumChatFormatting.GRAY + " ("
+					+ BrainStonePowerDisplayUtil.abrevation() + " " + TextFormatting.DARK_RED
+					+ ((getCapacityLevel(container) + 1) * 5) + "\u2764" + TextFormatting.GRAY + ")");
+			list.add(BrainStone.proxy.format("capacitor.charging") + " " + TextFormatting.GOLD + TextFormatting.BOLD
+					+ String.valueOf(getChargingLevel(container)) + TextFormatting.RESET + TextFormatting.GRAY + " ("
 					+ BrainStonePowerDisplayUtil.formatPowerPerTick(getMaxRecieve(container)) + ")");
 		} else {
-			list.add(BrainStone.proxy.format("capacitor.owner")+" " + PCmapping.getPlayerName(getUUID(container), true)
-					+ (correctOwner ? (TextFormatting.GRAY + BrainStone.proxy.format("capacitor.you")) : ""));
-			list.add(BrainStone.proxy.format("capacitor.details", ""+TextFormatting.YELLOW + TextFormatting.ITALIC
-					+ Keyboard.getKeyName(Minecraft.getMinecraft().gameSettings.keyBindSneak.getKeyCode())
-					+ TextFormatting.RESET + TextFormatting.GRAY));
+			list.add(
+					BrainStone.proxy.format("capacitor.owner") + " " + PCmapping.getPlayerName(getUUID(container), true)
+							+ (correctOwner ? (TextFormatting.GRAY + BrainStone.proxy.format("capacitor.you")) : ""));
+			list.add(BrainStone.proxy.format("capacitor.details",
+					"" + TextFormatting.YELLOW + TextFormatting.ITALIC
+							+ Keyboard.getKeyName(Minecraft.getMinecraft().gameSettings.keyBindSneak.getKeyCode())
+							+ TextFormatting.RESET + TextFormatting.GRAY));
 		}
 
 		list.add(BrainStonePowerDisplayUtil.formatStoredPower(getEnergyStoredLong(container),
