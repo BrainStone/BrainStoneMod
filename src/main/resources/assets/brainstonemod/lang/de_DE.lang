@@ -39,6 +39,8 @@ achievement.intelligentBlocks=Intelligente Blöcke
 achievement.intelligentBlocks.desc=Stelle nützliche intelligente Blöcke aus diesem grünen Stein her!
 achievement.intelligentTools=Intelligente Werkzeuge
 achievement.intelligentTools.desc=Stelle Werkzeuge aus diesem grünen Stein her!
+achievement.lifeCapacitor=Lebenskondensator!
+achievement.lifeCapacitor.desc=Baue und besitze einen Hirsteinlebenskondensator!
 
 itemGroup.tabbrainstonemod=Brain Stone Mod
 
@@ -69,6 +71,9 @@ capacitor.details=Halte %s für Details
 
 trigger.delay=Delay
 trigger.all=Alle:
+
+brainstone.power.rf=RF
+brainstone.power.tick=/t
 
 tc.aspect.brainstone=Hirn+Stein
 

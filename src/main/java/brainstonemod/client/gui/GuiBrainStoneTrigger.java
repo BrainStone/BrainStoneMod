@@ -43,9 +43,6 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		super(new ContainerBrainStoneTrigger(inventoryplayer, te), te);
 		xSize = 176;
 		ySize = 166;
-		ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft());
-		width = res.getScaledWidth();
-		height = res.getScaledHeight();
 		guiLeft = (width - xSize) / 2;
 		guiTop = (height - ySize) / 2;
 		tileentity = te;
@@ -64,9 +61,6 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 
 	@Override
 	public void initGui() {
-		ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft());
-		width = res.getScaledWidth();
-		height = res.getScaledHeight();
 		guiLeft = (width - xSize) / 2;
 		guiTop = (height - ySize) / 2;
 
@@ -168,12 +162,18 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		buttons.render(0, 0);
 
 		String tmp;
+		hovered = -1;
 
-		for (int t = 0; t < 4; t++) {
-			if (tileentity.getMobTriggered((tmp = mobs[t]))) {
-				drawTexturedModalRect(12, 12 + (18 * t), 8, 166, 10, 7);
+		for (int i = 0; i < 4; i++) {
+			if (inField(mouseX - guiLeft, mouseY - guiTop, 7, 7 + (i * 18), 128, 24 + (i * 18))) {
+				hovered = i;
+			}
+
+			if (tileentity.getMobTriggered((tmp = mobs[i]))) {
+				drawTexturedModalRect(12, 12 + (18 * i), 8, 166, 10, 7);
+
 				if (tileentity.getMobTriggered(tmp)) {
-					drawTexturedModalRect(88, 13 + (18 * t), 88, 172, tileentity.getMobPower(tmp) * 2, 6);
+					drawTexturedModalRect(88, 13 + (18 * i), 88, 172, tileentity.getMobPower(tmp) * 2, 6);
 				}
 			}
 		}
@@ -325,15 +325,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 	protected void mouseClickMove(int x, int y, int button, long timeSinceClick) {
 		super.mouseClickMove(x, y, button, timeSinceClick);
 
-		if (button == -1) {
-			hovered = -1;
-
-			for (int i = 0; i < 4; i++) {
-				if (inField(x - guiLeft, y - guiTop, 7, 7 + (i * 18), 128, 24 + (i * 18))) {
-					hovered = i;
-				}
-			}
-		} else {
+		if (button != -1) {
 			buttons.hover();
 		}
 	}

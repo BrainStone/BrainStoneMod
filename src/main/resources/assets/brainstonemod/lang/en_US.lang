@@ -39,6 +39,8 @@ achievement.intelligentBlocks=Intelligent Blocks
 achievement.intelligentBlocks.desc=Make useful intelligent Blocks out of this green stone!
 achievement.intelligentTools=Intelligent Tools
 achievement.intelligentTools.desc=Make Tools out of this green stone!
+achievement.lifeCapacitor=Life Capacitor
+achievement.lifeCapacitor.desc=Make and claim a Brain Stone Life Capacitor!
 
 itemGroup.tabbrainstonemod=Brain Stone Mod
 
@@ -69,6 +71,9 @@ capacitor.details=Hold %s for details
 
 trigger.delay=Delay
 trigger.all=All:
+
+brainstone.power.rf=RF
+brainstone.power.tick=/t
 
 tc.aspect.brainstone=Brain+Stone
 

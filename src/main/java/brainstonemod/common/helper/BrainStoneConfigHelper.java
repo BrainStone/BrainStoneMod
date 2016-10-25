@@ -67,9 +67,9 @@ public class BrainStoneConfigHelper {
 		String achievementPageDescY = "Choose a y coordinate on the " + achievementPageType
 				+ " Achievement Page for the ";
 		String[] achievementNames = new String[] { "WTHIT", "itLives", "intelligentBlocks", "intelligentTools",
-				"logicBlock" };
+				"lifeCapacitor" };
 		int[] xPos = enableAchievementPage ? new int[] { 0, 2, 3, 3, 5 } : new int[] { 2, 4, 5, 5, 7 };
-		int[] yPos = enableAchievementPage ? new int[] { 0, 0, 2, -2, 4 } : new int[] { 8, 8, 10, 6, 12 };
+		int[] yPos = enableAchievementPage ? new int[] { 0, 0, 2, -2, -4 } : new int[] { 8, 8, 10, 6, 8 };
 
 		// Save the positions of the achievements
 		for (int i = 0; i < achievementNames.length; i++) {
