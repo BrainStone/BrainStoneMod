@@ -177,11 +177,13 @@ curseforge {
         
         relations {
             optionalLibrary 'ender-io'
-            optionalLibrary 'minefactory-reloaded'
-            optionalLibrary 'tinkers-construct'
-            optionalLibrary 'thermal-foundation'
-            optionalLibrary 'thaumcraft'
+            //optionalLibrary 'minefactory-reloaded'
+            //optionalLibrary 'tinkers-construct'
+            //optionalLibrary 'thermal-foundation'
+            //optionalLibrary 'thaumcraft'
             optionalLibrary 'baubles'
+            optionalLibrary 'overlord'
+            optionalLibrary 'just-enough-items-jei'
         }
     }
 }
