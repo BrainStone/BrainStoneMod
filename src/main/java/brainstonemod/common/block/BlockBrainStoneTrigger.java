@@ -12,9 +12,11 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -225,6 +227,21 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 	}
 
 	@Override
+	public boolean isOpaqueCube(IBlockState state){
+		return true;
+	}
+
+	@Override
+	public EnumBlockRenderType getRenderType(IBlockState iBlockState) {
+		return EnumBlockRenderType.MODEL;
+	}
+
+	@Override
+	public boolean isFullCube(IBlockState iBlockState) {
+		return true;
+	}
+
+	@Override
 	protected BlockStateContainer createBlockState() {
 		IProperty[] listedProperties = new IProperty[0]; // no listed properties
 		IUnlistedProperty[] unlistedProperties = new IUnlistedProperty[] {COPIEDBLOCK};
@@ -235,9 +252,12 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
 		if (state instanceof IExtendedBlockState) {  // avoid crash in case of mismatch
 			IExtendedBlockState retval = (IExtendedBlockState)state;
-			if(world.getTileEntity(pos) instanceof TileEntityBrainStoneTrigger) {
+			if(world.getTileEntity(pos) instanceof TileEntityBrainStoneTrigger && ((TileEntityBrainStoneTrigger) world.getTileEntity(pos)).getStackInSlot(0) != null && ((TileEntityBrainStoneTrigger) world.getTileEntity(pos)).getStackInSlot(0).getItem() instanceof ItemBlock) {
 				IBlockState copiedBlock = Block.getBlockFromItem(((TileEntityBrainStoneTrigger) world.getTileEntity(pos)).getStackInSlot(0).getItem()).getStateFromMeta(((TileEntityBrainStoneTrigger) world.getTileEntity(pos)).getStackInSlot(0).getMetadata());
 				retval = retval.withProperty(COPIEDBLOCK, copiedBlock);
+				return retval;
+			}else{
+				retval = retval.withProperty(COPIEDBLOCK, state);
 				return retval;
 			}
 		}

@@ -672,7 +672,7 @@ public class BrainStone {
 
 		MinecraftForge.EVENT_BUS.register(new BrainStoneClientEvents());
 
-		ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation("minecraftbyexample:mbe04_block_camouflage", "inventory");
+		ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(MOD_ID+":brainStoneTrigger", "inventory");
 		final int DEFAULT_ITEM_SUBTYPE = 0;
 		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(brainStoneTrigger()), DEFAULT_ITEM_SUBTYPE, itemModelResourceLocation);
 	}

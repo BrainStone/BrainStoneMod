@@ -8,7 +8,6 @@ import net.minecraft.client.renderer.BlockModelShapes;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.block.model.*;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.property.IExtendedBlockState;
 
@@ -45,7 +44,7 @@ public class BSTriggerModel implements IBakedModel {
     private IBakedModel handleBlockState(@Nullable IBlockState iBlockState)
     {
         IBakedModel retval = modelWhenNotCamouflaged;  // default
-        IBlockState UNCAMOUFLAGED_BLOCK = Blocks.AIR.getDefaultState();
+        IBlockState UNCAMOUFLAGED_BLOCK = BrainStone.brainStoneTrigger().getDefaultState();
 
         // Extract the block to be copied from the IExtendedBlockState, previously set by Block.getExtendedState()
         // If the block is null, the block is not camouflaged so use the uncamouflaged model.
