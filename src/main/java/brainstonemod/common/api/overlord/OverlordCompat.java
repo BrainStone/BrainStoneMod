@@ -1,11 +1,13 @@
 package brainstonemod.common.api.overlord;
 
 import brainstonemod.common.api.IModIntegration;
+import net.minecraft.entity.Entity;
+import the_fireplace.overlord.entity.EntityArmyMember;
 
 /**
  * @author The_Fireplace
  */
-public class OverlordCompat implements IModIntegration {
+public class OverlordCompat implements IModIntegration, IOverlordCompat {
     @Override
     public void preInit() {
 
@@ -29,5 +31,12 @@ public class OverlordCompat implements IModIntegration {
     @Override
     public void addAchievement() {
 
+    }
+
+    @Override
+    public boolean exemptEntity(Entity entity) {
+        if(entity instanceof EntityArmyMember && ((EntityArmyMember) entity).getAugment() != null && ((EntityArmyMember) entity).getAugment().augmentId().equals("pulsatingbrainstone"))
+            return true;
+        return false;
     }
 }

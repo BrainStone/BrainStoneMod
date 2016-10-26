@@ -1,7 +1,10 @@
 package brainstonemod.common.block;
 
 import brainstonemod.BrainStone;
+import brainstonemod.common.api.BrainStoneModules;
 import brainstonemod.common.api.enderio.BrainStoneUpgrade;
+import brainstonemod.common.api.overlord.IOverlordCompat;
+import brainstonemod.common.api.overlord.OverlordCompat;
 import brainstonemod.common.block.template.BlockBrainStoneBase;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.item.ItemArmorBrainStone;
@@ -134,6 +137,14 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 						BSP.debug("Mob/Player wears armor! No effect!");
 
 						continue;
+					}
+
+					if(BrainStoneModules.overlord()){
+						IOverlordCompat compat = new OverlordCompat();
+						if(compat.exemptEntity(entity)) {
+							BSP.debug("Army Member has Pulsating BrainStone Augment! No effect!");
+							continue;
+						}
 					}
 
 					radius = MathHelper.getRandomDoubleInRange(random, 2.0, 10.0);
