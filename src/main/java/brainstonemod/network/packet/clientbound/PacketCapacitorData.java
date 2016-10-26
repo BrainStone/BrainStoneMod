@@ -1,12 +1,12 @@
 package brainstonemod.network.packet.clientbound;
 
-import brainstonemod.BrainStone;
-import net.minecraftforge.fml.common.network.ByteBufUtils;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import brainstonemod.common.api.energy.EnergyCompat;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketCapacitorData implements IMessage {
 
@@ -31,7 +31,7 @@ public class PacketCapacitorData implements IMessage {
 	public static class Handler extends AbstractClientMessageHandler<PacketCapacitorData> {
 		@Override
 		public IMessage handleClientMessage(EntityPlayer player, PacketCapacitorData message, MessageContext ctx) {
-			BrainStone.brainStoneLifeCapacitor().getPlayerCapacitorMapping().setMap(message.data);
+			EnergyCompat.brainStoneLifeCapacitor().getPlayerCapacitorMapping().setMap(message.data);
 			return null;
 		}
 	}

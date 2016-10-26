@@ -1,6 +1,7 @@
 package brainstonemod.network;
 
 import brainstonemod.BrainStone;
+import brainstonemod.common.api.BrainStoneModules;
 import brainstonemod.network.packet.clientbound.*;
 import brainstonemod.network.packet.serverbound.*;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -21,7 +22,8 @@ public class PacketDispatcher {
 
     public static final void registerPackets() {
         registerMessage(PacketSmokeParticle.Handler.class, PacketSmokeParticle.class, Side.CLIENT);
-        registerMessage(PacketCapacitorData.Handler.class, PacketCapacitorData.class, Side.CLIENT);
+        if(BrainStoneModules.energy())
+            registerMessage(PacketCapacitorData.Handler.class, PacketCapacitorData.class, Side.CLIENT);
         registerMessage(PacketRedoRender.Handler.class, PacketRedoRender.class, Side.CLIENT);
         registerMessage(PacketTriggerMobs.Handler.class, PacketTriggerMobs.class, Side.CLIENT);
         registerMessage(PacketLightSensor.Handler.class, PacketLightSensor.class, Side.SERVER);

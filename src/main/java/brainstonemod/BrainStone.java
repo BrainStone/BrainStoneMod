@@ -5,14 +5,18 @@ import brainstonemod.client.handler.BrainStoneClientEvents;
 import brainstonemod.client.render.BSTriggerModel;
 import brainstonemod.common.CommonProxy;
 import brainstonemod.common.api.BrainStoneModules;
-import brainstonemod.common.api.enderio.EnderIOItems;
-import brainstonemod.common.api.enderio.EnderIORecipies;
-import brainstonemod.common.api.overlord.BrainStoneAugment;
-import brainstonemod.common.api.tconstruct.TinkersContructMaterialBrainStone;
+import brainstonemod.common.api.IModIntegration;
+import brainstonemod.common.api.enderio.EIOCompat;
+import brainstonemod.common.api.energy.EnergyCompat;
+import brainstonemod.common.api.overlord.OverlordCompat;
+import brainstonemod.common.api.tconstruct.TiConCompat;
 import brainstonemod.common.block.*;
 import brainstonemod.common.block.template.BlockBrainStoneBase;
 import brainstonemod.common.handler.BrainStoneEventHandler;
-import brainstonemod.common.helper.*;
+import brainstonemod.common.helper.BSP;
+import brainstonemod.common.helper.BrainStoneConfigHelper;
+import brainstonemod.common.helper.BrainStoneJarUtils;
+import brainstonemod.common.helper.Module;
 import brainstonemod.common.item.*;
 import brainstonemod.common.item.template.ItemBrainStoneBase;
 import brainstonemod.common.tileentity.TileEntityBrainLightSensor;
@@ -22,7 +26,6 @@ import brainstonemod.common.worldgenerators.BrainStoneOreWorldGenerator;
 import brainstonemod.network.BrainStoneGuiHandler;
 import brainstonemod.network.BrainStonePacketHelper;
 import brainstonemod.network.PacketDispatcher;
-import brainstonemod.network.packet.clientbound.PacketCapacitorData;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -54,7 +57,6 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.AchievementPage;
-import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.util.EnumHelper;
@@ -162,19 +164,19 @@ public class BrainStone {
 	 * &emsp;<b>key:</b> The internal id<br>
 	 * &emsp;<b>value:</b> The actual block
 	 */
-	private static final LinkedHashMap<String, Block> blocks = new LinkedHashMap<>();
+	public static final LinkedHashMap<String, Block> blocks = new LinkedHashMap<>();
 	/**
 	 * A HashMap with the all items.<br>
 	 * &emsp;<b>key:</b> The internal id<br>
 	 * &emsp;<b>value:</b> The actual item
 	 */
-	private static final LinkedHashMap<String, Item> items = new LinkedHashMap<>();
+	public static final LinkedHashMap<String, Item> items = new LinkedHashMap<>();
 	/**
 	 * A HashMap with the all items.<br>
 	 * &emsp;<b>key:</b> The internal id<br>
 	 * &emsp;<b>value:</b> The actual item
 	 */
-	private static final LinkedHashMap<String, Achievement> achievements = new LinkedHashMap<>();
+	public static final LinkedHashMap<String, Achievement> achievements = new LinkedHashMap<>();
 	/** The custom creative tab */
 	private static BrainStoneModCreativeTab tabBrainStoneMod = null;
 
@@ -191,6 +193,8 @@ public class BrainStone {
 		if (BrainStoneJarUtils.RUNNING_FROM_JAR && BrainStoneJarUtils.SIGNED_JAR)
 			VALID_JAR = false;
 	}
+
+	static IModIntegration compat;
 
 	/**
 	 * Preinitialization. Reads the ids from the config file and fills the block
@@ -227,6 +231,10 @@ public class BrainStone {
 		generateMcModInfoFile(event);
 		createEnums();
 		generateBlocksAndItems();
+		if(BrainStoneModules.energy()){
+			compat = new EnergyCompat();
+			compat.preInit();
+		}
 
 		// Registering blocks and items.
 		registerBlocks();
@@ -263,6 +271,14 @@ public class BrainStone {
 		GameRegistry.registerWorldGenerator(new BrainStoneOreWorldGenerator(), 1);
 		// Event Handler
 		MinecraftForge.EVENT_BUS.register(eventHandler);
+		if(BrainStoneModules.energy()){
+			compat = new EnergyCompat();
+			compat.init();
+		}
+		if(BrainStoneModules.overlord()){
+			compat = new OverlordCompat();
+			compat.init();
+		}
 	}
 
 	/**
@@ -282,15 +298,13 @@ public class BrainStone {
 		}*/
 
 		if (BrainStoneModules.enderIO()) {
-			EnderIORecipies.registerEnderIORecipies();
+			compat = new EIOCompat();
+			compat.postInit();
 		}
 
 		if (BrainStoneModules.tinkersConstruct()) {
-			TinkersContructMaterialBrainStone.initToolMaterials();
-		}
-
-		if(BrainStoneModules.overlord()){
-			new BrainStoneAugment();
+			compat = new TiConCompat();
+			compat.postInit();
 		}
 	}
 
@@ -306,7 +320,8 @@ public class BrainStone {
 		fillTriggerEntities();
 
 		if (BrainStoneModules.energy()) {
-			brainStoneLifeCapacitor().newPlayerCapacitorMapping(DimensionManager.getCurrentSaveRootDirectory());
+			compat = new EnergyCompat();
+			compat.serverStarting();
 		}
 	}
 
@@ -415,12 +430,6 @@ public class BrainStone {
 	 */
 	public static void onPlayerJoinServer(EntityPlayer player, PlayerLoggedInEvent event) {
 		BrainStonePacketHelper.sendBrainStoneTriggerMobInformationPacketToPlayer(player);
-
-		if (BrainStoneModules.energy()) {
-			brainStoneLifeCapacitor().getPlayerCapacitorMapping().updateName(player.getUniqueID(), false);
-			PacketDispatcher
-					.sendToAll(new PacketCapacitorData(brainStoneLifeCapacitor().getPlayerCapacitorMapping().getMap()));
-		}
 	}
 
 	/**
@@ -643,22 +652,6 @@ public class BrainStone {
 					new ItemStack(pulsatingBrainStone(), 1), new ItemStack(essenceOfLife(), 1),
 					new ItemStack(TinkerArmor.diamondApple, 1), new ItemStack(Items.GOLDEN_APPLE, 1, 1));
 		}*/
-
-		if (BrainStoneModules.energy()) {
-			GameRegistry.addRecipe(new BrainStoneLifeCapacitorUpgrade(BrainStoneLifeCapacitorUpgrade.Upgrade.CAPACITY));
-			GameRegistry.addRecipe(new BrainStoneLifeCapacitorUpgrade(BrainStoneLifeCapacitorUpgrade.Upgrade.CHARGING));
-
-			Object craftingS = (BrainStoneModules.enderIO()) ? EnderIOItems.getSentientEnder()
-					: new ItemStack(Items.SKULL, 1, 1);
-			Object craftingX = (BrainStoneModules.enderIO()) ? EnderIOItems.getXPRod() : Items.BLAZE_ROD;
-			Object craftingC = (BrainStoneModules.enderIO()) ? EnderIOItems.getOctadicCapacitor() : "dustRedstone";
-			Object craftingH = /*(BrainStoneModules.tinkersConstruct()) ? TinkersConstructItems.getGreenHeartCanister()
-					:*/ new ItemStack(Items.GOLDEN_APPLE, 1, 1);
-
-			addRecipe(new ItemStack(brainStoneLifeCapacitor(), 1), "SBX", "CHC", " P ", 'S', craftingS, 'B',
-					brainProcessor(), 'X', craftingX, 'C', craftingC, 'H', craftingH, 'P',
-					stablePulsatingBrainStonePlate());
-		}
 	}
 	@SideOnly(Side.CLIENT)
 	public void clPreInit(){
@@ -785,10 +778,6 @@ public class BrainStone {
 				new ItemArmorBrainStone(armorSTABLEPULSATINGBS, EntityEquipmentSlot.LEGS));
 		items.put("stablePulsatingBrainStoneBoots",
 				new ItemArmorBrainStone(armorSTABLEPULSATINGBS, EntityEquipmentSlot.FEET));
-
-		if (BrainStoneModules.energy()) {
-			items.put("brainStoneLifeCapacitor", (new ItemBrainStoneLifeCapacitor()));
-		}
 	}
 
 	private static void generateAchievements() {
@@ -814,11 +803,10 @@ public class BrainStone {
 						BrainStoneConfigHelper.getAchievementXPosition(curAch), brainStonePickaxe(), itLives()))
 								.registerStat());
 
-		if (BrainStoneModules.energy())
-			achievements.put(curAch = "lifeCapacitor",
-					(new Achievement(curAch, curAch, BrainStoneConfigHelper.getAchievementYPosition(curAch),
-							BrainStoneConfigHelper.getAchievementXPosition(curAch), brainStoneLifeCapacitor(),
-							intelligentTools())).setSpecial().registerStat());
+		if (BrainStoneModules.energy()){
+			IModIntegration compat = new EnergyCompat();
+
+		}
 
 		if (BrainStoneConfigHelper.enableAchievementPage()) {
 			AchievementPage.registerAchievementPage(new AchievementPage("Brain Stone Mod",
@@ -1119,12 +1107,7 @@ public class BrainStone {
 		return items.get("stablePulsatingBrainStoneBoots");
 	}
 
-	/**
-	 * @return the instance of Brain Stone Live Capacitor
-	 */
-	public static final ItemBrainStoneLifeCapacitor brainStoneLifeCapacitor() {
-		return (ItemBrainStoneLifeCapacitor) items.get("brainStoneLifeCapacitor");
-	}
+
 
 	/**
 	 * @return the instance of WTHIT

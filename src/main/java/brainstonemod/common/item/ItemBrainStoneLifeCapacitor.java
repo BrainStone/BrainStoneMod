@@ -1,19 +1,5 @@
 package brainstonemod.common.item;
 
-import java.io.EOFException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import org.lwjgl.input.Keyboard;
-
 import baubles.api.BaubleType;
 import baubles.api.IBauble;
 import brainstonemod.BrainStone;
@@ -45,6 +31,13 @@ import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.input.Keyboard;
+
+import java.io.*;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @SuppressWarnings("unchecked")
 @Optional.Interface(iface = "baubles.api.IBauble", modid = "Baubles|API")
