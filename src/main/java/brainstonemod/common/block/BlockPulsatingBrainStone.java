@@ -28,8 +28,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import static slimeknights.tconstruct.TConstruct.random;
-
 public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 	private final boolean effect;
 	private static Block hasEffectBlock, hasNoEffectBlock;
@@ -100,7 +98,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 	}
 
 	@Override
-	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
+	public void updateTick(World world, BlockPos pos, IBlockState state, Random random) {
 		final int metaData = (int) ((world.getTotalWorldTime() / tickRate(world)) % 16);
 
 		if (metaData >= 15) {
