@@ -24,7 +24,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Loader;
 import org.apache.commons.lang3.ArrayUtils;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -178,10 +177,8 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 		ItemStack[] armor = new ItemStack[]{};
 
 		for(ItemStack armorStack:armors){
-			ArrayUtils.add(armor, armorStack);
+			armor = ArrayUtils.add(armor, armorStack);
 		}
-
-		BSP.debug(Arrays.toString(armor));
 
         int offset = 0;
 
