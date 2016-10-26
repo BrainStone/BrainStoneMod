@@ -26,10 +26,12 @@ import java.util.Random;
  */
 @Optional.Interface(modid = "overlord", iface = "the_fireplace.overlord.tileentity.ISkeletonMaker")
 public class BrainStoneAugment extends Augment {
+    private boolean effect;
     private final Random random;
 
     public BrainStoneAugment(){
         random = new Random();
+        effect = false;
         AugmentRegistry.registerAugment(new ItemStack(BrainStone.pulsatingBrainStone()), this);
     }
 
@@ -54,7 +56,17 @@ public class BrainStoneAugment extends Augment {
     public void updateTick(World world, BlockPos pos, EntityArmyMember augmented) {
         final int metaData = (int) ((world.getTotalWorldTime() / 2) % 16);
 
-        if ((metaData == 8)) {
+        if (metaData >= 15) {
+            if (effect) {
+                if (random.nextInt(2) == 0) {
+                    effect=false;
+                }
+            } else {
+                if (random.nextInt(4) == 0) {
+                    effect=true;
+                }
+            }
+        } else if (metaData == 8 && effect) {
             BSP.debug("", "Effect Time!");
 
             double radius;
@@ -62,7 +74,7 @@ public class BrainStoneAugment extends Augment {
             EntityLivingBase entity;
             Object tmpEntity;
             final List<?> list = world.getEntitiesWithinAABBExcludingEntity(augmented,
-                    new AxisAlignedBB(pos.add(-10,-10,-10), pos.add(11,11,11)));
+                    new AxisAlignedBB(pos.add(-5,-5,-5), pos.add(5,5,5)));
 
             for (Object aList : list) {
                 tmpEntity = aList;
