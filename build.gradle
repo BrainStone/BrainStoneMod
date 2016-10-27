@@ -1,3 +1,9 @@
+import groovyx.net.http.HTTPBuilder
+import static groovyx.net.http.Method.*
+import static groovyx.net.http.ContentType.*
+
+import groovy.json.*
+
 buildscript {
     repositories {
         mavenCentral()
@@ -14,6 +20,7 @@ buildscript {
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.13.0'
+        classpath 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.2'
     }
 }
 
@@ -24,36 +31,48 @@ apply plugin: 'com.github.ben-manes.versions'
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 def getChangelog() {
-  try {
-    return "git log -1 --pretty=%b".execute().text.trim();
-  } catch(Exception e) {
-    return ''
-  }
+    try {
+        return "git log -1 --pretty=%b".execute().text.trim();
+    } catch(Exception e) {
+        return ''
+    }
 }
 def getVersionType() {
-  def lower_version = config.mod_version.toLowerCase();
-
-  if (lower_version.contains("prerelease"))
-    return "beta";
-  else if (lower_version.contains("release"))
-    return "release";
-  else if (lower_version.contains("dev"))
-    return "beta";
-  else
-    return "alpha";
+    def lower_version = config.mod_version.toLowerCase();
+    
+    if (lower_version.contains("prerelease"))
+        return "beta";
+    else if (lower_version.contains("release"))
+        return "release";
+    else if (lower_version.contains("dev"))
+        return "beta";
+    else
+        return "alpha";
+}
+def getVersionName() {
+    try {
+        def tmp = "git describe --dirty=-SNAPSHOT".execute().text.trim();
+        
+        if (config.mod_version_prefix.isEmpty())
+            return tmp;
+        else
+            return tmp + " " + config.mod_version_prefix;
+    } catch(Exception e) {
+      return 'UNKNOWN-VERSION'
+    }
 }
 def signJar(archivePath) {
-  if (project.hasProperty('keyStoreAlias') && project.hasProperty('keyStore') && project.hasProperty('keyStorePass')) {
-    ant.signjar(
-      jar:                  archivePath,
-      alias:                project.keyStoreAlias,
-      keystore:             project.keyStore,
-      storepass:            project.keyStorePass,
-      preservelastmodified: true
-    )
-  } else {
-    println 'WARNING!!!\tCannot sign jar!'
-  }
+    if (project.hasProperty('keyStoreAlias') && project.hasProperty('keyStore') && project.hasProperty('keyStorePass')) {
+        ant.signjar(
+            jar:                  archivePath,
+            alias:                project.keyStoreAlias,
+            keystore:             project.keyStore,
+            storepass:            project.keyStorePass,
+            preservelastmodified: true
+        )
+    } else {
+        println 'WARNING!!!\tCannot sign jar!'
+    }
 }
 
 ext.configFile = file "build.properties"
@@ -62,6 +81,8 @@ configFile.withReader {
     def prop = new Properties()
     prop.load(it)
     project.ext.config = new ConfigSlurper().parse prop
+    
+    config.mod_version = getVersionName()
 }
 
 def MainDirResources = fileTree(dir: '.', includes: ['README.md', 'LICENSE'])
@@ -120,6 +141,24 @@ processResources {
     }
     
     from MainDirResources
+}
+
+task showVersion {
+    description "Displays the current version"
+    group "help"
+    
+    compileJava.dependsOn showVersion
+  
+    doLast {
+        println version
+        
+        def file = new File(buildDir, '.version');
+    
+        file.getParentFile().mkdirs();
+        file.text = version
+    }
+    
+    outputs.upToDateWhen { false }
 }
 
 jar {
@@ -184,6 +223,45 @@ curseforge {
             optionalLibrary 'baubles'
             optionalLibrary 'overlord'
             optionalLibrary 'just-enough-items-jei'
+        }
+    }
+}
+
+task updateDownloadServer {
+    dependsOn jar
+    dependsOn deobfJar
+    dependsOn sourceJar
+    
+    doLast {
+        if (!project.hasProperty('secret')) {
+            println "Secret needs to be set with the parameter -Psecret=xxx"
+            
+            return
+        }
+        
+        def http = new HTTPBuilder('http://download.brainstonemod.com/')
+        http.request( POST ) {
+            uri.path = '/admin/new_version.php'
+            requestContentType = URLENC
+            body = [
+                secret: project.secret,
+                version: config.mod_version,
+                mc_verion: config.minecraft_version,
+                changelog: getChangelog(),
+                artifacts: JsonOutput.toJson([
+                    universal: jar.archivePath.name,
+                    (deobfJar.classifier): deobfJar.archivePath.name,
+                    (sourceJar.classifier): sourceJar.archivePath.name
+                ]),
+                universal: jar.archivePath.text,
+                ("artifact-" + deobfJar.classifier): deobfJar.archivePath.text,
+                ("artifact-" + sourceJar.classifier): sourceJar.archivePath.text
+            ]
+        
+            response.success = { resp, reader ->
+                assert resp.status == 200
+                println "POST response status: ${resp.statusLine}"
+            }
         }
     }
 }
