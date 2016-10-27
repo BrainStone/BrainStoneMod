@@ -1,23 +1,40 @@
 package brainstonemod;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.reflect.Modifier;
+import java.net.SocketTimeoutException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.Map.Entry;
+
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.Logger;
+
 import brainstonemod.client.gui.helper.BrainStoneModCreativeTab;
 import brainstonemod.client.handler.BrainStoneClientEvents;
 import brainstonemod.client.render.BSTriggerModel;
 import brainstonemod.common.CommonProxy;
 import brainstonemod.common.api.BrainStoneModules;
 import brainstonemod.common.api.IModIntegration;
-import brainstonemod.common.api.enderio.EIOCompat;
-import brainstonemod.common.api.energy.EnergyCompat;
-import brainstonemod.common.api.overlord.OverlordCompat;
-import brainstonemod.common.api.tconstruct.TiConCompat;
-import brainstonemod.common.block.*;
+import brainstonemod.common.block.BlockBrainLightSensor;
+import brainstonemod.common.block.BlockBrainStone;
+import brainstonemod.common.block.BlockBrainStoneOre;
+import brainstonemod.common.block.BlockBrainStoneTrigger;
+import brainstonemod.common.block.BlockPulsatingBrainStone;
 import brainstonemod.common.block.template.BlockBrainStoneBase;
 import brainstonemod.common.handler.BrainStoneEventHandler;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.helper.BrainStoneConfigHelper;
 import brainstonemod.common.helper.BrainStoneJarUtils;
-import brainstonemod.common.helper.Module;
-import brainstonemod.common.item.*;
+import brainstonemod.common.item.ItemArmorBrainStone;
+import brainstonemod.common.item.ItemEssenceOfLife;
+import brainstonemod.common.item.ItemHoeBrainStone;
+import brainstonemod.common.item.ItemSwordBrainStone;
+import brainstonemod.common.item.ItemToolBrainStone;
 import brainstonemod.common.item.template.ItemBrainStoneBase;
 import brainstonemod.common.tileentity.TileEntityBrainLightSensor;
 import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
@@ -35,7 +52,12 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.item.*;
+import net.minecraft.entity.item.EntityBoat;
+import net.minecraft.entity.item.EntityEnderEye;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.item.EntityMinecart;
+import net.minecraft.entity.item.EntityTNTPrimed;
+import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityFireball;
@@ -65,7 +87,11 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.*;
+import net.minecraftforge.fml.common.event.FMLFingerprintViolationEvent;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -74,20 +100,6 @@ import net.minecraftforge.fml.common.versioning.ComparableVersion;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.core.Logger;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.net.SocketTimeoutException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.Map.Entry;
 
 /**
  * The main file of the mod
@@ -224,17 +236,15 @@ public class BrainStone {
 		BSP.log(VALID_JAR ? logLevel : Level.WARN, "Jar is " + (VALID_JAR ? "" : "not ") + "valid!",
 				"Jar is " + (BrainStoneJarUtils.SIGNED_JAR ? "" : "not ") + "signed!");
 
-		checkForModules();
+		BrainStoneModules.detectModules();
 
 		BrainStoneConfigHelper.loadConfig(new Configuration(event.getSuggestedConfigurationFile()));
 		retriveCurrentVersions();
 		generateMcModInfoFile(event);
 		createEnums();
 		generateBlocksAndItems();
-		if(BrainStoneModules.energy()){
-			compat = new EnergyCompat();
-			compat.preInit();
-		}
+
+		BrainStoneModules.preInit(event);
 
 		// Registering blocks and items.
 		registerBlocks();
@@ -244,7 +254,7 @@ public class BrainStone {
 		// registered at this moment.
 		generateAchievements();
 
-		if(event.getSide().isClient())
+		if (event.getSide().isClient())
 			clPreInit();
 	}
 
@@ -271,14 +281,8 @@ public class BrainStone {
 		GameRegistry.registerWorldGenerator(new BrainStoneOreWorldGenerator(), 1);
 		// Event Handler
 		MinecraftForge.EVENT_BUS.register(eventHandler);
-		if(BrainStoneModules.energy()){
-			compat = new EnergyCompat();
-			compat.init();
-		}
-		if(BrainStoneModules.overlord()){
-			compat = new OverlordCompat();
-			compat.init();
-		}
+
+		BrainStoneModules.init(event);
 	}
 
 	/**
@@ -297,15 +301,7 @@ public class BrainStone {
 			MFRBrainstoneConfig.registerMFRProperties();
 		}*/
 
-		if (BrainStoneModules.enderIO()) {
-			compat = new EIOCompat();
-			compat.postInit();
-		}
-
-		if (BrainStoneModules.tinkersConstruct()) {
-			compat = new TiConCompat();
-			compat.postInit();
-		}
+		BrainStoneModules.postInit(event);
 	}
 
 	/**
@@ -319,10 +315,7 @@ public class BrainStone {
 	public static void onServerStarting(FMLServerAboutToStartEvent event) {
 		fillTriggerEntities();
 
-		if (BrainStoneModules.energy()) {
-			compat = new EnergyCompat();
-			compat.serverStarting();
-		}
+		BrainStoneModules.serverStarting(event);
 	}
 
 	/**
@@ -334,10 +327,9 @@ public class BrainStone {
 			sendToPlayer(player,
 					TextFormatting.DARK_RED + "The .jar file of the BrainStoneMod appears to be corrupted\n"
 							+ TextFormatting.DARK_RED + "or modified!\n" + TextFormatting.DARK_RED
-							+ "Please DO NOT use it as it may cause harm to your computer!\n"
-							+ TextFormatting.YELLOW + "You can download a fresh .jar file from here\n"
-							+ TextFormatting.DARK_BLUE + "https://download.brainstonemod.com "
-							+ TextFormatting.YELLOW + "!");
+							+ "Please DO NOT use it as it may cause harm to your computer!\n" + TextFormatting.YELLOW
+							+ "You can download a fresh .jar file from here\n" + TextFormatting.DARK_BLUE
+							+ "https://download.brainstonemod.com " + TextFormatting.YELLOW + "!");
 		} else if (!BrainStoneJarUtils.SIGNED_JAR && !DEV_ENV) {
 			sendToPlayer(player,
 					TextFormatting.DARK_RED + "The .jar file of the BrainStoneMod is not signed!\n"
@@ -352,11 +344,10 @@ public class BrainStone {
 			case 0:
 				if (isHigherVersion(VERSION, releaseVersion)) {
 					sendToPlayer(player,
-							TextFormatting.GREEN + "A new Version of the BSM is available!\n"
-									+ TextFormatting.BOLD + TextFormatting.RED + "========== "
-									+ TextFormatting.DARK_RED + latestVersion + TextFormatting.RED
-									+ " ==========\n" + TextFormatting.DARK_BLUE + "Download it at "
-									+ TextFormatting.YELLOW + "http://adf.ly/2002096/release\n"
+							TextFormatting.GREEN + "A new Version of the BSM is available!\n" + TextFormatting.BOLD
+									+ TextFormatting.RED + "========== " + TextFormatting.DARK_RED + latestVersion
+									+ TextFormatting.RED + " ==========\n" + TextFormatting.DARK_BLUE
+									+ "Download it at " + TextFormatting.YELLOW + "http://adf.ly/2002096/release\n"
 									+ TextFormatting.DARK_BLUE + "or " + TextFormatting.YELLOW
 									+ "https://download.brainstonemod.com " + TextFormatting.DARK_BLUE + "!");
 				}
@@ -365,20 +356,18 @@ public class BrainStone {
 			case 1:
 				if (isHigherVersion(VERSION, releaseVersion) && !isHigherVersion(releaseVersion, recommendedVersion)) {
 					sendToPlayer(player,
-							TextFormatting.GREEN + "A new Version of the BSM is available!\n"
-									+ TextFormatting.BOLD + TextFormatting.RED + "========== "
-									+ TextFormatting.DARK_RED + latestVersion + TextFormatting.RED
-									+ " ==========\n" + TextFormatting.DARK_BLUE + "Download it at "
-									+ TextFormatting.YELLOW + "http://adf.ly/2002096/release\n"
+							TextFormatting.GREEN + "A new Version of the BSM is available!\n" + TextFormatting.BOLD
+									+ TextFormatting.RED + "========== " + TextFormatting.DARK_RED + latestVersion
+									+ TextFormatting.RED + " ==========\n" + TextFormatting.DARK_BLUE
+									+ "Download it at " + TextFormatting.YELLOW + "http://adf.ly/2002096/release\n"
 									+ TextFormatting.DARK_BLUE + "or " + TextFormatting.YELLOW
 									+ "https://download.brainstonemod.com " + TextFormatting.DARK_BLUE + "!");
 				} else if (isHigherVersion(VERSION, recommendedVersion)) {
 					sendToPlayer(player,
 							TextFormatting.GREEN + "A new recommended DEV Version of the BSM is available!\n"
-									+ TextFormatting.BOLD + TextFormatting.RED + "========== "
-									+ TextFormatting.DARK_RED + latestVersion + TextFormatting.RED
-									+ " ==========\n" + TextFormatting.DARK_BLUE + "Download it at "
-									+ TextFormatting.YELLOW + "http://adf.ly/2002096/recommended\n"
+									+ TextFormatting.BOLD + TextFormatting.RED + "========== " + TextFormatting.DARK_RED
+									+ latestVersion + TextFormatting.RED + " ==========\n" + TextFormatting.DARK_BLUE
+									+ "Download it at " + TextFormatting.YELLOW + "http://adf.ly/2002096/recommended\n"
 									+ TextFormatting.DARK_BLUE + "or " + TextFormatting.YELLOW
 									+ "https://download.brainstonemod.com " + TextFormatting.DARK_BLUE + "!");
 				}
@@ -388,30 +377,27 @@ public class BrainStone {
 				if (isHigherVersion(VERSION, releaseVersion) && !isHigherVersion(releaseVersion, recommendedVersion)
 						&& !isHigherVersion(releaseVersion, latestVersion)) {
 					sendToPlayer(player,
-							TextFormatting.GREEN + "A new Version of the BSM is available!\n"
-									+ TextFormatting.BOLD + TextFormatting.RED + "========== "
-									+ TextFormatting.DARK_RED + latestVersion + TextFormatting.RED
-									+ " ==========\n" + TextFormatting.DARK_BLUE + "Download it at "
-									+ TextFormatting.YELLOW + "http://adf.ly/2002096/release\n"
+							TextFormatting.GREEN + "A new Version of the BSM is available!\n" + TextFormatting.BOLD
+									+ TextFormatting.RED + "========== " + TextFormatting.DARK_RED + latestVersion
+									+ TextFormatting.RED + " ==========\n" + TextFormatting.DARK_BLUE
+									+ "Download it at " + TextFormatting.YELLOW + "http://adf.ly/2002096/release\n"
 									+ TextFormatting.DARK_BLUE + "or " + TextFormatting.YELLOW
 									+ "https://download.brainstonemod.com " + TextFormatting.DARK_BLUE + "!");
 				} else if (isHigherVersion(VERSION, recommendedVersion)
 						&& !isHigherVersion(recommendedVersion, latestVersion)) {
 					sendToPlayer(player,
 							TextFormatting.GREEN + "A new recommended DEV Version of the BSM is available!\n"
-									+ TextFormatting.BOLD + TextFormatting.RED + "========== "
-									+ TextFormatting.DARK_RED + latestVersion + TextFormatting.RED
-									+ " ==========\n" + TextFormatting.DARK_BLUE + "Download it at "
-									+ TextFormatting.YELLOW + "http://adf.ly/2002096/recommended\n"
+									+ TextFormatting.BOLD + TextFormatting.RED + "========== " + TextFormatting.DARK_RED
+									+ latestVersion + TextFormatting.RED + " ==========\n" + TextFormatting.DARK_BLUE
+									+ "Download it at " + TextFormatting.YELLOW + "http://adf.ly/2002096/recommended\n"
 									+ TextFormatting.DARK_BLUE + "or " + TextFormatting.YELLOW
 									+ "https://download.brainstonemod.com " + TextFormatting.DARK_BLUE + "!");
 				} else if (isHigherVersion(VERSION, latestVersion)) {
 					sendToPlayer(player,
-							TextFormatting.GREEN + "A new DEV Version of the BSM is available!\n"
-									+ TextFormatting.BOLD + TextFormatting.RED + "========== "
-									+ TextFormatting.DARK_RED + latestVersion + TextFormatting.RED
-									+ " ==========\n" + TextFormatting.DARK_BLUE + "Download it at "
-									+ TextFormatting.YELLOW + "http://adf.ly/2002096/latest\n"
+							TextFormatting.GREEN + "A new DEV Version of the BSM is available!\n" + TextFormatting.BOLD
+									+ TextFormatting.RED + "========== " + TextFormatting.DARK_RED + latestVersion
+									+ TextFormatting.RED + " ==========\n" + TextFormatting.DARK_BLUE
+									+ "Download it at " + TextFormatting.YELLOW + "http://adf.ly/2002096/latest\n"
 									+ TextFormatting.DARK_BLUE + "or " + TextFormatting.YELLOW
 									+ "https://download.brainstonemod.com " + TextFormatting.DARK_BLUE + "!");
 				}
@@ -445,33 +431,14 @@ public class BrainStone {
 			player.addChatMessage(new TextComponentString(line));
 	}
 
-	private static void checkForModules() {
-		BSP.info("Checking available modules:");
-
-		for (Method method : BrainStoneModules.class.getMethods()) {
-			Module module = method.getAnnotation(Module.class);
-
-			if (module != null) {
-				try {
-					if ((Boolean) method.invoke(null)) {
-						BSP.info("\t" + module.value());
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}
-
-		BSP.debug("Finished checking available modules!");
-	}
-
 	private static void createEnums() {
 		toolBRAINSTONE = EnumHelper.addToolMaterial("BRAINSTONE", 4, 5368, 6F, 5, 25);
-		armorBRAINSTONE = EnumHelper.addArmorMaterial("BRAINSTONE", "BRAINSTONE", 114, new int[] { 2, 6, 5, 2 }, 25, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0);
+		armorBRAINSTONE = EnumHelper.addArmorMaterial("BRAINSTONE", "BRAINSTONE", 114, new int[] { 2, 6, 5, 2 }, 25,
+				SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0);
 
 		toolSTABLEPULSATINGBS = EnumHelper.addToolMaterial("STABLEPULSATINGBS", 5, 21472, 18F, 20, 50);
-		armorSTABLEPULSATINGBS = EnumHelper.addArmorMaterial("STABLEPULSATINGBS", "STABLEPULSATINGBS", 456, new int[] { 12, 32, 24, 12 },
-				50, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0);
+		armorSTABLEPULSATINGBS = EnumHelper.addArmorMaterial("STABLEPULSATINGBS", "STABLEPULSATINGBS", 456,
+				new int[] { 12, 32, 24, 12 }, 50, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0);
 	}
 
 	/**
@@ -653,8 +620,9 @@ public class BrainStone {
 					new ItemStack(TinkerArmor.diamondApple, 1), new ItemStack(Items.GOLDEN_APPLE, 1, 1));
 		}*/
 	}
+
 	@SideOnly(Side.CLIENT)
-	public void clPreInit(){
+	public void clPreInit() {
 		StateMapperBase ignoreState = new StateMapperBase() {
 			@Override
 			protected ModelResourceLocation getModelResourceLocation(IBlockState iBlockState) {
@@ -665,9 +633,11 @@ public class BrainStone {
 
 		MinecraftForge.EVENT_BUS.register(new BrainStoneClientEvents());
 
-		ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(MOD_ID+":brainStoneTrigger", "inventory");
+		ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(MOD_ID + ":brainStoneTrigger",
+				"inventory");
 		final int DEFAULT_ITEM_SUBTYPE = 0;
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(brainStoneTrigger()), DEFAULT_ITEM_SUBTYPE, itemModelResourceLocation);
+		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(brainStoneTrigger()), DEFAULT_ITEM_SUBTYPE,
+				itemModelResourceLocation);
 	}
 
 	public static void addRecipe(ItemStack stack, Object... args) {
@@ -695,8 +665,7 @@ public class BrainStone {
 			tempTriggerEntities.put("gui.brainstone.projectile", new Class[] { EntityArrow.class, EntityThrowable.class,
 					EntityEnderEye.class, EntityFireball.class });
 
-			for (final Entry<String, Class<? extends Entity>> entry : EntityList.NAME_TO_CLASS
-					.entrySet()) {
+			for (final Entry<String, Class<? extends Entity>> entry : EntityList.NAME_TO_CLASS.entrySet()) {
 				verifyTriggerEntity(tempTriggerEntities, entry.getKey(), entry.getValue());
 			}
 
@@ -782,7 +751,6 @@ public class BrainStone {
 
 	private static void generateAchievements() {
 		// Achievements
-
 		String curAch;
 
 		achievements.put(curAch = "WTHIT",
@@ -803,10 +771,7 @@ public class BrainStone {
 						BrainStoneConfigHelper.getAchievementXPosition(curAch), brainStonePickaxe(), itLives()))
 								.registerStat());
 
-		if (BrainStoneModules.energy()){
-			IModIntegration compat = new EnergyCompat();
-
-		}
+		BrainStoneModules.addAchievement();
 
 		if (BrainStoneConfigHelper.enableAchievementPage()) {
 			AchievementPage.registerAchievementPage(new AchievementPage("Brain Stone Mod",
@@ -1106,8 +1071,6 @@ public class BrainStone {
 	public final static Item stablePulsatingBrainStoneBoots() {
 		return items.get("stablePulsatingBrainStoneBoots");
 	}
-
-
 
 	/**
 	 * @return the instance of WTHIT

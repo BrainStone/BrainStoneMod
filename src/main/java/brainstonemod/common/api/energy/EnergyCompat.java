@@ -12,6 +12,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import static brainstonemod.BrainStone.brainProcessor;
@@ -22,53 +26,54 @@ import static brainstonemod.BrainStone.stablePulsatingBrainStonePlate;
  * @author The_Fireplace
  */
 public class EnergyCompat implements IModIntegration {
-    @Override
-    public void preInit() {
-        BrainStone.items.put("brainStoneLifeCapacitor", (new ItemBrainStoneLifeCapacitor()));
-    }
+	@Override
+	public void preInit(FMLPreInitializationEvent event) {
+		BrainStone.items.put("brainStoneLifeCapacitor", (new ItemBrainStoneLifeCapacitor()));
+	}
 
-    @Override
-    public void init() {
-        MinecraftForge.EVENT_BUS.register(new EnergyEvents());
-        GameRegistry.addRecipe(new BrainStoneLifeCapacitorUpgrade(BrainStoneLifeCapacitorUpgrade.Upgrade.CAPACITY));
-        GameRegistry.addRecipe(new BrainStoneLifeCapacitorUpgrade(BrainStoneLifeCapacitorUpgrade.Upgrade.CHARGING));
+	@Override
+	public void init(FMLInitializationEvent event) {
+		MinecraftForge.EVENT_BUS.register(new EnergyEvents());
+		GameRegistry.addRecipe(new BrainStoneLifeCapacitorUpgrade(BrainStoneLifeCapacitorUpgrade.Upgrade.CAPACITY));
+		GameRegistry.addRecipe(new BrainStoneLifeCapacitorUpgrade(BrainStoneLifeCapacitorUpgrade.Upgrade.CHARGING));
 
-        //TODO: Test this with energy without EnderIO and make sure this isn't a problem.
-        Object craftingS = (BrainStoneModules.enderIO()) ? EnderIOItems.getSentientEnder()
-                : new ItemStack(Items.SKULL, 1, 1);
-        Object craftingX = (BrainStoneModules.enderIO()) ? EnderIOItems.getXPRod() : Items.BLAZE_ROD;
-        Object craftingC = (BrainStoneModules.enderIO()) ? EnderIOItems.getOctadicCapacitor() : "dustRedstone";
-        Object craftingH = /*(BrainStoneModules.tinkersConstruct()) ? TinkersConstructItems.getGreenHeartCanister()
-					:*/ new ItemStack(Items.GOLDEN_APPLE, 1, 1);
+		// TODO: Test this with energy without EnderIO and make sure this isn't
+		// a problem.
+		Object craftingS = (BrainStoneModules.enderIO()) ? EnderIOItems.getSentientEnder()
+				: new ItemStack(Items.SKULL, 1, 1);
+		Object craftingX = (BrainStoneModules.enderIO()) ? EnderIOItems.getXPRod() : Items.BLAZE_ROD;
+		Object craftingC = (BrainStoneModules.enderIO()) ? EnderIOItems.getOctadicCapacitor() : "dustRedstone";
+		Object craftingH = /*(BrainStoneModules.tinkersConstruct()) ? TinkersConstructItems.getGreenHeartCanister()
+				:*/ new ItemStack(Items.GOLDEN_APPLE, 1, 1);
 
-        BrainStone.addRecipe(new ItemStack(brainStoneLifeCapacitor(), 1), "SBX", "CHC", " P ", 'S', craftingS, 'B',
-                brainProcessor(), 'X', craftingX, 'C', craftingC, 'H', craftingH, 'P',
-                stablePulsatingBrainStonePlate());
-    }
+		BrainStone.addRecipe(new ItemStack(brainStoneLifeCapacitor(), 1), "SBX", "CHC", " P ", 'S', craftingS, 'B',
+				brainProcessor(), 'X', craftingX, 'C', craftingC, 'H', craftingH, 'P',
+				stablePulsatingBrainStonePlate());
+	}
 
-    @Override
-    public void postInit() {
+	@Override
+	public void postInit(FMLPostInitializationEvent event) {
 
-    }
+	}
 
-    @Override
-    public void serverStarting() {
-        brainStoneLifeCapacitor().newPlayerCapacitorMapping(DimensionManager.getCurrentSaveRootDirectory());
-    }
+	@Override
+	public void serverStarting(FMLServerAboutToStartEvent event) {
+		brainStoneLifeCapacitor().newPlayerCapacitorMapping(DimensionManager.getCurrentSaveRootDirectory());
+	}
 
-    @Override
-    public void addAchievement() {
-        String curAch;
-        BrainStone.achievements.put(curAch = "lifeCapacitor",
-                (new Achievement(curAch, curAch, BrainStoneConfigHelper.getAchievementYPosition(curAch),
-                        BrainStoneConfigHelper.getAchievementXPosition(curAch), brainStoneLifeCapacitor(),
-                        intelligentTools())).setSpecial().registerStat());
-    }
+	@Override
+	public void addAchievement() {
+		String curAch;
+		BrainStone.achievements.put(curAch = "lifeCapacitor",
+				(new Achievement(curAch, curAch, BrainStoneConfigHelper.getAchievementYPosition(curAch),
+						BrainStoneConfigHelper.getAchievementXPosition(curAch), brainStoneLifeCapacitor(),
+						intelligentTools())).setSpecial().registerStat());
+	}
 
-    /**
-     * @return the instance of Brain Stone Life Capacitor
-     */
-    public static final ItemBrainStoneLifeCapacitor brainStoneLifeCapacitor() {
-        return (ItemBrainStoneLifeCapacitor) BrainStone.items.get("brainStoneLifeCapacitor");
-    }
+	/**
+	 * @return the instance of Brain Stone Life Capacitor
+	 */
+	public static final ItemBrainStoneLifeCapacitor brainStoneLifeCapacitor() {
+		return (ItemBrainStoneLifeCapacitor) BrainStone.items.get("brainStoneLifeCapacitor");
+	}
 }
