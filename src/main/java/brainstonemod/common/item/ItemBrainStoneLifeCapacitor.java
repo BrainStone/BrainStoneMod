@@ -483,16 +483,19 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	@Override
 	@Optional.Method(modid = "Baubles|API")
 	public void onEquipped(ItemStack stack, EntityLivingBase entity) {
+		// Do nothing
 	}
 
 	@Override
 	@Optional.Method(modid = "Baubles|API")
 	public void onUnequipped(ItemStack stack, EntityLivingBase entity) {
+		// Do nothing
 	}
 
 	@Override
 	@Optional.Method(modid = "Baubles|API")
 	public void onWornTick(ItemStack stack, EntityLivingBase entity) {
+		// Do nothing
 	}
 
 	public class PlayerCapacitorMapping {

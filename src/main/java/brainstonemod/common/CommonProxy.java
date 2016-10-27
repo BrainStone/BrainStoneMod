@@ -51,10 +51,10 @@ public class CommonProxy {
 	}
 
 	public void rmm(Item i){
-
+		// Do nothing
 	}
 
 	public void rmm(Block b){
-
+		// Do nothing
 	}
 }

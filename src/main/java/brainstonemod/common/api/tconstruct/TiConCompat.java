@@ -12,12 +12,12 @@ import net.minecraftforge.fml.common.event.FMLServerAboutToStartEvent;
 public class TiConCompat implements IModIntegration {
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
-
+		// Do nothing
 	}
 
 	@Override
 	public void init(FMLInitializationEvent event) {
-
+		// Do nothing
 	}
 
 	@Override
@@ -27,11 +27,11 @@ public class TiConCompat implements IModIntegration {
 
 	@Override
 	public void serverStarting(FMLServerAboutToStartEvent event) {
-
+		// Do nothing
 	}
 
 	@Override
 	public void addAchievement() {
-
+		// Do nothing
 	}
 }

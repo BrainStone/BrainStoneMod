@@ -138,7 +138,7 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 
 	@Override
 	public void setField(int id, int value) {
-
+		// Do nothing
 	}
 
 	@Override
@@ -148,7 +148,7 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 
 	@Override
 	public void clear() {
-
+		// Do nothing
 	}
 
 	@Override
@@ -348,12 +348,12 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 
 	@Override
 	public void openInventory(EntityPlayer player) {
-
+		// Do nothing
 	}
 
 	@Override
 	public void closeInventory(EntityPlayer player) {
-
+		// Do nothing
 	}
 
 	@Override

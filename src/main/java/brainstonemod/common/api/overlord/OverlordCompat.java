@@ -14,7 +14,7 @@ import the_fireplace.overlord.entity.EntityArmyMember;
 public class OverlordCompat implements IModIntegration, IOverlordCompat {
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
-
+		// Do nothing
 	}
 
 	@Override
@@ -24,24 +24,22 @@ public class OverlordCompat implements IModIntegration, IOverlordCompat {
 
 	@Override
 	public void postInit(FMLPostInitializationEvent event) {
-
+		// Do nothing
 	}
 
 	@Override
 	public void serverStarting(FMLServerAboutToStartEvent event) {
-
+		// Do nothing
 	}
 
 	@Override
 	public void addAchievement() {
-
+		// Do nothing
 	}
 
 	@Override
 	public boolean exemptEntity(Entity entity) {
-		if (entity instanceof EntityArmyMember && ((EntityArmyMember) entity).getAugment() != null
-				&& ((EntityArmyMember) entity).getAugment().augmentId().equals("pulsatingbrainstone"))
-			return true;
-		return false;
+		return (entity instanceof EntityArmyMember && ((EntityArmyMember) entity).getAugment() != null
+				&& ((EntityArmyMember) entity).getAugment().augmentId().equals("pulsatingbrainstone"));
 	}
 }

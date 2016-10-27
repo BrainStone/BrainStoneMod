@@ -47,12 +47,12 @@ public class CapacitorUpgradeRecipeWrapper implements ICraftingRecipeWrapper {
 
     @Override
     public void drawInfo(@Nonnull Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
-
+    	// Do nothing
     }
 
     @Override
     public void drawAnimations(@Nonnull Minecraft minecraft, int recipeWidth, int recipeHeight) {
-
+    	// Do nothing
     }
 
     @Nullable

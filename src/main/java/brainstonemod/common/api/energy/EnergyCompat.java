@@ -53,7 +53,7 @@ public class EnergyCompat implements IModIntegration {
 
 	@Override
 	public void postInit(FMLPostInitializationEvent event) {
-
+		// Do nothing
 	}
 
 	@Override

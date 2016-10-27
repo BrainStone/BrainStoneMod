@@ -44,7 +44,7 @@ public class BrainStoneAugment extends Augment {
     @Override
     @Optional.Method(modid = "overlord")
     public void onStrike(EntityArmyMember entityArmyMember, Entity entity) {
-
+    	// Do nothing
     }
 
     @Override
