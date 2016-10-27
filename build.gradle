@@ -32,7 +32,8 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 
 def getChangelog() {
     try {
-        return "git log -1 --pretty=%b".execute().text.trim();
+        def tag = "git describe --abbrev=0 --tags".execute().text.trim();
+        return ("git tag -l -n99999 " + tag).execute().text.trim().replace(tag, "").replaceAll("(?m)^\\s+", "")
     } catch(Exception e) {
         return ''
     }
@@ -51,7 +52,7 @@ def getVersionType() {
 }
 def getVersionName() {
     try {
-        def tmp = "git describe --dirty=-SNAPSHOT".execute().text.trim();
+        def tmp = "git describe --tags --dirty=-SNAPSHOT".execute().text.trim();
         
         if (config.mod_version_prefix.isEmpty())
             return tmp;
@@ -253,7 +254,7 @@ task updateDownloadServer {
                     (deobfJar.classifier): deobfJar.archivePath.name,
                     (sourceJar.classifier): sourceJar.archivePath.name
                 ]),
-                universal: jar.archivePath.text,
+                "artifact-universal": jar.archivePath.text,
                 ("artifact-" + deobfJar.classifier): deobfJar.archivePath.text,
                 ("artifact-" + sourceJar.classifier): sourceJar.archivePath.text
             ]
