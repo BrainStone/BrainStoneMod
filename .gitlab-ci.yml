@@ -30,14 +30,14 @@ build:
   - master
   - tags
   artifacts:
-    name: "BrainStoneMod-$(grep 'mod_version=' build.properties | sed 's/^.*=//')"
+    name: "BrainStoneMod-$(cat $CACHE_DIR/.version)"
     paths:
     - $ARTIFACTS
     
 deploy:
   stage: deploy
   script:
-  - ./gradlew curseforge
+  - ./gradlew curseforge updateDownloadServer -Psecret=$SECRET
   when: on_success
   only:
   - tags
