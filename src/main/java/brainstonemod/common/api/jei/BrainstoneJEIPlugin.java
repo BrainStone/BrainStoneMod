@@ -20,6 +20,6 @@ public class BrainstoneJEIPlugin implements IModPlugin {
 
     @Override
     public void onRuntimeAvailable(@Nonnull IJeiRuntime jeiRuntime) {
-
+    	// Do nothing
     }
 }

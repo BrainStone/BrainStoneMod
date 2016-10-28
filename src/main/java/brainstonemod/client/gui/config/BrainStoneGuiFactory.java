@@ -11,6 +11,7 @@ import net.minecraft.client.gui.GuiScreen;
 public class BrainStoneGuiFactory implements IModGuiFactory {
 	@Override
 	public void initialize(Minecraft minecraftInstance) {
+		// Do nothing
 	}
 
 	@Override

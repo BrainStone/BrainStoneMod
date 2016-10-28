@@ -19,14 +19,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class BrainStoneUpgrade extends AbstractUpgrade {
 	private static String UPGRADE_NAME = "brainstone";
 
-	public static final BrainStoneUpgrade UPGRADE = new BrainStoneUpgrade(
-			new ItemStack(BrainStone.brainStone()), 20);
+	public static final BrainStoneUpgrade UPGRADE = new BrainStoneUpgrade(new ItemStack(BrainStone.brainStone()), 20);
 
 	private Render render;
 
 	protected BrainStoneUpgrade(ItemStack upgradeItem, int levelCost) {
-		super(UPGRADE_NAME, KEY_UPGRADE_PREFIX + UPGRADE_NAME, upgradeItem,
-				levelCost);
+		super(UPGRADE_NAME, KEY_UPGRADE_PREFIX + UPGRADE_NAME, upgradeItem, levelCost);
 	}
 
 	public BrainStoneUpgrade(NBTTagCompound tag) {
@@ -36,17 +34,17 @@ public class BrainStoneUpgrade extends AbstractUpgrade {
 	@Override
 	@Optional.Method(modid = "EnderIO")
 	public boolean canAddToItem(ItemStack stack) {
-		return !(stack == null
-				|| (stack.getItem() != DarkSteelItems.itemDarkSteelBoots
+		return !(stack == null || (stack.getItem() != DarkSteelItems.itemDarkSteelBoots
 				&& stack.getItem() != DarkSteelItems.itemDarkSteelLeggings
-				&& stack.getItem() != DarkSteelItems.itemDarkSteelChestplate && stack
-				.getItem() != DarkSteelItems.itemDarkSteelHelmet)) && !hasUpgrade(stack);
+				&& stack.getItem() != DarkSteelItems.itemDarkSteelChestplate
+				&& stack.getItem() != DarkSteelItems.itemDarkSteelHelmet)) && !hasUpgrade(stack);
 
 	}
 
 	@Override
 	@Optional.Method(modid = "EnderIO")
 	public void writeUpgradeToNBT(NBTTagCompound upgradeRoot) {
+		// Do nothing
 	}
 
 	@Override
@@ -59,8 +57,7 @@ public class BrainStoneUpgrade extends AbstractUpgrade {
 	@SideOnly(Side.CLIENT)
 	private class Render implements IRenderUpgrade {
 
-		private EntityItem item = new EntityItem(
-				Minecraft.getMinecraft().theWorld);
+		private EntityItem item = new EntityItem(Minecraft.getMinecraft().theWorld);
 		private final float radToDEgFactor = 57.2958f;
 
 		@Override
