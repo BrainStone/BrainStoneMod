@@ -33,7 +33,7 @@ apply plugin: 'forge'
 def getChangelog() {
     try {
         def tag = "git describe --abbrev=0 --tags".execute().text.trim();
-        return ("git tag -l -n99999 " + tag).execute().text.trim().replace(tag, "").replaceAll("(?m)^\\s+", "")
+        return ("git tag -l -n99999 " + tag).execute().text.trim().replaceFirst(tag, "").replaceAll("(?m)^\\s+", "")
     } catch(Exception e) {
         return ''
     }
