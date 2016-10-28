@@ -107,7 +107,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
  * @author Yannick Schinko (alias The_BrainStone)
  * @author The_Fireplace
  */
-@Mod(modid = BrainStone.MOD_ID, name = BrainStone.NAME, version = BrainStone.VERSION, dependencies = BrainStone.DEPENDENCIES, canBeDeactivated = true, certificateFingerprint = BrainStone.FINGERPRINT, guiFactory = BrainStone.GUI_FACTORY)
+@Mod(modid = BrainStone.MOD_ID, name = BrainStone.NAME, version = BrainStone.VERSION, dependencies = BrainStone.DEPENDENCIES, certificateFingerprint = BrainStone.FINGERPRINT, guiFactory = BrainStone.GUI_FACTORY, updateJSON = BrainStone.UPDATE_JSON)
 public class BrainStone {
 	public static final String MOD_ID = "brainstonemod";
 	public static final String RESOURCE_PACKAGE = MOD_ID;
@@ -118,6 +118,7 @@ public class BrainStone {
 	public static final String FINGERPRINT = "2238d4a92d81ab407741a2fdb741cebddfeacba6";
 	public static final String GUI_FACTORY = "brainstonemod.client.gui.config.BrainStoneGuiFactory";
 	public static final String BASE_URL = "http://download.brainstonemod.com/";
+	public static final String UPDATE_JSON = BASE_URL + "update.json";
 
 	/** The instance of this mod */
 	@Instance(MOD_ID)
