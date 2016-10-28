@@ -94,7 +94,7 @@ repositories{
 dependencies {
     compile "org.projectlombok:lombok:1.16.10"
     
-    deobfProvided group: "mezz.jei", name: "jei_1.10.2", version: "3.9.0.246"
+    deobfProvided group: "mezz.jei", name: "jei_1.10.2", version: "3.13.0.334"
     deobfProvided group: "slimeknights", name: "TConstruct", version: "1.10.2-2.5.6b.jenkins425"
     deobfProvided group: "slimeknights.mantle", name: "Mantle", version: "1.10.2-1.1.1.194"
     provided "com.enderio.core:EnderCore:1.10.2-0.4.1.56-beta"
