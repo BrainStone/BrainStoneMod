@@ -28,6 +28,7 @@ build:
   when: on_success
   only:
   - master
+  - 1.10.2
   - tags
   artifacts:
     name: "BrainStoneMod-$(cat $CACHE_DIR/.version)"
@@ -51,4 +52,5 @@ cleanup:
   when: always
   only:
   - master
+  - 1.10.2
   - tags
