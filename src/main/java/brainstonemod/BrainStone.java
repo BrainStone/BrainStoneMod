@@ -19,7 +19,7 @@ import brainstonemod.client.handler.BrainStoneClientEvents;
 import brainstonemod.client.render.BSTriggerModel;
 import brainstonemod.common.CommonProxy;
 import brainstonemod.common.api.BrainStoneModules;
-import brainstonemod.common.api.IModIntegration;
+import brainstonemod.common.api.enderio.EnderIOItems;
 import brainstonemod.common.block.BlockBrainLightSensor;
 import brainstonemod.common.block.BlockBrainStone;
 import brainstonemod.common.block.BlockBrainStoneOre;
@@ -30,11 +30,13 @@ import brainstonemod.common.handler.BrainStoneEventHandler;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.helper.BrainStoneConfigHelper;
 import brainstonemod.common.helper.BrainStoneJarUtils;
+import brainstonemod.common.helper.BrainStoneLifeCapacitorUpgrade;
 import brainstonemod.common.item.ItemArmorBrainStone;
 import brainstonemod.common.item.ItemEssenceOfLife;
 import brainstonemod.common.item.ItemHoeBrainStone;
 import brainstonemod.common.item.ItemSwordBrainStone;
 import brainstonemod.common.item.ItemToolBrainStone;
+import brainstonemod.common.item.energy.ItemBrainStoneLifeCapacitor;
 import brainstonemod.common.item.template.ItemBrainStoneBase;
 import brainstonemod.common.tileentity.TileEntityBrainLightSensor;
 import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
@@ -75,10 +77,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.AchievementPage;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.util.EnumHelper;
@@ -112,6 +116,7 @@ public class BrainStone {
 	public static final String MOD_ID = "brainstonemod";
 	public static final String RESOURCE_PACKAGE = MOD_ID;
 	public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
+	public static final ResourceLocation RESOURCE_LOCATION = new ResourceLocation(RESOURCE_PACKAGE);
 	public static final String NAME = "Brain Stone Mod";
 	public static final String VERSION = "${version}";
 	public static final String DEPENDENCIES = "after:EnderIO;after:TConstruct;after:overlord";
@@ -207,8 +212,6 @@ public class BrainStone {
 			VALID_JAR = false;
 	}
 
-	static IModIntegration compat;
-
 	/**
 	 * Preinitialization. Reads the ids from the config file and fills the block
 	 * and item HashMaps with the blocks and items.
@@ -294,13 +297,14 @@ public class BrainStone {
 	 */
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		/*if (BrainStoneModules.thaumcraft()) {
-			AspectCreator.initAspects();
-		}*/
+		/*
+		 * if (BrainStoneModules.thaumcraft()) { AspectCreator.initAspects(); }
+		 */
 
-		/*if (BrainStoneModules.MFR()) {
-			MFRBrainstoneConfig.registerMFRProperties();
-		}*/
+		/*
+		 * if (BrainStoneModules.MFR()) {
+		 * MFRBrainstoneConfig.registerMFRProperties(); }
+		 */
 
 		BrainStoneModules.postInit(event);
 	}
@@ -316,7 +320,7 @@ public class BrainStone {
 	public static void onServerStarting(FMLServerAboutToStartEvent event) {
 		fillTriggerEntities();
 
-		BrainStoneModules.serverStarting(event);
+		brainStoneLifeCapacitor().newPlayerCapacitorMapping(DimensionManager.getCurrentSaveRootDirectory());
 	}
 
 	/**
@@ -610,16 +614,38 @@ public class BrainStone {
 				stablePulsatingBrainStone());
 		addRecipe(new ItemStack(stablePulsatingBrainStoneBoots(), 1), "B B", "B B", 'B', stablePulsatingBrainStone());
 
-		//Heart Canister appears to no longer exist
-		/*if (BrainStoneModules.tinkersConstruct()) {
-			GameRegistry.addShapelessRecipe(new ItemStack(TinkerGadgets.heartCanister, 1, 5),
-					new ItemStack(pulsatingBrainStone(), 1), new ItemStack(essenceOfLife(), 1),
-					new ItemStack(TinkerArmor.heartCanister, 1, 3));
-			GameRegistry.addShapelessRecipe(new ItemStack(TinkerArmor.heartCanister, 1, 6),
-					new ItemStack(TinkerArmor.heartCanister, 1, 4), new ItemStack(TinkerArmor.heartCanister, 1, 5),
-					new ItemStack(pulsatingBrainStone(), 1), new ItemStack(essenceOfLife(), 1),
-					new ItemStack(TinkerArmor.diamondApple, 1), new ItemStack(Items.GOLDEN_APPLE, 1, 1));
-		}*/
+		// Capacitor Recipes
+		GameRegistry.addRecipe(new BrainStoneLifeCapacitorUpgrade(BrainStoneLifeCapacitorUpgrade.Upgrade.CAPACITY));
+		GameRegistry.addRecipe(new BrainStoneLifeCapacitorUpgrade(BrainStoneLifeCapacitorUpgrade.Upgrade.CHARGING));
+
+		// TODO: Test this with energy without EnderIO and make sure this isn't
+		// a problem.
+		// TODO: rework the recipe since the hearts from TiCon no longer exist.
+		Object craftingS = (BrainStoneModules.enderIO()) ? EnderIOItems.getSentientEnder()
+				: new ItemStack(Items.SKULL, 1, 1);
+		Object craftingX = (BrainStoneModules.enderIO()) ? EnderIOItems.getXPRod() : Items.BLAZE_ROD;
+		Object craftingC = (BrainStoneModules.enderIO()) ? EnderIOItems.getOctadicCapacitor() : "dustRedstone";
+		Object craftingH = new ItemStack(Items.GOLDEN_APPLE, 1, 1);
+
+		BrainStone.addRecipe(new ItemStack(brainStoneLifeCapacitor(), 1), "SBX", "CHC", " P ", 'S', craftingS, 'B',
+				brainProcessor(), 'X', craftingX, 'C', craftingC, 'H', craftingH, 'P',
+				stablePulsatingBrainStonePlate());
+
+		// Heart Canister appears to no longer exist
+		/*
+		 * if (BrainStoneModules.tinkersConstruct()) {
+		 * GameRegistry.addShapelessRecipe(new
+		 * ItemStack(TinkerGadgets.heartCanister, 1, 5), new
+		 * ItemStack(pulsatingBrainStone(), 1), new ItemStack(essenceOfLife(),
+		 * 1), new ItemStack(TinkerArmor.heartCanister, 1, 3));
+		 * GameRegistry.addShapelessRecipe(new
+		 * ItemStack(TinkerArmor.heartCanister, 1, 6), new
+		 * ItemStack(TinkerArmor.heartCanister, 1, 4), new
+		 * ItemStack(TinkerArmor.heartCanister, 1, 5), new
+		 * ItemStack(pulsatingBrainStone(), 1), new ItemStack(essenceOfLife(),
+		 * 1), new ItemStack(TinkerArmor.diamondApple, 1), new
+		 * ItemStack(Items.GOLDEN_APPLE, 1, 1)); }
+		 */
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -748,6 +774,7 @@ public class BrainStone {
 				new ItemArmorBrainStone(armorSTABLEPULSATINGBS, EntityEquipmentSlot.LEGS));
 		items.put("stablePulsatingBrainStoneBoots",
 				new ItemArmorBrainStone(armorSTABLEPULSATINGBS, EntityEquipmentSlot.FEET));
+		items.put("brainStoneLifeCapacitor", (new ItemBrainStoneLifeCapacitor()));
 	}
 
 	private static void generateAchievements() {
@@ -771,6 +798,10 @@ public class BrainStone {
 				(new Achievement(curAch, curAch, BrainStoneConfigHelper.getAchievementYPosition(curAch),
 						BrainStoneConfigHelper.getAchievementXPosition(curAch), brainStonePickaxe(), itLives()))
 								.registerStat());
+		achievements.put(curAch = "lifeCapacitor",
+				(new Achievement(curAch, curAch, BrainStoneConfigHelper.getAchievementYPosition(curAch),
+						BrainStoneConfigHelper.getAchievementXPosition(curAch), brainStoneLifeCapacitor(),
+						intelligentTools())).setSpecial().registerStat());
 
 		BrainStoneModules.addAchievement();
 
@@ -1071,6 +1102,13 @@ public class BrainStone {
 	 */
 	public final static Item stablePulsatingBrainStoneBoots() {
 		return items.get("stablePulsatingBrainStoneBoots");
+	}
+
+	/**
+	 * @return the instance of Brain Stone Life Capacitor
+	 */
+	public static final ItemBrainStoneLifeCapacitor brainStoneLifeCapacitor() {
+		return (ItemBrainStoneLifeCapacitor) BrainStone.items.get("brainStoneLifeCapacitor");
 	}
 
 	/**

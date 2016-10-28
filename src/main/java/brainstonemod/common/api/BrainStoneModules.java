@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import brainstonemod.common.api.enderio.EIOCompat;
-import brainstonemod.common.api.energy.EnergyCompat;
 import brainstonemod.common.api.overlord.OverlordCompat;
 import brainstonemod.common.api.tconstruct.TiConCompat;
 import brainstonemod.common.helper.BSP;
@@ -14,7 +13,6 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerAboutToStartEvent;
 
 @UtilityClass
 public final class BrainStoneModules {
@@ -44,15 +42,6 @@ public final class BrainStoneModules {
 		}
 
 		return ENDER_IO;
-	}
-
-	@Module(message = "A mod with energy detected! Enabling brainStoneLiveCapacitor.", integration = EnergyCompat.class)
-	public static boolean energy() {
-		if (ENERGY == null) {
-			ENERGY = isClassAvailable("cofh.api.CoFHAPIProps");
-		}
-
-		return ENERGY;
 	}
 
 	@Module(message = "MineFactory Reloaded detected! Adding BrainStoneOre to the MiningLaser.")
@@ -124,10 +113,6 @@ public final class BrainStoneModules {
 
 	public static void postInit(FMLPostInitializationEvent event) {
 		activeModules.forEach(module -> module.postInit(event));
-	}
-
-	public static void serverStarting(FMLServerAboutToStartEvent event) {
-		activeModules.forEach(module -> module.serverStarting(event));
 	}
 
 	public static void addAchievement() {

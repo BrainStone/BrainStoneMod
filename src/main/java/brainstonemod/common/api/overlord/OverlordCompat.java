@@ -5,7 +5,6 @@ import net.minecraft.entity.Entity;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerAboutToStartEvent;
 import the_fireplace.overlord.entity.EntityArmyMember;
 
 /**
@@ -24,11 +23,6 @@ public class OverlordCompat implements IModIntegration, IOverlordCompat {
 
 	@Override
 	public void postInit(FMLPostInitializationEvent event) {
-		// Do nothing
-	}
-
-	@Override
-	public void serverStarting(FMLServerAboutToStartEvent event) {
 		// Do nothing
 	}
 

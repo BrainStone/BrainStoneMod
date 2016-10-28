@@ -1,16 +1,18 @@
 package brainstonemod.common.api.jei;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import brainstonemod.common.helper.BrainStoneLifeCapacitorUpgrade;
+import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.wrapper.ICraftingRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * @author The_Fireplace
@@ -65,4 +67,9 @@ public class CapacitorUpgradeRecipeWrapper implements ICraftingRecipeWrapper {
     public boolean handleClick(@Nonnull Minecraft minecraft, int mouseX, int mouseY, int mouseButton) {
         return false;
     }
+
+	@Override
+	public void getIngredients(IIngredients ingredients) {
+		// TODO Auto-generated method stub
+	}
 }

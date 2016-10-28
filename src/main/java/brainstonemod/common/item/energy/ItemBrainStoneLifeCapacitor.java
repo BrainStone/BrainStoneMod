@@ -1,4 +1,17 @@
-package brainstonemod.common.item;
+package brainstonemod.common.item.energy;
+
+import java.io.EOFException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import org.lwjgl.input.Keyboard;
 
 import baubles.api.BaubleType;
 import baubles.api.IBauble;
@@ -9,7 +22,6 @@ import brainstonemod.common.helper.BrainStonePowerDisplayUtil;
 import brainstonemod.common.item.template.ItemBrainStoneBase;
 import brainstonemod.network.PacketDispatcher;
 import brainstonemod.network.packet.clientbound.PacketCapacitorData;
-import cofh.api.energy.IEnergyContainerItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
@@ -31,13 +43,6 @@ import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.input.Keyboard;
-
-import java.io.*;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 @SuppressWarnings("unchecked")
 @Optional.Interface(iface = "baubles.api.IBauble", modid = "Baubles|API")
@@ -78,7 +83,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean hasEffect(ItemStack container) {
-		return (getEnergyStoredLong(container) >= RFperHalfHeart) && hasOwner(container);
+		return (getEnergyStored(container) >= RFperHalfHeart) && hasOwner(container);
 	}
 
 	@Override
@@ -103,7 +108,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 			is = base.copy();
 			setCapacityLevel(is, i);
 			setChargingLevel(is, i);
-			setEnergyStored(is, getMaxEnergyStoredLong(is));
+			setEnergyStored(is, getMaxEnergyStored(is));
 			list.add(is);
 		}
 	}
@@ -132,12 +137,12 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 					+ BrainStonePowerDisplayUtil.abrevation() + "/" + TextFormatting.DARK_RED + "\u2764");
 			list.add(BrainStone.proxy.format("capacitor.capacity") + " " + TextFormatting.GOLD + TextFormatting.BOLD
 					+ String.valueOf(getCapacityLevel(container)) + TextFormatting.RESET + TextFormatting.GRAY + " ("
-					+ BrainStonePowerDisplayUtil.formatPower(getMaxEnergyStoredLong(container)) + " "
+					+ BrainStonePowerDisplayUtil.formatPower(getMaxEnergyStored(container)) + " "
 					+ BrainStonePowerDisplayUtil.abrevation() + " " + TextFormatting.DARK_RED
 					+ ((getCapacityLevel(container) + 1) * 5) + "\u2764" + TextFormatting.GRAY + ")");
 			list.add(BrainStone.proxy.format("capacitor.charging") + " " + TextFormatting.GOLD + TextFormatting.BOLD
 					+ String.valueOf(getChargingLevel(container)) + TextFormatting.RESET + TextFormatting.GRAY + " ("
-					+ BrainStonePowerDisplayUtil.formatPowerPerTick(getMaxRecieve(container)) + ")");
+					+ BrainStonePowerDisplayUtil.formatPowerPerTick(getMaxInput(container)) + ")");
 		} else {
 			list.add(
 					BrainStone.proxy.format("capacitor.owner") + " " + PCmapping.getPlayerName(getUUID(container), true)
@@ -148,14 +153,14 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 							+ TextFormatting.RESET + TextFormatting.GRAY));
 		}
 
-		list.add(BrainStonePowerDisplayUtil.formatStoredPower(getEnergyStoredLong(container),
-				getMaxEnergyStoredLong(container)));
+		list.add(BrainStonePowerDisplayUtil.formatStoredPower(getEnergyStored(container),
+				getMaxEnergyStored(container)));
 	}
 
 	@Override
 	public void onCreated(ItemStack container, World world, EntityPlayer entityPlayer) {
 		// Init NBT if new and keep old NBT
-		getEnergyStoredLong(container);
+		getEnergyStored(container);
 		getCapacityLevel(container);
 		getChargingLevel(container);
 		createUUID(container);
@@ -207,7 +212,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	}
 
 	public void healPlayer(ItemStack container, EntityPlayer player) {
-		if (getEnergyStoredLong(container) < RFperHalfHeart)
+		if (getEnergyStored(container) < RFperHalfHeart)
 			return;
 
 		double heal = Math.floor(player.getMaxHealth() - player.getHealth());
@@ -275,59 +280,13 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	}
 
 	@Override
-	public int getEnergyStored(ItemStack container) {
-		long energyStored = getEnergyStoredLong(container);
-		long maxEnergyStored = getMaxEnergyStoredLong(container);
-
-		if (maxEnergyStored > Integer.MAX_VALUE)
-			return BigInteger.valueOf(energyStored).multiply(BigInteger.valueOf(Integer.MAX_VALUE))
-					.divide(BigInteger.valueOf(maxEnergyStored)).intValue();
-		else
-			return (int) energyStored;
-	}
-
-	@Override
-	public int getMaxEnergyStored(ItemStack container) {
-		long maxEnergyStored = getMaxEnergyStoredLong(container);
-
-		if (maxEnergyStored > Integer.MAX_VALUE)
-			return Integer.MAX_VALUE;
-		else
-			return (int) maxEnergyStored;
-	}
-
-	@Override
-	public int receiveEnergy(ItemStack container, int maxReceive, boolean simulate) {
-		if (container.getTagCompound() == null) {
-			container.setTagCompound(new NBTTagCompound());
-		}
-
-		long energy = container.getTagCompound().getLong("Energy");
-		int energyReceived = (int) Math.min(getMaxEnergyStoredLong(container) - energy,
-				Math.min(getMaxRecieve(container), maxReceive));
-
-		if (!simulate) {
-			energy += energyReceived;
-			container.getTagCompound().setLong("Energy", energy);
-		}
-
-		updateDamage(container);
-
-		return energyReceived;
-	}
-
-	@Override
-	public int extractEnergy(ItemStack container, int maxExtract, boolean simulate) {
-		return 0;
-	}
-
-	public long getEnergyStoredLong(ItemStack container) {
+	public long getEnergyStored(ItemStack container) {
 		if ((container.getTagCompound() == null) || !container.getTagCompound().hasKey("Energy")) {
 			setEnergyStored(container, 0L);
 		}
 
 		long energyStored = container.getTagCompound().getLong("Energy");
-		long maxEnergyStored = getMaxEnergyStoredLong(container);
+		long maxEnergyStored = getMaxEnergyStored(container);
 
 		if (energyStored > maxEnergyStored) {
 			setEnergyStored(container, energyStored = maxEnergyStored);
@@ -338,8 +297,30 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 		return energyStored;
 	}
 
-	public long getMaxEnergyStoredLong(ItemStack container) {
+	@Override
+	public long getMaxEnergyStored(ItemStack container) {
 		return (getCapacityLevel(container) + 1) * 10 * RFperHalfHeart;
+	}
+
+	@Override
+	public void setEnergyStored(ItemStack container, long energy) {
+		if (container.getTagCompound() == null) {
+			container.setTagCompound(new NBTTagCompound());
+		}
+
+		container.getTagCompound().setLong("Energy", energy);
+
+		updateDamage(container);
+	}
+
+	@Override
+	public long getMaxInput(ItemStack container) {
+		return ((getChargingLevel(container) + 1) * (int) RFperHalfHeart) / 200;
+	}
+
+	@Override
+	public long getMaxOutput(ItemStack stack) {
+		return 0;
 	}
 
 	public UUID getUUID(ItemStack container) {
@@ -380,7 +361,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	}
 
 	private void updateDamage(ItemStack container) {
-		float r = (float) getEnergyStoredLong(container) / getMaxEnergyStoredLong(container);
+		float r = (float) getEnergyStored(container) / getMaxEnergyStored(container);
 		int res = MaxDamage - (int) (r * MaxDamage);
 
 		container.setItemDamage(res);
@@ -402,20 +383,6 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 		}
 
 		container.getTagCompound().setInteger("LevelCharging", level);
-	}
-
-	private int getMaxRecieve(ItemStack container) {
-		return ((getChargingLevel(container) + 1) * (int) RFperHalfHeart) / 200;
-	}
-
-	private void setEnergyStored(ItemStack container, long energy) {
-		if (container.getTagCompound() == null) {
-			container.setTagCompound(new NBTTagCompound());
-		}
-
-		container.getTagCompound().setLong("Energy", energy);
-
-		updateDamage(container);
 	}
 
 	private void createUUID(ItemStack container) {

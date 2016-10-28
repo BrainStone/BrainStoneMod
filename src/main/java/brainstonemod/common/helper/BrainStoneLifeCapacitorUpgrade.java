@@ -1,7 +1,6 @@
 package brainstonemod.common.helper;
 
 import brainstonemod.BrainStone;
-import brainstonemod.common.api.energy.EnergyCompat;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
@@ -51,18 +50,18 @@ public class BrainStoneLifeCapacitorUpgrade implements IRecipe {
 		for (int i = 0; i < items.getSizeInventory(); i++) {
 			slot = items.getStackInSlot(i);
 
-			if ((slot != null) && (slot.getItem() == EnergyCompat.brainStoneLifeCapacitor())) {
+			if ((slot != null) && (slot.getItem() == BrainStone.brainStoneLifeCapacitor())) {
 				capacitor = slot;
 				break;
 			}
 		}
 
 		ItemStack res = capacitor.copy();
-		
+
 		if (upgrade == Upgrade.CAPACITY)
-			res = EnergyCompat.brainStoneLifeCapacitor().upgradeCapacity(res);
+			res = BrainStone.brainStoneLifeCapacitor().upgradeCapacity(res);
 		else if (upgrade == Upgrade.CHARGING)
-			res = EnergyCompat.brainStoneLifeCapacitor().upgradeCharging(res);
+			res = BrainStone.brainStoneLifeCapacitor().upgradeCharging(res);
 
 		return res;
 	}
@@ -75,7 +74,7 @@ public class BrainStoneLifeCapacitorUpgrade implements IRecipe {
 		ItemStack slot;
 		Item item;
 
-		final Item capacitor = EnergyCompat.brainStoneLifeCapacitor();
+		final Item capacitor = BrainStone.brainStoneLifeCapacitor();
 		final Item upgradeItem = upgrade.getUpgrade().getItem();
 
 		for (int i = 0; i < items.getSizeInventory(); i++) {
@@ -111,23 +110,23 @@ public class BrainStoneLifeCapacitorUpgrade implements IRecipe {
 
 	@Override
 	public ItemStack getRecipeOutput() {
-		ItemStack higherCapacity = new ItemStack(EnergyCompat.brainStoneLifeCapacitor());
-		higherCapacity = EnergyCompat.brainStoneLifeCapacitor().upgradeCapacity(higherCapacity);
-		ItemStack higherCharging = new ItemStack(EnergyCompat.brainStoneLifeCapacitor());
-		higherCharging = EnergyCompat.brainStoneLifeCapacitor().upgradeCharging(higherCharging);
-		if(upgrade == Upgrade.CAPACITY)
+		ItemStack higherCapacity = new ItemStack(BrainStone.brainStoneLifeCapacitor());
+		higherCapacity = BrainStone.brainStoneLifeCapacitor().upgradeCapacity(higherCapacity);
+		ItemStack higherCharging = new ItemStack(BrainStone.brainStoneLifeCapacitor());
+		higherCharging = BrainStone.brainStoneLifeCapacitor().upgradeCharging(higherCharging);
+		if (upgrade == Upgrade.CAPACITY)
 			return higherCapacity;
-		else{
+		else {
 			return higherCharging;
 		}
 	}
 
 	@Override
 	public ItemStack[] getRemainingItems(InventoryCrafting inv) {
-		return new ItemStack[0];//TODO: Check this
+		return new ItemStack[0];// TODO: Check this
 	}
 
-	public ItemStack[] getStacks(){
-		return new ItemStack[]{new ItemStack(EnergyCompat.brainStoneLifeCapacitor()), upgrade.getUpgrade()};
+	public ItemStack[] getStacks() {
+		return new ItemStack[] { new ItemStack(BrainStone.brainStoneLifeCapacitor()), upgrade.getUpgrade() };
 	}
 }

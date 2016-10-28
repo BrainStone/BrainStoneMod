@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import brainstonemod.BrainStone;
-import brainstonemod.common.api.BrainStoneModules;
 import brainstonemod.common.helper.BrainStoneConfigHelper;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.client.config.DummyConfigElement;
 import net.minecraftforge.fml.client.config.GuiConfig;
 import net.minecraftforge.fml.client.config.IConfigElement;
-import net.minecraft.client.gui.GuiScreen;
 
 public class BrainStoneConfigGUI extends GuiConfig {
 	public BrainStoneConfigGUI(GuiScreen parent) {
@@ -25,10 +24,8 @@ public class BrainStoneConfigGUI extends GuiConfig {
 				"gui.brainstone.config.cat.display"));
 		list.add(categoryElement(BrainStoneConfigHelper.getWorldgenCategory(), "Worldgen",
 				"gui.brainstone.config.cat.worldgen"));
-
-		if (BrainStoneModules.energy())
-			list.add(categoryElement(BrainStoneConfigHelper.getBrainStoneLiveCapacitorCategory(),
-					"BrainStoneLiveCapacitor", "gui.brainstone.config.cat.brainstonelivecapacitor"));
+		list.add(categoryElement(BrainStoneConfigHelper.getBrainStoneLiveCapacitorCategory(), "BrainStoneLiveCapacitor",
+				"gui.brainstone.config.cat.brainstonelivecapacitor"));
 
 		return list;
 	}

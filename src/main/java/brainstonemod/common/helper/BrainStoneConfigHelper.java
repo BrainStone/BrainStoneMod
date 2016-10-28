@@ -1,17 +1,16 @@
 package brainstonemod.common.helper;
 
-import brainstonemod.BrainStone;
-import brainstonemod.common.api.BrainStoneModules;
-import net.minecraftforge.fml.client.config.IConfigElement;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import lombok.experimental.UtilityClass;
-import net.minecraftforge.common.config.ConfigElement;
-import net.minecraftforge.common.config.Configuration;
-
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import brainstonemod.BrainStone;
+import lombok.experimental.UtilityClass;
+import net.minecraftforge.common.config.ConfigElement;
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.client.config.IConfigElement;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SuppressWarnings("unchecked")
 @UtilityClass
@@ -82,14 +81,12 @@ public class BrainStoneConfigHelper {
 					achievementPageDescY + curAch + " achievement"));
 		}
 
-		if (BrainStoneModules.energy()) {
-			BSLC_AllowStealing = config.getBoolean("AllowStealing", CAT_BSLC, false,
-					"Do you want to allow the stealing of the BrainStoneLifeCapacitor?");
-			BSLC_RFperHalfHeart = config.getInt("RFperHalfHeart", CAT_BSLC, 1000000, 1, Integer.MAX_VALUE,
-					"How much energy half a heart should cost.");
+		BSLC_AllowStealing = config.getBoolean("AllowStealing", CAT_BSLC, false,
+				"Do you want to allow the stealing of the BrainStoneLifeCapacitor?");
+		BSLC_RFperHalfHeart = config.getInt("RFperHalfHeart", CAT_BSLC, 1000000, 1, Integer.MAX_VALUE,
+				"How much energy half a heart should cost.");
 
-			config.addCustomCategoryComment(CAT_BSLC, "This set defines the behavior of the BrainStoneLiveCapacitor");
-		}
+		config.addCustomCategoryComment(CAT_BSLC, "This set defines the behavior of the BrainStoneLiveCapacitor");
 
 		config.addCustomCategoryComment(CAT_DISPLAY, "This set defines some basic ingame display settings");
 		config.addCustomCategoryComment(CAT_GEN, "This set defines world generation settings");
