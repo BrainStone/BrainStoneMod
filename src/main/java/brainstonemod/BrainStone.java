@@ -437,11 +437,11 @@ public class BrainStone {
 	}
 
 	private static void createEnums() {
-		toolBRAINSTONE = EnumHelper.addToolMaterial("BRAINSTONE", 4, 5368, 6F, 5, 25);
+		toolBRAINSTONE = EnumHelper.addToolMaterial("BRAINSTONE", 5, 5368, 6F, 5, 25);
 		armorBRAINSTONE = EnumHelper.addArmorMaterial("BRAINSTONE", "BRAINSTONE", 114, new int[] { 2, 6, 5, 2 }, 25,
 				SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0);
 
-		toolSTABLEPULSATINGBS = EnumHelper.addToolMaterial("STABLEPULSATINGBS", 5, 21472, 18F, 20, 50);
+		toolSTABLEPULSATINGBS = EnumHelper.addToolMaterial("STABLEPULSATINGBS", 9, 21472, 18F, 20, 50);
 		armorSTABLEPULSATINGBS = EnumHelper.addArmorMaterial("STABLEPULSATINGBS", "STABLEPULSATINGBS", 456,
 				new int[] { 12, 32, 24, 12 }, 50, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0);
 	}

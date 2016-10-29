@@ -132,6 +132,7 @@ dependencies {
     provided "com.enderio:EnderIO:1.10.2-3.0.1.110_beta:dev"
     provided("com.brandon3055.draconicevolution:Draconic-Evolution:1.10.2-2.0.1.126:deobf") {
         exclude module: 'jei_1.10.2'
+        exclude module: 'OpenComputers'
     }
 }
 
