@@ -82,5 +82,5 @@ enderio.darksteel.upgrade.brainstone.tooltip.detailed.line1=Schütz dich vor den
 enderio.darksteel.upgrade.brainstone.tooltip.detailed.line2=Pulsierenden Hirnsteins, wenn dieses
 enderio.darksteel.upgrade.brainstone.tooltip.detailed.line3=Upgrade auf allen Rüstungsteilen ist
 
-material.brainstone=Hirnstein
-material.stablepulsatingbrainstone=Stabiler Pulsierender Hirnstein
+material.brainstone.name=Hirnstein
+material.stablepulsatingbrainstone.name=Stabiler Pulsierender Hirnstein

@@ -1,9 +1,9 @@
 package brainstonemod.common.api.tconstruct;
 
-public final class TinkersConstructItems {
-	private TinkersConstructItems() {
-	}
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
+public final class TinkersConstructItems {
 	/*public static ItemStack getGreenHeartCanister() {
 		return new ItemStack(TinkerArmor.heartCanister, 1, 6);
 	}*/
