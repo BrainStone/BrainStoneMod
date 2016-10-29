@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import brainstonemod.BrainStone;
+import brainstonemod.common.api.BrainStoneModules;
 import lombok.experimental.UtilityClass;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
@@ -18,6 +19,7 @@ public class BrainStoneConfigHelper {
 	public static final String CAT_DISPLAY = "display";
 	public static final String CAT_BSLC = "brainstonelivecapacitor";
 	public static final String CAT_GEN = "worldgen";
+	public static final String CAT_MISC = "miscellaneous";
 
 	private static Configuration configStorage;
 
@@ -28,6 +30,7 @@ public class BrainStoneConfigHelper {
 	private static int[] brainStoneHouseDims;
 	private static boolean BSLC_AllowStealing;
 	private static long BSLC_RFperHalfHeart;
+	private static double essenceOfLifeBaseChance;
 	/** The X positions of the achievements */
 	private static Map<String, Integer> achievementXPositions = new LinkedHashMap<>();
 	/** The X positions of the achievements */
@@ -53,10 +56,19 @@ public class BrainStoneConfigHelper {
 		enableAchievementPage = config.getBoolean("EnableAchievementPage", CAT_DISPLAY, true,
 				"Do you want to have a custom Achievement Page for this mod?");
 
+		BSLC_AllowStealing = config.getBoolean("AllowStealing", CAT_BSLC, false,
+				"Do you want to allow the stealing of the BrainStoneLifeCapacitor?");
+		BSLC_RFperHalfHeart = config.getInt("RFperHalfHeart", CAT_BSLC, 1000000, 1, Integer.MAX_VALUE,
+				"How much energy half a heart should cost.");
+
 		brainStoneOreDims = config.get(CAT_GEN, "Brain Stone Ore Dimensions Whitelist", new int[] { 0, 7, -100 },
 				"In which dimensions should Brain Stone Ore be generated").getIntList();
 		brainStoneHouseDims = config.get(CAT_GEN, "Brain Stone House Dimensions Whitelist", new int[] { 0 },
 				"In which dimensions should the Brain Stone House be generated").getIntList();
+
+		essenceOfLifeBaseChance = (config.getFloat("Essence of Life Drop Chance Modifier", CAT_MISC, 0.0f, -0.5f, 0.75f,
+				"Modifies the drop chance of the Essence of Life. If the chance is 50% (depends on what other mods you have loaded) and you set this value to 0.2 the chance becomes 0.5 + (0.5 * 0.2) = 0.6 = 60%.")
+				+ 1.0) * (BrainStoneModules.draconicEvolution() ? 0.1 : 0.5);
 
 		String curAch, curAchUp;
 		String achievementPageType = (enableAchievementPage ? "custom" : "regular");
@@ -81,15 +93,10 @@ public class BrainStoneConfigHelper {
 					achievementPageDescY + curAch + " achievement"));
 		}
 
-		BSLC_AllowStealing = config.getBoolean("AllowStealing", CAT_BSLC, false,
-				"Do you want to allow the stealing of the BrainStoneLifeCapacitor?");
-		BSLC_RFperHalfHeart = config.getInt("RFperHalfHeart", CAT_BSLC, 1000000, 1, Integer.MAX_VALUE,
-				"How much energy half a heart should cost.");
-
-		config.addCustomCategoryComment(CAT_BSLC, "This set defines the behavior of the BrainStoneLiveCapacitor");
-
 		config.addCustomCategoryComment(CAT_DISPLAY, "This set defines some basic ingame display settings");
+		config.addCustomCategoryComment(CAT_BSLC, "This set defines the behavior of the BrainStoneLiveCapacitor");
 		config.addCustomCategoryComment(CAT_GEN, "This set defines world generation settings");
+		config.addCustomCategoryComment(CAT_MISC, "This set defines miscellaneous settings");
 
 		if (enableAchievementPage)
 			config.addCustomCategoryComment("customachievementpage",
@@ -124,6 +131,10 @@ public class BrainStoneConfigHelper {
 		return brainStoneHouseDims;
 	}
 
+	public static double getEssenceOfLifeBaseChance() {
+		return essenceOfLifeBaseChance;
+	}
+
 	public static boolean BSLC_allowStealing() {
 		return BSLC_AllowStealing;
 	}
@@ -146,12 +157,17 @@ public class BrainStoneConfigHelper {
 	}
 
 	@SideOnly(Side.CLIENT)
+	public static List<IConfigElement> getBrainStoneLiveCapacitorCategory() {
+		return new ConfigElement(configStorage.getCategory(CAT_BSLC)).getChildElements();
+	}
+
+	@SideOnly(Side.CLIENT)
 	public static List<IConfigElement> getWorldgenCategory() {
 		return new ConfigElement(configStorage.getCategory(CAT_GEN)).getChildElements();
 	}
 
 	@SideOnly(Side.CLIENT)
-	public static List<IConfigElement> getBrainStoneLiveCapacitorCategory() {
-		return new ConfigElement(configStorage.getCategory(CAT_BSLC)).getChildElements();
+	public static List<IConfigElement> getMiscCategory() {
+		return new ConfigElement(configStorage.getCategory(CAT_MISC)).getChildElements();
 	}
 }

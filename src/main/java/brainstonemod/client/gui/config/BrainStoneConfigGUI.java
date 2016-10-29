@@ -22,10 +22,12 @@ public class BrainStoneConfigGUI extends GuiConfig {
 		// Add categories to config GUI
 		list.add(categoryElement(BrainStoneConfigHelper.getDisplayCategory(), "Display",
 				"gui.brainstone.config.cat.display"));
-		list.add(categoryElement(BrainStoneConfigHelper.getWorldgenCategory(), "Worldgen",
-				"gui.brainstone.config.cat.worldgen"));
 		list.add(categoryElement(BrainStoneConfigHelper.getBrainStoneLiveCapacitorCategory(), "BrainStoneLiveCapacitor",
 				"gui.brainstone.config.cat.brainstonelivecapacitor"));
+		list.add(categoryElement(BrainStoneConfigHelper.getWorldgenCategory(), "Worldgen",
+				"gui.brainstone.config.cat.worldgen"));
+		list.add(categoryElement(BrainStoneConfigHelper.getMiscCategory(), "Miscellaneous",
+				"gui.brainstone.config.cat.miscellaneous"));
 
 		return list;
 	}

@@ -34,7 +34,7 @@ public final class BrainStoneModules {
 
 		return BAUBLES;
 	}
-	
+
 	@Module(message = "Draconic Eveolution detected! Doing... ummmm... stuff.")
 	public static boolean draconicEvolution() {
 		if (DRACONIC_EVOLUTION == null) {
