@@ -17,6 +17,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 @UtilityClass
 public final class BrainStoneModules {
 	private static Boolean BAUBLES;
+	private static Boolean DRACONIC_EVOLUTION;
 	private static Boolean ENDER_IO;
 	private static Boolean MFR;
 	private static Boolean OVERLORD;
@@ -28,10 +29,19 @@ public final class BrainStoneModules {
 	@Module(message = "BaublesAPI detected! Enabling brainStoneLiveCapacitor in the BELT slot.")
 	public static boolean baubles() {
 		if (BAUBLES == null) {
-			BAUBLES = isClassAvailable("baubles.api.BaublesApi");
+			BAUBLES = Loader.isModLoaded("Baubles");
 		}
 
 		return BAUBLES;
+	}
+	
+	@Module(message = "Draconic Eveolution detected! Doing... ummmm... stuff.")
+	public static boolean draconicEvolution() {
+		if (DRACONIC_EVOLUTION == null) {
+			DRACONIC_EVOLUTION = Loader.isModLoaded("DRACONIC_EVOLUTION");
+		}
+
+		return DRACONIC_EVOLUTION;
 	}
 
 	@Module(message = "EnderIO detected! Enabling recipes and armor upgrade.", integration = EIOCompat.class)
@@ -116,15 +126,5 @@ public final class BrainStoneModules {
 
 	public static void addAchievement() {
 		activeModules.forEach(module -> module.addAchievement());
-	}
-
-	private static final boolean isClassAvailable(String name) {
-		try {
-			Class.forName(name);
-
-			return true;
-		} catch (ClassNotFoundException e) {
-			return false;
-		}
 	}
 }
