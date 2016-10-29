@@ -35,7 +35,7 @@ public final class BrainStoneModules {
 		return BAUBLES;
 	}
 
-	@Module(message = "Draconic Eveolution detected! Doing... ummmm... stuff.")
+	@Module(message = "Draconic Eveolution detected! Reducing drop chance of the Essence of Life.")
 	public static boolean draconicEvolution() {
 		if (DRACONIC_EVOLUTION == null) {
 			DRACONIC_EVOLUTION = Loader.isModLoaded("DRACONIC_EVOLUTION");
