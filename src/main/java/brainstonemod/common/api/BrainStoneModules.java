@@ -18,7 +18,6 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 public final class BrainStoneModules {
 	private static Boolean BAUBLES;
 	private static Boolean ENDER_IO;
-	private static Boolean ENERGY;
 	private static Boolean MFR;
 	private static Boolean OVERLORD;
 	private static Boolean THAUMCRAFT;
@@ -74,7 +73,7 @@ public final class BrainStoneModules {
 	@Module(message = "Tinker's Construct detected! Registering BrainStone materials as tool materials.", integration = TiConCompat.class)
 	public static boolean tinkersConstruct() {
 		if (TINKERS_CONSTRUCT == null) {
-			TINKERS_CONSTRUCT = Loader.isModLoaded("TConstruct");
+			TINKERS_CONSTRUCT = Loader.isModLoaded("tconstruct");
 		}
 
 		return TINKERS_CONSTRUCT;

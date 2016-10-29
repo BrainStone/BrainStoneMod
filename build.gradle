@@ -219,14 +219,15 @@ curseforge {
         addArtifact sourceJar
         
         relations {
+            optionalLibrary 'baubles'
             optionalLibrary 'ender-io'
+            optionalLibrary 'overlord'
+            optionalLibrary 'just-enough-items-jei'
+            
             //optionalLibrary 'minefactory-reloaded'
             //optionalLibrary 'tinkers-construct'
             //optionalLibrary 'thermal-foundation'
             //optionalLibrary 'thaumcraft'
-            optionalLibrary 'baubles'
-            optionalLibrary 'overlord'
-            optionalLibrary 'just-enough-items-jei'
         }
     }
 }

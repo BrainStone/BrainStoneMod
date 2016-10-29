@@ -7,7 +7,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.Optional;
 
 public class TinkersContructMaterialBrainStone {
-	@Optional.Method(modid = "TConstruct")
+	@Optional.Method(modid = "tconstruct")
 	public static void initToolMaterials() {
 		BSP.info("Tinker's Construct detected! Registering BrainStone materials as tool materials!");
 
