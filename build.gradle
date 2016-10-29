@@ -236,9 +236,9 @@ curseforge {
             optionalLibrary 'ender-io'
             optionalLibrary 'overlord'
             optionalLibrary 'just-enough-items-jei'
+            optionalLibrary 'tinkers-construct'
             
             //optionalLibrary 'minefactory-reloaded'
-            //optionalLibrary 'tinkers-construct'
             //optionalLibrary 'thermal-foundation'
             //optionalLibrary 'thaumcraft'
         }
