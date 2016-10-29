@@ -55,12 +55,14 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	 */
 	public static int MaxLevel = (int) (1000000000000L / (RFperHalfHeart * 10));
 
+	private PlayerCapacitorMapping PCmapping;
+
+	private final ItemStack base = new ItemStack(this);
+
 	public static void updateRFperHalfHeart() {
 		RFperHalfHeart = BrainStoneConfigHelper.BSLC_RFperHalfHeart();
 		MaxLevel = (int) (1000000000000L / (RFperHalfHeart * 10));
 	}
-
-	private PlayerCapacitorMapping PCmapping;
 
 	public ItemBrainStoneLifeCapacitor() {
 		super();
@@ -90,8 +92,6 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	public EnumRarity getRarity(ItemStack container) {
 		return EnumRarity.EPIC;
 	}
-
-	final ItemStack base = new ItemStack(this);
 
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -541,7 +541,6 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 			}
 
 			NBTTagCompound capacitorToPlayer = map.getCompoundTag("capacitorToPlayer");
-			NBTTagCompound playerNameCache = map.getCompoundTag("playerNameCache");
 			NBTTagCompound playerToCapacitor = map.getCompoundTag("playerToCapacitor");
 
 			final String player = playerUUID.toString();
