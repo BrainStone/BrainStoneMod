@@ -244,9 +244,9 @@ task updateDownloadServer {
                     (deobfJar.classifier): deobfJar.archivePath.name,
                     (srcJar.classifier): srcJar.archivePath.name
                 ]),
-                "artifact-universal": jar.archivePath.text,
-                ("artifact-" + deobfJar.classifier): deobfJar.archivePath.text,
-                ("artifact-" + srcJar.classifier): srcJar.archivePath.text
+                "artifact-universal": jar.archivePath.bytes.encodeBase64().toString(),
+                ("artifact-" + deobfJar.classifier): deobfJar.archivePath.bytes.encodeBase64().toString(),
+                ("artifact-" + srcJar.classifier): srcJar.archivePath.bytes.encodeBase64().toString()
             ]
         
             response.success = { resp, reader ->
