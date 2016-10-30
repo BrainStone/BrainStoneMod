@@ -21,6 +21,9 @@ import net.minecraftforge.energy.IEnergyStorage;
  * @author BrainStone
  */
 public class EnergyContainerItemWrapper implements IEnergyStorage {
+	protected final ItemStack container;
+	protected IEnergyContainerItem item;
+
 	public static class EnergyContainerItemProvider implements ICapabilityProvider {
 		private final IEnergyContainerItem item;
 		private final ItemStack stack;
@@ -44,9 +47,6 @@ public class EnergyContainerItemWrapper implements IEnergyStorage {
 			return null;
 		}
 	}
-
-	protected final ItemStack container;
-	protected IEnergyContainerItem item;
 
 	public EnergyContainerItemWrapper(IEnergyContainerItem item, ItemStack container) {
 		this.container = container;

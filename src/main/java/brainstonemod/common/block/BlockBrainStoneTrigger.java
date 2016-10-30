@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Random;
 
 public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
+	public static final UnlistedPropertyCopiedBlock COPIEDBLOCK = new UnlistedPropertyCopiedBlock();
 
 	public BlockBrainStoneTrigger() {
 		super();
@@ -265,7 +266,4 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 		}
 		return state;
 	}
-
-	public static final UnlistedPropertyCopiedBlock COPIEDBLOCK = new UnlistedPropertyCopiedBlock();
-
 }

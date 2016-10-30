@@ -17,40 +17,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
-	private class SlotMemory {
-		private final ArrayList<Integer> chestSlots;
-		private Random random;
-
-		public SlotMemory(int chestSize) {
-			chestSlots = new ArrayList<>(chestSize);
-
-			for (int i = 0; i < chestSize; i++) {
-				chestSlots.add(i);
-			}
-		}
-
-		public SlotMemory(int chestSize, Random random) {
-			this(chestSize);
-
-			this.random = random;
-		}
-
-		public int getRandomChestSlot() {
-			final int size = chestSlots.size();
-
-			if (size > 0) {
-				final int slot = random.nextInt(size);
-
-				final int temp = chestSlots.get(slot);
-				chestSlots.remove(slot);
-
-				return temp;
-			}
-
-			return -1;
-		}
-	}
-
 	private int x, y, z;
 	private World world;
 	private Random random;
@@ -150,7 +116,7 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 		return true;
 	}
 
-	private boolean canPlaceStructHere(int structure, Object... options) {
+	private boolean canPlaceStructHere(int structure) {
 		switch (structure) {
 		case 0:
 			return canPlaceShackHere();
@@ -407,7 +373,8 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 		final int chunkZ = (new int[] { 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 1, 2, 3 })[rand];
 
 		setBlock(x + chunkX, y + 3, z + chunkZ, Blocks.CHEST);
-		final TileEntityChest chest = (TileEntityChest) world.getTileEntity(new BlockPos(x + chunkX, y + 3, z + chunkZ));
+		final TileEntityChest chest = (TileEntityChest) world
+				.getTileEntity(new BlockPos(x + chunkX, y + 3, z + chunkZ));
 
 		rand = random.nextInt(9) + 2;
 		final SlotMemory chestSlots = new SlotMemory(chest.getSizeInventory(), random);
@@ -581,29 +548,31 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 					{ new ItemStack(BrainStone.brainStoneBoots(), 1, random.nextInt(1824)), 0.1F, 1, 0, 0 },
 
 					{ EnchantmentHelper.addRandomEnchantment(random,
-							new ItemStack(BrainStone.brainStoneAxe(), 1, random.nextInt(5368)), 10, true), 0.05F, 1, 0,
+							new ItemStack(BrainStone.brainStoneAxe(), 1, random.nextInt(5368)), 10, true), 0.05F, 1,
+							0,
 							0 },
 					{ EnchantmentHelper
 							.addRandomEnchantment(random,
 									new ItemStack(BrainStone.brainStonePickaxe(), 1, random.nextInt(5368)), 10, true),
 							0.05F, 1, 0, 0 },
 					{ EnchantmentHelper.addRandomEnchantment(random,
-							new ItemStack(BrainStone.brainStoneShovel(), 1, random.nextInt(5368)), 10, true), 0.05F, 1, 0,
-							0 },
+							new ItemStack(BrainStone.brainStoneShovel(), 1, random.nextInt(5368)), 10, true), 0.05F, 1,
+							0, 0 },
 					{ EnchantmentHelper.addRandomEnchantment(random,
-							new ItemStack(BrainStone.brainStoneSword(), 1, random.nextInt(5368)), 10, true), 0.05F, 1, 0,
-							0 },
+							new ItemStack(BrainStone.brainStoneSword(), 1, random.nextInt(5368)), 10, true), 0.05F, 1,
+							0, 0 },
 					{ EnchantmentHelper.addRandomEnchantment(random,
-							new ItemStack(BrainStone.brainStoneHelmet(), 1, random.nextInt(1824)), 10, true), 0.05F, 1, 0,
-							0 },
+							new ItemStack(BrainStone.brainStoneHelmet(), 1, random.nextInt(1824)), 10, true), 0.05F, 1,
+							0, 0 },
 					{ EnchantmentHelper.addRandomEnchantment(random,
-							new ItemStack(BrainStone.brainStonePlate(), 1, random.nextInt(1824)), 10, true), 0.05F, 1, 0, 0 },
+							new ItemStack(BrainStone.brainStonePlate(), 1, random.nextInt(1824)), 10, true), 0.05F, 1,
+							0, 0 },
 					{ EnchantmentHelper.addRandomEnchantment(random,
-							new ItemStack(BrainStone.brainStoneLeggings(), 1, random.nextInt(1824)), 10, true), 0.05F, 1, 0,
-							0 },
+							new ItemStack(BrainStone.brainStoneLeggings(), 1, random.nextInt(1824)), 10, true), 0.05F,
+							1, 0, 0 },
 					{ EnchantmentHelper.addRandomEnchantment(random,
-							new ItemStack(BrainStone.brainStoneBoots(), 1, random.nextInt(1824)), 10, true), 0.05F, 1, 0,
-							0 } };
+							new ItemStack(BrainStone.brainStoneBoots(), 1, random.nextInt(1824)), 10, true), 0.05F, 1,
+							0, 0 } };
 
 			break;
 		default:
@@ -670,5 +639,39 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 	@SuppressWarnings("deprecation")
 	private void setBlockAndMetadata(int x, int y, int z, Block blockId, int metaData) {
 		world.setBlockState(new BlockPos(x, y, z), blockId.getStateFromMeta(metaData), 2);
+	}
+
+	private class SlotMemory {
+		private final ArrayList<Integer> chestSlots;
+		private Random random;
+
+		public SlotMemory(int chestSize) {
+			chestSlots = new ArrayList<>(chestSize);
+
+			for (int i = 0; i < chestSize; i++) {
+				chestSlots.add(i);
+			}
+		}
+
+		public SlotMemory(int chestSize, Random random) {
+			this(chestSize);
+
+			this.random = random;
+		}
+
+		public int getRandomChestSlot() {
+			final int size = chestSlots.size();
+
+			if (size > 0) {
+				final int slot = random.nextInt(size);
+
+				final int temp = chestSlots.get(slot);
+				chestSlots.remove(slot);
+
+				return temp;
+			}
+
+			return -1;
+		}
 	}
 }
