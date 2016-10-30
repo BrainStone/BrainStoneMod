@@ -1,12 +1,6 @@
 package brainstonemod;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.lang.reflect.Modifier;
-import java.net.SocketTimeoutException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
@@ -100,7 +94,6 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.common.versioning.ComparableVersion;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -145,10 +138,6 @@ public class BrainStone {
 	private static final String en = "en_EN";
 	/** A String with the German localization (de_DE) */
 	private static final String de = "de_DE";
-
-	private static String releaseVersion;
-	private static String recommendedVersion;
-	private static String latestVersion;
 
 	public static final String guiPath = "textures/gui/";
 
@@ -243,7 +232,6 @@ public class BrainStone {
 		BrainStoneModules.detectModules();
 
 		BrainStoneConfigHelper.loadConfig(new Configuration(event.getSuggestedConfigurationFile()));
-		retriveCurrentVersions();
 		generateMcModInfoFile(event);
 		createEnums();
 		generateBlocksAndItems();
@@ -342,77 +330,6 @@ public class BrainStone {
 							+ TextFormatting.YELLOW + "fresh .jar file from here " + TextFormatting.DARK_BLUE
 							+ "https://download.brainstonemod.com " + TextFormatting.YELLOW + "!");
 		}
-
-		if (!VERSION.equals("${ver" + "sion}") && !latestVersion.isEmpty() && !recommendedVersion.isEmpty()
-				&& !releaseVersion.isEmpty()) {
-			switch (BrainStoneConfigHelper.updateNotification()) {
-			case 0:
-				if (isHigherVersion(VERSION, releaseVersion)) {
-					sendToPlayer(player,
-							TextFormatting.GREEN + "A new Version of the BSM is available!\n" + TextFormatting.BOLD
-									+ TextFormatting.RED + "========== " + TextFormatting.DARK_RED + latestVersion
-									+ TextFormatting.RED + " ==========\n" + TextFormatting.DARK_BLUE
-									+ "Download it at " + TextFormatting.YELLOW + "http://adf.ly/2002096/release\n"
-									+ TextFormatting.DARK_BLUE + "or " + TextFormatting.YELLOW
-									+ "https://download.brainstonemod.com " + TextFormatting.DARK_BLUE + "!");
-				}
-
-				break;
-			case 1:
-				if (isHigherVersion(VERSION, releaseVersion) && !isHigherVersion(releaseVersion, recommendedVersion)) {
-					sendToPlayer(player,
-							TextFormatting.GREEN + "A new Version of the BSM is available!\n" + TextFormatting.BOLD
-									+ TextFormatting.RED + "========== " + TextFormatting.DARK_RED + latestVersion
-									+ TextFormatting.RED + " ==========\n" + TextFormatting.DARK_BLUE
-									+ "Download it at " + TextFormatting.YELLOW + "http://adf.ly/2002096/release\n"
-									+ TextFormatting.DARK_BLUE + "or " + TextFormatting.YELLOW
-									+ "https://download.brainstonemod.com " + TextFormatting.DARK_BLUE + "!");
-				} else if (isHigherVersion(VERSION, recommendedVersion)) {
-					sendToPlayer(player,
-							TextFormatting.GREEN + "A new recommended DEV Version of the BSM is available!\n"
-									+ TextFormatting.BOLD + TextFormatting.RED + "========== " + TextFormatting.DARK_RED
-									+ latestVersion + TextFormatting.RED + " ==========\n" + TextFormatting.DARK_BLUE
-									+ "Download it at " + TextFormatting.YELLOW + "http://adf.ly/2002096/recommended\n"
-									+ TextFormatting.DARK_BLUE + "or " + TextFormatting.YELLOW
-									+ "https://download.brainstonemod.com " + TextFormatting.DARK_BLUE + "!");
-				}
-
-				break;
-			case 2:
-				if (isHigherVersion(VERSION, releaseVersion) && !isHigherVersion(releaseVersion, recommendedVersion)
-						&& !isHigherVersion(releaseVersion, latestVersion)) {
-					sendToPlayer(player,
-							TextFormatting.GREEN + "A new Version of the BSM is available!\n" + TextFormatting.BOLD
-									+ TextFormatting.RED + "========== " + TextFormatting.DARK_RED + latestVersion
-									+ TextFormatting.RED + " ==========\n" + TextFormatting.DARK_BLUE
-									+ "Download it at " + TextFormatting.YELLOW + "http://adf.ly/2002096/release\n"
-									+ TextFormatting.DARK_BLUE + "or " + TextFormatting.YELLOW
-									+ "https://download.brainstonemod.com " + TextFormatting.DARK_BLUE + "!");
-				} else if (isHigherVersion(VERSION, recommendedVersion)
-						&& !isHigherVersion(recommendedVersion, latestVersion)) {
-					sendToPlayer(player,
-							TextFormatting.GREEN + "A new recommended DEV Version of the BSM is available!\n"
-									+ TextFormatting.BOLD + TextFormatting.RED + "========== " + TextFormatting.DARK_RED
-									+ latestVersion + TextFormatting.RED + " ==========\n" + TextFormatting.DARK_BLUE
-									+ "Download it at " + TextFormatting.YELLOW + "http://adf.ly/2002096/recommended\n"
-									+ TextFormatting.DARK_BLUE + "or " + TextFormatting.YELLOW
-									+ "https://download.brainstonemod.com " + TextFormatting.DARK_BLUE + "!");
-				} else if (isHigherVersion(VERSION, latestVersion)) {
-					sendToPlayer(player,
-							TextFormatting.GREEN + "A new DEV Version of the BSM is available!\n" + TextFormatting.BOLD
-									+ TextFormatting.RED + "========== " + TextFormatting.DARK_RED + latestVersion
-									+ TextFormatting.RED + " ==========\n" + TextFormatting.DARK_BLUE
-									+ "Download it at " + TextFormatting.YELLOW + "http://adf.ly/2002096/latest\n"
-									+ TextFormatting.DARK_BLUE + "or " + TextFormatting.YELLOW
-									+ "https://download.brainstonemod.com " + TextFormatting.DARK_BLUE + "!");
-				}
-
-				break;
-			default:
-				// Should not be reached
-				break;
-			}
-		}
 	}
 
 	/**
@@ -447,86 +364,16 @@ public class BrainStone {
 	}
 
 	/**
-	 * Checks if the new version is higher than the current one
-	 * 
-	 * @param currentVersionStr
-	 *            The version which is considered current
-	 * @param newVersionStr
-	 *            The version which is considered new
-	 * @return Whether the new version is higher than the current one or not
-	 */
-	private static boolean isHigherVersion(String currentVersionStr, String newVersionStr) {
-		final ComparableVersion currentVersion = new ComparableVersion(currentVersionStr);
-		final ComparableVersion newVersion = new ComparableVersion(newVersionStr);
-
-		return currentVersion.compareTo(newVersion) < 0;
-	}
-
-	/**
-	 * Downloads the current versions of this mod from github.com
-	 */
-	private static void retriveCurrentVersions() {
-		try {
-			releaseVersion = get_content("release/.version");
-
-			recommendedVersion = get_content("recommended/.version");
-
-			latestVersion = get_content("latest/.version");
-
-		} catch (final IOException e) {
-			BSP.warnException_noAddon(e, "The Versions will be empty. No internet connection!");
-
-			releaseVersion = "";
-			recommendedVersion = "";
-			latestVersion = "";
-		}
-	}
-
-	// DOCME
-	private static String get_content(String url) throws IOException {
-		String output = "";
-
-		try {
-			URLConnection con = new URL(BASE_URL + url).openConnection();
-
-			if (con != null) {
-				con.setConnectTimeout(500);
-				con.setReadTimeout(500);
-				con.connect();
-
-				final BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-
-				String input;
-
-				while ((input = br.readLine()) != null) {
-					output = output + input;
-				}
-				br.close();
-			}
-		} catch (SocketTimeoutException e) {
-			BSP.warnException_noAddon(e);
-		}
-
-		return output;
-	}
-
-	/**
 	 * Generates the mcmod.info file.
 	 */
-	@SuppressWarnings("deprecation")
 	private static void generateMcModInfoFile(FMLPreInitializationEvent event) {
 		event.getModMetadata().modId = MOD_ID;
 		event.getModMetadata().name = NAME;
 		event.getModMetadata().version = VERSION;
-		event.getModMetadata().url = "http://www.planetminecraft.com/mod/125sspwip-brainstonemod-v14827-beta-release/";
+		event.getModMetadata().url = "https://minecraft.curseforge.com/projects/brain-stone-mod";
 		event.getModMetadata().credits = "The_BrainStone(Code, Textures, Ideas), The_Fireplace(Code), Herr_Kermit(Textures), Jobbel(Name)";
 		event.getModMetadata().authorList = Arrays.asList("The_BrainStone", "The_Fireplace", "Herr_Kermit");
-		event.getModMetadata().description = "This mod adds the mysterious block BrainStone. You can craft almost magical things from it.\nBut see yourself!\n\n\nThanks for downloading and supporting this mod!"
-				+ "\n\n\n\nCurrent Versions:\n    release:          " + releaseVersion + "\n    recommended:   "
-				+ recommendedVersion + "\n    latest:            " + latestVersion;
-		event.getModMetadata().updateUrl = (BrainStoneConfigHelper.updateNotification() == -1) ? ""
-				: ("http://adf.ly/2002096/" + ((BrainStoneConfigHelper.updateNotification() == 0) ? "release"
-						: ((BrainStoneConfigHelper.updateNotification() == 1) ? "recommended" : "latest")));
+		event.getModMetadata().description = "This mod adds the mysterious block BrainStone. You can craft almost magical things from it.\nBut see yourself!\n\n\nThanks for downloading and supporting this mod!";
 		event.getModMetadata().parent = "";
 		event.getModMetadata().screenshots = new String[] {};
 
