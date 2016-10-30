@@ -51,7 +51,7 @@ public class BrainStonePacketHelper {
 	 *            The packet to send
 	 */
 	public static void sendPacketToClosestPlayers(int x, int y, int z,
-			World world, final Packet packet) {
+			World world, final Packet<?> packet) {
 		final int radius = 256;
 
 		for(Entity pl:world.getEntitiesWithinAABBExcludingEntity(null, new AxisAlignedBB(x - radius, y - radius, z - radius, x + radius,

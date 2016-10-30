@@ -241,6 +241,7 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 		return true;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	protected BlockStateContainer createBlockState() {
 		IProperty[] listedProperties = new IProperty[0]; // no listed properties
@@ -248,6 +249,7 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 		return new ExtendedBlockState(this, listedProperties, unlistedProperties);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
 		if (state instanceof IExtendedBlockState) {  // avoid crash in case of mismatch

@@ -100,6 +100,7 @@ public class BrainStoneEventHandler {
 		return null;
 	}
 
+	@SuppressWarnings("deprecation")
 	@SubscribeEvent
 	public void attachCapabilities(AttachCapabilitiesEvent.Item event) {
 		if (event.getCapabilities().containsKey(BrainStone.RESOURCE_LOCATION))

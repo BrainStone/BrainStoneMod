@@ -4,6 +4,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.Logger;
 
 import brainstonemod.BrainStone;
+import lombok.experimental.UtilityClass;
 
 /**
  * <center><b><u>B</u>rain<u>S</u>tone<u>P</u>rinter</b></center><br>
@@ -15,7 +16,8 @@ import brainstonemod.BrainStone;
  * @version 3.0.0
  * @category Print
  */
-public abstract class BSP {
+@UtilityClass
+public final class BSP {
 	/**
 	 * A error message addon that is very big, asks the user to send the error
 	 * log to the mod developer, and contains the email address
@@ -670,7 +672,6 @@ public abstract class BSP {
 	 * @param additionalMessage
 	 *            the custom message that will be added
 	 */
-	@SuppressWarnings("unchecked")
 	public static final <E extends RuntimeException> void throwException(E exception, String additionalMessage) {
 		throw new RuntimeException("(" + exception.getClass().getName() + ")" + errorMessageAddon
 				+ ANLIN(additionalMessage + "\n") + "\nOriginal message: \"" + exception.getMessage() + "\"\n",

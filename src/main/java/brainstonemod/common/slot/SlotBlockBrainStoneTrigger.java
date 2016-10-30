@@ -20,6 +20,7 @@ public class SlotBlockBrainStoneTrigger extends Slot {
 		return 1;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean isItemValid(ItemStack itemstack) {
         if (!(itemstack.getItem() instanceof ItemBlock))

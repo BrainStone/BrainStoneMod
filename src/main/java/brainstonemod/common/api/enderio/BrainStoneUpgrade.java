@@ -58,7 +58,6 @@ public class BrainStoneUpgrade extends AbstractUpgrade {
 
 	@SideOnly(Side.CLIENT)
 	private class Render implements IRenderUpgrade {
-		private static final float radToDEgFactor = 57.2958f;
 		private final ItemStack brainStone = new ItemStack(BrainStone.brainStone());
 
 		@Override
@@ -117,7 +116,7 @@ public class BrainStoneUpgrade extends AbstractUpgrade {
 			GlStateManager.pushMatrix();
 
 			if (sneaking) {
-				GlStateManager.translate(0.0F, 0.2F, 0.0F);
+				GlStateManager.translate(0.0f, 0.2f, 0.0f);
 			}
 
 			modelRenderer.postRender(0.0625F);

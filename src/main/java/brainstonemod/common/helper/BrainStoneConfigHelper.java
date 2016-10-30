@@ -13,7 +13,6 @@ import net.minecraftforge.fml.client.config.IConfigElement;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SuppressWarnings("unchecked")
 @UtilityClass
 public class BrainStoneConfigHelper {
 	public static final String CAT_DISPLAY = "display";

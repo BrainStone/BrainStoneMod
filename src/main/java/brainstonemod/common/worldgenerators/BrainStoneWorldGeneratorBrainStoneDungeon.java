@@ -667,6 +667,7 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 	/**
 	 * Sets a Block with MetaData at the specified Spot
 	 */
+	@SuppressWarnings("deprecation")
 	private void setBlockAndMetadata(int x, int y, int z, Block blockId, int metaData) {
 		world.setBlockState(new BlockPos(x, y, z), blockId.getStateFromMeta(metaData), 2);
 	}

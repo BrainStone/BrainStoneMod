@@ -92,7 +92,8 @@ public class BSTriggerModel implements IBakedModel {
         return modelWhenNotCamouflaged.isBuiltInRenderer();
     }
 
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public ItemCameraTransforms getItemCameraTransforms()
     {
         return modelWhenNotCamouflaged.getItemCameraTransforms();

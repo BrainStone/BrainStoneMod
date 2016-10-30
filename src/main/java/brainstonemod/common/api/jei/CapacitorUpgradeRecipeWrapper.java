@@ -27,7 +27,7 @@ public class CapacitorUpgradeRecipeWrapper implements ICraftingRecipeWrapper {
 
     @Nonnull
     @Override
-    public List getInputs() {
+    public List<ItemStack> getInputs() {
         return Arrays.asList(recipe.getStacks());
     }
 

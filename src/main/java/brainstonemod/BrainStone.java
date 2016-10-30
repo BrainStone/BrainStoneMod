@@ -513,6 +513,7 @@ public class BrainStone {
 	/**
 	 * Generates the mcmod.info file.
 	 */
+	@SuppressWarnings("deprecation")
 	private static void generateMcModInfoFile(FMLPreInitializationEvent event) {
 		event.getModMetadata().modId = MOD_ID;
 		event.getModMetadata().name = NAME;
@@ -679,7 +680,6 @@ public class BrainStone {
 	}
 
 	// DOCME
-	@SuppressWarnings("unchecked")
 	private static void fillTriggerEntities() {
 		if ((getServerSideTriggerEntities() == null) || (getServerSideTriggerEntities().size() == 0)) {
 			BSP.debug("Filling triggerEntities");
