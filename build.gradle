@@ -117,7 +117,7 @@ repositories{
     maven { // Tesla (dependency of EnderIO)
         url = "http://maven.epoxide.xyz"
     }
-    maven { // ChickenBone's mods (dependency of Draconic Evolution)
+    maven { // ChickenBones' mods (dependency of Draconic Evolution)
         url "http://chickenbones.net/maven/"
     }
 }
