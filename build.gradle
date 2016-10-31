@@ -105,25 +105,35 @@ minecraft {
 }
 
 repositories{
-    maven { //JEI, Natura, Mantle, TiCon
+    maven { // JEI, Natura, Mantle, TiCon
         url "http://dvs1.progwml6.com/files/maven"
     }
-    maven { //EnderIO, EnderCore, EnderZoo, The One Probe
+    maven { // EnderIO, EnderCore, EnderZoo, The One Probe
         url = "http://maven.tterrag.com"
     }
-    maven { //Tesla (dependency of EnderIO)
+    maven { // Draconic Evolution
+        url "http://adel.podgeweb.com:1616/maven/"
+    }
+    maven { // Tesla (dependency of EnderIO)
         url = "http://maven.epoxide.xyz"
+    }
+    maven { // ChickenBone's mods (dependency of Draconic Evolution)
+        url "http://chickenbones.net/maven/"
     }
 }
 
 dependencies {
     compile "org.projectlombok:lombok:1.16.10"
     
-    deobfProvided group: "mezz.jei", name: "jei_1.10.2", version: "3.13.0.334"
+    deobfProvided group: "mezz.jei", name: "jei_1.10.2", version: "3.13.0.335"
     deobfProvided group: "slimeknights", name: "TConstruct", version: "1.10.2-2.5.6b.jenkins425"
     deobfProvided group: "slimeknights.mantle", name: "Mantle", version: "1.10.2-1.1.1.194"
-    provided "com.enderio.core:EnderCore:1.10.2-0.4.1.58-beta"
-    provided "com.enderio:EnderIO:1.10.2-3.0.1.125_beta:dev"
+    provided "com.enderio.core:EnderCore:1.10.2-0.4.1.56-beta"
+    provided "com.enderio:EnderIO:1.10.2-3.0.1.110_beta:dev"
+    provided("com.brandon3055.draconicevolution:Draconic-Evolution:1.10.2-2.0.1.126:deobf") {
+        exclude module: 'jei_1.10.2'
+        exclude module: 'OpenComputers'
+    }
 }
 
 processResources {
@@ -222,12 +232,13 @@ curseforge {
         
         relations {
             optionalLibrary 'baubles'
+            optionalLibrary 'draconic-evolution'
             optionalLibrary 'ender-io'
             optionalLibrary 'overlord'
             optionalLibrary 'just-enough-items-jei'
+            optionalLibrary 'tinkers-construct'
             
             //optionalLibrary 'minefactory-reloaded'
-            //optionalLibrary 'tinkers-construct'
             //optionalLibrary 'thermal-foundation'
             //optionalLibrary 'thaumcraft'
         }

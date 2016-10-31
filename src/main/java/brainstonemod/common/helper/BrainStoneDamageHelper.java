@@ -18,7 +18,7 @@ public class BrainStoneDamageHelper {
 			boolean simluate) {
 		float adjustedDamage = initalDamage;
 
-		adjustedDamage = ApplyArmor(player, player.inventory.armorInventory, damageSource, adjustedDamage, simluate);
+		adjustedDamage = applyArmor(player, player.inventory.armorInventory, damageSource, adjustedDamage, simluate);
 		if (adjustedDamage <= 0)
 			return 0;
 
@@ -89,7 +89,7 @@ public class BrainStoneDamageHelper {
 	 *            When simulating items do not get damaged!
 	 * @return The left over damage that has not been absorbed by the armor
 	 */
-	private static float ApplyArmor(EntityLivingBase entity, ItemStack[] inventory, DamageSource source, double damage,
+	private static float applyArmor(EntityLivingBase entity, ItemStack[] inventory, DamageSource source, double damage,
 			boolean simulate) {
 		damage *= 25;
 		ArrayList<ArmorProperties> dmgVals = new ArrayList<>();
@@ -114,7 +114,7 @@ public class BrainStoneDamageHelper {
 		}
 		if (dmgVals.size() > 0) {
 			ArmorProperties[] props = dmgVals.toArray(new ArmorProperties[dmgVals.size()]);
-			StandardizeList(props, damage);
+			standardizeList(props, damage);
 			int level = props[0].Priority;
 			double ratio = 0;
 			for (ArmorProperties prop : props) {
@@ -157,7 +157,7 @@ public class BrainStoneDamageHelper {
 	 * @param damage
 	 *            The total damage being received
 	 */
-	private static void StandardizeList(ArmorProperties[] armor, double damage) {
+	private static void standardizeList(ArmorProperties[] armor, double damage) {
 		Arrays.sort(armor);
 
 		int start = 0;

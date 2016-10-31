@@ -14,9 +14,9 @@ import javax.annotation.Nonnull;
  * @author The_Fireplace
  */
 public class CapacitorUpgradeRecipeHandler implements IRecipeHandler<BrainStoneLifeCapacitorUpgrade> {
-    @Nonnull
+	@Nonnull
     @Override
-    public Class getRecipeClass() {
+    public Class<BrainStoneLifeCapacitorUpgrade> getRecipeClass() {
         return BrainStoneLifeCapacitorUpgrade.class;
     }
 

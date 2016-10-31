@@ -121,6 +121,7 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 		mobTriggered.keySet().stream().filter(mob -> mobTriggered.get(mob) < 0).forEach(mob -> mobTriggered.put(mob, -1 * mobTriggered.get(mob)));
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
         if (!(itemstack.getItem() instanceof ItemBlock))

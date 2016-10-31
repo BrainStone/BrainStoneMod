@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Random;
 
 public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
+	public static final UnlistedPropertyCopiedBlock COPIEDBLOCK = new UnlistedPropertyCopiedBlock();
 
 	public BlockBrainStoneTrigger() {
 		super();
@@ -241,6 +242,7 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 		return true;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	protected BlockStateContainer createBlockState() {
 		IProperty[] listedProperties = new IProperty[0]; // no listed properties
@@ -248,6 +250,7 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 		return new ExtendedBlockState(this, listedProperties, unlistedProperties);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
 		if (state instanceof IExtendedBlockState) {  // avoid crash in case of mismatch
@@ -263,7 +266,4 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 		}
 		return state;
 	}
-
-	public static final UnlistedPropertyCopiedBlock COPIEDBLOCK = new UnlistedPropertyCopiedBlock();
-
 }

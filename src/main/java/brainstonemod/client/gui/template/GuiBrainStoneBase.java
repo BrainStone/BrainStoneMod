@@ -1,5 +1,9 @@
 package brainstonemod.client.gui.template;
 
+import javax.annotation.Nullable;
+
+import org.lwjgl.opengl.GL11;
+
 import brainstonemod.BrainStone;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
@@ -10,98 +14,8 @@ import net.minecraft.inventory.Container;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
-import org.lwjgl.opengl.GL11;
-
-import javax.annotation.Nullable;
 
 public abstract class GuiBrainStoneBase extends GuiContainer {
-	private class Sound implements ISound {
-		private final float pitch;
-		private final boolean repeat;
-		private final int repeatDelay;
-		private final ResourceLocation resourceLocation;
-		private final float volume;
-
-		public Sound(String sound, float volume, float pitch) {
-			resourceLocation = new ResourceLocation(sound);
-			this.volume = volume;
-			this.pitch = pitch;
-
-			repeat = false;
-			repeatDelay = 0;
-		}
-
-		public Sound(String sound, float volume, float pitch, int repeatDelay) {
-			resourceLocation = new ResourceLocation(sound);
-			this.volume = volume;
-			this.pitch = pitch;
-			this.repeatDelay = repeatDelay;
-
-			repeat = true;
-		}
-
-		@Override
-		public boolean canRepeat() {
-			return repeat;
-		}
-
-		@Override
-		public AttenuationType getAttenuationType() {
-			return AttenuationType.NONE;
-		}
-
-		@Override
-		public float getPitch() {
-			return pitch;
-		}
-
-		@Override
-		public ResourceLocation getSoundLocation() {
-			return resourceLocation;
-		}
-
-		@Nullable
-		@Override
-		public SoundEventAccessor createAccessor(SoundHandler handler) {
-			return null;//TODO
-		}
-
-		@Override
-		public net.minecraft.client.audio.Sound getSound() {
-			return null;//TODO
-		}
-
-		@Override
-		public SoundCategory getCategory() {
-			return SoundCategory.BLOCKS;
-		}
-
-		@Override
-		public int getRepeatDelay() {
-			return repeatDelay;
-		}
-
-		@Override
-		public float getVolume() {
-			return volume;
-		}
-
-		@Override
-		public float getXPosF() {
-			return tileentity.getPos().getX();
-		}
-
-		@Override
-		public float getYPosF() {
-			return tileentity.getPos().getY();
-		}
-
-		@Override
-		public float getZPosF() {
-			return tileentity.getPos().getZ();
-		}
-	}
-
 	protected SoundHandler soundHandler;
 	protected TileEntity tileentity;
 	protected boolean textureLoaded;
@@ -232,6 +146,7 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 	}
 
 	protected void drawGuiForeground(int mouseX, int mouseY) {
+		// Do nothing. By default. Sub classes can override this
 	}
 
 	protected final void drawMyDefaultBackground() {
@@ -371,5 +286,92 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 		soundHandler.stopSound(sound);
 
 		return sound;
+	}
+
+	private class Sound implements ISound {
+		private final float pitch;
+		private final boolean repeat;
+		private final int repeatDelay;
+		private final ResourceLocation resourceLocation;
+		private final float volume;
+	
+		public Sound(String sound, float volume, float pitch) {
+			resourceLocation = new ResourceLocation(sound);
+			this.volume = volume;
+			this.pitch = pitch;
+	
+			repeat = false;
+			repeatDelay = 0;
+		}
+	
+		public Sound(String sound, float volume, float pitch, int repeatDelay) {
+			resourceLocation = new ResourceLocation(sound);
+			this.volume = volume;
+			this.pitch = pitch;
+			this.repeatDelay = repeatDelay;
+	
+			repeat = true;
+		}
+	
+		@Override
+		public boolean canRepeat() {
+			return repeat;
+		}
+	
+		@Override
+		public AttenuationType getAttenuationType() {
+			return AttenuationType.NONE;
+		}
+	
+		@Override
+		public float getPitch() {
+			return pitch;
+		}
+	
+		@Override
+		public ResourceLocation getSoundLocation() {
+			return resourceLocation;
+		}
+	
+		@Nullable
+		@Override
+		public SoundEventAccessor createAccessor(SoundHandler handler) {
+			return null;//TODO
+		}
+	
+		@Override
+		public net.minecraft.client.audio.Sound getSound() {
+			return null;//TODO
+		}
+	
+		@Override
+		public SoundCategory getCategory() {
+			return SoundCategory.BLOCKS;
+		}
+	
+		@Override
+		public int getRepeatDelay() {
+			return repeatDelay;
+		}
+	
+		@Override
+		public float getVolume() {
+			return volume;
+		}
+	
+		@Override
+		public float getXPosF() {
+			return tileentity.getPos().getX();
+		}
+	
+		@Override
+		public float getYPosF() {
+			return tileentity.getPos().getY();
+		}
+	
+		@Override
+		public float getZPosF() {
+			return tileentity.getPos().getZ();
+		}
 	}
 }

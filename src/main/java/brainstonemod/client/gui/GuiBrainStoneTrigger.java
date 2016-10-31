@@ -1,5 +1,11 @@
 package brainstonemod.client.gui;
 
+import java.io.IOException;
+import java.util.Random;
+
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
+
 import brainstonemod.BrainStone;
 import brainstonemod.client.gui.helper.BrainStoneButton;
 import brainstonemod.client.gui.helper.BrainStoneGuiButton;
@@ -8,17 +14,14 @@ import brainstonemod.common.container.ContainerBrainStoneTrigger;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
 import brainstonemod.network.PacketDispatcher;
-import brainstonemod.network.packet.serverbound.*;
-import net.minecraft.client.Minecraft;
+import brainstonemod.network.packet.serverbound.PacketDisableMobs;
+import brainstonemod.network.packet.serverbound.PacketEnableMobs;
+import brainstonemod.network.packet.serverbound.PacketInvertMobTriggered;
+import brainstonemod.network.packet.serverbound.PacketSetMaxDelay;
+import brainstonemod.network.packet.serverbound.PacketSetMobTriggered;
 import net.minecraft.client.audio.ISound;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11;
-
-import java.io.IOException;
-import java.util.Random;
 
 public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 	private final TileEntityBrainStoneTrigger tileentity;

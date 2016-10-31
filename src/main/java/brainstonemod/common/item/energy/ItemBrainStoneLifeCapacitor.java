@@ -44,7 +44,6 @@ import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SuppressWarnings("unchecked")
 @Optional.Interface(iface = "baubles.api.IBauble", modid = "Baubles|API")
 public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements IEnergyContainerItem, IBauble {
 	public static final int MaxDamage = 32;
@@ -95,7 +94,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item item, CreativeTabs creativeTab, List list) {
+	public void getSubItems(Item item, CreativeTabs creativeTab, List<ItemStack> list) {
 		ItemStack is = base.copy();
 		setCapacityLevel(is, 1);
 		setChargingLevel(is, 1);
@@ -115,7 +114,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack container, EntityPlayer player, List list, boolean advancedToolTipInfo) {
+	public void addInformation(ItemStack container, EntityPlayer player, List<String> list, boolean advancedToolTipInfo) {
 		boolean sneak = Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak.getKeyCode());
 		boolean correctOwner = isCurrentOwner(container, player.getUniqueID());
 		boolean canClaim = !correctOwner && isNotFormerOwner(container, player.getUniqueID())
@@ -184,21 +183,21 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 
 						player.addStat(BrainStone.lifeCapacitor(), 1);
 
-						return new ActionResult(EnumActionResult.SUCCESS, stack);
+						return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
 					} else {
 						BrainStone.sendToPlayer(player,
 								TextFormatting.DARK_RED + "You cannot steal a Brain Stone Live Capacitor!");
-						return new ActionResult(EnumActionResult.FAIL, stack);
+						return new ActionResult<ItemStack>(EnumActionResult.FAIL, stack);
 					}
 				} else {
 					BrainStone.sendToPlayer(player,
 							TextFormatting.DARK_RED + "You can only claim a Brain Stone Live Capacitor once!");
-					return new ActionResult(EnumActionResult.FAIL, stack);
+					return new ActionResult<ItemStack>(EnumActionResult.FAIL, stack);
 				}
 			}
 		}
 
-		return new ActionResult(EnumActionResult.PASS, stack);
+		return new ActionResult<ItemStack>(EnumActionResult.PASS, stack);
 	}
 
 	public float handleDamage(ItemStack container, float damage) {

@@ -100,6 +100,7 @@ public class BrainStoneEventHandler {
 		return null;
 	}
 
+	@SuppressWarnings("deprecation")
 	@SubscribeEvent
 	public void attachCapabilities(AttachCapabilitiesEvent.Item event) {
 		if (event.getCapabilities().containsKey(BrainStone.RESOURCE_LOCATION))
@@ -212,10 +213,10 @@ public class BrainStoneEventHandler {
 	@SubscribeEvent
 	public void onEntityLoot(LivingDropsEvent event) {
 		if (event.getEntity() instanceof EntityWither) {
-			final double base_chance = 0.1;
-			final double chance = 1.0 - Math.pow(1.0 - base_chance, event.getLootingLevel() + 1);
+			final double chance = Math.pow(1.0 - BrainStoneConfigHelper.getEssenceOfLifeBaseChance(),
+					event.getLootingLevel() + 1);
 
-			if ((new Random()).nextDouble() < chance)
+			if ((new Random()).nextDouble() >= chance)
 				event.getDrops().add(new EntityItem(event.getEntity().worldObj, event.getEntity().posX,
 						event.getEntity().posY, event.getEntity().posZ, new ItemStack(BrainStone.essenceOfLife())));
 		}

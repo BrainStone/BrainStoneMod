@@ -1,62 +1,97 @@
 package brainstonemod.common.helper;
 
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import brainstonemod.BrainStone;
+import brainstonemod.common.api.BrainStoneModules;
 import lombok.experimental.UtilityClass;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.client.config.IConfigElement;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SuppressWarnings("unchecked")
 @UtilityClass
 public class BrainStoneConfigHelper {
-	public static final String CAT_DISPLAY = "display";
-	public static final String CAT_BSLC = "brainstonelivecapacitor";
+	public static final String CAT_MISC = "miscellaneous";
+	public static final String CAT_BSLC = "brainstonelifecapacitor";
 	public static final String CAT_GEN = "worldgen";
 
 	private static Configuration configStorage;
+	private static final boolean isClient = FMLCommonHandler.instance().getSide() == Side.CLIENT;
 
-	private static byte updateNotification;
 	private static boolean enableCreativeTab;
 	private static boolean enableAchievementPage;
+	private static double essenceOfLifeBaseChance;
 	private static int[] brainStoneOreDims;
 	private static int[] brainStoneHouseDims;
 	private static boolean BSLC_AllowStealing;
 	private static long BSLC_RFperHalfHeart;
 	/** The X positions of the achievements */
-	private static Map<String, Integer> achievementXPositions = new LinkedHashMap<>();
-	/** The X positions of the achievements */
-	private static Map<String, Integer> achievementYPositions = new LinkedHashMap<>();
+	@SideOnly(Side.CLIENT)
+	private static Map<String, Integer> achievementXPositions;
+	@SideOnly(Side.CLIENT)
+	/** The Y positions of the achievements */
+	private static Map<String, Integer> achievementYPositions;
 
 	public static void loadConfig() {
-		loadConfig(configStorage);
+		loadMiscellaneousSettings();
+		loadBrainStoneLifeCapacitorSettings();
+		loadWorldgenSettings();
+
+		// Server doesn't care where the Achievements are
+		if (isClient)
+			loadAchievementSettings();
+
+		saveIfChanged();
 	}
 
 	public static void loadConfig(Configuration config) {
 		configStorage = config;
+		configStorage.load();
 
-		config.load();
+		loadConfig();
+	}
 
-		final String str = config.getString("DisplayUpdates", CAT_DISPLAY,
-				BrainStone.DEV ? "recommended" : (BrainStone.release ? "release" : "latest"),
-				"What update notifications do you want to recieve?\nValues are: release, recommended, latest, none (or off)");
-		updateNotification = (byte) ((str.equals("none") || str.equals("off")) ? -1
-				: (str.equals("recommended") ? 1 : (str.equals("latest") ? 2 : 0)));
+	private void loadMiscellaneousSettings() {
+		enableCreativeTab = getBoolean(CAT_MISC, "EnableCreativeTab", true,
+				"Do you want to have a custom Creative Tab for this mod?", true);
+		enableAchievementPage = getBoolean(CAT_MISC, "EnableAchievementPage", true,
+				"Do you want to have a custom Achievement Page for this mod?", true);
+		essenceOfLifeBaseChance = ((getInt(CAT_MISC, "EssenceOfLifeDropChanceModifier", 0, -50, 75,
+				"Modifies the drop chance of the Essence of Life. Value in percent.\n"
+						+ "If the base chance is 50% (depends on what other mods you have loaded) and you set this value to 20 (%) the chance becomes 50% + (50% * 20%) = 60%.")
+				/ 100.0) + 1.0) * (BrainStoneModules.draconicEvolution() ? 0.1 : 0.5);
 
-		enableCreativeTab = config.getBoolean("EnableCreativeTab", CAT_DISPLAY, true,
-				"Do you want to have a custom Creative Tab for this mod?");
-		enableAchievementPage = config.getBoolean("EnableAchievementPage", CAT_DISPLAY, true,
-				"Do you want to have a custom Achievement Page for this mod?");
+		addCustomCategoryComment(CAT_MISC, "This set defines miscellaneous settings");
+	}
 
-		brainStoneOreDims = config.get(CAT_GEN, "Brain Stone Ore Dimensions Whitelist", new int[] { 0, 7, -100 },
-				"In which dimensions should Brain Stone Ore be generated").getIntList();
-		brainStoneHouseDims = config.get(CAT_GEN, "Brain Stone House Dimensions Whitelist", new int[] { 0 },
-				"In which dimensions should the Brain Stone House be generated").getIntList();
+	private void loadBrainStoneLifeCapacitorSettings() {
+		BSLC_AllowStealing = getBoolean(CAT_BSLC, "AllowStealing", false,
+				"Do you want to allow the stealing of the BrainStoneLifeCapacitor?");
+		BSLC_RFperHalfHeart = getInt(CAT_BSLC, "RFperHalfHeart", 1000000, 1, Integer.MAX_VALUE,
+				"How much energy half a heart should cost.");
+
+		addCustomCategoryComment(CAT_BSLC, "This set defines the behavior of the BrainStoneLifeCapacitor");
+	}
+
+	private void loadWorldgenSettings() {
+		brainStoneOreDims = getIntList(CAT_GEN, "BrainStoneOreDimensionsWhitelist", new int[] { 0, 7, -100 },
+				"In which dimensions should Brain Stone Ore be generated");
+		brainStoneHouseDims = getIntList(CAT_GEN, "BrainStoneHouseDimensionsWhitelist", new int[] { 0 },
+				"In which dimensions should the Brain Stone House be generated");
+
+		addCustomCategoryComment(CAT_GEN, "This set defines world generation settings");
+	}
+
+	@SideOnly(Side.CLIENT)
+	private void loadAchievementSettings() {
+		achievementXPositions = new LinkedHashMap<>();
+		achievementYPositions = new LinkedHashMap<>();
 
 		String curAch, curAchUp;
 		String achievementPageType = (enableAchievementPage ? "custom" : "regular");
@@ -75,37 +110,136 @@ public class BrainStoneConfigHelper {
 			curAch = achievementNames[i];
 			curAchUp = Character.toUpperCase(curAch.charAt(0)) + curAch.substring(1);
 
-			achievementXPositions.put(curAch, config.getInt("Xpos" + curAchUp, achievementPageName, xPos[i], -20, 20,
+			achievementXPositions.put(curAch, getInt(achievementPageName, "Xpos" + curAchUp, xPos[i], -20, 20,
 					achievementPageDescX + curAch + " achievement"));
-			achievementYPositions.put(curAch, config.getInt("Ypos" + curAchUp, achievementPageName, yPos[i], -20, 20,
+			achievementYPositions.put(curAch, getInt(achievementPageName, "Ypos" + curAchUp, yPos[i], -20, 20,
 					achievementPageDescY + curAch + " achievement"));
 		}
 
-		BSLC_AllowStealing = config.getBoolean("AllowStealing", CAT_BSLC, false,
-				"Do you want to allow the stealing of the BrainStoneLifeCapacitor?");
-		BSLC_RFperHalfHeart = config.getInt("RFperHalfHeart", CAT_BSLC, 1000000, 1, Integer.MAX_VALUE,
-				"How much energy half a heart should cost.");
-
-		config.addCustomCategoryComment(CAT_BSLC, "This set defines the behavior of the BrainStoneLiveCapacitor");
-
-		config.addCustomCategoryComment(CAT_DISPLAY, "This set defines some basic ingame display settings");
-		config.addCustomCategoryComment(CAT_GEN, "This set defines world generation settings");
-
 		if (enableAchievementPage)
-			config.addCustomCategoryComment("customachievementpage",
+			addCustomCategoryComment("customachievementpage",
 					"This set defines the positions of the achievements on the custom Brain Stone Mod Achievement Page.\nOnly applies when \"B:EnableAchievementPage\" is set to true.");
 		else
-			config.addCustomCategoryComment("regularachievementpage",
+			addCustomCategoryComment("regularachievementpage",
 					"This set defines the positions of the achievements on the default Minecraft Achievement Page.\nOnly applies when \"B:EnableAchievementPage\" is set to false.");
+	}
 
-		config.save();
+	private String getDefaultLangKey(String category, String name) {
+		return "gui.brainstone.config.cat." + category.toLowerCase() + '.' + name.toLowerCase();
 	}
 
 	/**
-	 * <tt><table><tr><td>0:</td><td>release</td></tr><tr><td>1:</td><td>recommended</td></tr><tr><td>2:</td><td>latest</td></tr><tr><td>-1:</td><td><i>none</i></td></tr></table></tt>
+	 * Creates a boolean property.
+	 * 
+	 * @param category
+	 *            Category of the property.
+	 * @param name
+	 *            Name of the property.
+	 * @param defaultValue
+	 *            Default value of the property.
+	 * @param comment
+	 *            A brief description what the property does.
+	 * @return The value of the new boolean property.
 	 */
-	public static byte updateNotification() {
-		return updateNotification;
+	private boolean getBoolean(String category, String name, boolean defaultValue, String comment) {
+		return getBoolean(category, name, defaultValue, comment, false);
+	}
+
+	/**
+	 * Creates a boolean property.
+	 * 
+	 * @param category
+	 *            Category of the property.
+	 * @param name
+	 *            Name of the property.
+	 * @param defaultValue
+	 *            Default value of the property.
+	 * @param comment
+	 *            A brief description what the property does.
+	 * @param requiresRestart
+	 *            Whether Minecraft requires a restart if this changed while
+	 *            running.
+	 * @return The value of the new boolean property.
+	 */
+	private boolean getBoolean(String category, String name, boolean defaultValue, String comment,
+			boolean requiresRestart) {
+		Property prop = configStorage.get(category, name, defaultValue);
+		prop.setLanguageKey(getDefaultLangKey(category, name));
+		prop.setComment(comment + " [default: " + defaultValue + "]");
+		prop.setRequiresMcRestart(requiresRestart);
+
+		return prop.getBoolean(defaultValue);
+	}
+
+	/**
+	 * Creates a integer property.
+	 * 
+	 * @param category
+	 *            Category of the property.
+	 * @param name
+	 *            Name of the property.
+	 * @param defaultValue
+	 *            Default value of the property.
+	 * @param minValue
+	 *            Minimum value of the property.
+	 * @param maxValue
+	 *            Maximum value of the property.
+	 * @param comment
+	 *            A brief description what the property does.
+	 * @return The value of the new integer property.
+	 */
+	private int getInt(String category, String name, int defaultValue, int minValue, int maxValue, String comment) {
+		Property prop = configStorage.get(category, name, defaultValue);
+		prop.setLanguageKey(getDefaultLangKey(category, name));
+		prop.setComment(comment + " [range: " + minValue + " ~ " + maxValue + ", default: " + defaultValue + "]");
+		prop.setMinValue(minValue);
+		prop.setMaxValue(maxValue);
+
+		int readValue = prop.getInt(defaultValue);
+		int cappedValue = Math.max(Math.min(readValue, maxValue), minValue);
+
+		if (readValue != cappedValue)
+			prop.set(cappedValue);
+
+		return cappedValue;
+	}
+
+	/**
+	 * Creates a integer property.
+	 *
+	 * @param category
+	 *            Category of the property.
+	 * @param name
+	 *            Name of the property.
+	 * @param defaultValues
+	 *            Default value of the property.
+	 * @param comment
+	 *            A brief description what the property does.
+	 * @return The value of the new integer list property.
+	 */
+	private int[] getIntList(String category, String name, int[] defaultValues, String comment) {
+		Property prop = configStorage.get(category, name, defaultValues);
+		prop.setLanguageKey(getDefaultLangKey(category, name));
+		prop.setComment(comment + " [default: " + Arrays.toString(defaultValues) + "]");
+
+		return prop.getIntList();
+	}
+
+	/**
+	 * Adds a comment to the specified ConfigCategory object
+	 *
+	 * @param category
+	 *            the config category
+	 * @param comment
+	 *            a String comment
+	 */
+	private void addCustomCategoryComment(String category, String comment) {
+		configStorage.setCategoryComment(category, comment);
+	}
+
+	private void saveIfChanged() {
+		if (configStorage.hasChanged())
+			configStorage.save();
 	}
 
 	public static boolean enableCreativeTab() {
@@ -114,6 +248,10 @@ public class BrainStoneConfigHelper {
 
 	public static boolean enableAchievementPage() {
 		return enableAchievementPage;
+	}
+
+	public static double getEssenceOfLifeBaseChance() {
+		return essenceOfLifeBaseChance;
 	}
 
 	public static int[] getBrainStoneOreDims() {
@@ -133,25 +271,31 @@ public class BrainStoneConfigHelper {
 	}
 
 	public static int getAchievementXPosition(String achievement) {
-		return achievementXPositions.get(achievement);
+		if (isClient)
+			return achievementXPositions.get(achievement);
+		else
+			return 0;
 	}
 
 	public static int getAchievementYPosition(String achievement) {
-		return achievementYPositions.get(achievement);
+		if (isClient)
+			return achievementYPositions.get(achievement);
+		else
+			return 0;
 	}
 
 	@SideOnly(Side.CLIENT)
-	public static List<IConfigElement> getDisplayCategory() {
-		return new ConfigElement(configStorage.getCategory(CAT_DISPLAY)).getChildElements();
+	public static List<IConfigElement> getMiscCategory() {
+		return new ConfigElement(configStorage.getCategory(CAT_MISC)).getChildElements();
+	}
+
+	@SideOnly(Side.CLIENT)
+	public static List<IConfigElement> getBrainStoneLifeCapacitorCategory() {
+		return new ConfigElement(configStorage.getCategory(CAT_BSLC)).getChildElements();
 	}
 
 	@SideOnly(Side.CLIENT)
 	public static List<IConfigElement> getWorldgenCategory() {
 		return new ConfigElement(configStorage.getCategory(CAT_GEN)).getChildElements();
-	}
-
-	@SideOnly(Side.CLIENT)
-	public static List<IConfigElement> getBrainStoneLiveCapacitorCategory() {
-		return new ConfigElement(configStorage.getCategory(CAT_BSLC)).getChildElements();
 	}
 }

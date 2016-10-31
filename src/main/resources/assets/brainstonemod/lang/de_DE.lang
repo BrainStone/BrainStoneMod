@@ -51,12 +51,15 @@ gui.brainstone.classic=Klassik
 gui.brainstone.simple=Einfach
 gui.brainstone.proportional=Proportional
 gui.brainstone.inverted=Invertiert
-gui.brainstone.config.cat.display=Anzeige
-gui.brainstone.config.cat.display.tooltip=Modifiziere alle Anzeige-Einstellungen
+
+gui.brainstone.config.cat.miscellaneous=Sonstige
+gui.brainstone.config.cat.miscellaneous.tooltip=Modifiziere alle sonstigen Einstellungen
+
+gui.brainstone.config.cat.brainstonelifecapacitor=Hirnsteinlebenskondensator
+gui.brainstone.config.cat.brainstonelifecapacitor.tooltip=Modifiziere alle Hirnsteinlebenskondensator-Einstellungen
+
 gui.brainstone.config.cat.worldgen=Generierung
 gui.brainstone.config.cat.worldgen.tooltip=Modifiziere alle Generierungs-Einstellungen
-gui.brainstone.config.cat.brainstonelivecapacitor=Hirnsteinlebenskondensator
-gui.brainstone.config.cat.brainstonelivecapacitor.tooltip=Modifiziere alle Hirnsteinlebenskondensator-Einstellungen
 
 nei.recipe.capacitorupgrade=Kondensator Aufwertung
 
@@ -83,4 +86,4 @@ enderio.darksteel.upgrade.brainstone.tooltip.detailed.line2=Pulsierenden Hirnste
 enderio.darksteel.upgrade.brainstone.tooltip.detailed.line3=Upgrade auf allen Rüstungsteilen ist
 
 material.brainstone.name=Hirnstein
-material.stablepulsatingbrainstone.name=Stabiler Pulsierender Hirnstein
+material.stablepulsatingbrainstone.name=S.P. Hirnstein

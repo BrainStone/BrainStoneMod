@@ -1,17 +1,19 @@
 package brainstonemod.common.api.tconstruct;
 
-import static slimeknights.tconstruct.library.materials.MaterialTypes.*;
-import static slimeknights.tconstruct.tools.TinkerTraits.*;
+import static slimeknights.tconstruct.library.materials.MaterialTypes.EXTRA;
+import static slimeknights.tconstruct.library.materials.MaterialTypes.HANDLE;
+import static slimeknights.tconstruct.library.materials.MaterialTypes.HEAD;
+import static slimeknights.tconstruct.tools.TinkerTraits.alien;
+import static slimeknights.tconstruct.tools.TinkerTraits.magnetic;
+import static slimeknights.tconstruct.tools.TinkerTraits.magnetic2;
+import static slimeknights.tconstruct.tools.TinkerTraits.momentum;
+import static slimeknights.tconstruct.tools.TinkerTraits.unnatural;
+import static slimeknights.tconstruct.tools.TinkerTraits.writable;
 
 import brainstonemod.BrainStone;
 import lombok.experimental.UtilityClass;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.Optional;
-import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.materials.BowMaterialStats;
 import slimeknights.tconstruct.library.materials.ExtraMaterialStats;
@@ -19,7 +21,6 @@ import slimeknights.tconstruct.library.materials.HandleMaterialStats;
 import slimeknights.tconstruct.library.materials.HeadMaterialStats;
 import slimeknights.tconstruct.library.materials.Material;
 import slimeknights.tconstruct.tools.TinkerMaterials;
-import slimeknights.tconstruct.tools.TinkerTools;
 
 @UtilityClass
 public class TinkersContructMaterialBrainStone {

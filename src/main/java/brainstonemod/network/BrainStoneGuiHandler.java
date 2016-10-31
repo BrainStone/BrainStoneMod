@@ -23,6 +23,8 @@ public class BrainStoneGuiHandler implements IGuiHandler {
 			case 1:
 				if (entity instanceof TileEntityBrainStoneTrigger)
 					return new ContainerBrainStoneTrigger(player.inventory, (TileEntityBrainStoneTrigger) entity);
+			default:
+				return null;
 			}
 
 		return null;

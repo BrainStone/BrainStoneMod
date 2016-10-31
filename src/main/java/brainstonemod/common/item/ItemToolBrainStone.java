@@ -23,6 +23,9 @@ import scala.reflect.internal.Trees.If;
 import java.util.Set;
 
 public class ItemToolBrainStone extends ItemTool {
+	private final int typeId;
+	private final String toolClass;
+
 	/**
 	 * Determines which blocksEffectiveAgainst will be chosen.
 	 * 
@@ -94,9 +97,6 @@ public class ItemToolBrainStone extends ItemTool {
 
 		return -1;
 	}
-
-	private final int typeId;
-	private final String toolClass;
 
 	/**
 	 * Creates a tool for the BrainStoneMod (Uses several hooks special designed
