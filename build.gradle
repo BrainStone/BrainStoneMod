@@ -104,6 +104,14 @@ minecraft {
     useDepAts = true
 }
 
+sourceSets {
+  main {
+    java {
+      include '**/lombok.config'
+    }
+  }
+}
+
 repositories{
     maven { // JEI, Natura, Mantle, TiCon
         url "http://dvs1.progwml6.com/files/maven"
