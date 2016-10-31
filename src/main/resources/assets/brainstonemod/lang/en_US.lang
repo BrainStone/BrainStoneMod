@@ -51,10 +51,13 @@ gui.brainstone.classic=Classic
 gui.brainstone.simple=Simple
 gui.brainstone.proportional=Proportional
 gui.brainstone.inverted=Inverted
-gui.brainstone.config.cat.display=Display
+
 gui.brainstone.config.cat.miscellaneous=Miscellaneous
 gui.brainstone.config.cat.miscellaneous.tooltip=Modify all the miscellaneous settings
-gui.brainstone.config.cat.brainstonelivecapacitor.tooltip=Modify all the settings related to the Brain Stone Life Capacitor
+
+gui.brainstone.config.cat.brainstonelifecapacitor=Brain Stone Life Capacitor
+gui.brainstone.config.cat.brainstonelifecapacitor.tooltip=Modify all the settings related to the Brain Stone Life Capacitor
+
 gui.brainstone.config.cat.worldgen=Worldgen
 gui.brainstone.config.cat.worldgen.tooltip=Modify all the settings related to the worldgen
 

@@ -51,10 +51,13 @@ gui.brainstone.classic=Klassik
 gui.brainstone.simple=Einfach
 gui.brainstone.proportional=Proportional
 gui.brainstone.inverted=Invertiert
+
 gui.brainstone.config.cat.miscellaneous=Sonstige
 gui.brainstone.config.cat.miscellaneous.tooltip=Modifiziere alle sonstigen Einstellungen
-gui.brainstone.config.cat.brainstonelivecapacitor=Hirnsteinlebenskondensator
-gui.brainstone.config.cat.brainstonelivecapacitor.tooltip=Modifiziere alle Hirnsteinlebenskondensator-Einstellungen
+
+gui.brainstone.config.cat.brainstonelifecapacitor=Hirnsteinlebenskondensator
+gui.brainstone.config.cat.brainstonelifecapacitor.tooltip=Modifiziere alle Hirnsteinlebenskondensator-Einstellungen
+
 gui.brainstone.config.cat.worldgen=Generierung
 gui.brainstone.config.cat.worldgen.tooltip=Modifiziere alle Generierungs-Einstellungen
 
