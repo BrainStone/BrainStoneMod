@@ -7,8 +7,8 @@ import java.util.UUID;
 import baubles.api.BaublesApi;
 import brainstonemod.BrainStone;
 import brainstonemod.common.api.BrainStoneModules;
+import brainstonemod.common.config.BrainStoneConfigWrapper;
 import brainstonemod.common.helper.BSP;
-import brainstonemod.common.helper.BrainStoneConfigHelper;
 import brainstonemod.common.helper.BrainStoneDamageHelper;
 import brainstonemod.common.item.energy.EnergyContainerItemWrapper;
 import brainstonemod.common.item.energy.IEnergyContainerItem;
@@ -145,7 +145,7 @@ public class BrainStoneEventHandler {
 	@SubscribeEvent
 	public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
 		if (eventArgs.getModID().equals(BrainStone.MOD_ID)) {
-			BrainStoneConfigHelper.loadConfig();
+			BrainStoneConfigWrapper.loadConfig();
 
 			ItemBrainStoneLifeCapacitor.updateRFperHalfHeart();
 		}
@@ -213,7 +213,7 @@ public class BrainStoneEventHandler {
 	@SubscribeEvent
 	public void onEntityLoot(LivingDropsEvent event) {
 		if (event.getEntity() instanceof EntityWither) {
-			final double chance = Math.pow(1.0 - BrainStoneConfigHelper.getEssenceOfLifeBaseChance(),
+			final double chance = Math.pow(1.0 - BrainStoneConfigWrapper.getEssenceOfLifeBaseChance(),
 					event.getLootingLevel() + 1);
 
 			if ((new Random()).nextDouble() >= chance)

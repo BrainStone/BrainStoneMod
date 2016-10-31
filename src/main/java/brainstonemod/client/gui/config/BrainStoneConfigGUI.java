@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import brainstonemod.BrainStone;
-import brainstonemod.common.helper.BrainStoneConfigHelper;
+import brainstonemod.common.config.BrainStoneConfigWrapper;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.client.config.DummyConfigElement;
 import net.minecraftforge.fml.client.config.GuiConfig;
@@ -20,11 +20,11 @@ public class BrainStoneConfigGUI extends GuiConfig {
 		List<IConfigElement> list = new ArrayList<>();
 
 		// Add categories to config GUI
-		list.add(categoryElement(BrainStoneConfigHelper.getMiscCategory(), "Miscellaneous",
+		list.add(categoryElement(BrainStoneConfigWrapper.getMiscCategory(), "Miscellaneous",
 				"gui.brainstone.config.cat.miscellaneous"));
-		list.add(categoryElement(BrainStoneConfigHelper.getBrainStoneLifeCapacitorCategory(), "BrainStoneLifeCapacitor",
+		list.add(categoryElement(BrainStoneConfigWrapper.getBrainStoneLifeCapacitorCategory(), "BrainStoneLifeCapacitor",
 				"gui.brainstone.config.cat.brainstonelifecapacitor"));
-		list.add(categoryElement(BrainStoneConfigHelper.getWorldgenCategory(), "Worldgen",
+		list.add(categoryElement(BrainStoneConfigWrapper.getWorldgenCategory(), "Worldgen",
 				"gui.brainstone.config.cat.worldgen"));
 
 		return list;
