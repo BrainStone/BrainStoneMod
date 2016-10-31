@@ -16,8 +16,8 @@ import org.lwjgl.input.Keyboard;
 import baubles.api.BaubleType;
 import baubles.api.IBauble;
 import brainstonemod.BrainStone;
+import brainstonemod.common.config.BrainStoneConfigWrapper;
 import brainstonemod.common.helper.BSP;
-import brainstonemod.common.helper.BrainStoneConfigHelper;
 import brainstonemod.common.helper.BrainStonePowerDisplayUtil;
 import brainstonemod.common.item.template.ItemBrainStoneBase;
 import brainstonemod.network.PacketDispatcher;
@@ -47,7 +47,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @Optional.Interface(iface = "baubles.api.IBauble", modid = "Baubles|API")
 public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements IEnergyContainerItem, IBauble {
 	public static final int MaxDamage = 32;
-	public static long RFperHalfHeart = BrainStoneConfigHelper.BSLC_RFperHalfHeart();
+	public static long RFperHalfHeart = BrainStoneConfigWrapper.getBSLCRFperHalfHeart();
 	/**
 	 * The maximum level for any type. The limit is calculated by dividing the
 	 * energy limit of 1 000 000 000 000 RF through the RFperHalfHeart * 10
@@ -59,7 +59,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	private final ItemStack base = new ItemStack(this);
 
 	public static void updateRFperHalfHeart() {
-		RFperHalfHeart = BrainStoneConfigHelper.BSLC_RFperHalfHeart();
+		RFperHalfHeart = BrainStoneConfigWrapper.getBSLCRFperHalfHeart();
 		MaxLevel = (int) (1000000000000L / (RFperHalfHeart * 10));
 	}
 
@@ -114,11 +114,12 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack container, EntityPlayer player, List<String> list, boolean advancedToolTipInfo) {
+	public void addInformation(ItemStack container, EntityPlayer player, List<String> list,
+			boolean advancedToolTipInfo) {
 		boolean sneak = Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak.getKeyCode());
 		boolean correctOwner = isCurrentOwner(container, player.getUniqueID());
 		boolean canClaim = !correctOwner && isNotFormerOwner(container, player.getUniqueID())
-				&& (BrainStoneConfigHelper.BSLC_allowStealing() || !hasOwner(container));
+				&& (BrainStoneConfigWrapper.getBSLCallowStealing() || !hasOwner(container));
 
 		if (sneak) {
 			list.add(
@@ -174,7 +175,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 
 			if (!isCurrentOwner(stack, playerUUID)) {
 				if (isNotFormerOwner(stack, playerUUID)) {
-					if (BrainStoneConfigHelper.BSLC_allowStealing() || !hasOwner(stack)) {
+					if (BrainStoneConfigWrapper.getBSLCallowStealing() || !hasOwner(stack)) {
 						UUID capacitorUUID = getUUID(stack);
 
 						PCmapping.updateMapping(playerUUID, capacitorUUID);

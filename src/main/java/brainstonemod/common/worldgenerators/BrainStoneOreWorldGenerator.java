@@ -1,7 +1,7 @@
 package brainstonemod.common.worldgenerators;
 
 import brainstonemod.BrainStone;
-import brainstonemod.common.helper.BrainStoneConfigHelper;
+import brainstonemod.common.config.BrainStoneConfigWrapper;
 import net.minecraft.block.Block;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -30,7 +30,7 @@ public class BrainStoneOreWorldGenerator implements IWorldGenerator {
 		this.chunkX = chunkX * 16;
 		this.chunkZ = chunkZ * 16;
 		this.world = world;
-		if (ArrayUtils.contains(BrainStoneConfigHelper.getBrainStoneOreDims(), this.world.provider.getDimension()))
+		if (ArrayUtils.contains(BrainStoneConfigWrapper.getBrainStoneOreDims(), this.world.provider.getDimension()))
 			this.genMinable(BrainStone.brainStoneOre(), 20, 1, 32);
 	}
 

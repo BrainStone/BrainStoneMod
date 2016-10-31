@@ -20,9 +20,9 @@ import brainstonemod.common.block.BlockBrainStoneOre;
 import brainstonemod.common.block.BlockBrainStoneTrigger;
 import brainstonemod.common.block.BlockPulsatingBrainStone;
 import brainstonemod.common.block.template.BlockBrainStoneBase;
+import brainstonemod.common.config.BrainStoneConfigWrapper;
 import brainstonemod.common.handler.BrainStoneEventHandler;
 import brainstonemod.common.helper.BSP;
-import brainstonemod.common.helper.BrainStoneConfigHelper;
 import brainstonemod.common.helper.BrainStoneJarUtils;
 import brainstonemod.common.helper.BrainStoneLifeCapacitorUpgrade;
 import brainstonemod.common.item.ItemArmorBrainStone;
@@ -231,7 +231,7 @@ public class BrainStone {
 
 		BrainStoneModules.detectModules();
 
-		BrainStoneConfigHelper.loadConfig(new Configuration(event.getSuggestedConfigurationFile()));
+		BrainStoneConfigWrapper.loadConfig(new Configuration(event.getSuggestedConfigurationFile()));
 		generateMcModInfoFile(event);
 		createEnums();
 		generateBlocksAndItems();
@@ -629,30 +629,30 @@ public class BrainStone {
 		String curAch;
 
 		achievements.put(curAch = "WTHIT",
-				(new Achievement(curAch, curAch, BrainStoneConfigHelper.getAchievementYPosition(curAch),
-						BrainStoneConfigHelper.getAchievementXPosition(curAch), brainStoneDust(),
+				(new Achievement(curAch, curAch, BrainStoneConfigWrapper.getAchievementYPosition(curAch),
+						BrainStoneConfigWrapper.getAchievementXPosition(curAch), brainStoneDust(),
 						AchievementList.BUILD_BETTER_PICKAXE)).registerStat());
 		achievements
 				.put(curAch = "itLives",
-						(new Achievement(curAch, curAch, BrainStoneConfigHelper.getAchievementYPosition(curAch),
-								BrainStoneConfigHelper.getAchievementXPosition(curAch), brainStone(), WTHIT()))
+						(new Achievement(curAch, curAch, BrainStoneConfigWrapper.getAchievementYPosition(curAch),
+								BrainStoneConfigWrapper.getAchievementXPosition(curAch), brainStone(), WTHIT()))
 										.registerStat());
 		achievements.put(curAch = "intelligentBlocks",
-				(new Achievement(curAch, curAch, BrainStoneConfigHelper.getAchievementYPosition(curAch),
-						BrainStoneConfigHelper.getAchievementXPosition(curAch), brainLightSensor(), itLives()))
+				(new Achievement(curAch, curAch, BrainStoneConfigWrapper.getAchievementYPosition(curAch),
+						BrainStoneConfigWrapper.getAchievementXPosition(curAch), brainLightSensor(), itLives()))
 								.registerStat());
 		achievements.put(curAch = "intelligentTools",
-				(new Achievement(curAch, curAch, BrainStoneConfigHelper.getAchievementYPosition(curAch),
-						BrainStoneConfigHelper.getAchievementXPosition(curAch), brainStonePickaxe(), itLives()))
+				(new Achievement(curAch, curAch, BrainStoneConfigWrapper.getAchievementYPosition(curAch),
+						BrainStoneConfigWrapper.getAchievementXPosition(curAch), brainStonePickaxe(), itLives()))
 								.registerStat());
 		achievements.put(curAch = "lifeCapacitor",
-				(new Achievement(curAch, curAch, BrainStoneConfigHelper.getAchievementYPosition(curAch),
-						BrainStoneConfigHelper.getAchievementXPosition(curAch), brainStoneLifeCapacitor(),
+				(new Achievement(curAch, curAch, BrainStoneConfigWrapper.getAchievementYPosition(curAch),
+						BrainStoneConfigWrapper.getAchievementXPosition(curAch), brainStoneLifeCapacitor(),
 						intelligentTools())).setSpecial().registerStat());
 
 		BrainStoneModules.addAchievement();
 
-		if (BrainStoneConfigHelper.enableAchievementPage()) {
+		if (BrainStoneConfigWrapper.getEnableAchievementPage()) {
 			AchievementPage.registerAchievementPage(new AchievementPage("Brain Stone Mod",
 					achievements.values().toArray(new Achievement[achievements.size()])));
 		}
@@ -704,7 +704,7 @@ public class BrainStone {
 	}
 
 	public static final CreativeTabs getCreativeTab(CreativeTabs defaultTab) {
-		if (BrainStoneConfigHelper.enableCreativeTab()) {
+		if (BrainStoneConfigWrapper.getEnableCreativeTab()) {
 			if (tabBrainStoneMod == null)
 				tabBrainStoneMod = new BrainStoneModCreativeTab();
 

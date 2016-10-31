@@ -1,14 +1,15 @@
 package brainstonemod.common.worldgenerators;
 
-import brainstonemod.common.helper.BrainStoneConfigHelper;
+import java.util.Random;
+
+import org.apache.commons.lang3.ArrayUtils;
+
+import brainstonemod.common.config.BrainStoneConfigWrapper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkGenerator;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.fml.common.IWorldGenerator;
-import org.apache.commons.lang3.ArrayUtils;
-
-import java.util.Random;
 
 public class BrainStoneHouseWorldGenerator implements IWorldGenerator {
 	/** Temporary storage of the random parameter in generate */
@@ -35,7 +36,7 @@ public class BrainStoneHouseWorldGenerator implements IWorldGenerator {
 		this.chunkX = chunkX * 16;
 		this.chunkZ = chunkZ * 16;
 		this.world = world;
-		if (ArrayUtils.contains(BrainStoneConfigHelper.getBrainStoneHouseDims(), this.world.provider.getDimension()))
+		if (ArrayUtils.contains(BrainStoneConfigWrapper.getBrainStoneHouseDims(), this.world.provider.getDimension()))
 			genBrainStoneDungeon();
 	}
 }
