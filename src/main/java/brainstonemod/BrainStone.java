@@ -13,6 +13,7 @@ import brainstonemod.client.handler.BrainStoneClientEvents;
 import brainstonemod.client.render.BSTriggerModel;
 import brainstonemod.common.CommonProxy;
 import brainstonemod.common.api.BrainStoneModules;
+import brainstonemod.common.api.draconicevolution.DraconicEvolutionItems;
 import brainstonemod.common.api.enderio.EnderIOItems;
 import brainstonemod.common.block.BlockBrainLightSensor;
 import brainstonemod.common.block.BlockBrainStone;
@@ -466,34 +467,16 @@ public class BrainStone {
 		GameRegistry.addRecipe(new BrainStoneLifeCapacitorUpgrade(BrainStoneLifeCapacitorUpgrade.Upgrade.CAPACITY));
 		GameRegistry.addRecipe(new BrainStoneLifeCapacitorUpgrade(BrainStoneLifeCapacitorUpgrade.Upgrade.CHARGING));
 
-		// TODO: Test this with energy without EnderIO and make sure this isn't
-		// a problem.
-		// TODO: rework the recipe since the hearts from TiCon no longer exist.
 		Object craftingS = (BrainStoneModules.enderIO()) ? EnderIOItems.getSentientEnder()
 				: new ItemStack(Items.SKULL, 1, 1);
 		Object craftingX = (BrainStoneModules.enderIO()) ? EnderIOItems.getXPRod() : Items.BLAZE_ROD;
 		Object craftingC = (BrainStoneModules.enderIO()) ? EnderIOItems.getOctadicCapacitor() : "dustRedstone";
-		Object craftingH = new ItemStack(Items.GOLDEN_APPLE, 1, 1);
+		Object craftingH = (BrainStoneModules.draconicEvolution()) ? DraconicEvolutionItems.getDragonHeart()
+				: new ItemStack(Items.GOLDEN_APPLE, 1, 1);
 
 		BrainStone.addRecipe(new ItemStack(brainStoneLifeCapacitor(), 1), "SBX", "CHC", " P ", 'S', craftingS, 'B',
 				brainProcessor(), 'X', craftingX, 'C', craftingC, 'H', craftingH, 'P',
 				stablePulsatingBrainStonePlate());
-
-		// Heart Canister appears to no longer exist
-		/*
-		 * if (BrainStoneModules.tinkersConstruct()) {
-		 * GameRegistry.addShapelessRecipe(new
-		 * ItemStack(TinkerGadgets.heartCanister, 1, 5), new
-		 * ItemStack(pulsatingBrainStone(), 1), new ItemStack(essenceOfLife(),
-		 * 1), new ItemStack(TinkerArmor.heartCanister, 1, 3));
-		 * GameRegistry.addShapelessRecipe(new
-		 * ItemStack(TinkerArmor.heartCanister, 1, 6), new
-		 * ItemStack(TinkerArmor.heartCanister, 1, 4), new
-		 * ItemStack(TinkerArmor.heartCanister, 1, 5), new
-		 * ItemStack(pulsatingBrainStone(), 1), new ItemStack(essenceOfLife(),
-		 * 1), new ItemStack(TinkerArmor.diamondApple, 1), new
-		 * ItemStack(Items.GOLDEN_APPLE, 1, 1)); }
-		 */
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -632,11 +615,10 @@ public class BrainStone {
 				(new Achievement(curAch, curAch, BrainStoneConfigWrapper.getAchievementYPosition(curAch),
 						BrainStoneConfigWrapper.getAchievementXPosition(curAch), brainStoneDust(),
 						AchievementList.BUILD_BETTER_PICKAXE)).registerStat());
-		achievements
-				.put(curAch = "itLives",
-						(new Achievement(curAch, curAch, BrainStoneConfigWrapper.getAchievementYPosition(curAch),
-								BrainStoneConfigWrapper.getAchievementXPosition(curAch), brainStone(), WTHIT()))
-										.registerStat());
+		achievements.put(curAch = "itLives",
+				(new Achievement(curAch, curAch, BrainStoneConfigWrapper.getAchievementYPosition(curAch),
+						BrainStoneConfigWrapper.getAchievementXPosition(curAch), brainStone(), WTHIT()))
+								.registerStat());
 		achievements.put(curAch = "intelligentBlocks",
 				(new Achievement(curAch, curAch, BrainStoneConfigWrapper.getAchievementYPosition(curAch),
 						BrainStoneConfigWrapper.getAchievementXPosition(curAch), brainLightSensor(), itLives()))

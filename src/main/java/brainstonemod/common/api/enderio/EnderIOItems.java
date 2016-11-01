@@ -1,12 +1,11 @@
 package brainstonemod.common.api.enderio;
 
 import crazypants.enderio.ModObject;
+import lombok.experimental.UtilityClass;
 import net.minecraft.item.ItemStack;
 
+@UtilityClass
 public final class EnderIOItems {
-	private EnderIOItems() {
-	}
-
 	public static final ItemStack getSentientEnder() {
 		return new ItemStack(ModObject.itemFrankenSkull.getItem(), 1, 4);
 	}
