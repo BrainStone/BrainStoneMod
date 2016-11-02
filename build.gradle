@@ -1,8 +1,7 @@
-import groovyx.net.http.HTTPBuilder
-import static groovyx.net.http.Method.*
 import static groovyx.net.http.ContentType.*
+import static groovyx.net.http.Method.*
 
-import groovy.json.*
+import groovyx.net.http.HTTPBuilder
 
 buildscript {
     repositories {
@@ -102,14 +101,6 @@ minecraft {
     replace '${version}', project.version
     mappings = "snapshot_20160518"
     useDepAts = true
-}
-
-sourceSets {
-    main {
-        java {
-            include '**/lombok.config'
-        }
-    }
 }
 
 repositories{
