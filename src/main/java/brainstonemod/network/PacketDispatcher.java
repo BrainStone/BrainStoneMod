@@ -2,6 +2,7 @@ package brainstonemod.network;
 
 import brainstonemod.BrainStone;
 import brainstonemod.network.packet.clientbound.PacketCapacitorData;
+import brainstonemod.network.packet.clientbound.PacketOverrideClientSettings;
 import brainstonemod.network.packet.clientbound.PacketRedoRender;
 import brainstonemod.network.packet.clientbound.PacketSmokeParticle;
 import brainstonemod.network.packet.clientbound.PacketSyncChangeDirection;
@@ -19,6 +20,7 @@ import brainstonemod.network.packet.serverbound.PacketDisableMobs;
 import brainstonemod.network.packet.serverbound.PacketEnableMobs;
 import brainstonemod.network.packet.serverbound.PacketInvertMobTriggered;
 import brainstonemod.network.packet.serverbound.PacketLightSensor;
+import brainstonemod.network.packet.serverbound.PacketRequestOverrides;
 import brainstonemod.network.packet.serverbound.PacketSetMaxDelay;
 import brainstonemod.network.packet.serverbound.PacketSetMobTriggered;
 import net.minecraft.entity.player.EntityPlayer;
@@ -38,6 +40,8 @@ public class PacketDispatcher {
 	private static final SimpleNetworkWrapper dispatcher = NetworkRegistry.INSTANCE.newSimpleChannel(BrainStone.MOD_ID);
 
 	public static final void registerPackets() {
+		registerMessage(PacketOverrideClientSettings.Handler.class, PacketOverrideClientSettings.class, Side.CLIENT);
+		registerMessage(PacketRequestOverrides.Handler.class, PacketRequestOverrides.class, Side.SERVER);
 		registerMessage(PacketSmokeParticle.Handler.class, PacketSmokeParticle.class, Side.CLIENT);
 		registerMessage(PacketCapacitorData.Handler.class, PacketCapacitorData.class, Side.CLIENT);
 		registerMessage(PacketRedoRender.Handler.class, PacketRedoRender.class, Side.CLIENT);

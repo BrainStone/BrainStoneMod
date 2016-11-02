@@ -29,7 +29,6 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.client.FMLClientHandler;
-import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
@@ -139,15 +138,6 @@ public class BrainStoneEventHandler {
 	public void itemSmelted(ItemSmeltedEvent event) {
 		if (Block.getBlockFromItem(event.smelting.getItem()) == BrainStone.brainStone()) {
 			event.player.addStat(BrainStone.itLives(), 1);
-		}
-	}
-
-	@SubscribeEvent
-	public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
-		if (eventArgs.getModID().equals(BrainStone.MOD_ID)) {
-			BrainStoneConfigWrapper.loadConfig();
-
-			ItemBrainStoneLifeCapacitor.updateRFperHalfHeart();
 		}
 	}
 

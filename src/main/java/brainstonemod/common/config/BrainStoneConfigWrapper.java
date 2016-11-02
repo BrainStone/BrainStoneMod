@@ -1,12 +1,16 @@
 package brainstonemod.common.config;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import brainstonemod.common.api.BrainStoneModules;
+import brainstonemod.common.helper.BSP;
 import lombok.Getter;
+import lombok.experimental.UtilityClass;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
@@ -15,6 +19,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+@UtilityClass
 public class BrainStoneConfigWrapper {
 	public static final String CAT_MISC = "miscellaneous";
 	public static final String CAT_BSLC = "brainstonelifecapacitor";
@@ -34,15 +39,33 @@ public class BrainStoneConfigWrapper {
 	@Getter
 	private static int[] brainStoneHouseDims;
 	@Getter
+	@ServerOverride
 	private static boolean BSLCallowStealing;
 	@Getter
+	@ServerOverride
 	private static long BSLCRFperHalfHeart;
 	/** The X positions of the achievements */
 	@SideOnly(Side.CLIENT)
-	protected static Map<String, Integer> achievementXPositions;
+	private static Map<String, Integer> achievementXPositions;
 	@SideOnly(Side.CLIENT)
 	/** The Y positions of the achievements */
-	protected static Map<String, Integer> achievementYPositions;
+	private static Map<String, Integer> achievementYPositions;
+
+	public static Map<String, Object> getOverrideValues() {
+		Map<String, Object> values = new HashMap<>();
+
+		for (Field field : BrainStoneConfigWrapper.class.getDeclaredFields()) {
+			if (field.isAnnotationPresent(ServerOverride.class)) {
+				try {
+					values.put(field.getName(), field.get(null));
+				} catch (IllegalArgumentException | IllegalAccessException e) {
+					BSP.fatalException(e);
+				}
+			}
+		}
+
+		return values;
+	}
 
 	public static void loadConfig() {
 		loadMiscellaneousSettings();
@@ -79,7 +102,7 @@ public class BrainStoneConfigWrapper {
 	private static void loadBrainStoneLifeCapacitorSettings() {
 		BSLCallowStealing = getBoolean(CAT_BSLC, "AllowStealing", false,
 				"Do you want to allow the stealing of the BrainStoneLifeCapacitor?");
-		BSLCRFperHalfHeart = getInt(CAT_BSLC, "RFperHalfHeart", 1000000, 1, Integer.MAX_VALUE,
+		BSLCRFperHalfHeart = getInt(CAT_BSLC, "RFperHalfHeart", 1000000, 100, Integer.MAX_VALUE,
 				"How much energy half a heart should cost.");
 
 		addCustomCategoryComment(CAT_BSLC, "This set defines the behavior of the BrainStoneLifeCapacitor");

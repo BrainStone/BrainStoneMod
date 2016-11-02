@@ -27,9 +27,9 @@ public final class BSP {
 			+ "   There occured an error in the BrainStoneMod!   \n"
 			+ "   Please send the error log to the developer.    \n"
 			+ "   This is important if you want the error to be  \n"
-			+ "  fixed. To send the log to me, just send a email \n"
-			+ "         with the file of the error log to        \n"
-			+ "                yannick@tedworld.de               \n\n"
+			+ "   fixed. To send the log to me, just create an   \n"
+			+ "                 issue at GitHub:                 \n"
+			+ " https://github.com/BrainStone/brainstone/issues  \n\n"
 			+ "              Thank you for your help!            \n"
 			+ "==================================================\n"
 			+ "==================================================\n";

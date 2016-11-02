@@ -16,6 +16,7 @@ import org.lwjgl.input.Keyboard;
 import baubles.api.BaubleType;
 import baubles.api.IBauble;
 import brainstonemod.BrainStone;
+import brainstonemod.client.config.BrainStoneClientConfigWrapper;
 import brainstonemod.common.config.BrainStoneConfigWrapper;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.helper.BrainStonePowerDisplayUtil;
@@ -47,20 +48,30 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @Optional.Interface(iface = "baubles.api.IBauble", modid = "Baubles|API")
 public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements IEnergyContainerItem, IBauble {
 	public static final int MaxDamage = 32;
-	public static long RFperHalfHeart = BrainStoneConfigWrapper.getBSLCRFperHalfHeart();
+	public static long RFperHalfHeart;
 	/**
 	 * The maximum level for any type. The limit is calculated by dividing the
 	 * energy limit of 1 000 000 000 000 RF through the RFperHalfHeart * 10
 	 */
-	public static int MaxLevel = (int) (1000000000000L / (RFperHalfHeart * 10));
+	public static int MaxLevel;
 
 	private PlayerCapacitorMapping PCmapping;
 
 	private final ItemStack base = new ItemStack(this);
 
-	public static void updateRFperHalfHeart() {
-		RFperHalfHeart = BrainStoneConfigWrapper.getBSLCRFperHalfHeart();
+	static {
+		updateRFperHalfHeart(BrainStoneConfigWrapper.getBSLCRFperHalfHeart());
+	}
+
+	private static void updateRFperHalfHeart(long newRFperHalfHeart) {
+		RFperHalfHeart = newRFperHalfHeart;
 		MaxLevel = (int) (1000000000000L / (RFperHalfHeart * 10));
+		// TODO: Refresh the items in JEI
+	}
+
+	@SideOnly(Side.CLIENT)
+	public static void updateRFperHalfHeart() {
+		updateRFperHalfHeart(BrainStoneClientConfigWrapper.getBSLCRFperHalfHeart());
 	}
 
 	public ItemBrainStoneLifeCapacitor() {
@@ -119,7 +130,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 		boolean sneak = Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak.getKeyCode());
 		boolean correctOwner = isCurrentOwner(container, player.getUniqueID());
 		boolean canClaim = !correctOwner && isNotFormerOwner(container, player.getUniqueID())
-				&& (BrainStoneConfigWrapper.getBSLCallowStealing() || !hasOwner(container));
+				&& (BrainStoneClientConfigWrapper.getBSLCallowStealing() || !hasOwner(container));
 
 		if (sneak) {
 			list.add(

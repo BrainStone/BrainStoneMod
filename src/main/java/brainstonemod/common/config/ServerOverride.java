@@ -1,4 +1,4 @@
-package brainstonemod.common.api;
+package brainstonemod.common.config;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -7,15 +7,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation to mark module getters so that they can be easily found!
+ * Use this annotation to mark all fields which need to be overridden on the
+ * client.
  * 
  * @author BrainStone
  */
-@Target(ElementType.METHOD)
+@Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Module {
-	String message();
-
-	Class<? extends IModIntegration> integration() default IModIntegration.class;
+public @interface ServerOverride {
 }

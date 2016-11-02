@@ -339,6 +339,7 @@ public class BrainStone {
 	 */
 	public static void onPlayerJoinServer(EntityPlayer player, PlayerLoggedInEvent event) {
 		BrainStonePacketHelper.sendBrainStoneTriggerMobInformationPacketToPlayer(player);
+		BrainStonePacketHelper.sendServerOverridesPacket(player);
 	}
 
 	/**
