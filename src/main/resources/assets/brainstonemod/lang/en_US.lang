@@ -78,6 +78,7 @@ gui.brainstone.config.cat.worldgen.brainstoneoredimensionswhitelist.tooltip=In w
 nei.recipe.capacitorupgrade=Capacitor Upgrade
 
 capacitor.owner=Owner:
+capacitor.nobody=Nobody
 capacitor.you= (You)
 capacitor.claim= (Shift-R-Click to claim)
 capacitor.summary=Absorbs all damage while powered.

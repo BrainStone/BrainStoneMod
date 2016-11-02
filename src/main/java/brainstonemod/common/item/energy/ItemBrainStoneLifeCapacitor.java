@@ -614,7 +614,8 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 			NBTTagCompound playerNameCache = map.getCompoundTag("playerNameCache");
 
 			if (!playerNameCache.hasKey(player))
-				return (colorCode ? (TextFormatting.DARK_AQUA + "" + TextFormatting.ITALIC) : "") + "<Nobody>";
+				return (colorCode ? (TextFormatting.DARK_AQUA + "" + TextFormatting.ITALIC) : "") + '<'
+						+ BrainStone.proxy.format("capacitor.nobody") + '>';
 
 			return (colorCode ? TextFormatting.AQUA : "") + playerNameCache.getString(player);
 		}

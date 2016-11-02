@@ -78,6 +78,7 @@ gui.brainstone.config.cat.worldgen.brainstoneoredimensionswhitelist.tooltip=In w
 nei.recipe.capacitorupgrade=Kondensator Aufwertung
 
 capacitor.owner=Besitzer:
+capacitor.nobody=Niemand
 capacitor.you= (Du)
 capacitor.claim= (Shift-R-Click für Besitzergreifung)
 capacitor.summary=Absorbiert allen Schaden, so lange Energie vorhanden ist.
