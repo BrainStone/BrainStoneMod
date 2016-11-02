@@ -102,17 +102,17 @@ public class BrainStoneConfigWrapper {
 	private static void loadBrainStoneLifeCapacitorSettings() {
 		BSLCallowStealing = getBoolean(CAT_BSLC, "AllowStealing", false,
 				"Do you want to allow the stealing of the BrainStoneLifeCapacitor?");
-		BSLCRFperHalfHeart = getInt(CAT_BSLC, "RFperHalfHeart", 1000000, 100, Integer.MAX_VALUE,
-				"How much energy half a heart should cost.");
+		BSLCRFperHalfHeart = getInt(CAT_BSLC, "RFperHalfHeart", 1000000, 200, Integer.MAX_VALUE,
+				"How much energy half a heart should cost?");
 
 		addCustomCategoryComment(CAT_BSLC, "This set defines the behavior of the BrainStoneLifeCapacitor");
 	}
 
 	private static void loadWorldgenSettings() {
 		brainStoneOreDims = getIntList(CAT_GEN, "BrainStoneOreDimensionsWhitelist", new int[] { 0, 7, -100 },
-				"In which dimensions should Brain Stone Ore be generated");
+				"In which dimensions should Brain Stone Ore be generated?");
 		brainStoneHouseDims = getIntList(CAT_GEN, "BrainStoneHouseDimensionsWhitelist", new int[] { 0 },
-				"In which dimensions should the Brain Stone House be generated");
+				"In which dimensions should the Brain Stone House be generated?");
 
 		addCustomCategoryComment(CAT_GEN, "This set defines world generation settings");
 	}

@@ -105,11 +105,11 @@ minecraft {
 }
 
 sourceSets {
-  main {
-    java {
-      include '**/lombok.config'
+    main {
+        java {
+            include '**/lombok.config'
+        }
     }
-  }
 }
 
 repositories{
@@ -131,7 +131,7 @@ repositories{
 }
 
 dependencies {
-    compile "org.projectlombok:lombok:1.16.10"
+    compileOnly "org.projectlombok:lombok:1.16.10"
     
     deobfProvided group: "mezz.jei", name: "jei_1.10.2", version: "3.13.0.335"
     deobfProvided group: "slimeknights", name: "TConstruct", version: "1.10.2-2.5.6b.jenkins425"

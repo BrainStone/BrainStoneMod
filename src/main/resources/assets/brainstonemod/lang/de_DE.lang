@@ -54,12 +54,26 @@ gui.brainstone.inverted=Invertiert
 
 gui.brainstone.config.cat.miscellaneous=Sonstige
 gui.brainstone.config.cat.miscellaneous.tooltip=Modifiziere alle sonstigen Einstellungen
+gui.brainstone.config.cat.miscellaneous.enableachievementpage=Aktiviere eigene Achievement Seite
+gui.brainstone.config.cat.miscellaneous.enableachievementpage.tooltip=Möchtest du eine eigne Achievement Seite für diese Mod haben?
+gui.brainstone.config.cat.miscellaneous.enablecreativetab=Aktiviere Kreativ Tab
+gui.brainstone.config.cat.miscellaneous.enablecreativetab.tooltip=Möchtest du einen eigene Kreativ Tab für diese Mod haben?
+gui.brainstone.config.cat.miscellaneous.essenceoflifedropchancemodifier=Essenz des Lebens Dropchancemodifizierer
+gui.brainstone.config.cat.miscellaneous.essenceoflifedropchancemodifier.tooltip=Modifiziert die Dropchance der Ezzenz des Lebens. Angabe in Prozent.\nWenn die Grundchance 50%% ist (hängt davon ab welche andere Mods geladen sind), und diesen Wert auf 20 (%%) gesetzt hast, wird die Chance zu 50%% + (50%% * 20%%) = 60%%.
 
 gui.brainstone.config.cat.brainstonelifecapacitor=Hirnsteinlebenskondensator
 gui.brainstone.config.cat.brainstonelifecapacitor.tooltip=Modifiziere alle Hirnsteinlebenskondensator-Einstellungen
+gui.brainstone.config.cat.worldgen.tooltip=Modifiziere alle Generierungs-Einstellungen
+gui.brainstone.config.cat.brainstonelifecapacitor.allowstealing=Erlaube Klauen
+gui.brainstone.config.cat.brainstonelifecapacitor.allowstealing.tooltip=Möchtest du es erlauben, dass der Hirsteinlebenskondensator geklaut werden kann?
+gui.brainstone.config.cat.brainstonelifecapacitor.rfperhalfheart=RF pro halbem Herz
+gui.brainstone.config.cat.brainstonelifecapacitor.rfperhalfheart.tooltip=Wie viel Energie sollte ein halbes Herz kosten?
 
 gui.brainstone.config.cat.worldgen=Generierung
-gui.brainstone.config.cat.worldgen.tooltip=Modifiziere alle Generierungs-Einstellungen
+gui.brainstone.config.cat.worldgen.brainstonehousedimensionswhitelist=Hirnsteinhaus-Dimensionswhitelist
+gui.brainstone.config.cat.worldgen.brainstonehousedimensionswhitelist.tooltip=In welchen Dimensionen soll das Hirnsteinhaus generiert werden?
+gui.brainstone.config.cat.worldgen.brainstoneoredimensionswhitelist=Hirnsteinerz-Dimensionswhitelis
+gui.brainstone.config.cat.worldgen.brainstoneoredimensionswhitelist.tooltip=In welchen Dimensionen soll Hirnsteinerz generiert werden?
 
 nei.recipe.capacitorupgrade=Kondensator Aufwertung
 
