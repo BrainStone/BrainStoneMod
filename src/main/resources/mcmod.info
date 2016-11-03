@@ -2,11 +2,7 @@
 {
   "modid" : "brainstonemod",
   "name" : "Brain Stone Mod",
-  "dependencies": [
-    "FML",
-    "Forge",
-    "mcp"
-  ],
+  "dependencies": [],
   "version": "${version}",
   "mcversion": "${mcversion}"  
 }

@@ -75,8 +75,6 @@ gui.brainstone.config.cat.worldgen.brainstonehousedimensionswhitelist.tooltip=In
 gui.brainstone.config.cat.worldgen.brainstoneoredimensionswhitelist=Hirnsteinerz-Dimensionswhitelis
 gui.brainstone.config.cat.worldgen.brainstoneoredimensionswhitelist.tooltip=In welchen Dimensionen soll Hirnsteinerz generiert werden?
 
-nei.recipe.capacitorupgrade=Kondensator Aufwertung
-
 capacitor.owner=Besitzer:
 capacitor.nobody=Niemand
 capacitor.you= (Du)

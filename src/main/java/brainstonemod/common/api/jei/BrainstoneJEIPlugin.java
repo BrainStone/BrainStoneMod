@@ -1,16 +1,11 @@
 package brainstonemod.common.api.jei;
 
-import javax.annotation.Nonnull;
-
 import brainstonemod.BrainStone;
-import mezz.jei.api.IJeiHelpers;
-import mezz.jei.api.IJeiRuntime;
-import mezz.jei.api.IModPlugin;
-import mezz.jei.api.IModRegistry;
-import mezz.jei.api.ISubtypeRegistry;
-import mezz.jei.api.JEIPlugin;
+import mezz.jei.api.*;
 import mezz.jei.api.ingredients.IModIngredientRegistration;
 import net.minecraft.item.ItemStack;
+
+import javax.annotation.Nonnull;
 
 @JEIPlugin
 public class BrainstoneJEIPlugin implements IModPlugin {
@@ -29,11 +24,11 @@ public class BrainstoneJEIPlugin implements IModPlugin {
 
 	@Override
 	public void registerItemSubtypes(ISubtypeRegistry subtypeRegistry) {
-		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	public void registerIngredients(IModIngredientRegistration registry) {
-		// TODO Auto-generated method stub
+
 	}
 }

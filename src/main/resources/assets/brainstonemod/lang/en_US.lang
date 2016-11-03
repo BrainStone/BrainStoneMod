@@ -75,8 +75,6 @@ gui.brainstone.config.cat.worldgen.brainstonehousedimensionswhitelist.tooltip=In
 gui.brainstone.config.cat.worldgen.brainstoneoredimensionswhitelist=Brain Stone Ore Dimensions Whitelist
 gui.brainstone.config.cat.worldgen.brainstoneoredimensionswhitelist.tooltip=In which dimensions should Brain Stone Ore be generated?
 
-nei.recipe.capacitorupgrade=Capacitor Upgrade
-
 capacitor.owner=Owner:
 capacitor.nobody=Nobody
 capacitor.you= (You)
