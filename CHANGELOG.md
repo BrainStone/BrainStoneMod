@@ -69,6 +69,7 @@ Additions:
 - Added the BrainStone Life Capacitor (Absorbs damage as long as it has power) (Equippable as a Bauble) (Has an achievement)
 - Added Stable Pulsating BrainStone (+Tools, Armor, etc)
 - Added Enable/Disable All buttons to the BrainStone Trigger GUI
+
 Changes:
 - BrainStone Ore now works with the Mining Laser from Minefactory Reloaded
 - BrainStone is now a TiCon material
@@ -92,13 +93,13 @@ Additions:
 - Added the BrainStone Life Capacitor (Absorbs damage as long as it has power) (Equippable as a Bauble)
 - Added Stable Pulsating BrainStone (+Tools, Armor, etc)
 - Added Enable/Disable All buttons to the BrainStone Trigger GUI
+
 Changes:
 - BrainStone Ore now works with the Mining Laser from Minefactory Reloaded
 - BrainStone is now a TiCon material
-- You can now configure whitelisted dimensions for BrainStone Ore and
-House
+- You can now configure whitelisted dimensions for BrainStone Ore and House
 - Brain Logic Block has been dummied out. Place it in the world and right click it to get your ingredients back.
-- Removed â€œXâ€ button from the GUIs
+- Removed "X" button from the GUIs
 - Many improvements and bug fixes.
 
 
