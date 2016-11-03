@@ -135,6 +135,8 @@ dependencies {
     }
 }
 
+sourceMainJava.source = sourceSets.main.allSource
+
 processResources {
     // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
