@@ -2,6 +2,7 @@ import static groovyx.net.http.ContentType.*
 import static groovyx.net.http.Method.*
 
 import groovyx.net.http.HTTPBuilder
+import io.franzbecker.gradle.lombok.task.DelombokTask
 
 buildscript {
     repositories {
@@ -25,6 +26,7 @@ buildscript {
 
 plugins {
     id "com.matthewprenger.cursegradle" version "1.0.8"
+    id "io.franzbecker.gradle-lombok" version "1.8"
 }
 apply plugin: 'com.github.ben-manes.versions'
 apply plugin: 'net.minecraftforge.gradle.forge'
@@ -122,8 +124,6 @@ repositories{
 }
 
 dependencies {
-    compileOnly "org.projectlombok:lombok:1.16.10"
-    
     deobfProvided group: "mezz.jei", name: "jei_1.10.2", version: "3.13.0.335"
     deobfProvided group: "slimeknights", name: "TConstruct", version: "1.10.2-2.5.6b.jenkins425"
     deobfProvided group: "slimeknights.mantle", name: "Mantle", version: "1.10.2-1.1.1.194"
@@ -135,7 +135,18 @@ dependencies {
     }
 }
 
-sourceMainJava.source = sourceSets.main.allSource
+lombok {
+    version = "1.16.10"
+    sha256 = "7e9079406585c67fe25f607c34b17fbed48da0a9bceb15c09a558444cefcef0e"
+}
+
+task delombok(type: DelombokTask) {
+    args("src/main/java", "-d", "build/sources/delomboked/java")
+}
+
+sourceMainJava {
+    source = sourceSets.main.allSource
+}
 
 processResources {
     // this will ensure that this task is redone when the versions change.
