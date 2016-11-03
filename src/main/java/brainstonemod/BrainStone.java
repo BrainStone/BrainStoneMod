@@ -569,11 +569,11 @@ public class BrainStone {
 				(new BlockBrainStoneBase(Material.ROCK)).setHardness(4.0F).setResistance(1.5F).setLightLevel(1.0F)
 						.setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.BUILDING_BLOCKS)));
 
-		blocks.get("dirtyBrainStone").blockParticleGravity = -0.1F;
-		blocks.get("dirtyBrainStone").setHarvestLevel("pickaxe", 2);
+		dirtyBrainStone().blockParticleGravity = -0.1F;
+		dirtyBrainStone().setHarvestLevel("pickaxe", 2);
 
-		blocks.get("stablePulsatingBrainStone").blockParticleGravity = -0.2F;
-		blocks.get("stablePulsatingBrainStone").setHarvestLevel("pickaxe", 4);
+		stablePulsatingBrainStone().blockParticleGravity = -0.2F;
+		stablePulsatingBrainStone().setHarvestLevel("pickaxe", 4);
 
 		// Items
 		items.put("brainStoneDust",
