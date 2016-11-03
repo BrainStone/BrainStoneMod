@@ -88,7 +88,7 @@ configFile.withReader {
     config.mod_version = getVersionName()
 }
 
-def MainDirResources = fileTree(dir: '.', includes: ['README.md', 'LICENSE'])
+def MainDirResources = fileTree(dir: '.', includes: ['README.md', 'LICENSE', 'CHANGELOG.md'])
 version = config.mod_version
 group = "brainstonemod" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "BrainStoneMod"
