@@ -208,12 +208,13 @@ curseforge {
         addArtifact srcJar
         
         relations {
+            optionalLibrary 'baubles'
+            optionalLibrary 'extra-utilities'
             optionalLibrary 'ender-io'
             optionalLibrary 'minefactory-reloaded'
-            optionalLibrary 'tinkers-construct'
-            optionalLibrary 'thermal-foundation'
             optionalLibrary 'thaumcraft'
-            optionalLibrary 'baubles'
+            optionalLibrary 'thermal-foundation'
+            optionalLibrary 'tinkers-construct'
         }
     }
 }

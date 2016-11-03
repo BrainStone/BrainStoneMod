@@ -9,6 +9,7 @@ public final class BrainStoneModules {
 	private static Boolean BAUBLES;
 	private static Boolean ENDER_IO;
 	private static Boolean ENERGY;
+	private static Boolean EXTRA_UTILITIES;
 	private static Boolean MFR;
 	private static Boolean THAUMCRAFT;
 	private static Boolean TINKERS_CONSTRUCT;
@@ -38,6 +39,15 @@ public final class BrainStoneModules {
 		}
 
 		return ENERGY;
+	}
+	
+	@Module("Detected Extra Utilities! Adding alternative watering can recipe.")
+	public static boolean extraUtilities() {
+		if (EXTRA_UTILITIES == null) {
+			EXTRA_UTILITIES = Loader.isModLoaded("EnderIO");
+		}
+
+		return EXTRA_UTILITIES;
 	}
 
 	@Module("MineFactory Reloaded detected! Adding BrainStoneOre to the MiningLaser.")
