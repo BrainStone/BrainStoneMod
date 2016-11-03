@@ -1,6 +1,7 @@
 import static groovyx.net.http.ContentType.*
 import static groovyx.net.http.Method.*
 
+import groovy.json.*
 import groovyx.net.http.HTTPBuilder
 import io.franzbecker.gradle.lombok.task.DelombokTask
 
