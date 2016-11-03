@@ -137,11 +137,9 @@ task showVersion {
         println version
         
         def versionFile = new File(buildDir, '.version');
-        def changelogFile = new File(buildDir, '.changelog');
     
         versionFile.getParentFile().mkdirs();
         versionFile.text = version;
-        changelogFile.text = getChangelog();
     }
     
     outputs.upToDateWhen { false }
@@ -196,7 +194,8 @@ curseforge {
     
     project {
         id = '250836'
-        changelog = new File(buildDir, '.changelog');
+        changelog = file('CHANGELOG.md')
+        changelogType = 'markdown'
         releaseType = getVersionType()
         addGameVersion config.minecraft_version
         addGameVersion 'Java 8'
