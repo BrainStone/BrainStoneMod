@@ -35,13 +35,17 @@ public class BrainStoneConfigHelper {
 	private static Map<String, Integer> achievementYPositions = new LinkedHashMap<>();
 
 	public static void loadConfig() {
-		loadConfig(configStorage);
+		loadConfig(null);
 	}
 
 	public static void loadConfig(Configuration config) {
-		configStorage = config;
+		if (config == null) {
+			config = configStorage;
+		} else {
+			configStorage = config;
 
-		config.load();
+			config.load();
+		}
 
 		final String str = config.getString("DisplayUpdates", CAT_DISPLAY,
 				BrainStone.DEV ? "recommended" : (BrainStone.release ? "release" : "latest"),
