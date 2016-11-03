@@ -51,7 +51,8 @@ public class PacketDispatcher {
      * @param side
      *  The side the packet will be sent to
      */
-    private static final void registerMessage(Class handlerClass, Class messageClass, Side side) {
+    @SuppressWarnings("rawtypes")
+	private static final void registerMessage(Class handlerClass, Class messageClass, Side side) {
         PacketDispatcher.dispatcher.registerMessage(handlerClass, messageClass, packetId++, side);
     }
 

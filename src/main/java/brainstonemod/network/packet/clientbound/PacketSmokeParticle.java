@@ -11,8 +11,6 @@ import java.util.Random;
 public class PacketSmokeParticle implements IMessage {
 	private int x, y, z;
 
-	private final String separator = "n";
-
 	public PacketSmokeParticle() {
 	}
 

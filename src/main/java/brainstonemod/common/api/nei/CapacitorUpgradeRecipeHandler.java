@@ -93,7 +93,6 @@ public class CapacitorUpgradeRecipeHandler extends ShapelessRecipeHandler {
 
     }
 
-    @SuppressWarnings("unchecked")
     public class CachedCapacitorRecipe extends CachedRecipe {
         public ArrayList<PositionedStack> ingredients;
         public PositionedStack result;
@@ -101,7 +100,7 @@ public class CapacitorUpgradeRecipeHandler extends ShapelessRecipeHandler {
         public CachedCapacitorRecipe(int width, int height, Object[] items, ItemStack out) {
             super();
             this.result = new PositionedStack(out, 119, 24);
-            this.ingredients = new ArrayList();
+            this.ingredients = new ArrayList<>();
             this.setIngredients(width, height, items);
         }
 

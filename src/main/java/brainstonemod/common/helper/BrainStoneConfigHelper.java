@@ -13,7 +13,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings("rawtypes")
 @UtilityClass
 public class BrainStoneConfigHelper {
 	public static final String CAT_DISPLAY = "display";
@@ -145,16 +145,16 @@ public class BrainStoneConfigHelper {
 
 	@SideOnly(Side.CLIENT)
 	public static List<IConfigElement> getDisplayCategory() {
-		return new ConfigElement(configStorage.getCategory(CAT_DISPLAY)).getChildElements();
+		return new ConfigElement<>(configStorage.getCategory(CAT_DISPLAY)).getChildElements();
 	}
 
 	@SideOnly(Side.CLIENT)
 	public static List<IConfigElement> getWorldgenCategory() {
-		return new ConfigElement(configStorage.getCategory(CAT_GEN)).getChildElements();
+		return new ConfigElement<>(configStorage.getCategory(CAT_GEN)).getChildElements();
 	}
 
 	@SideOnly(Side.CLIENT)
 	public static List<IConfigElement> getBrainStoneLiveCapacitorCategory() {
-		return new ConfigElement(configStorage.getCategory(CAT_BSLC)).getChildElements();
+		return new ConfigElement<>(configStorage.getCategory(CAT_BSLC)).getChildElements();
 	}
 }

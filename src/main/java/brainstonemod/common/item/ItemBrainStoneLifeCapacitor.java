@@ -92,6 +92,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 
 	final ItemStack base = new ItemStack(this);
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs creativeTab, List list) {
@@ -112,6 +113,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack container, EntityPlayer player, List list, boolean advancedToolTipInfo) {
@@ -571,7 +573,6 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 			}
 
 			NBTTagCompound capacitorToPlayer = map.getCompoundTag("capacitorToPlayer");
-			NBTTagCompound playerNameCache = map.getCompoundTag("playerNameCache");
 			NBTTagCompound playerToCapacitor = map.getCompoundTag("playerToCapacitor");
 
 			final String player = playerUUID.toString();

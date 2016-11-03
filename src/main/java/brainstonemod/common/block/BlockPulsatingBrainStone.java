@@ -117,8 +117,6 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 			final List<?> list = world.getEntitiesWithinAABBExcludingEntity(null,
 					AxisAlignedBB.getBoundingBox(x - 10, y - 10, z - 10, x + 11, y + 11, z + 11));
 
-			final int size = list.size();
-
 			for (Object aList : list) {
 				tmpEntity = aList;
 

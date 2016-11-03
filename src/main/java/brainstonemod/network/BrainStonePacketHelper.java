@@ -7,8 +7,6 @@ import brainstonemod.network.packet.clientbound.PacketSmokeParticle;
 import brainstonemod.network.packet.clientbound.PacketTriggerMobs;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import io.netty.channel.ChannelHandler.Sharable;
-import net.minecraft.command.IEntitySelector;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.Packet;

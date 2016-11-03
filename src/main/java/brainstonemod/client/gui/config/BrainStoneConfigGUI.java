@@ -11,6 +11,7 @@ import cpw.mods.fml.client.config.GuiConfig;
 import cpw.mods.fml.client.config.IConfigElement;
 import net.minecraft.client.gui.GuiScreen;
 
+@SuppressWarnings("rawtypes")
 public class BrainStoneConfigGUI extends GuiConfig {
 	public BrainStoneConfigGUI(GuiScreen parent) {
 		super(parent, getConfigElements(), BrainStone.MOD_ID, false, false, BrainStone.NAME + " Config");
@@ -37,6 +38,7 @@ public class BrainStoneConfigGUI extends GuiConfig {
 	 * Creates a button linking to another screen where all options of the
 	 * category are available
 	 */
+	@SuppressWarnings("unchecked")
 	private static IConfigElement categoryElement(List<IConfigElement> elements, String name, String tooltip_key) {
 		return new DummyConfigElement.DummyCategoryElement(name, tooltip_key, elements);
 	}

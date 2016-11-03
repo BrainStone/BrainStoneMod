@@ -207,7 +207,6 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 			if (tileentity.isClassic()) {
 				final boolean power = tileentity.getPowerOn();
 				final boolean direction = tileentity.getDirection();
-				final int oldWorldLight = tileentity.getOldCurLightLevel();
 				final int worldLight = tileentity.getCurLightLevel();
 				final int lightLevel = tileentity.getLightLevel();
 
