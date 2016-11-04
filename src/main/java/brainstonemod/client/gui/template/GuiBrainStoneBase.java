@@ -8,6 +8,7 @@ import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.Container;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -64,8 +65,8 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 	/**
 	 * Plays the click sound.
 	 */
-	protected void click() {
-		playSoundAtClient("random.click");
+	public void click() {
+		playSoundAtClient(SoundEvents.UI_BUTTON_CLICK);
 	}
 
 	protected void drawCenteredString(String text, float x, float y) {
@@ -213,20 +214,19 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 		return (x >= xMin) && (x <= xMax) && (y >= yMin) && (y <= yMax);
 	}
 
-	protected ISound playSoundAtClient(String soundName) {
-		return playSoundAtClient(soundName, 1.0f, 1.0f);
+	protected ISound playSoundAtClient(SoundEvent event) {
+		return playSoundAtClient(event, 1.0f, 1.0f);
 	}
 
-	protected ISound playSoundAtClient(String soundName, float volume, float pitch) {
-		return playSoundAtClient(soundName, SoundCategory.MASTER, volume, pitch);
+	protected ISound playSoundAtClient(SoundEvent event, float volume, float pitch) {
+		return playSoundAtClient(event, SoundCategory.MASTER, volume, pitch);
 	}
 
-	protected ISound playSoundAtClient(String soundName, SoundCategory category) {
-		return playSoundAtClient(soundName, category, 1.0f, 1.0f);
+	protected ISound playSoundAtClient(SoundEvent event, SoundCategory category) {
+		return playSoundAtClient(event, category, 1.0f, 1.0f);
 	}
 
-	protected ISound playSoundAtClient(String soundName, SoundCategory category, float volume, float pitch) {
-		SoundEvent event = new SoundEvent(new ResourceLocation(soundName));
+	protected ISound playSoundAtClient(SoundEvent event, SoundCategory category, float volume, float pitch) {
 		BlockPos pos = mc.thePlayer.getPosition();
 
 		PositionedSoundRecord sound = new PositionedSoundRecord(event, category, volume, pitch, (float) pos.getX(),

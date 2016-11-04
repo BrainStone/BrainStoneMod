@@ -49,13 +49,12 @@ public class BrainStoneGuiButton {
 		for (int i = 0; i < length; i++) {
 			tmp = buttons.get(i);
 
-			if (inField(x, y, tmp.triggerXmin, tmp.triggerYmin,
-					tmp.triggerXmax, tmp.triggerYmax) && (!tmp.inactive)) {
-				if (inField(x, y, tmp.xPos, tmp.yPos, tmp.xPos + tmp.xSize,
-						tmp.yPos + tmp.ySize)) {
+			if (inField(x, y, tmp.triggerXmin, tmp.triggerYmin, tmp.triggerXmax, tmp.triggerYmax) && (!tmp.inactive)) {
+				if (inField(x, y, tmp.xPos, tmp.yPos, tmp.xPos + tmp.xSize, tmp.yPos + tmp.ySize)) {
 					tmp.down = true;
 				}
 
+				gui.click();
 				gui.buttonClicked(tmp.ID);
 			} else {
 				tmp.down = false;

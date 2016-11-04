@@ -11,6 +11,7 @@ import brainstonemod.client.gui.helper.BrainStoneGuiButton;
 import brainstonemod.client.gui.template.GuiBrainStoneBase;
 import brainstonemod.common.container.ContainerBrainStoneTrigger;
 import brainstonemod.common.helper.BSP;
+import brainstonemod.common.helper.BrainStoneSounds;
 import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
 import brainstonemod.network.PacketDispatcher;
 import brainstonemod.network.packet.serverbound.PacketDisableMobs;
@@ -398,7 +399,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		@Override
 		public void run() {
 			try {
-				currentSound = playSoundAtClient(BrainStone.RESOURCE_PREFIX + "nyan.intro");
+				currentSound = playSoundAtClient(BrainStoneSounds.nyan_intro);
 				sleep(4037);
 
 				if (run) {
@@ -407,7 +408,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 				}
 
 				while (run) {
-					currentSound = playSoundAtClient(BrainStone.RESOURCE_PREFIX + "nyan.loop");
+					currentSound = playSoundAtClient(BrainStoneSounds.nyan_loop);
 					sleep(27066);
 				}
 			} catch (final InterruptedException e) {
