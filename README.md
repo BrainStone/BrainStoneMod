@@ -32,12 +32,15 @@ Licenses
 
 Code, Textures and binaries are licensed under the [GPLv3](https://www.gnu.org/licenses/#GPL).
 
-You are allowed to use the mod in your modpack.
-Any modpack which uses Brain Stone Mod takes **full** responsibility for user support queries. For anyone else, we only support official builds from the main download server, not custom built jars. We also do not take bug reports for outdated builds of Minecraft.
+You are allowed to use the mod in your modpack.  
+Any modpack which uses Brain Stone Mod takes **full** responsibility for user support queries. For anyone else, we only support official builds from the main
+download server, not custom built jars. We do take bug reports for outdated builds of Minecraft. However we cannot promise to fix any issues. We will try
+however.
 
 Any alternate licenses are noted where appropriate.
 
 Jar Signing
 -----------
 
-All jars from all official download sources will be signed begining from version v2.53.115 BETA DEV. The signature will always have a SHA-1 hash of `2238d4a92d81ab407741a2fdb741cebddfeacba6` and you are free to verify it.
+All jars from all official download sources will be signed begining from version v2.53.115 BETA DEV. The signature will always have a SHA-1 hash of
+`2238d4a92d81ab407741a2fdb741cebddfeacba6` and you are free to verify it.
