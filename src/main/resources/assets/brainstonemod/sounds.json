@@ -3,7 +3,7 @@
     "category": "master",
     "sounds": [
       {
-        "name": "nyan/intro",
+        "name": "brainstonemod:nyan/intro",
         "stream": true
       }
     ]
@@ -12,7 +12,7 @@
     "category": "master",
     "sounds": [
       {
-        "name": "nyan/loop",
+        "name": "brainstonemod:nyan/loop",
         "stream": true
       }
     ]
