@@ -213,60 +213,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		}
 
 		if (renderNyanCat) {
-			// Transforming the rendering space
-			this.zLevel = 101F;
-			bindTexture("GuiBrainLogicBlockEasterEgg");
-			setTempSize(0, 0);
-			GL11.glScalef(catScale, catScale, catScale);
-
-			// Checking for screen size change
-			if (numberStars != ((width * height) / starEachPixels)) {
-				numberStars = (width * height) / starEachPixels;
-				stars = null;
-			}
-
-			// Refilling the stars array
-			if (stars == null) {
-				StarAnimation star;
-
-				stars = new StarAnimation[numberStars];
-
-				for (int i = 0; i < numberStars; i++) {
-					star = new StarAnimation();
-					star.ranomizeX();
-
-					stars[i] = star;
-				}
-			}
-
-			// Render the rainbow
-			drawTexturedModalRect(-23, -9, 41, ((int) ((lastAnimationProgress / 2) % 2L)) * 19, 16, 18);
-			drawTexturedModalRect(-23, -9, 41, ((int) ((lastAnimationProgress / 2) % 2L)) * 19, 14, 19);
-
-			for (int i = 1; i < (((width / (catScale * 2)) / 16) + 1); i++) {
-				drawTexturedModalRect((i * -16) - 23, -9, 41, ((int) ((lastAnimationProgress / 2) % 2L)) * 19, 16, 19);
-			}
-
-			// Render the cat
-			drawTexturedModalRect(-17, -10, 0, ((int) (lastAnimationProgress % 12L)) * 21, 34, 21);
-
-			for (final StarAnimation star : stars) {
-				star.render();
-			}
-
-			// Progress the animation
-			if ((System.currentTimeMillis() / millisPerCatFrame) > lastAnimationProgress) {
-				lastAnimationProgress = System.currentTimeMillis() / millisPerCatFrame;
-
-				for (int i = 0; i < stars.length; i++) {
-					if (!stars[i].shift()) {
-						stars[i] = new StarAnimation();
-					}
-				}
-			}
-
-			// Reset the render space
-			this.zLevel = 0F;
+			drawNyanCat();
 		}
 	}
 
@@ -274,12 +221,10 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 	protected void keyTyped(char letter, int key) throws IOException {
 		super.keyTyped(letter, key);
 
-		if ((key == Keyboard.KEY_ESCAPE) || (key == mc.gameSettings.keyBindInventory.getKeyCode())) {
-			quit();
-		}
-
 		if (nyanCat) {
 			stopEasterEgg();
+		} else if ((key == Keyboard.KEY_ESCAPE) || (key == mc.gameSettings.keyBindInventory.getKeyCode())) {
+			quit();
 		}
 
 		// Shift array by one
@@ -326,6 +271,65 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		if (button != -1) {
 			buttons.hover();
 		}
+	}
+
+	// TODO: rewrite this so that new stars get added randomly not when an old
+	// one disappears
+	private void drawNyanCat() {
+		// Transforming the rendering space
+		this.zLevel = 101F;
+		bindTexture("GuiBrainLogicBlockEasterEgg");
+		setTempSize(0, 0);
+		GL11.glScalef(catScale, catScale, catScale);
+
+		// Checking for screen size change
+		if (numberStars != ((width * height) / starEachPixels)) {
+			numberStars = (width * height) / starEachPixels;
+			stars = null;
+		}
+
+		// Refilling the stars array
+		if (stars == null) {
+			StarAnimation star;
+
+			stars = new StarAnimation[numberStars];
+
+			for (int i = 0; i < numberStars; i++) {
+				star = new StarAnimation();
+				star.ranomizeX();
+
+				stars[i] = star;
+			}
+		}
+
+		// Render the rainbow
+		drawTexturedModalRect(-23, -9, 41, ((int) ((lastAnimationProgress / 2) % 2L)) * 19, 16, 18);
+		drawTexturedModalRect(-23, -9, 41, ((int) ((lastAnimationProgress / 2) % 2L)) * 19, 14, 19);
+
+		for (int i = 1; i < (((width / (catScale * 2)) / 16) + 1); i++) {
+			drawTexturedModalRect((i * -16) - 23, -9, 41, ((int) ((lastAnimationProgress / 2) % 2L)) * 19, 16, 19);
+		}
+
+		// Render the cat
+		drawTexturedModalRect(-17, -10, 0, ((int) (lastAnimationProgress % 12L)) * 21, 34, 21);
+
+		for (final StarAnimation star : stars) {
+			star.render();
+		}
+
+		// Progress the animation
+		if ((System.currentTimeMillis() / millisPerCatFrame) > lastAnimationProgress) {
+			lastAnimationProgress = System.currentTimeMillis() / millisPerCatFrame;
+
+			for (int i = 0; i < stars.length; i++) {
+				if (!stars[i].shift()) {
+					stars[i] = new StarAnimation();
+				}
+			}
+		}
+
+		// Reset the render space
+		this.zLevel = 0F;
 	}
 
 	private void setMobs() {
