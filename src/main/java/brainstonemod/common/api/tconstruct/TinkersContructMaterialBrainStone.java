@@ -71,7 +71,7 @@ public class TinkersContructMaterialBrainStone {
 	private static void addMaterialStats(Material material, ToolMaterial toolMaterial, float handleModifier) {
 		TinkerRegistry.addMaterialStats(material,
 				new HeadMaterialStats(toolMaterial.getMaxUses(), toolMaterial.getEfficiencyOnProperMaterial(),
-						toolMaterial.getDamageVsEntity() * 2.0f, toolMaterial.getHarvestLevel()),
+						toolMaterial.getDamageVsEntity() + 2.0f, toolMaterial.getHarvestLevel()),
 				new HandleMaterialStats(handleModifier, toolMaterial.getMaxUses() / 4),
 				new ExtraMaterialStats(toolMaterial.getMaxUses() / 4));
 	}
