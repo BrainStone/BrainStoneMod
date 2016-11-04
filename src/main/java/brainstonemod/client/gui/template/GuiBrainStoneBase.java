@@ -1,9 +1,5 @@
 package brainstonemod.client.gui.template;
 
-import javax.annotation.Nullable;
-
-import org.lwjgl.opengl.GL11;
-
 import brainstonemod.BrainStone;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
@@ -14,6 +10,10 @@ import net.minecraft.inventory.Container;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
+import org.lwjgl.opengl.GL11;
+
+import javax.annotation.Nullable;
 
 public abstract class GuiBrainStoneBase extends GuiContainer {
 	protected SoundHandler soundHandler;
@@ -232,7 +232,9 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 	}
 
 	protected ISound playSoundAtClient(String sound) {
-		return playSoundAtClient(sound, 1.0F, 1.0F);
+		SoundEvent event = new SoundEvent(new ResourceLocation(sound));
+		Minecraft.getMinecraft().theWorld.playSound(Minecraft.getMinecraft().thePlayer.getPosition(), event, SoundCategory.MASTER, 1.0f, 1.0f, true);
+		return playSoundAtClient(sound, 1.0f, 1.0f);
 	}
 
 	protected ISound playSoundAtClient(String sound, float volume, float pitch) {
