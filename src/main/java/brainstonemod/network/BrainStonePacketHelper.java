@@ -13,7 +13,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.play.server.SPacketEntityVelocity;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 
 @Sharable
 @UtilityClass
@@ -34,7 +33,7 @@ public class BrainStonePacketHelper {
 	public static void sendPlayerUpdateMovementPacket(EntityPlayer entity, double x, double y, double z) {
 		final SPacketEntityVelocity packet = new SPacketEntityVelocity(entity.getEntityId(), x, y, z);
 
-		PacketDispatcher.sendToAll((IMessage) packet);
+		((EntityPlayerMP) entity).connection.sendPacket(packet);
 	}
 
 	// DOCME
