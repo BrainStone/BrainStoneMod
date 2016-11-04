@@ -6,7 +6,6 @@ import brainstonemod.network.packet.clientbound.PacketRedoRender;
 import brainstonemod.network.packet.clientbound.PacketSmokeParticle;
 import brainstonemod.network.packet.clientbound.PacketTriggerMobs;
 import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import io.netty.channel.ChannelHandler.Sharable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -35,7 +34,7 @@ public class BrainStonePacketHelper {
 	public static void sendPlayerUpdateMovementPacket(EntityPlayer entity, double x, double y, double z) {
 		final S12PacketEntityVelocity packet = new S12PacketEntityVelocity(entity.getEntityId(), x, y, z);
 
-		PacketDispatcher.sendToAll((IMessage) packet);
+		((EntityPlayerMP) entity).playerNetServerHandler.sendPacket(packet);
 	}
 
 	// DOCME
