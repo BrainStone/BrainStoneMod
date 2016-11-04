@@ -1,9 +1,11 @@
 package brainstonemod.client.gui.template;
 
+import org.lwjgl.opengl.GL11;
+
 import brainstonemod.BrainStone;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
-import net.minecraft.client.audio.SoundEventAccessor;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
@@ -11,9 +13,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
-import org.lwjgl.opengl.GL11;
-
-import javax.annotation.Nullable;
+import net.minecraft.util.math.BlockPos;
 
 public abstract class GuiBrainStoneBase extends GuiContainer {
 	protected SoundHandler soundHandler;
@@ -58,8 +58,7 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 	 *            The texture to be bound
 	 */
 	protected void bindTexture(String name) {
-		bindTexture(new ResourceLocation(BrainStone.RESOURCE_PACKAGE,
-				BrainStone.guiPath + name + ".png"));
+		bindTexture(new ResourceLocation(BrainStone.RESOURCE_PACKAGE, BrainStone.guiPath + name + ".png"));
 	}
 
 	/**
@@ -81,22 +80,15 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 		drawCenteredString(text, x, y, color, 1.0f);
 	}
 
-	protected void drawCenteredString(String text, float x, float y, int color,
-			float scale) {
-		drawString(
-				text,
-				x - (fontRendererObj.getStringWidth(text) / 2.0f),
-				y
-						- (text.split("\r\n|\r|\n").length * (fontRendererObj.FONT_HEIGHT / 2)),
-				color, scale);
+	protected void drawCenteredString(String text, float x, float y, int color, float scale) {
+		drawString(text, x - (fontRendererObj.getStringWidth(text) / 2.0f),
+				y - (text.split("\r\n|\r|\n").length * (fontRendererObj.FONT_HEIGHT / 2)), color, scale);
 	}
 
-	protected abstract void drawGuiBackground(float partialTicks, int mouseX,
-			int mouseY);
+	protected abstract void drawGuiBackground(float partialTicks, int mouseX, int mouseY);
 
 	@Override
-	protected final void drawGuiContainerBackgroundLayer(float partialTicks,
-			int mouseX, int mouseY) {
+	protected final void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		final int xSizeOld = xSize;
 		final int ySizeOld = ySize;
 
@@ -170,8 +162,7 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 		drawString(text, x, y, color, 1.0f);
 	}
 
-	protected void drawString(String text, float x, float y, int color,
-			float scale) {
+	protected void drawString(String text, float x, float y, int color, float scale) {
 		GL11.glPushMatrix();
 		prepareMatrices(x, y, scale);
 
@@ -181,8 +172,7 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 	}
 
 	@Override
-	public void drawTexturedModalRect(int x, int y, int u, int v, int width,
-			int height) {
+	public void drawTexturedModalRect(int x, int y, int u, int v, int width, int height) {
 		if (!textureLoaded) {
 			bindTexture();
 		}
@@ -190,8 +180,7 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 		super.drawTexturedModalRect(x, y, u, v, width, height);
 	}
 
-	protected void drawTexturedModalRect(int x, int y, int u, int v, int width,
-			int height, boolean inverted) {
+	protected void drawTexturedModalRect(int x, int y, int u, int v, int width, int height, boolean inverted) {
 		if (inverted) {
 			GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
 
@@ -220,38 +209,37 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 	 *            max y-Coordinate
 	 * @return true if the coordinates are in the rectangle and false if not
 	 */
-	protected boolean inField(int x, int y, int xMin, int yMin, int xMax,
-			int yMax) {
+	protected boolean inField(int x, int y, int xMin, int yMin, int xMax, int yMax) {
 		return (x >= xMin) && (x <= xMax) && (y >= yMin) && (y <= yMax);
 	}
 
-	protected ISound playSoundAtClient(ISound sound) {
+	protected ISound playSoundAtClient(String soundName) {
+		return playSoundAtClient(soundName, 1.0f, 1.0f);
+	}
+
+	protected ISound playSoundAtClient(String soundName, float volume, float pitch) {
+		return playSoundAtClient(soundName, SoundCategory.MASTER, volume, pitch);
+	}
+
+	protected ISound playSoundAtClient(String soundName, SoundCategory category) {
+		return playSoundAtClient(soundName, category, 1.0f, 1.0f);
+	}
+
+	protected ISound playSoundAtClient(String soundName, SoundCategory category, float volume, float pitch) {
+		SoundEvent event = new SoundEvent(new ResourceLocation(soundName));
+		BlockPos pos = mc.thePlayer.getPosition();
+
+		PositionedSoundRecord sound = new PositionedSoundRecord(event, category, volume, pitch, (float) pos.getX(),
+				(float) pos.getY(), (float) pos.getZ());
 		soundHandler.playSound(sound);
 
 		return sound;
 	}
 
-	protected ISound playSoundAtClient(String sound) {
-		SoundEvent event = new SoundEvent(new ResourceLocation(sound));
-		Minecraft.getMinecraft().theWorld.playSound(Minecraft.getMinecraft().thePlayer.getPosition(), event, SoundCategory.MASTER, 1.0f, 1.0f, true);
-		return playSoundAtClient(sound, 1.0f, 1.0f);
-	}
+	protected ISound stopSoundAtClient(ISound sound) {
+		soundHandler.stopSound(sound);
 
-	protected ISound playSoundAtClient(String sound, float volume, float pitch) {
-		final ISound iSound = new Sound(sound, volume, pitch);
-
-		return playSoundAtClient(iSound);
-	}
-
-	protected ISound playSoundAtClient(String sound, float volume, float pitch,
-			int repeatDelay) {
-		final ISound iSound = new Sound(sound, volume, pitch, repeatDelay);
-
-		return playSoundAtClient(iSound);
-	}
-
-	protected ISound playSoundAtClient(String sound, int repeatDelay) {
-		return playSoundAtClient(sound, 1.0F, 1.0F, repeatDelay);
+		return sound;
 	}
 
 	private void prepareMatrices(float x, float y, float scale) {
@@ -282,98 +270,5 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 
 		GL11.glPushMatrix();
 		GL11.glTranslatef(guiLeft, guiTop, 0.0f);
-	}
-
-	protected ISound stopSoundAtClient(ISound sound) {
-		soundHandler.stopSound(sound);
-
-		return sound;
-	}
-
-	private class Sound implements ISound {
-		private final float pitch;
-		private final boolean repeat;
-		private final int repeatDelay;
-		private final ResourceLocation resourceLocation;
-		private final float volume;
-	
-		public Sound(String sound, float volume, float pitch) {
-			resourceLocation = new ResourceLocation(sound);
-			this.volume = volume;
-			this.pitch = pitch;
-	
-			repeat = false;
-			repeatDelay = 0;
-		}
-	
-		public Sound(String sound, float volume, float pitch, int repeatDelay) {
-			resourceLocation = new ResourceLocation(sound);
-			this.volume = volume;
-			this.pitch = pitch;
-			this.repeatDelay = repeatDelay;
-	
-			repeat = true;
-		}
-	
-		@Override
-		public boolean canRepeat() {
-			return repeat;
-		}
-	
-		@Override
-		public AttenuationType getAttenuationType() {
-			return AttenuationType.NONE;
-		}
-	
-		@Override
-		public float getPitch() {
-			return pitch;
-		}
-	
-		@Override
-		public ResourceLocation getSoundLocation() {
-			return resourceLocation;
-		}
-	
-		@Nullable
-		@Override
-		public SoundEventAccessor createAccessor(SoundHandler handler) {
-			return null;//TODO
-		}
-	
-		@Override
-		public net.minecraft.client.audio.Sound getSound() {
-			return null;//TODO
-		}
-	
-		@Override
-		public SoundCategory getCategory() {
-			return SoundCategory.BLOCKS;
-		}
-	
-		@Override
-		public int getRepeatDelay() {
-			return repeatDelay;
-		}
-	
-		@Override
-		public float getVolume() {
-			return volume;
-		}
-	
-		@Override
-		public float getXPosF() {
-			return tileentity.getPos().getX();
-		}
-	
-		@Override
-		public float getYPosF() {
-			return tileentity.getPos().getY();
-		}
-	
-		@Override
-		public float getZPosF() {
-			return tileentity.getPos().getZ();
-		}
 	}
 }
