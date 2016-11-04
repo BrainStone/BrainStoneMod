@@ -1,3 +1,21 @@
+v3.4.11 BETA prerelease
+-----------------------
+
+- Updated to 1.10.2
+- BrainStone Trigger goes full camo now (temporarily, unless users would rather it remain this way)
+- Added Overlord support
+- Added JEI support
+- Added Draconic Evolution support
+- Removed NEI support
+- Temporarily disabled Thaumcraft, and MFR support (waiting for them to update)
+- Started using the Forge JSON update system
+- Fully removed the previously dummied out Brain Logic Block
+- Lowercased the modid
+- Using Forge energy system for the Brain Stone Life Capacitor (which means it will work with most energy mods)
+- Improved config (if you have changed values in the config have a look at the config since it might no longe use them (The old values are still there))
+- All settings now have a better message in the Config GUI
+- Bug fixes and interal improvements
+
 v3.3.32 BETA DEV
 ----------------
 
