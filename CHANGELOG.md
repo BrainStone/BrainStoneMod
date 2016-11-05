@@ -65,6 +65,12 @@ v3.0.44 BETA
 - Fully removed the previously dummied out Brain Logic Block
 - Lowercased the modid
 
+v2.57.42 BETA release
+---------------------
+
+- Fixed server side crash related to the Pulsating Brain Stone (really fixed now)
+- Added changelog in mod jar
+
 v2.57.40 BETA release
 ---------------------
 
