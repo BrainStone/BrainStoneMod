@@ -1,51 +1,8 @@
-v3.3.32 BETA DEV
-----------------
+v2.57.42 BETA release
+---------------------
 
-- Improved config (if you have changed values in the config have a look at the config since it might no longe use them (The old values are still there))
-- All settings now have a better message in the Config GUI
-- Fixed config GUI not changing the values
-- Fixed Brain Stone Life Capacitor upgrade recipes not showing in JEI
-- Properly checking for Draconic Evolution
-- When draconic evolution is present the Brain Stone Life Capacitor is crafted with a dragon heart
-- Fixed server side crash
-- Added a missing translation
-- A lot of internal improvements
-
-v3.2.2 BETA DEV
----------------
-
-- The Dark Steel Upgrade is being rendered again
-- Improved texture animations
-- Increased drop chance of the Essence of Life
-- Drop chance can be manipulated in the config
-- Drop chance gets reduced when Draconic Evolution is present
-
-v3.1.14 BETA
-------------
-
-- Added tool materials to Tinker's Construct (please give feedback on the balance)
-- Increased mining levels of tool materials
-- A few tiny fixes and improvements
-- Cleaned repo
-- Prepared Draconic Evolution support (good stuff to come!)
-
-v3.1.3 BETA
------------
-
-- Using Forge energy system for the Brain Stone Life Capacitor (which means it will work with most energy mods)
-
-v3.0.44 BETA
-------------
-
-- Updated to 1.10.2
-- BrainStone Trigger goes full camo now (temporarily, unless users would rather it remain this way)
-- Added Overlord support
-- Added JEI support
-- Removed NEI support
-- Temporarily disabled Thaumcraft, TiCon, and MFR support
-- Started using the Forge JSON update system
-- Fully removed the previously dummied out Brain Logic Block
-- Lowercased the modid
+- Fixed server side crash related to the Pulsating Brain Stone (really fixed now)
+- Added changelog in mod jar
 
 v2.57.40 BETA release
 ---------------------
