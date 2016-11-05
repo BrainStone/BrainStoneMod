@@ -41,7 +41,7 @@ def getChangelog() {
     }
 }
 def getVersionType() {
-    def lower_version = config.mod_version.toLowerCase();
+    def lower_version = version.toLowerCase();
     
     if (lower_version.contains("prerelease"))
         return "beta";
@@ -56,10 +56,10 @@ def getVersionName() {
     try {
         def tmp = "git describe --tags --dirty=-SNAPSHOT".execute().text.trim();
         
-        if (config.mod_version_prefix.isEmpty())
+        if (mod_version_postfix.isEmpty())
             return tmp;
         else
-            return tmp + " " + config.mod_version_prefix;
+            return tmp + " " + mod_version_postfix;
     } catch(Exception e) {
       return 'UNKNOWN-VERSION'
     }
@@ -78,18 +78,8 @@ def signJar(archivePath) {
     }
 }
 
-ext.configFile = file "build.properties"
-configFile.withReader {
-    // Load config.  It shall from now be referenced as simply config or project.config
-    def prop = new Properties()
-    prop.load(it)
-    project.ext.config = new ConfigSlurper().parse prop
-    
-    config.mod_version = getVersionName()
-}
-
 def MainDirResources = fileTree(dir: file('.'), includes: ['README.md', 'LICENSE', 'CHANGELOG.md'])
-version = config.mod_version
+version = getVersionName()
 group = "brainstonemod" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "BrainStoneMod"
 
@@ -99,11 +89,14 @@ allprojects {
 }
 
 minecraft {
-    version = config.minecraft_version + "-" + config.forge_version
+    version = "${minecraft_version}-${forge_version}"
     runDir = "eclipse"
     replace '${version}', project.version
     mappings = "snapshot_20160518"
     useDepAts = true
+    
+    clientJvmArgs += "-Xmx2G"
+    serverJvmArgs += "-Xmx2G"
 }
 
 repositories{
@@ -125,13 +118,13 @@ repositories{
 }
 
 dependencies {
-    deobfProvided group: "mezz.jei", name: "jei_${config.minecraft_version}", version: "${config.jei_version}"
-    deobfProvided group: "slimeknights", name: "TConstruct", version: "${config.minecraft_version}-${config.tconstruct_version}"
-    deobfProvided group: "slimeknights.mantle", name: "Mantle", version: "${config.minecraft_version}-${config.mantle_version}"
-    provided "com.enderio.core:EnderCore:${config.minecraft_version}-${config.endercore_version}"
-    provided "com.enderio:EnderIO:${config.minecraft_version}-${config.enderio_version}"
-    provided("com.brandon3055.draconicevolution:Draconic-Evolution:${config.minecraft_version}-2.0.1.126:deobf") {
-        exclude module: "jei_${config.minecraft_version}"
+    deobfProvided group: "mezz.jei", name: "jei_${minecraft_version}", version: "${jei_version}"
+    deobfProvided group: "slimeknights", name: "TConstruct", version: "${minecraft_version}-${tconstruct_version}"
+    deobfProvided group: "slimeknights.mantle", name: "Mantle", version: "${minecraft_version}-${mantle_version}"
+    provided "com.enderio.core:EnderCore:${minecraft_version}-${endercore_version}"
+    provided "com.enderio:EnderIO:${minecraft_version}-${enderio_version}"
+    provided("com.brandon3055.draconicevolution:Draconic-Evolution:${minecraft_version}-${draconicEvolution_version}:deobf") {
+        exclude module: "jei_${minecraft_version}"
         exclude module: "OpenComputers"
     }
 }
@@ -238,7 +231,7 @@ curseforge {
         addGameVersion 'Java 8'
         
         mainArtifact(jar) {
-            displayName = config.mod_version
+            displayName = version
         }
         addArtifact deobfJar
         addArtifact sourceJar
@@ -276,8 +269,8 @@ task updateDownloadServer {
             requestContentType = URLENC
             body = [
                 secret: project.secret,
-                version: config.mod_version,
-                mc_verion: config.minecraft_version,
+                version: version,
+                mc_verion: minecraft_version,
                 changelog: getChangelog(),
                 artifacts: JsonOutput.toJson([
                     universal: jar.archivePath.name,
