@@ -104,13 +104,13 @@ repositories{
         url "http://dvs1.progwml6.com/files/maven"
     }
     maven { // EnderIO, EnderCore, EnderZoo, The One Probe
-        url = "http://maven.tterrag.com"
+        url "http://maven.tterrag.com"
     }
     maven { // Draconic Evolution
         url "http://adel.podgeweb.com:1616/maven/"
     }
     maven { // Tesla (dependency of EnderIO)
-        url = "http://maven.epoxide.xyz"
+        url "http://maven.epoxide.xyz"
     }
     maven { // ChickenBones' mods (dependency of Draconic Evolution)
         url "http://chickenbones.net/maven/"
