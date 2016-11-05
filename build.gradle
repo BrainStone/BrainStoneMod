@@ -125,14 +125,14 @@ repositories{
 }
 
 dependencies {
-    deobfProvided group: "mezz.jei", name: "jei_1.10.2", version: "3.13.0.335"
-    deobfProvided group: "slimeknights", name: "TConstruct", version: "1.10.2-2.5.6b.jenkins425"
-    deobfProvided group: "slimeknights.mantle", name: "Mantle", version: "1.10.2-1.1.1.194"
-    provided "com.enderio.core:EnderCore:1.10.2-0.4.1.58-beta"
-    provided "com.enderio:EnderIO:1.10.2-3.0.1.125_beta"
-    provided("com.brandon3055.draconicevolution:Draconic-Evolution:1.10.2-2.0.1.126:deobf") {
-        exclude module: 'jei_1.10.2'
-        exclude module: 'OpenComputers'
+    deobfProvided group: "mezz.jei", name: "jei_${config.minecraft_version}", version: "${config.jei_version}"
+    deobfProvided group: "slimeknights", name: "TConstruct", version: "${config.minecraft_version}-${config.tconstruct_version}"
+    deobfProvided group: "slimeknights.mantle", name: "Mantle", version: "${config.minecraft_version}-${config.mantle_version}"
+    provided "com.enderio.core:EnderCore:${config.minecraft_version}-${config.endercore_version}"
+    provided "com.enderio:EnderIO:${config.minecraft_version}-${config.enderio_version}"
+    provided("com.brandon3055.draconicevolution:Draconic-Evolution:${config.minecraft_version}-2.0.1.126:deobf") {
+        exclude module: "jei_${config.minecraft_version}"
+        exclude module: "OpenComputers"
     }
 }
 
@@ -175,6 +175,7 @@ task showVersion {
     group "help"
     
     compileJava.dependsOn showVersion
+    deobfCompileDummyTask.dependsOn showVersion
   
     doLast {
         println version
