@@ -6,6 +6,7 @@ import java.util.List;
 
 import brainstonemod.common.api.betterachievements.BetterAchievementsCompat;
 import brainstonemod.common.api.enderio.EIOCompat;
+import brainstonemod.common.api.jer.JERCompat;
 import brainstonemod.common.api.overlord.OverlordCompat;
 import brainstonemod.common.api.tconstruct.TiConCompat;
 import brainstonemod.common.helper.BSP;
@@ -22,6 +23,7 @@ public final class BrainStoneModules {
 	public static final String DRACONIC_EVOLUTION_MODID = "draconicevolution";
 	public static final String ENDER_IO_MODID = "EnderIO";
 	public static final String JEI_MODID = "JEI";
+	public static final String JER_MODID = "jeresources";
 	public static final String MFR_MODID = "MineFactoryReloaded";
 	public static final String OVERLORD_MODID = "overlord";
 	public static final String THAUMCRAFT_MODID = "Thaumcraft";
@@ -34,6 +36,7 @@ public final class BrainStoneModules {
 	private static Boolean DRACONIC_EVOLUTION;
 	private static Boolean ENDER_IO;
 	private static Boolean JEI;
+	private static Boolean JER;
 	private static Boolean MFR;
 	private static Boolean OVERLORD;
 	private static Boolean THAUMCRAFT;
@@ -77,13 +80,22 @@ public final class BrainStoneModules {
 		return ENDER_IO;
 	}
 
-	@Module(message = "JEI detected! Adding recipes to JEI.")
+	@Module(message = "Just Enough Items (JEI) detected! Adding recipes to JEI.")
 	public static boolean JEI() {
 		if (JEI == null) {
 			JEI = Loader.isModLoaded(JEI_MODID);
 		}
 
 		return JEI;
+	}
+	
+	@Module(message = "Just Enough Resources (JER) detected! Adding drop and orgen information.", integration = JERCompat.class)
+	public static boolean JER() {
+		if (JER == null) {
+			JER = Loader.isModLoaded(JER_MODID);
+		}
+
+		return JER;
 	}
 
 	@Module(message = "MineFactory Reloaded detected! Adding BrainStoneOre to the MiningLaser.")

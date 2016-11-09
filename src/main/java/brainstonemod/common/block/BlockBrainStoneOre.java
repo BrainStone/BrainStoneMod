@@ -1,5 +1,7 @@
 package brainstonemod.common.block;
 
+import java.util.Random;
+
 import brainstonemod.BrainStone;
 import net.minecraft.block.BlockOre;
 import net.minecraft.block.state.IBlockState;
@@ -7,16 +9,15 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-
-import java.util.Random;
 
 public class BlockBrainStoneOre extends BlockOre {
 	/**
 	 * Constructor of the block. Registers all properties and sets the id and
 	 * the material
 	 *
-     */
+	 */
 	public BlockBrainStoneOre() {
 		super();
 
@@ -29,20 +30,19 @@ public class BlockBrainStoneOre extends BlockOre {
 	}
 
 	@Override
-	public void dropBlockAsItemWithChance(World world, BlockPos pos, IBlockState state, float chance, int fortune) {
-		super.dropBlockAsItemWithChance(world, pos, state, chance, fortune);
+	public int getExpDrop(IBlockState state, IBlockAccess world, BlockPos pos, int fortune) {
+		Random rand = world instanceof World ? ((World) world).rand : new Random();
 
-		if (getItemDropped(state, world.rand, fortune) != Item
-				.getItemFromBlock(this)) {
-			int var8 = 0;
+		if (this.getItemDropped(state, rand, fortune) != Item.getItemFromBlock(this)) {
+			int i = 0;
 
 			if (this == BrainStone.brainStoneOre()) {
-				var8 = MathHelper.getRandomIntegerInRange(world.rand, 10,
-						20);
+				i = MathHelper.getRandomIntegerInRange(rand, 10, 20);
 			}
 
-			dropXpOnBlockBreak(world, pos, var8);
+			return i;
 		}
+		return 0;
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class BlockBrainStoneOre extends BlockOre {
 	}
 
 	@Override
-	public int quantityDroppedWithBonus(int i, Random random) {
-		return random.nextInt(2 + i);
+	public int quantityDroppedWithBonus(int fortune, Random random) {
+		return random.nextInt(2 + fortune);
 	}
 }
