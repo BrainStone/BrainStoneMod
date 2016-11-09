@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
 
+import brainstonemod.common.api.betterachievements.BetterAchievementsCompat;
 import brainstonemod.common.api.enderio.EIOCompat;
 import brainstonemod.common.api.overlord.OverlordCompat;
 import brainstonemod.common.api.tconstruct.TiConCompat;
@@ -17,6 +18,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 @UtilityClass
 public final class BrainStoneModules {
 	public static final String BAUBLES_MODID = "Baubles";
+	public static final String BETTER_ACHIEVEMENTS_MODID = "BetterAchievements";
 	public static final String DRACONIC_EVOLUTION_MODID = "draconicevolution";
 	public static final String ENDER_IO_MODID = "EnderIO";
 	public static final String JEI_MODID = "JEI";
@@ -25,9 +27,10 @@ public final class BrainStoneModules {
 	public static final String THAUMCRAFT_MODID = "Thaumcraft";
 	public static final String TINKERS_CONSTRUCT_MODID = "tconstruct";
 
-	public static final String DEPENDENCIES = "after:Baubles;after:draconicevolution;after:EnderIO;after:JEI;after:overlord;after:tconstruct";
+	public static final String DEPENDENCIES = "after:Baubles;after:BetterAchievements;after:draconicevolution;after:EnderIO;after:JEI;after:overlord;after:tconstruct";
 
 	private static Boolean BAUBLES;
+	private static Boolean BETTER_ACHIEVEMENTS;
 	private static Boolean DRACONIC_EVOLUTION;
 	private static Boolean ENDER_IO;
 	private static Boolean JEI;
@@ -45,6 +48,15 @@ public final class BrainStoneModules {
 		}
 
 		return BAUBLES;
+	}
+
+	@Module(message = "Better Achievements detected! Setting custom achievement icon.", integration = BetterAchievementsCompat.class)
+	public static boolean betterAchievements() {
+		if (BETTER_ACHIEVEMENTS == null) {
+			BETTER_ACHIEVEMENTS = Loader.isModLoaded(BETTER_ACHIEVEMENTS_MODID);
+		}
+
+		return BETTER_ACHIEVEMENTS;
 	}
 
 	@Module(message = "Draconic Eveolution detected! Balancing and adding recipes.")
