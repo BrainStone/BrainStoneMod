@@ -11,6 +11,7 @@ import static slimeknights.tconstruct.tools.TinkerTraits.unnatural;
 import static slimeknights.tconstruct.tools.TinkerTraits.writable;
 
 import brainstonemod.BrainStone;
+import brainstonemod.common.api.BrainStoneModules;
 import lombok.experimental.UtilityClass;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraftforge.fml.common.Optional;
@@ -24,7 +25,7 @@ import slimeknights.tconstruct.tools.TinkerMaterials;
 
 @UtilityClass
 public class TinkersContructMaterialBrainStone {
-	@Optional.Method(modid = "tconstruct")
+	@Optional.Method(modid = BrainStoneModules.TINKERS_CONSTRUCT_MODID)
 	public static void initToolMaterials() {
 		// Materials
 		Material brainStone = newMaterial("brainstone", 0x33FF57);

@@ -1,6 +1,7 @@
 package brainstonemod.common.api.enderio;
 
 import brainstonemod.BrainStone;
+import brainstonemod.common.api.BrainStoneModules;
 import crazypants.enderio.item.darksteel.DarkSteelItems;
 import crazypants.enderio.item.darksteel.upgrade.AbstractUpgrade;
 import crazypants.enderio.item.darksteel.upgrade.IRenderUpgrade;
@@ -17,7 +18,7 @@ import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@Optional.Interface(iface = "crazypants.enderio.item.darksteel.upgrade.IDarkSteelUpgrade", modid = "EnderIO")
+@Optional.Interface(iface = "crazypants.enderio.item.darksteel.upgrade.IDarkSteelUpgrade", modid = BrainStoneModules.ENDER_IO_MODID)
 public class BrainStoneUpgrade extends AbstractUpgrade {
 	private static String UPGRADE_NAME = "brainstone";
 
@@ -34,7 +35,7 @@ public class BrainStoneUpgrade extends AbstractUpgrade {
 	}
 
 	@Override
-	@Optional.Method(modid = "EnderIO")
+	@Optional.Method(modid = BrainStoneModules.ENDER_IO_MODID)
 	public boolean canAddToItem(ItemStack stack) {
 		return !(stack == null || (stack.getItem() != DarkSteelItems.itemDarkSteelBoots
 				&& stack.getItem() != DarkSteelItems.itemDarkSteelLeggings
@@ -44,13 +45,13 @@ public class BrainStoneUpgrade extends AbstractUpgrade {
 	}
 
 	@Override
-	@Optional.Method(modid = "EnderIO")
+	@Optional.Method(modid = BrainStoneModules.ENDER_IO_MODID)
 	public void writeUpgradeToNBT(NBTTagCompound upgradeRoot) {
 		// Do nothing
 	}
 
 	@Override
-	@Optional.Method(modid = "EnderIO")
+	@Optional.Method(modid = BrainStoneModules.ENDER_IO_MODID)
 	@SideOnly(Side.CLIENT)
 	public IRenderUpgrade getRender() {
 		return render == null ? render = new Render() : render;

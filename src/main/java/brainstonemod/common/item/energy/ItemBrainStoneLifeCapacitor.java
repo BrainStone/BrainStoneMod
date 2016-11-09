@@ -17,6 +17,7 @@ import baubles.api.BaubleType;
 import baubles.api.IBauble;
 import brainstonemod.BrainStone;
 import brainstonemod.client.config.BrainStoneClientConfigWrapper;
+import brainstonemod.common.api.BrainStoneModules;
 import brainstonemod.common.config.BrainStoneConfigWrapper;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.helper.BrainStonePowerDisplayUtil;
@@ -45,7 +46,7 @@ import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@Optional.Interface(iface = "baubles.api.IBauble", modid = "Baubles|API")
+@Optional.Interface(iface = "baubles.api.IBauble", modid = BrainStoneModules.BAUBLES_MODID)
 public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements IEnergyContainerItem, IBauble {
 	public static final int MaxDamage = 32;
 	public static long RFperHalfHeart;
@@ -441,37 +442,37 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	}
 
 	@Override
-	@Optional.Method(modid = "Baubles|API")
+	@Optional.Method(modid = BrainStoneModules.BAUBLES_MODID)
 	public boolean canEquip(ItemStack stack, EntityLivingBase entity) {
 		return isCurrentOwner(stack, entity.getUniqueID());
 	}
 
 	@Override
-	@Optional.Method(modid = "Baubles|API")
+	@Optional.Method(modid = BrainStoneModules.BAUBLES_MODID)
 	public boolean canUnequip(ItemStack stack, EntityLivingBase entity) {
 		return true;
 	}
 
 	@Override
-	@Optional.Method(modid = "Baubles|API")
+	@Optional.Method(modid = BrainStoneModules.BAUBLES_MODID)
 	public BaubleType getBaubleType(ItemStack stack) {
 		return BaubleType.BELT;
 	}
 
 	@Override
-	@Optional.Method(modid = "Baubles|API")
+	@Optional.Method(modid = BrainStoneModules.BAUBLES_MODID)
 	public void onEquipped(ItemStack stack, EntityLivingBase entity) {
 		// Do nothing
 	}
 
 	@Override
-	@Optional.Method(modid = "Baubles|API")
+	@Optional.Method(modid = BrainStoneModules.BAUBLES_MODID)
 	public void onUnequipped(ItemStack stack, EntityLivingBase entity) {
 		// Do nothing
 	}
 
 	@Override
-	@Optional.Method(modid = "Baubles|API")
+	@Optional.Method(modid = BrainStoneModules.BAUBLES_MODID)
 	public void onWornTick(ItemStack stack, EntityLivingBase entity) {
 		// Do nothing
 	}

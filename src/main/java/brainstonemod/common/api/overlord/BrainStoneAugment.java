@@ -1,6 +1,7 @@
 package brainstonemod.common.api.overlord;
 
 import brainstonemod.BrainStone;
+import brainstonemod.common.api.BrainStoneModules;
 import brainstonemod.common.block.BlockPulsatingBrainStone;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.network.BrainStonePacketHelper;
@@ -24,7 +25,7 @@ import java.util.Random;
 /**
  * @author The_Fireplace
  */
-@Optional.Interface(modid = "overlord", iface = "the_fireplace.overlord.tileentity.ISkeletonMaker")
+@Optional.Interface(iface = "the_fireplace.overlord.tileentity.ISkeletonMaker", modid = BrainStoneModules.OVERLORD_MODID)
 public class BrainStoneAugment extends Augment {
     private boolean effect;
     private final Random random;
@@ -36,19 +37,19 @@ public class BrainStoneAugment extends Augment {
     }
 
     @Override
-    @Optional.Method(modid = "overlord")
+    @Optional.Method(modid = BrainStoneModules.OVERLORD_MODID)
     public void onEntityTick(EntityArmyMember entityArmyMember) {
         updateTick(entityArmyMember.worldObj, entityArmyMember.getPosition(), entityArmyMember);
     }
 
     @Override
-    @Optional.Method(modid = "overlord")
+    @Optional.Method(modid = BrainStoneModules.OVERLORD_MODID)
     public void onStrike(EntityArmyMember entityArmyMember, Entity entity) {
     	// Do nothing
     }
 
     @Override
-    @Optional.Method(modid = "overlord")
+    @Optional.Method(modid = BrainStoneModules.OVERLORD_MODID)
     public String augmentId() {
         return "pulsatingbrainstone";
     }

@@ -16,9 +16,19 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 @UtilityClass
 public final class BrainStoneModules {
+	public static final String BAUBLES_MODID = "Baubles";
+	public static final String DRACONIC_EVOLUTION_MODID = "draconicevolution";
+	public static final String ENDER_IO_MODID = "EnderIO";
+	public static final String JEI_MODID = "JEI";
+	public static final String MFR_MODID = "MineFactoryReloaded";
+	public static final String OVERLORD_MODID = "overlord";
+	public static final String THAUMCRAFT_MODID = "Thaumcraft";
+	public static final String TINKERS_CONSTRUCT_MODID = "tconstruct";
+	
 	private static Boolean BAUBLES;
 	private static Boolean DRACONIC_EVOLUTION;
 	private static Boolean ENDER_IO;
+	private static Boolean JEI;
 	private static Boolean MFR;
 	private static Boolean OVERLORD;
 	private static Boolean THAUMCRAFT;
@@ -26,10 +36,10 @@ public final class BrainStoneModules {
 
 	private static List<IModIntegration> activeModules = new LinkedList<>();
 
-	@Module(message = "BaublesAPI detected! Enabling brainStoneLiveCapacitor in the BELT slot.")
+	@Module(message = "Baubles detected! Enabling brainStoneLiveCapacitor in the BELT slot.")
 	public static boolean baubles() {
 		if (BAUBLES == null) {
-			BAUBLES = Loader.isModLoaded("Baubles");
+			BAUBLES = Loader.isModLoaded(BAUBLES_MODID);
 		}
 
 		return BAUBLES;
@@ -38,7 +48,7 @@ public final class BrainStoneModules {
 	@Module(message = "Draconic Eveolution detected! Balancing and adding recipes.")
 	public static boolean draconicEvolution() {
 		if (DRACONIC_EVOLUTION == null) {
-			DRACONIC_EVOLUTION = Loader.isModLoaded("draconicevolution");
+			DRACONIC_EVOLUTION = Loader.isModLoaded(DRACONIC_EVOLUTION_MODID);
 		}
 
 		return DRACONIC_EVOLUTION;
@@ -47,16 +57,25 @@ public final class BrainStoneModules {
 	@Module(message = "EnderIO detected! Enabling recipes and armor upgrade.", integration = EIOCompat.class)
 	public static boolean enderIO() {
 		if (ENDER_IO == null) {
-			ENDER_IO = Loader.isModLoaded("EnderIO");
+			ENDER_IO = Loader.isModLoaded(ENDER_IO_MODID);
 		}
 
 		return ENDER_IO;
+	}
+	
+	@Module(message = "JEI detected! Adding recipes to JEI.")
+	public static boolean JEI() {
+		if (JEI == null) {
+			JEI = Loader.isModLoaded(JEI_MODID);
+		}
+
+		return JEI;
 	}
 
 	@Module(message = "MineFactory Reloaded detected! Adding BrainStoneOre to the MiningLaser.")
 	public static boolean MFR() {
 		if (MFR == null) {
-			MFR = Loader.isModLoaded("MineFactoryReloaded");
+			MFR = Loader.isModLoaded(MFR_MODID);
 		}
 
 		return MFR;
@@ -65,7 +84,7 @@ public final class BrainStoneModules {
 	@Module(message = "Overlord detected! Adding Pulsating BrainStone Augment.", integration = OverlordCompat.class)
 	public static boolean overlord() {
 		if (OVERLORD == null) {
-			OVERLORD = Loader.isModLoaded("overlord");
+			OVERLORD = Loader.isModLoaded(OVERLORD_MODID);
 		}
 
 		return OVERLORD;
@@ -74,7 +93,7 @@ public final class BrainStoneModules {
 	@Module(message = "Thaumcraft detected! Adding aspect and fitting aspects to items.")
 	public static boolean thaumcraft() {
 		if (THAUMCRAFT == null) {
-			THAUMCRAFT = Loader.isModLoaded("Thaumcraft");
+			THAUMCRAFT = Loader.isModLoaded(THAUMCRAFT_MODID);
 		}
 
 		return THAUMCRAFT;
@@ -83,12 +102,12 @@ public final class BrainStoneModules {
 	@Module(message = "Tinker's Construct detected! Registering BrainStone materials as tool materials.", integration = TiConCompat.class)
 	public static boolean tinkersConstruct() {
 		if (TINKERS_CONSTRUCT == null) {
-			TINKERS_CONSTRUCT = Loader.isModLoaded("tconstruct");
+			TINKERS_CONSTRUCT = Loader.isModLoaded(TINKERS_CONSTRUCT_MODID);
 		}
 
 		return TINKERS_CONSTRUCT;
 	}
-
+	
 	public static void detectModules() {
 		BSP.info("Checking available modules:");
 
