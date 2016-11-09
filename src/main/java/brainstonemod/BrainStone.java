@@ -91,6 +91,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerAboutToStartEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -303,12 +304,21 @@ public class BrainStone {
 	 * starting.
 	 * 
 	 * @param event
+	 *            The MCForge ServerAboutToStartEvent
+	 */
+	@EventHandler
+	public static void onServerAboutToStart(FMLServerAboutToStartEvent event) {
+		fillTriggerEntities();
+	}
+
+	/**
+	 * Loads the brainStoneLifeCapacitor mapping
+	 * 
+	 * @param event
 	 *            The MCForge ServerStartingEvent
 	 */
 	@EventHandler
-	public static void onServerStarting(FMLServerAboutToStartEvent event) {
-		fillTriggerEntities();
-
+	public static void onServerStarting(FMLServerStartingEvent event) {
 		brainStoneLifeCapacitor().newPlayerCapacitorMapping(DimensionManager.getCurrentSaveRootDirectory());
 	}
 

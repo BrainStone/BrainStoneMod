@@ -477,7 +477,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	}
 
 	public class PlayerCapacitorMapping {
-		private static final String relativePath = "/brainstonemod/brainStoneLiveCapacitor.dat";
+		private static final String relativePath = "/data/" + BrainStone.MOD_ID + "/brainStoneLiveCapacitor.dat";
 
 		private final File currentFile;
 		private NBTTagCompound map;
