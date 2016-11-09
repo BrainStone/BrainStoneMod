@@ -24,7 +24,9 @@ public final class BrainStoneModules {
 	public static final String OVERLORD_MODID = "overlord";
 	public static final String THAUMCRAFT_MODID = "Thaumcraft";
 	public static final String TINKERS_CONSTRUCT_MODID = "tconstruct";
-	
+
+	public static final String DEPENDENCIES = "after:Baubles;after:draconicevolution;after:EnderIO;after:JEI;after:overlord;after:tconstruct";
+
 	private static Boolean BAUBLES;
 	private static Boolean DRACONIC_EVOLUTION;
 	private static Boolean ENDER_IO;
@@ -62,7 +64,7 @@ public final class BrainStoneModules {
 
 		return ENDER_IO;
 	}
-	
+
 	@Module(message = "JEI detected! Adding recipes to JEI.")
 	public static boolean JEI() {
 		if (JEI == null) {
@@ -107,7 +109,7 @@ public final class BrainStoneModules {
 
 		return TINKERS_CONSTRUCT;
 	}
-	
+
 	public static void detectModules() {
 		BSP.info("Checking available modules:");
 
