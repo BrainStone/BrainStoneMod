@@ -105,7 +105,7 @@ public class BrainStoneDamageHelper {
 			} else if (stack.getItem() instanceof ItemArmor && !source.isUnblockable()) {
 				ItemArmor armor = (ItemArmor) stack.getItem();
 				prop = new ArmorProperties(0, armor.damageReduceAmount / 25D,
-						armor.getMaxDamage() + 1 - stack.getItemDamage());
+						armor.getMaxDamage(stack) + 1 - stack.getItemDamage());
 			}
 			if (prop != null) {
 				prop.Slot = x;

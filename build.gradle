@@ -118,12 +118,12 @@ repositories{
 }
 
 dependencies {
-    deobfProvided group: "mezz.jei", name: "jei_${minecraft_version}", version: "${jei_version}"
-    deobfProvided group: "slimeknights", name: "TConstruct", version: "${minecraft_version}-${tconstruct_version}"
-    deobfProvided group: "slimeknights.mantle", name: "Mantle", version: "${minecraft_version}-${mantle_version}"
-    provided "com.enderio.core:EnderCore:${minecraft_version}-${endercore_version}"
-    provided "com.enderio:EnderIO:${minecraft_version}-${enderio_version}"
-    provided("com.brandon3055.draconicevolution:Draconic-Evolution:${minecraft_version}-${draconicEvolution_version}:deobf") {
+    deobfCompile group: "mezz.jei", name: "jei_${minecraft_version}", version: "${jei_version}"
+    deobfCompile group: "slimeknights", name: "TConstruct", version: "${minecraft_version}-${tconstruct_version}"
+    deobfCompile group: "slimeknights.mantle", name: "Mantle", version: "${minecraft_version}-${mantle_version}"
+    compile "com.enderio.core:EnderCore:${minecraft_version}-${endercore_version}"
+    compile "com.enderio:EnderIO:${minecraft_version}-${enderio_version}"
+    compile("com.brandon3055.draconicevolution:Draconic-Evolution:${minecraft_version}-${draconicEvolution_version}:deobf") {
         exclude module: "jei_${minecraft_version}"
         exclude module: "OpenComputers"
     }
