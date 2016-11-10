@@ -74,7 +74,7 @@ public final class BrainStoneModules {
 		return BETTER_ACHIEVEMENTS;
 	}
 
-	@Module(modid = DRACONIC_EVOLUTION_MODID, name = "Draconic Eveolution", message = "Balancing and adding recipes.")
+	@Module(modid = DRACONIC_EVOLUTION_MODID, name = "Draconic Evolution", message = "Balancing and adding recipes.")
 	public static boolean draconicEvolution() {
 		if (DRACONIC_EVOLUTION == null) {
 			DRACONIC_EVOLUTION = Loader.isModLoaded(DRACONIC_EVOLUTION_MODID);
@@ -110,7 +110,7 @@ public final class BrainStoneModules {
 		return JER;
 	}
 
-	@Module(modid = MFR_MODID, name = "MineFactory Reloaded", message = "Adding BrainStoneOre to the MiningLaser.")
+	//@Module(modid = MFR_MODID, name = "MineFactory Reloaded", message = "Adding BrainStoneOre to the MiningLaser.")
 	public static boolean MFR() {
 		if (MFR == null) {
 			MFR = Loader.isModLoaded(MFR_MODID);
@@ -128,7 +128,7 @@ public final class BrainStoneModules {
 		return OVERLORD;
 	}
 
-	@Module(modid = THAUMCRAFT_MODID, name = "Thaumcraft", message = "Adding aspect and fitting aspects to items.")
+	//@Module(modid = THAUMCRAFT_MODID, name = "Thaumcraft", message = "Adding aspect and fitting aspects to items.")
 	public static boolean thaumcraft() {
 		if (THAUMCRAFT == null) {
 			THAUMCRAFT = Loader.isModLoaded(THAUMCRAFT_MODID);

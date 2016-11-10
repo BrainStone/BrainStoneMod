@@ -52,6 +52,25 @@ gui.brainstone.simple=Einfach
 gui.brainstone.proportional=Proportional
 gui.brainstone.inverted=Invertiert
 
+gui.brainstone.config.cat.modules=Module
+gui.brainstone.config.cat.modules.tooltip=Deaktiviere gewisse Kompatibilitätsmodule manuell
+gui.brainstone.config.cat.modules.disablebaubles=Deaktiviere Baubles
+gui.brainstone.config.cat.modules.disablebaubles.tooltip=Deaktiviere das Kompatibilitätsmodul für Baubles manuell
+gui.brainstone.config.cat.modules.disablebetterachievements=Deaktiviere Better Achievements
+gui.brainstone.config.cat.modules.disablebetterachievements.tooltip=Deaktiviere das Kompatibilitätsmodul für  Better Achievements manuell
+gui.brainstone.config.cat.modules.disabledraconicevolution=Deaktiviere Draconic Evolution
+gui.brainstone.config.cat.modules.disabledraconicevolution.tooltip=Deaktiviere das Kompatibilitätsmodul für Draconic Evolution manuell
+gui.brainstone.config.cat.modules.disableenderio=Deaktiviere EnderIO
+gui.brainstone.config.cat.modules.disableenderio.tooltip=Deaktiviere das Kompatibilitätsmodul für EnderIO manuell
+gui.brainstone.config.cat.modules.disablejei=Deaktiviere Just Enough Items (JEI)
+gui.brainstone.config.cat.modules.disablejei.tooltip=Deaktiviere das Kompatibilitätsmodul für Just Enough Items (JEI) manuell
+gui.brainstone.config.cat.modules.disablejeresources=Deaktiviere Just Enough Resources (JER)
+gui.brainstone.config.cat.modules.disablejeresources.tooltip=Deaktiviere das Kompatibilitätsmodul für Just Enough Resources (JER) manuell
+gui.brainstone.config.cat.modules.disableoverlord=Deaktiviere Overlord
+gui.brainstone.config.cat.modules.disableoverlord.tooltip=Deaktiviere das Kompatibilitätsmodul für Overlord manuell
+gui.brainstone.config.cat.modules.disabletconstruct=Deaktiviere Tinker's Construct
+gui.brainstone.config.cat.modules.disabletconstruct.tooltip=Deaktiviere das Kompatibilitätsmodul für Tinker's Construct manuell
+
 gui.brainstone.config.cat.miscellaneous=Sonstige
 gui.brainstone.config.cat.miscellaneous.tooltip=Modifiziere alle sonstigen Einstellungen
 gui.brainstone.config.cat.miscellaneous.enableachievementpage=Aktiviere eigene Achievement Seite
