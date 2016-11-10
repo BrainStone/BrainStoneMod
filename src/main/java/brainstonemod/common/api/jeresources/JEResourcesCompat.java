@@ -1,4 +1,4 @@
-package brainstonemod.common.api.jer;
+package brainstonemod.common.api.jeresources;
 
 import brainstonemod.BrainStone;
 import brainstonemod.common.api.IModIntegration;
@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-public class JERCompat implements IModIntegration {
+public class JEResourcesCompat implements IModIntegration {
 	@JERPlugin
 	public static IJERAPI jerAPI;
 
@@ -23,13 +23,15 @@ public class JERCompat implements IModIntegration {
 
 	@Override
 	public void init(FMLInitializationEvent event) {
-		// jerAPI.getMobRegistry().register(new EntityWither(new
-		// FakeClientWorld()),
-		// new LootDrop(new ItemStack(BrainStone.essenceOfLife()),
-		// (float) BrainStoneConfigWrapper.getEssenceOfLifeBaseChance()));
+		// final World world = new FakeClientWorld();
+		// final ItemStack essenceOfLife = new
+		// ItemStack(BrainStone.essenceOfLife());
+		final ItemStack brainStoneOre = new ItemStack(BrainStone.brainStoneOre());
+		final ItemStack brainStoneDust = new ItemStack(BrainStone.brainStoneDust());
 
-		ItemStack brainStoneOre = new ItemStack(BrainStone.brainStoneOre());
-		ItemStack brainStoneDust = new ItemStack(BrainStone.brainStoneDust());
+		// jerAPI.getMobRegistry().register(new EntityWither(world),
+		// new LootDrop(essenceOfLife, (float)
+		// BrainStoneConfigWrapper.getEssenceOfLifeBaseChance()));
 
 		jerAPI.getWorldGenRegistry().register(brainStoneOre, new DistributionSquare(1, 20, 0, 32),
 				new LootDrop(brainStoneDust, 0, 1, 1.0f, 0), new LootDrop(brainStoneDust, 0, 2, 1.0f, 1),
