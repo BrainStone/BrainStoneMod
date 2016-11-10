@@ -1,4 +1,4 @@
-package brainstonemod.common.api;
+package brainstonemod.common.compat;
 
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;

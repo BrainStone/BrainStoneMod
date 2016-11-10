@@ -1,11 +1,16 @@
 package brainstonemod.common.block;
 
+import java.util.List;
+import java.util.Random;
+
+import org.apache.commons.lang3.ArrayUtils;
+
 import brainstonemod.BrainStone;
-import brainstonemod.common.api.BrainStoneModules;
-import brainstonemod.common.api.enderio.BrainStoneUpgrade;
-import brainstonemod.common.api.overlord.IOverlordCompat;
-import brainstonemod.common.api.overlord.OverlordCompat;
 import brainstonemod.common.block.template.BlockBrainStoneBase;
+import brainstonemod.common.compat.BrainStoneModules;
+import brainstonemod.common.compat.enderio.BrainStoneUpgrade;
+import brainstonemod.common.compat.overlord.IOverlordCompat;
+import brainstonemod.common.compat.overlord.OverlordCompat;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.item.ItemArmorBrainStone;
 import brainstonemod.network.BrainStonePacketHelper;
@@ -25,10 +30,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Loader;
-import org.apache.commons.lang3.ArrayUtils;
-
-import java.util.List;
-import java.util.Random;
 
 public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 	private final boolean effect;

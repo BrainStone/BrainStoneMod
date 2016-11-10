@@ -1,5 +1,7 @@
 package brainstonemod.common.block;
 
+import java.util.Random;
+
 import brainstonemod.BrainStone;
 import brainstonemod.common.block.template.BlockBrainStoneBase;
 import net.minecraft.block.material.Material;
@@ -12,8 +14,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-
-import java.util.Random;
 
 public class BlockBrainStone extends BlockBrainStoneBase {
 	/**

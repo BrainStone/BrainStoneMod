@@ -1,7 +1,5 @@
 package brainstonemod.common.helper;
 
-import lombok.Cleanup;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,6 +15,8 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 import java.util.zip.ZipException;
+
+import lombok.Cleanup;
 
 /**
  * A universal static helper class.<br>

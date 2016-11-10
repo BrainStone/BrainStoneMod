@@ -1,4 +1,4 @@
-package brainstonemod.common.api.enderio;
+package brainstonemod.common.compat.enderio;
 
 import crazypants.enderio.ModObject;
 import lombok.experimental.UtilityClass;

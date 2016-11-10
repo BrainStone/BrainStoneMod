@@ -1,5 +1,8 @@
 package brainstonemod.common.helper;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,9 +12,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.common.ISpecialArmor.ArmorProperties;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class BrainStoneDamageHelper {
 	public static float getAdjustedDamage(DamageSource damageSource, float initalDamage, EntityPlayer player,

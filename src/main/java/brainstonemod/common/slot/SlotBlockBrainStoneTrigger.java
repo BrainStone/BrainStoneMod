@@ -1,12 +1,12 @@
 package brainstonemod.common.slot;
 
+import brainstonemod.BrainStone;
+import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import brainstonemod.BrainStone;
-import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
 
 public class SlotBlockBrainStoneTrigger extends Slot {
 	public SlotBlockBrainStoneTrigger(

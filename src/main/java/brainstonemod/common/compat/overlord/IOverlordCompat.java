@@ -1,4 +1,4 @@
-package brainstonemod.common.api.overlord;
+package brainstonemod.common.compat.overlord;
 
 import net.minecraft.entity.Entity;
 

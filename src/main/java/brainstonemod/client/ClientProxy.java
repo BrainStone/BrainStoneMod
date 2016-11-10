@@ -1,5 +1,7 @@
 package brainstonemod.client;
 
+import static brainstonemod.BrainStone.MOD_ID;
+
 import brainstonemod.common.CommonProxy;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -11,8 +13,6 @@ import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-
-import static brainstonemod.BrainStone.MOD_ID;
 
 public class ClientProxy extends CommonProxy {
 

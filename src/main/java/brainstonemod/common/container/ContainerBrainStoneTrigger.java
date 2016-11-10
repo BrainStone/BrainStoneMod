@@ -1,12 +1,12 @@
 package brainstonemod.common.container;
 
+import brainstonemod.common.slot.SlotBlockBrainStoneTrigger;
+import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import brainstonemod.common.slot.SlotBlockBrainStoneTrigger;
-import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
 
 public class ContainerBrainStoneTrigger extends Container {
 	/** Temporary storage of the TileEntity */

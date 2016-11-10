@@ -1,5 +1,7 @@
 package brainstonemod.client.gui;
 
+import org.lwjgl.input.Keyboard;
+
 import brainstonemod.client.gui.template.GuiBrainStoneBase;
 import brainstonemod.common.container.ContainerGeneric;
 import brainstonemod.common.tileentity.TileEntityBrainLightSensor;
@@ -8,7 +10,6 @@ import brainstonemod.network.packet.serverbound.PacketChangeDirection;
 import brainstonemod.network.packet.serverbound.PacketChangeState;
 import brainstonemod.network.packet.serverbound.PacketLightSensor;
 import net.minecraft.client.resources.I18n;
-import org.lwjgl.input.Keyboard;
 
 public class GuiBrainLightSensor extends GuiBrainStoneBase {
 	/** The temporary storage of the light level (red bars) */

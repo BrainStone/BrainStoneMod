@@ -1,7 +1,7 @@
-package brainstonemod.common.api.jeresources;
+package brainstonemod.common.compat.jeresources;
 
 import brainstonemod.BrainStone;
-import brainstonemod.common.api.IModIntegration;
+import brainstonemod.common.compat.IModIntegration;
 import jeresources.api.IJERAPI;
 import jeresources.api.JERPlugin;
 import jeresources.api.conditionals.Conditional;

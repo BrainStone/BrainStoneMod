@@ -1,4 +1,6 @@
-package brainstonemod.common.api.jei;
+package brainstonemod.common.compat.jei;
+
+import javax.annotation.Nonnull;
 
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.helper.BrainStoneLifeCapacitorUpgrade;
@@ -7,8 +9,6 @@ import mezz.jei.api.recipe.IRecipeWrapper;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import mezz.jei.util.ErrorUtil;
 import net.minecraft.item.ItemStack;
-
-import javax.annotation.Nonnull;
 
 /**
  * @author The_Fireplace

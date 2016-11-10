@@ -1,5 +1,8 @@
 package brainstonemod.common.tileentity;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
 import net.minecraft.block.Block;
@@ -17,9 +20,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class TileEntityBrainStoneTrigger extends TileEntity implements IInventory {
 	private static final ArrayList<TileEntityBrainStoneTrigger> failedTileEntities = new ArrayList<>();

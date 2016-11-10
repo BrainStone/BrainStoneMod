@@ -7,7 +7,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import brainstonemod.common.api.BrainStoneModules;
+import brainstonemod.common.compat.BrainStoneModules;
+import brainstonemod.common.compat.ModuleInformation;
 import brainstonemod.common.helper.BSP;
 import lombok.Getter;
 import lombok.experimental.UtilityClass;
@@ -21,6 +22,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @UtilityClass
 public class BrainStoneConfigWrapper {
+	public static final String CAT_MODULES = "modules";
 	public static final String CAT_MISC = "miscellaneous";
 	public static final String CAT_BSLC = "brainstonelifecapacitor";
 	public static final String CAT_GEN = "worldgen";
@@ -68,6 +70,7 @@ public class BrainStoneConfigWrapper {
 	}
 
 	public static void loadConfig() {
+		loadModuleSettings();
 		loadMiscellaneousSettings();
 		loadBrainStoneLifeCapacitorSettings();
 		loadWorldgenSettings();
@@ -86,6 +89,21 @@ public class BrainStoneConfigWrapper {
 		loadConfig();
 	}
 
+	private static void loadModuleSettings() {
+		for (ModuleInformation module : BrainStoneModules.getAllModules()) {
+			if (getBoolean(CAT_MODULES, "Disable" + firstUpper(module.getModid()), false,
+					"Manually disable the compatibility module for " + module.getName(), true)) {
+				if (module.isActive())
+					BSP.info("Module " + module.getName() + " manually disabled!");
+
+				module.disable();
+			}
+		}
+
+		addCustomCategoryComment(CAT_MODULES,
+				"This set allows you to manually disable certain compatibility modules for other mods.");
+	}
+
 	private static void loadMiscellaneousSettings() {
 		enableCreativeTab = getBoolean(CAT_MISC, "EnableCreativeTab", true,
 				"Do you want to have a custom Creative Tab for this mod?", true);
@@ -96,7 +114,7 @@ public class BrainStoneConfigWrapper {
 						+ "If the base chance is 50% (depends on what other mods you have loaded) and you set this value to 20 (%) the chance becomes 50% + (50% * 20%) = 60%.")
 				/ 100.0) + 1.0) * (BrainStoneModules.draconicEvolution() ? 0.1 : 0.5);
 
-		addCustomCategoryComment(CAT_MISC, "This set defines miscellaneous settings");
+		addCustomCategoryComment(CAT_MISC, "This set defines miscellaneous settings.");
 	}
 
 	private static void loadBrainStoneLifeCapacitorSettings() {
@@ -105,7 +123,7 @@ public class BrainStoneConfigWrapper {
 		BSLCRFperHalfHeart = getInt(CAT_BSLC, "RFperHalfHeart", 1000000, 200, Integer.MAX_VALUE,
 				"How much energy half a heart should cost?");
 
-		addCustomCategoryComment(CAT_BSLC, "This set defines the behavior of the BrainStoneLifeCapacitor");
+		addCustomCategoryComment(CAT_BSLC, "This set defines the behavior of the BrainStoneLifeCapacitor.");
 	}
 
 	private static void loadWorldgenSettings() {
@@ -114,7 +132,7 @@ public class BrainStoneConfigWrapper {
 		brainStoneHouseDims = getIntList(CAT_GEN, "BrainStoneHouseDimensionsWhitelist", new int[] { 0 },
 				"In which dimensions should the Brain Stone House be generated?");
 
-		addCustomCategoryComment(CAT_GEN, "This set defines world generation settings");
+		addCustomCategoryComment(CAT_GEN, "This set defines world generation settings.");
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -137,7 +155,7 @@ public class BrainStoneConfigWrapper {
 		// Save the positions of the achievements
 		for (int i = 0; i < achievementNames.length; i++) {
 			curAch = achievementNames[i];
-			curAchUp = Character.toUpperCase(curAch.charAt(0)) + curAch.substring(1);
+			curAchUp = firstUpper(curAch);
 
 			achievementXPositions.put(curAch, getInt(achievementPageName, "Xpos" + curAchUp, xPos[i], -20, 20,
 					achievementPageDescX + curAch + " achievement"));
@@ -151,6 +169,10 @@ public class BrainStoneConfigWrapper {
 		else
 			addCustomCategoryComment("regularachievementpage",
 					"This set defines the positions of the achievements on the default Minecraft Achievement Page.\nOnly applies when \"B:EnableAchievementPage\" is set to false.");
+	}
+
+	private static String firstUpper(String str) {
+		return Character.toUpperCase(str.charAt(0)) + str.substring(1);
 	}
 
 	private static String getDefaultLangKey(String category, String name) {
@@ -284,6 +306,11 @@ public class BrainStoneConfigWrapper {
 			return achievementYPositions.get(achievement);
 		else
 			return 0;
+	}
+
+	@SideOnly(Side.CLIENT)
+	public static List<IConfigElement> getModulesCategory() {
+		return new ConfigElement(configStorage.getCategory(CAT_MODULES)).getChildElements();
 	}
 
 	@SideOnly(Side.CLIENT)

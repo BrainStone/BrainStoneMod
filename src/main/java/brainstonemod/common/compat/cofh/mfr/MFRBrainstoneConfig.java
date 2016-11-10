@@ -1,4 +1,4 @@
-package brainstonemod.common.api.cofh.mfr;
+package brainstonemod.common.compat.cofh.mfr;
 
 /*import net.minecraft.item.ItemStack;
 import powercrystals.minefactoryreloaded.MFRRegistry;

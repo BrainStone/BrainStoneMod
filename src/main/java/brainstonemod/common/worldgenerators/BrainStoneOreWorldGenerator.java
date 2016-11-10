@@ -1,5 +1,9 @@
 package brainstonemod.common.worldgenerators;
 
+import java.util.Random;
+
+import org.apache.commons.lang3.ArrayUtils;
+
 import brainstonemod.BrainStone;
 import brainstonemod.common.config.BrainStoneConfigWrapper;
 import net.minecraft.block.Block;
@@ -9,9 +13,6 @@ import net.minecraft.world.chunk.IChunkGenerator;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.fml.common.IWorldGenerator;
-import org.apache.commons.lang3.ArrayUtils;
-
-import java.util.Random;
 
 public class BrainStoneOreWorldGenerator implements IWorldGenerator {
 	/** Temporary storage of the random parameter in generate */

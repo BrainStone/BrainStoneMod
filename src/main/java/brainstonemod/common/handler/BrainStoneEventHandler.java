@@ -6,7 +6,7 @@ import java.util.UUID;
 
 import baubles.api.BaublesApi;
 import brainstonemod.BrainStone;
-import brainstonemod.common.api.BrainStoneModules;
+import brainstonemod.common.compat.BrainStoneModules;
 import brainstonemod.common.config.BrainStoneConfigWrapper;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.helper.BrainStoneDamageHelper;

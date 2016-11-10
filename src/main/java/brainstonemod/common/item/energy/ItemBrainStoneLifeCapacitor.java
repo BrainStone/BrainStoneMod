@@ -17,7 +17,7 @@ import baubles.api.BaubleType;
 import baubles.api.IBauble;
 import brainstonemod.BrainStone;
 import brainstonemod.client.config.BrainStoneClientConfigWrapper;
-import brainstonemod.common.api.BrainStoneModules;
+import brainstonemod.common.compat.BrainStoneModules;
 import brainstonemod.common.config.BrainStoneConfigWrapper;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.helper.BrainStonePowerDisplayUtil;

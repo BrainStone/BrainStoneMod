@@ -1,7 +1,7 @@
-package brainstonemod.common.api.enderio;
+package brainstonemod.common.compat.enderio;
 
 import brainstonemod.BrainStone;
-import brainstonemod.common.api.BrainStoneModules;
+import brainstonemod.common.compat.BrainStoneModules;
 import crazypants.enderio.item.darksteel.DarkSteelRecipeManager;
 import crazypants.enderio.machine.alloy.AlloyRecipeManager;
 import crazypants.enderio.machine.recipe.BasicManyToOneRecipe;

@@ -1,6 +1,6 @@
-package brainstonemod.common.api.enderio;
+package brainstonemod.common.compat.tconstruct;
 
-import brainstonemod.common.api.IModIntegration;
+import brainstonemod.common.compat.IModIntegration;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -8,7 +8,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 /**
  * @author The_Fireplace
  */
-public class EIOCompat implements IModIntegration {
+public class TiConCompat implements IModIntegration {
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		// Do nothing
@@ -21,7 +21,7 @@ public class EIOCompat implements IModIntegration {
 
 	@Override
 	public void postInit(FMLPostInitializationEvent event) {
-		EnderIORecipies.registerEnderIORecipies();
+		TinkersContructMaterialBrainStone.initToolMaterials();
 	}
 
 	@Override

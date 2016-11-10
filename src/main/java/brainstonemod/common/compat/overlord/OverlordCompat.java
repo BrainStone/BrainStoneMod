@@ -1,6 +1,6 @@
-package brainstonemod.common.api.overlord;
+package brainstonemod.common.compat.overlord;
 
-import brainstonemod.common.api.IModIntegration;
+import brainstonemod.common.compat.IModIntegration;
 import net.minecraft.entity.Entity;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;

@@ -1,4 +1,4 @@
-package brainstonemod.common.api.thaumcraft;
+package brainstonemod.common.compat.thaumcraft;
 
 /*import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;

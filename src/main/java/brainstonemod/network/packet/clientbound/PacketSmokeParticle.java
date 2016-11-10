@@ -1,13 +1,13 @@
 package brainstonemod.network.packet.clientbound;
 
+import java.util.Random;
+
 import brainstonemod.common.block.BlockBrainLightSensor;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-
-import java.util.Random;
 
 public class PacketSmokeParticle implements IMessage {
 	private int x, y, z;

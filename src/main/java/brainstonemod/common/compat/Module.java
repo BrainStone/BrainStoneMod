@@ -1,4 +1,4 @@
-package brainstonemod.common.api;
+package brainstonemod.common.compat;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -15,6 +15,10 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface Module {
+	String modid();
+
+	String name();
+
 	String message();
 
 	Class<? extends IModIntegration> integration() default IModIntegration.class;

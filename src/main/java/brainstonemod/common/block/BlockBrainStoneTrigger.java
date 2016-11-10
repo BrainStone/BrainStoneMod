@@ -1,5 +1,10 @@
 package brainstonemod.common.block;
 
+import java.util.List;
+import java.util.Random;
+
+import javax.annotation.Nullable;
+
 import brainstonemod.BrainStone;
 import brainstonemod.common.block.property.UnlistedPropertyCopiedBlock;
 import brainstonemod.common.block.template.BlockBrainStoneHiders;
@@ -28,10 +33,6 @@ import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nullable;
-import java.util.List;
-import java.util.Random;
 
 public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 	public static final UnlistedPropertyCopiedBlock COPIEDBLOCK = new UnlistedPropertyCopiedBlock();

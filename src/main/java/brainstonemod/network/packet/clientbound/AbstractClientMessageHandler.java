@@ -1,9 +1,9 @@
 package brainstonemod.network.packet.clientbound;
 
 import brainstonemod.network.packet.AbstractMessageHandler;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import net.minecraft.entity.player.EntityPlayer;
 
 /**
  * @author The_Fireplace

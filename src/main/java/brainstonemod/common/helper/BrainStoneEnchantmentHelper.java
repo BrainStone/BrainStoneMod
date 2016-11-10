@@ -1,10 +1,10 @@
 package brainstonemod.common.helper;
 
+import java.util.HashMap;
+
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
-
-import java.util.HashMap;
 
 public abstract class BrainStoneEnchantmentHelper extends EnchantmentHelper {
 	public static final ItemStack addEnchantment(ItemStack item,

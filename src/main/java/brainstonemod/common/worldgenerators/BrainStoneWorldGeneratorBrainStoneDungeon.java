@@ -1,5 +1,8 @@
 package brainstonemod.common.worldgenerators;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
 import net.minecraft.block.Block;
@@ -12,9 +15,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
-
-import java.util.ArrayList;
-import java.util.Random;
 
 public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 	private int x, y, z;

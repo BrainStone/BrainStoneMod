@@ -1,4 +1,4 @@
-package brainstonemod.common.api.tconstruct;
+package brainstonemod.common.compat.tconstruct;
 
 import static slimeknights.tconstruct.library.materials.MaterialTypes.EXTRA;
 import static slimeknights.tconstruct.library.materials.MaterialTypes.HANDLE;
@@ -11,7 +11,7 @@ import static slimeknights.tconstruct.tools.TinkerTraits.unnatural;
 import static slimeknights.tconstruct.tools.TinkerTraits.writable;
 
 import brainstonemod.BrainStone;
-import brainstonemod.common.api.BrainStoneModules;
+import brainstonemod.common.compat.BrainStoneModules;
 import lombok.experimental.UtilityClass;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraftforge.fml.common.Optional;

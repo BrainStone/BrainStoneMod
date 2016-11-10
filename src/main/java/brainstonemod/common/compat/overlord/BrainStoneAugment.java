@@ -1,8 +1,11 @@
-package brainstonemod.common.api.overlord;
+package brainstonemod.common.compat.overlord;
+
+import java.util.List;
+import java.util.Random;
 
 import brainstonemod.BrainStone;
-import brainstonemod.common.api.BrainStoneModules;
 import brainstonemod.common.block.BlockPulsatingBrainStone;
+import brainstonemod.common.compat.BrainStoneModules;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.network.BrainStonePacketHelper;
 import net.minecraft.entity.Entity;
@@ -18,9 +21,6 @@ import net.minecraftforge.fml.common.Optional;
 import the_fireplace.overlord.entity.EntityArmyMember;
 import the_fireplace.overlord.registry.AugmentRegistry;
 import the_fireplace.overlord.tools.Augment;
-
-import java.util.List;
-import java.util.Random;
 
 /**
  * @author The_Fireplace

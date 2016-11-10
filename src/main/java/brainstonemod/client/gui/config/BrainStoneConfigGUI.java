@@ -20,6 +20,8 @@ public class BrainStoneConfigGUI extends GuiConfig {
 		List<IConfigElement> list = new ArrayList<>();
 
 		// Add categories to config GUI
+		list.add(categoryElement(BrainStoneConfigWrapper.getModulesCategory(), "Modules",
+				"gui.brainstone.config.cat.modules"));
 		list.add(categoryElement(BrainStoneConfigWrapper.getMiscCategory(), "Miscellaneous",
 				"gui.brainstone.config.cat.miscellaneous"));
 		list.add(categoryElement(BrainStoneConfigWrapper.getBrainStoneLifeCapacitorCategory(), "BrainStoneLifeCapacitor",

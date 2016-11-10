@@ -1,8 +1,8 @@
-package brainstonemod.common.api.betterachievements;
+package brainstonemod.common.compat.betterachievements;
 
 import betterachievements.api.util.IMCHelper;
 import brainstonemod.BrainStone;
-import brainstonemod.common.api.IModIntegration;
+import brainstonemod.common.compat.IModIntegration;
 import brainstonemod.common.config.BrainStoneConfigWrapper;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;

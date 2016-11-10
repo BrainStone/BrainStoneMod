@@ -1,5 +1,9 @@
 package brainstonemod.common.block;
 
+import java.util.Random;
+
+import javax.annotation.Nullable;
+
 import brainstonemod.BrainStone;
 import brainstonemod.common.block.template.BlockBrainStoneContainerBase;
 import brainstonemod.common.helper.BSP;
@@ -21,9 +25,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
-
-import javax.annotation.Nullable;
-import java.util.Random;
 
 public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 

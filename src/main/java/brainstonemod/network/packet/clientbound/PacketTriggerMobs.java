@@ -1,15 +1,15 @@
 package brainstonemod.network.packet.clientbound;
 
+import java.util.LinkedHashMap;
+import java.util.Map.Entry;
+
 import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.player.EntityPlayer;
-
-import java.util.LinkedHashMap;
-import java.util.Map.Entry;
 
 public class PacketTriggerMobs implements IMessage {
 	private LinkedHashMap<String, Class<?>[]> triggerEntities;

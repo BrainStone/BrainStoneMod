@@ -1,11 +1,11 @@
 package brainstonemod.common.block.template;
 
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
-
-import java.util.Random;
 
 public class BlockBrainStoneBase extends Block {
 

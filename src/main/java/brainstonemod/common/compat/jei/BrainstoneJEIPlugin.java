@@ -1,11 +1,16 @@
-package brainstonemod.common.api.jei;
-
-import brainstonemod.BrainStone;
-import mezz.jei.api.*;
-import mezz.jei.api.ingredients.IModIngredientRegistration;
-import net.minecraft.item.ItemStack;
+package brainstonemod.common.compat.jei;
 
 import javax.annotation.Nonnull;
+
+import brainstonemod.BrainStone;
+import mezz.jei.api.IJeiHelpers;
+import mezz.jei.api.IJeiRuntime;
+import mezz.jei.api.IModPlugin;
+import mezz.jei.api.IModRegistry;
+import mezz.jei.api.ISubtypeRegistry;
+import mezz.jei.api.JEIPlugin;
+import mezz.jei.api.ingredients.IModIngredientRegistration;
+import net.minecraft.item.ItemStack;
 
 @JEIPlugin
 public class BrainstoneJEIPlugin implements IModPlugin {

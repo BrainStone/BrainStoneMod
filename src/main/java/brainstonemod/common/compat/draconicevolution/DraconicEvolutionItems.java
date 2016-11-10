@@ -1,4 +1,4 @@
-package brainstonemod.common.api.draconicevolution;
+package brainstonemod.common.compat.draconicevolution;
 
 import com.brandon3055.draconicevolution.DEFeatures;
 

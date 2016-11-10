@@ -12,15 +12,15 @@ import brainstonemod.client.gui.helper.BrainStoneModCreativeTab;
 import brainstonemod.client.handler.BrainStoneClientEvents;
 import brainstonemod.client.render.BSTriggerModel;
 import brainstonemod.common.CommonProxy;
-import brainstonemod.common.api.BrainStoneModules;
-import brainstonemod.common.api.draconicevolution.DraconicEvolutionItems;
-import brainstonemod.common.api.enderio.EnderIOItems;
 import brainstonemod.common.block.BlockBrainLightSensor;
 import brainstonemod.common.block.BlockBrainStone;
 import brainstonemod.common.block.BlockBrainStoneOre;
 import brainstonemod.common.block.BlockBrainStoneTrigger;
 import brainstonemod.common.block.BlockPulsatingBrainStone;
 import brainstonemod.common.block.template.BlockBrainStoneBase;
+import brainstonemod.common.compat.BrainStoneModules;
+import brainstonemod.common.compat.draconicevolution.DraconicEvolutionItems;
+import brainstonemod.common.compat.enderio.EnderIOItems;
 import brainstonemod.common.config.BrainStoneConfigWrapper;
 import brainstonemod.common.handler.BrainStoneEventHandler;
 import brainstonemod.common.helper.BSP;
@@ -230,9 +230,9 @@ public class BrainStone {
 		BSP.log(VALID_JAR ? logLevel : Level.WARN, "Jar is " + (VALID_JAR ? "" : "not ") + "valid!",
 				"Jar is " + (BrainStoneJarUtils.SIGNED_JAR ? "" : "not ") + "signed!");
 
-		BrainStoneModules.detectModules();
-
 		BrainStoneConfigWrapper.loadConfig(new Configuration(event.getSuggestedConfigurationFile()));
+		BrainStoneModules.detectActiveModules();
+
 		generateMcModInfoFile(event);
 		createEnums();
 		generateBlocksAndItems();
