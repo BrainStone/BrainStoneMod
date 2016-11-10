@@ -29,11 +29,11 @@ public class BrainstoneJEIPlugin implements IModPlugin {
 
 	@Override
 	public void registerItemSubtypes(ISubtypeRegistry subtypeRegistry) {
-
+		// Do nothing
 	}
 
 	@Override
 	public void registerIngredients(IModIngredientRegistration registry) {
-
+		// Do nothing
 	}
 }

@@ -39,7 +39,13 @@ public class BrainStoneConfigWrapper {
 	@Getter
 	private static int[] brainStoneOreDims;
 	@Getter
+	private static int brainStoneOreVeinCount;
+	@Getter
+	private static int brainStoneOreVeinSize;
+	@Getter
 	private static int[] brainStoneHouseDims;
+	@Getter
+	private static int brainStoneHouseRarity;
 	@Getter
 	@ServerOverride
 	private static boolean BSLCallowStealing;
@@ -129,8 +135,14 @@ public class BrainStoneConfigWrapper {
 	private static void loadWorldgenSettings() {
 		brainStoneOreDims = getIntList(CAT_GEN, "BrainStoneOreDimensionsWhitelist", new int[] { 0, 7, -100 },
 				"In which dimensions should Brain Stone Ore be generated?");
+		brainStoneOreVeinCount = getInt(CAT_GEN, "BrainStoneOreVeinCount", 1, 1, 20,
+				"How many veins of BrainStoneOre per chunk should be generated?");
+		brainStoneOreVeinSize = getInt(CAT_GEN, "BrainStoneOreVeinSize", 20, 1, 100,
+				"How big should the BrainStoneOre veins be? (In blocks on average)");
 		brainStoneHouseDims = getIntList(CAT_GEN, "BrainStoneHouseDimensionsWhitelist", new int[] { 0 },
 				"In which dimensions should the Brain Stone House be generated?");
+		brainStoneHouseRarity = getInt(CAT_GEN, "BrainStoneHouseRarity", 10000, 100, 1000000,
+				"How rare should the BraiNStoneHouse be? (Generated once every n chunks)");
 
 		addCustomCategoryComment(CAT_GEN, "This set defines world generation settings.");
 	}

@@ -31,15 +31,17 @@ public class BrainStoneOreWorldGenerator implements IWorldGenerator {
 		this.chunkX = chunkX * 16;
 		this.chunkZ = chunkZ * 16;
 		this.world = world;
+
 		if (ArrayUtils.contains(BrainStoneConfigWrapper.getBrainStoneOreDims(), this.world.provider.getDimension()))
-			this.genMinable(BrainStone.brainStoneOre(), 20, 1, 32);
+			this.genMinable(BrainStone.brainStoneOre(), BrainStoneConfigWrapper.getBrainStoneOreVeinSize(),
+					BrainStoneConfigWrapper.getBrainStoneOreVeinCount(), 32);
 	}
 
 	/**
 	 * Generates a vein. The minimum height is 0.
 	 * 
 	 * @param block
-	 *            The blockId of the ore
+	 *            The block of the ore
 	 * @param size
 	 *            The size of the vein
 	 * @param perChunk
@@ -48,24 +50,24 @@ public class BrainStoneOreWorldGenerator implements IWorldGenerator {
 	 *            The maximum height
 	 */
 	private void genMinable(Block block, int size, int perChunk, int high) {
-		this.genMinable(block, size, perChunk, high, 0);
+		this.genMinable(block, size, perChunk, 0, high);
 	}
 
 	/**
 	 * Generates a vein.
 	 * 
 	 * @param block
-	 *            The blockIdd of the ore
+	 *            The block of the ore
 	 * @param size
 	 *            The size of the vein
 	 * @param perChunk
 	 *            How many veins per chunk
-	 * @param high
-	 *            The maximum height
 	 * @param low
 	 *            The minimum height
+	 * @param high
+	 *            The maximum height
 	 */
-	private void genMinable(Block block, int size, int perChunk, int high, int low) {
+	private void genMinable(Block block, int size, int perChunk, int low, int high) {
 		int randPosX;
 		int randPosY;
 		int randPosZ;

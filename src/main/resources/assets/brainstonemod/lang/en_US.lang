@@ -91,8 +91,14 @@ gui.brainstone.config.cat.worldgen=Worldgen
 gui.brainstone.config.cat.worldgen.tooltip=Modify all the settings related to the worldgen
 gui.brainstone.config.cat.worldgen.brainstonehousedimensionswhitelist=Brain Stone House Dimensions Whitelist
 gui.brainstone.config.cat.worldgen.brainstonehousedimensionswhitelist.tooltip=In which dimensions should the Brain Stone House be generated?
+gui.brainstone.config.cat.worldgen.brainstonehouserarity=Brain Stone House Rarity
+gui.brainstone.config.cat.worldgen.brainstonehouserarity.tooltip=How rare should the BraiNStoneHouse be? (Generated once every n chunks)
 gui.brainstone.config.cat.worldgen.brainstoneoredimensionswhitelist=Brain Stone Ore Dimensions Whitelist
 gui.brainstone.config.cat.worldgen.brainstoneoredimensionswhitelist.tooltip=In which dimensions should Brain Stone Ore be generated?
+gui.brainstone.config.cat.worldgen.brainstoneoreveincount=Brain Stone Ore Vein Count
+gui.brainstone.config.cat.worldgen.brainstoneoreveincount.tooltip=How many veins of BrainStoneOre per chunk should be generated?
+gui.brainstone.config.cat.worldgen.brainstoneoreveinsize=Brain Stone Ore Vein Size
+gui.brainstone.config.cat.worldgen.brainstoneoreveinsize.tooltip=How big should the BrainStoneOre veins be? (In blocks on average)
 
 capacitor.owner=Owner:
 capacitor.nobody=Nobody

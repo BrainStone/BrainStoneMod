@@ -22,7 +22,7 @@ public class BrainStoneHouseWorldGenerator implements IWorldGenerator {
 	private World world;
 
 	private void genBrainStoneDungeon() {
-		if (random.nextInt(1000) == 0) {
+		if (random.nextInt(BrainStoneConfigWrapper.getBrainStoneHouseRarity()) == 0) {
 			final BrainStoneWorldGeneratorBrainStoneDungeon name = new BrainStoneWorldGeneratorBrainStoneDungeon();
 
 			name.generate(world, random, new BlockPos(chunkX, 0, chunkZ));

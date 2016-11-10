@@ -91,8 +91,14 @@ gui.brainstone.config.cat.brainstonelifecapacitor.rfperhalfheart.tooltip=Wie vie
 gui.brainstone.config.cat.worldgen=Generierung
 gui.brainstone.config.cat.worldgen.brainstonehousedimensionswhitelist=Hirnsteinhaus-Dimensionswhitelist
 gui.brainstone.config.cat.worldgen.brainstonehousedimensionswhitelist.tooltip=In welchen Dimensionen soll das Hirnsteinhaus generiert werden?
-gui.brainstone.config.cat.worldgen.brainstoneoredimensionswhitelist=Hirnsteinerz-Dimensionswhitelis
+gui.brainstone.config.cat.worldgen.brainstonehouserarity=Hirnsteinhaus-Seltenheit
+gui.brainstone.config.cat.worldgen.brainstonehouserarity.tooltip=Wie selten soll das Hirnsteinhaus sein? (Alle n Chunks generiert)
+gui.brainstone.config.cat.worldgen.brainstoneoredimensionswhitelist=Hirnsteinerz-Dimensionswhitelist
 gui.brainstone.config.cat.worldgen.brainstoneoredimensionswhitelist.tooltip=In welchen Dimensionen soll Hirnsteinerz generiert werden?
+gui.brainstone.config.cat.worldgen.brainstoneoreveincount=Hirnsteinerz-Aderanzahl
+gui.brainstone.config.cat.worldgen.brainstoneoreveincount.tooltip=Wie viele Adern Hirnsteinerz sollen pro Chunk generiert werden?
+gui.brainstone.config.cat.worldgen.brainstoneoreveinsize=Hirnsteinerz-Adergröße
+gui.brainstone.config.cat.worldgen.brainstoneoreveinsize.tooltip=Wie groß sollen Hirnsteinerz-Adern sein? (In Blöcken im Durschnitt)
 
 capacitor.owner=Besitzer:
 capacitor.nobody=Niemand
