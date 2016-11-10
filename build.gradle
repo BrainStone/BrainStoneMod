@@ -238,10 +238,12 @@ curseforge {
         
         relations {
             optionalLibrary 'baubles'
+            optionalLibrary 'betterachievements'
             optionalLibrary 'draconic-evolution'
             optionalLibrary 'ender-io'
             optionalLibrary 'overlord'
             optionalLibrary 'just-enough-items-jei'
+            optionalLibrary 'just-enough-resources-jer'
             optionalLibrary 'tinkers-construct'
             
             //optionalLibrary 'minefactory-reloaded'
