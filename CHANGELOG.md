@@ -1,3 +1,8 @@
+v3.4.33 BETA release
+--------------------
+
+- Fixed modules not loading
+
 v3.4.32 BETA release
 --------------------
 
@@ -125,7 +130,8 @@ v2.57.40 BETA release
 v2.57.34 BETA release
 ---------------------
 
-Additions:  
+Additions:
+
 - Added NEI Support
 - Added a Creative Tab
 - Added an Achievement Page
@@ -137,7 +143,8 @@ Additions:
 - Added Stable Pulsating BrainStone (+Tools, Armor, etc)
 - Added Enable/Disable All buttons to the BrainStone Trigger GUI
 
-Changes:  
+Changes:
+
 - BrainStone Ore now works with the Mining Laser from Minefactory Reloaded
 - BrainStone is now a TiCon material
 - You can now configure whitelisted dimensions for BrainStone Ore and House
