@@ -7,6 +7,7 @@ import brainstonemod.common.item.energy.ItemBrainStoneLifeCapacitor;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
+import mezz.jei.JustEnoughItems;
 
 @UtilityClass
 public class BrainStoneClientConfigWrapper {
@@ -31,5 +32,8 @@ public class BrainStoneClientConfigWrapper {
 			BrainStoneClientConfigWrapper.class.getDeclaredField(value.getKey()).set(null, value.getValue());
 		
 		ItemBrainStoneLifeCapacitor.updateRFperHalfHeart();
+		
+		// TODO: Only call when necessary
+		JustEnoughItems.getProxy().restartJEI();
 	}
 }
