@@ -13,6 +13,8 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class BrainStoneClientConfigWrapper {
+	private static boolean initialized = false;
+
 	@Getter
 	@JEIReload
 	private static double essenceOfLifeBaseChance;
@@ -56,7 +58,9 @@ public class BrainStoneClientConfigWrapper {
 
 		ItemBrainStoneLifeCapacitor.updateRFperHalfHeart();
 
-		if (BrainStoneModules.JEI() && reloadJEI)
+		if (initialized && BrainStoneModules.JEI() && reloadJEI)
 			BrainstoneJEIPlugin.reloadJEI();
+
+		initialized = true;
 	}
 }
