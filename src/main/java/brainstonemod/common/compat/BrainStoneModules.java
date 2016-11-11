@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import brainstonemod.common.compat.betterachievements.BetterAchievementsCompat;
-import brainstonemod.common.compat.enderio.EIOCompat;
+import brainstonemod.common.compat.enderio.EnderIOCompat;
 import brainstonemod.common.compat.jeresources.JEResourcesCompat;
 import brainstonemod.common.compat.overlord.OverlordCompat;
 import brainstonemod.common.compat.tconstruct.TiConCompat;
@@ -83,7 +83,7 @@ public final class BrainStoneModules {
 		return DRACONIC_EVOLUTION;
 	}
 
-	@Module(modid = ENDER_IO_MODID, name = "EnderIO", message = "Enabling recipes and armor upgrade.", integration = EIOCompat.class)
+	@Module(modid = ENDER_IO_MODID, name = "EnderIO", message = "Enabling recipes and armor upgrade.", integration = EnderIOCompat.class)
 	public static boolean enderIO() {
 		if (ENDER_IO == null) {
 			ENDER_IO = Loader.isModLoaded(ENDER_IO_MODID);
@@ -110,7 +110,8 @@ public final class BrainStoneModules {
 		return JER;
 	}
 
-	//@Module(modid = MFR_MODID, name = "MineFactory Reloaded", message = "Adding BrainStoneOre to the MiningLaser.")
+	// @Module(modid = MFR_MODID, name = "MineFactory Reloaded", message =
+	// "Adding BrainStoneOre to the MiningLaser.")
 	public static boolean MFR() {
 		if (MFR == null) {
 			MFR = Loader.isModLoaded(MFR_MODID);
@@ -128,7 +129,8 @@ public final class BrainStoneModules {
 		return OVERLORD;
 	}
 
-	//@Module(modid = THAUMCRAFT_MODID, name = "Thaumcraft", message = "Adding aspect and fitting aspects to items.")
+	// @Module(modid = THAUMCRAFT_MODID, name = "Thaumcraft", message = "Adding
+	// aspect and fitting aspects to items.")
 	public static boolean thaumcraft() {
 		if (THAUMCRAFT == null) {
 			THAUMCRAFT = Loader.isModLoaded(THAUMCRAFT_MODID);
@@ -189,6 +191,8 @@ public final class BrainStoneModules {
 
 					if (module.getIntegrationClass() != IModIntegration.class)
 						module.setIntegration(module.getIntegrationClass().newInstance());
+
+					activeModules.add(module);
 				}
 			} catch (Exception e) {
 				BSP.errorException(e);

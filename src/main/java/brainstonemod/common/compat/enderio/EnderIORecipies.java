@@ -10,15 +10,19 @@ import crazypants.enderio.machine.recipe.RecipeBonusType;
 import crazypants.enderio.machine.recipe.RecipeInput;
 import crazypants.enderio.machine.recipe.RecipeOutput;
 import crazypants.enderio.machine.sagmill.SagMillRecipeManager;
+import lombok.experimental.UtilityClass;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Optional;
 
+@UtilityClass
 public class EnderIORecipies {
 	@Optional.Method(modid = BrainStoneModules.ENDER_IO_MODID)
 	public static void registerEnderIORecipies() {
+		ItemStack brainStoneDust4 = new ItemStack(BrainStone.brainStoneDust(), 4);
+
 		// SAG Mill
 
 		// BrainStoneOre => BrainStoneDust, BrainStoneDust 50%
@@ -26,23 +30,19 @@ public class EnderIORecipies {
 				new RecipeOutput(new ItemStack(BrainStone.brainStoneDust()), 0.5f),
 				new RecipeOutput(new ItemStack(Blocks.COBBLESTONE), 0.15f));
 		// BrainStone => 4xBrainStoneDust
-		addSAGMillRecipe(BrainStone.brainStone(), 5000, RecipeBonusType.NONE,
-				new ItemStack(BrainStone.brainStoneDust(), 4));
+		addSAGMillRecipe(BrainStone.brainStone(), 5000, RecipeBonusType.NONE, brainStoneDust4);
 		// DirtyBrainStone => 4xBrainStoneDust
-		addSAGMillRecipe(BrainStone.dirtyBrainStone(), 4000, RecipeBonusType.NONE,
-				new ItemStack(BrainStone.brainStoneDust(), 4));
+		addSAGMillRecipe(BrainStone.dirtyBrainStone(), 4000, RecipeBonusType.NONE, brainStoneDust4);
 
 		// Alloy Smelter
 
 		// 4xBrainStoneDust => BrainStone
-		addAlloySmelterRecipe(BrainStone.brainStone(), 3000, new ItemStack(BrainStone.brainStoneDust(), 4));
+		addAlloySmelterRecipe(BrainStone.brainStone(), 3000, brainStoneDust4);
 		// 4xBrainStoneDust, 4xBrainStoneDust => 2xBrainStone
-		addAlloySmelterRecipe(new ItemStack(BrainStone.brainStone(), 2), 6000,
-				new ItemStack(BrainStone.brainStoneDust(), 4), new ItemStack(BrainStone.brainStoneDust(), 4));
+		addAlloySmelterRecipe(new ItemStack(BrainStone.brainStone(), 2), 6000, brainStoneDust4, brainStoneDust4);
 		// 4xBrainStoneDust, 4xBrainStoneDust, 4xBrainStoneDust => 3xBrainStone
-		addAlloySmelterRecipe(new ItemStack(BrainStone.brainStone(), 3), 9000,
-				new ItemStack(BrainStone.brainStoneDust(), 4), new ItemStack(BrainStone.brainStoneDust(), 4),
-				new ItemStack(BrainStone.brainStoneDust(), 4));
+		addAlloySmelterRecipe(new ItemStack(BrainStone.brainStone(), 3), 9000, brainStoneDust4, brainStoneDust4,
+				brainStoneDust4);
 
 		DarkSteelRecipeManager.instance.getUpgrades().add(BrainStoneUpgrade.UPGRADE);
 	}
