@@ -18,7 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Optional;
 
 @UtilityClass
-public class EnderIORecipies {
+public class EnderIORecipes {
 	@Optional.Method(modid = BrainStoneModules.ENDER_IO_MODID)
 	public static void registerEnderIORecipies() {
 		ItemStack brainStoneDust4 = new ItemStack(BrainStone.brainStoneDust(), 4);

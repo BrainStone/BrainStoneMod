@@ -21,7 +21,7 @@ public class EnderIOCompat implements IModIntegration {
 
 	@Override
 	public void postInit(FMLPostInitializationEvent event) {
-		EnderIORecipies.registerEnderIORecipies();
+		EnderIORecipes.registerEnderIORecipies();
 	}
 
 	@Override
