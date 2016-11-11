@@ -35,12 +35,15 @@ public class BrainStoneConfigWrapper {
 	@Getter
 	private static boolean enableAchievementPage;
 	@Getter
+	@ServerOverride
 	private static double essenceOfLifeBaseChance;
 	@Getter
 	private static int[] brainStoneOreDims;
 	@Getter
+	@ServerOverride
 	private static int brainStoneOreVeinCount;
 	@Getter
+	@ServerOverride
 	private static int brainStoneOreVeinSize;
 	@Getter
 	private static int[] brainStoneHouseDims;

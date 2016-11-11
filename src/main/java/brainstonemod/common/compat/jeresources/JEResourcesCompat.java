@@ -1,8 +1,8 @@
 package brainstonemod.common.compat.jeresources;
 
 import brainstonemod.BrainStone;
+import brainstonemod.client.config.BrainStoneClientConfigWrapper;
 import brainstonemod.common.compat.IModIntegration;
-import brainstonemod.common.config.BrainStoneConfigWrapper;
 import jeresources.api.IJERAPI;
 import jeresources.api.JERPlugin;
 import jeresources.api.conditionals.Conditional;
@@ -33,11 +33,11 @@ public class JEResourcesCompat implements IModIntegration {
 		final ItemStack brainStoneDust = new ItemStack(BrainStone.brainStoneDust());
 
 		jerAPI.getMobRegistry().register(new EntityWither(world),
-				new LootDrop(essenceOfLife, (float) BrainStoneConfigWrapper.getEssenceOfLifeBaseChance()));
+				new LootDrop(essenceOfLife, (float) BrainStoneClientConfigWrapper.getEssenceOfLifeBaseChance()));
 
 		jerAPI.getWorldGenRegistry().register(brainStoneOre,
-				new DistributionSquare(BrainStoneConfigWrapper.getBrainStoneOreVeinCount(),
-						BrainStoneConfigWrapper.getBrainStoneOreVeinSize(), 0, 32),
+				new DistributionSquare(BrainStoneClientConfigWrapper.getBrainStoneOreVeinCount(),
+						BrainStoneClientConfigWrapper.getBrainStoneOreVeinSize(), 0, 32),
 				new LootDrop(brainStoneDust, 0, 1, 1.0f, 0), new LootDrop(brainStoneDust, 0, 2, 1.0f, 1),
 				new LootDrop(brainStoneDust, 0, 3, 1.0f, 2), new LootDrop(brainStoneDust, 0, 4, 1.0f, 3),
 				new LootDrop(brainStoneOre, 1, 1, Conditional.silkTouch));

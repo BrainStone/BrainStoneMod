@@ -14,6 +14,15 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class BrainStoneClientConfigWrapper {
 	@Getter
+	@JEIReload
+	private static double essenceOfLifeBaseChance;
+	@Getter
+	@JEIReload
+	private static int brainStoneOreVeinCount;
+	@Getter
+	@JEIReload
+	private static int brainStoneOreVeinSize;
+	@Getter
 	private static boolean BSLCallowStealing;
 	@Getter
 	@JEIReload
