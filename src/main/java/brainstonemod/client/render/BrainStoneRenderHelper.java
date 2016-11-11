@@ -1,5 +1,8 @@
 package brainstonemod.client.render;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import brainstonemod.BrainStone;
 import lombok.experimental.UtilityClass;
 import net.minecraft.client.Minecraft;
@@ -16,6 +19,7 @@ import net.minecraft.util.ResourceLocation;
 @UtilityClass
 public class BrainStoneRenderHelper {
 	private static double pxl;
+	private static Map<String, ResourceLocation> resourceCache = new HashMap<>();
 
 	public static void drawTexturedRect(double x, double y, double width, double height, int u, int v, int uSize,
 			int vSize, double zLevel) {
@@ -30,7 +34,10 @@ public class BrainStoneRenderHelper {
 	}
 
 	public static void setTexture(String textureName, int size) {
-		setTexture(new ResourceLocation(BrainStone.RESOURCE_PACKAGE, textureName), size);
+		if (!resourceCache.containsKey(textureName))
+			resourceCache.put(textureName, new ResourceLocation(BrainStone.RESOURCE_PACKAGE, textureName));
+
+		setTexture(resourceCache.get(textureName), size);
 	}
 
 	public static void setTexture(ResourceLocation texture, int size) {
