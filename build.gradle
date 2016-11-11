@@ -131,6 +131,7 @@ dependencies {
     // Local Mods
     compile "lib:Baubles:+:deobf"
     compile "lib:BetterAchievements:+:deobf"
+    compile "lib:ImmersiveEngineering:+:deobf"
     compile "lib:JustEnoughResources:+:deobf"
     compile "lib:Overlord:+:deobf"
 }
