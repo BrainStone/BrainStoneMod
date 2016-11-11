@@ -433,10 +433,10 @@ public class BrainStone {
 	 */
 	private static void addRecipes() {
 		addRecipe(new ItemStack(dirtyBrainStone(), 1), "XX", "XX", 'X', "dustBrainstone");
-		addRecipe(new ItemStack(brainLightSensor(), 1), "XGX", "XBX", "XRX", 'X', "stone", 'G', "blockGlass", 'B',
-				"brainstone", 'R', "dustRedstone");
-		addRecipe(new ItemStack(brainStoneTrigger(), 1), "XXX", "RRR", "XBX", 'X', "stone", 'B', "brainstone", 'R',
-				"dustRedstone");
+		addRecipe(new ItemStack(brainLightSensor(), 1), "XGX", "XBX", "XPX", 'X', "stone", 'G', "blockGlass", 'B',
+				"brainstone", 'P', brainProcessor());
+		addRecipe(new ItemStack(brainStoneTrigger(), 1), "XXX", "RPR", "XBX", 'X', "stone", 'B', "brainstone", 'R',
+				"dustRedstone", 'P', brainProcessor());
 		addRecipe(new ItemStack(pulsatingBrainStone(), 1), "dBd", "BDB", "dBd", 'd', "dustBrainstone", 'B',
 				"brainstone", 'D', "gemDiamond");
 		addRecipe(new ItemStack(pulsatingBrainStone(), 1), "BdB", "dDd", "BdB", 'd', "dustBrainstone", 'B',
