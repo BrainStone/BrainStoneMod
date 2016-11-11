@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 
 import brainstonemod.common.compat.betterachievements.BetterAchievementsCompat;
 import brainstonemod.common.compat.enderio.EnderIOCompat;
+import brainstonemod.common.compat.immersiveengineering.ImmersiveEngineeringCompat;
 import brainstonemod.common.compat.jeresources.JEResourcesCompat;
 import brainstonemod.common.compat.overlord.OverlordCompat;
 import brainstonemod.common.compat.tconstruct.TiConCompat;
@@ -28,6 +29,7 @@ public final class BrainStoneModules {
 	public static final String BETTER_ACHIEVEMENTS_MODID = "BetterAchievements";
 	public static final String DRACONIC_EVOLUTION_MODID = "draconicevolution";
 	public static final String ENDER_IO_MODID = "EnderIO";
+	public static final String IMMERSIVE_ENGINEERING_MODID = "immersiveengineering";
 	public static final String JEI_MODID = "JEI";
 	public static final String JER_MODID = "jeresources";
 	public static final String MFR_MODID = "MineFactoryReloaded";
@@ -36,14 +38,15 @@ public final class BrainStoneModules {
 	public static final String TINKERS_CONSTRUCT_MODID = "tconstruct";
 
 	public static final String DEPENDENCIES = "after:" + BAUBLES_MODID + ";after:" + BETTER_ACHIEVEMENTS_MODID
-			+ ";after:" + DRACONIC_EVOLUTION_MODID + ";after:" + ENDER_IO_MODID + ";after:" + JEI_MODID + ";after:"
-			+ JER_MODID + ";after:" + MFR_MODID + ";after:" + OVERLORD_MODID + ";after:" + THAUMCRAFT_MODID + ";after:"
-			+ TINKERS_CONSTRUCT_MODID;
+			+ ";after:" + DRACONIC_EVOLUTION_MODID + ";after:" + ENDER_IO_MODID + ";after:"
+			+ IMMERSIVE_ENGINEERING_MODID + ";after:" + JEI_MODID + ";after:" + JER_MODID + ";after:" + MFR_MODID
+			+ ";after:" + OVERLORD_MODID + ";after:" + THAUMCRAFT_MODID + ";after:" + TINKERS_CONSTRUCT_MODID;
 
 	private static Boolean BAUBLES;
 	private static Boolean BETTER_ACHIEVEMENTS;
 	private static Boolean DRACONIC_EVOLUTION;
 	private static Boolean ENDER_IO;
+	private static Boolean IMMERSIVE_ENGINEERING;
 	private static Boolean JEI;
 	private static Boolean JER;
 	private static Boolean MFR;
@@ -90,6 +93,15 @@ public final class BrainStoneModules {
 		}
 
 		return ENDER_IO;
+	}
+
+	@Module(modid = IMMERSIVE_ENGINEERING_MODID, name = "Immersive Engineering", message = "Adding recipes.", integration = ImmersiveEngineeringCompat.class)
+	public static boolean immersiveEngineering() {
+		if (IMMERSIVE_ENGINEERING == null) {
+			IMMERSIVE_ENGINEERING = Loader.isModLoaded(IMMERSIVE_ENGINEERING_MODID);
+		}
+
+		return IMMERSIVE_ENGINEERING;
 	}
 
 	@Module(modid = JEI_MODID, name = "Just Enough Items (JEI)", message = "Adding recipes to JEI.")
