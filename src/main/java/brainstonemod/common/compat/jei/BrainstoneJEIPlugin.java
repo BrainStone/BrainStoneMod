@@ -3,6 +3,7 @@ package brainstonemod.common.compat.jei;
 import javax.annotation.Nonnull;
 
 import brainstonemod.BrainStone;
+import mezz.jei.JustEnoughItems;
 import mezz.jei.api.IJeiHelpers;
 import mezz.jei.api.IJeiRuntime;
 import mezz.jei.api.IModPlugin;
@@ -35,5 +36,9 @@ public class BrainstoneJEIPlugin implements IModPlugin {
 	@Override
 	public void registerIngredients(IModIngredientRegistration registry) {
 		// Do nothing
+	}
+	
+	public static void reloadJEI() {
+		JustEnoughItems.getProxy().restartJEI();
 	}
 }

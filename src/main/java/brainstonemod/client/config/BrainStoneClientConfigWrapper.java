@@ -1,19 +1,22 @@
 package brainstonemod.client.config;
 
+import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import brainstonemod.common.compat.BrainStoneModules;
+import brainstonemod.common.compat.jei.BrainstoneJEIPlugin;
 import brainstonemod.common.item.energy.ItemBrainStoneLifeCapacitor;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
-import mezz.jei.JustEnoughItems;
 
 @UtilityClass
 public class BrainStoneClientConfigWrapper {
 	@Getter
 	private static boolean BSLCallowStealing;
 	@Getter
+	@JEIReload
 	private static long BSLCRFperHalfHeart;
 
 	/**
@@ -28,12 +31,23 @@ public class BrainStoneClientConfigWrapper {
 	 */
 	@SneakyThrows
 	public static void setOverrideValues(Map<String, Object> values) {
-		for (Entry<String, Object> value : values.entrySet())
-			BrainStoneClientConfigWrapper.class.getDeclaredField(value.getKey()).set(null, value.getValue());
-		
+		Field field;
+		Object valueCache;
+		boolean reloadJEI = false;
+
+		for (Entry<String, Object> value : values.entrySet()) {
+			field = BrainStoneClientConfigWrapper.class.getDeclaredField(value.getKey());
+			valueCache = field.get(null);
+
+			field.set(null, value.getValue());
+
+			if (field.isAnnotationPresent(JEIReload.class) && !value.getValue().equals(valueCache))
+				reloadJEI = true;
+		}
+
 		ItemBrainStoneLifeCapacitor.updateRFperHalfHeart();
-		
-		// TODO: Only call when necessary
-		JustEnoughItems.getProxy().restartJEI();
+
+		if (BrainStoneModules.JEI() && reloadJEI)
+			BrainstoneJEIPlugin.reloadJEI();
 	}
 }
