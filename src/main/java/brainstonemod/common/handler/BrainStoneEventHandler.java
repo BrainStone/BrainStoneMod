@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.util.Random;
 import java.util.UUID;
 
+import baubles.api.BaubleType;
 import baubles.api.BaublesApi;
 import brainstonemod.BrainStone;
 import brainstonemod.common.compat.BrainStoneModules;
@@ -57,7 +58,7 @@ public class BrainStoneEventHandler {
 			return null;
 
 		if (BrainStoneModules.baubles()) {
-			ItemStack bStack = BaublesApi.getBaubles(player).getStackInSlot(3);
+			ItemStack bStack = BaublesApi.getBaublesHandler(player).getStackInSlot(BaubleType.BELT.getValidSlots()[0]);
 
 			if (checkStack(bStack, capacitorUUID)) {
 				return bStack;

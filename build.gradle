@@ -43,25 +43,24 @@ def getChangelog() {
 def getVersionType() {
     def lower_version = version.toLowerCase();
     
-    if (lower_version.contains("prerelease"))
+    if (lower_version.contains("beta"))
         return "beta";
-    else if (lower_version.contains("release"))
-        return "release";
-    else if (lower_version.contains("dev"))
-        return "beta";
-    else
+    else if (lower_version.contains("alpha"))
         return "alpha";
+    else
+        return "release";
 }
 def getVersionName() {
     try {
-        def tmp = "git describe --tags --dirty=-SNAPSHOT".execute().text.trim();
+        def tmp = "${minecraft_version}-" + ("git describe --tags --dirty=-SNAPSHOT".execute().text.trim().substring(1).replaceFirst("(\\d+)-g[0-9a-f]+", "dev\$1"));
         
         if (mod_version_postfix.isEmpty())
             return tmp;
         else
-            return tmp + " " + mod_version_postfix;
+            return tmp.replaceFirst("(.+?-.+?)-", "\$1-${mod_version_postfix}-");
     } catch(Exception e) {
-      return 'UNKNOWN-VERSION'
+        println e
+        return 'UNKNOWN-VERSION'
     }
 }
 def signJar(archivePath) {
@@ -106,27 +105,34 @@ repositories{
     maven { // EnderIO, EnderCore, EnderZoo, The One Probe
         url "http://maven.tterrag.com"
     }
-    maven { // Draconic Evolution
-        url "http://adel.podgeweb.com:1616/maven/"
-    }
     maven { // Tesla (dependency of EnderIO)
         url "http://maven.epoxide.xyz"
     }
-    maven { // ChickenBones' mods (dependency of Draconic Evolution)
+    maven { // ChickenBones' mods and Draconic Evolution
         url "http://chickenbones.net/maven/"
+    }
+    flatDir {
+        dirs "lib"
     }
 }
 
 dependencies {
-    deobfCompile group: "mezz.jei", name: "jei_${minecraft_version}", version: "${jei_version}"
-    deobfCompile group: "slimeknights", name: "TConstruct", version: "${minecraft_version}-${tconstruct_version}"
-    deobfCompile group: "slimeknights.mantle", name: "Mantle", version: "${minecraft_version}-${mantle_version}"
-    compile "com.enderio.core:EnderCore:${minecraft_version}-${endercore_version}"
-    compile "com.enderio:EnderIO:${minecraft_version}-${enderio_version}"
+    // External Mods
+    deobfCompile "mezz.jei:jei_${minecraft_version}:${jei_version}"
+    deobfCompile "com.enderio.core:EnderCore:${minecraft_version}-${endercore_version}"
+    deobfCompile "com.enderio:EnderIO:${minecraft_version}-${enderio_version}"
+    compile "slimeknights:TConstruct:${minecraft_version}-${tconstruct_version}:deobf"
+    compile "slimeknights.mantle:Mantle:${minecraft_version}-${mantle_version}:deobf"
     compile("com.brandon3055.draconicevolution:Draconic-Evolution:${minecraft_version}-${draconicEvolution_version}:deobf") {
         exclude module: "jei_${minecraft_version}"
         exclude module: "OpenComputers"
     }
+    
+    // Local Mods
+    compile "lib:Baubles:+:deobf"
+    compile "lib:BetterAchievements:+:deobf"
+    compile "lib:JustEnoughResources:+:deobf"
+    compile "lib:Overlord:+:deobf"
 }
 
 lombok {
@@ -198,7 +204,7 @@ reobfJar {
 
 task deobfJar(type: Jar) {
     from sourceSets.main.output
-    classifier = 'dev'
+    classifier = 'deobf'
     
     doLast {
         signJar(deobfJar.archivePath)
