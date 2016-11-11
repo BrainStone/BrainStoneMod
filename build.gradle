@@ -89,7 +89,7 @@ allprojects {
 
 minecraft {
     version = "${minecraft_version}-${forge_version}"
-    runDir = "eclipse"
+    runDir = "run"
     replace '${version}', project.version
     mappings = "snapshot_20160518"
     useDepAts = true
