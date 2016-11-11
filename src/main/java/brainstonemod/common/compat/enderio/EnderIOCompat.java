@@ -8,7 +8,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 /**
  * @author The_Fireplace
  */
-public class EIOCompat implements IModIntegration {
+public class EnderIOCompat implements IModIntegration {
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		// Do nothing
