@@ -31,6 +31,9 @@ public class BrainStoneConfigWrapper {
 	private static final boolean isClient = FMLCommonHandler.instance().getSide() == Side.CLIENT;
 
 	@Getter
+	@ServerOverride
+	private static boolean enableJEIReloading;
+	@Getter
 	private static boolean enableCreativeTab;
 	@Getter
 	private static boolean enableAchievementPage;
@@ -108,6 +111,8 @@ public class BrainStoneConfigWrapper {
 				module.disable();
 			}
 		}
+		
+		enableJEIReloading = getBoolean(CAT_MODULES, "EnableJEIReloading", true, "Reload JEI when settings change.\nBig modpacks should disable this! If not on the client then on the server!");
 
 		addCustomCategoryComment(CAT_MODULES,
 				"This set allows you to manually disable certain compatibility modules for other mods.");

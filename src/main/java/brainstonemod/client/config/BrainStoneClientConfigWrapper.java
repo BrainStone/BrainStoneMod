@@ -16,6 +16,8 @@ public class BrainStoneClientConfigWrapper {
 	private static boolean initialized = false;
 
 	@Getter
+	private static boolean enableJEIReloading;
+	@Getter
 	@JEIReload
 	private static double essenceOfLifeBaseChance;
 	@Getter
@@ -58,7 +60,7 @@ public class BrainStoneClientConfigWrapper {
 
 		ItemBrainStoneLifeCapacitor.updateRFperHalfHeart();
 
-		if (initialized && BrainStoneModules.JEI() && reloadJEI)
+		if (initialized && enableJEIReloading && BrainStoneModules.JEI() && reloadJEI)
 			BrainstoneJEIPlugin.reloadJEI();
 
 		initialized = true;

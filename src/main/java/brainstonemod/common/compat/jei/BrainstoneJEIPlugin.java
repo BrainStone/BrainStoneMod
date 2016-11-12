@@ -3,7 +3,6 @@ package brainstonemod.common.compat.jei;
 import javax.annotation.Nonnull;
 
 import brainstonemod.BrainStone;
-import mezz.jei.JustEnoughItems;
 import mezz.jei.api.IJeiHelpers;
 import mezz.jei.api.IJeiRuntime;
 import mezz.jei.api.IModPlugin;
@@ -15,9 +14,11 @@ import net.minecraft.item.ItemStack;
 
 @JEIPlugin
 public class BrainstoneJEIPlugin implements IModPlugin {
+	private static IJeiHelpers helpers;
+	
 	@Override
 	public void register(@Nonnull IModRegistry registry) {
-		IJeiHelpers helpers = registry.getJeiHelpers();
+		helpers = registry.getJeiHelpers();
 		helpers.getItemBlacklist().addItemToBlacklist(new ItemStack(BrainStone.pulsatingBrainStoneEffect()));
 		helpers.getItemBlacklist().addItemToBlacklist(new ItemStack(BrainStone.brainStoneOut()));
 		registry.addRecipeHandlers(new CapacitorUpgradeRecipeHandler());
@@ -37,8 +38,8 @@ public class BrainstoneJEIPlugin implements IModPlugin {
 	public void registerIngredients(IModIngredientRegistration registry) {
 		// Do nothing
 	}
-	
+
 	public static void reloadJEI() {
-		JustEnoughItems.getProxy().restartJEI();
+		helpers.reload();
 	}
 }
