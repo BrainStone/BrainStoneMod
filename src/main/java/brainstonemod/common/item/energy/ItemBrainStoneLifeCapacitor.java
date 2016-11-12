@@ -67,7 +67,6 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	private static void updateRFperHalfHeart(long newRFperHalfHeart) {
 		RFperHalfHeart = newRFperHalfHeart;
 		MaxLevel = (int) (1000000000000L / (RFperHalfHeart * 10));
-		// TODO: Refresh the items in JEI
 	}
 
 	@SideOnly(Side.CLIENT)
