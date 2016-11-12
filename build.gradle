@@ -31,6 +31,8 @@ plugins {
 }
 apply plugin: 'com.github.ben-manes.versions'
 apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
 
 def getChangelog() {
     try {
@@ -222,6 +224,64 @@ artifacts {
     archives jar
     archives deobfJar
     archives sourceJar
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            if (project.hasProperty("local_maven")) {
+                repository(url: "file://${local_maven}")
+                pom {
+                    groupId = project.group
+                    version = project.version
+                    artifactId = project.archivesBaseName
+                    project {
+                        name project.archivesBaseName
+                        packaging "jar"
+                        description "Brain Stone Mod"
+                        url "https://github.com/BrainStone/brainstone"
+                        issueManagement {
+                            system "github"
+                            url "https://github.com/BrainStone/brainstone/issues"
+                        }
+                        licenses {
+                            license {
+                                name "License"
+                                url "https://raw.githubusercontent.com/BrainStone/brainstone/master/LICENSE"
+                                distribution "repo"
+                            }
+                        }
+                        developers {
+                            developer {
+                                id "brainstone"
+                                name "The_BrainStone"
+                                roles {
+                                    role "owner"
+                                    role "developer"
+                                }
+                            }
+                            developer {
+                                id "fireplace"
+                                name "The_Fireplace"
+                                roles {
+                                    role "developer"
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                // All dependencies are optional!
+                pom.whenConfigured {
+                    p -> p.dependencies = p.dependencies.findAll { 
+                        dep -> false 
+                    }
+                }
+            } else {
+                println 'Maven upload triggered but no local_maven property found!'
+            }
+        }
+    }
 }
 
 curseforge {
