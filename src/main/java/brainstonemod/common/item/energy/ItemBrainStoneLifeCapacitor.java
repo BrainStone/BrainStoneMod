@@ -330,7 +330,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 
 	@Override
 	public long getMaxInput(ItemStack container) {
-		return ((getChargingLevel(container) + 1) * (int) RFperHalfHeart) / 200;
+		return ((getChargingLevel(container) + 1) * RFperHalfHeart) / 200L;
 	}
 
 	@Override
