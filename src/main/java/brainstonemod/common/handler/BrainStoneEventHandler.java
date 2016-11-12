@@ -120,8 +120,6 @@ public class BrainStoneEventHandler {
 			if (event.getSource().isFireDamage() && player.isPotionActive(MobEffects.FIRE_RESISTANCE))
 				return;
 
-			BSP.info(player.hurtResistantTime);
-
 			if ((float) player.hurtResistantTime > ((float) player.maxHurtResistantTime / 2.0f)) {
 				if (ammount <= player.lastDamage)
 					return;

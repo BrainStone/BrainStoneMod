@@ -59,7 +59,7 @@ def getVersionName() {
         if (mod_version_postfix.isEmpty())
             return tmp;
         else
-            return tmp.replaceFirst("(.+?-.+)(-)?\$", "\$1-${mod_version_postfix}\$2");
+            return tmp.replaceFirst("(.+?-[^\\-]+)(-)?", "\$1-${mod_version_postfix}\$2");
     } catch(Exception e) {
         println e
         return 'UNKNOWN-VERSION'
@@ -94,7 +94,7 @@ minecraft {
     version = "${minecraft_version}-${forge_version}"
     runDir = "run"
     replace '${version}', project.version
-    mappings = "snapshot_20160518"
+    mappings = "snapshot_20161112"
     useDepAts = true
     
     clientJvmArgs += "-Xmx2G"
@@ -124,8 +124,8 @@ dependencies {
     deobfCompile "mezz.jei:jei_${minecraft_version}:${jei_version}"
     deobfCompile "com.enderio.core:EnderCore:${minecraft_version}-${endercore_version}"
     deobfCompile "com.enderio:EnderIO:${minecraft_version}-${enderio_version}"
+    deobfCompile "slimeknights.mantle:Mantle:${minecraft_version}-${mantle_version}"
     compile "slimeknights:TConstruct:${minecraft_version}-${tconstruct_version}:deobf"
-    compile "slimeknights.mantle:Mantle:${minecraft_version}-${mantle_version}:deobf"
     compile("com.brandon3055.draconicevolution:Draconic-Evolution:${minecraft_version}-${draconicEvolution_version}:deobf") {
         exclude module: "jei_${minecraft_version}"
         exclude module: "OpenComputers"
@@ -289,17 +289,15 @@ uploadArchives {
 }
 
 curseforge {
-    apiKey = project.hasProperty('keyStoreAlias')? project.curseForgeApiKey : 'empty'
+    apiKey = project.hasProperty("keyStoreAlias")? project.curseForgeApiKey : "empty"
     
     project {
-        id = '250836'
-        changelog = file('CHANGELOG.md')
-        changelogType = 'markdown'
+        id = "250836"
+        changelog = file("CHANGELOG.md")
+        changelogType = "markdown"
         releaseType = getVersionType()
-        addGameVersion '1.10.2'
-        addGameVersion '1.10'
-        addGameVersion '1.9.4'
-        addGameVersion 'Java 8'
+        addGameVersion "${minecraft_version}"
+        addGameVersion "Java 8"
         
         mainArtifact jar
         addArtifact deobfJar

@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 
 import brainstonemod.common.compat.BrainStoneModules;
 import brainstonemod.common.compat.jei.BrainstoneJEIPlugin;
+import brainstonemod.common.config.BrainStoneConfigWrapper;
 import brainstonemod.common.item.energy.ItemBrainStoneLifeCapacitor;
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -17,15 +18,6 @@ public class BrainStoneClientConfigWrapper {
 
 	@Getter
 	private static boolean enableJEIReloading;
-	@Getter
-	@JEIReload
-	private static double essenceOfLifeBaseChance;
-	@Getter
-	@JEIReload
-	private static int brainStoneOreVeinCount;
-	@Getter
-	@JEIReload
-	private static int brainStoneOreVeinSize;
 	@Getter
 	private static boolean BSLCallowStealing;
 	@Getter
@@ -64,5 +56,9 @@ public class BrainStoneClientConfigWrapper {
 			BrainstoneJEIPlugin.reloadJEI();
 
 		initialized = true;
+	}
+
+	static {
+		setOverrideValues(BrainStoneConfigWrapper.getOverrideValues());
 	}
 }
