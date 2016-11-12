@@ -181,6 +181,7 @@ task showVersion {
     
     compileJava.dependsOn showVersion
     deobfCompileDummyTask.dependsOn showVersion
+    extractMcpMappings.dependsOn showVersion
   
     doLast {
         println version
