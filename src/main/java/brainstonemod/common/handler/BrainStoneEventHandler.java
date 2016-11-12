@@ -1,6 +1,5 @@
 package brainstonemod.common.handler;
 
-import java.lang.reflect.Field;
 import java.util.Random;
 import java.util.UUID;
 
@@ -17,7 +16,6 @@ import brainstonemod.common.item.energy.ItemBrainStoneLifeCapacitor;
 import brainstonemod.network.PacketDispatcher;
 import brainstonemod.network.packet.clientbound.PacketCapacitorData;
 import net.minecraft.block.Block;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -41,9 +39,6 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
 
 public class BrainStoneEventHandler {
-	private static final Field reflectionFoodTimer = getUnlockedFoodTimer();
-	private static final Field reflectionLastDamage = getUnlockedLastDamage();
-
 	private static boolean checkStack(ItemStack stack, UUID capacitorUUID) {
 		return (stack != null) && (stack.getItem() != null) && (stack.getItem() == BrainStone.brainStoneLifeCapacitor())
 				&& (capacitorUUID.equals(BrainStone.brainStoneLifeCapacitor().getUUID(stack)));
@@ -69,32 +64,6 @@ public class BrainStoneEventHandler {
 			if (checkStack(stack, capacitorUUID)) {
 				return stack;
 			}
-		}
-
-		return null;
-	}
-
-	private static Field getUnlockedFoodTimer() {
-		try {
-			Field reflectionFoodTimer = FoodStats.class.getDeclaredFields()[3];
-			reflectionFoodTimer.setAccessible(true);
-
-			return reflectionFoodTimer;
-		} catch (SecurityException e) {
-			BSP.warnException(e);
-		}
-
-		return null;
-	}
-
-	private static Field getUnlockedLastDamage() {
-		try {
-			Field reflectionLastDamage = EntityLivingBase.class.getDeclaredFields()[40];
-			reflectionLastDamage.setAccessible(true);
-
-			return reflectionLastDamage;
-		} catch (SecurityException e) {
-			BSP.warnException(e);
 		}
 
 		return null;
@@ -144,42 +113,39 @@ public class BrainStoneEventHandler {
 
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onEntityAttack(LivingAttackEvent event) {
-		try {
-			if (event.getEntityLiving() instanceof EntityPlayer) {
-				EntityPlayer player = (EntityPlayer) event.getEntityLiving();
-				float ammount = event.getAmount();
+		if (event.getEntityLiving() instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) event.getEntityLiving();
+			float ammount = event.getAmount();
 
-				if (event.getSource().isFireDamage() && player.isPotionActive(MobEffects.FIRE_RESISTANCE))
+			if (event.getSource().isFireDamage() && player.isPotionActive(MobEffects.FIRE_RESISTANCE))
+				return;
+
+			BSP.info(player.hurtResistantTime);
+
+			if ((float) player.hurtResistantTime > ((float) player.maxHurtResistantTime / 2.0f)) {
+				if (ammount <= player.lastDamage)
 					return;
 
-				if ((float) player.hurtResistantTime > ((float) player.maxHurtResistantTime / 2.0F)) {
-					if (ammount <= reflectionLastDamage.getFloat(player))
-						return;
+				ammount -= player.lastDamage;
+				player.lastDamage = event.getAmount();
+			}
 
-					ammount -= reflectionLastDamage.getFloat(player);
-					reflectionLastDamage.set(player, event.getAmount());
-				}
+			ItemStack capacitor = getBrainStoneLiveCapacitor(player);
 
-				ItemStack capacitor = getBrainStoneLiveCapacitor(player);
+			if (capacitor != null) {
+				float adjustedDamage = BrainStoneDamageHelper.getAdjustedDamage(event.getSource(), ammount, player,
+						true);
+				float newDamage = BrainStone.brainStoneLifeCapacitor().handleDamage(capacitor, adjustedDamage, true);
 
-				if (capacitor != null) {
-					float adjustedDamage = BrainStoneDamageHelper.getAdjustedDamage(event.getSource(), ammount, player,
-							true);
-					float newDamage = BrainStone.brainStoneLifeCapacitor().handleDamage(capacitor, adjustedDamage,
-							true);
+				if (newDamage == 0.0f) {
+					event.setCanceled(true);
 
-					if (newDamage == 0.0F) {
-						event.setCanceled(true);
-
-						BrainStoneDamageHelper.getAdjustedDamage(event.getSource(), ammount, player, false);
-						BrainStone.brainStoneLifeCapacitor().handleDamage(capacitor, adjustedDamage, false);
-						player.hurtResistantTime = player.maxHurtResistantTime;
-						reflectionLastDamage.set(player, event.getAmount());
-					}
+					BrainStoneDamageHelper.getAdjustedDamage(event.getSource(), ammount, player, false);
+					BrainStone.brainStoneLifeCapacitor().handleDamage(capacitor, adjustedDamage, false);
+					player.hurtResistantTime = player.maxHurtResistantTime;
+					player.lastDamage = event.getAmount();
 				}
 			}
-		} catch (IllegalArgumentException | IllegalAccessException e) {
-			BSP.warnException(e);
 		}
 	}
 
@@ -192,7 +158,7 @@ public class BrainStoneEventHandler {
 			if (capacitor != null) {
 				float newDamage = BrainStone.brainStoneLifeCapacitor().handleDamage(capacitor, event.getAmount());
 
-				if (newDamage == 0.0F) {
+				if (newDamage == 0.0f) {
 					event.setCanceled(true);
 				} else {
 					event.setAmount(newDamage);
@@ -252,12 +218,8 @@ public class BrainStoneEventHandler {
 				BrainStone.brainStoneLifeCapacitor().healPlayer(capacitor, player);
 
 				// Prevent natural regeneration
-				if ((reflectionFoodTimer != null) && (stats.getFoodLevel() >= 18)) {
-					try {
-						reflectionFoodTimer.set(stats, 0);
-					} catch (IllegalArgumentException | IllegalAccessException e) {
-						BSP.warnException(e);
-					}
+				if (stats.getFoodLevel() >= 18) {
+					stats.foodTimer = 0;
 				}
 			}
 		}

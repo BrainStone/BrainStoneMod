@@ -80,6 +80,7 @@ def signJar(archivePath) {
 }
 
 def MainDirResources = fileTree(dir: file('.'), includes: ['README.md', 'LICENSE', 'CHANGELOG.md'])
+def commonManifest = { attributes "FMLAT": "BrainStoneMod_at.cfg" }
 version = getVersionName()
 group = "brainstonemod" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "BrainStoneMod"
@@ -169,6 +170,8 @@ processResources {
         exclude 'mcmod.info'
     }
     
+    rename "(.+_at.cfg)", "META-INF/\$1"
+    
     from MainDirResources
 }
 
@@ -192,6 +195,8 @@ task showVersion {
 }
 
 jar {
+    manifest commonManifest
+    
     doLast {
         if (!gradle.taskGraph.hasTask(reobfJar)) {
             signJar(jar)
@@ -208,6 +213,7 @@ reobfJar {
 task deobfJar(type: Jar) {
     from sourceSets.main.output
     classifier = 'deobf'
+    manifest commonManifest
     
     doLast {
         signJar(deobfJar.archivePath)
