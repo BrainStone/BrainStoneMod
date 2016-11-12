@@ -38,7 +38,7 @@ build:
 deploy:
   stage: deploy
   script:
-  - ./gradlew curseforge updateDownloadServer -Psecret=$SECRET
+  - ./gradlew uploadArchives curseforge updateDownloadServer -Psecret=$SECRET
   when: on_success
   only:
   - tags
