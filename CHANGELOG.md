@@ -1,3 +1,15 @@
+4.0.19-alpha
+------------
+
+- Out of BETA
+- New versioning scheme
+- Started working on BrainStoneLifeCapacitor HUD
+- JEI reloads when certain config values change (can be disabled)
+- Tweaked recipes of BrainStoneTrigger and BrainLightSensor so that both need a BrainProcessor
+- Synchronizing a lot more settings
+- Added Immersive Engineering support
+
+
 v3.4.33 BETA release
 --------------------
 

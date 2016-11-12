@@ -297,9 +297,7 @@ curseforge {
         addGameVersion '1.9.4'
         addGameVersion 'Java 8'
         
-        mainArtifact(jar) {
-            displayName = version
-        }
+        mainArtifact jar
         addArtifact deobfJar
         addArtifact sourceJar
         
