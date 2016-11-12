@@ -111,8 +111,10 @@ public class BrainStoneConfigWrapper {
 				module.disable();
 			}
 		}
-		
-		enableJEIReloading = getBoolean(CAT_MODULES, "EnableJEIReloading", true, "Reload JEI when settings change.\nBig modpacks should disable this! If not on the client then on the server!");
+
+		enableJEIReloading = getBoolean(CAT_MODULES, "EnableJEIReloading", true, "Reload JEI when settings change.\n"
+				+ "Big modpacks should disable this! If not on the client then on the server!\n"
+				+ "This setting also doesn't break anything if disabled. It only prevents some incorrect tooltips in JEI when some server and client configs are different.");
 
 		addCustomCategoryComment(CAT_MODULES,
 				"This set allows you to manually disable certain compatibility modules for other mods.");
