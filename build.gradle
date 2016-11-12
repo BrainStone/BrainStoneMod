@@ -283,8 +283,6 @@ uploadArchives {
                         dep -> false 
                     }
                 }
-            } else {
-                println 'Maven upload triggered but no local_maven property found!'
             }
         }
     }
