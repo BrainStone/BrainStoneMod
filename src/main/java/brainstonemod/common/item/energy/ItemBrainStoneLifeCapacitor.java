@@ -55,10 +55,10 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	 * energy limit of 1 000 000 000 000 RF through the RFperHalfHeart * 10
 	 */
 	public static int MaxLevel;
+	private static final UUID emptyUUID = new UUID(0, 0);
 
 	private PlayerCapacitorMapping PCmapping;
-
-	private final ItemStack base = new ItemStack(this);
+	private final ItemStack base;
 
 	static {
 		updateRFperHalfHeart(BrainStoneConfigWrapper.getBSLCRFperHalfHeart());
@@ -83,6 +83,8 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 		setMaxStackSize(1);
 
 		PCmapping = new PlayerCapacitorMapping();
+		base = new ItemStack(this);
+		setEmptyUUID(base);
 	}
 
 	public void newPlayerCapacitorMapping(File path) {
@@ -188,6 +190,8 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 			if (!isCurrentOwner(stack, playerUUID)) {
 				if (isNotFormerOwner(stack, playerUUID)) {
 					if (BrainStoneConfigWrapper.getBSLCallowStealing() || !hasOwner(stack)) {
+						// Get proper UUID if it is empty
+						createUUID(stack);
 						UUID capacitorUUID = getUUID(stack);
 
 						PCmapping.updateMapping(playerUUID, capacitorUUID);
@@ -398,15 +402,31 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	}
 
 	private void createUUID(ItemStack container) {
+		UUID uuid;
+		
 		if (container.getTagCompound() == null) {
 			container.setTagCompound(new NBTTagCompound());
 		}
 
-		if (!container.getTagCompound().hasKey("UUID")) {
-			UUID uuid = UUID.randomUUID();
+		if (container.getTagCompound().hasKey("UUID")) {
+			uuid = getUUID(container);
+		} else {
+			uuid = emptyUUID;
+		}
+
+		if (emptyUUID.equals(uuid)) {
+			uuid = UUID.randomUUID();
 
 			container.getTagCompound().setString("UUID", uuid.toString());
 		}
+	}
+
+	private void setEmptyUUID(ItemStack container) {
+		if (container.getTagCompound() == null) {
+			container.setTagCompound(new NBTTagCompound());
+		}
+
+		container.getTagCompound().setString("UUID", emptyUUID.toString());
 	}
 
 	private void addOwnerToList(ItemStack container, UUID uuid) {
