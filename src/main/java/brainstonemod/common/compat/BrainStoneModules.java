@@ -39,7 +39,7 @@ public final class BrainStoneModules {
 
 	public static final String DEPENDENCIES = "after:" + BAUBLES_MODID + ";after:" + BETTER_ACHIEVEMENTS_MODID
 			+ ";after:" + DRACONIC_EVOLUTION_MODID + ";after:" + ENDER_IO_MODID + ";after:"
-			+ IMMERSIVE_ENGINEERING_MODID + ";after:" + JEI_MODID + ";after:" + JER_MODID + "@[0.5.4.78,);after:" + MFR_MODID
+			+ IMMERSIVE_ENGINEERING_MODID + ";after:" + JEI_MODID + ";after:" + JER_MODID + "@[0.5.6.81,);after:" + MFR_MODID
 			+ ";after:" + OVERLORD_MODID + ";after:" + THAUMCRAFT_MODID + ";after:" + TINKERS_CONSTRUCT_MODID;
 
 	private static Boolean BAUBLES;

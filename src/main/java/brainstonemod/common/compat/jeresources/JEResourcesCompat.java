@@ -10,6 +10,7 @@ import jeresources.api.distributions.DistributionSquare;
 import jeresources.api.drop.LootDrop;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -40,6 +41,13 @@ public class JEResourcesCompat implements IModIntegration {
 				new LootDrop(brainStoneDust, 0, 1, 1.0f, 0), new LootDrop(brainStoneDust, 0, 2, 1.0f, 1),
 				new LootDrop(brainStoneDust, 0, 3, 1.0f, 2), new LootDrop(brainStoneDust, 0, 4, 1.0f, 3),
 				new LootDrop(brainStoneOre, 1, 1, Conditional.silkTouch));
+
+		jerAPI.getDungeonRegistry().registerCategory("chests/brainstone_house_top", "BrainStone House Top");
+		jerAPI.getDungeonRegistry().registerChest("chests/brainstone_house_top",
+				new ResourceLocation(BrainStone.RESOURCE_PACKAGE, "chests/brainstone_house_top"));
+		jerAPI.getDungeonRegistry().registerCategory("chests/brainstone_house_bottom", "BrainStone House Bottom");
+		jerAPI.getDungeonRegistry().registerChest("chests/brainstone_house_bottom",
+				new ResourceLocation(BrainStone.RESOURCE_PACKAGE, "chests/brainstone_house_bottom"));
 	}
 
 	@Override
