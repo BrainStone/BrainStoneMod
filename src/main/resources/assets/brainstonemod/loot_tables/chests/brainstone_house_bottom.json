@@ -1,7 +1,7 @@
 {
     "pools": [
         {
-            "name": "Test Bottom",
+            "name": "BrainStone House Bottom Chest",
             "rolls": 2,
             "bonus_rolls": {
                 "min": 0.01,

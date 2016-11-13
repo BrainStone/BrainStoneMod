@@ -1,7 +1,7 @@
 {
     "pools": [
         {
-            "name": "Test Valuable",
+            "name": "Loot Valuable",
             "rolls": {
                 "min": 2,
                 "max": 5

@@ -1,7 +1,7 @@
 {
     "pools": [
         {
-            "name": "Test BrainStone",
+            "name": "Loot BrainStone",
             "rolls": {
                 "min": 2,
                 "max": 5
