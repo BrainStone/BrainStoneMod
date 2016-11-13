@@ -7,13 +7,6 @@
 
 Starts where all others end
 
-Setting up a Workspace/Compiling from Source
---------------------------------------------
-
-* Setup: Run [gradle] in the repository root: `gradlew[.bat] [setupDevWorkspace|setupDecompWorkspace] installLombok [eclipse|idea]`
-* Build: Run [gradle] in the repository root: `gradlew[.bat] build`
-* If obscure Gradle issues are found try running `gradlew clean` and `gradlew cleanCache`
-
 Issue reporting
 ---------------
 
@@ -28,6 +21,31 @@ Please include the following:
 	* Steps to reproduce
 	* ForgeModLoader-client-0.log (the FML log) from the root folder of the client
 
+Developing with my mod
+----------------------
+
+So you want to use items or blocks from my mod, add support or even develop an addon for my mod then you can easily add it to your development environment! All
+releases beginning from version 1.10.2-4.0.19 get uploaded to my maven repository.  
+So all you have to do to include the mod is add these lines *(in the appropriate places)* to your build.gradle
+
+    repositories {
+        maven { // BrainStoneMod
+            url "http://maven.brainstonemod.com"
+        }
+        // Other repos...
+    }
+    
+    dependencies {
+        compile "brainstonemod:BrainStoneMod:<version>:deobf"
+    }
+
+Setting up a Workspace/Compiling from Source
+--------------------------------------------
+
+* Setup: Run [gradle] in the repository root: `gradlew[.bat] [setupDevWorkspace|setupDecompWorkspace] installLombok [eclipse|idea]`
+* Build: Run [gradle] in the repository root: `gradlew[.bat] build`
+* If obscure Gradle issues are found try running `gradlew clean` and `gradlew cleanCache`
+
 Licenses
 --------
 
@@ -36,7 +54,7 @@ Code, Textures and binaries are licensed under the [GPLv3](https://www.gnu.org/l
 You are allowed to use the mod in your modpack.  
 Any modpack which uses Brain Stone Mod takes **full** responsibility for user support queries. For anyone else, we only support official builds from the main
 download server, not custom built jars. We do take bug reports for outdated builds of Minecraft. However we cannot promise to fix any issues. We will try
-however.
+regardless.
 
 Any alternate licenses are noted where appropriate.
 

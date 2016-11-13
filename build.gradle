@@ -101,7 +101,7 @@ minecraft {
     serverJvmArgs += "-Xmx2G"
 }
 
-repositories{
+repositories {
     maven { // JEI, Natura, Mantle, TiCon
         url "http://dvs1.progwml6.com/files/maven"
     }
