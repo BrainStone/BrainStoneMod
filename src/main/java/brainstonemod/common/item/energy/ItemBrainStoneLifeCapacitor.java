@@ -471,32 +471,8 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 
 	@Override
 	@Optional.Method(modid = BrainStoneModules.BAUBLES_MODID)
-	public boolean canUnequip(ItemStack stack, EntityLivingBase entity) {
-		return true;
-	}
-
-	@Override
-	@Optional.Method(modid = BrainStoneModules.BAUBLES_MODID)
 	public BaubleType getBaubleType(ItemStack stack) {
 		return BaubleType.BELT;
-	}
-
-	@Override
-	@Optional.Method(modid = BrainStoneModules.BAUBLES_MODID)
-	public void onEquipped(ItemStack stack, EntityLivingBase entity) {
-		// Do nothing
-	}
-
-	@Override
-	@Optional.Method(modid = BrainStoneModules.BAUBLES_MODID)
-	public void onUnequipped(ItemStack stack, EntityLivingBase entity) {
-		// Do nothing
-	}
-
-	@Override
-	@Optional.Method(modid = BrainStoneModules.BAUBLES_MODID)
-	public void onWornTick(ItemStack stack, EntityLivingBase entity) {
-		// Do nothing
 	}
 
 	public class PlayerCapacitorMapping {
