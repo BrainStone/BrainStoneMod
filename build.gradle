@@ -300,9 +300,17 @@ curseforge {
         addGameVersion "${minecraft_version}"
         addGameVersion "Java 8"
         
-        mainArtifact jar
-        addArtifact deobfJar
-        addArtifact sourceJar
+        mainArtifact(jar) {
+            displayName = jar.archiveName.replace(".jar", "")
+        }
+        addArtifact(deobfJar) {
+            displayName = deobfJar.archiveName.replace(".jar", "")
+            changelog = "*This is a file for mod developers. If you don't know what to do with it, don't use it!*"
+        }
+        addArtifact(sourceJar) {
+            displayName = sourceJar.archiveName.replace(".jar", "")
+            changelog = "*This is a file for mod developers. If you don't know what to do with it, don't use it!*"
+        }
         
         relations {
             optionalLibrary 'baubles'
