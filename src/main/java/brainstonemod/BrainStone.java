@@ -113,7 +113,7 @@ public class BrainStone {
 	public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
 	public static final ResourceLocation RESOURCE_LOCATION = new ResourceLocation(RESOURCE_PACKAGE);
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "${version}";
+	public static final String VERSION = "v3.4.33 BETA release";
 	public static final String FINGERPRINT = "2238d4a92d81ab407741a2fdb741cebddfeacba6";
 	public static final String GUI_FACTORY = "brainstonemod.client.gui.config.BrainStoneGuiFactory";
 	public static final String BASE_URL = "http://download.brainstonemod.com/";
@@ -197,7 +197,7 @@ public class BrainStone {
 	 *            he MCForge FingerprintViolationEvent
 	 */
 	@EventHandler
-	public static void onInvalidCertificate(FMLFingerprintViolationEvent event) {
+	public static final void onInvalidCertificate(FMLFingerprintViolationEvent event) {
 		if (BrainStoneJarUtils.RUNNING_FROM_JAR && BrainStoneJarUtils.SIGNED_JAR)
 			VALID_JAR = false;
 	}
@@ -306,7 +306,7 @@ public class BrainStone {
 	 *            The MCForge ServerAboutToStartEvent
 	 */
 	@EventHandler
-	public static void onServerAboutToStart(FMLServerAboutToStartEvent event) {
+	public static final void onServerAboutToStart(FMLServerAboutToStartEvent event) {
 		fillTriggerEntities();
 	}
 
@@ -317,7 +317,7 @@ public class BrainStone {
 	 *            The MCForge ServerStartingEvent
 	 */
 	@EventHandler
-	public static void onServerStarting(FMLServerStartingEvent event) {
+	public static final void onServerStarting(FMLServerStartingEvent event) {
 		brainStoneLifeCapacitor().newPlayerCapacitorMapping(DimensionManager.getCurrentSaveRootDirectory());
 	}
 
@@ -325,7 +325,7 @@ public class BrainStone {
 	 * This method is client side called when a player joins the game. Both for
 	 * a server or a single player world.
 	 */
-	public static void onPlayerJoinClient(EntityPlayer player, ClientConnectedToServerEvent event) {
+	public static final void onPlayerJoinClient(EntityPlayer player, ClientConnectedToServerEvent event) {
 		if (!VALID_JAR) {
 			sendToPlayer(player,
 					TextFormatting.DARK_RED + "The .jar file of the BrainStoneMod appears to be corrupted\n"
@@ -346,7 +346,7 @@ public class BrainStone {
 	 * This method is server side called when a player joins the game. Both for
 	 * a server or a single player world.
 	 */
-	public static void onPlayerJoinServer(EntityPlayer player, PlayerLoggedInEvent event) {
+	public static final void onPlayerJoinServer(EntityPlayer player, PlayerLoggedInEvent event) {
 		BrainStonePacketHelper.sendBrainStoneTriggerMobInformationPacketToPlayer(player);
 		BrainStonePacketHelper.sendServerOverridesPacket(player);
 	}
@@ -357,14 +357,14 @@ public class BrainStone {
 	 * @param message
 	 *            the message to be sent
 	 */
-	public static void sendToPlayer(EntityPlayer player, String message) {
+	public static final void sendToPlayer(EntityPlayer player, String message) {
 		String[] lines = message.split("\n");
 
 		for (String line : lines)
 			player.addChatMessage(new TextComponentString(line));
 	}
 
-	private static void createEnums() {
+	private static final void createEnums() {
 		toolBRAINSTONE = EnumHelper.addToolMaterial("BRAINSTONE", 5, 5368, 6.0f, 5.0f, 25);
 		armorBRAINSTONE = EnumHelper.addArmorMaterial("BRAINSTONE", "BRAINSTONE", 114, new int[] { 2, 6, 5, 2 }, 25,
 				SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.0f);
@@ -377,7 +377,7 @@ public class BrainStone {
 	/**
 	 * Generates the mcmod.info file.
 	 */
-	private static void generateMcModInfoFile(FMLPreInitializationEvent event) {
+	private static final void generateMcModInfoFile(FMLPreInitializationEvent event) {
 		event.getModMetadata().modId = MOD_ID;
 		event.getModMetadata().name = NAME;
 		event.getModMetadata().version = VERSION;
@@ -431,7 +431,7 @@ public class BrainStone {
 	/**
 	 * Adds the recipes.
 	 */
-	private static void addRecipes() {
+	private static final void addRecipes() {
 		addRecipe(new ItemStack(dirtyBrainStone(), 1), "XX", "XX", 'X', "dustBrainstone");
 		addRecipe(new ItemStack(brainLightSensor(), 1), "XGX", "XBX", "XPX", 'X', "stone", 'G', "blockGlass", 'B',
 				"brainstone", 'P', brainProcessor());
@@ -508,19 +508,19 @@ public class BrainStone {
 				itemModelResourceLocation);
 	}
 
-	public static void addRecipe(ItemStack stack, Object... args) {
+	public static final void addRecipe(ItemStack stack, Object... args) {
 		GameRegistry.addRecipe(new ShapedOreRecipe(stack, args));
 	}
 
 	/**
 	 * Adds the smeltings.
 	 */
-	private static void addSmeltings() {
+	private static final void addSmeltings() {
 		GameRegistry.addSmelting(dirtyBrainStone(), new ItemStack(brainStone(), 1, 0), 3.0F);
 	}
 
 	// DOCME
-	private static void fillTriggerEntities() {
+	private static final void fillTriggerEntities() {
 		if ((getServerSideTriggerEntities() == null) || (getServerSideTriggerEntities().size() == 0)) {
 			BSP.debug("Filling triggerEntities");
 
@@ -552,7 +552,7 @@ public class BrainStone {
 	 * @param entityClass
 	 *            The class it refers to
 	 */
-	private static void verifyTriggerEntity(LinkedHashMap<String, Class<?>[]> tempTriggerEntities, String name,
+	private static final void verifyTriggerEntity(LinkedHashMap<String, Class<?>[]> tempTriggerEntities, String name,
 			Class<?> entityClass) {
 		if ((entityClass != null) && (!Modifier.isAbstract(entityClass.getModifiers()))
 				&& (EntityLiving.class.isAssignableFrom(entityClass))) {
@@ -563,7 +563,7 @@ public class BrainStone {
 	/**
 	 * Generates the blocks and items and puts them into the HasMaps.
 	 */
-	private static void generateBlocksAndItems() {
+	private static final void generateBlocksAndItems() {
 		// Blocks
 		blocks.put("brainStone", new BlockBrainStone(false));
 		blocks.put("brainStoneOut", new BlockBrainStone(true));
@@ -617,37 +617,18 @@ public class BrainStone {
 		items.put("brainStoneLifeCapacitor", (new ItemBrainStoneLifeCapacitor()));
 	}
 
-	private static void generateAchievements() {
+	private static final void generateAchievements() {
 		// Achievements
-		String curAch;
-
-		achievements.put(curAch = "WTHIT",
-				(new Achievement(curAch, curAch, BrainStoneConfigWrapper.getAchievementYPosition(curAch),
-						BrainStoneConfigWrapper.getAchievementXPosition(curAch), brainStoneDust(),
-						AchievementList.BUILD_BETTER_PICKAXE)).registerStat());
-		achievements.put(curAch = "itLives",
-				(new Achievement(curAch, curAch, BrainStoneConfigWrapper.getAchievementYPosition(curAch),
-						BrainStoneConfigWrapper.getAchievementXPosition(curAch), brainStone(), WTHIT()))
-								.registerStat());
-		achievements.put(curAch = "intelligentBlocks",
-				(new Achievement(curAch, curAch, BrainStoneConfigWrapper.getAchievementYPosition(curAch),
-						BrainStoneConfigWrapper.getAchievementXPosition(curAch), brainLightSensor(), itLives()))
-								.registerStat());
-		achievements.put(curAch = "intelligentTools",
-				(new Achievement(curAch, curAch, BrainStoneConfigWrapper.getAchievementYPosition(curAch),
-						BrainStoneConfigWrapper.getAchievementXPosition(curAch), brainStonePickaxe(), itLives()))
-								.registerStat());
-		achievements.put(curAch = "lifeCapacitor",
-				(new Achievement(curAch, curAch, BrainStoneConfigWrapper.getAchievementYPosition(curAch),
-						BrainStoneConfigWrapper.getAchievementXPosition(curAch), brainStoneLifeCapacitor(),
-						intelligentTools())).setSpecial().registerStat());
+		addAchievement("WTHIT", 0, 0, brainStoneDust(), AchievementList.BUILD_BETTER_PICKAXE);
+		addAchievement("itLives", 2, 0, brainStone(), WTHIT());
+		addAchievement("intelligentBlocks", 3, 2, brainLightSensor(), itLives());
+		addAchievement("intelligentTools", 3, -2, brainStonePickaxe(), itLives());
+		addAchievement("lifeCapacitor", 5, -4, brainStoneLifeCapacitor(), intelligentTools(), true);
 
 		BrainStoneModules.addAchievement();
 
-		if (BrainStoneConfigWrapper.getEnableAchievementPage()) {
-			AchievementPage.registerAchievementPage(new AchievementPage("Brain Stone Mod",
-					achievements.values().toArray(new Achievement[achievements.size()])));
-		}
+		AchievementPage.registerAchievementPage(new AchievementPage("Brain Stone Mod",
+				achievements.values().toArray(new Achievement[achievements.size()])));
 	}
 
 	/**
@@ -693,6 +674,32 @@ public class BrainStone {
 	private static final void registerTileEntitys() {
 		GameRegistry.registerTileEntity(TileEntityBrainLightSensor.class, "TileEntityBlockBrainLightSensor");
 		GameRegistry.registerTileEntity(TileEntityBrainStoneTrigger.class, "TileEntityBlockBrainStoneTrigger");
+	}
+
+	public static final void addAchievement(String name, int xPos, int yPos, Object icon, Achievement parent) {
+		addAchievement(name, xPos, yPos, icon, parent, false);
+	}
+
+	public static final void addAchievement(String name, int xPos, int yPos, Object icon, Achievement parent,
+			boolean special) {
+		ItemStack iconStack;
+		Achievement achievement;
+
+		if (icon instanceof Item)
+			iconStack = new ItemStack((Item) icon);
+		else if (icon instanceof Block)
+			iconStack = new ItemStack((Block) icon);
+		else if (icon instanceof ItemStack)
+			iconStack = (ItemStack) icon;
+		else
+			throw new IllegalArgumentException("icon needs to be Item, Block or ItemStack!");
+
+		achievement = new Achievement(name, name, yPos, xPos, iconStack, parent);
+
+		if (special)
+			achievement.setSpecial();
+
+		achievements.put(name, achievement.registerStat());
 	}
 
 	public static final CreativeTabs getCreativeTab(CreativeTabs defaultTab) {

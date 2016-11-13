@@ -3,7 +3,6 @@ package brainstonemod.common.compat.betterachievements;
 import betterachievements.api.util.IMCHelper;
 import brainstonemod.BrainStone;
 import brainstonemod.common.compat.IModIntegration;
-import brainstonemod.common.config.BrainStoneConfigWrapper;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -16,8 +15,7 @@ public class BetterAchievementsCompat implements IModIntegration {
 
 	@Override
 	public void init(FMLInitializationEvent event) {
-		if (BrainStoneConfigWrapper.getEnableAchievementPage())
-			IMCHelper.sendIconForPage("Brain Stone Mod", BrainStone.brainStone());
+		IMCHelper.sendIconForPage("Brain Stone Mod", BrainStone.brainStone());
 	}
 
 	@Override

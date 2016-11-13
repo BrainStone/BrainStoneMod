@@ -3,7 +3,6 @@ package brainstonemod.common.config;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +15,6 @@ import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.client.config.IConfigElement;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -28,15 +26,12 @@ public class BrainStoneConfigWrapper {
 	public static final String CAT_GEN = "worldgen";
 
 	private static Configuration configStorage;
-	private static final boolean isClient = FMLCommonHandler.instance().getSide() == Side.CLIENT;
 
 	@Getter
 	@ServerOverride
 	private static boolean enableJEIReloading;
 	@Getter
 	private static boolean enableCreativeTab;
-	@Getter
-	private static boolean enableAchievementPage;
 	@Getter
 	private static double essenceOfLifeBaseChance;
 	@Getter
@@ -55,12 +50,6 @@ public class BrainStoneConfigWrapper {
 	@Getter
 	@ServerOverride
 	private static long BSLCRFperHalfHeart;
-	/** The X positions of the achievements */
-	@SideOnly(Side.CLIENT)
-	private static Map<String, Integer> achievementXPositions;
-	@SideOnly(Side.CLIENT)
-	/** The Y positions of the achievements */
-	private static Map<String, Integer> achievementYPositions;
 
 	public static Map<String, Object> getOverrideValues() {
 		Map<String, Object> values = new HashMap<>();
@@ -83,10 +72,6 @@ public class BrainStoneConfigWrapper {
 		loadMiscellaneousSettings();
 		loadBrainStoneLifeCapacitorSettings();
 		loadWorldgenSettings();
-
-		// Server doesn't care where the Achievements are
-		if (isClient)
-			loadAchievementSettings();
 
 		saveIfChanged();
 	}
@@ -120,8 +105,6 @@ public class BrainStoneConfigWrapper {
 	private static void loadMiscellaneousSettings() {
 		enableCreativeTab = getBoolean(CAT_MISC, "EnableCreativeTab", true,
 				"Do you want to have a custom Creative Tab for this mod?", true);
-		enableAchievementPage = getBoolean(CAT_MISC, "EnableAchievementPage", true,
-				"Do you want to have a custom Achievement Page for this mod?", true);
 		essenceOfLifeBaseChance = ((getInt(CAT_MISC, "EssenceOfLifeDropChanceModifier", 0, -50, 75,
 				"Modifies the drop chance of the Essence of Life. Value in percent.\n"
 						+ "If the base chance is 50% (depends on what other mods you have loaded) and you set this value to 20 (%) the chance becomes 50% + (50% * 20%) = 60%.")
@@ -152,42 +135,6 @@ public class BrainStoneConfigWrapper {
 				"How rare should the BraiNStoneHouse be? (Generated once every n chunks)");
 
 		addCustomCategoryComment(CAT_GEN, "This set defines world generation settings.");
-	}
-
-	@SideOnly(Side.CLIENT)
-	private static void loadAchievementSettings() {
-		achievementXPositions = new LinkedHashMap<>();
-		achievementYPositions = new LinkedHashMap<>();
-
-		String curAch, curAchUp;
-		String achievementPageType = (enableAchievementPage ? "custom" : "regular");
-		String achievementPageName = achievementPageType + "achievementpage";
-		String achievementPageDescX = "Choose a x coordinate on the " + achievementPageType
-				+ " Achievement Page for the ";
-		String achievementPageDescY = "Choose a y coordinate on the " + achievementPageType
-				+ " Achievement Page for the ";
-		String[] achievementNames = new String[] { "WTHIT", "itLives", "intelligentBlocks", "intelligentTools",
-				"lifeCapacitor" };
-		int[] xPos = enableAchievementPage ? new int[] { 0, 2, 3, 3, 5 } : new int[] { 2, 4, 5, 5, 7 };
-		int[] yPos = enableAchievementPage ? new int[] { 0, 0, 2, -2, -4 } : new int[] { 8, 8, 10, 6, 8 };
-
-		// Save the positions of the achievements
-		for (int i = 0; i < achievementNames.length; i++) {
-			curAch = achievementNames[i];
-			curAchUp = firstUpper(curAch);
-
-			achievementXPositions.put(curAch, getInt(achievementPageName, "Xpos" + curAchUp, xPos[i], -20, 20,
-					achievementPageDescX + curAch + " achievement"));
-			achievementYPositions.put(curAch, getInt(achievementPageName, "Ypos" + curAchUp, yPos[i], -20, 20,
-					achievementPageDescY + curAch + " achievement"));
-		}
-
-		if (enableAchievementPage)
-			addCustomCategoryComment("customachievementpage",
-					"This set defines the positions of the achievements on the custom Brain Stone Mod Achievement Page.\nOnly applies when \"B:EnableAchievementPage\" is set to true.");
-		else
-			addCustomCategoryComment("regularachievementpage",
-					"This set defines the positions of the achievements on the default Minecraft Achievement Page.\nOnly applies when \"B:EnableAchievementPage\" is set to false.");
 	}
 
 	private static String firstUpper(String str) {
@@ -311,20 +258,6 @@ public class BrainStoneConfigWrapper {
 	private static void saveIfChanged() {
 		if (configStorage.hasChanged())
 			configStorage.save();
-	}
-
-	public static int getAchievementXPosition(String achievement) {
-		if (isClient)
-			return achievementXPositions.get(achievement);
-		else
-			return 0;
-	}
-
-	public static int getAchievementYPosition(String achievement) {
-		if (isClient)
-			return achievementYPositions.get(achievement);
-		else
-			return 0;
 	}
 
 	@SideOnly(Side.CLIENT)

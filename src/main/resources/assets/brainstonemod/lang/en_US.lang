@@ -77,8 +77,6 @@ gui.brainstone.config.cat.modules.enablejeireloading.tooltip=Reload JEI when set
 
 gui.brainstone.config.cat.miscellaneous=Miscellaneous
 gui.brainstone.config.cat.miscellaneous.tooltip=Modify all the miscellaneous settings
-gui.brainstone.config.cat.miscellaneous.enableachievementpage=Enable Custom Achievement Page
-gui.brainstone.config.cat.miscellaneous.enableachievementpage.tooltip=Do you want to have a custom Achievement Page for this mod?
 gui.brainstone.config.cat.miscellaneous.enablecreativetab=Enable Creative Tab
 gui.brainstone.config.cat.miscellaneous.enablecreativetab.tooltip=Do you want to have a custom Creative Tab for this mod?
 gui.brainstone.config.cat.miscellaneous.essenceoflifedropchancemodifier=Essence of Life Drop Chance Modifier
