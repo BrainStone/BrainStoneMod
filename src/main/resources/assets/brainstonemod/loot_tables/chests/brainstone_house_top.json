@@ -1,0 +1,14 @@
+{
+    "pools": [
+        {
+            "name": "Test Top",
+            "rolls": 2,
+            "entries": [
+                {
+                    "type": "loot_table",
+                    "name": "brainstonemod:chests/brainstone_house/loot_brainstone"
+                }
+            ]
+        }
+    ]
+}

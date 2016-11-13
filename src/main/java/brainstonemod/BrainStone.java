@@ -113,7 +113,7 @@ public class BrainStone {
 	public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
 	public static final ResourceLocation RESOURCE_LOCATION = new ResourceLocation(RESOURCE_PACKAGE);
 	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "v3.4.33 BETA release";
+	public static final String VERSION = "${version}";
 	public static final String FINGERPRINT = "2238d4a92d81ab407741a2fdb741cebddfeacba6";
 	public static final String GUI_FACTORY = "brainstonemod.client.gui.config.BrainStoneGuiFactory";
 	public static final String BASE_URL = "http://download.brainstonemod.com/";

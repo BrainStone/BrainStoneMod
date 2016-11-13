@@ -1,18 +1,14 @@
 package brainstonemod.common.worldgenerators;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
 import net.minecraft.block.Block;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
@@ -213,6 +209,8 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 	private void generateSecretRoom() {
 		int i, j, k;
 		int height = (Options[0] * 8) + 3;
+		final ResourceLocation lootTable = new ResourceLocation(BrainStone.RESOURCE_PACKAGE,
+				"chests/brainstone_house_bottom");
 
 		for (i = 4; i < 9; i++) {
 			for (j = 0; j < 5; j++) {
@@ -235,45 +233,19 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 
 		setBlock(x + 6, y - height, z + 1, Blocks.CHEST);
 		TileEntityChest chest = (TileEntityChest) world.getTileEntity(new BlockPos(x + 6, y - height, z + 1));
-
-		int rand1 = random.nextInt(9) + 2;
-		SlotMemory chestSlots = new SlotMemory(chest.getSizeInventory(), random);
-
-		for (i = 0; i < rand1; i++) {
-			chest.setInventorySlotContents(chestSlots.getRandomChestSlot(), getLoot(1));
-		}
+		chest.setLootTable(lootTable, 0);
 
 		setBlock(x + 7, y - height, z + 1, Blocks.CHEST);
 		chest = (TileEntityChest) world.getTileEntity(new BlockPos(x + 7, y - height, z + 1));
-
-		rand1 = random.nextInt(9) + 2;
-		int rand2 = random.nextInt(3);
-		chestSlots = new SlotMemory(chest.getSizeInventory(), random);
-
-		for (i = 0; i < rand1; i++) {
-			chest.setInventorySlotContents(chestSlots.getRandomChestSlot(), getLoot(rand2));
-		}
+		chest.setLootTable(lootTable, 0);
 
 		setBlock(x + 6, y - height, z + 3, Blocks.CHEST);
 		chest = (TileEntityChest) world.getTileEntity(new BlockPos(x + 6, y - height, z + 3));
-
-		rand1 = random.nextInt(9) + 2;
-		rand2 = random.nextInt(3);
-		chestSlots = new SlotMemory(chest.getSizeInventory(), random);
-
-		for (i = 0; i < rand1; i++) {
-			chest.setInventorySlotContents(chestSlots.getRandomChestSlot(), getLoot(rand2));
-		}
+		chest.setLootTable(lootTable, 0);
 
 		setBlock(x + 7, y - height, z + 3, Blocks.CHEST);
 		chest = (TileEntityChest) world.getTileEntity(new BlockPos(x + 7, y - height, z + 3));
-
-		rand1 = random.nextInt(9) + 2;
-		chestSlots = new SlotMemory(chest.getSizeInventory(), random);
-
-		for (i = 0; i < rand1; i++) {
-			chest.setInventorySlotContents(chestSlots.getRandomChestSlot(), getLoot(1));
-		}
+		chest.setLootTable(lootTable, 0);
 	}
 
 	private void generateShack() {
@@ -375,13 +347,7 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 		setBlock(x + chunkX, y + 3, z + chunkZ, Blocks.CHEST);
 		final TileEntityChest chest = (TileEntityChest) world
 				.getTileEntity(new BlockPos(x + chunkX, y + 3, z + chunkZ));
-
-		rand = random.nextInt(9) + 2;
-		final SlotMemory chestSlots = new SlotMemory(chest.getSizeInventory(), random);
-
-		for (i = 0; i < rand; i++) {
-			chest.setInventorySlotContents(chestSlots.getRandomChestSlot(), getLoot(0));
-		}
+		chest.setLootTable(new ResourceLocation(BrainStone.RESOURCE_PACKAGE, "chests/brainstone_house_top"), 0);
 
 		// Roof - Layer 2
 
@@ -500,124 +466,6 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 		}
 	}
 
-	private ItemStack getLoot(int lootId) {
-		// Format: ItemStack, chance, min, rand1, rand2
-
-		Object[][] loots = null;
-		int size;
-
-		switch (lootId) {
-		case 0:
-			loots = new Object[][] { { new ItemStack(BrainStone.brainStone()), 0.1F, 1, 4, 5 },
-					{ new ItemStack(BrainStone.dirtyBrainStone()), 1.0F, 1, 4, 5 },
-					{ new ItemStack(BrainStone.brainStoneDust()), 2.0F, 1, 6, 7 },
-					{ new ItemStack(BrainStone.pulsatingBrainStone()), 0.05F, 1, 1, 2 },
-					{ new ItemStack(Items.DIAMOND), 0.75F, 1, 4, 5 }, { new ItemStack(Items.EMERALD), 0.5F, 1, 4, 5 } };
-
-			break;
-		case 1:
-			loots = new Object[][] { { new ItemStack(BrainStone.brainStoneDust()), 0.1F, 1, 5, 6 },
-					{ new ItemStack(Items.REDSTONE), 1.0F, 3, 5, 7 }, { new ItemStack(Blocks.IRON_ORE), 1.0F, 3, 2, 5 },
-					{ new ItemStack(Items.DYE, 1, 4), 1.0F, 3, 5, 7 },
-					{ new ItemStack(Blocks.GOLD_ORE), 1.0F, 1, 1, 4 }, { new ItemStack(Items.DIAMOND), 0.2F, 1, 2, 2 },
-					{ new ItemStack(Items.DYE, 1, 3), 1.0F, 3, 5, 7 }, { new ItemStack(Items.SADDLE), 0.2F, 1, 0, 0 },
-					{ new ItemStack(Items.GOLDEN_APPLE), 0.1F, 1, 0, 0 },
-					{ new ItemStack(Items.GOLDEN_APPLE, 1, 1), 0.01F, 1, 0, 0 } };
-
-			break;
-		case 2:
-			loots = new Object[][] { { new ItemStack(Blocks.MOSSY_COBBLESTONE), 1.0F, 1, 19, 20 },
-					{ new ItemStack(Blocks.GLOWSTONE), 1.0F, 1, 9, 10 },
-					{ new ItemStack(Blocks.LIT_PUMPKIN), 1.0F, 1, 9, 10 },
-					{ new ItemStack(Blocks.ICE), 1.0F, 1, 19, 20 },
-					{ new ItemStack(Blocks.REDSTONE_LAMP), 1.0F, 1, 9, 10 },
-					{ new ItemStack(Blocks.DRAGON_EGG), 0.01F, 1, 0, 0 },
-					{ new ItemStack(Items.NETHER_WART), 1.0F, 1, 9, 10 },
-					{ new ItemStack(Items.SLIME_BALL), 1.0F, 1, 9, 10 }, { new ItemStack(Items.BOOK), 1.0F, 1, 9, 10 },
-					{ new ItemStack(Items.BLAZE_ROD), 1.0F, 1, 2, 2 },
-					{ new ItemStack(Items.ENDER_PEARL), 1.0F, 1, 2, 2 },
-
-					{ new ItemStack(BrainStone.brainStoneAxe(), 1, random.nextInt(5368)), 0.1F, 1, 0, 0 },
-					{ new ItemStack(BrainStone.brainStonePickaxe(), 1, random.nextInt(5368)), 0.1F, 1, 0, 0 },
-					{ new ItemStack(BrainStone.brainStoneShovel(), 1, random.nextInt(5368)), 0.1F, 1, 0, 0 },
-					{ new ItemStack(BrainStone.brainStoneHoe(), 1, random.nextInt(5368)), 0.1F, 1, 0, 0 },
-					{ new ItemStack(BrainStone.brainStoneSword(), 1, random.nextInt(5368)), 0.1F, 1, 0, 0 },
-					{ new ItemStack(BrainStone.brainStoneHelmet(), 1, random.nextInt(1824)), 0.1F, 1, 0, 0 },
-					{ new ItemStack(BrainStone.brainStonePlate(), 1, random.nextInt(1824)), 0.1F, 1, 0, 0 },
-					{ new ItemStack(BrainStone.brainStoneLeggings(), 1, random.nextInt(1824)), 0.1F, 1, 0, 0 },
-					{ new ItemStack(BrainStone.brainStoneBoots(), 1, random.nextInt(1824)), 0.1F, 1, 0, 0 },
-
-					{ EnchantmentHelper.addRandomEnchantment(random,
-							new ItemStack(BrainStone.brainStoneAxe(), 1, random.nextInt(5368)), 10, true), 0.05F, 1,
-							0,
-							0 },
-					{ EnchantmentHelper
-							.addRandomEnchantment(random,
-									new ItemStack(BrainStone.brainStonePickaxe(), 1, random.nextInt(5368)), 10, true),
-							0.05F, 1, 0, 0 },
-					{ EnchantmentHelper.addRandomEnchantment(random,
-							new ItemStack(BrainStone.brainStoneShovel(), 1, random.nextInt(5368)), 10, true), 0.05F, 1,
-							0, 0 },
-					{ EnchantmentHelper.addRandomEnchantment(random,
-							new ItemStack(BrainStone.brainStoneSword(), 1, random.nextInt(5368)), 10, true), 0.05F, 1,
-							0, 0 },
-					{ EnchantmentHelper.addRandomEnchantment(random,
-							new ItemStack(BrainStone.brainStoneHelmet(), 1, random.nextInt(1824)), 10, true), 0.05F, 1,
-							0, 0 },
-					{ EnchantmentHelper.addRandomEnchantment(random,
-							new ItemStack(BrainStone.brainStonePlate(), 1, random.nextInt(1824)), 10, true), 0.05F, 1,
-							0, 0 },
-					{ EnchantmentHelper.addRandomEnchantment(random,
-							new ItemStack(BrainStone.brainStoneLeggings(), 1, random.nextInt(1824)), 10, true), 0.05F,
-							1, 0, 0 },
-					{ EnchantmentHelper.addRandomEnchantment(random,
-							new ItemStack(BrainStone.brainStoneBoots(), 1, random.nextInt(1824)), 10, true), 0.05F, 1,
-							0, 0 } };
-
-			break;
-		default:
-			// Shouldn't be here
-			break;
-		}
-
-		if (loots == null)
-			return null;
-
-		float sum = 0.0F, rand, tmpChance;
-		int i;
-		ItemStack loot = null;
-		Object[] tmpLoot;
-
-		size = loots.length;
-
-		for (i = 0; i < size; i++) {
-			sum += (Float) loots[i][1];
-		}
-
-		rand = (float) MathHelper.getRandomDoubleInRange(random, 0.0, sum);
-
-		for (i = 0; i < size; i++) {
-			tmpLoot = loots[i];
-			tmpChance = (Float) tmpLoot[1];
-
-			if (rand < tmpChance) {
-				loot = (ItemStack) tmpLoot[0];
-				loot.stackSize = (Integer) tmpLoot[2] + random.nextInt((Integer) tmpLoot[3] + 1)
-						+ random.nextInt((Integer) tmpLoot[4] + 1);
-
-				if (loot.isItemEqual(new ItemStack(Blocks.DRAGON_EGG))) {
-					BSP.debug("Dragon Egg!!!!");
-				}
-
-				break;
-			}
-
-			rand -= tmpChance;
-		}
-
-		return loot;
-	}
-
 	private boolean isReplaceable(int x, int y, int z) {
 		return world.getBlockState(new BlockPos(x, y, z)).getMaterial().isReplaceable();
 	}
@@ -639,39 +487,5 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 	@SuppressWarnings("deprecation")
 	private void setBlockAndMetadata(int x, int y, int z, Block blockId, int metaData) {
 		world.setBlockState(new BlockPos(x, y, z), blockId.getStateFromMeta(metaData), 2);
-	}
-
-	private class SlotMemory {
-		private final ArrayList<Integer> chestSlots;
-		private Random random;
-
-		public SlotMemory(int chestSize) {
-			chestSlots = new ArrayList<>(chestSize);
-
-			for (int i = 0; i < chestSize; i++) {
-				chestSlots.add(i);
-			}
-		}
-
-		public SlotMemory(int chestSize, Random random) {
-			this(chestSize);
-
-			this.random = random;
-		}
-
-		public int getRandomChestSlot() {
-			final int size = chestSlots.size();
-
-			if (size > 0) {
-				final int slot = random.nextInt(size);
-
-				final int temp = chestSlots.get(slot);
-				chestSlots.remove(slot);
-
-				return temp;
-			}
-
-			return -1;
-		}
 	}
 }

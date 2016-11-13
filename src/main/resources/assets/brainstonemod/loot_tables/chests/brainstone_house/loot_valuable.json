@@ -1,0 +1,1061 @@
+{
+    "pools": [
+        {
+            "name": "Test Valuable",
+            "rolls": {
+                "min": 2,
+                "max": 5
+            },
+            "bonus_rolls": {
+                "min": 0.25,
+                "max": 1.25
+            },
+            "entries": [
+                {
+                    "type": "item",
+                    "name": "brainstonemod:brainStoneLifeCapacitor",
+                    "weight": 1,
+                    "quality": 10
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:essenceOfLife",
+                    "weight": 3,
+                    "quality": 15
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:stablePulsatingBrainStone",
+                    "weight": 5,
+                    "quality": 15,
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 1,
+                                "max": 3
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:brainStoneSword",
+                    "weight": 30,
+                    "quality": -10,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:brainStoneSword",
+                    "entryName": "brainstonemod:brainStoneSword2",
+                    "weight": 20,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": 15,
+                            "treasure": true
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:brainStoneSword",
+                    "entryName": "brainstonemod:brainStoneSword3",
+                    "weight": 10,
+                    "quality": 10,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": 30,
+                            "treasure": true
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:brainStoneShovel",
+                    "weight": 30,
+                    "quality": -10,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:brainStoneShovel",
+                    "entryName": "brainstonemod:brainStoneShovel2",
+                    "weight": 20,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": 15,
+                            "treasure": true
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:brainStoneShovel",
+                    "entryName": "brainstonemod:brainStoneShovel3",
+                    "weight": 10,
+                    "quality": 10,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": 30,
+                            "treasure": true
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:brainStonePickaxe",
+                    "weight": 30,
+                    "quality": -10,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:brainStonePickaxe",
+                    "entryName": "brainstonemod:brainStonePickaxe2",
+                    "weight": 20,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": 15,
+                            "treasure": true
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:brainStonePickaxe",
+                    "entryName": "brainstonemod:brainStonePickaxe3",
+                    "weight": 10,
+                    "quality": 10,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": 30,
+                            "treasure": true
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:brainStoneAxe",
+                    "weight": 30,
+                    "quality": -10,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:brainStoneAxe",
+                    "entryName": "brainstonemod:brainStoneAxe2",
+                    "weight": 20,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": 15,
+                            "treasure": true
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:brainStoneAxe",
+                    "entryName": "brainstonemod:brainStoneAxe3",
+                    "weight": 10,
+                    "quality": 10,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": 30,
+                            "treasure": true
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:brainStoneHoe",
+                    "weight": 30,
+                    "quality": -10,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:brainStoneHoe",
+                    "entryName": "brainstonemod:brainStoneHoe2",
+                    "weight": 20,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": 15,
+                            "treasure": true
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:brainStoneHoe",
+                    "entryName": "brainstonemod:brainStoneHoe3",
+                    "weight": 10,
+                    "quality": 10,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": 30,
+                            "treasure": true
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:brainStoneHelmet",
+                    "weight": 30,
+                    "quality": -10,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:brainStoneHelmet",
+                    "entryName": "brainstonemod:brainStoneHelmet2",
+                    "weight": 20,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": 15,
+                            "treasure": true
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:brainStoneHelmet",
+                    "entryName": "brainstonemod:brainStoneHelmet3",
+                    "weight": 10,
+                    "quality": 10,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": 30,
+                            "treasure": true
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:brainStonePlate",
+                    "weight": 30,
+                    "quality": -10,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:brainStonePlate",
+                    "entryName": "brainstonemod:brainStonePlate2",
+                    "weight": 20,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": 15,
+                            "treasure": true
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:brainStonePlate",
+                    "entryName": "brainstonemod:brainStonePlate3",
+                    "weight": 10,
+                    "quality": 10,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": 30,
+                            "treasure": true
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:brainStoneLeggings",
+                    "weight": 30,
+                    "quality": -10,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:brainStoneLeggings",
+                    "entryName": "brainstonemod:brainStoneLeggings2",
+                    "weight": 20,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": 15,
+                            "treasure": true
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:brainStoneLeggings",
+                    "entryName": "brainstonemod:brainStoneLeggings3",
+                    "weight": 10,
+                    "quality": 10,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": 30,
+                            "treasure": true
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:brainStoneBoots",
+                    "weight": 30,
+                    "quality": -10,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:brainStoneBoots",
+                    "entryName": "brainstonemod:brainStoneBoots2",
+                    "weight": 20,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": 15,
+                            "treasure": true
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:brainStoneBoots",
+                    "entryName": "brainstonemod:brainStoneBoots3",
+                    "weight": 10,
+                    "quality": 10,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": 30,
+                            "treasure": true
+                        }
+                    ]
+                },
+                                {
+                    "type": "item",
+                    "name": "brainstonemod:stablePulsatingBrainStoneSword",
+                    "weight": 3,
+                    "quality": 5,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:stablePulsatingBrainStoneSword",
+                    "entryName": "brainstonemod:stablePulsatingBrainStoneSword2",
+                    "weight": 2,
+                    "quality": 10,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": 15,
+                            "treasure": true
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:stablePulsatingBrainStoneSword",
+                    "entryName": "brainstonemod:stablePulsatingBrainStoneSword3",
+                    "weight": 1,
+                    "quality": 15,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": 30,
+                            "treasure": true
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:stablePulsatingBrainStoneShovel",
+                    "weight": 3,
+                    "quality": 5,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:stablePulsatingBrainStoneShovel",
+                    "entryName": "brainstonemod:stablePulsatingBrainStoneShovel2",
+                    "weight": 2,
+                    "quality": 10,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": 15,
+                            "treasure": true
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:stablePulsatingBrainStoneShovel",
+                    "entryName": "brainstonemod:stablePulsatingBrainStoneShovel3",
+                    "weight": 1,
+                    "quality": 15,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": 30,
+                            "treasure": true
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:stablePulsatingBrainStonePickaxe",
+                    "weight": 3,
+                    "quality": 5,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:stablePulsatingBrainStonePickaxe",
+                    "entryName": "brainstonemod:stablePulsatingBrainStonePickaxe2",
+                    "weight": 2,
+                    "quality": 10,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": 15,
+                            "treasure": true
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:stablePulsatingBrainStonePickaxe",
+                    "entryName": "brainstonemod:stablePulsatingBrainStonePickaxe3",
+                    "weight": 1,
+                    "quality": 15,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": 30,
+                            "treasure": true
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:stablePulsatingBrainStoneAxe",
+                    "weight": 3,
+                    "quality": 5,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:stablePulsatingBrainStoneAxe",
+                    "entryName": "brainstonemod:stablePulsatingBrainStoneAxe2",
+                    "weight": 2,
+                    "quality": 10,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": 15,
+                            "treasure": true
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:stablePulsatingBrainStoneAxe",
+                    "entryName": "brainstonemod:stablePulsatingBrainStoneAxe3",
+                    "weight": 1,
+                    "quality": 15,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": 30,
+                            "treasure": true
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:stablePulsatingBrainStoneHoe",
+                    "weight": 3,
+                    "quality": 5,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:stablePulsatingBrainStoneHoe",
+                    "entryName": "brainstonemod:stablePulsatingBrainStoneHoe2",
+                    "weight": 2,
+                    "quality": 10,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": 15,
+                            "treasure": true
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:stablePulsatingBrainStoneHoe",
+                    "entryName": "brainstonemod:stablePulsatingBrainStoneHoe3",
+                    "weight": 1,
+                    "quality": 15,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": 30,
+                            "treasure": true
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:stablePulsatingBrainStoneHelmet",
+                    "weight": 3,
+                    "quality": 5,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:stablePulsatingBrainStoneHelmet",
+                    "entryName": "brainstonemod:stablePulsatingBrainStoneHelmet2",
+                    "weight": 2,
+                    "quality": 10,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": 15,
+                            "treasure": true
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:stablePulsatingBrainStoneHelmet",
+                    "entryName": "brainstonemod:stablePulsatingBrainStoneHelmet3",
+                    "weight": 1,
+                    "quality": 15,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": 30,
+                            "treasure": true
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:stablePulsatingBrainStonePlate",
+                    "weight": 3,
+                    "quality": 5,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:stablePulsatingBrainStonePlate",
+                    "entryName": "brainstonemod:stablePulsatingBrainStonePlate2",
+                    "weight": 2,
+                    "quality": 10,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": 15,
+                            "treasure": true
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:stablePulsatingBrainStonePlate",
+                    "entryName": "brainstonemod:stablePulsatingBrainStonePlate3",
+                    "weight": 1,
+                    "quality": 15,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": 30,
+                            "treasure": true
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:stablePulsatingBrainStoneLeggings",
+                    "weight": 3,
+                    "quality": 5,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:stablePulsatingBrainStoneLeggings",
+                    "entryName": "brainstonemod:stablePulsatingBrainStoneLeggings2",
+                    "weight": 2,
+                    "quality": 10,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": 15,
+                            "treasure": true
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:stablePulsatingBrainStoneLeggings",
+                    "entryName": "brainstonemod:stablePulsatingBrainStoneLeggings3",
+                    "weight": 1,
+                    "quality": 15,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": 30,
+                            "treasure": true
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:stablePulsatingBrainStoneBoots",
+                    "weight": 3,
+                    "quality": 5,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:stablePulsatingBrainStoneBoots",
+                    "entryName": "brainstonemod:stablePulsatingBrainStoneBoots2",
+                    "weight": 2,
+                    "quality": 10,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": 15,
+                            "treasure": true
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "brainstonemod:stablePulsatingBrainStoneBoots",
+                    "entryName": "brainstonemod:stablePulsatingBrainStoneBoots3",
+                    "weight": 1,
+                    "quality": 15,
+                    "functions": [
+                        {
+                            "function": "set_damage",
+                            "damage": {
+                                "min": 0.1,
+                                "max": 0.9
+                            }
+                        },
+                        {
+                            "function": "enchant_with_levels",
+                            "levels": 30,
+                            "treasure": true
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
