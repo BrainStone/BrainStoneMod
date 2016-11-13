@@ -20,6 +20,8 @@ Please include the following:
 * For crashes:
 	* Steps to reproduce
 	* ForgeModLoader-client-0.log (the FML log) from the root folder of the client
+ 
+*(When creating a new issue please follow the template)*	
 
 Developing with my mod
 ----------------------
@@ -37,6 +39,7 @@ So all you have to do to include the mod is add these lines *(in the appropriate
     
     dependencies {
         compile "brainstonemod:BrainStoneMod:<version>:deobf"
+        // Other dependencies
     }
 
 Setting up a Workspace/Compiling from Source
