@@ -402,7 +402,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 
 	private void createUUID(ItemStack container) {
 		UUID uuid;
-		
+
 		if (container.getTagCompound() == null) {
 			container.setTagCompound(new NBTTagCompound());
 		}
@@ -463,6 +463,9 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	@Override
 	@Optional.Method(modid = BrainStoneModules.BAUBLES_MODID)
 	public boolean canEquip(ItemStack stack, EntityLivingBase entity) {
+		if ((stack == null) || (entity == null))
+			return false;
+
 		return isCurrentOwner(stack, entity.getUniqueID());
 	}
 
