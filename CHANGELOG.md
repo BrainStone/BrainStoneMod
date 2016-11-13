@@ -1,3 +1,12 @@
+4.0.30-alpha
+------------
+
+- Using Access Transformers instead of reflection to make the BrainStoneLifeCapacitor work
+- Settings for JER no longer cause JEI to reload (because JER doesn't refresh)
+- Fixed BrainStoneLifeCapacitor having the same UUID when taken from the creative menu (or JEI cheating)
+- Fixed invalid charging rate for the BrainStoneLifeCapacitor
+- Fixed a crash caused by Ender IO
+
 4.0.20-alpha
 ------------
 
