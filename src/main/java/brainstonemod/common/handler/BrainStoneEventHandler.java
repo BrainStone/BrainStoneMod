@@ -44,7 +44,7 @@ public class BrainStoneEventHandler {
 				&& (capacitorUUID.equals(BrainStone.brainStoneLifeCapacitor().getUUID(stack)));
 	}
 
-	private static ItemStack getBrainStoneLiveCapacitor(EntityPlayer player) {
+	public static ItemStack getBrainStoneLiveCapacitor(EntityPlayer player) {
 		ItemBrainStoneLifeCapacitor capacitor = BrainStone.brainStoneLifeCapacitor();
 		ItemBrainStoneLifeCapacitor.PlayerCapacitorMapping mapping = capacitor.getPlayerCapacitorMapping();
 		UUID capacitorUUID = mapping.getCapacitorUUID(player.getUniqueID());
@@ -129,6 +129,11 @@ public class BrainStoneEventHandler {
 
 				ammount -= player.lastDamage;
 				player.lastDamage = event.getAmount();
+			} else {
+				player.hurtResistantTime = player.maxHurtResistantTime;
+				player.lastDamage = event.getAmount();
+				player.maxHurtTime = 10;
+				player.hurtTime = player.maxHurtTime;
 			}
 
 			ItemStack capacitor = getBrainStoneLiveCapacitor(player);
@@ -143,8 +148,6 @@ public class BrainStoneEventHandler {
 
 					BrainStoneDamageHelper.getAdjustedDamage(event.getSource(), ammount, player, false);
 					BrainStone.brainStoneLifeCapacitor().handleDamage(capacitor, adjustedDamage, false);
-					player.hurtResistantTime = player.maxHurtResistantTime;
-					player.lastDamage = event.getAmount();
 				}
 			}
 		}

@@ -36,7 +36,7 @@ public class EnergyContainerItemProvider implements IEnergyStorage, ICapabilityP
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
 		if (capability == CapabilityEnergy.ENERGY)
 			return (T) this;
 

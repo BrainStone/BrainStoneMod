@@ -6,6 +6,7 @@ import java.util.Map;
 import brainstonemod.BrainStone;
 import lombok.experimental.UtilityClass;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -31,6 +32,18 @@ public class BrainStoneRenderHelper {
 		vertexBuffer.pos(x + width, y, zLevel).tex((u + uSize) * pxl, v * pxl).endVertex();
 		vertexBuffer.pos(x, y, zLevel).tex(u * pxl, v * pxl).endVertex();
 		tessellator.draw();
+	}
+
+	public static void drawCenteredString(String text, float x, float y, int color) {
+		FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
+
+		fontRenderer.drawStringWithShadow(text, (float) (x - fontRenderer.getStringWidth(text) / 2), y, color);
+	}
+
+	public static void drawString(String text, float x, float y, int color) {
+		FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
+
+		fontRenderer.drawStringWithShadow(text, x, y, color);
 	}
 
 	public static void setTexture(String textureName, int size) {

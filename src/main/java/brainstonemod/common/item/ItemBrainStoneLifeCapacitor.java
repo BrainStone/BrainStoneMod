@@ -476,6 +476,12 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 		return BaubleType.BELT;
 	}
 
+	@Override
+	@Optional.Method(modid = BrainStoneModules.BAUBLES_MODID)
+	public boolean willAutoSync(ItemStack itemstack, EntityLivingBase player) {
+		return true;
+	}
+
 	public class PlayerCapacitorMapping {
 		private static final String relativePath = "/data/" + BrainStone.MOD_ID + "/brainStoneLifeCapacitor.dat";
 
