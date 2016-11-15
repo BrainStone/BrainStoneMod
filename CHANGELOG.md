@@ -1,3 +1,12 @@
+4.0.43-alpha
+------------
+
+- Removed custom achievement opion. The custom achievement page will always be used
+- BrainStone House now uses loot tables in its chests
+- Improved JER integration
+- Improved README
+
+
 4.0.30-alpha
 ------------
 
