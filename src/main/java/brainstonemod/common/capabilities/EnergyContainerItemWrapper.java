@@ -1,4 +1,4 @@
-package brainstonemod.common.item.energy;
+package brainstonemod.common.capabilities;
 
 import java.math.BigInteger;
 

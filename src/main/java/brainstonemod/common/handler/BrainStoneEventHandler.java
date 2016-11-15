@@ -6,13 +6,13 @@ import java.util.UUID;
 import baubles.api.BaubleType;
 import baubles.api.BaublesApi;
 import brainstonemod.BrainStone;
+import brainstonemod.common.capabilities.EnergyContainerItemWrapper;
+import brainstonemod.common.capabilities.IEnergyContainerItem;
 import brainstonemod.common.compat.BrainStoneModules;
 import brainstonemod.common.config.BrainStoneConfigWrapper;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.helper.BrainStoneDamageHelper;
-import brainstonemod.common.item.energy.EnergyContainerItemWrapper;
-import brainstonemod.common.item.energy.IEnergyContainerItem;
-import brainstonemod.common.item.energy.ItemBrainStoneLifeCapacitor;
+import brainstonemod.common.item.ItemBrainStoneLifeCapacitor;
 import brainstonemod.network.PacketDispatcher;
 import brainstonemod.network.packet.clientbound.PacketCapacitorData;
 import net.minecraft.block.Block;
@@ -69,16 +69,18 @@ public class BrainStoneEventHandler {
 		return null;
 	}
 
-	@SuppressWarnings("deprecation")
 	@SubscribeEvent
 	public void attachCapabilities(AttachCapabilitiesEvent.Item event) {
 		if (event.getCapabilities().containsKey(BrainStone.RESOURCE_LOCATION))
 			return;
+		
+		ItemStack stack = event.getItemStack();
+		Item item = stack.getItem();
 
-		if (event.getItem() instanceof IEnergyContainerItem) {
-			IEnergyContainerItem item = (IEnergyContainerItem) event.getItem();
+		if (item instanceof IEnergyContainerItem) {
+			IEnergyContainerItem energyItem = (IEnergyContainerItem) item;
 			event.addCapability(BrainStone.RESOURCE_LOCATION,
-					new EnergyContainerItemWrapper.EnergyContainerItemProvider(item, event.getItemStack()));
+					new EnergyContainerItemWrapper.EnergyContainerItemProvider(energyItem, stack));
 		}
 	}
 

@@ -1,4 +1,4 @@
-package brainstonemod.common.item.energy;
+package brainstonemod.common.item;
 
 import java.io.EOFException;
 import java.io.File;
@@ -17,6 +17,7 @@ import baubles.api.BaubleType;
 import baubles.api.IBauble;
 import brainstonemod.BrainStone;
 import brainstonemod.client.config.BrainStoneClientConfigWrapper;
+import brainstonemod.common.capabilities.IEnergyContainerItem;
 import brainstonemod.common.compat.BrainStoneModules;
 import brainstonemod.common.config.BrainStoneConfigWrapper;
 import brainstonemod.common.helper.BSP;

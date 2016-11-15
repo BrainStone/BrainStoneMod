@@ -7,7 +7,7 @@ import java.util.Map.Entry;
 import brainstonemod.common.compat.BrainStoneModules;
 import brainstonemod.common.compat.jei.BrainstoneJEIPlugin;
 import brainstonemod.common.config.BrainStoneConfigWrapper;
-import brainstonemod.common.item.energy.ItemBrainStoneLifeCapacitor;
+import brainstonemod.common.item.ItemBrainStoneLifeCapacitor;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
