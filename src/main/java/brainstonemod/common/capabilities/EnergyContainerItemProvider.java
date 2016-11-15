@@ -20,37 +20,27 @@ import net.minecraftforge.energy.IEnergyStorage;
  * 
  * @author BrainStone
  */
-public class EnergyContainerItemWrapper implements IEnergyStorage {
+public class EnergyContainerItemProvider implements IEnergyStorage, ICapabilityProvider {
 	protected final ItemStack container;
-	protected IEnergyContainerItem item;
+	protected final IEnergyContainerItem item;
 
-	public static class EnergyContainerItemProvider implements ICapabilityProvider {
-		private final IEnergyContainerItem item;
-		private final ItemStack stack;
-
-		public EnergyContainerItemProvider(IEnergyContainerItem item, ItemStack stack) {
-			this.item = item;
-			this.stack = stack;
-		}
-
-		@Override
-		public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
-			return capability == CapabilityEnergy.ENERGY;
-		}
-
-		@SuppressWarnings("unchecked")
-		@Override
-		public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-			if (capability == CapabilityEnergy.ENERGY)
-				return (T) new EnergyContainerItemWrapper(item, stack);
-
-			return null;
-		}
-	}
-
-	public EnergyContainerItemWrapper(IEnergyContainerItem item, ItemStack container) {
+	public EnergyContainerItemProvider(IEnergyContainerItem item, ItemStack container) {
 		this.container = container;
 		this.item = item;
+	}
+
+	@Override
+	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
+		return capability == CapabilityEnergy.ENERGY;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+		if (capability == CapabilityEnergy.ENERGY)
+			return (T) this;
+
+		return null;
 	}
 
 	@Override

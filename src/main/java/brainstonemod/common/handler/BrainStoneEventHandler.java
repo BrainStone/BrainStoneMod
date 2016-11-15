@@ -6,7 +6,7 @@ import java.util.UUID;
 import baubles.api.BaubleType;
 import baubles.api.BaublesApi;
 import brainstonemod.BrainStone;
-import brainstonemod.common.capabilities.EnergyContainerItemWrapper;
+import brainstonemod.common.capabilities.EnergyContainerItemProvider;
 import brainstonemod.common.capabilities.IEnergyContainerItem;
 import brainstonemod.common.compat.BrainStoneModules;
 import brainstonemod.common.config.BrainStoneConfigWrapper;
@@ -81,7 +81,7 @@ public class BrainStoneEventHandler {
 		if (item instanceof IEnergyContainerItem) {
 			IEnergyContainerItem energyItem = (IEnergyContainerItem) item;
 			event.addCapability(BrainStone.RESOURCE_LOCATION,
-					new EnergyContainerItemWrapper.EnergyContainerItemProvider(energyItem, stack));
+					new EnergyContainerItemProvider(energyItem, stack));
 		}
 	}
 
