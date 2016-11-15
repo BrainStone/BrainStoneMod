@@ -1,3 +1,9 @@
+4.0.49-beta
+-----------
+
+- Fixed BrainStoneLifeCapacitor making the player immortal
+- Interal cleanup
+
 4.0.47-beta
 -----------
 
