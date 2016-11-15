@@ -25,7 +25,9 @@ public class BrainStoneDamageHelper {
 		adjustedDamage = applyPotionDamageCalculations(damageSource, adjustedDamage, player);
 		float f1 = adjustedDamage;
 		adjustedDamage = Math.max(adjustedDamage - player.getAbsorptionAmount(), 0.0F);
-		player.setAbsorptionAmount(player.getAbsorptionAmount() - (f1 - adjustedDamage));
+
+		if (!simluate)
+			player.setAbsorptionAmount(player.getAbsorptionAmount() - (f1 - adjustedDamage));
 
 		return adjustedDamage;
 	}

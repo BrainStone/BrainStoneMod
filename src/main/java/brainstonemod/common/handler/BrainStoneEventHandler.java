@@ -80,8 +80,7 @@ public class BrainStoneEventHandler {
 
 		if (item instanceof IEnergyContainerItem) {
 			IEnergyContainerItem energyItem = (IEnergyContainerItem) item;
-			event.addCapability(BrainStone.RESOURCE_LOCATION,
-					new EnergyContainerItemProvider(energyItem, stack));
+			event.addCapability(BrainStone.RESOURCE_LOCATION, new EnergyContainerItemProvider(energyItem, stack));
 		}
 	}
 
@@ -118,36 +117,35 @@ public class BrainStoneEventHandler {
 	public void onEntityAttack(LivingAttackEvent event) {
 		if (event.getEntityLiving() instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) event.getEntityLiving();
-			float ammount = event.getAmount();
+			float amount = event.getAmount();
 
 			if (event.getSource().isFireDamage() && player.isPotionActive(MobEffects.FIRE_RESISTANCE))
 				return;
 
 			if ((float) player.hurtResistantTime > ((float) player.maxHurtResistantTime / 2.0f)) {
-				if (ammount <= player.lastDamage)
+				if (amount <= player.lastDamage)
 					return;
 
-				ammount -= player.lastDamage;
+				amount -= player.lastDamage;
 				player.lastDamage = event.getAmount();
-			} else {
-				player.hurtResistantTime = player.maxHurtResistantTime;
-				player.lastDamage = event.getAmount();
-				player.maxHurtTime = 10;
-				player.hurtTime = player.maxHurtTime;
 			}
 
 			ItemStack capacitor = getBrainStoneLiveCapacitor(player);
 
 			if (capacitor != null) {
-				float adjustedDamage = BrainStoneDamageHelper.getAdjustedDamage(event.getSource(), ammount, player,
+				float adjustedDamage = BrainStoneDamageHelper.getAdjustedDamage(event.getSource(), amount, player,
 						true);
 				float newDamage = BrainStone.brainStoneLifeCapacitor().handleDamage(capacitor, adjustedDamage, true);
 
 				if (newDamage == 0.0f) {
 					event.setCanceled(true);
 
-					BrainStoneDamageHelper.getAdjustedDamage(event.getSource(), ammount, player, false);
+					BrainStoneDamageHelper.getAdjustedDamage(event.getSource(), amount, player, false);
 					BrainStone.brainStoneLifeCapacitor().handleDamage(capacitor, adjustedDamage, false);
+					player.hurtResistantTime = player.maxHurtResistantTime;
+					player.lastDamage = event.getAmount();
+					player.maxHurtTime = 10;
+					player.hurtTime = player.maxHurtTime;
 				}
 			}
 		}
