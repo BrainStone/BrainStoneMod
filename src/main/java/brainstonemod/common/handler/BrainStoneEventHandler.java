@@ -73,9 +73,10 @@ public class BrainStoneEventHandler {
 	public void attachCapabilities(AttachCapabilitiesEvent.Item event) {
 		if (event.getCapabilities().containsKey(BrainStone.RESOURCE_LOCATION))
 			return;
-		
+
 		ItemStack stack = event.getItemStack();
-		Item item = stack.getItem();
+		@SuppressWarnings("deprecation")
+		Item item = event.getItem();
 
 		if (item instanceof IEnergyContainerItem) {
 			IEnergyContainerItem energyItem = (IEnergyContainerItem) item;
