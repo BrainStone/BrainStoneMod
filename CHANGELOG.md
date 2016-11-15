@@ -1,3 +1,9 @@
+4.0.47-beta
+-----------
+
+- Finished BrainStoneLifeCapacitor HUD
+- Internal improvements
+
 4.0.43-alpha
 ------------
 
