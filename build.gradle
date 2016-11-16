@@ -103,7 +103,7 @@ minecraft {
 
 repositories {
     maven { // JEI, Natura, Mantle, TiCon
-        url "https://dvs1.progwml6.com/files/maven"
+        url "http://dvs1.progwml6.com/files/maven"
     }
     maven { // EnderIO, EnderCore, EnderZoo, The One Probe
         url "http://maven.tterrag.com"
@@ -290,7 +290,7 @@ uploadArchives {
 }
 
 curseforge {
-    apiKey = project.hasProperty("keyStoreAlias")? project.curseForgeApiKey : "empty"
+    apiKey = project.hasProperty("curseForgeApiKey")? project.curseForgeApiKey : "empty"
     
     project {
         id = "250836"
