@@ -103,13 +103,13 @@ minecraft {
 
 repositories {
     maven { // JEI, Natura, Mantle, TiCon
-        url "http://dvs1.progwml6.com/files/maven"
+        url "https://dvs1.progwml6.com/files/maven"
     }
     maven { // EnderIO, EnderCore, EnderZoo, The One Probe
         url "http://maven.tterrag.com"
     }
     maven { // Tesla (dependency of EnderIO)
-        url "http://maven.epoxide.xyz"
+        url "https://maven.epoxide.xyz"
     }
     maven { // ChickenBones' mods and Draconic Evolution
         url "http://chickenbones.net/maven/"
