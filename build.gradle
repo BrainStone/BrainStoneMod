@@ -121,22 +121,22 @@ repositories {
 
 dependencies {
     // External Mods
-    deobfCompile "mezz.jei:jei_${minecraft_version}:${jei_version}"
-    deobfCompile "com.enderio.core:EnderCore:${minecraft_version}-${endercore_version}"
-    deobfCompile "com.enderio:EnderIO:${minecraft_version}-${enderio_version}"
-    deobfCompile "slimeknights.mantle:Mantle:${minecraft_version}-${mantle_version}"
-    compile "slimeknights:TConstruct:${minecraft_version}-${tconstruct_version}:deobf"
-    compile("com.brandon3055.draconicevolution:Draconic-Evolution:${minecraft_version}-${draconicEvolution_version}:deobf") {
+    deobfProvided "mezz.jei:jei_${minecraft_version}:${jei_version}"
+    deobfProvided "com.enderio.core:EnderCore:${minecraft_version}-${endercore_version}"
+    deobfProvided "com.enderio:EnderIO:${minecraft_version}-${enderio_version}"
+    deobfProvided "slimeknights.mantle:Mantle:${minecraft_version}-${mantle_version}"
+    provided "slimeknights:TConstruct:${minecraft_version}-${tconstruct_version}:deobf"
+    provided("com.brandon3055.draconicevolution:Draconic-Evolution:${minecraft_version}-${draconicEvolution_version}:deobf") {
         exclude module: "jei_${minecraft_version}"
         exclude module: "OpenComputers"
     }
     
     // Local Mods
-    compile "lib:Baubles:+:deobf"
-    compile "lib:BetterAchievements:+:deobf"
-    compile "lib:ImmersiveEngineering:+:deobf"
-    compile "lib:JustEnoughResources:+:deobf"
-    compile "lib:Overlord:+:deobf"
+    provided "lib:Baubles:+:deobf"
+    provided "lib:BetterAchievements:+:deobf"
+    provided "lib:ImmersiveEngineering:+:deobf"
+    provided "lib:JustEnoughResources:+:deobf"
+    provided "lib:Overlord:+:deobf"
 }
 
 lombok {
@@ -275,13 +275,6 @@ uploadArchives {
                                 }
                             }
                         }
-                    }
-                }
-                
-                // All dependencies are optional!
-                pom.whenConfigured {
-                    p -> p.dependencies = p.dependencies.findAll { 
-                        dep -> false 
                     }
                 }
             }
