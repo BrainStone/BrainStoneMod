@@ -233,19 +233,19 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 
 		setBlock(x + 6, y - height, z + 1, Blocks.CHEST);
 		TileEntityChest chest = (TileEntityChest) world.getTileEntity(new BlockPos(x + 6, y - height, z + 1));
-		chest.setLootTable(lootTable, 0);
+		chest.setLootTable(lootTable, random.nextInt());
 
 		setBlock(x + 7, y - height, z + 1, Blocks.CHEST);
 		chest = (TileEntityChest) world.getTileEntity(new BlockPos(x + 7, y - height, z + 1));
-		chest.setLootTable(lootTable, 0);
+		chest.setLootTable(lootTable, random.nextInt());
 
 		setBlock(x + 6, y - height, z + 3, Blocks.CHEST);
 		chest = (TileEntityChest) world.getTileEntity(new BlockPos(x + 6, y - height, z + 3));
-		chest.setLootTable(lootTable, 0);
+		chest.setLootTable(lootTable, random.nextInt());
 
 		setBlock(x + 7, y - height, z + 3, Blocks.CHEST);
 		chest = (TileEntityChest) world.getTileEntity(new BlockPos(x + 7, y - height, z + 3));
-		chest.setLootTable(lootTable, 0);
+		chest.setLootTable(lootTable, random.nextInt());
 	}
 
 	private void generateShack() {
@@ -347,7 +347,7 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 		setBlock(x + chunkX, y + 3, z + chunkZ, Blocks.CHEST);
 		final TileEntityChest chest = (TileEntityChest) world
 				.getTileEntity(new BlockPos(x + chunkX, y + 3, z + chunkZ));
-		chest.setLootTable(new ResourceLocation(BrainStone.RESOURCE_PACKAGE, "chests/brainstone_house_top"), 0);
+		chest.setLootTable(new ResourceLocation(BrainStone.RESOURCE_PACKAGE, "chests/brainstone_house_top"), random.nextInt());
 
 		// Roof - Layer 2
 
