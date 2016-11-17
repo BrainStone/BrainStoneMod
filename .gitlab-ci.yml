@@ -23,7 +23,7 @@ before_script:
 build:
   stage: build
   script:
-  - ./gradlew assemble
+  - ./gradlew clean assemble
   - cp $ORIG_ARTIFACTS .
   when: on_success
   artifacts:
