@@ -7,8 +7,11 @@
 
 Starts where all others end
 
-Issue reporting
----------------
+[Issue Reporting](https://github.com/BrainStone/brainstone/issues)
+------------------------------------------------------------------
+
+If you found a bug or even are experiencing a crash please report it so we can fix it. Please check at first if a bug report for the issue already [exits]
+(https://github.com/BrainStone/brainstone/issues). If not just create a [new issue](https://github.com/BrainStone/brainstone/issues/new) and fill out the form.
 
 Please include the following:
 
@@ -18,12 +21,19 @@ Please include the following:
 * Versions of any mods potentially related to the issue 
 * Any relevant screenshots are greatly appreciated.
 * For crashes:
-	* Steps to reproduce
-	* ForgeModLoader-client-0.log (the FML log) from the root folder of the client
+  * Steps to reproduce
+  * ForgeModLoader-client-0.log (the FML log) from the root folder of the client
  
-*(When creating a new issue please follow the template)*	
+*(When creating a new issue please follow the template)*
 
-Developing with my mod
+[Feature Requests](https://github.com/BrainStone/brainstone/issues)
+-------------------------------------------------------------------
+
+If you want a new feature added, go ahead an open a [new issue](https://github.com/BrainStone/brainstone/issues/new), remove the existing form and describe your
+feature the best you can. The more details you provide the easier it will be implementing it.  
+You can also talk to me on IRC on my channel #BrainStone on esper.net
+
+Developing with My Mod
 ----------------------
 
 So you want to use items or blocks from my mod, add support or even develop an addon for my mod then you can easily add it to your development environment! All
