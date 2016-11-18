@@ -1,3 +1,11 @@
+4.0.65-beta
+-----------
+
+- Generating BrainStone Houses now with structures (you can replace them with a resource pack or in the world save folder like with vanilla structures)
+- Loot in the chests in the BrainStone House now uses loot tables (can also be modified through resource packs) (loot in these chests is static)
+- Added loot chests to JER
+- Extended README.md
+
 4.0.49-beta
 -----------
 
