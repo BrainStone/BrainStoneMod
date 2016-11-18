@@ -132,7 +132,7 @@ public class BrainStoneConfigWrapper {
 		brainStoneHouseDims = getIntList(CAT_GEN, "BrainStoneHouseDimensionsWhitelist", new int[] { 0 },
 				"In which dimensions should the Brain Stone House be generated?");
 		brainStoneHouseRarity = getInt(CAT_GEN, "BrainStoneHouseRarity", 10000, 100, 1000000,
-				"How rare should the BraiNStoneHouse be? (Generated once every n chunks)");
+				"How rare should the BrainStoneHouse be? (Generated once every n chunks)");
 
 		addCustomCategoryComment(CAT_GEN, "This set defines world generation settings.");
 	}
