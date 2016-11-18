@@ -16,9 +16,6 @@ stages:
 - build
 - deploy
 - cleanup
-
-before_script:
-  - shopt -s extglob
   
 build:
   stage: build
