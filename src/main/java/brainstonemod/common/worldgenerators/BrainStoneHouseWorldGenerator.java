@@ -32,7 +32,7 @@ public class BrainStoneHouseWorldGenerator implements IWorldGenerator {
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator,
 			IChunkProvider chunkProvider) {
-		this.random = random;
+		this.random = world.getChunkFromChunkCoords(chunkX, chunkZ).getRandomWithSeed(-8708896470234868L);
 		this.chunkX = chunkX * 16;
 		this.chunkZ = chunkZ * 16;
 		this.world = world;
