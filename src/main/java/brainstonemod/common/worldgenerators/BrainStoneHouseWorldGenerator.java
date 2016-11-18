@@ -61,7 +61,7 @@ public class BrainStoneHouseWorldGenerator implements IWorldGenerator {
 		this.world = world;
 
 		if (ArrayUtils.contains(BrainStoneConfigWrapper.getBrainStoneHouseDims(), this.world.provider.getDimension()))
-			if (random.nextInt(BrainStoneConfigWrapper.getBrainStoneHouseRarity()) == 0)
+			if (this.random.nextInt(BrainStoneConfigWrapper.getBrainStoneHouseRarity()) == 0)
 				generate();
 	}
 
@@ -299,10 +299,9 @@ public class BrainStoneHouseWorldGenerator implements IWorldGenerator {
 
 		templateStairsEnd.addBlocksToWorld(world, stairPos, placementSettings);
 
-		stairPos = stairPos.offset(rotation.rotate(EnumFacing.EAST),
+		stairPos = stairPos.add(0, -2, 0).offset(rotation.rotate(EnumFacing.EAST),
 				((rotation == Rotation.NONE) || (rotation == Rotation.CLOCKWISE_180)) ? stairEndSize.getZ()
-						: stairEndSize.getX())
-				.add(0, -2, 0);
+						: stairEndSize.getX());
 
 		templateChamber.addBlocksToWorld(world, stairPos, placementSettings);
 
@@ -310,8 +309,12 @@ public class BrainStoneHouseWorldGenerator implements IWorldGenerator {
 				.entrySet()) {
 			if (dataBlock.getValue().equals("chest_north")) {
 				chestState = chestDefaultState.withRotation(rotation);
+			} else if (dataBlock.getValue().equals("chest_east")) {
+				chestState = chestDefaultState.withRotation(rotation.add(Rotation.CLOCKWISE_90));
 			} else if (dataBlock.getValue().equals("chest_south")) {
 				chestState = chestDefaultState.withRotation(rotation.add(Rotation.CLOCKWISE_180));
+			} else if (dataBlock.getValue().equals("chest_west")) {
+				chestState = chestDefaultState.withRotation(rotation.add(Rotation.COUNTERCLOCKWISE_90));
 			} else {
 				continue;
 			}
