@@ -10,13 +10,13 @@
             "entries": [
                 {
                     "type": "loot_table",
-                    "name": "brainstonemod:chests/brainstone_house/loot_brainstone",
+                    "name": "brainstonemod:chests/loot/brainstone",
                     "weight": 5,
                     "quality": -1
                 },
                 {
                     "type": "loot_table",
-                    "name": "brainstonemod:chests/brainstone_house/loot_valuable",
+                    "name": "brainstonemod:chests/loot/valuable",
                     "weight": 3,
                     "quality": 1
                 },

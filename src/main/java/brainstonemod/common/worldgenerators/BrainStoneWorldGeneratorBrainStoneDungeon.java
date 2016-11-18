@@ -1,15 +1,17 @@
 package brainstonemod.common.worldgenerators;
 
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.stream.Collectors;
 
 import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BSP;
-import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
@@ -22,18 +24,29 @@ import net.minecraft.world.gen.structure.template.TemplateManager;
 public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 	@Deprecated
 	private int x, y, z;
-	private BlockPos pos;
+	private BlockPos basePos;
+	private BlockPos baseSize;
 	private World world;
 	private Random random;
 	private final int[] Options;
 	private MinecraftServer minecraftServer;
 	private TemplateManager templateManager;
-	private Rotation rotation;
+	private Rotation[] allRotations;
 
+	private final static ResourceLocation LOOT_TABLE_TOP = new ResourceLocation(BrainStone.RESOURCE_PACKAGE,
+			"chests/house/top");
+	private final static ResourceLocation LOOT_TABLE_BOTTOM = new ResourceLocation(BrainStone.RESOURCE_PACKAGE,
+			"chests/house/bottom");
+
+	private final static ResourceLocation CHAMBER = new ResourceLocation(BrainStone.RESOURCE_PACKAGE, "house/chamber");
+	private final static ResourceLocation REPLACEMENT_STONE = new ResourceLocation(BrainStone.RESOURCE_PACKAGE,
+			"house/replacement_stone");
 	private final static ResourceLocation REPLACEMENT_WOOD = new ResourceLocation(BrainStone.RESOURCE_PACKAGE,
-			"house/brainstone_house_replacement_wood");
-	private final static ResourceLocation SHACK = new ResourceLocation(BrainStone.RESOURCE_PACKAGE,
-			"house/brainstone_house_shack");
+			"house/replacement_wood");
+	private final static ResourceLocation SHACK = new ResourceLocation(BrainStone.RESOURCE_PACKAGE, "house/shack");
+	private final static ResourceLocation STARIS = new ResourceLocation(BrainStone.RESOURCE_PACKAGE, "house/stairs");
+	private final static ResourceLocation STARIS_END = new ResourceLocation(BrainStone.RESOURCE_PACKAGE,
+			"house/stairs_end");
 
 	public BrainStoneWorldGeneratorBrainStoneDungeon() {
 		// height of the stairs
@@ -144,16 +157,15 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 	public boolean generate(World world, Random random, BlockPos pos) {
 		this.world = world;
 		this.random = random;
-		x = pos.getX();
-		y = world.getHeight(pos).getY();
-		z = pos.getZ();
-		this.pos = new BlockPos(x, y, z);
+		basePos = world.getHeight(pos);
+		x = basePos.getX();
+		y = basePos.getY();
+		z = basePos.getZ();
 		minecraftServer = world.getMinecraftServer();
 		templateManager = world.getSaveHandler().getStructureTemplateManager();
-		Rotation[] allRotations = Rotation.values();
-		rotation = allRotations[random.nextInt(allRotations.length)];
+		allRotations = Rotation.values();
 
-		BSP.info("Trying at " + x + ", " + y + ", " + z + "!");
+		BSP.trace("Trying at " + x + ", " + y + ", " + z + "!");
 
 		int counter = 0;
 		int direction = 0;
@@ -161,6 +173,10 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 		int maxDirection = 1;
 
 		while (true) {
+			// TODO: New check for placability!
+			if (Math.sqrt(4) == 2)
+				break;
+
 			if (directionCounter >= maxDirection) {
 				directionCounter = 0;
 				maxDirection += direction % 2;
@@ -208,7 +224,7 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 			}
 
 			if (counter >= 10000) {
-				BSP.info("Failed");
+				BSP.debug("Failed");
 
 				return false;
 			}
@@ -218,155 +234,88 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 		}
 
 		generateShack();
+		generateStairCase();
 
-		// generateStairs();
-
-		// generateSecretRoom();
-
-		BSP.info("Placed at " + x + ", " + y + ", " + z + "!");
+		BSP.trace("Placed at " + x + ", " + y + ", " + z + "!");
 
 		return true;
 	}
 
-	private void generateSecretRoom() {
-		int i, j, k;
-		int height = (Options[0] * 8) + 3;
-		final ResourceLocation lootTable = new ResourceLocation(BrainStone.RESOURCE_PACKAGE,
-				"chests/brainstone_house_bottom");
-
-		for (i = 4; i < 9; i++) {
-			for (j = 0; j < 5; j++) {
-				for (k = height; k > (height - 7); k--) {
-					setBlock(x + i, y - k, z + j,
-							((i == 4) || (i == 8) || (j == 0) || (j == 4) || (k == height) || (k == (height - 6)))
-									? Blocks.COBBLESTONE
-									: Blocks.AIR);
-				}
-			}
-		}
-
-		setBlock(x + 6, (y - height) + 6, z + 2, BrainStone.brainStone());
-		setBlock(x + 6, y - height, z + 2, BrainStone.brainStone());
-
-		setBlock(x + 7, y - height - 2, z + 2, BrainStone.pulsatingBrainStone());
-
-		height -= 1;
-
-		// Chests
-
-		setBlock(x + 6, y - height, z + 1, Blocks.CHEST);
-		TileEntityChest chest = (TileEntityChest) world.getTileEntity(new BlockPos(x + 6, y - height, z + 1));
-		chest.setLootTable(lootTable, random.nextInt());
-
-		setBlock(x + 7, y - height, z + 1, Blocks.CHEST);
-		chest = (TileEntityChest) world.getTileEntity(new BlockPos(x + 7, y - height, z + 1));
-		chest.setLootTable(lootTable, random.nextInt());
-
-		setBlock(x + 6, y - height, z + 3, Blocks.CHEST);
-		chest = (TileEntityChest) world.getTileEntity(new BlockPos(x + 6, y - height, z + 3));
-		chest.setLootTable(lootTable, random.nextInt());
-
-		setBlock(x + 7, y - height, z + 3, Blocks.CHEST);
-		chest = (TileEntityChest) world.getTileEntity(new BlockPos(x + 7, y - height, z + 3));
-		chest.setLootTable(lootTable, random.nextInt());
-	}
-
 	private void generateShack() {
+		Rotation rotation = allRotations[random.nextInt(allRotations.length)];
 		Template templateShack = templateManager.getTemplate(minecraftServer, SHACK);
 		Template templateReplacementWood = templateManager.getTemplate(minecraftServer, REPLACEMENT_WOOD);
 		PlacementSettings placementSettings = (new PlacementSettings()).setRotation(rotation);
-		List<BlockPos> dataBlocks = templateShack.getDataBlocks(pos, placementSettings).entrySet().stream()
+		BlockPos housePos = templateShack.getZeroPositionWithTransform(basePos, null, rotation);
+		baseSize = templateShack.transformedSize(rotation);
+		List<BlockPos> dataBlocks = templateShack.getDataBlocks(housePos, placementSettings).entrySet().stream()
 				.filter(entry -> entry.getValue().equals("chest")).map(entry -> entry.getKey())
 				.collect(Collectors.toList());
 		BlockPos chestPos = dataBlocks.remove(random.nextInt(dataBlocks.size()));
 
-		templateShack.addBlocksToWorld(world, pos, placementSettings);
+		templateShack.addBlocksToWorld(world, housePos, placementSettings);
 
 		world.setBlockState(chestPos, Blocks.CHEST.getDefaultState().withRotation(rotation));
 		TileEntityChest chestTE = (TileEntityChest) world.getTileEntity(chestPos);
-		chestTE.setLootTable(new ResourceLocation(BrainStone.RESOURCE_PACKAGE, "chests/brainstone_house_top"),
-				random.nextLong());
+		chestTE.setLootTable(LOOT_TABLE_TOP, random.nextLong());
 
 		for (BlockPos woodPos : dataBlocks) {
 			templateReplacementWood.addBlocksToWorld(world, woodPos, placementSettings);
 		}
-
-		// Testing
-		world.setBlockState(pos, Blocks.COBBLESTONE.getDefaultState());
-		world.setBlockState(pos.add(templateShack.getSize()), Blocks.COBBLESTONE.getDefaultState());
 	}
 
-	private void generateStairs() {
-		int i, j, k, l;
+	private void generateStairCase() {
+		Rotation rotation = allRotations[random.nextInt(allRotations.length)];
+		IBlockState chestDefaultState = Blocks.CHEST.getDefaultState();
+		IBlockState chestState;
+		Template templateChamber = templateManager.getTemplate(minecraftServer, CHAMBER);
+		Template templateStairs = templateManager.getTemplate(minecraftServer, STARIS);
+		Template templateStairsEnd = templateManager.getTemplate(minecraftServer, STARIS_END);
+		Template templateReplacementStone = templateManager.getTemplate(minecraftServer, REPLACEMENT_STONE);
+		PlacementSettings placementSettings = (new PlacementSettings()).setRotation(rotation);
+		BlockPos stairSize = templateStairs.transformedSize(rotation);
+		BlockPos stairEndSize = templateStairsEnd.transformedSize(rotation);
+		BlockPos chestPos;
+		BlockPos stairBase = templateStairs.getDataBlocks(new BlockPos(0, 0, 0), placementSettings).entrySet()
+				.iterator().next().getKey();
+		BlockPos stairPos = basePos.subtract(stairBase).add(random.nextInt(baseSize.getX() - 2) + 1, -1,
+				random.nextInt(baseSize.getZ() - 2) + 1);
+		TileEntityChest chestTE;
+		int max = random.nextInt(3);
 
-		// Top Layer
+		for (int i = -1; i <= max; i++) {
+			stairPos = stairPos.add(0, -stairSize.getY(), 0);
 
-		for (i = 0; i < 5; i++) {
-			for (j = 0; j < 5; j++) {
-				setBlock(x + i, y - 2, z + j, Blocks.COBBLESTONE);
-			}
+			templateStairs.addBlocksToWorld(world, stairPos, placementSettings);
+			templateReplacementStone.addBlocksToWorld(world, stairPos.add(stairBase), placementSettings);
 		}
 
-		for (i = 1; i < 4; i++) {
-			setBlock(x + 3, y - 2, z + i, Blocks.AIR);
-		}
+		stairPos = stairPos.add(0, -stairEndSize.getY(), 0);
 
-		setBlock(x + 3, y - 2, z + 2, Blocks.TORCH);
-		setBlockAndMetadata(x + 2, y - 2, z + 1, Blocks.STONE_STAIRS, 1);
+		templateStairsEnd.addBlocksToWorld(world, stairPos, placementSettings);
 
-		// Stairs Down
+		stairPos = stairPos.offset(rotation.rotate(EnumFacing.EAST),
+				((rotation == Rotation.NONE) || (rotation == Rotation.CLOCKWISE_180)) ? stairEndSize.getZ()
+						: stairEndSize.getX())
+				.add(0, -2, 0);
 
-		final int[] tmpX = new int[] { 2, 3, 3, 3, 2, 1, 1, 1 };
-		final int[] tmpZ = new int[] { 1, 1, 2, 3, 3, 3, 2, 1 };
-		int tmp, tmp2, height;
+		templateChamber.addBlocksToWorld(world, stairPos, placementSettings);
 
-		for (l = 0; l < Options[0]; l++) {
-			height = (l * 8) + 3;
-
-			// Walls
-
-			for (i = 0; i < 5; i++) {
-				for (j = 0; j < 5; j++) {
-					for (k = 0; k < 8; k++) {
-						setBlock(x + i, y - height - k, z + j,
-								(((i == 1) || (i == 3) || (j == 1) || (j == 3))
-										&& !((i == 0) || (i == 4) || (j == 0) || (j == 4))) ? Blocks.AIR
-												: Blocks.COBBLESTONE);
-					}
-				}
+		for (Entry<BlockPos, String> dataBlock : templateChamber.getDataBlocks(stairPos, placementSettings)
+				.entrySet()) {
+			if (dataBlock.getValue().equals("chest_north")) {
+				chestState = chestDefaultState.withRotation(rotation);
+			} else if (dataBlock.getValue().equals("chest_south")) {
+				chestState = chestDefaultState.withRotation(rotation.add(Rotation.CLOCKWISE_180));
+			} else {
+				continue;
 			}
 
-			// Actual Stairs
+			chestPos = dataBlock.getKey();
 
-			for (i = 0; i < 8; i++) {
-				setBlock(x + tmpX[i], y - height - i, z + tmpZ[i], Blocks.COBBLESTONE);
-
-				tmp = (i + 1) % 8;
-				tmp2 = i / 2;
-				setBlockAndMetadata(x + tmpX[tmp], y - height - i, z + tmpZ[tmp], Blocks.STONE_STAIRS,
-						(tmp2 == 0) ? 3 : (tmp2 == 1) ? 0 : (tmp2 == 2) ? 2 : 1);
-
-				tmp = (i + 7) % 8;
-				tmp2 = ((i + 1) / 2) % 4;
-				setBlockAndMetadata(x + tmpX[tmp], y - height - i, z + tmpZ[tmp], Blocks.STONE_STAIRS,
-						(tmp2 == 0) ? 7 : (tmp2 == 1) ? 4 : (tmp2 == 2) ? 6 : 5);
-
-				if ((i % 2) == 1) {
-					tmp = (i + 3) % 8;
-					tmp2 = i / 2;
-					setBlockAndMetadata(x + tmpX[tmp], y - height - i, z + tmpZ[tmp], Blocks.TORCH,
-							(tmp2 == 0) ? 3 : (tmp2 == 1) ? 2 : (tmp2 == 2) ? 4 : 1);
-				}
-
-			}
-		}
-
-		height = (Options[0] * 8) + 3;
-
-		for (i = 0; i < 5; i++) {
-			for (j = 0; j < 5; j++) {
-				setBlock(x + i, y - height, z + j, Blocks.COBBLESTONE);
-			}
+			world.setBlockState(chestPos, chestState);
+			chestTE = (TileEntityChest) world.getTileEntity(chestPos);
+			chestTE.setLootTable(LOOT_TABLE_BOTTOM, random.nextLong());
 		}
 	}
 
@@ -376,21 +325,5 @@ public class BrainStoneWorldGeneratorBrainStoneDungeon extends WorldGenerator {
 
 	private boolean isNotSolid(int x, int y, int z) {
 		return !world.getBlockState(new BlockPos(x, y, z)).getMaterial().isSolid();
-	}
-
-	/**
-	 * Sets a Block at the specified Spot
-	 */
-	@Deprecated
-	private void setBlock(int x, int y, int z, Block blockId) {
-		setBlockAndMetadata(x, y, z, blockId, 0);
-	}
-
-	/**
-	 * Sets a Block with MetaData at the specified Spot
-	 */
-	@Deprecated
-	private void setBlockAndMetadata(int x, int y, int z, Block blockId, int metaData) {
-		world.setBlockState(new BlockPos(x, y, z), blockId.getStateFromMeta(metaData), 2);
 	}
 }

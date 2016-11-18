@@ -36,6 +36,7 @@ public class BrainStoneHouseWorldGenerator implements IWorldGenerator {
 		this.chunkX = chunkX * 16;
 		this.chunkZ = chunkZ * 16;
 		this.world = world;
+		
 		if (ArrayUtils.contains(BrainStoneConfigWrapper.getBrainStoneHouseDims(), this.world.provider.getDimension()))
 			genBrainStoneDungeon();
 	}
