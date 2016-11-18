@@ -102,6 +102,9 @@ minecraft {
 }
 
 repositories {
+    maven { // Home repo (also contains overlord)
+        url "http://maven.brainstonemod.com"
+    }
     maven { // JEI, Natura, Mantle, TiCon
         url "http://dvs1.progwml6.com/files/maven"
     }

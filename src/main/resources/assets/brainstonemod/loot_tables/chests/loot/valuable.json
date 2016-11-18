@@ -13,6 +13,19 @@
             "entries": [
                 {
                     "type": "item",
+                    "name": "minecraft:book",
+                    "weight": 60,
+                    "quality": 5,
+                    "functions": [
+                        {
+                            "function": "enchant_with_levels",
+                            "treasure": true,
+                            "levels": 39
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
                     "name": "brainstonemod:brainStoneLifeCapacitor",
                     "weight": 1,
                     "quality": 10

@@ -42,12 +42,12 @@ public class JEResourcesCompat implements IModIntegration {
 				new LootDrop(brainStoneDust, 0, 3, 1.0f, 2), new LootDrop(brainStoneDust, 0, 4, 1.0f, 3),
 				new LootDrop(brainStoneOre, 1, 1, Conditional.silkTouch));
 
-		jerAPI.getDungeonRegistry().registerCategory("chests/brainstone_house_top", "BrainStone House Top");
-		jerAPI.getDungeonRegistry().registerChest("chests/brainstone_house_top",
-				new ResourceLocation(BrainStone.RESOURCE_PACKAGE, "chests/brainstone_house_top"));
-		jerAPI.getDungeonRegistry().registerCategory("chests/brainstone_house_bottom", "BrainStone House Bottom");
-		jerAPI.getDungeonRegistry().registerChest("chests/brainstone_house_bottom",
-				new ResourceLocation(BrainStone.RESOURCE_PACKAGE, "chests/brainstone_house_bottom"));
+		jerAPI.getDungeonRegistry().registerCategory("chests/house/top", "BrainStone House Top");
+		jerAPI.getDungeonRegistry().registerChest("chests/house/top",
+				new ResourceLocation(BrainStone.RESOURCE_PACKAGE, "chests/house/top"));
+		jerAPI.getDungeonRegistry().registerCategory("chests/house/bottom", "BrainStone House Bottom");
+		jerAPI.getDungeonRegistry().registerChest("chests/house/bottom",
+				new ResourceLocation(BrainStone.RESOURCE_PACKAGE, "chests/house/bottom"));
 	}
 
 	@Override
