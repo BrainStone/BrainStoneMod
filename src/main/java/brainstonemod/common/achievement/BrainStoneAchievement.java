@@ -84,7 +84,8 @@ public class BrainStoneAchievement extends Achievement implements ICustomBackgro
 		super(BrainStone.RESOURCE_PACKAGE + "." + unlocalizedName, unlocalizedName, column, row, itemStack, parent);
 		renderRainbow = false;
 
-		BrainStone.achievements.put(unlocalizedName, registerStat());
+		BrainStone.achievements.put(unlocalizedName, this);
+		registerStat();
 	}
 
 	public BrainStoneAchievement setRainbow() {
