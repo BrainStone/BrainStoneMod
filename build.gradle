@@ -45,7 +45,7 @@ def getChangelog() {
 def getVersionType() {
     def lower_version = version.toLowerCase();
     
-    if (lower_version.contains("beta"))
+    if (lower_version.contains("beta") || lower_version.contains("rc"))
         return "beta";
     else if (lower_version.contains("alpha"))
         return "alpha";
@@ -126,7 +126,9 @@ dependencies {
     // External Mods
     deobfProvided "mezz.jei:jei_${minecraft_version}:${jei_version}"
     deobfProvided "com.enderio.core:EnderCore:${minecraft_version}-${endercore_version}"
-    deobfProvided "com.enderio:EnderIO:${minecraft_version}-${enderio_version}"
+    deobfProvided("com.enderio:EnderIO:${minecraft_version}-${enderio_version}") {
+        exclude module: "appliedenergistics2"
+    }
     deobfProvided "slimeknights.mantle:Mantle:${minecraft_version}-${mantle_version}"
     provided "slimeknights:TConstruct:${minecraft_version}-${tconstruct_version}:deobf"
     provided("com.brandon3055.draconicevolution:Draconic-Evolution:${minecraft_version}-${draconicEvolution_version}:deobf") {
