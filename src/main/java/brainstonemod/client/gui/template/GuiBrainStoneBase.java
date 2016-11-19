@@ -52,8 +52,8 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 
 	/**
 	 * Binds the specified texture into the GUI.<br>
-	 * The texture is located in the "gui" directory of the brainstonemod-assest
-	 * directory.
+	 * The texture is located in the "textures/gui" directory of the
+	 * brainstonemod-assets directory.
 	 * 
 	 * @param name
 	 *            The texture to be bound

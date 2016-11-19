@@ -124,24 +124,25 @@ repositories {
 
 dependencies {
     // External Mods
-    deobfProvided "mezz.jei:jei_${minecraft_version}:${jei_version}"
     deobfProvided "com.enderio.core:EnderCore:${minecraft_version}-${endercore_version}"
     deobfProvided("com.enderio:EnderIO:${minecraft_version}-${enderio_version}") {
         exclude module: "appliedenergistics2"
     }
+    deobfProvided "mezz.jei:jei_${minecraft_version}:${jei_version}"
     deobfProvided "slimeknights.mantle:Mantle:${minecraft_version}-${mantle_version}"
-    provided "slimeknights:TConstruct:${minecraft_version}-${tconstruct_version}:deobf"
+    
     provided("com.brandon3055.draconicevolution:Draconic-Evolution:${minecraft_version}-${draconicEvolution_version}:deobf") {
         exclude module: "jei_${minecraft_version}"
         exclude module: "OpenComputers"
     }
+    provided "the_fireplace.overlord:Overlord:${overlord_version}:deobf"
+    provided "slimeknights:TConstruct:${minecraft_version}-${tconstruct_version}:deobf"
     
     // Local Mods
     provided "lib:Baubles:+:deobf"
     provided "lib:BetterAchievements:+:deobf"
     provided "lib:ImmersiveEngineering:+:deobf"
     provided "lib:JustEnoughResources:+:deobf"
-    provided "lib:Overlord:+:deobf"
 }
 
 lombok {
