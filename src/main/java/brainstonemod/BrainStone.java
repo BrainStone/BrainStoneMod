@@ -623,7 +623,9 @@ public class BrainStone {
 		new BrainStoneAchievement("itLives", 2, 0, brainStone(), WTHIT());
 		new BrainStoneAchievement("intelligentBlocks", 3, 2, brainLightSensor(), itLives());
 		new BrainStoneAchievement("intelligentTools", 3, -2, brainStonePickaxe(), itLives());
-		new BrainStoneAchievement("lifeCapacitor", 5, -4, brainStoneLifeCapacitor(), intelligentTools()).setSpecial();
+		new BrainStoneAchievement("lifeCapacitor", 5, -2, brainStoneLifeCapacitor(), intelligentTools()).setSpecial();
+		new BrainStoneAchievement("over9000", 4, -4, brainStoneLifeCapacitor().getLeveledCapacitor(9000, true, true),
+				lifeCapacitor()).setRainbow().setSpecial();
 
 		BrainStoneModules.addAchievement();
 
@@ -964,5 +966,12 @@ public class BrainStone {
 	 */
 	public static final BrainStoneAchievement lifeCapacitor() {
 		return achievements.get("lifeCapacitor");
+	}
+	
+	/**
+	 * @return the instance of over9000
+	 */
+	public static final BrainStoneAchievement over9000() {
+		return achievements.get("over9000");
 	}
 }

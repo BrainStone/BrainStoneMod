@@ -86,9 +86,11 @@ public class BrainStoneEventHandler {
 
 	@SubscribeEvent
 	public void itemCrafted(ItemCraftedEvent event) {
-		final Item item = event.crafting.getItem();
+		final ItemStack stack = event.crafting;
+		final Item item = stack.getItem();
 		final Block block = Block.getBlockFromItem(item);
 		final EntityPlayer player = event.player;
+		final ItemBrainStoneLifeCapacitor capacitor = BrainStone.brainStoneLifeCapacitor();
 
 		if ((block == BrainStone.brainLightSensor()) || (block == BrainStone.brainStoneTrigger())) {
 			player.addStat(BrainStone.intelligentBlocks(), 1);
@@ -96,6 +98,9 @@ public class BrainStoneEventHandler {
 				|| (item == BrainStone.brainStonePickaxe()) || (item == BrainStone.brainStoneAxe())
 				|| (item == BrainStone.brainStoneHoe())) {
 			player.addStat(BrainStone.intelligentTools(), 1);
+		} else if ((item == capacitor) && capacitor.isCurrentOwner(stack, player.getUniqueID())
+				&& (capacitor.getCapacityLevel(stack) > 9000)) {
+			player.addStat(BrainStone.over9000(), 1);
 		}
 	}
 

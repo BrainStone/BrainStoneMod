@@ -31,16 +31,18 @@ item.stablePulsatingBrainStoneLeggings.name=Stabiler Pulsierender Hirnsteinhose
 item.stablePulsatingBrainStoneBoots.name=Stabiler Pulsierender Hirsteinstiefel
 item.brainStoneLifeCapacitor.name=Hirnsteinlebenskondensator
 
-achievement.WTHIT=Was zur Hölle ist das???
-achievement.WTHIT.desc=Du must ein seltsames grünes Pulver finden.
-achievement.itLives=Es lebt!
-achievement.itLives.desc=Craften und Schmelzen ist die Lösung!
-achievement.intelligentBlocks=Intelligente Blöcke
-achievement.intelligentBlocks.desc=Stelle nützliche intelligente Blöcke aus diesem grünen Stein her!
-achievement.intelligentTools=Intelligente Werkzeuge
-achievement.intelligentTools.desc=Stelle Werkzeuge aus diesem grünen Stein her!
-achievement.lifeCapacitor=Lebenskondensator!
-achievement.lifeCapacitor.desc=Baue und besitze einen Hirsteinlebenskondensator!
+achievement.brainstonemod.WTHIT=Was zur Hölle ist das???
+achievement.brainstonemod.WTHIT.desc=Du must ein seltsames grünes Pulver finden.
+achievement.brainstonemod.itLives=Es lebt!
+achievement.brainstonemod.itLives.desc=Craften und Schmelzen ist die Lösung!
+achievement.brainstonemod.intelligentBlocks=Intelligente Blöcke
+achievement.brainstonemod.intelligentBlocks.desc=Stelle nützliche intelligente Blöcke aus diesem grünen Stein her!
+achievement.brainstonemod.intelligentTools=Intelligente Werkzeuge
+achievement.brainstonemod.intelligentTools.desc=Stelle Werkzeuge aus diesem grünen Stein her!
+achievement.brainstonemod.lifeCapacitor=Lebenskondensator!
+achievement.brainstonemod.lifeCapacitor.desc=Baue und besitze einen Hirsteinlebenskondensator!
+achievement.brainstonemod.over9000=Es it über 9000!!!!!!!!!!!!!
+achievement.brainstonemod.over9000.desc=Upgrade das Kapazitäts-Level eines Hirsteinlebenskondensator über 9000. (Versuchs nicht mal)
 
 itemGroup.tabbrainstonemod=Brain Stone Mod
 

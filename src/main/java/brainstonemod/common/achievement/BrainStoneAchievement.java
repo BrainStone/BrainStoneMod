@@ -81,7 +81,8 @@ public class BrainStoneAchievement extends Achievement implements ICustomBackgro
 	 */
 	public BrainStoneAchievement(String unlocalizedName, int column, int row, ItemStack itemStack,
 			@Nullable Achievement parent) {
-		super(BrainStone.RESOURCE_PACKAGE + "." + unlocalizedName, unlocalizedName, column, row, itemStack, parent);
+		super(BrainStone.RESOURCE_PACKAGE + "." + unlocalizedName, BrainStone.RESOURCE_PACKAGE + "." + unlocalizedName,
+				column, row, itemStack, parent);
 		renderRainbow = false;
 
 		BrainStone.achievements.put(unlocalizedName, this);

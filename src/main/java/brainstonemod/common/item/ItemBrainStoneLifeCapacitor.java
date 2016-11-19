@@ -79,6 +79,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 		super();
 
 		setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.TOOLS));
+		setHasSubtypes(true);
 		setMaxDamage(MaxDamage);
 		setMaxStackSize(1);
 
@@ -109,21 +110,27 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs creativeTab, List<ItemStack> list) {
-		ItemStack is = base.copy();
-		setCapacityLevel(is, 1);
-		setChargingLevel(is, 1);
-		setEnergyStored(is, 0);
-		list.add(is);
+		list.add(getLeveledCapacitor(1, false, false));
 
 		int levels[] = { 1, 2, 3, 5, 9, 19, 99 };
 
-		for (int i : levels) {
-			is = base.copy();
-			setCapacityLevel(is, i);
-			setChargingLevel(is, i);
-			setEnergyStored(is, getMaxEnergyStored(is));
-			list.add(is);
-		}
+		for (int level : levels)
+			list.add(getLeveledCapacitor(level, true, false));
+	}
+
+	public ItemStack getLeveledCapacitor(int level, boolean full, boolean fakeOwner) {
+		ItemStack stack = base.copy();
+		setCapacityLevel(stack, 1);
+		setChargingLevel(stack, 1);
+
+		if (full)
+			setEnergyStored(stack, getMaxEnergyStored(stack));
+		else
+			setEnergyStored(stack, 0);
+		
+		setFakeOwner(stack, fakeOwner);
+
+		return stack;
 	}
 
 	@Override
@@ -137,10 +144,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 
 		if (sneak) {
 			list.add(
-					BrainStone.proxy.format("capacitor.owner") + " "
-							+ PCmapping
-									.getPlayerName(getUUID(container),
-											true)
+					BrainStone.proxy.format("capacitor.owner") + " " + PCmapping.getPlayerName(getUUID(container), true)
 							+ (correctOwner ? (TextFormatting.GRAY + BrainStone.proxy.format("capacitor.you"))
 									: (canClaim
 											? (TextFormatting.DARK_GRAY + BrainStone.proxy.format("capacitor.claim"))
@@ -346,9 +350,25 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 
 		return UUID.fromString(container.getTagCompound().getString("UUID"));
 	}
+	
+	public void setFakeOwner(ItemStack container, boolean fakeOwner) {
+		if (container.getTagCompound() == null) {
+			container.setTagCompound(new NBTTagCompound());
+		}
+		
+		if(fakeOwner) {
+			container.getTagCompound().setBoolean("fakeOwner", true);
+		} else {
+			container.getTagCompound().removeTag("fakeOwner");
+		}
+	}
 
 	public boolean hasOwner(ItemStack container) {
-		return PCmapping.getPlayerUUID(getUUID(container)) != null;
+		if (container.getTagCompound() == null) {
+			container.setTagCompound(new NBTTagCompound());
+		}
+		
+		return container.getTagCompound().hasKey("fakeOwner") || (PCmapping.getPlayerUUID(getUUID(container)) != null);
 	}
 
 	public boolean isCurrentOwner(ItemStack container, UUID playerUUID) {
