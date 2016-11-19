@@ -140,8 +140,6 @@ public class BrainStone {
 	/** A String with the German localization (de_DE) */
 	private static final String de = "de_DE";
 
-	public static final String guiPath = "textures/gui/";
-
 	/**
 	 * The proxy. Used to perform side dependent operation such as getting the
 	 * local player<br>

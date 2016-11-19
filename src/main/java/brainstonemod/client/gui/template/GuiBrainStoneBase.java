@@ -33,7 +33,7 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 	 * Binds a texture with the name of the current class.
 	 */
 	protected void bindTexture() {
-		this.bindTexture(this.getClass().getSimpleName());
+		bindTexture(this.getClass().getSimpleName());
 	}
 
 	/**
@@ -59,7 +59,7 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 	 *            The texture to be bound
 	 */
 	protected void bindTexture(String name) {
-		bindTexture(new ResourceLocation(BrainStone.RESOURCE_PACKAGE, BrainStone.guiPath + name + ".png"));
+		bindTexture(new ResourceLocation(BrainStone.RESOURCE_PACKAGE, "textures/gui/" + name + ".png"));
 	}
 
 	/**
