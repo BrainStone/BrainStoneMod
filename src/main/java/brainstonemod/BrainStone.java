@@ -12,6 +12,7 @@ import brainstonemod.client.gui.helper.BrainStoneModCreativeTab;
 import brainstonemod.client.handler.BrainStoneClientEvents;
 import brainstonemod.client.render.BSTriggerModel;
 import brainstonemod.common.CommonProxy;
+import brainstonemod.common.achievement.BrainStoneAchievement;
 import brainstonemod.common.block.BlockBrainLightSensor;
 import brainstonemod.common.block.BlockBrainStone;
 import brainstonemod.common.block.BlockBrainStoneOre;
@@ -619,11 +620,11 @@ public class BrainStone {
 
 	private static final void generateAchievements() {
 		// Achievements
-		addAchievement("WTHIT", 0, 0, brainStoneDust(), AchievementList.BUILD_BETTER_PICKAXE);
-		addAchievement("itLives", 2, 0, brainStone(), WTHIT());
-		addAchievement("intelligentBlocks", 3, 2, brainLightSensor(), itLives());
-		addAchievement("intelligentTools", 3, -2, brainStonePickaxe(), itLives());
-		addAchievement("lifeCapacitor", 5, -4, brainStoneLifeCapacitor(), intelligentTools(), true);
+		new BrainStoneAchievement("WTHIT", 0, 0, brainStoneDust(), AchievementList.BUILD_BETTER_PICKAXE);
+		new BrainStoneAchievement("itLives", 2, 0, brainStone(), WTHIT());
+		new BrainStoneAchievement("intelligentBlocks", 3, 2, brainLightSensor(), itLives());
+		new BrainStoneAchievement("intelligentTools", 3, -2, brainStonePickaxe(), itLives());
+		new BrainStoneAchievement("lifeCapacitor", 5, -4, brainStoneLifeCapacitor(), intelligentTools()).setSpecial();
 
 		BrainStoneModules.addAchievement();
 
@@ -674,32 +675,6 @@ public class BrainStone {
 	private static final void registerTileEntitys() {
 		GameRegistry.registerTileEntity(TileEntityBrainLightSensor.class, "TileEntityBlockBrainLightSensor");
 		GameRegistry.registerTileEntity(TileEntityBrainStoneTrigger.class, "TileEntityBlockBrainStoneTrigger");
-	}
-
-	public static final void addAchievement(String name, int xPos, int yPos, Object icon, Achievement parent) {
-		addAchievement(name, xPos, yPos, icon, parent, false);
-	}
-
-	public static final void addAchievement(String name, int xPos, int yPos, Object icon, Achievement parent,
-			boolean special) {
-		ItemStack iconStack;
-		Achievement achievement;
-
-		if (icon instanceof Item)
-			iconStack = new ItemStack((Item) icon);
-		else if (icon instanceof Block)
-			iconStack = new ItemStack((Block) icon);
-		else if (icon instanceof ItemStack)
-			iconStack = (ItemStack) icon;
-		else
-			throw new IllegalArgumentException("icon needs to be Item, Block or ItemStack!");
-
-		achievement = new Achievement(name, name, yPos, xPos, iconStack, parent);
-
-		if (special)
-			achievement.setSpecial();
-
-		achievements.put(name, achievement.registerStat());
 	}
 
 	public static final CreativeTabs getCreativeTab(CreativeTabs defaultTab) {
