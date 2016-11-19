@@ -71,7 +71,6 @@ import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.launchwrapper.Launch;
-import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentString;
@@ -185,7 +184,7 @@ public class BrainStone {
 	 * &emsp;<b>key:</b> The internal id<br>
 	 * &emsp;<b>value:</b> The actual item
 	 */
-	public static final LinkedHashMap<String, Achievement> achievements = new LinkedHashMap<>();
+	public static final LinkedHashMap<String, BrainStoneAchievement> achievements = new LinkedHashMap<>();
 	/** The custom creative tab */
 	private static BrainStoneModCreativeTab tabBrainStoneMod = null;
 
@@ -629,7 +628,7 @@ public class BrainStone {
 		BrainStoneModules.addAchievement();
 
 		AchievementPage.registerAchievementPage(new AchievementPage("Brain Stone Mod",
-				achievements.values().toArray(new Achievement[achievements.size()])));
+				achievements.values().toArray(new BrainStoneAchievement[achievements.size()])));
 	}
 
 	/**
@@ -935,35 +934,35 @@ public class BrainStone {
 	/**
 	 * @return the instance of WTHIT
 	 */
-	public static final Achievement WTHIT() {
+	public static final BrainStoneAchievement WTHIT() {
 		return achievements.get("WTHIT");
 	}
 
 	/**
 	 * @return the instance of itLives
 	 */
-	public static final Achievement itLives() {
+	public static final BrainStoneAchievement itLives() {
 		return achievements.get("itLives");
 	}
 
 	/**
 	 * @return the instance of intelligentBlocks
 	 */
-	public static final Achievement intelligentBlocks() {
+	public static final BrainStoneAchievement intelligentBlocks() {
 		return achievements.get("intelligentBlocks");
 	}
 
 	/**
 	 * @return the instance of intelligentTools
 	 */
-	public static final Achievement intelligentTools() {
+	public static final BrainStoneAchievement intelligentTools() {
 		return achievements.get("intelligentTools");
 	}
 
 	/**
 	 * @return the instance of lifeCapacitor
 	 */
-	public static final Achievement lifeCapacitor() {
+	public static final BrainStoneAchievement lifeCapacitor() {
 		return achievements.get("lifeCapacitor");
 	}
 }
