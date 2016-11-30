@@ -283,7 +283,6 @@ uploadArchives {
                         }
                         contributors {
                             contributor {
-                                id "jobbel"
                                 name "Jobbel"
                                 roles {
                                     role "texturer"
@@ -291,7 +290,6 @@ uploadArchives {
                                 }
                             }
                             contributor {
-                                id "kermit"
                                 name "Herr_Kermir"
                                 roles {
                                     role "texturer"
