@@ -281,6 +281,23 @@ uploadArchives {
                                 }
                             }
                         }
+                        contributors {
+                            contributor {
+                                id "jobbel"
+                                name "Jobbel"
+                                roles {
+                                    role "texturer"
+                                    role "conceptionist"
+                                }
+                            }
+                            contributor {
+                                id "kermit"
+                                name "Herr_Kermir"
+                                roles {
+                                    role "texturer"
+                                }
+                            }
+                        }
                     }
                 }
             }
