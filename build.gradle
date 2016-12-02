@@ -94,7 +94,7 @@ minecraft {
     version = "${minecraft_version}-${forge_version}"
     runDir = "run"
     replace '${version}', project.version
-    mappings = "snapshot_20161112"
+    mappings = mapping_version
     useDepAts = true
     
     clientJvmArgs += "-Xmx2G"
