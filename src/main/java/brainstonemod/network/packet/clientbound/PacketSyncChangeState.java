@@ -48,7 +48,7 @@ public class PacketSyncChangeState implements IMessage {
 	public static class Handler extends AbstractClientMessageHandler<PacketSyncChangeState> {
 		@Override
 		public IMessage handleClientMessage(EntityPlayer player, PacketSyncChangeState message, MessageContext ctx) {
-			TileEntity te = player.worldObj.getTileEntity(new BlockPos(message.x, message.y, message.z));
+			TileEntity te = player.world.getTileEntity(new BlockPos(message.x, message.y, message.z));
 			if(te instanceof TileEntityBrainLightSensor){
 				((TileEntityBrainLightSensor) te).setState(message.state);
 			}else{

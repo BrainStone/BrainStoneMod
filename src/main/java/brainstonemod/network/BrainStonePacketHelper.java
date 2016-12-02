@@ -50,7 +50,7 @@ public class BrainStonePacketHelper {
 	}
 
 	public static void sendPacket(Entity player, Packet<?> packet) {
-		if (player instanceof EntityPlayerMP && ((EntityPlayerMP) player).connection != null) {
+		if ((player instanceof EntityPlayerMP) && (((EntityPlayerMP) player).connection != null)) {
 			((EntityPlayerMP) player).connection.sendPacket(packet);
 		}
 	}

@@ -102,7 +102,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 
 /**
  * The main file of the mod
- * 
+ *
  * @author Yannick Schinko (alias The_BrainStone)
  * @author The_Fireplace
  */
@@ -190,20 +190,21 @@ public class BrainStone {
 	 * Called when the signature does not match the expected hash. Marks the jar
 	 * invalid in that case.<br>
 	 * Does nothing in case the mod is not running from a jar
-	 * 
+	 *
 	 * @param event
 	 *            he MCForge FingerprintViolationEvent
 	 */
 	@EventHandler
 	public static final void onInvalidCertificate(FMLFingerprintViolationEvent event) {
-		if (BrainStoneJarUtils.RUNNING_FROM_JAR && BrainStoneJarUtils.SIGNED_JAR)
+		if (BrainStoneJarUtils.RUNNING_FROM_JAR && BrainStoneJarUtils.SIGNED_JAR) {
 			VALID_JAR = false;
+		}
 	}
 
 	/**
 	 * Preinitialization. Reads the ids from the config file and fills the block
 	 * and item HashMaps with the blocks and items.
-	 * 
+	 *
 	 * @param event
 	 *            The MCForge PreInitializationEvent
 	 */
@@ -245,15 +246,16 @@ public class BrainStone {
 		// registered at this moment.
 		generateAchievements();
 
-		if (event.getSide().isClient())
+		if (event.getSide().isClient()) {
 			clPreInit();
+		}
 	}
 
 	/**
 	 * Initialization. Registers the client render information, the GuiHandler,
 	 * the blocks, the TileEntitys, adds the names, the recipes, smeltings,
 	 * registers the FuelHandler, the WordGenerator and adds the localizations.
-	 * 
+	 *
 	 * @param event
 	 *            The MCForge InitializationEvent
 	 */
@@ -278,7 +280,7 @@ public class BrainStone {
 
 	/**
 	 * Postinitialization. Postinitializes the packet pipeline
-	 * 
+	 *
 	 * @param event
 	 *            The MCForge PostInitializationEvent
 	 */
@@ -299,7 +301,7 @@ public class BrainStone {
 	/**
 	 * Fills the triggerEntity's for the BrainStoneTrigger after the server is
 	 * starting.
-	 * 
+	 *
 	 * @param event
 	 *            The MCForge ServerAboutToStartEvent
 	 */
@@ -310,7 +312,7 @@ public class BrainStone {
 
 	/**
 	 * Loads the brainStoneLifeCapacitor mapping
-	 * 
+	 *
 	 * @param event
 	 *            The MCForge ServerStartingEvent
 	 */
@@ -351,15 +353,16 @@ public class BrainStone {
 
 	/**
 	 * Sends a chat message to the current player. Only works client side
-	 * 
+	 *
 	 * @param message
 	 *            the message to be sent
 	 */
 	public static final void sendToPlayer(EntityPlayer player, String message) {
 		String[] lines = message.split("\n");
 
-		for (String line : lines)
-			player.addChatMessage(new TextComponentString(line));
+		for (String line : lines) {
+			player.sendMessage(new TextComponentString(line));
+		}
 	}
 
 	private static final void createEnums() {
@@ -542,7 +545,7 @@ public class BrainStone {
 
 	/**
 	 * Verifies and adds (if verification was successful) it to the passed map.
-	 * 
+	 *
 	 * @param tempTriggerEntities
 	 *            The map to append the class to
 	 * @param name
@@ -678,8 +681,9 @@ public class BrainStone {
 
 	public static final CreativeTabs getCreativeTab(CreativeTabs defaultTab) {
 		if (BrainStoneConfigWrapper.getEnableCreativeTab()) {
-			if (tabBrainStoneMod == null)
+			if (tabBrainStoneMod == null) {
 				tabBrainStoneMod = new BrainStoneModCreativeTab();
+			}
 
 			return tabBrainStoneMod;
 		} else
@@ -965,7 +969,7 @@ public class BrainStone {
 	public static final BrainStoneAchievement lifeCapacitor() {
 		return achievements.get("lifeCapacitor");
 	}
-	
+
 	/**
 	 * @return the instance of over9000
 	 */

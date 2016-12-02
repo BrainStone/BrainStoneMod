@@ -181,7 +181,7 @@ public class BrainStoneEventHandler {
 					event.getLootingLevel() + 1);
 
 			if ((new Random()).nextDouble() >= chance)
-				event.getDrops().add(new EntityItem(event.getEntity().worldObj, event.getEntity().posX,
+				event.getDrops().add(new EntityItem(event.getEntity().world, event.getEntity().posX,
 						event.getEntity().posY, event.getEntity().posZ, new ItemStack(BrainStone.essenceOfLife())));
 		}
 	}

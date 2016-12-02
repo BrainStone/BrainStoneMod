@@ -39,7 +39,7 @@ public class BrainStoneAugment extends Augment {
     @Override
     @Optional.Method(modid = BrainStoneModules.OVERLORD_MODID)
     public void onEntityTick(EntityArmyMember entityArmyMember) {
-        updateTick(entityArmyMember.worldObj, entityArmyMember.getPosition(), entityArmyMember);
+        updateTick(entityArmyMember.world, entityArmyMember.getPosition(), entityArmyMember);
     }
 
     @Override
@@ -98,7 +98,7 @@ public class BrainStoneAugment extends Augment {
                     }
 
 
-                    radius = MathHelper.getRandomDoubleInRange(random, 2.0, 10.0);
+                    radius = MathHelper.nextDouble(random, 2.0, 10.0);
 
                     if (entity.getDistance(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5) <= radius) {
                         taskRand = random.nextInt(10);
@@ -111,9 +111,9 @@ public class BrainStoneAugment extends Augment {
                         } else if ((taskRand >= 6) && (taskRand < 10)) {
                             BSP.debug("Kick");
 
-                            final double x1 = MathHelper.getRandomDoubleInRange(random, -1.5, 1.5);
-                            final double y1 = MathHelper.getRandomDoubleInRange(random, 0.0, 3.0);
-                            final double z1 = MathHelper.getRandomDoubleInRange(random, -1.5, 1.5);
+                            final double x1 = MathHelper.nextDouble(random, -1.5, 1.5);
+                            final double y1 = MathHelper.nextDouble(random, 0.0, 3.0);
+                            final double z1 = MathHelper.nextDouble(random, -1.5, 1.5);
 
                             if (tmpEntity instanceof EntityPlayer) {
                                 BrainStonePacketHelper.sendPlayerUpdateMovementPacket((EntityPlayer) entity, x1, y1, z1);

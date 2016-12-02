@@ -37,7 +37,7 @@ public class BlockBrainStoneOre extends BlockOre {
 			int i = 0;
 
 			if (this == BrainStone.brainStoneOre()) {
-				i = MathHelper.getRandomIntegerInRange(rand, 10, 20);
+				i = MathHelper.getInt(rand, 10, 20);
 			}
 
 			return i;

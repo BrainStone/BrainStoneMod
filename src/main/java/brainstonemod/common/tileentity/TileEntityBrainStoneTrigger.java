@@ -320,7 +320,7 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 				final EntityItem entityitem = new EntityItem(world, x + dx, y
 						+ dy, z + dz, itemstack);
 				entityitem.setPickupDelay(10);
-				world.spawnEntityInWorld(entityitem);
+				world.spawnEntity(entityitem);
 			}
 		}
 	}
@@ -343,7 +343,7 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer player) {
+	public boolean isUsableByPlayer(EntityPlayer player) {
 		return player.getDistanceSq(this.pos.getX() + 0.5D, this.pos.getY() + 0.5D, this.pos.getZ() + 0.5D) <= 64;
 	}
 

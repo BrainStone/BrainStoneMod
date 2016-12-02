@@ -15,21 +15,20 @@ public class PacketEnableMobs implements IMessage {
 	private short y;
 	private int z;
 
-
 	public PacketEnableMobs() {
 	}
 
 	public PacketEnableMobs(TileEntity tileentity) {
-		x=tileentity.getPos().getX();
-		y=(short)tileentity.getPos().getY();
-		z=tileentity.getPos().getZ();
+		x = tileentity.getPos().getX();
+		y = (short) tileentity.getPos().getY();
+		z = tileentity.getPos().getZ();
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		x=buf.readInt();
-		y=buf.readShort();
-		z=buf.readInt();
+		x = buf.readInt();
+		y = buf.readShort();
+		z = buf.readInt();
 	}
 
 	@Override
@@ -42,12 +41,13 @@ public class PacketEnableMobs implements IMessage {
 	public static class Handler extends AbstractServerMessageHandler<PacketEnableMobs> {
 		@Override
 		public IMessage handleServerMessage(EntityPlayer player, PacketEnableMobs message, MessageContext ctx) {
-			TileEntity te = player.worldObj.getTileEntity(new BlockPos(message.x, message.y, message.z));
-			if(te instanceof TileEntityBrainStoneTrigger){
+			TileEntity te = player.world.getTileEntity(new BlockPos(message.x, message.y, message.z));
+			if (te instanceof TileEntityBrainStoneTrigger) {
 				((TileEntityBrainStoneTrigger) te).enableAllMobs();
 				return new PacketSyncEnableMobs(te);
-			}else{
-				BSP.error("Tile Entity at "+message.x+", "+message.y+", "+message.z+" was "+te+" and not TileEntityBrainStoneTrigger.");
+			} else {
+				BSP.error("Tile Entity at " + message.x + ", " + message.y + ", " + message.z + " was " + te
+						+ " and not TileEntityBrainStoneTrigger.");
 				return null;
 			}
 		}

@@ -59,13 +59,13 @@ public class BrainStoneClientEvents {
 			
 			mc.mcProfiler.startSection("BSLC");
 
-			ItemStack capacitor = BrainStoneEventHandler.getBrainStoneLiveCapacitor(mc.thePlayer);
+			ItemStack capacitor = BrainStoneEventHandler.getBrainStoneLiveCapacitor(mc.player);
 
 			if (capacitor != null) {
 				GlStateManager.enableBlend();
 				BrainStoneRenderHelper.setTexture(brainStoneLifeCapacitorTexture, 16);
 
-				boolean rendersArmor = (ForgeHooks.getTotalArmorValue(mc.thePlayer) == 0) && GuiIngameForge.renderArmor;
+				boolean rendersArmor = (ForgeHooks.getTotalArmorValue(mc.player) == 0) && GuiIngameForge.renderArmor;
 
 				if (rendersArmor)
 					GuiIngameForge.left_height -= 10;

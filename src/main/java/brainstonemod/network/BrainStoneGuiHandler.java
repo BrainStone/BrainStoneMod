@@ -16,7 +16,7 @@ public class BrainStoneGuiHandler implements IGuiHandler {
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity entity = world.getTileEntity(new BlockPos(x, y, z));
-		if (entity != null)
+		if (entity != null) {
 			switch (ID) {
 			case 0:
 				return new ContainerGeneric();
@@ -26,6 +26,7 @@ public class BrainStoneGuiHandler implements IGuiHandler {
 			default:
 				return null;
 			}
+		}
 
 		return null;
 	}
@@ -34,7 +35,7 @@ public class BrainStoneGuiHandler implements IGuiHandler {
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity entity = world.getTileEntity(new BlockPos(x, y, z));
 
-		if (entity != null)
+		if (entity != null) {
 			switch (ID) {
 			case 0:
 				if (entity instanceof TileEntityBrainLightSensor)
@@ -49,6 +50,7 @@ public class BrainStoneGuiHandler implements IGuiHandler {
 			default:
 				return null;
 			}
+		}
 
 		return null;
 	}

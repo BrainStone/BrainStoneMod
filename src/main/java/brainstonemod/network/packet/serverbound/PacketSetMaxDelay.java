@@ -21,18 +21,18 @@ public class PacketSetMaxDelay implements IMessage {
 	}
 
 	public PacketSetMaxDelay(TileEntity tileentity, byte maxDelay) {
-		x=tileentity.getPos().getX();
-		y=(short)tileentity.getPos().getY();
-		z=tileentity.getPos().getZ();
-		this.maxDelay=maxDelay;
+		x = tileentity.getPos().getX();
+		y = (short) tileentity.getPos().getY();
+		z = tileentity.getPos().getZ();
+		this.maxDelay = maxDelay;
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		x=buf.readInt();
-		y=buf.readShort();
-		z=buf.readInt();
-		maxDelay=buf.readByte();
+		x = buf.readInt();
+		y = buf.readShort();
+		z = buf.readInt();
+		maxDelay = buf.readByte();
 	}
 
 	@Override
@@ -46,12 +46,13 @@ public class PacketSetMaxDelay implements IMessage {
 	public static class Handler extends AbstractServerMessageHandler<PacketSetMaxDelay> {
 		@Override
 		public IMessage handleServerMessage(EntityPlayer player, PacketSetMaxDelay message, MessageContext ctx) {
-			TileEntity te = player.worldObj.getTileEntity(new BlockPos(message.x, message.y, message.z));
-			if(te instanceof TileEntityBrainStoneTrigger){
+			TileEntity te = player.world.getTileEntity(new BlockPos(message.x, message.y, message.z));
+			if (te instanceof TileEntityBrainStoneTrigger) {
 				((TileEntityBrainStoneTrigger) te).setMaxDelay(message.maxDelay);
 				return new PacketSyncSetMaxDelay(te, message.maxDelay);
-			}else{
-				BSP.error("Tile Entity at "+message.x+", "+message.y+", "+message.z+" was "+te+" and not TileEntityBrainStoneTrigger.");
+			} else {
+				BSP.error("Tile Entity at " + message.x + ", " + message.y + ", " + message.z + " was " + te
+						+ " and not TileEntityBrainStoneTrigger.");
 				return null;
 			}
 		}

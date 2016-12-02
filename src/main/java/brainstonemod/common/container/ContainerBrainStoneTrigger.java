@@ -30,7 +30,7 @@ public class ContainerBrainStoneTrigger extends Container {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer entityplayer) {
-		return trigger.isUseableByPlayer(entityplayer);
+		return trigger.isUsableByPlayer(entityplayer);
 	}
 
 	@Override

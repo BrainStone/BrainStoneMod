@@ -53,7 +53,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 			hasNoEffectBlock = this;
 		}
 
-		blockParticleGravity = (float) MathHelper.getRandomDoubleInRange(new Random(), -3.0, 3.0);
+		blockParticleGravity = (float) MathHelper.nextDouble(new Random(), -3.0, 3.0);
 	}
 
 	@Override
@@ -148,7 +148,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 						}
 					}
 
-					radius = MathHelper.getRandomDoubleInRange(random, 2.0, 10.0);
+					radius = MathHelper.nextDouble(random, 2.0, 10.0);
 
 					if (entity.getDistance(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5) <= radius) {
 						taskRand = random.nextInt(10);
@@ -161,9 +161,9 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 						} else if ((taskRand >= 6) && (taskRand < 10)) {
 							BSP.debug("Kick");
 
-							final double x1 = MathHelper.getRandomDoubleInRange(random, -1.5, 1.5);
-							final double y1 = MathHelper.getRandomDoubleInRange(random, 0.0, 3.0);
-							final double z1 = MathHelper.getRandomDoubleInRange(random, -1.5, 1.5);
+							final double x1 = MathHelper.nextDouble(random, -1.5, 1.5);
+							final double y1 = MathHelper.nextDouble(random, 0.0, 3.0);
+							final double z1 = MathHelper.nextDouble(random, -1.5, 1.5);
 
 							if (tmpEntity instanceof EntityPlayer) {
 								BrainStonePacketHelper.sendPlayerUpdateMovementPacket((EntityPlayer) entity, x1, y1, z1);
@@ -177,7 +177,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 		}
 
 		if (world.getTotalWorldTime() > lastGravityChange) {
-			blockParticleGravity = (float) MathHelper.getRandomDoubleInRange(random, -3.0, 3.0);
+			blockParticleGravity = (float) MathHelper.nextDouble(random, -3.0, 3.0);
 
 			lastGravityChange = world.getTotalWorldTime();
 		}

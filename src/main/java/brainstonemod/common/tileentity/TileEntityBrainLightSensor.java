@@ -31,10 +31,10 @@ public class TileEntityBrainLightSensor extends TileEntity {
 
 	public int getCurLightLevel() {
 		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
-			worldObj.calculateInitialSkylight();
+			world.calculateInitialSkylight();
 		}
 
-		curLightLevel = worldObj.getLight(pos.up(), false);
+		curLightLevel = world.getLight(pos.up(), false);
 
 		return curLightLevel;
 	}
