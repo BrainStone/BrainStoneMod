@@ -53,10 +53,10 @@ public class TinkersContructMaterialBrainStone {
 
 		// Stats
 		addMaterialStats(brainStone, BrainStone.toolBRAINSTONE, 1.5f);
-		TinkerRegistry.addMaterialStats(brainStone, new BowMaterialStats(1.3f, 5.25f));
+		TinkerRegistry.addMaterialStats(brainStone, new BowMaterialStats(1.3f, 5.25f, 1.0f));
 
 		addMaterialStats(stablePulsatingBrainStone, BrainStone.toolSTABLEPULSATINGBS, 3.0f);
-		TinkerRegistry.addMaterialStats(stablePulsatingBrainStone, new BowMaterialStats(2.0f, 7.9f));
+		TinkerRegistry.addMaterialStats(stablePulsatingBrainStone, new BowMaterialStats(2.0f, 7.9f, 2.0f));
 
 		// Adding the materials
 		TinkerRegistry.addMaterial(brainStone);

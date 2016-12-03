@@ -117,6 +117,9 @@ repositories {
     maven { // ChickenBones' mods and Draconic Evolution
         url "http://chickenbones.net/maven/"
     }
+    maven { // Immersive Engeneering
+        url "http://blamejared.com/maven"
+    }
     flatDir {
         dirs "lib"
     }
@@ -135,13 +138,15 @@ dependencies {
         exclude module: "jei_${minecraft_version}"
         exclude module: "OpenComputers"
     }
+    provided "blusunrize:ImmersiveEngineering:${immersive_engineering_version}"
     provided "the_fireplace.overlord:Overlord:${overlord_version}:deobf"
-    provided "slimeknights:TConstruct:${minecraft_version}-${tconstruct_version}:deobf"
+    provided("slimeknights:TConstruct:${minecraft_version}-${tconstruct_version}") {
+        exclude module: "jei_${minecraft_version}"
+    }
     
     // Local Mods
     provided "lib:Baubles:+:deobf"
     provided "lib:BetterAchievements:+:deobf"
-    provided "lib:ImmersiveEngineering:+:deobf"
     provided "lib:JustEnoughResources:+:deobf"
 }
 
@@ -253,6 +258,11 @@ uploadArchives {
                         packaging "jar"
                         description "Brain Stone Mod"
                         url "https://github.com/BrainStone/brainstone"
+                        scm {
+                            url "https://github.com/BrainStone/brainstone"
+                            connection "scm:git:git@github.com:BrainStone/brainstone.git"
+                            developerConnection "scm:git:git@github.com:BrainStone/brainstone.git"
+                        }
                         issueManagement {
                             system "github"
                             url "https://github.com/BrainStone/brainstone/issues"
