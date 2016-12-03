@@ -23,9 +23,9 @@ public class PacketSmokeParticle implements IMessage {
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		x=buf.readInt();
-		y=buf.readShort();
-		z=buf.readInt();
+		x = buf.readInt();
+		y = buf.readShort();
+		z = buf.readInt();
 	}
 
 	@Override
@@ -38,7 +38,8 @@ public class PacketSmokeParticle implements IMessage {
 	public static class Handler extends AbstractClientMessageHandler<PacketSmokeParticle> {
 		@Override
 		public IMessage handleClientMessage(EntityPlayer player, PacketSmokeParticle message, MessageContext ctx) {
-			((BlockBrainLightSensor) player.world.getBlockState(new BlockPos(message.x, message.y, message.z)).getBlock()).smoke(player.world, message.x, message.y, message.z, new Random());
+			((BlockBrainLightSensor) player.worldObj.getBlockState(new BlockPos(message.x, message.y, message.z))
+					.getBlock()).smoke(player.worldObj, message.x, message.y, message.z, new Random());
 			return null;
 		}
 	}

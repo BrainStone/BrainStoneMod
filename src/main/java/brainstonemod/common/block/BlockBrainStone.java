@@ -25,7 +25,7 @@ public class BlockBrainStone extends BlockBrainStoneBase {
 	/**
 	 * Constructor of the block. Registers all properties and sets the id and
 	 * the material
-	 * 
+	 *
 	 * @param flag
 	 *            Is the block powered by Redstone? If true the block does not
 	 *            emit light, if yes it does
@@ -51,17 +51,17 @@ public class BlockBrainStone extends BlockBrainStoneBase {
 	}
 
 	@Override
-	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
+	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos,
+			EntityPlayer player) {
 		return new ItemStack(BrainStone.brainStone());
 	}
 
 	@Override
 	public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
 		if (!world.isRemote) {
-			if (powered && world.isBlockIndirectlyGettingPowered(pos)==0) {
+			if (powered && (world.isBlockIndirectlyGettingPowered(pos) == 0)) {
 				world.setBlockState(pos, BrainStone.brainStone().getDefaultState(), 2);
-			} else if (!powered
-					&& world.isBlockIndirectlyGettingPowered(pos)>0) {
+			} else if (!powered && (world.isBlockIndirectlyGettingPowered(pos) > 0)) {
 				world.setBlockState(pos, BrainStone.brainStoneOut().getDefaultState(), 2);
 			}
 		}
@@ -69,8 +69,8 @@ public class BlockBrainStone extends BlockBrainStoneBase {
 
 	@Override
 	public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor) {
-		if(world instanceof World){
-			onBlockAdded((World)world, pos, world.getBlockState(pos));
+		if (world instanceof World) {
+			onBlockAdded((World) world, pos, world.getBlockState(pos));
 		}
 	}
 }

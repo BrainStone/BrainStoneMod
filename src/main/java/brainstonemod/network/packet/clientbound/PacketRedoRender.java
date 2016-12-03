@@ -19,9 +19,9 @@ public class PacketRedoRender implements IMessage {
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		x=buf.readInt();
-		y=buf.readShort();
-		z=buf.readInt();
+		x = buf.readInt();
+		y = buf.readShort();
+		z = buf.readInt();
 	}
 
 	@Override
@@ -34,7 +34,8 @@ public class PacketRedoRender implements IMessage {
 	public static class Handler extends AbstractClientMessageHandler<PacketRedoRender> {
 		@Override
 		public IMessage handleClientMessage(EntityPlayer player, PacketRedoRender message, MessageContext ctx) {
-			player.world.markBlockRangeForRenderUpdate(message.x, message.y, message.z, message.x, message.y, message.z);
+			player.worldObj.markBlockRangeForRenderUpdate(message.x, message.y, message.z, message.x, message.y,
+					message.z);
 			return null;
 		}
 	}

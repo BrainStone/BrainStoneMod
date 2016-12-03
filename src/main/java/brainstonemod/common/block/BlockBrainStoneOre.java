@@ -33,11 +33,11 @@ public class BlockBrainStoneOre extends BlockOre {
 	public int getExpDrop(IBlockState state, IBlockAccess world, BlockPos pos, int fortune) {
 		Random rand = world instanceof World ? ((World) world).rand : new Random();
 
-		if (this.getItemDropped(state, rand, fortune) != Item.getItemFromBlock(this)) {
+		if (getItemDropped(state, rand, fortune) != Item.getItemFromBlock(this)) {
 			int i = 0;
 
 			if (this == BrainStone.brainStoneOre()) {
-				i = MathHelper.getInt(rand, 10, 20);
+				i = MathHelper.getRandomIntegerInRange(rand, 10, 20);
 			}
 
 			return i;

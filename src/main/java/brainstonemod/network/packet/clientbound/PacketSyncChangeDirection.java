@@ -20,18 +20,18 @@ public class PacketSyncChangeDirection implements IMessage {
 	}
 
 	public PacketSyncChangeDirection(TileEntity tileentity, boolean direction) {
-		x=tileentity.getPos().getX();
-		y=(short)tileentity.getPos().getY();
-		z=tileentity.getPos().getZ();
-		this.direction=direction;
+		x = tileentity.getPos().getX();
+		y = (short) tileentity.getPos().getY();
+		z = tileentity.getPos().getZ();
+		this.direction = direction;
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		x=buf.readInt();
-		y=buf.readShort();
-		z=buf.readInt();
-		direction=buf.readBoolean();
+		x = buf.readInt();
+		y = buf.readShort();
+		z = buf.readInt();
+		direction = buf.readBoolean();
 	}
 
 	@Override
@@ -44,12 +44,14 @@ public class PacketSyncChangeDirection implements IMessage {
 
 	public static class Handler extends AbstractClientMessageHandler<PacketSyncChangeDirection> {
 		@Override
-		public IMessage handleClientMessage(EntityPlayer player, PacketSyncChangeDirection message, MessageContext ctx) {
-			TileEntity te = player.world.getTileEntity(new BlockPos(message.x, message.y, message.z));
-			if(te instanceof TileEntityBrainLightSensor){
+		public IMessage handleClientMessage(EntityPlayer player, PacketSyncChangeDirection message,
+				MessageContext ctx) {
+			TileEntity te = player.worldObj.getTileEntity(new BlockPos(message.x, message.y, message.z));
+			if (te instanceof TileEntityBrainLightSensor) {
 				((TileEntityBrainLightSensor) te).setDirection(message.direction);
-			}else{
-				BSP.error("Tile Entity at "+message.x+", "+message.y+", "+message.z+" was "+te+" and not TileEntityBrainLightSensor.");
+			} else {
+				BSP.error("Tile Entity at " + message.x + ", " + message.y + ", " + message.z + " was " + te
+						+ " and not TileEntityBrainLightSensor.");
 			}
 			return null;
 		}

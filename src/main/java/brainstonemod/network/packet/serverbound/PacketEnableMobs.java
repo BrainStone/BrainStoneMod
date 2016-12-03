@@ -41,7 +41,7 @@ public class PacketEnableMobs implements IMessage {
 	public static class Handler extends AbstractServerMessageHandler<PacketEnableMobs> {
 		@Override
 		public IMessage handleServerMessage(EntityPlayer player, PacketEnableMobs message, MessageContext ctx) {
-			TileEntity te = player.world.getTileEntity(new BlockPos(message.x, message.y, message.z));
+			TileEntity te = player.worldObj.getTileEntity(new BlockPos(message.x, message.y, message.z));
 			if (te instanceof TileEntityBrainStoneTrigger) {
 				((TileEntityBrainStoneTrigger) te).enableAllMobs();
 				return new PacketSyncEnableMobs(te);

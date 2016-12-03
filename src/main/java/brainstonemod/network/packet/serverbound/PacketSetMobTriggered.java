@@ -51,7 +51,7 @@ public class PacketSetMobTriggered implements IMessage {
 	public static class Handler extends AbstractServerMessageHandler<PacketSetMobTriggered> {
 		@Override
 		public IMessage handleServerMessage(EntityPlayer player, PacketSetMobTriggered message, MessageContext ctx) {
-			TileEntity te = player.world.getTileEntity(new BlockPos(message.x, message.y, message.z));
+			TileEntity te = player.worldObj.getTileEntity(new BlockPos(message.x, message.y, message.z));
 			if (te instanceof TileEntityBrainStoneTrigger) {
 				((TileEntityBrainStoneTrigger) te).setMobTriggered(message.mob, message.power);
 				return new PacketSyncSetMobTriggered(te, message.mob, message.power);

@@ -31,7 +31,7 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 
 	/**
 	 * Saves all given values to the variables. And updates the TileEntity.
-	 * 
+	 *
 	 * @param te
 	 *            The TileEntity
 	 */
@@ -60,36 +60,20 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 			}
 
 			curLightLevel = tileentity.getCurLightLevel();
-			drawTexturedModalRect((curLightLevel * 7) + 8, 22,
-					8 + (7 * curLightLevel), 158, 6, 66);
-			drawString(
-					I18n.format("tile.brainLightSensor.name"),
-					6, 16, 0x404040);
-			drawCenteredString(
-					I18n.format("gui.brainstone.classic"),
-					32, 7, 0x404040);
-			drawCenteredString(
-					I18n.format("gui.brainstone.simple"),
-					96, 7, 0x404040);
+			drawTexturedModalRect((curLightLevel * 7) + 8, 22, 8 + (7 * curLightLevel), 158, 6, 66);
+			drawString(I18n.format("tile.brainLightSensor.name"), 6, 16, 0x404040);
+			drawCenteredString(I18n.format("gui.brainstone.classic"), 32, 7, 0x404040);
+			drawCenteredString(I18n.format("gui.brainstone.simple"), 96, 7, 0x404040);
 		} else {
 			bindTexture("GuiBrainLightSensorSimple");
 
 			drawTexturedModalRect(0, 0, 0, 0, xSizeClassic, ySizeClassic);
-			drawTexturedModalRect(8, ((tileentity.getDirection()) ? 18 : 36),
-					8, 94, 9, 8);
+			drawTexturedModalRect(8, ((tileentity.getDirection()) ? 18 : 36), 8, 94, 9, 8);
 
-			drawCenteredString(
-					I18n.format("gui.brainstone.classic"),
-					32, 7, 0x404040);
-			drawCenteredString(
-					I18n.format("gui.brainstone.simple"),
-					96, 7, 0x404040);
-			drawString(
-					I18n.format("gui.brainstone.proportional"),
-					20, 18, 0x404040);
-			drawString(
-					I18n.format("gui.brainstone.inverted"),
-					20, 36, 0x404040);
+			drawCenteredString(I18n.format("gui.brainstone.classic"), 32, 7, 0x404040);
+			drawCenteredString(I18n.format("gui.brainstone.simple"), 96, 7, 0x404040);
+			drawString(I18n.format("gui.brainstone.proportional"), 20, 18, 0x404040);
+			drawString(I18n.format("gui.brainstone.inverted"), 20, 36, 0x404040);
 		}
 	}
 
@@ -108,7 +92,8 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 				setLightLevel(lightLevel - 1);
 			}
 
-			if ((i == Keyboard.KEY_LEFT) || (i == Keyboard.KEY_DOWN) || (i == Keyboard.KEY_RIGHT) || (i == Keyboard.KEY_UP)) {
+			if ((i == Keyboard.KEY_LEFT) || (i == Keyboard.KEY_DOWN) || (i == Keyboard.KEY_RIGHT)
+					|| (i == Keyboard.KEY_UP)) {
 				click();
 			}
 		}
@@ -153,14 +138,13 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 				}
 			}
 
-
 		}
 	}
 
 	/**
 	 * Sets the light level (red bars), updates the TileEntity ,and snycs it
 	 * with the server.
-	 * 
+	 *
 	 * @param i
 	 *            the level to what the light level is going to be set
 	 */

@@ -11,7 +11,7 @@ import lombok.experimental.UtilityClass;
  * This class is the printer class for the BrainStoneMod. It contains a lot of
  * static final printing methods, that will print the given object under the
  * right conditions. Exceptions will be thrown here as well.
- * 
+ *
  * @author Yannick Schinko (alias The_BrainStone)
  * @version 3.0.0
  * @category Print
@@ -43,7 +43,7 @@ public final class BSP {
 	/**
 	 * <b>A</b>dd<b>N</b>ew<b>L</b>ine<b>I</b>f<b>N</b>ecessary<br>
 	 * This function adds a new line in front of a string if necessary.
-	 * 
+	 *
 	 * @param str
 	 *            String to be processed
 	 * @return If the String is no empty, a new line will be added in front of
@@ -55,7 +55,7 @@ public final class BSP {
 
 	/**
 	 * Logs all Objects to the console with the normal DEBUG level
-	 * 
+	 *
 	 * @param obj
 	 *            the objects to be logged
 	 * @return Return whether the log was logged or not
@@ -68,7 +68,7 @@ public final class BSP {
 	/**
 	 * This logs an error to the console with the normal DEBUG level and appends
 	 * the errorMessageAddon
-	 * 
+	 *
 	 * @param ex
 	 *            the exception to be logged
 	 * @return Return whether the log was logged or not
@@ -81,7 +81,7 @@ public final class BSP {
 	/**
 	 * This logs an error to the console with the normal DEBUG level and appends
 	 * the errorMessageAddon and an additional message
-	 * 
+	 *
 	 * @param ex
 	 *            the exception to be logged
 	 * @param additionalMessage
@@ -95,7 +95,7 @@ public final class BSP {
 
 	/**
 	 * This logs an error to the console with the normal DEBUG level
-	 * 
+	 *
 	 * @param ex
 	 *            the exception to be logged
 	 * @return Return whether the log was logged or not
@@ -109,7 +109,7 @@ public final class BSP {
 	/**
 	 * This logs an error to the console with the normal DEBUG level and an
 	 * additional message
-	 * 
+	 *
 	 * @param ex
 	 *            the exception to be logged
 	 * @param additionalMessage
@@ -123,7 +123,7 @@ public final class BSP {
 
 	/**
 	 * Logs all Objects to the console with the normal ERROR level
-	 * 
+	 *
 	 * @param obj
 	 *            the objects to be logged
 	 * @return Return whether the log was logged or not
@@ -136,7 +136,7 @@ public final class BSP {
 	/**
 	 * This logs an error to the console with the normal ERROR level and appends
 	 * the errorMessageAddon
-	 * 
+	 *
 	 * @param ex
 	 *            the exception to be logged
 	 * @return Return whether the log was logged or not
@@ -149,7 +149,7 @@ public final class BSP {
 	/**
 	 * This logs an error to the console with the normal ERROR level and appends
 	 * the errorMessageAddon and an additional message
-	 * 
+	 *
 	 * @param ex
 	 *            the exception to be logged
 	 * @param additionalMessage
@@ -163,7 +163,7 @@ public final class BSP {
 
 	/**
 	 * This logs an error to the console with the normal ERROR level
-	 * 
+	 *
 	 * @param ex
 	 *            the exception to be logged
 	 * @return Return whether the log was logged or not
@@ -177,7 +177,7 @@ public final class BSP {
 	/**
 	 * This logs an error to the console with the normal ERROR level and an
 	 * additional message
-	 * 
+	 *
 	 * @param ex
 	 *            the exception to be logged
 	 * @param additionalMessage
@@ -191,7 +191,7 @@ public final class BSP {
 
 	/**
 	 * Logs all Objects to the console with the normal FATAL level
-	 * 
+	 *
 	 * @param obj
 	 *            the objects to be logged
 	 * @return Return whether the log was logged or not
@@ -204,7 +204,7 @@ public final class BSP {
 	/**
 	 * This logs an error to the console with the normal FATAL level and appends
 	 * the errorMessageAddon
-	 * 
+	 *
 	 * @param ex
 	 *            the exception to be logged
 	 * @return Return whether the log was logged or not
@@ -217,7 +217,7 @@ public final class BSP {
 	/**
 	 * This logs an error to the console with the normal FATAL level and appends
 	 * the errorMessageAddon and an additional message
-	 * 
+	 *
 	 * @param ex
 	 *            the exception to be logged
 	 * @param additionalMessage
@@ -231,7 +231,7 @@ public final class BSP {
 
 	/**
 	 * This logs an error to the console with the normal FATAL level
-	 * 
+	 *
 	 * @param ex
 	 *            the exception to be logged
 	 * @return Return whether the log was logged or not
@@ -245,7 +245,7 @@ public final class BSP {
 	/**
 	 * This logs an error to the console with the normal FATAL level and an
 	 * additional message
-	 * 
+	 *
 	 * @param ex
 	 *            the exception to be logged
 	 * @param additionalMessage
@@ -259,7 +259,7 @@ public final class BSP {
 
 	/**
 	 * Logs all Objects to the console with the normal INFO level
-	 * 
+	 *
 	 * @param obj
 	 *            the objects to be logged
 	 * @return Return whether the log was logged or not
@@ -273,7 +273,7 @@ public final class BSP {
 	/**
 	 * This logs an error to the console with the normal INFO level and appends
 	 * the errorMessageAddon
-	 * 
+	 *
 	 * @param ex
 	 *            the exception to be logged
 	 * @return Return whether the log was logged or not
@@ -287,7 +287,7 @@ public final class BSP {
 	/**
 	 * This logs an error to the console with the normal INFO level and appends
 	 * the errorMessageAddon and an additional message
-	 * 
+	 *
 	 * @param ex
 	 *            the exception to be logged
 	 * @param additionalMessage
@@ -302,7 +302,7 @@ public final class BSP {
 
 	/**
 	 * This logs an error to the console with the normal INFO level
-	 * 
+	 *
 	 * @param ex
 	 *            the exception to be logged
 	 * @return Return whether the log was logged or not
@@ -317,7 +317,7 @@ public final class BSP {
 	/**
 	 * This logs an error to the console with the normal INFO level and an
 	 * additional message
-	 * 
+	 *
 	 * @param ex
 	 *            the exception to be logged
 	 * @param additionalMessage
@@ -332,7 +332,7 @@ public final class BSP {
 
 	/**
 	 * Logs all Objects to the console with the level to be logged
-	 * 
+	 *
 	 * @param level
 	 *            the level the objects will be logged
 	 * @param obj
@@ -353,7 +353,7 @@ public final class BSP {
 
 	/**
 	 * Logs all Objects to the console with the normal INFO level
-	 * 
+	 *
 	 * @param obj
 	 *            the objects to be logged
 	 * @return Return whether the log was logged or not
@@ -366,7 +366,7 @@ public final class BSP {
 
 	/**
 	 * This logs an error to the console with the level to be logged
-	 * 
+	 *
 	 * @param level
 	 *            the level the objects will be logged
 	 * @param ex
@@ -380,7 +380,7 @@ public final class BSP {
 	/**
 	 * This logs an error to the console with an additional message and the
 	 * level to be logged
-	 * 
+	 *
 	 * @param level
 	 *            the level the objects will be logged
 	 * @param ex
@@ -398,7 +398,7 @@ public final class BSP {
 	/**
 	 * This logs an error to the console with the normal INFO level and appends
 	 * the errorMessageAddon
-	 * 
+	 *
 	 * @param ex
 	 *            the exception to be logged
 	 * @return Return whether the log was logged or not
@@ -412,7 +412,7 @@ public final class BSP {
 	/**
 	 * This logs an error to the console with the normal INFO level and appends
 	 * the errorMessageAddon and an additional message
-	 * 
+	 *
 	 * @param ex
 	 *            the exception to be logged
 	 * @param additionalMessage
@@ -427,7 +427,7 @@ public final class BSP {
 
 	/**
 	 * This logs an error to the console with the level to be logged
-	 * 
+	 *
 	 * @param level
 	 *            the level the objects will be logged
 	 * @param ex
@@ -441,7 +441,7 @@ public final class BSP {
 	/**
 	 * This logs an error to the console with an additional message and the
 	 * level to be logged
-	 * 
+	 *
 	 * @param level
 	 *            the level the objects will be logged
 	 * @param ex
@@ -458,7 +458,7 @@ public final class BSP {
 
 	/**
 	 * This logs an error to the console with the normal INFO level
-	 * 
+	 *
 	 * @param ex
 	 *            the exception to be logged
 	 * @return Return whether the log was logged or not
@@ -472,7 +472,7 @@ public final class BSP {
 	/**
 	 * This logs an error to the console with the normal INFO level and an
 	 * additional message
-	 * 
+	 *
 	 * @param ex
 	 *            the exception to be logged
 	 * @param additionalMessage
@@ -488,7 +488,7 @@ public final class BSP {
 
 	/**
 	 * Sets up the logger and also sets up the corresponding filter
-	 * 
+	 *
 	 * @param logger
 	 *            - the logger for this class
 	 */
@@ -511,7 +511,7 @@ public final class BSP {
 
 	/**
 	 * Throws a ArithmeticException with the error message addon
-	 * 
+	 *
 	 * @param additionalMessage
 	 *            a additional message added after the addon
 	 */
@@ -528,7 +528,7 @@ public final class BSP {
 
 	/**
 	 * Throws a ArrayIndexOutOfBoundsException with the error message addon
-	 * 
+	 *
 	 * @param additionalMessage
 	 *            a additional message added after the addon
 	 */
@@ -545,7 +545,7 @@ public final class BSP {
 
 	/**
 	 * Throws a ArrayStoreException with the error message addon
-	 * 
+	 *
 	 * @param additionalMessage
 	 *            a additional message added after the addon
 	 */
@@ -562,7 +562,7 @@ public final class BSP {
 
 	/**
 	 * Throws a ClassCastException with the error message addon
-	 * 
+	 *
 	 * @param additionalMessage
 	 *            a additional message added after the addon
 	 */
@@ -572,7 +572,7 @@ public final class BSP {
 
 	/**
 	 * Throws a ClassNotFoundException with the error message addon
-	 * 
+	 *
 	 * @throws ClassNotFoundException
 	 */
 	public static final void throwClassNotFoundException() throws ClassNotFoundException {
@@ -581,7 +581,7 @@ public final class BSP {
 
 	/**
 	 * Throws a ClassNotFoundException with the error message addon
-	 * 
+	 *
 	 * @param additionalMessage
 	 *            a additional message added after the addon
 	 * @throws ClassNotFoundException
@@ -592,7 +592,7 @@ public final class BSP {
 
 	/**
 	 * Throws a CloneNotSupportedException with the error message addon
-	 * 
+	 *
 	 * @throws CloneNotSupportedException
 	 */
 	public static final void throwCloneNotSupportedException() throws CloneNotSupportedException {
@@ -601,7 +601,7 @@ public final class BSP {
 
 	/**
 	 * Throws a CloneNotSupportedException with the error message addon
-	 * 
+	 *
 	 * @param additionalMessage
 	 *            a additional message added after the addon
 	 * @throws CloneNotSupportedException
@@ -614,7 +614,7 @@ public final class BSP {
 
 	/**
 	 * Throws a Exception with the error message addon
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public static final void throwException() throws Exception {
@@ -624,7 +624,7 @@ public final class BSP {
 	/**
 	 * Throws a exception with the error message addon. This is for all
 	 * <b><u>non-RuntimeExceptions</u></b>
-	 * 
+	 *
 	 * @param exception
 	 *            the exception to throw
 	 * @throws E
@@ -637,7 +637,7 @@ public final class BSP {
 	/**
 	 * Throws a exception with the error message addon. This is for all
 	 * <b><u>RuntimeExceptions</u></b>
-	 * 
+	 *
 	 * @param exception
 	 *            the exception to throw
 	 */
@@ -648,7 +648,7 @@ public final class BSP {
 	/**
 	 * Throws a exception with the error message addon and a custom message.
 	 * This is for all <b><u>non-RuntimeExceptions</u></b>
-	 * 
+	 *
 	 * @param exception
 	 *            the exception to throw
 	 * @param additionalMessage
@@ -666,7 +666,7 @@ public final class BSP {
 	/**
 	 * Throws a exception with the error message addon and a custom message.
 	 * This is for all <b><u>RuntimeExceptions</u></b>
-	 * 
+	 *
 	 * @param exception
 	 *            the exception to throw
 	 * @param additionalMessage
@@ -680,7 +680,7 @@ public final class BSP {
 
 	/**
 	 * Throws a Exception with the error message addon
-	 * 
+	 *
 	 * @param additionalMessage
 	 *            a additional message added after the addon
 	 * @throws Exception
@@ -691,7 +691,7 @@ public final class BSP {
 
 	/**
 	 * Throws a IllegalAccessException with the error message addon
-	 * 
+	 *
 	 * @throws IllegalAccessException
 	 */
 	public static final void throwIllegalAccessException() throws IllegalAccessException {
@@ -700,7 +700,7 @@ public final class BSP {
 
 	/**
 	 * Throws a IllegalAccessException with the error message addon
-	 * 
+	 *
 	 * @param additionalMessage
 	 *            a additional message added after the addon
 	 * @throws IllegalAccessException
@@ -718,7 +718,7 @@ public final class BSP {
 
 	/**
 	 * Throws a IllegalArgumentException with the error message addon
-	 * 
+	 *
 	 * @param additionalMessage
 	 *            a additional message added after the addon
 	 */
@@ -735,7 +735,7 @@ public final class BSP {
 
 	/**
 	 * Throws a IllegalMonitorStateException with the error message addon
-	 * 
+	 *
 	 * @param additionalMessage
 	 *            a additional message added after the addon
 	 */
@@ -752,7 +752,7 @@ public final class BSP {
 
 	/**
 	 * Throws a IllegalThreadStateException with the error message addon
-	 * 
+	 *
 	 * @param additionalMessage
 	 *            a additional message added after the addon
 	 */
@@ -769,7 +769,7 @@ public final class BSP {
 
 	/**
 	 * Throws a IndexOutOfBoundsException with the error message addon
-	 * 
+	 *
 	 * @param additionalMessage
 	 *            a additional message added after the addon
 	 */
@@ -779,7 +779,7 @@ public final class BSP {
 
 	/**
 	 * Throws a InstantiationException with the error message addon
-	 * 
+	 *
 	 * @throws InstantiationException
 	 */
 	public static final void throwInstantiationException() throws InstantiationException {
@@ -788,7 +788,7 @@ public final class BSP {
 
 	/**
 	 * Throws a InstantiationException with the error message addon
-	 * 
+	 *
 	 * @param additionalMessage
 	 *            a additional message added after the addon
 	 * @throws InstantiationException
@@ -799,7 +799,7 @@ public final class BSP {
 
 	/**
 	 * Throws a InterruptedException with the error message addon
-	 * 
+	 *
 	 * @throws InterruptedException
 	 */
 	public static final void throwInterruptedException() throws InterruptedException {
@@ -808,7 +808,7 @@ public final class BSP {
 
 	/**
 	 * Throws a InterruptedException with the error message addon
-	 * 
+	 *
 	 * @param additionalMessage
 	 *            a additional message added after the addon
 	 * @throws InterruptedException
@@ -826,7 +826,7 @@ public final class BSP {
 
 	/**
 	 * Throws a NegativeArraySizeException with the error message addon
-	 * 
+	 *
 	 * @param additionalMessage
 	 *            a additional message added after the addon
 	 */
@@ -836,7 +836,7 @@ public final class BSP {
 
 	/**
 	 * Throws a NoSuchMethodException with the error message addon
-	 * 
+	 *
 	 * @throws NoSuchMethodException
 	 */
 	public static final void throwNoSuchMethodException() throws NoSuchMethodException {
@@ -845,7 +845,7 @@ public final class BSP {
 
 	/**
 	 * Throws a NoSuchMethodException with the error message addon
-	 * 
+	 *
 	 * @param additionalMessage
 	 *            a additional message added after the addon
 	 * @throws NoSuchMethodException
@@ -863,7 +863,7 @@ public final class BSP {
 
 	/**
 	 * Throws a NullPointerException with the error message addon
-	 * 
+	 *
 	 * @param additionalMessage
 	 *            a additional message added after the addon
 	 */
@@ -880,7 +880,7 @@ public final class BSP {
 
 	/**
 	 * Throws a NumberFormatException with the error message addon
-	 * 
+	 *
 	 * @param additionalMessage
 	 *            a additional message added after the addon
 	 */
@@ -897,7 +897,7 @@ public final class BSP {
 
 	/**
 	 * Throws a RuntimeException with the error message addon
-	 * 
+	 *
 	 * @param additionalMessage
 	 *            a additional message added after the addon
 	 */
@@ -914,7 +914,7 @@ public final class BSP {
 
 	/**
 	 * Throws a SecurityException with the error message addon
-	 * 
+	 *
 	 * @param additionalMessage
 	 *            a additional message added after the addon
 	 */
@@ -931,7 +931,7 @@ public final class BSP {
 
 	/**
 	 * Throws a StringIndexOutOfBoundsException with the error message addon
-	 * 
+	 *
 	 * @param additionalMessage
 	 *            a additional message added after the addon
 	 */
@@ -941,7 +941,7 @@ public final class BSP {
 
 	/**
 	 * Throws a Throwable with the error message addon
-	 * 
+	 *
 	 * @throws Throwable
 	 */
 	public static final void throwThrowable() throws Throwable {
@@ -950,7 +950,7 @@ public final class BSP {
 
 	/**
 	 * Throws a Throwable with the error message addon
-	 * 
+	 *
 	 * @param additionalMessage
 	 *            a additional message added after the addon
 	 * @throws Throwable
@@ -961,7 +961,7 @@ public final class BSP {
 
 	/**
 	 * Logs all Objects to the console with the normal TRACE level
-	 * 
+	 *
 	 * @param obj
 	 *            the objects to be logged
 	 * @return Return whether the log was logged or not
@@ -974,7 +974,7 @@ public final class BSP {
 	/**
 	 * This logs an error to the console with the normal TRACE level and appends
 	 * the errorMessageAddon
-	 * 
+	 *
 	 * @param ex
 	 *            the exception to be logged
 	 * @return Return whether the log was logged or not
@@ -987,7 +987,7 @@ public final class BSP {
 	/**
 	 * This logs an error to the console with the normal TRACE level and appends
 	 * the errorMessageAddon and an additional message
-	 * 
+	 *
 	 * @param ex
 	 *            the exception to be logged
 	 * @param additionalMessage
@@ -1001,7 +1001,7 @@ public final class BSP {
 
 	/**
 	 * This logs an error to the console with the normal TRACE level
-	 * 
+	 *
 	 * @param ex
 	 *            the exception to be logged
 	 * @return Return whether the log was logged or not
@@ -1015,7 +1015,7 @@ public final class BSP {
 	/**
 	 * This logs an error to the console with the normal TRACE level and an
 	 * additional message
-	 * 
+	 *
 	 * @param ex
 	 *            the exception to be logged
 	 * @param additionalMessage
@@ -1029,7 +1029,7 @@ public final class BSP {
 
 	/**
 	 * Logs all Objects to the console with the normal WARN level
-	 * 
+	 *
 	 * @param obj
 	 *            the objects to be logged
 	 * @return Return whether the log was logged or not
@@ -1042,7 +1042,7 @@ public final class BSP {
 	/**
 	 * This logs an error to the console with the normal WARN level and appends
 	 * the errorMessageAddon
-	 * 
+	 *
 	 * @param ex
 	 *            the exception to be logged
 	 * @return Return whether the log was logged or not
@@ -1055,7 +1055,7 @@ public final class BSP {
 	/**
 	 * This logs an error to the console with the normal WARN level and appends
 	 * the errorMessageAddon and an additional message
-	 * 
+	 *
 	 * @param ex
 	 *            the exception to be logged
 	 * @param additionalMessage
@@ -1069,7 +1069,7 @@ public final class BSP {
 
 	/**
 	 * This logs an error to the console with the normal WARN level
-	 * 
+	 *
 	 * @param ex
 	 *            the exception to be logged
 	 * @return Return whether the log was logged or not
@@ -1083,7 +1083,7 @@ public final class BSP {
 	/**
 	 * This logs an error to the console with the normal WARN level and an
 	 * additional message
-	 * 
+	 *
 	 * @param ex
 	 *            the exception to be logged
 	 * @param additionalMessage

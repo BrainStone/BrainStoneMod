@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 
 /**
  * Annotation to mark module getters so that they can be easily found!
- * 
+ *
  * @author BrainStone
  */
 @Target(ElementType.METHOD)

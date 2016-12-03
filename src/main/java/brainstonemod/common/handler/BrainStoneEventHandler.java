@@ -55,15 +55,13 @@ public class BrainStoneEventHandler {
 		if (BrainStoneModules.baubles()) {
 			ItemStack bStack = BaublesApi.getBaublesHandler(player).getStackInSlot(BaubleType.BELT.getValidSlots()[0]);
 
-			if (checkStack(bStack, capacitorUUID)) {
+			if (checkStack(bStack, capacitorUUID))
 				return bStack;
-			}
 		}
 
 		for (ItemStack stack : player.inventory.mainInventory) {
-			if (checkStack(stack, capacitorUUID)) {
+			if (checkStack(stack, capacitorUUID))
 				return stack;
-			}
 		}
 
 		return null;
@@ -127,7 +125,7 @@ public class BrainStoneEventHandler {
 			if (event.getSource().isFireDamage() && player.isPotionActive(MobEffects.FIRE_RESISTANCE))
 				return;
 
-			if ((float) player.hurtResistantTime > ((float) player.maxHurtResistantTime / 2.0f)) {
+			if (player.hurtResistantTime > (player.maxHurtResistantTime / 2.0f)) {
 				if (amount <= player.lastDamage)
 					return;
 
@@ -180,9 +178,10 @@ public class BrainStoneEventHandler {
 			final double chance = Math.pow(1.0 - BrainStoneConfigWrapper.getEssenceOfLifeBaseChance(),
 					event.getLootingLevel() + 1);
 
-			if ((new Random()).nextDouble() >= chance)
-				event.getDrops().add(new EntityItem(event.getEntity().world, event.getEntity().posX,
+			if ((new Random()).nextDouble() >= chance) {
+				event.getDrops().add(new EntityItem(event.getEntity().worldObj, event.getEntity().posX,
 						event.getEntity().posY, event.getEntity().posZ, new ItemStack(BrainStone.essenceOfLife())));
+			}
 		}
 	}
 
@@ -191,12 +190,13 @@ public class BrainStoneEventHandler {
 		(new Thread() {
 			@Override
 			public void run() {
-				while (FMLClientHandler.instance().getClientPlayerEntity() == null)
+				while (FMLClientHandler.instance().getClientPlayerEntity() == null) {
 					try {
 						Thread.sleep(100);
 					} catch (InterruptedException e) {
 						BSP.debugException(e);
 					}
+				}
 
 				BSP.debug("Calling onPlayerJoinClient for "
 						+ FMLClientHandler.instance().getClientPlayerEntity().getDisplayNameString());

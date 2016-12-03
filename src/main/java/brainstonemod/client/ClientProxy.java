@@ -18,7 +18,7 @@ public class ClientProxy extends CommonProxy {
 
 	/**
 	 * Returns the Client Minecraft Instance.
-	 * 
+	 *
 	 * @return the Client Minecraft Instance
 	 */
 	@Override
@@ -28,31 +28,33 @@ public class ClientProxy extends CommonProxy {
 
 	/**
 	 * Returns the Client Player Instance.
-	 * 
+	 *
 	 * @return the Client player Instance
 	 */
 	@Override
 	public EntityPlayerSP getPlayer() {
-		return getClient().player;
+		return getClient().thePlayer;
 	}
 
 	@Override
 	public EntityPlayer getPlayerEntity(MessageContext ctx) {
-		return (ctx.side.isClient() ? Minecraft.getMinecraft().player : super.getPlayerEntity(ctx));
+		return (ctx.side.isClient() ? Minecraft.getMinecraft().thePlayer : super.getPlayerEntity(ctx));
 	}
 
 	@Override
-	public String format(String key, Object... args){
+	public String format(String key, Object... args) {
 		return I18n.format(key, args);
 	}
 
 	@Override
-	public void rmm(Item i){
-		ModelLoader.setCustomModelResourceLocation(i, 0, new ModelResourceLocation(MOD_ID + ":" + i.getUnlocalizedName().substring(5), "inventory"));
+	public void rmm(Item i) {
+		ModelLoader.setCustomModelResourceLocation(i, 0,
+				new ModelResourceLocation(MOD_ID + ":" + i.getUnlocalizedName().substring(5), "inventory"));
 	}
 
 	@Override
-	public void rmm(Block b){
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(b), 0, new ModelResourceLocation(MOD_ID + ":" + b.getUnlocalizedName().substring(5), "inventory"));
+	public void rmm(Block b) {
+		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(b), 0,
+				new ModelResourceLocation(MOD_ID + ":" + b.getUnlocalizedName().substring(5), "inventory"));
 	}
 }

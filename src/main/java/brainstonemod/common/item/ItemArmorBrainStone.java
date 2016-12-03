@@ -17,11 +17,14 @@ public class ItemArmorBrainStone extends ItemArmor {
 
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
-		if (stack.getItem() == BrainStone.brainStoneBoots() || stack.getItem() == BrainStone.brainStoneHelmet() || stack.getItem() == BrainStone.brainStonePlate())
+		if ((stack.getItem() == BrainStone.brainStoneBoots()) || (stack.getItem() == BrainStone.brainStoneHelmet())
+				|| (stack.getItem() == BrainStone.brainStonePlate()))
 			return BrainStone.MOD_ID + ":textures/armor/brainstone_armor_1.png";
 		else if (stack.getItem() == BrainStone.brainStoneLeggings())
 			return BrainStone.MOD_ID + ":textures/armor/brainstone_armor_2.png";
-		else if (stack.getItem() == BrainStone.stablePulsatingBrainStoneBoots() || stack.getItem() == BrainStone.stablePulsatingBrainStoneHelmet() || stack.getItem() == BrainStone.stablePulsatingBrainStonePlate())
+		else if ((stack.getItem() == BrainStone.stablePulsatingBrainStoneBoots())
+				|| (stack.getItem() == BrainStone.stablePulsatingBrainStoneHelmet())
+				|| (stack.getItem() == BrainStone.stablePulsatingBrainStonePlate()))
 			return BrainStone.MOD_ID + ":textures/armor/stablepulsatingbs_armor_1.png";
 		else if (stack.getItem() == BrainStone.stablePulsatingBrainStoneLeggings())
 			return BrainStone.MOD_ID + ":textures/armor/stablepulsatingbs_armor_2.png";

@@ -17,7 +17,7 @@ import net.minecraftforge.energy.IEnergyStorage;
  * https://github.com/SleepyTrousers/EnderIO/blob/1.10/src/main/java/crazypants/
  * enderio/power/forge/InternalPoweredItemWrapper.java</a>. All credit to the
  * original author
- * 
+ *
  * @author BrainStone
  */
 public class EnergyContainerItemProvider implements IEnergyStorage, ICapabilityProvider {

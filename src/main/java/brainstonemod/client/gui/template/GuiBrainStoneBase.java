@@ -38,7 +38,7 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 
 	/**
 	 * Binds the specified texture into the GUI.<br>
-	 * 
+	 *
 	 * @param resource
 	 *            The texture to be bound
 	 */
@@ -54,7 +54,7 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 	 * Binds the specified texture into the GUI.<br>
 	 * The texture is located in the "textures/gui" directory of the
 	 * brainstonemod-assets directory.
-	 * 
+	 *
 	 * @param name
 	 *            The texture to be bound
 	 */
@@ -195,7 +195,7 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 
 	/**
 	 * Takes two coordinates and checks if they are in a given rectangle
-	 * 
+	 *
 	 * @param x
 	 *            x-Coordinate to check
 	 * @param y
@@ -227,10 +227,10 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 	}
 
 	protected ISound playSoundAtClient(SoundEvent event, SoundCategory category, float volume, float pitch) {
-		BlockPos pos = mc.player.getPosition();
+		BlockPos pos = mc.thePlayer.getPosition();
 
-		PositionedSoundRecord sound = new PositionedSoundRecord(event, category, volume, pitch, (float) pos.getX(),
-				(float) pos.getY(), (float) pos.getZ());
+		PositionedSoundRecord sound = new PositionedSoundRecord(event, category, volume, pitch, pos.getX(), pos.getY(),
+				pos.getZ());
 		soundHandler.playSound(sound);
 
 		return sound;
@@ -251,7 +251,7 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 	 * Closes the Gui
 	 */
 	protected void quit() {
-		mc.player.closeScreen();
+		mc.thePlayer.closeScreen();
 	}
 
 	protected void setSize(int width, int height) {

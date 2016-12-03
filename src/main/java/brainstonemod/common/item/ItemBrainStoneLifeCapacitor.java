@@ -114,8 +114,9 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 
 		int levels[] = { 1, 2, 3, 5, 9, 19, 99 };
 
-		for (int level : levels)
+		for (int level : levels) {
 			list.add(getLeveledCapacitor(level, true, false));
+		}
 	}
 
 	public ItemStack getLeveledCapacitor(int level, boolean full, boolean fakeOwner) {
@@ -123,11 +124,12 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 		setCapacityLevel(stack, 1);
 		setChargingLevel(stack, 1);
 
-		if (full)
+		if (full) {
 			setEnergyStored(stack, getMaxEnergyStored(stack));
-		else
+		} else {
 			setEnergyStored(stack, 0);
-		
+		}
+
 		setFakeOwner(stack, fakeOwner);
 
 		return stack;
@@ -350,13 +352,13 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 
 		return UUID.fromString(container.getTagCompound().getString("UUID"));
 	}
-	
+
 	public void setFakeOwner(ItemStack container, boolean fakeOwner) {
 		if (container.getTagCompound() == null) {
 			container.setTagCompound(new NBTTagCompound());
 		}
-		
-		if(fakeOwner) {
+
+		if (fakeOwner) {
 			container.getTagCompound().setBoolean("fakeOwner", true);
 		} else {
 			container.getTagCompound().removeTag("fakeOwner");
@@ -367,7 +369,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 		if (container.getTagCompound() == null) {
 			container.setTagCompound(new NBTTagCompound());
 		}
-		
+
 		return container.getTagCompound().hasKey("fakeOwner") || (PCmapping.getPlayerUUID(getUUID(container)) != null);
 	}
 

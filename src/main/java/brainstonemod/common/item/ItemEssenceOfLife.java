@@ -47,8 +47,9 @@ public class ItemEssenceOfLife extends ItemBrainStoneFood {
 				duration = 0;
 				potion = player.getActivePotionEffect((Potion) potionToAdd[0]);
 
-				if (potion != null)
+				if (potion != null) {
 					duration = potion.getDuration();
+				}
 
 				player.addPotionEffect(new PotionEffect(((Potion) potionToAdd[0]),
 						Math.max((Integer) potionToAdd[1] * 20, duration), (Integer) potionToAdd[2]));

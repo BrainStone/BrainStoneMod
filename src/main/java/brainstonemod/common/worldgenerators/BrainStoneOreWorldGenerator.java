@@ -32,14 +32,15 @@ public class BrainStoneOreWorldGenerator implements IWorldGenerator {
 		this.chunkZ = chunkZ * 16;
 		this.world = world;
 
-		if (ArrayUtils.contains(BrainStoneConfigWrapper.getBrainStoneOreDims(), this.world.provider.getDimension()))
+		if (ArrayUtils.contains(BrainStoneConfigWrapper.getBrainStoneOreDims(), this.world.provider.getDimension())) {
 			this.genMinable(BrainStone.brainStoneOre(), BrainStoneConfigWrapper.getBrainStoneOreVeinSize(),
 					BrainStoneConfigWrapper.getBrainStoneOreVeinCount(), 32);
+		}
 	}
 
 	/**
 	 * Generates a vein. The minimum height is 0.
-	 * 
+	 *
 	 * @param block
 	 *            The block of the ore
 	 * @param size
@@ -55,7 +56,7 @@ public class BrainStoneOreWorldGenerator implements IWorldGenerator {
 
 	/**
 	 * Generates a vein.
-	 * 
+	 *
 	 * @param block
 	 *            The block of the ore
 	 * @param size

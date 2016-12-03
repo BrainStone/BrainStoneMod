@@ -15,7 +15,7 @@ import net.minecraft.item.ItemStack;
 @JEIPlugin
 public class BrainstoneJEIPlugin implements IModPlugin {
 	private static IJeiHelpers helpers;
-	
+
 	@Override
 	public void register(@Nonnull IModRegistry registry) {
 		helpers = registry.getJeiHelpers();

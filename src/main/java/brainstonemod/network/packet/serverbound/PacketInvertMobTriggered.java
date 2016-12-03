@@ -47,7 +47,7 @@ public class PacketInvertMobTriggered implements IMessage {
 	public static class Handler extends AbstractServerMessageHandler<PacketInvertMobTriggered> {
 		@Override
 		public IMessage handleServerMessage(EntityPlayer player, PacketInvertMobTriggered message, MessageContext ctx) {
-			TileEntity te = player.world.getTileEntity(new BlockPos(message.x, message.y, message.z));
+			TileEntity te = player.worldObj.getTileEntity(new BlockPos(message.x, message.y, message.z));
 			if (te instanceof TileEntityBrainStoneTrigger) {
 				((TileEntityBrainStoneTrigger) te).invertMobTriggered(message.mob);
 				return new PacketSyncInvertMobTriggered(te, message.mob);

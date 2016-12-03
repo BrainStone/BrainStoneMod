@@ -15,7 +15,6 @@ public class ItemSwordBrainStone extends ItemSword {
 
 	@Override
 	public boolean getIsRepairable(ItemStack tool, ItemStack material) {
-		return Block.getBlockFromItem(material.getItem()) == BrainStone
-				.brainStone();
+		return Block.getBlockFromItem(material.getItem()) == BrainStone.brainStone();
 	}
 }

@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 /**
  * Use this annotation to mark all fields which need to be overridden on the
  * client.
- * 
+ *
  * @author BrainStone
  */
 @Target(ElementType.FIELD)

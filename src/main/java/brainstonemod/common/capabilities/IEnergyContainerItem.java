@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
  * https://github.com/SleepyTrousers/EnderIO/blob/1.10/src/main/java/crazypants/
  * enderio/power/IInternalPoweredItem.java</a>. All credit to the original
  * author
- * 
+ *
  * @author BrainStone
  */
 public interface IEnergyContainerItem {

@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 
 /**
  * Use this annotation to mark all fields which will cause JEI to reload.
- * 
+ *
  * @author BrainStone
  */
 @Target(ElementType.FIELD)

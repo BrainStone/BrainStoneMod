@@ -60,16 +60,14 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 
 			if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
 				failedTileEntities.add(this);
-			} else {
+			} else
 				throw e;
-			}
 		}
 	}
 
 	private void fillMobTriggered() {
 		final int length = BrainStone.getSidedTriggerEntities().size();
-		final String[] keys = BrainStone.getSidedTriggerEntities().keySet()
-				.toArray(new String[length]);
+		final String[] keys = BrainStone.getSidedTriggerEntities().keySet().toArray(new String[length]);
 
 		for (int i = 0; i < length; i++) {
 			mobTriggered.put(keys[i], 15);
@@ -91,16 +89,15 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 	public byte getMobPower(String mob) {
 		byte tmp;
 
-		if (mobTriggered.containsKey(mob)
-				&& ((tmp = (byte) ((int) mobTriggered.get(mob))) > 0))
+		if (mobTriggered.containsKey(mob) && ((tmp = (byte) ((int) mobTriggered.get(mob))) > 0))
 			return tmp;
 		else
 			return 0;
 	}
 
 	public boolean getMobTriggered(String s) {
-        return mobTriggered.containsKey(s) && mobTriggered.get(s) > 0;
-    }
+		return mobTriggered.containsKey(s) && (mobTriggered.get(s) > 0);
+	}
 
 	@Override
 	public boolean hasCustomName() {
@@ -113,24 +110,27 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 		}
 	}
 
-	public void disableAllMobs(){
-		mobTriggered.keySet().stream().filter(mob -> mobTriggered.get(mob) > 0).forEach(mob -> mobTriggered.put(mob, -1 * mobTriggered.get(mob)));
+	public void disableAllMobs() {
+		mobTriggered.keySet().stream().filter(mob -> mobTriggered.get(mob) > 0)
+				.forEach(mob -> mobTriggered.put(mob, -1 * mobTriggered.get(mob)));
 	}
 
-	public void enableAllMobs(){
-		mobTriggered.keySet().stream().filter(mob -> mobTriggered.get(mob) < 0).forEach(mob -> mobTriggered.put(mob, -1 * mobTriggered.get(mob)));
+	public void enableAllMobs() {
+		mobTriggered.keySet().stream().filter(mob -> mobTriggered.get(mob) < 0)
+				.forEach(mob -> mobTriggered.put(mob, -1 * mobTriggered.get(mob)));
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
-        if (!(itemstack.getItem() instanceof ItemBlock))
-            return false;
+		if (!(itemstack.getItem() instanceof ItemBlock))
+			return false;
 
-        Block block = Block.getBlockFromItem(itemstack.getItem());
-        return block != null && !(block == BrainStone.brainStoneTrigger() || block == Blocks.LEAVES) && block.isOpaqueCube(block.getDefaultState());
+		Block block = Block.getBlockFromItem(itemstack.getItem());
+		return (block != null) && !((block == BrainStone.brainStoneTrigger()) || (block == Blocks.LEAVES))
+				&& block.isOpaqueCube(block.getDefaultState());
 
-    }
+	}
 
 	@Override
 	public int getField(int id) {
@@ -159,9 +159,9 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 		NBTTagList list = (NBTTagList) compound.getTag("Items");
 		if (list != null) {
 			for (int i = 0; i < list.tagCount(); i++) {
-				NBTTagCompound item = list.getCompoundTagAt(i);//list.get(i)
+				NBTTagCompound item = list.getCompoundTagAt(i);// list.get(i)
 				int slot = item.getByte("Slot");
-				if (slot >= 0 && slot < getSizeInventory()) {
+				if ((slot >= 0) && (slot < getSizeInventory())) {
 					setInventorySlotContents(slot, ItemStack.loadItemStackFromNBT(item));
 				}
 			}
@@ -176,20 +176,15 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 			trigger = "Trigger" + String.valueOf(i);
 
 			try {
-				mobTriggered.put(compound.getString(trigger + "Key"),
-						compound.getInteger(trigger));
+				mobTriggered.put(compound.getString(trigger + "Key"), compound.getInteger(trigger));
 			} catch (final Exception e) {
 				try {
-					mobTriggered.put(compound.getString(trigger + "Key"),
-							compound.getBoolean(trigger) ? 15 : 1);
+					mobTriggered.put(compound.getString(trigger + "Key"), compound.getBoolean(trigger) ? 15 : 1);
 				} catch (final Exception e1) {
 					try {
-						mobTriggered.put(
-								compound.getString(trigger + "Key"),
-								(int) (compound.getByte(trigger)));
+						mobTriggered.put(compound.getString(trigger + "Key"), (int) (compound.getByte(trigger)));
 					} catch (final Exception e2) {
-						mobTriggered.put(
-								compound.getString(trigger + "Key"), 15);
+						mobTriggered.put(compound.getString(trigger + "Key"), 15);
 					}
 				}
 			}
@@ -226,8 +221,7 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 
 		final int length = BrainStone.getSidedTriggerEntities().size();
 		compound.setInteger("TriggerSize", length);
-		final String[] keys = BrainStone.getSidedTriggerEntities().keySet()
-				.toArray(new String[length]);
+		final String[] keys = BrainStone.getSidedTriggerEntities().keySet().toArray(new String[length]);
 		String trigger, key;
 
 		for (int i = 0; i < length; i++) {
@@ -235,8 +229,9 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 			trigger = "Trigger" + String.valueOf(i);
 
 			compound.setString(trigger + "Key", key);
-			if(mobTriggered.get(key) != null)
+			if (mobTriggered.get(key) != null) {
 				compound.setInteger(trigger, mobTriggered.get(key));
+			}
 		}
 
 		compound.setByte("BrainStoneDelay", delay);
@@ -283,7 +278,7 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 	}
 
 	@Override
-	public NBTTagCompound getUpdateTag(){
+	public NBTTagCompound getUpdateTag() {
 		return writeToNBT(new NBTTagCompound());
 	}
 
@@ -311,16 +306,12 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 		for (final ItemStack itemstack : inventory) {
 			if (itemstack != null) {
 				final float f = 0.7F;
-				final double dx = (world.rand.nextFloat() * f)
-						+ ((1.0F - f) * 0.5D);
-				final double dy = (world.rand.nextFloat() * f)
-						+ ((1.0F - f) * 0.5D);
-				final double dz = (world.rand.nextFloat() * f)
-						+ ((1.0F - f) * 0.5D);
-				final EntityItem entityitem = new EntityItem(world, x + dx, y
-						+ dy, z + dz, itemstack);
+				final double dx = (world.rand.nextFloat() * f) + ((1.0F - f) * 0.5D);
+				final double dy = (world.rand.nextFloat() * f) + ((1.0F - f) * 0.5D);
+				final double dz = (world.rand.nextFloat() * f) + ((1.0F - f) * 0.5D);
+				final EntityItem entityitem = new EntityItem(world, x + dx, y + dy, z + dz, itemstack);
 				entityitem.setPickupDelay(10);
-				world.spawnEntity(entityitem);
+				world.spawnEntityInWorld(entityitem);
 			}
 		}
 	}
@@ -343,8 +334,8 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 	}
 
 	@Override
-	public boolean isUsableByPlayer(EntityPlayer player) {
-		return player.getDistanceSq(this.pos.getX() + 0.5D, this.pos.getY() + 0.5D, this.pos.getZ() + 0.5D) <= 64;
+	public boolean isUseableByPlayer(EntityPlayer player) {
+		return player.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64;
 	}
 
 	@Override

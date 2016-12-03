@@ -26,7 +26,7 @@ public class BrainStoneClientConfigWrapper {
 
 	/**
 	 * Set the override values.
-	 * 
+	 *
 	 * @param values
 	 *            The values from the server
 	 * @throws RuntimeException
@@ -46,14 +46,16 @@ public class BrainStoneClientConfigWrapper {
 
 			field.set(null, value.getValue());
 
-			if (field.isAnnotationPresent(JEIReload.class) && !value.getValue().equals(valueCache))
+			if (field.isAnnotationPresent(JEIReload.class) && !value.getValue().equals(valueCache)) {
 				reloadJEI = true;
+			}
 		}
 
 		ItemBrainStoneLifeCapacitor.updateRFperHalfHeart();
 
-		if (initialized && enableJEIReloading && BrainStoneModules.JEI() && reloadJEI)
+		if (initialized && enableJEIReloading && BrainStoneModules.JEI() && reloadJEI) {
 			BrainstoneJEIPlugin.reloadJEI();
+		}
 
 		initialized = true;
 	}

@@ -33,7 +33,7 @@ public class OverlordCompat implements IModIntegration, IOverlordCompat {
 
 	@Override
 	public boolean exemptEntity(Entity entity) {
-		return (entity instanceof EntityArmyMember && ((EntityArmyMember) entity).getAugment() != null
+		return ((entity instanceof EntityArmyMember) && (((EntityArmyMember) entity).getAugment() != null)
 				&& ((EntityArmyMember) entity).getAugment().augmentId().equals("pulsatingbrainstone"));
 	}
 }

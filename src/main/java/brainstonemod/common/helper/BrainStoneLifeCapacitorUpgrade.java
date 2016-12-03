@@ -58,10 +58,11 @@ public class BrainStoneLifeCapacitorUpgrade implements IRecipe {
 
 		ItemStack res = capacitor.copy();
 
-		if (upgrade == Upgrade.CAPACITY)
+		if (upgrade == Upgrade.CAPACITY) {
 			res = BrainStone.brainStoneLifeCapacitor().upgradeCapacity(res);
-		else if (upgrade == Upgrade.CHARGING)
+		} else if (upgrade == Upgrade.CHARGING) {
 			res = BrainStone.brainStoneLifeCapacitor().upgradeCharging(res);
+		}
 
 		return res;
 	}
@@ -80,8 +81,9 @@ public class BrainStoneLifeCapacitorUpgrade implements IRecipe {
 		for (int i = 0; i < items.getSizeInventory(); i++) {
 			slot = items.getStackInSlot(i);
 
-			if (slot == null)
+			if (slot == null) {
 				continue;
+			}
 
 			item = slot.getItem();
 
@@ -95,9 +97,8 @@ public class BrainStoneLifeCapacitorUpgrade implements IRecipe {
 					return false;
 
 				foundUpgrade = true;
-			} else {
+			} else
 				return false;
-			}
 		}
 
 		return foundCapacitor && foundUpgrade;
@@ -116,9 +117,8 @@ public class BrainStoneLifeCapacitorUpgrade implements IRecipe {
 		higherCharging = BrainStone.brainStoneLifeCapacitor().upgradeCharging(higherCharging);
 		if (upgrade == Upgrade.CAPACITY)
 			return higherCapacity;
-		else {
+		else
 			return higherCharging;
-		}
 	}
 
 	@Override

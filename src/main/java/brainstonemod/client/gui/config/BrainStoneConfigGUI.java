@@ -24,8 +24,8 @@ public class BrainStoneConfigGUI extends GuiConfig {
 				"gui.brainstone.config.cat.modules"));
 		list.add(categoryElement(BrainStoneConfigWrapper.getMiscCategory(), "Miscellaneous",
 				"gui.brainstone.config.cat.miscellaneous"));
-		list.add(categoryElement(BrainStoneConfigWrapper.getBrainStoneLifeCapacitorCategory(), "BrainStoneLifeCapacitor",
-				"gui.brainstone.config.cat.brainstonelifecapacitor"));
+		list.add(categoryElement(BrainStoneConfigWrapper.getBrainStoneLifeCapacitorCategory(),
+				"BrainStoneLifeCapacitor", "gui.brainstone.config.cat.brainstonelifecapacitor"));
 		list.add(categoryElement(BrainStoneConfigWrapper.getWorldgenCategory(), "Worldgen",
 				"gui.brainstone.config.cat.worldgen"));
 

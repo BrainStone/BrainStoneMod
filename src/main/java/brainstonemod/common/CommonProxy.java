@@ -14,7 +14,7 @@ public class CommonProxy {
 	/**
 	 * Returns the Client Minecraft Instance.<br>
 	 * <b><u>!!! Will do nothing !!! This is the server proxy !!!</u></b>
-	 * 
+	 *
 	 * @return the Client Minecraft Instance<br>
 	 *         <b><u>!!! Returns null !!! This is the server proxy !!!</u></b>
 	 */
@@ -25,7 +25,7 @@ public class CommonProxy {
 	/**
 	 * Returns the Client Player Instance.<br>
 	 * <b><u>!!! Will do nothing !!! This is the server proxy !!!</u></b>
-	 * 
+	 *
 	 * @return the Client player Instance<br>
 	 *         <b><u>!!! Returns null !!! This is the server proxy !!!</u></b>
 	 */
@@ -46,15 +46,15 @@ public class CommonProxy {
 		return ctx.getServerHandler().playerEntity;
 	}
 
-	public String format(String key, Object... args){
+	public String format(String key, Object... args) {
 		return key;
 	}
 
-	public void rmm(Item i){
+	public void rmm(Item i) {
 		// Do nothing
 	}
 
-	public void rmm(Block b){
+	public void rmm(Block b) {
 		// Do nothing
 	}
 }

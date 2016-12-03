@@ -361,7 +361,7 @@ public class BrainStone {
 		String[] lines = message.split("\n");
 
 		for (String line : lines) {
-			player.sendMessage(new TextComponentString(line));
+			player.addChatMessage(new TextComponentString(line));
 		}
 	}
 

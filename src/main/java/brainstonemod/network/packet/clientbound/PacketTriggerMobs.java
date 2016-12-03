@@ -32,18 +32,18 @@ public class PacketTriggerMobs implements IMessage {
 		triggerEntities = new LinkedHashMap<>(size);
 
 		for (i = 0; i < size; i++) {
-				key = ByteBufUtils.readUTF8String(buf);
+			key = ByteBufUtils.readUTF8String(buf);
 
-				entitiesSize = buf.readInt();
-				entities = new Class<?>[entitiesSize];
+			entitiesSize = buf.readInt();
+			entities = new Class<?>[entitiesSize];
 
-				for (j = 0; j < entitiesSize; j++) {
-					try {
-						entities[j] = Class.forName(ByteBufUtils.readUTF8String(buf));
-					} catch (final ClassNotFoundException e) {
-						BSP.warnException(e);
-					}
+			for (j = 0; j < entitiesSize; j++) {
+				try {
+					entities[j] = Class.forName(ByteBufUtils.readUTF8String(buf));
+				} catch (final ClassNotFoundException e) {
+					BSP.warnException(e);
 				}
+			}
 
 			triggerEntities.put(key, entities);
 		}
@@ -56,15 +56,15 @@ public class PacketTriggerMobs implements IMessage {
 		buf.writeInt(triggerEntities.size());
 
 		for (final Entry<String, Class<?>[]> pair : triggerEntities.entrySet()) {
-				entities = pair.getValue();
+			entities = pair.getValue();
 
-				ByteBufUtils.writeUTF8String(buf, pair.getKey());
+			ByteBufUtils.writeUTF8String(buf, pair.getKey());
 
-				buf.writeInt(entities.length);
+			buf.writeInt(entities.length);
 
-				for (final Class<?> entity : entities) {
-					ByteBufUtils.writeUTF8String(buf, entity.getName());
-				}
+			for (final Class<?> entity : entities) {
+				ByteBufUtils.writeUTF8String(buf, entity.getName());
+			}
 		}
 	}
 

@@ -61,8 +61,9 @@ public class BrainStoneHouseWorldGenerator implements IWorldGenerator {
 		this.world = world;
 
 		if (ArrayUtils.contains(BrainStoneConfigWrapper.getBrainStoneHouseDims(), this.world.provider.getDimension()))
-			if (this.random.nextInt(BrainStoneConfigWrapper.getBrainStoneHouseRarity()) == 0)
+			if (this.random.nextInt(BrainStoneConfigWrapper.getBrainStoneHouseRarity()) == 0) {
 				generate();
+			}
 	}
 
 	private boolean canPlaceSecretRoomHere() {
@@ -181,8 +182,9 @@ public class BrainStoneHouseWorldGenerator implements IWorldGenerator {
 
 		while (true) {
 			// TODO: New check for placability!
-			if (Math.sqrt(4) == 2)
+			if (Math.sqrt(4) == 2) {
 				break;
+			}
 
 			if (directionCounter >= maxDirection) {
 				directionCounter = 0;
@@ -214,16 +216,16 @@ public class BrainStoneHouseWorldGenerator implements IWorldGenerator {
 
 			switch (direction) {
 			case 0:
-				this.x++;
+				x++;
 				break;
 			case 1:
-				this.z++;
+				z++;
 				break;
 			case 2:
-				this.x--;
+				x--;
 				break;
 			case 3:
-				this.z--;
+				z--;
 				break;
 			default:
 				// Shouldn't be here

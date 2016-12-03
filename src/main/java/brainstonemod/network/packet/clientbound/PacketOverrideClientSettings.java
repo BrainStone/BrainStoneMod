@@ -50,9 +50,8 @@ public class PacketOverrideClientSettings implements IMessage {
 				values.put(name, tag.getByteArray(name));
 			} else if ("INT[]".equals(type)) {
 				values.put(name, tag.getIntArray(name));
-			} else {
+			} else
 				throw new IllegalArgumentException("Unsupported type: \"" + type + "\" while trying to parse NBT");
-			}
 		}
 	}
 
@@ -84,10 +83,9 @@ public class PacketOverrideClientSettings implements IMessage {
 				tag.setByteArray(name, (byte[]) obj);
 			} else if (obj instanceof int[]) {
 				tag.setIntArray(name, (int[]) obj);
-			} else {
+			} else
 				throw new IllegalArgumentException(
 						"Unsupported type: \"" + obj.getClass().getName() + "\" while trying to add value to NBT");
-			}
 		}
 
 		ByteBufUtils.writeTag(buf, tag);

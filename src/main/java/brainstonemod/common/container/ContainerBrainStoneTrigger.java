@@ -12,7 +12,8 @@ public class ContainerBrainStoneTrigger extends Container {
 	/** Temporary storage of the TileEntity */
 	private final TileEntityBrainStoneTrigger trigger;
 
-	public ContainerBrainStoneTrigger(InventoryPlayer inventoryplayer, TileEntityBrainStoneTrigger tileentityblockbrainstonetrigger) {
+	public ContainerBrainStoneTrigger(InventoryPlayer inventoryplayer,
+			TileEntityBrainStoneTrigger tileentityblockbrainstonetrigger) {
 		trigger = tileentityblockbrainstonetrigger;
 		int i;
 		addSlotToContainer(new SlotBlockBrainStoneTrigger(trigger, 0, 152, 33));
@@ -30,23 +31,21 @@ public class ContainerBrainStoneTrigger extends Container {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer entityplayer) {
-		return trigger.isUsableByPlayer(entityplayer);
+		return trigger.isUseableByPlayer(entityplayer);
 	}
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int i) {
 		Slot slot = getSlot(i);
-		if (slot != null && slot.getHasStack()) {
+		if ((slot != null) && slot.getHasStack()) {
 			ItemStack is = slot.getStack();
 			ItemStack result = is.copy();
 
 			if (i >= 36) {
-				if (!mergeItemStack(is, 0, 36, false)) {
+				if (!mergeItemStack(is, 0, 36, false))
 					return null;
-				}
-			} else if (!mergeItemStack(is, 36, 36 + trigger.getSizeInventory(), false)) {
+			} else if (!mergeItemStack(is, 36, 36 + trigger.getSizeInventory(), false))
 				return null;
-			}
 			if (is.stackSize == 0) {
 				slot.putStack(null);
 			} else {

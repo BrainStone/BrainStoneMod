@@ -56,23 +56,24 @@ public class BrainStoneClientEvents {
 	public void onRendeGameOverlay(RenderGameOverlayEvent.Post event) {
 		if (event.getType() == ElementType.ALL) {
 			Minecraft mc = Minecraft.getMinecraft();
-			
+
 			mc.mcProfiler.startSection("BSLC");
 
-			ItemStack capacitor = BrainStoneEventHandler.getBrainStoneLiveCapacitor(mc.player);
+			ItemStack capacitor = BrainStoneEventHandler.getBrainStoneLiveCapacitor(mc.thePlayer);
 
 			if (capacitor != null) {
 				GlStateManager.enableBlend();
 				BrainStoneRenderHelper.setTexture(brainStoneLifeCapacitorTexture, 16);
 
-				boolean rendersArmor = (ForgeHooks.getTotalArmorValue(mc.player) == 0) && GuiIngameForge.renderArmor;
+				boolean rendersArmor = (ForgeHooks.getTotalArmorValue(mc.thePlayer) == 0) && GuiIngameForge.renderArmor;
 
-				if (rendersArmor)
+				if (rendersArmor) {
 					GuiIngameForge.left_height -= 10;
+				}
 
 				int width = event.getResolution().getScaledWidth();
 				int height = event.getResolution().getScaledHeight();
-				int left = width / 2 - 91;
+				int left = (width / 2) - 91;
 				int top = height - GuiIngameForge.left_height;
 				ItemBrainStoneLifeCapacitor itemCapacitor = BrainStone.brainStoneLifeCapacitor();
 
@@ -82,16 +83,20 @@ public class BrainStoneClientEvents {
 
 				BrainStoneRenderHelper.drawTexturedRect(left + 16, top - 4, 9, 9, 16, 0, 9, 9, 10);
 				BrainStoneRenderHelper.drawTexturedRect(left + 16, top - 4, 9, 9, 52, 0, 9, 9, 10);
-				
-				float hearts = (float)itemCapacitor.getEnergyStored(capacitor) / (float)(ItemBrainStoneLifeCapacitor.RFperHalfHeart * 2);
-				long maxHearts = itemCapacitor.getMaxEnergyStored(capacitor) / (ItemBrainStoneLifeCapacitor.RFperHalfHeart * 2);
-				
-				BrainStoneRenderHelper.drawString(String.format("%.1f/%d", hearts, maxHearts), left + 26, top - 3, 0xFF0000);
 
-				if (rendersArmor)
+				float hearts = (float) itemCapacitor.getEnergyStored(capacitor)
+						/ (float) (ItemBrainStoneLifeCapacitor.RFperHalfHeart * 2);
+				long maxHearts = itemCapacitor.getMaxEnergyStored(capacitor)
+						/ (ItemBrainStoneLifeCapacitor.RFperHalfHeart * 2);
+
+				BrainStoneRenderHelper.drawString(String.format("%.1f/%d", hearts, maxHearts), left + 26, top - 3,
+						0xFF0000);
+
+				if (rendersArmor) {
 					GuiIngameForge.left_height += 26;
-				else
+				} else {
 					GuiIngameForge.left_height += 16;
+				}
 
 				GlStateManager.disableBlend();
 			}

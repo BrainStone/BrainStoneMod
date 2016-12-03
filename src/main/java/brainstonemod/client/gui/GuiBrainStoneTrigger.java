@@ -284,7 +284,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 	// one disappears
 	private void drawNyanCat() {
 		// Transforming the rendering space
-		this.zLevel = 101F;
+		zLevel = 101F;
 		bindTexture("GuiBrainLogicBlockEasterEgg");
 		setTempSize(0, 0);
 		GL11.glScalef(catScale, catScale, catScale);
@@ -336,7 +336,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		}
 
 		// Reset the render space
-		this.zLevel = 0F;
+		zLevel = 0F;
 	}
 
 	private void setMobs() {

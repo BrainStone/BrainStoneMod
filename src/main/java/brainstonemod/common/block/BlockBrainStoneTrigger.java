@@ -76,7 +76,8 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 	public int getStrongPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
 		final TileEntityBrainStoneTrigger tileentityblockbrainstonetrigger = (TileEntityBrainStoneTrigger) blockAccess
 				.getTileEntity(pos);
-		return ((tileentityblockbrainstonetrigger != null) && (tileentityblockbrainstonetrigger.getDelay() > 0)) ? tileentityblockbrainstonetrigger.getOutputBuffered()
+		return ((tileentityblockbrainstonetrigger != null) && (tileentityblockbrainstonetrigger.getDelay() > 0))
+				? tileentityblockbrainstonetrigger.getOutputBuffered()
 				: 0;
 	}
 
@@ -91,7 +92,8 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand,
+			@Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (world.isRemote)
 			return true;
 
@@ -116,9 +118,10 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 		world.notifyNeighborsOfStateChange(pos.add(0, 0, -1), this);
 		world.notifyNeighborsOfStateChange(pos.add(0, 0, 1), this);
 
-		world.scheduleBlockUpdate(pos, this,
-				tickRate(world)
-						- ((int) world.getTotalWorldTime() % tickRate(world)), 0);//TODO: Check that priority
+		world.scheduleBlockUpdate(pos, this, tickRate(world) - ((int) world.getTotalWorldTime() % tickRate(world)), 0);// TODO:
+																														// Check
+																														// that
+																														// priority
 	}
 
 	@Override
@@ -128,7 +131,7 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 
 	/**
 	 * Checks if there are mobs to trigger on top of this block.
-	 * 
+	 *
 	 * @param world
 	 *            The world. Needed to access the blocks
 	 * @param i
@@ -160,8 +163,7 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 			}
 
 			final int length = BrainStone.getSidedTriggerEntities().size();
-			final String[] keys = BrainStone.getSidedTriggerEntities().keySet()
-					.toArray(new String[length]);
+			final String[] keys = BrainStone.getSidedTriggerEntities().keySet().toArray(new String[length]);
 			String key;
 			Class<?>[] classes;
 
@@ -173,8 +175,7 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 
 					for (final Class<?> classe : classes) {
 						if (classe.isAssignableFrom(entity)) {
-							count += tileentityblockbrainstonetrigger
-									.getMobPower(key);
+							count += tileentityblockbrainstonetrigger.getMobPower(key);
 
 							break;
 						}
@@ -192,7 +193,10 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 				.getTileEntity(pos);
 
 		if (tileEntityBlockBrainStoneTrigger == null) {
-			world.scheduleBlockUpdate(pos, this, tickRate(world), 0);//TODO: Check that priority
+			world.scheduleBlockUpdate(pos, this, tickRate(world), 0);// TODO:
+																		// Check
+																		// that
+																		// priority
 			return;
 		}
 
@@ -201,13 +205,14 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 			tileEntityBlockBrainStoneTrigger.setOutputBuffered(tileEntityBlockBrainStoneTrigger.getOutput());
 		}
 
-		tileEntityBlockBrainStoneTrigger.setDelay((byte) ((tileEntityBlockBrainStoneTrigger.getOutput() > 0) ? tileEntityBlockBrainStoneTrigger.getMaxDelay()
+		tileEntityBlockBrainStoneTrigger.setDelay((byte) ((tileEntityBlockBrainStoneTrigger.getOutput() > 0)
+				? tileEntityBlockBrainStoneTrigger.getMaxDelay()
 				: tileEntityBlockBrainStoneTrigger.getDelay() <= 0 ? 0
-				: tileEntityBlockBrainStoneTrigger.getDelay() - 1));
+						: tileEntityBlockBrainStoneTrigger.getDelay() - 1));
 
 		if (tileEntityBlockBrainStoneTrigger.checkForSlotChange()) {
-			BrainStonePacketHelper.sendReRenderBlockAtPacket(
-					world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), world);
+			BrainStonePacketHelper.sendReRenderBlockAtPacket(world.provider.getDimension(), pos.getX(), pos.getY(),
+					pos.getZ(), world);
 		}
 
 		world.notifyNeighborsOfStateChange(pos, this);
@@ -218,18 +223,19 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 		world.notifyNeighborsOfStateChange(pos.add(0, 0, -1), this);
 		world.notifyNeighborsOfStateChange(pos.add(0, 0, 1), this);
 
-		world.scheduleBlockUpdate(pos, this, tickRate(world), 0);//TODO: Check that priority
+		world.scheduleBlockUpdate(pos, this, tickRate(world), 0);// TODO: Check
+																	// that
+																	// priority
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public BlockRenderLayer getBlockLayer()
-	{
+	public BlockRenderLayer getBlockLayer() {
 		return BlockRenderLayer.SOLID;
 	}
 
 	@Override
-	public boolean isOpaqueCube(IBlockState state){
+	public boolean isOpaqueCube(IBlockState state) {
 		return true;
 	}
 
@@ -247,20 +253,28 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 	@Override
 	protected BlockStateContainer createBlockState() {
 		IProperty[] listedProperties = new IProperty[0]; // no listed properties
-		IUnlistedProperty[] unlistedProperties = new IUnlistedProperty[] {COPIEDBLOCK};
+		IUnlistedProperty[] unlistedProperties = new IUnlistedProperty[] { COPIEDBLOCK };
 		return new ExtendedBlockState(this, listedProperties, unlistedProperties);
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
 	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
-		if (state instanceof IExtendedBlockState) {  // avoid crash in case of mismatch
-			IExtendedBlockState retval = (IExtendedBlockState)state;
-			if(world.getTileEntity(pos) instanceof TileEntityBrainStoneTrigger && ((TileEntityBrainStoneTrigger) world.getTileEntity(pos)).getStackInSlot(0) != null && ((TileEntityBrainStoneTrigger) world.getTileEntity(pos)).getStackInSlot(0).getItem() instanceof ItemBlock) {
-				IBlockState copiedBlock = Block.getBlockFromItem(((TileEntityBrainStoneTrigger) world.getTileEntity(pos)).getStackInSlot(0).getItem()).getStateFromMeta(((TileEntityBrainStoneTrigger) world.getTileEntity(pos)).getStackInSlot(0).getMetadata());
+		if (state instanceof IExtendedBlockState) { // avoid crash in case of
+													// mismatch
+			IExtendedBlockState retval = (IExtendedBlockState) state;
+			if ((world.getTileEntity(pos) instanceof TileEntityBrainStoneTrigger)
+					&& (((TileEntityBrainStoneTrigger) world.getTileEntity(pos)).getStackInSlot(0) != null)
+					&& (((TileEntityBrainStoneTrigger) world.getTileEntity(pos)).getStackInSlot(0)
+							.getItem() instanceof ItemBlock)) {
+				IBlockState copiedBlock = Block
+						.getBlockFromItem(
+								((TileEntityBrainStoneTrigger) world.getTileEntity(pos)).getStackInSlot(0).getItem())
+						.getStateFromMeta(((TileEntityBrainStoneTrigger) world.getTileEntity(pos)).getStackInSlot(0)
+								.getMetadata());
 				retval = retval.withProperty(COPIEDBLOCK, copiedBlock);
 				return retval;
-			}else{
+			} else {
 				retval = retval.withProperty(COPIEDBLOCK, state);
 				return retval;
 			}

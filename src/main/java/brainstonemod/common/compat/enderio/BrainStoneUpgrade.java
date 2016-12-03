@@ -37,10 +37,10 @@ public class BrainStoneUpgrade extends AbstractUpgrade {
 	@Override
 	@Optional.Method(modid = BrainStoneModules.ENDER_IO_MODID)
 	public boolean canAddToItem(ItemStack stack) {
-		return !(stack == null || (stack.getItem() != DarkSteelItems.itemDarkSteelBoots
-				&& stack.getItem() != DarkSteelItems.itemDarkSteelLeggings
-				&& stack.getItem() != DarkSteelItems.itemDarkSteelChestplate
-				&& stack.getItem() != DarkSteelItems.itemDarkSteelHelmet)) && !hasUpgrade(stack);
+		return !((stack == null) || ((stack.getItem() != DarkSteelItems.itemDarkSteelBoots)
+				&& (stack.getItem() != DarkSteelItems.itemDarkSteelLeggings)
+				&& (stack.getItem() != DarkSteelItems.itemDarkSteelChestplate)
+				&& (stack.getItem() != DarkSteelItems.itemDarkSteelHelmet))) && !hasUpgrade(stack);
 
 	}
 

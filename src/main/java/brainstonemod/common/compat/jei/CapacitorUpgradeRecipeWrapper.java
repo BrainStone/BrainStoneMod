@@ -19,58 +19,58 @@ import net.minecraftforge.fluids.FluidStack;
  */
 public class CapacitorUpgradeRecipeWrapper implements ICraftingRecipeWrapper {
 
-    private BrainStoneLifeCapacitorUpgrade recipe;
+	private BrainStoneLifeCapacitorUpgrade recipe;
 
-    public CapacitorUpgradeRecipeWrapper(BrainStoneLifeCapacitorUpgrade recipe){
-        this.recipe=recipe;
-    }
+	public CapacitorUpgradeRecipeWrapper(BrainStoneLifeCapacitorUpgrade recipe) {
+		this.recipe = recipe;
+	}
 
-    @Nonnull
-    @Override
-    public List<ItemStack> getInputs() {
-        return Arrays.asList(recipe.getStacks());
-    }
+	@Nonnull
+	@Override
+	public List<ItemStack> getInputs() {
+		return Arrays.asList(recipe.getStacks());
+	}
 
-    @Nonnull
-    @Override
-    public List<ItemStack> getOutputs() {
-        return Collections.singletonList(recipe.getRecipeOutput());
-    }
+	@Nonnull
+	@Override
+	public List<ItemStack> getOutputs() {
+		return Collections.singletonList(recipe.getRecipeOutput());
+	}
 
-    @Override
-    public List<FluidStack> getFluidInputs() {
-        return null;
-    }
+	@Override
+	public List<FluidStack> getFluidInputs() {
+		return null;
+	}
 
-    @Override
-    public List<FluidStack> getFluidOutputs() {
-        return null;
-    }
+	@Override
+	public List<FluidStack> getFluidOutputs() {
+		return null;
+	}
 
-    @Override
-    public void drawInfo(@Nonnull Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
-    	// Do nothing
-    }
+	@Override
+	public void drawInfo(@Nonnull Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
+		// Do nothing
+	}
 
-    @Override
-    public void drawAnimations(@Nonnull Minecraft minecraft, int recipeWidth, int recipeHeight) {
-    	// Do nothing
-    }
+	@Override
+	public void drawAnimations(@Nonnull Minecraft minecraft, int recipeWidth, int recipeHeight) {
+		// Do nothing
+	}
 
-    @Nullable
-    @Override
-    public List<String> getTooltipStrings(int mouseX, int mouseY) {
-        return null;
-    }
+	@Nullable
+	@Override
+	public List<String> getTooltipStrings(int mouseX, int mouseY) {
+		return null;
+	}
 
-    @Override
-    public boolean handleClick(@Nonnull Minecraft minecraft, int mouseX, int mouseY, int mouseButton) {
-        return false;
-    }
+	@Override
+	public boolean handleClick(@Nonnull Minecraft minecraft, int mouseX, int mouseY, int mouseButton) {
+		return false;
+	}
 
 	@Override
 	public void getIngredients(IIngredients ingredients) {
 		ingredients.setInputs(ItemStack.class, Arrays.asList(recipe.getStacks()));
-        ingredients.setOutput(ItemStack.class, recipe.getRecipeOutput());
+		ingredients.setOutput(ItemStack.class, recipe.getRecipeOutput());
 	}
 }

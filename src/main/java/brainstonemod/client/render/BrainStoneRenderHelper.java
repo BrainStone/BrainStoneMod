@@ -14,7 +14,7 @@ import net.minecraft.util.ResourceLocation;
 
 /**
  * Some of this code is taken from or inspired by DraconicEvolution!
- * 
+ *
  * @author BrainStone
  */
 @UtilityClass
@@ -37,7 +37,7 @@ public class BrainStoneRenderHelper {
 	public static void drawCenteredString(String text, float x, float y, int color) {
 		FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
 
-		fontRenderer.drawStringWithShadow(text, (float) (x - fontRenderer.getStringWidth(text) / 2), y, color);
+		fontRenderer.drawStringWithShadow(text, x - (fontRenderer.getStringWidth(text) / 2), y, color);
 	}
 
 	public static void drawString(String text, float x, float y, int color) {
@@ -47,8 +47,9 @@ public class BrainStoneRenderHelper {
 	}
 
 	public static void setTexture(String textureName, int size) {
-		if (!resourceCache.containsKey(textureName))
+		if (!resourceCache.containsKey(textureName)) {
 			resourceCache.put(textureName, new ResourceLocation(BrainStone.RESOURCE_PACKAGE, textureName));
+		}
 
 		setTexture(resourceCache.get(textureName), size);
 	}

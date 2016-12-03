@@ -8,8 +8,11 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
  * @author The_Fireplace
  */
 public interface IModIntegration {
-    void preInit(FMLPreInitializationEvent event);
-    void init(FMLInitializationEvent event);
-    void postInit(FMLPostInitializationEvent event);
-    void addAchievement();
+	void preInit(FMLPreInitializationEvent event);
+
+	void init(FMLInitializationEvent event);
+
+	void postInit(FMLPostInitializationEvent event);
+
+	void addAchievement();
 }

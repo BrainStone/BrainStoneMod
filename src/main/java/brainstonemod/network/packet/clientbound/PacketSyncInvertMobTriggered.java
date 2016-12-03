@@ -21,18 +21,18 @@ public class PacketSyncInvertMobTriggered implements IMessage {
 	}
 
 	public PacketSyncInvertMobTriggered(TileEntity tileentity, String mob) {
-		x=tileentity.getPos().getX();
-		y=(short)tileentity.getPos().getY();
-		z=tileentity.getPos().getZ();
-		this.mob=mob;
+		x = tileentity.getPos().getX();
+		y = (short) tileentity.getPos().getY();
+		z = tileentity.getPos().getZ();
+		this.mob = mob;
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		x=buf.readInt();
-		y=buf.readShort();
-		z=buf.readInt();
-		mob=ByteBufUtils.readUTF8String(buf);
+		x = buf.readInt();
+		y = buf.readShort();
+		z = buf.readInt();
+		mob = ByteBufUtils.readUTF8String(buf);
 	}
 
 	@Override
@@ -45,12 +45,14 @@ public class PacketSyncInvertMobTriggered implements IMessage {
 
 	public static class Handler extends AbstractClientMessageHandler<PacketSyncInvertMobTriggered> {
 		@Override
-		public IMessage handleClientMessage(EntityPlayer player, PacketSyncInvertMobTriggered message, MessageContext ctx) {
-			TileEntity te = player.world.getTileEntity(new BlockPos(message.x, message.y, message.z));
-			if(te instanceof TileEntityBrainStoneTrigger){
+		public IMessage handleClientMessage(EntityPlayer player, PacketSyncInvertMobTriggered message,
+				MessageContext ctx) {
+			TileEntity te = player.worldObj.getTileEntity(new BlockPos(message.x, message.y, message.z));
+			if (te instanceof TileEntityBrainStoneTrigger) {
 				((TileEntityBrainStoneTrigger) te).invertMobTriggered(message.mob);
-			}else{
-				BSP.error("Tile Entity at "+message.x+", "+message.y+", "+message.z+" was "+te+" and not TileEntityBrainStoneTrigger.");
+			} else {
+				BSP.error("Tile Entity at " + message.x + ", " + message.y + ", " + message.z + " was " + te
+						+ " and not TileEntityBrainStoneTrigger.");
 			}
 			return null;
 		}

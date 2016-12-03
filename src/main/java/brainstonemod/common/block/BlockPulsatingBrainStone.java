@@ -53,7 +53,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 			hasNoEffectBlock = this;
 		}
 
-		blockParticleGravity = (float) MathHelper.nextDouble(new Random(), -3.0, 3.0);
+		blockParticleGravity = (float) MathHelper.getRandomDoubleInRange(new Random(), -3.0, 3.0);
 	}
 
 	@Override
@@ -75,7 +75,8 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 	}
 
 	@Override
-	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
+	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos,
+			EntityPlayer player) {
 		return new ItemStack(BrainStone.pulsatingBrainStone());
 	}
 
@@ -92,7 +93,10 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 	@Override
 	public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
 		super.onBlockAdded(worldIn, pos, state);
-		worldIn.scheduleBlockUpdate(pos, this, (int) worldIn.getTotalWorldTime() % tickRate(worldIn), 0);//TODO: Check that priority
+		worldIn.scheduleBlockUpdate(pos, this, (int) worldIn.getTotalWorldTime() % tickRate(worldIn), 0);// TODO:
+																											// Check
+																											// that
+																											// priority
 	}
 
 	@Override
@@ -122,7 +126,7 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 			EntityLivingBase entity;
 			Object tmpEntity;
 			final List<?> list = world.getEntitiesWithinAABBExcludingEntity(null,
-					new AxisAlignedBB(pos.add(-10,-10,-10), pos.add(11,11,11)));
+					new AxisAlignedBB(pos.add(-10, -10, -10), pos.add(11, 11, 11)));
 
 			for (Object aList : list) {
 				tmpEntity = aList;
@@ -140,15 +144,15 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 						continue;
 					}
 
-					if(BrainStoneModules.overlord()){
+					if (BrainStoneModules.overlord()) {
 						IOverlordCompat compat = new OverlordCompat();
-						if(compat.exemptEntity(entity)) {
+						if (compat.exemptEntity(entity)) {
 							BSP.debug("Army Member has Pulsating BrainStone Augment! No effect!");
 							continue;
 						}
 					}
 
-					radius = MathHelper.nextDouble(random, 2.0, 10.0);
+					radius = MathHelper.getRandomDoubleInRange(random, 2.0, 10.0);
 
 					if (entity.getDistance(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5) <= radius) {
 						taskRand = random.nextInt(10);
@@ -161,12 +165,13 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 						} else if ((taskRand >= 6) && (taskRand < 10)) {
 							BSP.debug("Kick");
 
-							final double x1 = MathHelper.nextDouble(random, -1.5, 1.5);
-							final double y1 = MathHelper.nextDouble(random, 0.0, 3.0);
-							final double z1 = MathHelper.nextDouble(random, -1.5, 1.5);
+							final double x1 = MathHelper.getRandomDoubleInRange(random, -1.5, 1.5);
+							final double y1 = MathHelper.getRandomDoubleInRange(random, 0.0, 3.0);
+							final double z1 = MathHelper.getRandomDoubleInRange(random, -1.5, 1.5);
 
 							if (tmpEntity instanceof EntityPlayer) {
-								BrainStonePacketHelper.sendPlayerUpdateMovementPacket((EntityPlayer) entity, x1, y1, z1);
+								BrainStonePacketHelper.sendPlayerUpdateMovementPacket((EntityPlayer) entity, x1, y1,
+										z1);
 							} else {
 								entity.addVelocity(x1, y1, z1);
 							}
@@ -177,39 +182,47 @@ public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
 		}
 
 		if (world.getTotalWorldTime() > lastGravityChange) {
-			blockParticleGravity = (float) MathHelper.nextDouble(random, -3.0, 3.0);
+			blockParticleGravity = (float) MathHelper.getRandomDoubleInRange(random, -3.0, 3.0);
 
 			lastGravityChange = world.getTotalWorldTime();
 		}
 
-		world.scheduleBlockUpdate(pos, this, tickRate(world), 0);//TODO: Check that priority
+		world.scheduleBlockUpdate(pos, this, tickRate(world), 0);// TODO: Check
+																	// that
+																	// priority
 	}
 
 	public static boolean isProtected(Iterable<ItemStack> armors) {
-		ItemStack[] armor = new ItemStack[]{};
+		ItemStack[] armor = new ItemStack[] {};
 
-		for(ItemStack armorStack:armors){
+		for (ItemStack armorStack : armors) {
 			armor = ArrayUtils.add(armor, armorStack);
 		}
 
-        int offset = 0;
+		int offset = 0;
 
-        if (armor.length < 4)
-            return false;
-        else if (armor.length == 5)
-            offset = 1;
-        else if (armor.length > 5)
-            return false;
+		if (armor.length < 4)
+			return false;
+		else if (armor.length == 5) {
+			offset = 1;
+		} else if (armor.length > 5)
+			return false;
 
-        boolean allArmorSlotsFilled = (armor[3 + offset] != null) && (armor[2 + offset] != null)
-                && (armor[1 + offset] != null) && (armor[offset] != null);
+		boolean allArmorSlotsFilled = (armor[3 + offset] != null) && (armor[2 + offset] != null)
+				&& (armor[1 + offset] != null) && (armor[offset] != null);
 
-        if (!allArmorSlotsFilled)
-            return false;
+		if (!allArmorSlotsFilled)
+			return false;
 
-        boolean enderIOEnabled = Loader.isModLoaded("EnderIO");
+		boolean enderIOEnabled = Loader.isModLoaded("EnderIO");
 
-        return ((armor[3 + offset].getItem() instanceof ItemArmorBrainStone)
-                || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[3 + offset])))) && ((armor[2 + offset].getItem() instanceof ItemArmorBrainStone) || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[2 + offset])))) && ((armor[1 + offset].getItem() instanceof ItemArmorBrainStone) || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[1 + offset])))) && ((armor[offset].getItem() instanceof ItemArmorBrainStone) || (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[0 + offset]))));
-    }
+		return ((armor[3 + offset].getItem() instanceof ItemArmorBrainStone)
+				|| (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[3 + offset]))))
+				&& ((armor[2 + offset].getItem() instanceof ItemArmorBrainStone)
+						|| (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[2 + offset]))))
+				&& ((armor[1 + offset].getItem() instanceof ItemArmorBrainStone)
+						|| (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[1 + offset]))))
+				&& ((armor[offset].getItem() instanceof ItemArmorBrainStone)
+						|| (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[0 + offset]))));
+	}
 }

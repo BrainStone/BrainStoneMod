@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.Optional;
 
 @Optional.Interface(iface = "betterachievements.api.components.achievement.ICustomBackgroundColour", modid = BrainStoneModules.BETTER_ACHIEVEMENTS_MODID)
 public class BrainStoneAchievement extends Achievement implements ICustomBackgroundColour {
-	private static final float twoThirdPi = (float) (Math.PI * 2.0 / 3.0);
+	private static final float twoThirdPi = (float) ((Math.PI * 2.0) / 3.0);
 
 	private boolean renderRainbow;
 
@@ -50,10 +50,10 @@ public class BrainStoneAchievement extends Achievement implements ICustomBackgro
 	 */
 	public static int getRainbowColour(float freqR, float freqG, float freqB, float phaseR, float phaseG, float phaseB,
 			float center, float width, float length) {
-		double i = (System.currentTimeMillis() * 2 * Math.PI) / (double) length;
-		double r = Math.sin(freqR * i + phaseR) * width + center;
-		double g = Math.sin(freqG * i + phaseG) * width + center;
-		double b = Math.sin(freqB * i + phaseB) * width + center;
+		double i = (System.currentTimeMillis() * 2 * Math.PI) / length;
+		double r = (Math.sin((freqR * i) + phaseR) * width) + center;
+		double g = (Math.sin((freqG * i) + phaseG) * width) + center;
+		double b = (Math.sin((freqB * i) + phaseB) * width) + center;
 
 		return ColourHelper.RGB((int) r, (int) g, (int) b);
 	}

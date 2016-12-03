@@ -75,7 +75,7 @@ public final class BrainStoneJarUtils {
 
 	/**
 	 * Checks whether the jar is signed
-	 * 
+	 *
 	 * @return <code>true</code> if the jar is signed
 	 */
 	private static boolean isJarSigned() {
@@ -83,16 +83,16 @@ public final class BrainStoneJarUtils {
 			return true;
 
 		try {
-            @Cleanup
-            final JarFile jarFile = getRunningJar();
-            if (jarFile == null)
-                return false;
+			@Cleanup
+			final JarFile jarFile = getRunningJar();
+			if (jarFile == null)
+				return false;
 
-            // Ensure the jar file is signed.
-            final Manifest man = jarFile.getManifest();
-            return man != null && !man.getEntries().isEmpty();
+			// Ensure the jar file is signed.
+			final Manifest man = jarFile.getManifest();
+			return (man != null) && !man.getEntries().isEmpty();
 
-        } catch (final Throwable t) {
+		} catch (final Throwable t) {
 			BSP.warnException_noAddon(t);
 
 			return false;
@@ -239,5 +239,5 @@ public final class BrainStoneJarUtils {
 		} catch (IOException | CertificateException e) {
 			BSP.warnException_noAddon(e);
 		}
-    }
+	}
 }

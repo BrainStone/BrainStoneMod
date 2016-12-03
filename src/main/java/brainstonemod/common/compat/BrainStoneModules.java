@@ -39,8 +39,9 @@ public final class BrainStoneModules {
 
 	public static final String DEPENDENCIES = "after:" + BAUBLES_MODID + ";after:" + BETTER_ACHIEVEMENTS_MODID
 			+ ";after:" + DRACONIC_EVOLUTION_MODID + ";after:" + ENDER_IO_MODID + ";after:"
-			+ IMMERSIVE_ENGINEERING_MODID + ";after:" + JEI_MODID + ";after:" + JER_MODID + "@[0.5.6.84,);after:" + MFR_MODID
-			+ ";after:" + OVERLORD_MODID + ";after:" + THAUMCRAFT_MODID + ";after:" + TINKERS_CONSTRUCT_MODID;
+			+ IMMERSIVE_ENGINEERING_MODID + ";after:" + JEI_MODID + ";after:" + JER_MODID + "@[0.5.6.84,);after:"
+			+ MFR_MODID + ";after:" + OVERLORD_MODID + ";after:" + THAUMCRAFT_MODID + ";after:"
+			+ TINKERS_CONSTRUCT_MODID;
 
 	private static Boolean BAUBLES;
 	private static Boolean BETTER_ACHIEVEMENTS;
@@ -169,7 +170,7 @@ public final class BrainStoneModules {
 					} catch (Exception e) {
 						throw new RuntimeException(e);
 					}
-				} , field -> {
+				}, field -> {
 					try {
 						return BrainStoneModules.class.getDeclaredField(field.getName().replace("_MODID", ""));
 					} catch (Exception e) {
@@ -201,8 +202,9 @@ public final class BrainStoneModules {
 				if (module.isActive()) {
 					BSP.info("\t" + module.getName() + " detected! " + module.getMessage());
 
-					if (module.getIntegrationClass() != IModIntegration.class)
+					if (module.getIntegrationClass() != IModIntegration.class) {
 						module.setIntegration(module.getIntegrationClass().newInstance());
+					}
 
 					activeModules.add(module);
 				}

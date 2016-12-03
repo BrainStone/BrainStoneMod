@@ -87,8 +87,9 @@ public class BrainStoneConfigWrapper {
 		for (ModuleInformation module : BrainStoneModules.getAllModules()) {
 			if (getBoolean(CAT_MODULES, "Disable" + firstUpper(module.getModid()), false,
 					"Manually disable the compatibility module for " + module.getName(), true)) {
-				if (module.isActive())
+				if (module.isActive()) {
 					BSP.info("Module " + module.getName() + " manually disabled!");
+				}
 
 				module.disable();
 			}
@@ -147,7 +148,7 @@ public class BrainStoneConfigWrapper {
 
 	/**
 	 * Creates a boolean property.
-	 * 
+	 *
 	 * @param category
 	 *            Category of the property.
 	 * @param name
@@ -164,7 +165,7 @@ public class BrainStoneConfigWrapper {
 
 	/**
 	 * Creates a boolean property.
-	 * 
+	 *
 	 * @param category
 	 *            Category of the property.
 	 * @param name
@@ -190,7 +191,7 @@ public class BrainStoneConfigWrapper {
 
 	/**
 	 * Creates a integer property.
-	 * 
+	 *
 	 * @param category
 	 *            Category of the property.
 	 * @param name
@@ -216,8 +217,9 @@ public class BrainStoneConfigWrapper {
 		int readValue = prop.getInt(defaultValue);
 		int cappedValue = Math.max(Math.min(readValue, maxValue), minValue);
 
-		if (readValue != cappedValue)
+		if (readValue != cappedValue) {
 			prop.set(cappedValue);
+		}
 
 		return cappedValue;
 	}
@@ -256,8 +258,9 @@ public class BrainStoneConfigWrapper {
 	}
 
 	private static void saveIfChanged() {
-		if (configStorage.hasChanged())
+		if (configStorage.hasChanged()) {
 			configStorage.save();
+		}
 	}
 
 	@SideOnly(Side.CLIENT)

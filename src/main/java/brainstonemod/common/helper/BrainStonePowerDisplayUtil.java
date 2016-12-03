@@ -10,7 +10,7 @@ import brainstonemod.BrainStone;
  * https://github.com/SleepyTrousers/EnderIO/blob/1.7.10/src/main/java/
  * crazypants/enderio/machine/power/PowerDisplayUtil.java</a>. All credit to the
  * original author
- * 
+ *
  * @author BrainStone
  */
 public class BrainStonePowerDisplayUtil {

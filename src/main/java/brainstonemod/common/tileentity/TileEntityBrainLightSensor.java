@@ -31,10 +31,10 @@ public class TileEntityBrainLightSensor extends TileEntity {
 
 	public int getCurLightLevel() {
 		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
-			world.calculateInitialSkylight();
+			worldObj.calculateInitialSkylight();
 		}
 
-		curLightLevel = world.getLight(pos.up(), false);
+		curLightLevel = worldObj.getLight(pos.up(), false);
 
 		return curLightLevel;
 	}
@@ -61,7 +61,7 @@ public class TileEntityBrainLightSensor extends TileEntity {
 
 	/**
 	 * Determines in which state this light sensor is currently in.
-	 * 
+	 *
 	 * @return <tt>true</tt> when in Classsic Mode, <tt>false</tt> when in
 	 *         Simple Mode
 	 */
@@ -112,7 +112,7 @@ public class TileEntityBrainLightSensor extends TileEntity {
 	}
 
 	public boolean getState() {
-		return this.state;
+		return state;
 	}
 
 	/**
@@ -138,7 +138,7 @@ public class TileEntityBrainLightSensor extends TileEntity {
 	}
 
 	@Override
-	public NBTTagCompound getUpdateTag(){
+	public NBTTagCompound getUpdateTag() {
 		return writeToNBT(new NBTTagCompound());
 	}
 

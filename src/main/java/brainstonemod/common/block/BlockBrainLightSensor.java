@@ -53,8 +53,8 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 
 	@Override
 	public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
-        return side != EnumFacing.UP;
-    }
+		return side != EnumFacing.UP;
+	}
 
 	@Override
 	public boolean canProvidePower(IBlockState state) {
@@ -68,8 +68,7 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 
 	@Override
 	public int getStrongPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
-		final TileEntityBrainLightSensor tileentity = (TileEntityBrainLightSensor) blockAccess
-				.getTileEntity(pos);
+		final TileEntityBrainLightSensor tileentity = (TileEntityBrainLightSensor) blockAccess.getTileEntity(pos);
 
 		if (tileentity == null)
 			return 0;
@@ -91,9 +90,9 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-		final TileEntityBrainLightSensor tileentity = (TileEntityBrainLightSensor) world
-				.getTileEntity(pos);
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand,
+			@Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+		final TileEntityBrainLightSensor tileentity = (TileEntityBrainLightSensor) world.getTileEntity(pos);
 
 		if (tileentity == null) {
 			BSP.log("The TileEntity is null!");
@@ -116,32 +115,36 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 		world.notifyNeighborsOfStateChange(pos.add(0, 0, -1), this);
 		world.notifyNeighborsOfStateChange(pos.add(0, 0, 1), this);
 
-		world.scheduleBlockUpdate(pos, this,
-				tickRate(world)
-						- ((int) world.getTotalWorldTime() % tickRate(world)), 0);//TODO: Check that priority
+		world.scheduleBlockUpdate(pos, this, tickRate(world) - ((int) world.getTotalWorldTime() % tickRate(world)), 0);// TODO:
+																														// Check
+																														// that
+																														// priority
 	}
 
 	public void smoke(World world, int x, int y, int z, Random random) {
-		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {//Why are we using this and not world.isRemote?
+		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {// Why
+																			// are
+																			// we
+																			// using
+																			// this
+																			// and
+																			// not
+																			// world.isRemote?
 			world.playSound(x, y, z, SoundEvents.UI_BUTTON_CLICK, SoundCategory.BLOCKS, 1.0F, 1.0F, true);
 			int randInt = random.nextInt(5) + random.nextInt(6) + 5;
 
 			int i;
 			for (i = 0; i < randInt; i++) {
-				world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL,
-						(x + (random.nextDouble() * 1.4)) - 0.2, y + 0.8
-								+ (random.nextDouble() * 0.6),
-						(z + (random.nextDouble() * 1.4)) - 0.2, 0.0D, 0.0D,
+				world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, (x + (random.nextDouble() * 1.4)) - 0.2,
+						y + 0.8 + (random.nextDouble() * 0.6), (z + (random.nextDouble() * 1.4)) - 0.2, 0.0D, 0.0D,
 						0.0D);
 			}
 
 			randInt = random.nextInt(3);
 
 			for (i = 0; i < randInt; i++) {
-				world.spawnParticle(EnumParticleTypes.SMOKE_LARGE,
-						(x + (random.nextDouble() * 1.4)) - 0.2, y + 0.8
-								+ (random.nextDouble() * 0.6),
-						(z + (random.nextDouble() * 1.4)) - 0.2, 0.0D, 0.0D,
+				world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, (x + (random.nextDouble() * 1.4)) - 0.2,
+						y + 0.8 + (random.nextDouble() * 0.6), (z + (random.nextDouble() * 1.4)) - 0.2, 0.0D, 0.0D,
 						0.0D);
 			}
 		} else {
@@ -156,8 +159,7 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 
 	@Override
 	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
-		final TileEntityBrainLightSensor tileentity = (TileEntityBrainLightSensor) world
-				.getTileEntity(pos);
+		final TileEntityBrainLightSensor tileentity = (TileEntityBrainLightSensor) world.getTileEntity(pos);
 
 		if (tileentity != null) {
 			if (tileentity.isClassic()) {
@@ -166,16 +168,18 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 				final int worldLight = tileentity.getCurLightLevel();
 				final int lightLevel = tileentity.getLightLevel();
 
-				final boolean tmpPower = direction ? worldLight <= lightLevel
-						: worldLight >= lightLevel;
+				final boolean tmpPower = direction ? worldLight <= lightLevel : worldLight >= lightLevel;
 
 				if (tmpPower != power) {
-					BrainStonePacketHelper.sendBrainLightSensorSmokePacket(
-							world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ());
+					BrainStonePacketHelper.sendBrainLightSensorSmokePacket(world.provider.getDimension(), pos.getX(),
+							pos.getY(), pos.getZ());
 
 					tileentity.setPowerOn(tmpPower);
 
-					world.scheduleBlockUpdate(pos, this, tickRate(world), 0);//TODO: Check that priority
+					world.scheduleBlockUpdate(pos, this, tickRate(world), 0);// TODO:
+																				// Check
+																				// that
+																				// priority
 					world.notifyNeighborsOfStateChange(pos, this);
 					world.notifyNeighborsOfStateChange(pos.add(-1, 0, 0), this);
 					world.notifyNeighborsOfStateChange(pos.add(1, 0, 0), this);
@@ -187,16 +191,18 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 			} else {
 				final int worldLight = world.getLight(pos.up());
 				final short tmpPower = tileentity.getPower();
-				final short power = (short) (tileentity.getDirection() ? worldLight
-						: 15 - worldLight);
+				final short power = (short) (tileentity.getDirection() ? worldLight : 15 - worldLight);
 
 				if (tmpPower != power) {
-					BrainStonePacketHelper.sendBrainLightSensorSmokePacket(
-							world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ());
+					BrainStonePacketHelper.sendBrainLightSensorSmokePacket(world.provider.getDimension(), pos.getX(),
+							pos.getY(), pos.getZ());
 
 					tileentity.setPower(power);
 
-					world.scheduleBlockUpdate(pos, this, tickRate(world), 0);//TODO: Check that priority
+					world.scheduleBlockUpdate(pos, this, tickRate(world), 0);// TODO:
+																				// Check
+																				// that
+																				// priority
 					world.notifyNeighborsOfStateChange(pos, this);
 					world.notifyNeighborsOfStateChange(pos.add(-1, 0, 0), this);
 					world.notifyNeighborsOfStateChange(pos.add(1, 0, 0), this);
@@ -207,7 +213,10 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 				}
 			}
 
-			world.scheduleBlockUpdate(pos, this, tickRate(world), 0);//TODO: Check that priority
+			world.scheduleBlockUpdate(pos, this, tickRate(world), 0);// TODO:
+																		// Check
+																		// that
+																		// priority
 		} else {
 			BSP.fatal("Die TileEntity fehlt!");
 		}

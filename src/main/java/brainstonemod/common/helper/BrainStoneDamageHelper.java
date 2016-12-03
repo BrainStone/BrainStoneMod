@@ -26,8 +26,9 @@ public class BrainStoneDamageHelper {
 		float f1 = adjustedDamage;
 		adjustedDamage = Math.max(adjustedDamage - player.getAbsorptionAmount(), 0.0F);
 
-		if (!simluate)
+		if (!simluate) {
 			player.setAbsorptionAmount(player.getAbsorptionAmount() - (f1 - adjustedDamage));
+		}
 
 		return adjustedDamage;
 	}
@@ -39,32 +40,32 @@ public class BrainStoneDamageHelper {
 	 */
 	private static float applyPotionDamageCalculations(DamageSource damageSource, float initalDamage,
 			EntityPlayer player) {
-		if (damageSource.isDamageAbsolute()) {
+		if (damageSource.isDamageAbsolute())
 			return initalDamage;
-		} else {
+		else {
 			int i;
 			int j;
 			float f1;
 
-			if (player.isPotionActive(MobEffects.RESISTANCE) && damageSource != DamageSource.outOfWorld) {
+			if (player.isPotionActive(MobEffects.RESISTANCE) && (damageSource != DamageSource.outOfWorld)) {
 				i = (player.getActivePotionEffect(MobEffects.RESISTANCE).getAmplifier() + 1) * 5;
 				j = 25 - i;
-				f1 = initalDamage * (float) j;
+				f1 = initalDamage * j;
 				initalDamage = f1 / 25.0F;
 			}
 
-			if (initalDamage <= 0.0F) {
+			if (initalDamage <= 0.0F)
 				return 0.0F;
-			} else {
+			else {
 				i = EnchantmentHelper.getEnchantmentModifierDamage(player.getEquipmentAndArmor(), damageSource);
 
 				if (i > 20) {
 					i = 20;
 				}
 
-				if (i > 0 && i <= 20) {
+				if ((i > 0) && (i <= 20)) {
 					j = 25 - i;
-					f1 = initalDamage * (float) j;
+					f1 = initalDamage * j;
 					initalDamage = f1 / 25.0F;
 				}
 
@@ -104,10 +105,10 @@ public class BrainStoneDamageHelper {
 			if (stack.getItem() instanceof ISpecialArmor) {
 				ISpecialArmor armor = (ISpecialArmor) stack.getItem();
 				prop = armor.getProperties(entity, stack, source, damage / 25D, x).copy();
-			} else if (stack.getItem() instanceof ItemArmor && !source.isUnblockable()) {
+			} else if ((stack.getItem() instanceof ItemArmor) && !source.isUnblockable()) {
 				ItemArmor armor = (ItemArmor) stack.getItem();
 				prop = new ArmorProperties(0, armor.damageReduceAmount / 25D,
-						armor.getMaxDamage(stack) + 1 - stack.getItemDamage());
+						(armor.getMaxDamage(stack) + 1) - stack.getItemDamage());
 			}
 			if (prop != null) {
 				prop.Slot = x;
@@ -130,13 +131,15 @@ public class BrainStoneDamageHelper {
 				double absorb = damage * prop.AbsorbRatio;
 				if (absorb > 0) {
 					ItemStack stack = inventory[prop.Slot];
-					int itemDamage = (int) (absorb / 25D < 1 ? 1 : absorb / 25D);
+					int itemDamage = (int) ((absorb / 25D) < 1 ? 1 : absorb / 25D);
 					if (stack.getItem() instanceof ISpecialArmor) {
-						if (!simulate)
+						if (!simulate) {
 							((ISpecialArmor) stack.getItem()).damageArmor(entity, stack, source, itemDamage, prop.Slot);
+						}
 					} else {
-						if (!simulate)
+						if (!simulate) {
 							stack.damageItem(itemDamage, entity);
+						}
 					}
 					if (stack.stackSize <= 0) {
 						inventory[prop.Slot] = null;
@@ -171,7 +174,7 @@ public class BrainStoneDamageHelper {
 
 		for (int x = 0; x < armor.length; x++) {
 			total += armor[x].AbsorbRatio;
-			if (x == armor.length - 1 || armor[x].Priority != priority) {
+			if ((x == (armor.length - 1)) || (armor[x].Priority != priority)) {
 				if (armor[x].Priority != priority) {
 					total -= armor[x].AbsorbRatio;
 					x--;
@@ -180,8 +183,8 @@ public class BrainStoneDamageHelper {
 				if (total > 1) {
 					for (int y = start; y <= x; y++) {
 						double newRatio = armor[y].AbsorbRatio / total;
-						if (newRatio * damage > armor[y].AbsorbMax) {
-							armor[y].AbsorbRatio = (double) armor[y].AbsorbMax / damage;
+						if ((newRatio * damage) > armor[y].AbsorbMax) {
+							armor[y].AbsorbRatio = armor[y].AbsorbMax / damage;
 							total = 0;
 							for (int z = pStart; z <= y; z++) {
 								total += armor[z].AbsorbRatio;
@@ -212,14 +215,14 @@ public class BrainStoneDamageHelper {
 				} else {
 					for (int y = start; y <= x; y++) {
 						total -= armor[y].AbsorbRatio;
-						if (damage * armor[y].AbsorbRatio > armor[y].AbsorbMax) {
-							armor[y].AbsorbRatio = (double) armor[y].AbsorbMax / damage;
+						if ((damage * armor[y].AbsorbRatio) > armor[y].AbsorbMax) {
+							armor[y].AbsorbRatio = armor[y].AbsorbMax / damage;
 						}
 						total += armor[y].AbsorbRatio;
 					}
 					damage -= (damage * total);
 					total = 0;
-					if (x != armor.length - 1) {
+					if (x != (armor.length - 1)) {
 						start = x + 1;
 						priority = armor[start].Priority;
 						pStart = start;
