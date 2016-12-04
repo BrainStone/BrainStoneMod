@@ -26,19 +26,19 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:brainStoneLifeCapacitor",
+                    "name": "brainstonemod:brain_stone_life_capacitor",
                     "weight": 1,
                     "quality": 10
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:essenceOfLife",
+                    "name": "brainstonemod:essence_of_life",
                     "weight": 3,
                     "quality": 15
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:stablePulsatingBrainStone",
+                    "name": "brainstonemod:stable_pulsating_brain_stone",
                     "weight": 5,
                     "quality": 15,
                     "functions": [
@@ -53,7 +53,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:brainStoneSword",
+                    "name": "brainstonemod:brain_stone_sword",
                     "weight": 30,
                     "quality": -10,
                     "functions": [
@@ -68,8 +68,8 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:brainStoneSword",
-                    "entryName": "brainstonemod:brainStoneSword2",
+                    "name": "brainstonemod:brain_stone_sword",
+                    "entryName": "brainstonemod:brain_stone_sword2",
                     "weight": 20,
                     "functions": [
                         {
@@ -88,8 +88,8 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:brainStoneSword",
-                    "entryName": "brainstonemod:brainStoneSword3",
+                    "name": "brainstonemod:brain_stone_sword",
+                    "entryName": "brainstonemod:brain_stone_sword3",
                     "weight": 10,
                     "quality": 10,
                     "functions": [
@@ -109,7 +109,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:brainStoneShovel",
+                    "name": "brainstonemod:brain_stone_shovel",
                     "weight": 30,
                     "quality": -10,
                     "functions": [
@@ -124,8 +124,8 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:brainStoneShovel",
-                    "entryName": "brainstonemod:brainStoneShovel2",
+                    "name": "brainstonemod:brain_stone_shovel",
+                    "entryName": "brainstonemod:brain_stone_shovel2",
                     "weight": 20,
                     "functions": [
                         {
@@ -144,8 +144,8 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:brainStoneShovel",
-                    "entryName": "brainstonemod:brainStoneShovel3",
+                    "name": "brainstonemod:brain_stone_shovel",
+                    "entryName": "brainstonemod:brain_stone_shovel3",
                     "weight": 10,
                     "quality": 10,
                     "functions": [
@@ -165,7 +165,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:brainStonePickaxe",
+                    "name": "brainstonemod:brain_stone_pickaxe",
                     "weight": 30,
                     "quality": -10,
                     "functions": [
@@ -180,8 +180,8 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:brainStonePickaxe",
-                    "entryName": "brainstonemod:brainStonePickaxe2",
+                    "name": "brainstonemod:brain_stone_pickaxe",
+                    "entryName": "brainstonemod:brain_stone_pickaxe2",
                     "weight": 20,
                     "functions": [
                         {
@@ -200,8 +200,8 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:brainStonePickaxe",
-                    "entryName": "brainstonemod:brainStonePickaxe3",
+                    "name": "brainstonemod:brain_stone_pickaxe",
+                    "entryName": "brainstonemod:brain_stone_pickaxe3",
                     "weight": 10,
                     "quality": 10,
                     "functions": [
@@ -221,7 +221,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:brainStoneAxe",
+                    "name": "brainstonemod:brain_stone_axe",
                     "weight": 30,
                     "quality": -10,
                     "functions": [
@@ -236,8 +236,8 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:brainStoneAxe",
-                    "entryName": "brainstonemod:brainStoneAxe2",
+                    "name": "brainstonemod:brain_stone_axe",
+                    "entryName": "brainstonemod:brain_stone_axe2",
                     "weight": 20,
                     "functions": [
                         {
@@ -256,8 +256,8 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:brainStoneAxe",
-                    "entryName": "brainstonemod:brainStoneAxe3",
+                    "name": "brainstonemod:brain_stone_axe",
+                    "entryName": "brainstonemod:brain_stone_axe3",
                     "weight": 10,
                     "quality": 10,
                     "functions": [
@@ -277,7 +277,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:brainStoneHoe",
+                    "name": "brainstonemod:brain_stone_hoe",
                     "weight": 30,
                     "quality": -10,
                     "functions": [
@@ -292,8 +292,8 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:brainStoneHoe",
-                    "entryName": "brainstonemod:brainStoneHoe2",
+                    "name": "brainstonemod:brain_stone_hoe",
+                    "entryName": "brainstonemod:brain_stone_hoe2",
                     "weight": 20,
                     "functions": [
                         {
@@ -312,8 +312,8 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:brainStoneHoe",
-                    "entryName": "brainstonemod:brainStoneHoe3",
+                    "name": "brainstonemod:brain_stone_hoe",
+                    "entryName": "brainstonemod:brain_stone_hoe3",
                     "weight": 10,
                     "quality": 10,
                     "functions": [
@@ -333,7 +333,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:brainStoneHelmet",
+                    "name": "brainstonemod:brain_stone_helmet",
                     "weight": 30,
                     "quality": -10,
                     "functions": [
@@ -348,8 +348,8 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:brainStoneHelmet",
-                    "entryName": "brainstonemod:brainStoneHelmet2",
+                    "name": "brainstonemod:brain_stone_helmet",
+                    "entryName": "brainstonemod:brain_stone_helmet2",
                     "weight": 20,
                     "functions": [
                         {
@@ -368,8 +368,8 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:brainStoneHelmet",
-                    "entryName": "brainstonemod:brainStoneHelmet3",
+                    "name": "brainstonemod:brain_stone_helmet",
+                    "entryName": "brainstonemod:brain_stone_helmet3",
                     "weight": 10,
                     "quality": 10,
                     "functions": [
@@ -389,7 +389,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:brainStonePlate",
+                    "name": "brainstonemod:brain_stone_plate",
                     "weight": 30,
                     "quality": -10,
                     "functions": [
@@ -404,8 +404,8 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:brainStonePlate",
-                    "entryName": "brainstonemod:brainStonePlate2",
+                    "name": "brainstonemod:brain_stone_plate",
+                    "entryName": "brainstonemod:brain_stone_plate2",
                     "weight": 20,
                     "functions": [
                         {
@@ -424,8 +424,8 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:brainStonePlate",
-                    "entryName": "brainstonemod:brainStonePlate3",
+                    "name": "brainstonemod:brain_stone_plate",
+                    "entryName": "brainstonemod:brain_stone_plate3",
                     "weight": 10,
                     "quality": 10,
                     "functions": [
@@ -445,7 +445,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:brainStoneLeggings",
+                    "name": "brainstonemod:brain_stone_leggings",
                     "weight": 30,
                     "quality": -10,
                     "functions": [
@@ -460,8 +460,8 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:brainStoneLeggings",
-                    "entryName": "brainstonemod:brainStoneLeggings2",
+                    "name": "brainstonemod:brain_stone_leggings",
+                    "entryName": "brainstonemod:brain_stone_leggings2",
                     "weight": 20,
                     "functions": [
                         {
@@ -480,8 +480,8 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:brainStoneLeggings",
-                    "entryName": "brainstonemod:brainStoneLeggings3",
+                    "name": "brainstonemod:brain_stone_leggings",
+                    "entryName": "brainstonemod:brain_stone_leggings3",
                     "weight": 10,
                     "quality": 10,
                     "functions": [
@@ -501,7 +501,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:brainStoneBoots",
+                    "name": "brainstonemod:brain_stone_boots",
                     "weight": 30,
                     "quality": -10,
                     "functions": [
@@ -516,8 +516,8 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:brainStoneBoots",
-                    "entryName": "brainstonemod:brainStoneBoots2",
+                    "name": "brainstonemod:brain_stone_boots",
+                    "entryName": "brainstonemod:brain_stone_boots2",
                     "weight": 20,
                     "functions": [
                         {
@@ -536,8 +536,8 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:brainStoneBoots",
-                    "entryName": "brainstonemod:brainStoneBoots3",
+                    "name": "brainstonemod:brain_stone_boots",
+                    "entryName": "brainstonemod:brain_stone_boots3",
                     "weight": 10,
                     "quality": 10,
                     "functions": [
@@ -557,7 +557,7 @@
                 },
                                 {
                     "type": "item",
-                    "name": "brainstonemod:stablePulsatingBrainStoneSword",
+                    "name": "brainstonemod:stable_pulsating_brain_stone_sword",
                     "weight": 3,
                     "quality": 5,
                     "functions": [
@@ -572,8 +572,8 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:stablePulsatingBrainStoneSword",
-                    "entryName": "brainstonemod:stablePulsatingBrainStoneSword2",
+                    "name": "brainstonemod:stable_pulsating_brain_stone_sword",
+                    "entryName": "brainstonemod:stable_pulsating_brain_stone_sword2",
                     "weight": 2,
                     "quality": 10,
                     "functions": [
@@ -593,8 +593,8 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:stablePulsatingBrainStoneSword",
-                    "entryName": "brainstonemod:stablePulsatingBrainStoneSword3",
+                    "name": "brainstonemod:stable_pulsating_brain_stone_sword",
+                    "entryName": "brainstonemod:stable_pulsating_brain_stone_sword3",
                     "weight": 1,
                     "quality": 15,
                     "functions": [
@@ -614,7 +614,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:stablePulsatingBrainStoneShovel",
+                    "name": "brainstonemod:stable_pulsating_brain_stone_shovel",
                     "weight": 3,
                     "quality": 5,
                     "functions": [
@@ -629,8 +629,8 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:stablePulsatingBrainStoneShovel",
-                    "entryName": "brainstonemod:stablePulsatingBrainStoneShovel2",
+                    "name": "brainstonemod:stable_pulsating_brain_stone_shovel",
+                    "entryName": "brainstonemod:stable_pulsating_brain_stone_shovel2",
                     "weight": 2,
                     "quality": 10,
                     "functions": [
@@ -650,8 +650,8 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:stablePulsatingBrainStoneShovel",
-                    "entryName": "brainstonemod:stablePulsatingBrainStoneShovel3",
+                    "name": "brainstonemod:stable_pulsating_brain_stone_shovel",
+                    "entryName": "brainstonemod:stable_pulsating_brain_stone_shovel3",
                     "weight": 1,
                     "quality": 15,
                     "functions": [
@@ -671,7 +671,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:stablePulsatingBrainStonePickaxe",
+                    "name": "brainstonemod:stable_pulsating_brain_stone_pickaxe",
                     "weight": 3,
                     "quality": 5,
                     "functions": [
@@ -686,8 +686,8 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:stablePulsatingBrainStonePickaxe",
-                    "entryName": "brainstonemod:stablePulsatingBrainStonePickaxe2",
+                    "name": "brainstonemod:stable_pulsating_brain_stone_pickaxe",
+                    "entryName": "brainstonemod:stable_pulsating_brain_stone_pickaxe2",
                     "weight": 2,
                     "quality": 10,
                     "functions": [
@@ -707,8 +707,8 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:stablePulsatingBrainStonePickaxe",
-                    "entryName": "brainstonemod:stablePulsatingBrainStonePickaxe3",
+                    "name": "brainstonemod:stable_pulsating_brain_stone_pickaxe",
+                    "entryName": "brainstonemod:stable_pulsating_brain_stone_pickaxe3",
                     "weight": 1,
                     "quality": 15,
                     "functions": [
@@ -728,7 +728,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:stablePulsatingBrainStoneAxe",
+                    "name": "brainstonemod:stable_pulsating_brain_stone_axe",
                     "weight": 3,
                     "quality": 5,
                     "functions": [
@@ -743,8 +743,8 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:stablePulsatingBrainStoneAxe",
-                    "entryName": "brainstonemod:stablePulsatingBrainStoneAxe2",
+                    "name": "brainstonemod:stable_pulsating_brain_stone_axe",
+                    "entryName": "brainstonemod:stable_pulsating_brain_stone_axe2",
                     "weight": 2,
                     "quality": 10,
                     "functions": [
@@ -764,8 +764,8 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:stablePulsatingBrainStoneAxe",
-                    "entryName": "brainstonemod:stablePulsatingBrainStoneAxe3",
+                    "name": "brainstonemod:stable_pulsating_brain_stone_axe",
+                    "entryName": "brainstonemod:stable_pulsating_brain_stone_axe3",
                     "weight": 1,
                     "quality": 15,
                     "functions": [
@@ -785,7 +785,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:stablePulsatingBrainStoneHoe",
+                    "name": "brainstonemod:stable_pulsating_brain_stone_hoe",
                     "weight": 3,
                     "quality": 5,
                     "functions": [
@@ -800,8 +800,8 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:stablePulsatingBrainStoneHoe",
-                    "entryName": "brainstonemod:stablePulsatingBrainStoneHoe2",
+                    "name": "brainstonemod:stable_pulsating_brain_stone_hoe",
+                    "entryName": "brainstonemod:stable_pulsating_brain_stone_hoe2",
                     "weight": 2,
                     "quality": 10,
                     "functions": [
@@ -821,8 +821,8 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:stablePulsatingBrainStoneHoe",
-                    "entryName": "brainstonemod:stablePulsatingBrainStoneHoe3",
+                    "name": "brainstonemod:stable_pulsating_brain_stone_hoe",
+                    "entryName": "brainstonemod:stable_pulsating_brain_stone_hoe3",
                     "weight": 1,
                     "quality": 15,
                     "functions": [
@@ -842,7 +842,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:stablePulsatingBrainStoneHelmet",
+                    "name": "brainstonemod:stable_pulsating_brain_stone_helmet",
                     "weight": 3,
                     "quality": 5,
                     "functions": [
@@ -857,8 +857,8 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:stablePulsatingBrainStoneHelmet",
-                    "entryName": "brainstonemod:stablePulsatingBrainStoneHelmet2",
+                    "name": "brainstonemod:stable_pulsating_brain_stone_helmet",
+                    "entryName": "brainstonemod:stable_pulsating_brain_stone_helmet2",
                     "weight": 2,
                     "quality": 10,
                     "functions": [
@@ -878,8 +878,8 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:stablePulsatingBrainStoneHelmet",
-                    "entryName": "brainstonemod:stablePulsatingBrainStoneHelmet3",
+                    "name": "brainstonemod:stable_pulsating_brain_stone_helmet",
+                    "entryName": "brainstonemod:stable_pulsating_brain_stone_helmet3",
                     "weight": 1,
                     "quality": 15,
                     "functions": [
@@ -899,7 +899,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:stablePulsatingBrainStonePlate",
+                    "name": "brainstonemod:stable_pulsating_brain_stone_plate",
                     "weight": 3,
                     "quality": 5,
                     "functions": [
@@ -914,8 +914,8 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:stablePulsatingBrainStonePlate",
-                    "entryName": "brainstonemod:stablePulsatingBrainStonePlate2",
+                    "name": "brainstonemod:stable_pulsating_brain_stone_plate",
+                    "entryName": "brainstonemod:stable_pulsating_brain_stone_plate2",
                     "weight": 2,
                     "quality": 10,
                     "functions": [
@@ -935,8 +935,8 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:stablePulsatingBrainStonePlate",
-                    "entryName": "brainstonemod:stablePulsatingBrainStonePlate3",
+                    "name": "brainstonemod:stable_pulsating_brain_stone_plate",
+                    "entryName": "brainstonemod:stable_pulsating_brain_stone_plate3",
                     "weight": 1,
                     "quality": 15,
                     "functions": [
@@ -956,7 +956,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:stablePulsatingBrainStoneLeggings",
+                    "name": "brainstonemod:stable_pulsating_brain_stone_leggings",
                     "weight": 3,
                     "quality": 5,
                     "functions": [
@@ -971,8 +971,8 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:stablePulsatingBrainStoneLeggings",
-                    "entryName": "brainstonemod:stablePulsatingBrainStoneLeggings2",
+                    "name": "brainstonemod:stable_pulsating_brain_stone_leggings",
+                    "entryName": "brainstonemod:stable_pulsating_brain_stone_leggings2",
                     "weight": 2,
                     "quality": 10,
                     "functions": [
@@ -992,8 +992,8 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:stablePulsatingBrainStoneLeggings",
-                    "entryName": "brainstonemod:stablePulsatingBrainStoneLeggings3",
+                    "name": "brainstonemod:stable_pulsating_brain_stone_leggings",
+                    "entryName": "brainstonemod:stable_pulsating_brain_stone_leggings3",
                     "weight": 1,
                     "quality": 15,
                     "functions": [
@@ -1013,7 +1013,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:stablePulsatingBrainStoneBoots",
+                    "name": "brainstonemod:stable_pulsating_brain_stone_boots",
                     "weight": 3,
                     "quality": 5,
                     "functions": [
@@ -1028,8 +1028,8 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:stablePulsatingBrainStoneBoots",
-                    "entryName": "brainstonemod:stablePulsatingBrainStoneBoots2",
+                    "name": "brainstonemod:stable_pulsating_brain_stone_boots",
+                    "entryName": "brainstonemod:stable_pulsating_brain_stone_boots2",
                     "weight": 2,
                     "quality": 10,
                     "functions": [
@@ -1049,8 +1049,8 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:stablePulsatingBrainStoneBoots",
-                    "entryName": "brainstonemod:stablePulsatingBrainStoneBoots3",
+                    "name": "brainstonemod:stable_pulsating_brain_stone_boots",
+                    "entryName": "brainstonemod:stable_pulsating_brain_stone_boots3",
                     "weight": 1,
                     "quality": 15,
                     "functions": [

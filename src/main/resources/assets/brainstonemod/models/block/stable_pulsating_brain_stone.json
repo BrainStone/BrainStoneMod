@@ -1,0 +1,6 @@
+{
+    "parent": "block/cube_all",
+    "textures": {
+        "all": "brainstonemod:blocks/stable_pulsating_brain_stone"
+    }
+}

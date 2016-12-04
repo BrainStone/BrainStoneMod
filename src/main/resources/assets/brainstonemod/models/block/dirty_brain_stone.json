@@ -1,0 +1,6 @@
+{
+    "parent": "block/cube_all",
+    "textures": {
+        "all": "brainstonemod:blocks/dirty_brain_stone"
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "parent": "block/cube_bottom_top",
+    "textures": {
+        "top": "brainstonemod:blocks/brain_light_sensor",
+        "side": "brainstonemod:blocks/brain_stone_machine_side",
+        "bottom": "brainstonemod:blocks/brain_stone_machine_bottom"
+    }
+}

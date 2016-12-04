@@ -1,0 +1,6 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "brainstonemod:items/stable_pulsating_brain_stone_helmet"
+    }
+}

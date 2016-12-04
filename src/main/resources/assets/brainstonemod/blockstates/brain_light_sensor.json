@@ -1,0 +1,5 @@
+{
+    "variants": {
+        "normal": { "model": "brainstonemod:brain_light_sensor" }
+    }
+}

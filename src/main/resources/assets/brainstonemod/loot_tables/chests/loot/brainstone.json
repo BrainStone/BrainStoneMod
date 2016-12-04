@@ -10,7 +10,7 @@
             "entries": [
                 {
                     "type": "item",
-                    "name": "brainstonemod:brainStone",
+                    "name": "brainstonemod:brain_stone",
                     "functions": [
                         {
                             "function": "set_count",
@@ -25,7 +25,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:dirtyBrainStone",
+                    "name": "brainstonemod:dirty_brain_stone",
                     "functions": [
                         {
                             "function": "set_count",
@@ -40,7 +40,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:brainStoneDust",
+                    "name": "brainstonemod:brain_stone_dust",
                     "functions": [
                         {
                             "function": "set_count",
@@ -54,7 +54,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:pulsatingBrainStone",
+                    "name": "brainstonemod:pulsating_brain_stone",
                     "functions": [
                         {
                             "function": "set_count",
@@ -99,7 +99,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "brainstonemod:essenceOfLife",
+                    "name": "brainstonemod:essence_of_life",
                     "weight": 1,
                     "quality": 30
                 }

@@ -31,7 +31,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class BrainStoneClientEvents {
 	private static final ResourceLocation brainStoneLifeCapacitorTexture = new ResourceLocation(
-			BrainStone.RESOURCE_PACKAGE, "textures/items/brainStoneLifeCapacitor.png");
+			BrainStone.RESOURCE_PACKAGE, "textures/items/brain_stone_life_capacitor.png");
 
 	@SubscribeEvent
 	public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {

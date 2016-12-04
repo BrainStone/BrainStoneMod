@@ -88,6 +88,7 @@ import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLFingerprintViolationEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLMissingMappingsEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerAboutToStartEvent;
@@ -298,6 +299,27 @@ public class BrainStone {
 		BrainStoneModules.postInit(event);
 	}
 
+	@EventHandler
+	public void remap(FMLMissingMappingsEvent event) {
+		event.get().stream().forEach(mapping -> {
+			try {
+				String newName = mapping.name.split(":")[1].replaceAll("([A-Z])", "_$1").toLowerCase();
+
+				if (mapping.type == GameRegistry.Type.BLOCK) {
+					mapping.remap(blocks.get(newName));
+				} else if (mapping.type == GameRegistry.Type.ITEM) {
+					if (items.containsKey(newName)) {
+						mapping.remap(items.get(newName));
+					} else {
+						mapping.remap(Item.getItemFromBlock(blocks.get(newName)));
+					}
+				}
+			} catch (Exception e) {
+				BSP.infoException_noAddon(e, "ID: " + mapping.name + "\nType: " + mapping.type);
+			}
+		});
+	}
+
 	/**
 	 * Fills the triggerEntity's for the BrainStoneTrigger after the server is
 	 * starting.
@@ -502,7 +524,7 @@ public class BrainStone {
 
 		MinecraftForge.EVENT_BUS.register(new BrainStoneClientEvents());
 
-		ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(MOD_ID + ":brainStoneTrigger",
+		ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(RESOURCE_PREFIX + "brain_stone_trigger",
 				"inventory");
 		final int DEFAULT_ITEM_SUBTYPE = 0;
 		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(brainStoneTrigger()), DEFAULT_ITEM_SUBTYPE,
@@ -566,16 +588,16 @@ public class BrainStone {
 	 */
 	private static final void generateBlocksAndItems() {
 		// Blocks
-		blocks.put("brainStone", new BlockBrainStone(false));
-		blocks.put("brainStoneOut", new BlockBrainStone(true));
-		blocks.put("brainStoneOre", new BlockBrainStoneOre());
-		blocks.put("dirtyBrainStone", (new BlockBrainStoneBase(Material.ROCK)).setHardness(2.4F).setResistance(0.5F)
+		blocks.put("brain_stone", new BlockBrainStone(false));
+		blocks.put("brain_stone_out", new BlockBrainStone(true));
+		blocks.put("brain_stone_ore", new BlockBrainStoneOre());
+		blocks.put("dirty_brain_stone", (new BlockBrainStoneBase(Material.ROCK)).setHardness(2.4F).setResistance(0.5F)
 				.setLightLevel(0.5F).setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.BUILDING_BLOCKS)));
-		blocks.put("brainLightSensor", new BlockBrainLightSensor());
-		blocks.put("brainStoneTrigger", new BlockBrainStoneTrigger());
-		blocks.put("pulsatingBrainStone", new BlockPulsatingBrainStone(false));
-		blocks.put("pulsatingBrainStoneEffect", new BlockPulsatingBrainStone(true));
-		blocks.put("stablePulsatingBrainStone",
+		blocks.put("brain_light_sensor", new BlockBrainLightSensor());
+		blocks.put("brain_stone_trigger", new BlockBrainStoneTrigger());
+		blocks.put("pulsating_brain_stone", new BlockPulsatingBrainStone(false));
+		blocks.put("pulsating_brain_stone_effect", new BlockPulsatingBrainStone(true));
+		blocks.put("stable_pulsating_brain_stone",
 				(new BlockBrainStoneBase(Material.ROCK)).setHardness(4.0F).setResistance(1.5F).setLightLevel(1.0F)
 						.setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.BUILDING_BLOCKS)));
 
@@ -586,36 +608,36 @@ public class BrainStone {
 		stablePulsatingBrainStone().setHarvestLevel("pickaxe", 4);
 
 		// Items
-		items.put("brainStoneDust",
+		items.put("brain_stone_dust",
 				(new ItemBrainStoneBase()).setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.MATERIALS)));
-		items.put("brainProcessor",
+		items.put("brain_processor",
 				(new ItemBrainStoneBase()).setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.MISC)));
-		items.put("brainStoneSword", new ItemSwordBrainStone(toolBRAINSTONE));
-		items.put("brainStoneShovel", new ItemToolBrainStone(toolBRAINSTONE, "spade"));
-		items.put("brainStonePickaxe", new ItemToolBrainStone(toolBRAINSTONE, "pickaxe"));
-		items.put("brainStoneAxe", new ItemToolBrainStone(toolBRAINSTONE, "axe"));
-		items.put("brainStoneHoe", new ItemHoeBrainStone(toolBRAINSTONE));
-		items.put("brainStoneHelmet", new ItemArmorBrainStone(armorBRAINSTONE, EntityEquipmentSlot.HEAD));
-		items.put("brainStonePlate", new ItemArmorBrainStone(armorBRAINSTONE, EntityEquipmentSlot.CHEST));
-		items.put("brainStoneLeggings", new ItemArmorBrainStone(armorBRAINSTONE, EntityEquipmentSlot.LEGS));
-		items.put("brainStoneBoots", new ItemArmorBrainStone(armorBRAINSTONE, EntityEquipmentSlot.FEET));
+		items.put("brain_stone_sword", new ItemSwordBrainStone(toolBRAINSTONE));
+		items.put("brain_stone_shovel", new ItemToolBrainStone(toolBRAINSTONE, "spade"));
+		items.put("brain_stone_pickaxe", new ItemToolBrainStone(toolBRAINSTONE, "pickaxe"));
+		items.put("brain_stone_axe", new ItemToolBrainStone(toolBRAINSTONE, "axe"));
+		items.put("brain_stone_hoe", new ItemHoeBrainStone(toolBRAINSTONE));
+		items.put("brain_stone_helmet", new ItemArmorBrainStone(armorBRAINSTONE, EntityEquipmentSlot.HEAD));
+		items.put("brain_stone_plate", new ItemArmorBrainStone(armorBRAINSTONE, EntityEquipmentSlot.CHEST));
+		items.put("brain_stone_leggings", new ItemArmorBrainStone(armorBRAINSTONE, EntityEquipmentSlot.LEGS));
+		items.put("brain_stone_boots", new ItemArmorBrainStone(armorBRAINSTONE, EntityEquipmentSlot.FEET));
 
-		items.put("essenceOfLife", new ItemEssenceOfLife());
+		items.put("essence_of_life", new ItemEssenceOfLife());
 
-		items.put("stablePulsatingBrainStoneSword", new ItemSwordBrainStone(toolSTABLEPULSATINGBS));
-		items.put("stablePulsatingBrainStoneShovel", new ItemToolBrainStone(toolSTABLEPULSATINGBS, "spade"));
-		items.put("stablePulsatingBrainStonePickaxe", new ItemToolBrainStone(toolSTABLEPULSATINGBS, "pickaxe"));
-		items.put("stablePulsatingBrainStoneAxe", new ItemToolBrainStone(toolSTABLEPULSATINGBS, "axe"));
-		items.put("stablePulsatingBrainStoneHoe", new ItemHoeBrainStone(toolSTABLEPULSATINGBS));
-		items.put("stablePulsatingBrainStoneHelmet",
+		items.put("stable_pulsating_brain_stone_sword", new ItemSwordBrainStone(toolSTABLEPULSATINGBS));
+		items.put("stable_pulsating_brain_stone_shovel", new ItemToolBrainStone(toolSTABLEPULSATINGBS, "spade"));
+		items.put("stable_pulsating_brain_stone_pickaxe", new ItemToolBrainStone(toolSTABLEPULSATINGBS, "pickaxe"));
+		items.put("stable_pulsating_brain_stone_axe", new ItemToolBrainStone(toolSTABLEPULSATINGBS, "axe"));
+		items.put("stable_pulsating_brain_stone_hoe", new ItemHoeBrainStone(toolSTABLEPULSATINGBS));
+		items.put("stable_pulsating_brain_stone_helmet",
 				new ItemArmorBrainStone(armorSTABLEPULSATINGBS, EntityEquipmentSlot.HEAD));
-		items.put("stablePulsatingBrainStonePlate",
+		items.put("stable_pulsating_brain_stone_plate",
 				new ItemArmorBrainStone(armorSTABLEPULSATINGBS, EntityEquipmentSlot.CHEST));
-		items.put("stablePulsatingBrainStoneLeggings",
+		items.put("stable_pulsating_brain_stone_leggings",
 				new ItemArmorBrainStone(armorSTABLEPULSATINGBS, EntityEquipmentSlot.LEGS));
-		items.put("stablePulsatingBrainStoneBoots",
+		items.put("stable_pulsating_brain_stone_boots",
 				new ItemArmorBrainStone(armorSTABLEPULSATINGBS, EntityEquipmentSlot.FEET));
-		items.put("brainStoneLifeCapacitor", (new ItemBrainStoneLifeCapacitor()));
+		items.put("brain_stone_life_capacitor", (new ItemBrainStoneLifeCapacitor()));
 	}
 
 	private static final void generateAchievements() {
@@ -722,217 +744,217 @@ public class BrainStone {
 	 * @return the instance of BrainStone
 	 */
 	public static final Block brainStone() {
-		return blocks.get("brainStone");
+		return blocks.get("brain_stone");
 	}
 
 	/**
 	 * @return the instance of BrainStoneOut
 	 */
 	public static final Block brainStoneOut() {
-		return blocks.get("brainStoneOut");
+		return blocks.get("brain_stone_out");
 	}
 
 	/**
 	 * @return the instance of BrainStoneOre
 	 */
 	public static final Block brainStoneOre() {
-		return blocks.get("brainStoneOre");
+		return blocks.get("brain_stone_ore");
 	}
 
 	/**
 	 * @return the instance of DirtyBrainStone
 	 */
 	public static final Block dirtyBrainStone() {
-		return blocks.get("dirtyBrainStone");
+		return blocks.get("dirty_brain_stone");
 	}
 
 	/**
 	 * @return the instance of BrainLightSensor
 	 */
 	public static final Block brainLightSensor() {
-		return blocks.get("brainLightSensor");
+		return blocks.get("brain_light_sensor");
 	}
 
 	/**
 	 * @return the instance of BrainStoneTrigger
 	 */
 	public static final Block brainStoneTrigger() {
-		return blocks.get("brainStoneTrigger");
+		return blocks.get("brain_stone_trigger");
 	}
 
 	/**
 	 * @return the instance of PulsatingBrainStone
 	 */
 	public static final Block pulsatingBrainStone() {
-		return blocks.get("pulsatingBrainStone");
+		return blocks.get("pulsating_brain_stone");
 	}
 
 	/**
 	 * @return the instance of PulsatingBrainStoneEffect
 	 */
 	public static final Block pulsatingBrainStoneEffect() {
-		return blocks.get("pulsatingBrainStoneEffect");
+		return blocks.get("pulsating_brain_stone_effect");
 	}
 
 	/**
 	 * @return the instance of StablePulsatingBrainStone
 	 */
 	public static final Block stablePulsatingBrainStone() {
-		return blocks.get("stablePulsatingBrainStone");
+		return blocks.get("stable_pulsating_brain_stone");
 	}
 
 	/**
 	 * @return the instance of BrainStoneDust
 	 */
 	public static final Item brainStoneDust() {
-		return items.get("brainStoneDust");
+		return items.get("brain_stone_dust");
 	}
 
 	/**
 	 * @return the instance of BrainProcessor
 	 */
 	public static final Item brainProcessor() {
-		return items.get("brainProcessor");
+		return items.get("brain_processor");
 	}
 
 	/**
 	 * @return the instance of BrainStoneSword
 	 */
 	public static final Item brainStoneSword() {
-		return items.get("brainStoneSword");
+		return items.get("brain_stone_sword");
 	}
 
 	/**
 	 * @return the instance of BrainStoneShovel
 	 */
 	public static final Item brainStoneShovel() {
-		return items.get("brainStoneShovel");
+		return items.get("brain_stone_shovel");
 	}
 
 	/**
 	 * @return the instance of BrainStonePickaxe
 	 */
 	public static final Item brainStonePickaxe() {
-		return items.get("brainStonePickaxe");
+		return items.get("brain_stone_pickaxe");
 	}
 
 	/**
 	 * @return the instance of BrainStoneAxe
 	 */
 	public static final Item brainStoneAxe() {
-		return items.get("brainStoneAxe");
+		return items.get("brain_stone_axe");
 	}
 
 	/**
 	 * @return the instance of BrainStoneHoe
 	 */
 	public static final Item brainStoneHoe() {
-		return items.get("brainStoneHoe");
+		return items.get("brain_stone_hoe");
 	}
 
 	/**
 	 * @return the instance of BrainStoneHelmet
 	 */
 	public static final Item brainStoneHelmet() {
-		return items.get("brainStoneHelmet");
+		return items.get("brain_stone_helmet");
 	}
 
 	/**
 	 * @return the instance of BrainStonePlate
 	 */
 	public static final Item brainStonePlate() {
-		return items.get("brainStonePlate");
+		return items.get("brain_stone_plate");
 	}
 
 	/**
 	 * @return the instance of BrainStoneLeggings
 	 */
 	public static final Item brainStoneLeggings() {
-		return items.get("brainStoneLeggings");
+		return items.get("brain_stone_leggings");
 	}
 
 	/**
 	 * @return the instance of BrainStoneBoots
 	 */
 	public static final Item brainStoneBoots() {
-		return items.get("brainStoneBoots");
+		return items.get("brain_stone_boots");
 	}
 
 	/**
 	 * @return the instance of Essence Of Live
 	 */
 	public static final Item essenceOfLife() {
-		return items.get("essenceOfLife");
+		return items.get("essence_of_life");
 	}
 
 	/**
 	 * @return the instance of Stable Pulsating Brain Stone Sword
 	 */
 	public static final Item stablePulsatingBrainStoneSword() {
-		return items.get("stablePulsatingBrainStoneSword");
+		return items.get("stable_pulsating_brain_stone_sword");
 	}
 
 	/**
 	 * @return the instance of Stable Pulsating Brain Stone Shovel
 	 */
 	public static final Item stablePulsatingBrainStoneShovel() {
-		return items.get("stablePulsatingBrainStoneShovel");
+		return items.get("stable_pulsating_brain_stone_shovel");
 	}
 
 	/**
 	 * @return the instance of Stable Pulsating Brain Stone Pickaxe
 	 */
 	public static final Item stablePulsatingBrainStonePickaxe() {
-		return items.get("stablePulsatingBrainStonePickaxe");
+		return items.get("stable_pulsating_brain_stone_pickaxe");
 	}
 
 	/**
 	 * @return the instance of Stable Pulsating Brain Stone Axe
 	 */
 	public static final Item stablePulsatingBrainStoneAxe() {
-		return items.get("stablePulsatingBrainStoneAxe");
+		return items.get("stable_pulsating_brain_stone_axe");
 	}
 
 	/**
 	 * @return the instance of Stable Pulsating Brain Stone Hoe
 	 */
 	public static final Item stablePulsatingBrainStoneHoe() {
-		return items.get("stablePulsatingBrainStoneHoe");
+		return items.get("stable_pulsating_brain_stone_hoe");
 	}
 
 	/**
 	 * @return the instance of Stable Pulsating Brain Stone Helmet
 	 */
 	public static final Item stablePulsatingBrainStoneHelmet() {
-		return items.get("stablePulsatingBrainStoneHelmet");
+		return items.get("stable_pulsating_brain_stone_helmet");
 	}
 
 	/**
 	 * @return the instance of Stable Pulsating Brain Stone Chestplate
 	 */
 	public final static Item stablePulsatingBrainStonePlate() {
-		return items.get("stablePulsatingBrainStonePlate");
+		return items.get("stable_pulsating_brain_stone_plate");
 	}
 
 	/**
 	 * @return the instance of Stable Pulsating Brain Stone Leggings
 	 */
 	public final static Item stablePulsatingBrainStoneLeggings() {
-		return items.get("stablePulsatingBrainStoneLeggings");
+		return items.get("stable_pulsating_brain_stone_leggings");
 	}
 
 	/**
 	 * @return the instance of Stable Pulsating Brain Stone Leggings
 	 */
 	public final static Item stablePulsatingBrainStoneBoots() {
-		return items.get("stablePulsatingBrainStoneBoots");
+		return items.get("stable_pulsating_brain_stone_boots");
 	}
 
 	/**
 	 * @return the instance of Brain Stone Life Capacitor
 	 */
 	public static final ItemBrainStoneLifeCapacitor brainStoneLifeCapacitor() {
-		return (ItemBrainStoneLifeCapacitor) BrainStone.items.get("brainStoneLifeCapacitor");
+		return (ItemBrainStoneLifeCapacitor) items.get("brain_stone_life_capacitor");
 	}
 
 	/**

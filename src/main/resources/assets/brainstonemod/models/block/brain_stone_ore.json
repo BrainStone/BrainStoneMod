@@ -1,0 +1,6 @@
+{
+    "parent": "block/cube_all",
+    "textures": {
+        "all": "brainstonemod:blocks/brain_stone_ore"
+    }
+}

@@ -22,10 +22,10 @@ import net.minecraftforge.common.property.IExtendedBlockState;
 public class BSTriggerModel implements IBakedModel {
 	/** create a blockstates tag (ModelResourceLocation) for our block */
 	public static final ModelResourceLocation blockStatesFileName = new ModelResourceLocation(
-			BrainStone.RESOURCE_PREFIX + "brainStoneTrigger");
+			BrainStone.RESOURCE_PREFIX + "brain_stone_trigger");
 	/** create a variant tag (ModelResourceLocation) for our block */
 	public static final ModelResourceLocation variantTag = new ModelResourceLocation(
-			BrainStone.RESOURCE_PREFIX + "brainStoneTrigger", "normal");
+			BrainStone.RESOURCE_PREFIX + "brain_stone_trigger", "normal");
 
 	public BSTriggerModel(IBakedModel unCamouflagedModel) {
 		modelWhenNotCamouflaged = unCamouflagedModel;
