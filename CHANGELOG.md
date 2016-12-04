@@ -1,3 +1,26 @@
+4.0.81-rc3
+----------
+
+- Out of BETA
+- New versioning scheme
+- Added Immersive Engineering support
+- Added new achievement
+- Lowercased block and item ids in preparation for 1.11 (you should open your old worlds in this or any later 1.10.2 version before you open it in 1.11)
+- Implemented a HUD for the BrainStoneLifeCapacitor
+- JEI reloads when certain config values change (can be disabled)
+- Tweaked recipes of BrainStoneTrigger and BrainLightSensor so that both need a BrainProcessor
+- Synchronizing a lot more settings
+- Using Access Transformers instead of reflection to make the BrainStoneLifeCapacitor work
+- Generating BrainStone Houses now with structures (you can replace them with a resource pack or in the world save folder like with vanilla structures)
+- Loot in the chests in the BrainStone House now uses loot tables (can also be modified through resource packs) (loot in these chests is static)
+- Added loot chests to JER
+- Extended README.md
+- Fixed BrainStoneLifeCapacitor having the same UUID when taken from the creative menu (or JEI cheating)
+- Fixed invalid charging rate for the BrainStoneLifeCapacitor
+- Fixed bug crash caused by Baubles
+- Fixed item duplication while upgrading the BrainStoneLifeCapacitor
+- Lots of internal improvements
+
 4.0.71-rc2
 ----------
 
@@ -18,7 +41,7 @@
 - Fixed invalid charging rate for the BrainStoneLifeCapacitor
 - Fixed bug crash by Baubles
 - Fixed item duplication while upgrading the BrainStoneLifeCapacitor
-- Internal improvements 
+- Internal improvements
 
 4.0.67-rc1
 ----------
@@ -38,7 +61,7 @@
 - Fixed BrainStoneLifeCapacitor having the same UUID when taken from the creative menu (or JEI cheating)
 - Fixed invalid charging rate for the BrainStoneLifeCapacitor
 - Fixed bug crash by Baubles
-- Internal improvements 
+- Internal improvements
 
 4.0.65-beta
 -----------
