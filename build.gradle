@@ -147,7 +147,8 @@ dependencies {
     // Local Mods
     provided "lib:Baubles:+:deobf"
     provided "lib:BetterAchievements:+:deobf"
-    provided "lib:JustEnoughResources:+:deobf"
+    // Mappings do not match!
+    deobfProvided "lib:JustEnoughResources:+"
 }
 
 lombok {
