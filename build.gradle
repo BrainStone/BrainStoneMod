@@ -19,9 +19,9 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
-        classpath 'com.github.ben-manes:gradle-versions-plugin:0.13.0'
-        classpath 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.2'
+        classpath "net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT"
+        classpath "com.github.ben-manes:gradle-versions-plugin:0.13.0"
+        classpath "org.codehaus.groovy.modules.http-builder:http-builder:0.7.2"
     }
 }
 
@@ -29,17 +29,17 @@ plugins {
     id "com.matthewprenger.cursegradle" version "1.0.8"
     id "io.franzbecker.gradle-lombok" version "1.8"
 }
-apply plugin: 'com.github.ben-manes.versions'
-apply plugin: 'net.minecraftforge.gradle.forge'
-apply plugin: 'maven'
-apply plugin: 'maven-publish'
+apply plugin: "com.github.ben-manes.versions"
+apply plugin: "net.minecraftforge.gradle.forge"
+apply plugin: "maven"
+apply plugin: "maven-publish"
 
 def getChangelog() {
     try {
         def tag = "git describe --abbrev=0 --tags".execute().text.trim();
         return ("git tag -l -n99999 " + tag).execute().text.trim().replaceFirst(tag, "").replaceAll("(?m)^\\s+", "")
     } catch(Exception e) {
-        return ''
+        return ""
     }
 }
 def getVersionType() {
@@ -62,11 +62,11 @@ def getVersionName() {
             return tmp.replaceFirst("(.+?-[^\\-]+)(-)?", "\$1-${mod_version_postfix}\$2");
     } catch(Exception e) {
         println e
-        return 'UNKNOWN-VERSION'
+        return "UNKNOWN-VERSION"
     }
 }
 def signJar(archivePath) {
-    if (project.hasProperty('keyStoreAlias') && project.hasProperty('keyStore') && project.hasProperty('keyStorePass')) {
+    if (project.hasProperty("keyStoreAlias") && project.hasProperty("keyStore") && project.hasProperty("keyStorePass")) {
         ant.signjar(
             jar:                  archivePath,
             alias:                project.keyStoreAlias,
@@ -75,11 +75,11 @@ def signJar(archivePath) {
             preservelastmodified: true
         )
     } else {
-        println 'WARNING!!!\tCannot sign jar!'
+        println "WARNING!!!\tCannot sign jar!"
     }
 }
 
-def MainDirResources = fileTree(dir: file('.'), includes: ['README.md', 'LICENSE', 'CHANGELOG.md'])
+def MainDirResources = fileTree(dir: file("."), includes: ["README.md", "LICENSE", "CHANGELOG.md"])
 def commonManifest = { attributes "FMLAT": "BrainStoneMod_at.cfg" }
 version = getVersionName()
 group = "brainstonemod" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
@@ -171,18 +171,18 @@ processResources {
 
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
+        include "mcmod.info"
                 
         // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+        expand "version": project.version, "mcversion": project.minecraft.version
     }
         
     // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
+        exclude "mcmod.info"
     }
     
-    rename "(.+_at.cfg)", "META-INF/\$1"
+    rename "(.+_at.cfg)", 'META-INF/$1'
     
     from MainDirResources
 }
@@ -225,7 +225,7 @@ reobfJar {
 
 task deobfJar(type: Jar) {
     from sourceSets.main.output
-    classifier = 'deobf'
+    classifier = "deobf"
     manifest commonManifest
     
     doLast {
@@ -338,19 +338,19 @@ curseforge {
         }
         
         relations {
-            optionalLibrary 'baubles'
-            optionalLibrary 'betterachievements'
-            optionalLibrary 'draconic-evolution'
-            optionalLibrary 'ender-io'
-            optionalLibrary 'immersive-engineering'
-            optionalLibrary 'just-enough-items-jei'
-            optionalLibrary 'just-enough-resources-jer'
-            optionalLibrary 'overlord'
-            optionalLibrary 'tinkers-construct'
+            optionalLibrary "baubles"
+            optionalLibrary "betterachievements"
+            optionalLibrary "draconic-evolution"
+            optionalLibrary "ender-io"
+            optionalLibrary "immersive-engineering"
+            optionalLibrary "just-enough-items-jei"
+            optionalLibrary "just-enough-resources-jer"
+            optionalLibrary "overlord"
+            optionalLibrary "tinkers-construct"
             
-            //optionalLibrary 'minefactory-reloaded'
-            //optionalLibrary 'thermal-foundation'
-            //optionalLibrary 'thaumcraft'
+            //optionalLibrary "minefactory-reloaded"
+            //optionalLibrary "thermal-foundation"
+            //optionalLibrary "thaumcraft"
         }
     }
 }
@@ -361,15 +361,15 @@ task updateDownloadServer {
     dependsOn sourceJar
     
     doLast {
-        if (!project.hasProperty('secret')) {
+        if (!project.hasProperty("secret")) {
             println "Secret needs to be set with the parameter -Psecret=xxx"
             
             return
         }
         
-        def http = new HTTPBuilder('http://download.brainstonemod.com/')
+        def http = new HTTPBuilder("http://download.brainstonemod.com/")
         http.request( POST ) {
-            uri.path = '/admin/new_version.php'
+            uri.path = "/admin/new_version.php"
             requestContentType = URLENC
             body = [
                 secret: project.secret,
