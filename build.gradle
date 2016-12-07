@@ -182,9 +182,16 @@ processResources {
         exclude "mcmod.info"
     }
     
+    from MainDirResources
+    
     rename "(.+_at.cfg)", 'META-INF/$1'
     
-    from MainDirResources
+    // Minify json resources
+    doLast {
+        fileTree(dir: outputs.files.asPath, includes: ["mcmod.info", "**/*.json", "**/*.mcmeta"]).each {
+            File file -> file.text = JsonOutput.toJson(new JsonSlurper().parse(file))
+        }
+    }
 }
 
 task showVersion {
