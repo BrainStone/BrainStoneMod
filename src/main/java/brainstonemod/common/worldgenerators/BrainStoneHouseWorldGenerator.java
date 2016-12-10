@@ -42,13 +42,10 @@ public class BrainStoneHouseWorldGenerator implements IWorldGenerator {
 	private final static ResourceLocation STARIS_END = new ResourceLocation(BrainStone.RESOURCE_PACKAGE,
 			"house/stairs_end");
 
-	@Deprecated
-	private int x, y, z;
 	private BlockPos basePos;
 	private BlockPos baseSize;
 	private World world;
 	private Random random;
-	private final int[] Options = new int[] { 2 };
 	private MinecraftServer minecraftServer;
 	private TemplateManager templateManager;
 	private Rotation[] allRotations;
@@ -60,179 +57,90 @@ public class BrainStoneHouseWorldGenerator implements IWorldGenerator {
 		basePos = world.getHeight(new BlockPos(chunkX * 16, 0, chunkZ * 16));
 		this.world = world;
 
-		if (ArrayUtils.contains(BrainStoneConfigWrapper.getBrainStoneHouseDims(), this.world.provider.getDimension()))
-			if (this.random.nextInt(BrainStoneConfigWrapper.getBrainStoneHouseRarity()) == 0) {
-				generate();
-			}
-	}
-
-	private boolean canPlaceSecretRoomHere() {
-		int i, j, k;
-		final int height = (Options[0] * 8) + 3;
-
-		for (i = 3; i < 10; i++) {
-			for (j = -1; j < 6; j++) {
-				for (k = height + 1; k > (height - 8); k--)
-					if (isNotSolid(x + i, y - k, z + j))
-						return false;
-			}
-		}
-
-		return true;
-	}
-
-	private boolean canPlaceShackHere() {
-		int i, j, k;
-
-		for (i = 0; i < 6; i++) {
-			for (j = 0; j < 5; j++)
-				if (isNotSolid(x + i, y - 1, z + j))
-					return false;
-		}
-
-		for (i = 0; i < 4; i++)
-			if (isNotSolid(x + i, y - 1, z + 5))
-				return false;
-
-		for (i = 0; i < 6; i++) {
-			for (j = 0; j < 5; j++) {
-				for (k = 0; k < 4; k++)
-					if (!isReplaceable(x + i, y + k, z + j))
-						return false;
-			}
-		}
-
-		for (i = 0; i < 4; i++) {
-			for (j = 0; j < 4; j++)
-				if (!isReplaceable(x + i, y + j, z + 5))
-					return false;
-		}
-
-		if (!(isReplaceable(x + 4, y + 2, z + 5) && isReplaceable(x + 5, y + 2, z + 5)))
-			return false;
-
-		for (i = -1; i < 5; i++)
-			if (!isReplaceable(x + i, y + 2, z + 6))
-				return false;
-
-		for (i = -1; i < 6; i++)
-			if (!isReplaceable(x - 1, y + 2, z + i))
-				return false;
-
-		for (i = 0; i < 7; i++)
-			if (!isReplaceable(x + i, y + 2, z - 1))
-				return false;
-
-		for (i = 0; i < 6; i++)
-			if (!isReplaceable(x + 6, y + 2, z + i))
-				return false;
-
-		for (i = 1; i < 4; i++) {
-			for (j = 1; j < 5; j++)
-				if (!isReplaceable(x + j, y + 4, z + i))
-					return false;
-		}
-
-		return (isReplaceable(x + 1, y + 4, z + 4) && isReplaceable(x + 2, y + 4, z + 4))
-				&& isReplaceable(x + 2, y + 5, z + 2) && isReplaceable(x + 3, y + 5, z + 2);
-
-	}
-
-	private boolean canPlaceStairsHere() {
-		int i, j, k;
-
-		final int height = (Options[0] * 8) + 5;
-
-		for (i = -1; i < 6; i++) {
-			for (j = -1; j < 6; j++) {
-				for (k = 2; k < height; k++)
-					if (isNotSolid(x + i, y - k, z + j))
-						return false;
-			}
-		}
-
-		return true;
-	}
-
-	private boolean canPlaceStructHere(int structure) {
-		switch (structure) {
-		case 0:
-			return canPlaceShackHere();
-		case 1:
-			return canPlaceStairsHere() && canPlaceSecretRoomHere();
-		default:
-			return false;
+		if (ArrayUtils.contains(BrainStoneConfigWrapper.getBrainStoneHouseDims(), this.world.provider.getDimension())
+				&& (this.random.nextInt(BrainStoneConfigWrapper.getBrainStoneHouseRarity()) == 0)) {
+			generate();
 		}
 	}
 
 	private void generate() {
-		x = basePos.getX();
-		y = basePos.getY();
-		z = basePos.getZ();
 		minecraftServer = world.getMinecraftServer();
 		templateManager = world.getSaveHandler().getStructureTemplateManager();
 		allRotations = Rotation.values();
-
-		BSP.trace("Trying at " + x + ", " + y + ", " + z + "!");
-
+		Rotation rotation = allRotations[random.nextInt(allRotations.length)];
+		Template templateShack = templateManager.getTemplate(minecraftServer, SHACK);
+		PlacementSettings placementSettings = (new PlacementSettings()).setRotation(rotation);
+		BlockPos housePos;
+		baseSize = templateShack.transformedSize(rotation);
+		BlockPos probePos;
 		int counter = 0;
 		int direction = 0;
 		int directionCounter = 0;
 		int maxDirection = 1;
+		int x;
+		int y;
+		int z;
+		boolean locationOk;
+		
+		BSP.trace("Trying at " + basePos.getX() + ", " + basePos.getY() + ", " + basePos.getZ() + "!");
 
+		// Find valid location
 		while (true) {
-			// TODO: New check for placability!
-			if (Math.sqrt(4) == 2) {
-				break;
-			}
-
 			if (directionCounter >= maxDirection) {
 				directionCounter = 0;
 				maxDirection += direction % 2;
 				direction = (direction + 1) % 4;
 			}
 
-			y = world.getHeight(basePos).getY();
+			basePos = world.getHeight(basePos);
+			housePos = templateShack.getZeroPositionWithTransform(basePos, null, rotation);
+			probePos = new BlockPos(housePos);
+			locationOk = true;
 
-			if (canPlaceStructHere(0)) {
-				Options[0] = 3;
+			for (x = 0; locationOk && x < baseSize.getX(); x++) {
+				for (z = 0; locationOk && z < baseSize.getZ(); z++) {
+					probePos = probePos.add(0, -1, 0);
 
-				if (canPlaceStructHere(1)) {
-					break;
+					locationOk = isSolid(probePos);
+
+					probePos = probePos.add(0, 1, 0);
+
+					for (y = 0; locationOk && y < baseSize.getY(); y++) {
+						locationOk = !isSolid(probePos);
+
+						probePos = probePos.add(0, 1, 0);
+					}
+
+					probePos = probePos.add(0, -y, 1);
 				}
 
-				Options[0] = 2;
-
-				if (canPlaceStructHere(1)) {
-					break;
-				}
-
-				Options[0] = 4;
-
-				if (canPlaceStructHere(1)) {
-					break;
-				}
+				probePos = probePos.add(1, 0, -z);
 			}
+
+			if (locationOk)
+				break;
+
+			BSP.info("");
 
 			switch (direction) {
 			case 0:
-				x++;
+				basePos = basePos.north();
 				break;
 			case 1:
-				z++;
+				basePos = basePos.east();
 				break;
 			case 2:
-				x--;
+				basePos = basePos.south();
 				break;
 			case 3:
-				z--;
+				basePos = basePos.west();
 				break;
 			default:
 				// Shouldn't be here
 				break;
 			}
 
-			if (counter >= 10000) {
+			if (counter >= 100000) {
 				BSP.debug("Failed");
 
 				return;
@@ -242,19 +150,8 @@ public class BrainStoneHouseWorldGenerator implements IWorldGenerator {
 			directionCounter++;
 		}
 
-		generateShack();
-		generateStairCase();
-
-		BSP.trace("Placed at " + x + ", " + y + ", " + z + "!");
-	}
-
-	private void generateShack() {
-		Rotation rotation = allRotations[random.nextInt(allRotations.length)];
-		Template templateShack = templateManager.getTemplate(minecraftServer, SHACK);
+		// Generate Shack
 		Template templateReplacementWood = templateManager.getTemplate(minecraftServer, REPLACEMENT_WOOD);
-		PlacementSettings placementSettings = (new PlacementSettings()).setRotation(rotation);
-		BlockPos housePos = templateShack.getZeroPositionWithTransform(basePos, null, rotation);
-		baseSize = templateShack.transformedSize(rotation);
 		List<BlockPos> dataBlocks = templateShack.getDataBlocks(housePos, placementSettings).entrySet().stream()
 				.filter(entry -> entry.getValue().equals("chest")).map(entry -> entry.getKey())
 				.collect(Collectors.toList());
@@ -269,6 +166,10 @@ public class BrainStoneHouseWorldGenerator implements IWorldGenerator {
 		for (BlockPos woodPos : dataBlocks) {
 			templateReplacementWood.addBlocksToWorld(world, woodPos, placementSettings);
 		}
+
+		generateStairCase();
+
+		BSP.trace("Placed at " + basePos.getX() + ", " + basePos.getY() + ", " + basePos.getZ() + "!");
 	}
 
 	private void generateStairCase() {
@@ -329,11 +230,7 @@ public class BrainStoneHouseWorldGenerator implements IWorldGenerator {
 		}
 	}
 
-	private boolean isReplaceable(int x, int y, int z) {
-		return world.getBlockState(new BlockPos(x, y, z)).getMaterial().isReplaceable();
-	}
-
-	private boolean isNotSolid(int x, int y, int z) {
-		return !world.getBlockState(new BlockPos(x, y, z)).getMaterial().isSolid();
+	private boolean isSolid(BlockPos blockPos) {
+		return world.getBlockState(blockPos).getMaterial().isSolid();
 	}
 }
