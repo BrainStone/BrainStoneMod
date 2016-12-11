@@ -1,5 +1,7 @@
 package brainstonemod.common.block;
 
+import java.util.Random;
+
 import javax.annotation.Nullable;
 
 import brainstonemod.BrainStone;
@@ -8,6 +10,7 @@ import net.minecraft.block.BlockAnvil;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -16,12 +19,21 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockBrainStoneAnvil extends BlockAnvil {
+	private boolean effect;
+
 	public BlockBrainStoneAnvil() {
+		this(false);
+	}
+
+	public BlockBrainStoneAnvil(boolean effect) {
 		super();
 
-		setHardness(5.0f);
+		this.effect = effect;
+
+		setHardness(12.0f);
 		setSoundType(SoundType.ANVIL);
 		setResistance(2000.0f);
+		setLightLevel(1.0f);
 		setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.DECORATIONS));
 	}
 
@@ -34,5 +46,37 @@ public class BlockBrainStoneAnvil extends BlockAnvil {
 		}
 
 		return true;
+	}
+
+	@Override
+	public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
+		super.onBlockAdded(worldIn, pos, state);
+
+		if (effect) {
+			// TODO: Check that priority
+			worldIn.scheduleBlockUpdate(pos, this, (int) worldIn.getTotalWorldTime() % tickRate(worldIn), 0);
+		}
+	}
+
+	@Override
+	public int tickRate(World par1World) {
+		return 20;
+	}
+
+	@Override
+	public void updateTick(World world, BlockPos pos, IBlockState state, Random random) {
+		if (effect) {
+			if (!world.isRemote && (random.nextInt(10) == 0)
+					&& (world.getBlockState(pos.down()).getBlock() != BrainStone.stablePulsatingBrainStone())) {
+				EntityFallingBlock entityfallingblock = new EntityFallingBlock(world, pos.getX() + 0.5D, pos.getY(),
+						pos.getZ() + 0.5D, world.getBlockState(pos));
+				onStartFalling(entityfallingblock);
+				BlockPulsatingBrainStone.kickEntity(entityfallingblock, random, 1.0);
+				world.spawnEntityInWorld(entityfallingblock);
+			}
+
+			// TODO: Check that priority
+			world.scheduleBlockUpdate(pos, this, tickRate(world), 0);
+		}
 	}
 }

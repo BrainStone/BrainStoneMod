@@ -613,6 +613,7 @@ public class BrainStone {
 				(new BlockBrainStoneBase(Material.ROCK)).setHardness(4.0F).setResistance(1.5F).setLightLevel(1.0F)
 						.setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.BUILDING_BLOCKS)));
 		blocks.put("brain_stone_anvil", new BlockBrainStoneAnvil());
+		blocks.put("pulsating_brain_stone_anvil", new BlockBrainStoneAnvil(true));
 
 		dirtyBrainStone().blockParticleGravity = -0.1F;
 		dirtyBrainStone().setHarvestLevel("pickaxe", 2);
@@ -825,10 +826,17 @@ public class BrainStone {
 	}
 
 	/**
-	 * @return the instance of StablePulsatingBrainStone
+	 * @return the instance of BrainStoneAnvil
 	 */
 	public static final BlockBrainStoneAnvil brainStoneAnvil() {
 		return (BlockBrainStoneAnvil) blocks.get("brain_stone_anvil");
+	}
+
+	/**
+	 * @return the instance of PulsatingBrainStoneAnvil
+	 */
+	public static final BlockBrainStoneAnvil pulsatingBrainStoneAnvil() {
+		return (BlockBrainStoneAnvil) blocks.get("pulsating_brain_stone_anvil");
 	}
 
 	/**

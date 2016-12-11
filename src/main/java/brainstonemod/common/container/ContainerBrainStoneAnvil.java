@@ -6,6 +6,7 @@ import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.StringUtils;
 
+import brainstonemod.BrainStone;
 import brainstonemod.common.block.BlockBrainStoneAnvil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAnvil;
@@ -24,6 +25,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ContainerBrainStoneAnvil extends ContainerRepair {
+	public static final float BRAIN_STONE_FACTOR = 1.0f / 20.0f;
+	public static final float PULSATING_BRAIN_STONE_FACTOR = 1.0f / 100000.0f;
+
 	@SideOnly(Side.CLIENT)
 	public ContainerBrainStoneAnvil(InventoryPlayer inventoryIn, World worldIn, EntityPlayer thePlayer) {
 		this(inventoryIn, worldIn, BlockPos.ORIGIN, thePlayer);
@@ -71,9 +75,16 @@ public class ContainerBrainStoneAnvil extends ContainerRepair {
 
 				maximumCost = 0;
 				IBlockState iblockstate = world.getBlockState(blockPosIn);
+				Block block = iblockstate.getBlock();
 
-				if (!playerIn.capabilities.isCreativeMode && !world.isRemote && isValidBlock(iblockstate)
-						&& (playerIn.getRNG().nextFloat() < (breakChance / 20.0f))) {
+				if (block == BrainStone.brainStoneAnvil()) {
+					breakChance *= BRAIN_STONE_FACTOR;
+				} else if (block == BrainStone.pulsatingBrainStoneAnvil()) {
+					breakChance *= PULSATING_BRAIN_STONE_FACTOR;
+				}
+
+				if (!playerIn.capabilities.isCreativeMode && !world.isRemote && isValidBlock(block)
+						&& (playerIn.getRNG().nextFloat() < breakChance)) {
 					int l = iblockstate.getValue(BlockAnvil.DAMAGE).intValue();
 					++l;
 
@@ -247,7 +258,7 @@ public class ContainerBrainStoneAnvil extends ContainerRepair {
 			if (i <= 0) {
 				itemstack1 = null;
 			}
-			
+
 			// No max checking!
 
 			if (itemstack1 != null) {
