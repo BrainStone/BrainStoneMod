@@ -1,11 +1,24 @@
 package brainstonemod;
 
+import java.lang.reflect.Modifier;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.Map.Entry;
+
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.Logger;
+
 import brainstonemod.client.gui.helper.BrainStoneModCreativeTab;
 import brainstonemod.client.handler.BrainStoneClientEvents;
 import brainstonemod.client.render.BSTriggerModel;
 import brainstonemod.common.CommonProxy;
 import brainstonemod.common.achievement.BrainStoneAchievement;
-import brainstonemod.common.block.*;
+import brainstonemod.common.block.BlockBrainLightSensor;
+import brainstonemod.common.block.BlockBrainStone;
+import brainstonemod.common.block.BlockBrainStoneAnvil;
+import brainstonemod.common.block.BlockBrainStoneOre;
+import brainstonemod.common.block.BlockBrainStoneTrigger;
+import brainstonemod.common.block.BlockPulsatingBrainStone;
 import brainstonemod.common.block.template.BlockBrainStoneBase;
 import brainstonemod.common.compat.BrainStoneModules;
 import brainstonemod.common.compat.draconicevolution.DraconicEvolutionItems;
@@ -15,7 +28,12 @@ import brainstonemod.common.handler.BrainStoneEventHandler;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.helper.BrainStoneJarUtils;
 import brainstonemod.common.helper.BrainStoneLifeCapacitorUpgrade;
-import brainstonemod.common.item.*;
+import brainstonemod.common.item.ItemArmorBrainStone;
+import brainstonemod.common.item.ItemBrainStoneLifeCapacitor;
+import brainstonemod.common.item.ItemEssenceOfLife;
+import brainstonemod.common.item.ItemHoeBrainStone;
+import brainstonemod.common.item.ItemSwordBrainStone;
+import brainstonemod.common.item.ItemToolBrainStone;
 import brainstonemod.common.item.template.ItemBrainStoneBase;
 import brainstonemod.common.tileentity.TileEntityBrainLightSensor;
 import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
@@ -33,7 +51,12 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.item.*;
+import net.minecraft.entity.item.EntityBoat;
+import net.minecraft.entity.item.EntityEnderEye;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.item.EntityMinecart;
+import net.minecraft.entity.item.EntityTNTPrimed;
+import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityFireball;
@@ -65,7 +88,13 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.*;
+import net.minecraftforge.fml.common.event.FMLFingerprintViolationEvent;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLMissingMappingsEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerAboutToStartEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -73,13 +102,6 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.core.Logger;
-
-import java.lang.reflect.Modifier;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.Map.Entry;
 
 /**
  * The main file of the mod

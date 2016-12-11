@@ -14,7 +14,7 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-import static brainstonemod.BrainStone.MOD_ID;
+import static brainstonemod.BrainStone.RESOURCE_PREFIX;
 
 public class ClientProxy extends CommonProxy {
 
@@ -51,26 +51,26 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void rmm(Item i) {
 		ModelLoader.setCustomModelResourceLocation(i, 0,
-				new ModelResourceLocation(MOD_ID + ":" + i.getUnlocalizedName().substring(5), "inventory"));
+				new ModelResourceLocation(RESOURCE_PREFIX + i.getUnlocalizedName().substring(5), "inventory"));
 	}
 
 	@Override
 	public void rmm(Block b) {
 		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(b), 0,
-				new ModelResourceLocation(MOD_ID + ":" + b.getUnlocalizedName().substring(5), "inventory"));
+				new ModelResourceLocation(RESOURCE_PREFIX + b.getUnlocalizedName().substring(5), "inventory"));
 	}
 
 	@Override
 	public void rmm(BlockBrainStoneAnvil b) {
 		ModelBakery.registerItemVariants(Item.getItemFromBlock(b),
-				new ModelResourceLocation(MOD_ID + ":" + b.getUnlocalizedName().substring(5)+"_intact", "inventory"),
-				new ModelResourceLocation(MOD_ID + ":" + b.getUnlocalizedName().substring(5)+"_slightly_damaged", "inventory"),
-				new ModelResourceLocation(MOD_ID + ":" + b.getUnlocalizedName().substring(5)+"_very_damaged", "inventory"));
+				new ModelResourceLocation(RESOURCE_PREFIX + b.getUnlocalizedName().substring(5)+"_intact", "inventory"),
+				new ModelResourceLocation(RESOURCE_PREFIX + b.getUnlocalizedName().substring(5)+"_slightly_damaged", "inventory"),
+				new ModelResourceLocation(RESOURCE_PREFIX + b.getUnlocalizedName().substring(5)+"_very_damaged", "inventory"));
 		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(b), 0,
-				new ModelResourceLocation(MOD_ID + ":" + b.getUnlocalizedName().substring(5)+"_intact", "inventory"));
+				new ModelResourceLocation(RESOURCE_PREFIX + b.getUnlocalizedName().substring(5)+"_intact", "inventory"));
 		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(b), 1,
-				new ModelResourceLocation(MOD_ID + ":" + b.getUnlocalizedName().substring(5)+"_slightly_damaged", "inventory"));
+				new ModelResourceLocation(RESOURCE_PREFIX + b.getUnlocalizedName().substring(5)+"_slightly_damaged", "inventory"));
 		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(b), 2,
-				new ModelResourceLocation(MOD_ID + ":" + b.getUnlocalizedName().substring(5)+"_very_damaged", "inventory"));
+				new ModelResourceLocation(RESOURCE_PREFIX + b.getUnlocalizedName().substring(5)+"_very_damaged", "inventory"));
 	}
 }
