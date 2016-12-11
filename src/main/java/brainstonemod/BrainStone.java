@@ -392,11 +392,11 @@ public class BrainStone {
 	private static final void createEnums() {
 		toolBRAINSTONE = EnumHelper.addToolMaterial("BRAINSTONE", 5, 5368, 6.0f, 5.0f, 25);
 		armorBRAINSTONE = EnumHelper.addArmorMaterial("BRAINSTONE", "BRAINSTONE", 114, new int[] { 2, 6, 5, 2 }, 25,
-				SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.0f);
+				SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 1.0f);
 
 		toolSTABLEPULSATINGBS = EnumHelper.addToolMaterial("STABLEPULSATINGBS", 9, 21472, 18.0f, 20.0f, 50);
 		armorSTABLEPULSATINGBS = EnumHelper.addArmorMaterial("STABLEPULSATINGBS", "STABLEPULSATINGBS", 456,
-				new int[] { 12, 32, 24, 12 }, 50, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.0f);
+				new int[] { 12, 32, 24, 12 }, 50, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 8.0f);
 
 		ItemStack brainStone = new ItemStack(brainStone());
 		ItemStack stablePulsatingBrainStone = new ItemStack(stablePulsatingBrainStone());
@@ -480,6 +480,10 @@ public class BrainStone {
 				pulsatingBrainStone(), 'S', Items.NETHER_STAR);
 		addRecipe(new ItemStack(stablePulsatingBrainStone(), 1), "PEP", "ESE", "PEP", 'E', essenceOfLife(), 'P',
 				pulsatingBrainStone(), 'S', Items.NETHER_STAR);
+		addRecipe(new ItemStack(brainStoneAnvil(), 1), "PPP", " B ", "BBB", 'P', pulsatingBrainStone(), 'B',
+				"brainstone");
+		addRecipe(new ItemStack(pulsatingBrainStoneAnvil(), 1), "PEP", " P ", "BBB", 'P', pulsatingBrainStone(), 'E',
+				essenceOfLife(), 'B', "brainstone");
 		addRecipe(new ItemStack(brainStoneSword(), 1), "B", "B", "S", 'S', "stickWood", 'B', "brainstone");
 		addRecipe(new ItemStack(brainStoneShovel(), 1), "B", "S", "S", 'S', "stickWood", 'B', "brainstone");
 		addRecipe(new ItemStack(brainStonePickaxe(), 1), "BBB", " S ", " S ", 'S', "stickWood", 'B', "brainstone");
