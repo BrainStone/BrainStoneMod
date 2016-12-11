@@ -72,7 +72,6 @@ public class BrainStoneHouseWorldGenerator implements IWorldGenerator {
 		PlacementSettings placementSettings = (new PlacementSettings()).setRotation(rotation);
 		BlockPos housePos;
 		baseSize = templateShack.transformedSize(rotation);
-		BlockPos probePos;
 		int counter = 0;
 		int direction = 0;
 		int directionCounter = 0;
@@ -81,7 +80,7 @@ public class BrainStoneHouseWorldGenerator implements IWorldGenerator {
 		int y;
 		int z;
 		boolean locationOk;
-		
+
 		BSP.trace("Trying at " + basePos.getX() + ", " + basePos.getY() + ", " + basePos.getZ() + "!");
 
 		// Find valid location
@@ -93,34 +92,23 @@ public class BrainStoneHouseWorldGenerator implements IWorldGenerator {
 			}
 
 			basePos = world.getHeight(basePos);
-			housePos = templateShack.getZeroPositionWithTransform(basePos, null, rotation);
-			probePos = new BlockPos(housePos);
 			locationOk = true;
 
-			for (x = 0; locationOk && x < baseSize.getX(); x++) {
-				for (z = 0; locationOk && z < baseSize.getZ(); z++) {
-					probePos = probePos.add(0, -1, 0);
+			for (x = 0; locationOk && (x < baseSize.getX()); x++) {
+				for (z = 0; locationOk && (z < baseSize.getZ()); z++) {
+					locationOk = isSolid(basePos.add(x, -1, z));
 
-					locationOk = isSolid(probePos);
-
-					probePos = probePos.add(0, 1, 0);
-
-					for (y = 0; locationOk && y < baseSize.getY(); y++) {
-						locationOk = !isSolid(probePos);
-
-						probePos = probePos.add(0, 1, 0);
+					for (y = 0; locationOk && (y < baseSize.getY()); y++) {
+						locationOk = !isSolid(basePos.add(x, y, z));
 					}
-
-					probePos = probePos.add(0, -y, 1);
 				}
-
-				probePos = probePos.add(1, 0, -z);
 			}
 
-			if (locationOk)
-				break;
+			if (locationOk) {
+				housePos = templateShack.getZeroPositionWithTransform(basePos, null, rotation);
 
-			BSP.info("");
+				break;
+			}
 
 			switch (direction) {
 			case 0:
