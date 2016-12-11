@@ -7,6 +7,12 @@ tile.brain_stone_trigger.name=Hirnsteinauslöser
 tile.pulsating_brain_stone.name=Pulsierender Hirnstein
 tile.pulsating_brain_stone_effect.name=Pulsierender Hirnstein-Effekt
 tile.stable_pulsating_brain_stone.name=Stabiler Pulsierender Hirnstein
+tile.brain_stone_anvil.intact.name=Hirnsteinamboss
+tile.brain_stone_anvil.slightlyDamaged.name=Leicht beschädigter Hirnsteinamboss
+tile.brain_stone_anvil.veryDamaged.name=Stark beschädigter Hirnsteinamboss
+tile.pulsating_brain_stone_anvil.intact.name=Pulsierender Hirnsteinamboss
+tile.pulsating_brain_stone_anvil.slightlyDamaged.name=Leicht beschädigter Pulsierender Hirnsteinamboss
+tile.pulsating_brain_stone_anvil.veryDamaged.name=Stark beschädigter Pulsierender Hirnsteinamboss
 
 item.brain_stone_dust.name=Hirnsteinstaub
 item.brain_processor.name=Hirnprozessor
@@ -83,6 +89,8 @@ gui.brainstone.config.cat.miscellaneous.enablecreativetab=Aktiviere Kreativ Tab
 gui.brainstone.config.cat.miscellaneous.enablecreativetab.tooltip=Möchtest du einen eigene Kreativ Tab für diese Mod haben?
 gui.brainstone.config.cat.miscellaneous.essenceoflifedropchancemodifier=Essenz des Lebens Dropchancemodifizierer
 gui.brainstone.config.cat.miscellaneous.essenceoflifedropchancemodifier.tooltip=Modifiziert die Dropchance der Ezzenz des Lebens. Angabe in Prozent.\nWenn die Grundchance 50%% ist (hängt davon ab welche andere Mods geladen sind), und diesen Wert auf 20 (%%) gesetzt hast, wird die Chance zu 50%% + (50%% * 20%%) = 60%%.
+gui.brainstone.config.cat.miscellaneous.pulsatingbrainstoneanviljumpchance=Pulsierender Hirnsteinamboss-Sprungchance
+gui.brainstone.config.cat.miscellaneous.pulsatingbrainstoneanviljumpchance.tooltip=Setzt die Sprungchance des Pulsierendeb Hirnsteinambosses. Höhere Werte -> niederigere Chance. 0 deaktivert sie.
 
 gui.brainstone.config.cat.brainstonelifecapacitor=Hirnsteinlebenskondensator
 gui.brainstone.config.cat.brainstonelifecapacitor.tooltip=Modifiziere alle Hirnsteinlebenskondensator-Einstellungen
