@@ -185,11 +185,6 @@ public class ItemToolBrainStone extends ItemTool {
 	}
 
 	@Override
-	public boolean getIsRepairable(ItemStack tool, ItemStack material) {
-		return Block.getBlockFromItem(material.getItem()) == BrainStone.brainStone();
-	}
-
-	@Override
 	public Set<String> getToolClasses(ItemStack stack) {
 		return toolClass != null ? ImmutableSet.of(toolClass) : super.getToolClasses(stack);
 	}

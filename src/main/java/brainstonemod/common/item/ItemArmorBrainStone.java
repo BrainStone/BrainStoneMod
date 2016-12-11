@@ -1,7 +1,6 @@
 package brainstonemod.common.item;
 
 import brainstonemod.BrainStone;
-import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -30,10 +29,5 @@ public class ItemArmorBrainStone extends ItemArmor {
 			return BrainStone.MOD_ID + ":textures/armor/stablepulsatingbs_armor_2.png";
 
 		return null;
-	}
-
-	@Override
-	public boolean getIsRepairable(ItemStack tool, ItemStack material) {
-		return Block.getBlockFromItem(material.getItem()) == BrainStone.brainStone();
 	}
 }

@@ -397,6 +397,15 @@ public class BrainStone {
 		toolSTABLEPULSATINGBS = EnumHelper.addToolMaterial("STABLEPULSATINGBS", 9, 21472, 18.0f, 20.0f, 50);
 		armorSTABLEPULSATINGBS = EnumHelper.addArmorMaterial("STABLEPULSATINGBS", "STABLEPULSATINGBS", 456,
 				new int[] { 12, 32, 24, 12 }, 50, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.0f);
+
+		ItemStack brainStone = new ItemStack(brainStone());
+		ItemStack stablePulsatingBrainStone = new ItemStack(stablePulsatingBrainStone());
+
+		toolBRAINSTONE.setRepairItem(brainStone);
+		armorBRAINSTONE.customCraftingMaterial = brainStone.getItem();
+
+		toolSTABLEPULSATINGBS.setRepairItem(stablePulsatingBrainStone);
+		armorSTABLEPULSATINGBS.customCraftingMaterial = stablePulsatingBrainStone.getItem();
 	}
 
 	/**
@@ -677,10 +686,10 @@ public class BrainStone {
 			if (block instanceof BlockBrainStoneAnvil) {
 				GameRegistry.register(new ItemAnvilBlock(block).setRegistryName(block.getRegistryName()));
 
-				proxy.rmm((BlockBrainStoneAnvil)block);
+				proxy.rmm((BlockBrainStoneAnvil) block);
 			} else {
 				GameRegistry.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
-				
+
 				proxy.rmm(block);
 			}
 		}
@@ -812,6 +821,13 @@ public class BrainStone {
 	 */
 	public static final Block stablePulsatingBrainStone() {
 		return blocks.get("stable_pulsating_brain_stone");
+	}
+
+	/**
+	 * @return the instance of StablePulsatingBrainStone
+	 */
+	public static final BlockBrainStoneAnvil brainStoneAnvil() {
+		return (BlockBrainStoneAnvil) blocks.get("brain_stone_anvil");
 	}
 
 	/**
