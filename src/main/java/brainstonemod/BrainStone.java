@@ -416,8 +416,9 @@ public class BrainStone {
 		event.getModMetadata().name = NAME;
 		event.getModMetadata().version = VERSION;
 		event.getModMetadata().url = "https://minecraft.curseforge.com/projects/brain-stone-mod";
-		event.getModMetadata().credits = "The_BrainStone(Code, Textures, Ideas), The_Fireplace(Code), Herr_Kermit(Textures), Jobbel(Name)";
-		event.getModMetadata().authorList = Arrays.asList("The_BrainStone", "The_Fireplace", "Herr_Kermit");
+		event.getModMetadata().credits = "The_BrainStone(Code, Textures, Ideas), The_Fireplace(Code), Herr_Kermit(Textures), Count Grimhart(Textures), Jobbel(Name)";
+		event.getModMetadata().authorList = Arrays.asList("The_BrainStone", "The_Fireplace", "Herr_Kermit",
+				"Count Grimhart");
 		event.getModMetadata().description = "This mod adds the mysterious block BrainStone. You can craft almost magical things from it.\nBut see yourself!\n\n\nThanks for downloading and supporting this mod!";
 		event.getModMetadata().parent = "";
 		event.getModMetadata().screenshots = new String[] {};

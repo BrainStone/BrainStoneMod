@@ -318,7 +318,13 @@ uploadArchives {
                                 }
                             }
                             contributor {
-                                name "Herr_Kermir"
+                                name "Herr_Kermit"
+                                roles {
+                                    role "texturer"
+                                }
+                            }
+                            contributor {
+                                name "Count Grimhart"
                                 roles {
                                     role "texturer"
                                 }
