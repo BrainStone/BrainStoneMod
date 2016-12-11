@@ -127,6 +127,7 @@ repositories {
 
 dependencies {
     // External Mods
+    deobfProvided "team.chisel:Chisel:MC${minecraft_version}-${chisel_version}"
     deobfProvided "com.enderio.core:EnderCore:${minecraft_version}-${endercore_version}"
     deobfProvided("com.enderio:EnderIO:${minecraft_version}-${enderio_version}") {
         exclude module: "appliedenergistics2"
@@ -363,6 +364,7 @@ curseforge {
         relations {
             optionalLibrary "baubles"
             optionalLibrary "betterachievements"
+            optionalLibrary "chisel"
             optionalLibrary "draconic-evolution"
             optionalLibrary "ender-io"
             optionalLibrary "immersive-engineering"
