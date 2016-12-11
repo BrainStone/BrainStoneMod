@@ -15,6 +15,7 @@ import brainstonemod.common.CommonProxy;
 import brainstonemod.common.achievement.BrainStoneAchievement;
 import brainstonemod.common.block.BlockBrainLightSensor;
 import brainstonemod.common.block.BlockBrainStone;
+import brainstonemod.common.block.BlockBrainStoneAnvil;
 import brainstonemod.common.block.BlockBrainStoneOre;
 import brainstonemod.common.block.BlockBrainStoneTrigger;
 import brainstonemod.common.block.BlockPulsatingBrainStone;
@@ -67,6 +68,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.ItemAnvilBlock;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -524,8 +526,8 @@ public class BrainStone {
 
 		MinecraftForge.EVENT_BUS.register(new BrainStoneClientEvents());
 
-		ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(RESOURCE_PREFIX + "brain_stone_trigger",
-				"inventory");
+		ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(
+				RESOURCE_PREFIX + "brain_stone_trigger", "inventory");
 		final int DEFAULT_ITEM_SUBTYPE = 0;
 		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(brainStoneTrigger()), DEFAULT_ITEM_SUBTYPE,
 				itemModelResourceLocation);
@@ -600,6 +602,7 @@ public class BrainStone {
 		blocks.put("stable_pulsating_brain_stone",
 				(new BlockBrainStoneBase(Material.ROCK)).setHardness(4.0F).setResistance(1.5F).setLightLevel(1.0F)
 						.setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.BUILDING_BLOCKS)));
+		blocks.put("brain_stone_anvil", new BlockBrainStoneAnvil());
 
 		dirtyBrainStone().blockParticleGravity = -0.1F;
 		dirtyBrainStone().setHarvestLevel("pickaxe", 2);
@@ -670,8 +673,14 @@ public class BrainStone {
 			block.setUnlocalizedName(key);
 			block.setRegistryName(key);
 			GameRegistry.register(block);
-			GameRegistry.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
-			proxy.rmm(block);
+
+			if (block instanceof BlockBrainStoneAnvil) {
+				GameRegistry.register(new ItemAnvilBlock(block).setRegistryName(block.getRegistryName()));
+			} else {
+				GameRegistry.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
+				
+				proxy.rmm(block);
+			}
 		}
 	}
 

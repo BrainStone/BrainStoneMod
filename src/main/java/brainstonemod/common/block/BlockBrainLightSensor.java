@@ -8,6 +8,7 @@ import brainstonemod.BrainStone;
 import brainstonemod.common.block.template.BlockBrainStoneContainerBase;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.tileentity.TileEntityBrainLightSensor;
+import brainstonemod.network.BrainStoneGuiHandler;
 import brainstonemod.network.BrainStonePacketHelper;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -99,7 +100,8 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 
 			return false;
 		} else {
-			playerIn.openGui(BrainStone.instance, 0, world, pos.getX(), pos.getY(), pos.getZ());
+			playerIn.openGui(BrainStone.instance, BrainStoneGuiHandler.ID_BRAIN_LIGHT_SENSOR, world, pos.getX(),
+					pos.getY(), pos.getZ());
 			return true;
 		}
 	}

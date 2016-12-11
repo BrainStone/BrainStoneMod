@@ -10,6 +10,7 @@ import brainstonemod.common.block.property.UnlistedPropertyCopiedBlock;
 import brainstonemod.common.block.template.BlockBrainStoneHiders;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
+import brainstonemod.network.BrainStoneGuiHandler;
 import brainstonemod.network.BrainStonePacketHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
@@ -43,7 +44,6 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 		setHardness(2.4F);
 		setResistance(0.5F);
 		setHarvestLevel("pickaxe", 1);
-		// setRequiresSelfNotify();
 
 		blockParticleGravity = -0.2F;
 	}
@@ -101,7 +101,8 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 				.getTileEntity(pos);
 
 		if (tileentityblockbrainstonetrigger != null) {
-			playerIn.openGui(BrainStone.instance, 1, world, pos.getX(), pos.getY(), pos.getZ());
+			playerIn.openGui(BrainStone.instance, BrainStoneGuiHandler.ID_BRAIN_STONE_TRIGGER, world, pos.getX(),
+					pos.getY(), pos.getZ());
 		}
 
 		return true;
