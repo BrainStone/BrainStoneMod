@@ -1,6 +1,7 @@
 package brainstonemod.common;
 
 import brainstonemod.BrainStone;
+import brainstonemod.common.block.BlockBrainStoneAnvil;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -55,6 +56,10 @@ public class CommonProxy {
 	}
 
 	public void rmm(Block b) {
+		// Do nothing
+	}
+
+	public void rmm(BlockBrainStoneAnvil b) {
 		// Do nothing
 	}
 }

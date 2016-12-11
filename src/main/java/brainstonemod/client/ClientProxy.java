@@ -1,11 +1,11 @@
 package brainstonemod.client;
 
-import static brainstonemod.BrainStone.MOD_ID;
-
 import brainstonemod.common.CommonProxy;
+import brainstonemod.common.block.BlockBrainStoneAnvil;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,6 +13,8 @@ import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+
+import static brainstonemod.BrainStone.MOD_ID;
 
 public class ClientProxy extends CommonProxy {
 
@@ -56,5 +58,19 @@ public class ClientProxy extends CommonProxy {
 	public void rmm(Block b) {
 		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(b), 0,
 				new ModelResourceLocation(MOD_ID + ":" + b.getUnlocalizedName().substring(5), "inventory"));
+	}
+
+	@Override
+	public void rmm(BlockBrainStoneAnvil b) {
+		ModelBakery.registerItemVariants(Item.getItemFromBlock(b),
+				new ModelResourceLocation(MOD_ID + ":" + b.getUnlocalizedName().substring(5)+"_intact", "inventory"),
+				new ModelResourceLocation(MOD_ID + ":" + b.getUnlocalizedName().substring(5)+"_slightly_damaged", "inventory"),
+				new ModelResourceLocation(MOD_ID + ":" + b.getUnlocalizedName().substring(5)+"_very_damaged", "inventory"));
+		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(b), 0,
+				new ModelResourceLocation(MOD_ID + ":" + b.getUnlocalizedName().substring(5)+"_intact", "inventory"));
+		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(b), 1,
+				new ModelResourceLocation(MOD_ID + ":" + b.getUnlocalizedName().substring(5)+"_slightly_damaged", "inventory"));
+		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(b), 2,
+				new ModelResourceLocation(MOD_ID + ":" + b.getUnlocalizedName().substring(5)+"_very_damaged", "inventory"));
 	}
 }
