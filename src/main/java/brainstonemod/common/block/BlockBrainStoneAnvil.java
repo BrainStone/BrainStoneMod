@@ -5,6 +5,7 @@ import java.util.Random;
 import javax.annotation.Nullable;
 
 import brainstonemod.BrainStone;
+import brainstonemod.common.config.BrainStoneConfigWrapper;
 import brainstonemod.network.BrainStoneGuiHandler;
 import net.minecraft.block.BlockAnvil;
 import net.minecraft.block.SoundType;
@@ -66,7 +67,7 @@ public class BlockBrainStoneAnvil extends BlockAnvil {
 	@Override
 	public void updateTick(World world, BlockPos pos, IBlockState state, Random random) {
 		if (effect) {
-			if (!world.isRemote && (random.nextInt(10) == 0)
+			if (!world.isRemote && (random.nextInt(BrainStoneConfigWrapper.getPulsatingBrainStoneJumpChance()) == 0)
 					&& (world.getBlockState(pos.down()).getBlock() != BrainStone.stablePulsatingBrainStone())) {
 				EntityFallingBlock entityfallingblock = new EntityFallingBlock(world, pos.getX() + 0.5D, pos.getY(),
 						pos.getZ() + 0.5D, world.getBlockState(pos));

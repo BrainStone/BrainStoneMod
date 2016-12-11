@@ -35,6 +35,8 @@ public class BrainStoneConfigWrapper {
 	@Getter
 	private static double essenceOfLifeBaseChance;
 	@Getter
+	private static int pulsatingBrainStoneJumpChance;
+	@Getter
 	private static int[] brainStoneOreDims;
 	@Getter
 	private static int brainStoneOreVeinCount;
@@ -110,6 +112,8 @@ public class BrainStoneConfigWrapper {
 				"Modifies the drop chance of the Essence of Life. Value in percent.\n"
 						+ "If the base chance is 50% (depends on what other mods you have loaded) and you set this value to 20 (%) the chance becomes 50% + (50% * 20%) = 60%.")
 				/ 100.0) + 1.0) * (BrainStoneModules.draconicEvolution() ? 0.1 : 0.5);
+		pulsatingBrainStoneJumpChance = getInt(CAT_MISC, "PulsatingBrainStoneJumpChance", 100, 0, 1000,
+				"Sets the jump chance of the Pulsating Brain Stone Anvil. Higher values -> lower chance. 0 disables it.");
 
 		addCustomCategoryComment(CAT_MISC, "This set defines miscellaneous settings.");
 	}
