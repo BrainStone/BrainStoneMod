@@ -160,6 +160,16 @@ task delombok(type: DelombokTask) {
     args("src/main/java", "-d", "build/sources/delomboked/java")
 }
 
+task formatJson {
+    doLast {
+        sourceSets.main.resources.srcDirs.each {
+            dir -> fileTree(dir: dir, includes: ["mcmod.info", "**/*.json", "**/*.mcmeta"]).each {
+                File file -> file.text = JsonOutput.prettyPrint(file.text) + "\n"
+            }
+        }
+    }
+}
+
 sourceMainJava {
     source = sourceSets.main.allSource
 }

@@ -1,5 +1,7 @@
 {
     "variants": {
-        "normal": { "model": "brainstonemod:brain_stone_ore" }
+        "normal": {
+            "model": "brainstonemod:brain_stone_ore"
+        }
     }
 }

@@ -2,7 +2,9 @@
     {
         "modid": "brainstonemod",
         "name": "Brain Stone Mod",
-        "dependencies": [],
+        "dependencies": [
+            
+        ],
         "version": "${version}",
         "mcversion": "${mcversion}"
     }
