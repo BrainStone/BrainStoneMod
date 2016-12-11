@@ -3,7 +3,7 @@ package brainstonemod.common.block;
 import java.util.Random;
 
 import brainstonemod.BrainStone;
-import brainstonemod.common.block.template.BlockBrainStoneBase;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -15,7 +15,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockBrainStone extends BlockBrainStoneBase {
+public class BlockBrainStone extends Block {
 	/**
 	 * Saves the state given in the constructor named flag.<br>
 	 * Will be used in the code. Cannot be changed.

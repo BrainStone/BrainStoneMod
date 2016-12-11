@@ -6,7 +6,6 @@ import java.util.Random;
 import org.apache.commons.lang3.ArrayUtils;
 
 import brainstonemod.BrainStone;
-import brainstonemod.common.block.template.BlockBrainStoneBase;
 import brainstonemod.common.compat.BrainStoneModules;
 import brainstonemod.common.compat.enderio.BrainStoneUpgrade;
 import brainstonemod.common.compat.overlord.IOverlordCompat;
@@ -32,7 +31,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Loader;
 
-public class BlockPulsatingBrainStone extends BlockBrainStoneBase {
+public class BlockPulsatingBrainStone extends Block {
 	private final boolean effect;
 	private static Block hasEffectBlock, hasNoEffectBlock;
 	private static long lastGravityChange = 0;

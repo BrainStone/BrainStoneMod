@@ -18,8 +18,8 @@ import brainstonemod.common.block.BlockBrainStone;
 import brainstonemod.common.block.BlockBrainStoneAnvil;
 import brainstonemod.common.block.BlockBrainStoneOre;
 import brainstonemod.common.block.BlockBrainStoneTrigger;
+import brainstonemod.common.block.BlockConnectedTextures;
 import brainstonemod.common.block.BlockPulsatingBrainStone;
-import brainstonemod.common.block.template.BlockBrainStoneBase;
 import brainstonemod.common.compat.BrainStoneModules;
 import brainstonemod.common.compat.draconicevolution.DraconicEvolutionItems;
 import brainstonemod.common.compat.enderio.EnderIOItems;
@@ -607,14 +607,14 @@ public class BrainStone {
 		blocks.put("brain_stone", new BlockBrainStone(false));
 		blocks.put("brain_stone_out", new BlockBrainStone(true));
 		blocks.put("brain_stone_ore", new BlockBrainStoneOre());
-		blocks.put("dirty_brain_stone", (new BlockBrainStoneBase(Material.ROCK)).setHardness(2.4F).setResistance(0.5F)
+		blocks.put("dirty_brain_stone", (new Block(Material.ROCK)).setHardness(2.4F).setResistance(0.5F)
 				.setLightLevel(0.5F).setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.BUILDING_BLOCKS)));
 		blocks.put("brain_light_sensor", new BlockBrainLightSensor());
 		blocks.put("brain_stone_trigger", new BlockBrainStoneTrigger());
 		blocks.put("pulsating_brain_stone", new BlockPulsatingBrainStone(false));
 		blocks.put("pulsating_brain_stone_effect", new BlockPulsatingBrainStone(true));
 		blocks.put("stable_pulsating_brain_stone",
-				(new BlockBrainStoneBase(Material.ROCK)).setHardness(4.0F).setResistance(1.5F).setLightLevel(1.0F)
+				(new BlockConnectedTextures(Material.ROCK)).setHardness(4.0F).setResistance(1.5F).setLightLevel(1.0F)
 						.setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.BUILDING_BLOCKS)));
 		blocks.put("brain_stone_anvil", new BlockBrainStoneAnvil());
 		blocks.put("pulsating_brain_stone_anvil", new BlockBrainStoneAnvil(true));
