@@ -2,5 +2,11 @@
     "parent": "block/cube_all",
     "textures": {
         "all": "brainstonemod:blocks/stable_pulsating_brain_stone"
+    },
+    "ctm": {
+        "model": {
+            "model": "cube"
+        },
+        "face": "brainstonemod:ctm/stable_pulsating_brain_stone.cf"
     }
 }

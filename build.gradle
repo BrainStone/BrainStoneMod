@@ -80,6 +80,7 @@ def signJar(archivePath) {
 }
 
 def MainDirResources = fileTree(dir: file("."), includes: ["README.md", "LICENSE", "CHANGELOG.md"])
+def jsonPatterns = ["mcmod.info", "**/*.json", "**/*.mcmeta", "**/*.cf", "**/*.ctx"]
 def commonManifest = { attributes "FMLAT": "BrainStoneMod_at.cfg" }
 version = getVersionName()
 group = "brainstonemod" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
@@ -164,7 +165,7 @@ task delombok(type: DelombokTask) {
 task formatJson {
     doLast {
         sourceSets.main.resources.srcDirs.each {
-            dir -> fileTree(dir: dir, includes: ["mcmod.info", "**/*.json", "**/*.mcmeta"]).each {
+            dir -> fileTree(dir: dir, includes: jsonPatterns).each {
                 File file -> file.text = JsonOutput.prettyPrint(file.text) + "\n"
             }
         }
@@ -199,7 +200,7 @@ processResources {
     
     // Minify json resources
     doLast {
-        fileTree(dir: outputs.files.asPath, includes: ["mcmod.info", "**/*.json", "**/*.mcmeta"]).each {
+        fileTree(dir: outputs.files.asPath, includes: jsonPatterns).each {
             File file -> file.text = JsonOutput.toJson(new JsonSlurper().parse(file))
         }
     }
