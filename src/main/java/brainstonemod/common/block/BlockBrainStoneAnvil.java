@@ -20,7 +20,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockBrainStoneAnvil extends BlockAnvil {
-	private boolean effect;
+	private final boolean effect;
 
 	public BlockBrainStoneAnvil() {
 		this(false);
@@ -55,7 +55,8 @@ public class BlockBrainStoneAnvil extends BlockAnvil {
 
 		if (effect) {
 			// TODO: Check that priority
-			worldIn.scheduleBlockUpdate(pos, this, (int) worldIn.getTotalWorldTime() % tickRate(worldIn), 0);
+			worldIn.scheduleBlockUpdate(pos, this,
+					(int) worldIn.getTotalWorldTime() % (new Random()).nextInt(tickRate(worldIn)), 0);
 		}
 	}
 
@@ -77,7 +78,7 @@ public class BlockBrainStoneAnvil extends BlockAnvil {
 			}
 
 			// TODO: Check that priority
-			world.scheduleBlockUpdate(pos, this, tickRate(world), 0);
+			world.scheduleBlockUpdate(pos, this, random.nextInt(tickRate(world)), 0);
 		}
 	}
 }
