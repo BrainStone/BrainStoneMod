@@ -1,0 +1,131 @@
+﻿tile.brain_stone.name=Piedra Cerebral
+tile.brain_stone_out.name=Piedra Cerebral
+tile.brain_stone_ore.name=Mineral de Piedra Cerebral
+tile.dirty_brain_stone.name=Piedra Cerebral Sucio
+tile.brain_light_sensor.name=Sensor de Luz de Cerebral
+tile.brain_stone_trigger.name=Desencadenar de Piedra Cerebral
+tile.pulsating_brain_stone.name=Piedra Cerebral Pulsante
+tile.pulsating_brain_stone_effect.name=Piedra Cerebral Pulsante
+tile.stable_pulsating_brain_stone.name=Piedra Cerebral Pulsante Estable
+
+item.brain_stone_dust.name=Polvo de Piedra Cerebral
+item.brain_processor.name=Procesador de Celebro
+item.brain_stone_sword.name=Espada de Piedra Cerebral
+item.brain_stone_shovel.name=Pala de Piedra Cerebral
+item.brain_stone_pickaxe.name=Pico de Piedra Cerebral
+item.brain_stone_axe.name=Hacha de Piedra Cerebral
+item.brain_stone_hoe.name=Azada de Piedra Cerebral
+item.brain_stone_helmet.name=Casco de Piedra Cerebral
+item.brain_stone_plate.name=Armadura de Piedra Cerebral
+item.brain_stone_leggings.name=Polainas de Piedra Cerebral
+item.brain_stone_boots.name=Botas de Piedra Cerebral
+item.essence_of_life.name=Esencia de Vida
+item.stable_pulsating_brain_stone_sword.name=Espada de Piedra Cerebral Pulsante Estable
+item.stable_pulsating_brain_stone_shovel.name=Pala de Piedra Cerebral Pulsante Establede Piedra Cerebral Pulsante Estable
+item.stable_pulsating_brain_stone_pickaxe.name=Pico de Piedra Cerebral Pulsante Estable
+item.stable_pulsating_brain_stone_axe.name=Hacha de Piedra Cerebral Pulsante Estable
+item.stable_pulsating_brain_stone_hoe.name=Azada de Piedra Cerebral Pulsante Estable
+item.stable_pulsating_brain_stone_helmet.name=Casco de Piedra Cerebral Pulsante Estable
+item.stable_pulsating_brain_stone_plate.name=Armadura de Piedra Cerebral Pulsante Estable
+item.stable_pulsating_brain_stone_leggings.name=Polainas de Piedra Cerebral Pulsante Estable
+item.stable_pulsating_brain_stone_boots.name=Botas de Piedra Cerebral Pulsante Estable
+item.brain_stone_life_capacitor.name=Capacitador de Vida de Piedra Cerebral
+
+achievement.brainstonemod.WTHIT=Que demonios es eso???
+achievement.brainstonemod.WTHIT.desc=Tienes que encontrat el polvo verde raro.
+achievement.brainstonemod.itLives=¡Vive!
+achievement.brainstonemod.itLives.desc=¡Elaboración y una fundición es la clave!
+achievement.brainstonemod.intelligentBlocks=Bloques inteligentes.
+achievement.brainstonemod.intelligentBlocks.desc=¡Haga bloques inteligentes útiles de esta piedra verde!
+achievement.brainstonemod.intelligentTools=Herramientas inteligentes.
+achievement.brainstonemod.intelligentTools.desc=¡Haga herramientas de esta piedra verde!
+achievement.brainstonemod.lifeCapacitor=Capacitador Celebral
+achievement.brainstonemod.lifeCapacitor.desc=¡Haga y reclama un capacitador de vida de la piedra cerebral!
+achievement.brainstonemod.over9000=¡¡¡¡¡¡¡¡¡¡¡¡¡Esta sobre 9000!!!!!!!!!!!!!
+achievement.brainstonemod.over9000.desc=Actualize el nivel de capacidad de un capacitador de vida de piedra celebral sobre 9000. (No lo intentes)
+
+itemGroup.tabbrainstonemod=Brain Stone Mod
+
+gui.brainstone.item=Item/Objeto
+gui.brainstone.player=Player
+gui.brainstone.projectile=Proyectil
+gui.brainstone.classic=Clasico
+gui.brainstone.simple=Simple
+gui.brainstone.proportional=Proporcional
+gui.brainstone.inverted=Invertido
+
+gui.brainstone.config.cat.modules=Modulos
+gui.brainstone.config.cat.modules.tooltip=Deshabilitar manualmente ciertos módulos de compatibilidad
+gui.brainstone.config.cat.modules.disablebaubles=Disable Baubles
+gui.brainstone.config.cat.modules.disablebaubles.tooltip=Desactivar manualmente el módulo de compatibilidad de Baubles
+gui.brainstone.config.cat.modules.disablebetterachievements=Desactivar mejores logros
+gui.brainstone.config.cat.modules.disablebetterachievements.tooltip=Deshabilite manualmente el módulo de compatibilidad para Better Achievements
+gui.brainstone.config.cat.modules.disabledraconicevolution=Deshabilite Draconic Evolution
+gui.brainstone.config.cat.modules.disabledraconicevolution.tooltip=Deshabilite manualmente el módulo de compatibilidad para Draconic Evolution
+gui.brainstone.config.cat.modules.disableenderio=Deshabilite Ender IO
+gui.brainstone.config.cat.modules.disableenderio.tooltip=Deshabilite manualmente el módulo de compatibilidad para Ender IO
+gui.brainstone.config.cat.modules.disableimmersiveengineering=Deshabilite Immersive Engineering
+gui.brainstone.config.cat.modules.disableimmersiveengineering.tooltip=Deshabilite manualmente el módulo de compatibilidad para Immersive Engineering
+gui.brainstone.config.cat.modules.disablejei=Disable Just Enough Items (JEI)
+gui.brainstone.config.cat.modules.disablejei.tooltip=Deshabilite manualmente el módulo de compatibilidad para Just Enough Items (JEI)
+gui.brainstone.config.cat.modules.disablejeresources=Deshabilite Just Enough Resources (JER)
+gui.brainstone.config.cat.modules.disablejeresources.tooltip=Deshabilite manualmente el módulo de compatibilidad para Just Enough Resources (JER)
+gui.brainstone.config.cat.modules.disableoverlord=Deshabilite Overlord
+gui.brainstone.config.cat.modules.disableoverlord.tooltip=Deshabilite manualmente el módulo de compatibilidad para Overlord
+gui.brainstone.config.cat.modules.disabletconstruct=Deshabilite Tinker's Construct
+gui.brainstone.config.cat.modules.disabletconstruct.tooltip=Deshabilite manualmente el módulo de compatibilidad para Tinker's Construct
+gui.brainstone.config.cat.modules.enablejeireloading=Habilitar JEI Reloading
+gui.brainstone.config.cat.modules.enablejeireloading.tooltip=Vuelva a cargar JEI cuando cambie la configuración. \N§4Big ¡Los modpacks deberían desactivar esto! ¡Si no está en el cliente entonces en el servidor! \ NEste ajuste también no rompe cualquier cosa si está inhabilitado. Sólo evita algunas sugerencias incorrectas en JEI cuando algunas configuraciones de servidor y cliente son diferentes.
+
+gui.brainstone.config.cat.miscellaneous=Diverso
+gui.brainstone.config.cat.miscellaneous.tooltip=Modificar todos los ajustes diversos
+gui.brainstone.config.cat.miscellaneous.enablecreativetab=Habilitar la pestaña de creatividades
+gui.brainstone.config.cat.miscellaneous.enablecreativetab.tooltip=¿Desea tener una pestaña creativa para este mod?
+gui.brainstone.config.cat.miscellaneous.essenceoflifedropchancemodifier=Modificador de la probabilidad de caída de la esencia de la vida
+gui.brainstone.config.cat.miscellaneous.essenceoflifedropchancemodifier.tooltip=Modifica la probabilidad de caída de la Esencia de la Vida. Valor en porcentaje. \Nlf la probabilidad de base es 50 %% (depende de los otros mods que hayas cargado) y estableces este valor en 20 (%%) la probabilidad se convierte en 50 %% (50 %% * 20 %%) = 60%.
+
+gui.brainstone.config.cat.brainstonelifecapacitor=Capacitor de la vida de la piedra Celebral
+gui.brainstone.config.cat.brainstonelifecapacitor.tooltip=Modifique todos los ajustes relacionados con el capacitor de Piedra Cerebral
+gui.brainstone.config.cat.brainstonelifecapacitor.allowstealing=Permitir el robo
+gui.brainstone.config.cat.brainstonelifecapacitor.allowstealing.tooltip=¿Quieres permitir el robo del capacitor de Piedra Cerebral?
+gui.brainstone.config.cat.brainstonelifecapacitor.rfperhalfheart=RF por medio corazón
+gui.brainstone.config.cat.brainstonelifecapacitor.rfperhalfheart.tooltip=¿Cuánta energía debe costar medio corazón?
+
+gui.brainstone.config.cat.worldgen=Worldgen
+gui.brainstone.config.cat.worldgen.tooltip=Modificar todos los ajustes relacionados con el worldgen
+gui.brainstone.config.cat.worldgen.brainstonehousedimensionswhitelist=Whitelist de la casa de piedra cerebral
+gui.brainstone.config.cat.worldgen.brainstonehousedimensionswhitelist.tooltip=¿En qué dimensiones se debe generar la Casa de Piedra Cerebral?
+gui.brainstone.config.cat.worldgen.brainstonehouserarity=Casa de Piedra Cerebral Rareza
+gui.brainstone.config.cat.worldgen.brainstonehouserarity.tooltip=¿Qué tan raro debe ser la casa de Piedra Cerebral? (Generado una vez cada n trozos)
+gui.brainstone.config.cat.worldgen.brainstoneoredimensionswhitelist=Whitelist de Minerales de Pierda Cerebral Dimensiones
+gui.brainstone.config.cat.worldgen.brainstoneoredimensionswhitelist.tooltip=¿En qué dimensiones se debe generar los minerales de Piedra Cerebral?
+gui.brainstone.config.cat.worldgen.brainstoneoreveincount=Cuenta de venas de mineral de Piedra Cerebral
+gui.brainstone.config.cat.worldgen.brainstoneoreveincount.tooltip=¿Cuántas venas de mineral de Piedra Cerebral por cada trozo debe ser generado?
+gui.brainstone.config.cat.worldgen.brainstoneoreveinsize=Tamaño de la vena de mineral de piedra del cerebro
+gui.brainstone.config.cat.worldgen.brainstoneoreveinsize.tooltip=¿Qué tan grandes son las venas Piedra Cerebral? (En bloques en promedio)
+
+capacitor.owner=Dueño:
+capacitor.nobody=Nadie
+capacitor.you= (Usted)
+capacitor.claim= (Shift-R-Click para reclamar)
+capacitor.summary=Absorbe todo el daño mientras está encendido.
+capacitor.costs=Costos
+capacitor.capacity=Nivel de Capacidad
+capacitor.charging=Nivel de carga:
+capacitor.details=Aguante %s para detalles
+
+trigger.delay=Delay
+trigger.all=Todos:
+
+brainstone.power.rf=RF
+brainstone.power.tick=/t
+
+tc.aspect.brainstone=Cerebro+Piedra
+
+enderio.darksteel.upgrade.brainstone.name=protección de piedra cerebral pulsante
+enderio.darksteel.upgrade.brainstone.tooltip.detailed.line1=Si se aplica a todas las partes de la armadura
+enderio.darksteel.upgrade.brainstone.tooltip.detailed.line2=Usted estará protegido por los
+enderio.darksteel.upgrade.brainstone.tooltip.detailed.line3=efectos de la piedra cerebral pulsante
+
+material.brainstone.name=Piedra Cerebral
+material.stablepulsatingbrainstone.name=Piedra Cerebral P.E.
