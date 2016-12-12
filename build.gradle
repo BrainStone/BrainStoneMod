@@ -329,6 +329,7 @@ uploadArchives {
                                 name "Count Grimhart"
                                 roles {
                                     role "texturer"
+                                    role "translator"
                                 }
                             }
                         }
