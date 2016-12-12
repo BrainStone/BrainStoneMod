@@ -19,5 +19,10 @@
             ]
         }
     },
-    "ctm": "parent"
+    "ctm": {
+        "model": {
+            "model": "cube"
+        },
+        "face": "brainstonemod:ctm/stable_pulsating_brain_stone.cf"
+    }
 }
