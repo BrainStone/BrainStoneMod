@@ -141,7 +141,7 @@ dependencies {
         exclude module: "OpenComputers"
     }
     provided "blusunrize:ImmersiveEngineering:${immersive_engineering_version}"
-    provided "the_fireplace.overlord:Overlord:${overlord_version}:deobf"
+    provided "the_fireplace.overlord:Overlord-${minecraft_version}:${overlord_version}:deobf"
     provided("slimeknights:TConstruct:${minecraft_version}-${tconstruct_version}") {
         exclude module: "jei_${minecraft_version}"
     }
