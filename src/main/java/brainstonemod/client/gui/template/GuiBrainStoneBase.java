@@ -227,7 +227,7 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 	}
 
 	protected ISound playSoundAtClient(SoundEvent event, SoundCategory category, float volume, float pitch) {
-		BlockPos pos = mc.thePlayer.getPosition();
+		BlockPos pos = mc.player.getPosition();
 
 		PositionedSoundRecord sound = new PositionedSoundRecord(event, category, volume, pitch, pos.getX(), pos.getY(),
 				pos.getZ());
@@ -251,7 +251,7 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 	 * Closes the Gui
 	 */
 	protected void quit() {
-		mc.thePlayer.closeScreen();
+		mc.player.closeScreen();
 	}
 
 	protected void setSize(int width, int height) {

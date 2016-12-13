@@ -129,28 +129,34 @@ repositories {
 dependencies {
     // External Mods
     deobfProvided "team.chisel:Chisel:MC${minecraft_version}-${chisel_version}"
+    // Mappings do not match!
+    deobfProvided("com.brandon3055.draconicevolution:Draconic-Evolution:${minecraft_version}-${draconicEvolution_version}:universal") {
+        exclude module: "jei_${minecraft_version}"
+        exclude module: "OpenComputers"
+    }
     deobfProvided "com.enderio.core:EnderCore:${minecraft_version}-${endercore_version}"
     deobfProvided("com.enderio:EnderIO:${minecraft_version}-${enderio_version}") {
         exclude module: "appliedenergistics2"
     }
+    // Mappings do not match!
+    deobfProvided "blusunrize:ImmersiveEngineering:${immersive_engineering_version}:deobf"
     deobfProvided "mezz.jei:jei_${minecraft_version}:${jei_version}"
+    // Deobf exists but Access Transformers are messed up
     deobfProvided "slimeknights.mantle:Mantle:${minecraft_version}-${mantle_version}"
+    // Mappings do not match!
+    deobfProvided("slimeknights:TConstruct:${minecraft_version}-${tconstruct_version}") {
+        exclude module: "jei_${minecraft_version}"
+    }
     
-    provided("com.brandon3055.draconicevolution:Draconic-Evolution:${minecraft_version}-${draconicEvolution_version}:deobf") {
-        exclude module: "jei_${minecraft_version}"
-        exclude module: "OpenComputers"
-    }
-    provided "blusunrize:ImmersiveEngineering:${immersive_engineering_version}"
     provided "the_fireplace.overlord:Overlord-${minecraft_version}:${overlord_version}:deobf"
-    provided("slimeknights:TConstruct:${minecraft_version}-${tconstruct_version}") {
-        exclude module: "jei_${minecraft_version}"
-    }
+    
     
     // Local Mods
-    provided "lib:Baubles:+:deobf"
-    provided "lib:BetterAchievements:+:deobf"
     // Mappings do not match!
-    deobfProvided "lib:JustEnoughResources:+"
+    deobfProvided "lib:Baubles:+"
+    // Mappings do not match!
+    deobfProvided "lib:BetterAchievements:+"
+    provided "lib:JustEnoughResources:+:deobf"
 }
 
 lombok {

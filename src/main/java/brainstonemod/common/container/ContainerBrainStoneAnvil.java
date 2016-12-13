@@ -106,7 +106,7 @@ public class ContainerBrainStoneAnvil extends ContainerRepair {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer playerIn) {
-		return isValidBlock(theWorld.getBlockState(selfPosition)) ? (playerIn.getDistanceSq(selfPosition.getX() + 0.5D,
+		return isValidBlock(world.getBlockState(selfPosition)) ? (playerIn.getDistanceSq(selfPosition.getX() + 0.5D,
 				selfPosition.getY() + 0.5D, selfPosition.getZ() + 0.5D) <= 64.0D) : false;
 	}
 
@@ -189,8 +189,7 @@ public class ContainerBrainStoneAnvil extends ContainerRepair {
 							j3 = i3 == j3 ? j3 + 1 : Math.max(j3, i3);
 							boolean flag1 = enchantment1.canApply(itemstack);
 
-							if (thePlayer.capabilities.isCreativeMode
-									|| (itemstack.getItem() == Items.ENCHANTED_BOOK)) {
+							if (player.capabilities.isCreativeMode || (itemstack.getItem() == Items.ENCHANTED_BOOK)) {
 								flag1 = true;
 							}
 

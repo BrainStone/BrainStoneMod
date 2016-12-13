@@ -28,7 +28,7 @@ public class BrainStoneSounds {
 	}
 
 	public static void playSoundForAll(Entity entity, SoundEvent sound, float volume, float pitch) {
-		entity.worldObj.playSound(null, entity.getPosition(), sound, entity.getSoundCategory(), volume, pitch);
+		entity.world.playSound(null, entity.getPosition(), sound, entity.getSoundCategory(), volume, pitch);
 	}
 
 	public static void playSoundForPlayer(Entity entity, SoundEvent sound) {

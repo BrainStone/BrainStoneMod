@@ -46,7 +46,7 @@ public class PacketSetMaxDelay implements IMessage {
 	public static class Handler extends AbstractServerMessageHandler<PacketSetMaxDelay> {
 		@Override
 		public IMessage handleServerMessage(EntityPlayer player, PacketSetMaxDelay message, MessageContext ctx) {
-			TileEntity te = player.worldObj.getTileEntity(new BlockPos(message.x, message.y, message.z));
+			TileEntity te = player.world.getTileEntity(new BlockPos(message.x, message.y, message.z));
 			if (te instanceof TileEntityBrainStoneTrigger) {
 				((TileEntityBrainStoneTrigger) te).setMaxDelay(message.maxDelay);
 				return new PacketSyncSetMaxDelay(te, message.maxDelay);

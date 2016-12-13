@@ -38,8 +38,8 @@ public class PacketSmokeParticle implements IMessage {
 	public static class Handler extends AbstractClientMessageHandler<PacketSmokeParticle> {
 		@Override
 		public IMessage handleClientMessage(EntityPlayer player, PacketSmokeParticle message, MessageContext ctx) {
-			((BlockBrainLightSensor) player.worldObj.getBlockState(new BlockPos(message.x, message.y, message.z))
-					.getBlock()).smoke(player.worldObj, message.x, message.y, message.z, new Random());
+			((BlockBrainLightSensor) player.world.getBlockState(new BlockPos(message.x, message.y, message.z))
+					.getBlock()).smoke(player.world, message.x, message.y, message.z, new Random());
 			return null;
 		}
 	}

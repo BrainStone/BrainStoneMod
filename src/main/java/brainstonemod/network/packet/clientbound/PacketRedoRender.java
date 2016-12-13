@@ -34,7 +34,7 @@ public class PacketRedoRender implements IMessage {
 	public static class Handler extends AbstractClientMessageHandler<PacketRedoRender> {
 		@Override
 		public IMessage handleClientMessage(EntityPlayer player, PacketRedoRender message, MessageContext ctx) {
-			player.worldObj.markBlockRangeForRenderUpdate(message.x, message.y, message.z, message.x, message.y,
+			player.world.markBlockRangeForRenderUpdate(message.x, message.y, message.z, message.x, message.y,
 					message.z);
 			return null;
 		}

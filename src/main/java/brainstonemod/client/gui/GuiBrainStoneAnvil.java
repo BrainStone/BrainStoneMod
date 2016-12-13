@@ -10,11 +10,11 @@ import net.minecraft.world.World;
 
 public class GuiBrainStoneAnvil extends GuiRepair {
 	private final ContainerBrainStoneAnvil anvil;
-	
+
 	public GuiBrainStoneAnvil(InventoryPlayer inventoryIn, World worldIn) {
 		super(inventoryIn, worldIn);
-		
-		anvil = new ContainerBrainStoneAnvil(inventoryIn, worldIn, Minecraft.getMinecraft().thePlayer);
+
+		anvil = new ContainerBrainStoneAnvil(inventoryIn, worldIn, Minecraft.getMinecraft().player);
 		inventorySlots = anvil;
 	}
 

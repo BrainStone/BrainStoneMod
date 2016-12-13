@@ -50,7 +50,7 @@ public class PacketLightSensor implements IMessage {
 	public static class Handler extends AbstractServerMessageHandler<PacketLightSensor> {
 		@Override
 		public IMessage handleServerMessage(EntityPlayer player, PacketLightSensor message, MessageContext ctx) {
-			TileEntity te = player.worldObj.getTileEntity(new BlockPos(message.x, message.y, message.z));
+			TileEntity te = player.world.getTileEntity(new BlockPos(message.x, message.y, message.z));
 			if (te instanceof TileEntityBrainLightSensor) {
 				((TileEntityBrainLightSensor) te).setLightLevel(message.lightlevel);
 				((TileEntityBrainLightSensor) te).setDirection(message.direction);

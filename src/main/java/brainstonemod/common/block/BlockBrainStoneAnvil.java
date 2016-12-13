@@ -74,7 +74,7 @@ public class BlockBrainStoneAnvil extends BlockAnvil {
 						pos.getZ() + 0.5D, world.getBlockState(pos));
 				onStartFalling(entityfallingblock);
 				BlockPulsatingBrainStone.kickEntity(entityfallingblock, random, 1.0);
-				world.spawnEntityInWorld(entityfallingblock);
+				world.spawnEntity(entityfallingblock);
 			}
 
 			// TODO: Check that priority

@@ -31,7 +31,7 @@ public class BrainStoneAugment extends Augment {
 	@Override
 	@Optional.Method(modid = BrainStoneModules.OVERLORD_MODID)
 	public void onEntityTick(EntityArmyMember entityArmyMember) {
-		updateTick(entityArmyMember.worldObj, entityArmyMember.getPosition(), entityArmyMember);
+		updateTick(entityArmyMember.world, entityArmyMember.getPosition(), entityArmyMember);
 	}
 
 	@Override
