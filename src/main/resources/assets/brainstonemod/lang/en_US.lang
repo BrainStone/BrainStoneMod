@@ -1,11 +1,11 @@
 tile.brain_stone.name=Brain Stone
-tile.brain_stone_out.name=Brain Stone Out
+tile.brain_stone_out.name=Brain Stone
 tile.brain_stone_ore.name=Brain Stone Ore
 tile.dirty_brain_stone.name=Dirty Brain Stone
 tile.brain_light_sensor.name=Brain Light Sensor
 tile.brain_stone_trigger.name=Brain Stone Trigger
 tile.pulsating_brain_stone.name=Pulsating Brain Stone
-tile.pulsating_brain_stone_effect.name=Pulsating Brain Stone Effect
+tile.pulsating_brain_stone_effect.name=Pulsating Brain Stone
 tile.stable_pulsating_brain_stone.name=Stable Pulsating Brain Stone
 tile.brain_stone_anvil.intact.name=Brain Stone Anvil
 tile.brain_stone_anvil.slightlyDamaged.name=Slightly Damaged Brain Stone Anvil
