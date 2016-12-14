@@ -270,6 +270,63 @@ artifacts {
     archives sourceJar
 }
 
+
+task checkTranslations {
+    doLast {
+        boolean langs_ok = true
+        Map<String, String> map_en = new HashMap<String, String>()
+        (file("src/main/resources/assets/brainstonemod/lang/en_US.lang")).eachLine {
+              def (value1, value2) = it.tokenize( '=' )
+              if (value1 == null || value2 == null) {return}
+              map_en.put(value1, value2)
+        }
+        
+        file("src/main/resources/assets/brainstonemod/lang/").eachFileMatch( ~".*\\.lang\$" ) { langfile ->
+            if (!langfile.getName().contains("en_US")) {
+      	        Map<String, String> map = new HashMap<String, String>()
+      	        File outfile = file(langfile.getName() + ".txt")
+      	        Writer outwriter = outfile.newWriter("UTF-8")
+                boolean lang_ok = true
+                
+      	        outwriter.write("\n// Additional translations:\n")
+      	        outwriter << langfile.filterLine {
+      	            def (value1, value2) = it.tokenize( "=" )
+      	            if (value1 == null || value2 == null) {return false}
+      	            map.put(value1, value2)
+                    
+      	            if (map_en.containsKey(value1)) {
+                        return false
+                    } else {
+                        lang_ok = false
+                        return true
+                    }
+      	        }
+      	        
+      	        outwriter.append("\n// Missing translations:\n")
+      	        for (e in map_en) {
+      	            if (!map.containsKey(e.key)) {
+      	                outwriter.append(e.key + "=" + e.value + "\n")
+                        lang_ok = false
+      	            }
+      	        }
+                
+                outwriter.close()
+                
+                if (lang_ok) {
+                    outfile.delete()
+                } else {
+                    println "Lang file " + langfile.getName() + " is not ok!"
+                    println "Created translation report ${outfile}"
+                    langs_ok = false
+                }
+            }
+        }
+        
+        if(!langs_ok)
+            println "\nSome language files are not up to date. See log above!"
+    }
+}
+
 uploadArchives {
     repositories {
         mavenDeployer {

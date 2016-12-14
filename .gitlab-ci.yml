@@ -15,6 +15,7 @@ cache:
 stages:
 - build
 - deploy
+- checkTranslations
 - cleanup
   
 build:
@@ -35,6 +36,19 @@ deploy:
   - ./gradlew uploadArchives curseforge updateDownloadServer -Psecret=$secret -PcurseForgeApiKey=$curseForgeApiKey
   when: on_success
   only:
+  - tags
+  
+checkTranslations:
+  stage: checkTranslations
+  script:
+  - ./gradlew checkTranslations
+  - if test -n "$(find . -maxdepth 1 -name '*.lang.txt' -print -quit)"; then
+  - tail -n +1 *.lang.txt
+  - exit 1
+  - fi
+  when: on_success
+  allow_failure: true
+  except:
   - tags
 
 cleanup:
