@@ -1,3 +1,13 @@
+4.1.30
+------
+
+- Added Brain Stone Anvil
+- Added Pulsating Brain Stone Anvil
+- Added connected textures for Stable Pulsating Brain Stone (requires chisel)
+- Added Spanish translation
+- Fixed incorrect placement of Brain Stone Houses
+- Fixed wrong repair material for Stable Pulsating Brain Stone stuff
+
 4.1.21-rc1
 ----------
 
