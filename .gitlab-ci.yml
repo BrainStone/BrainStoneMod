@@ -43,7 +43,7 @@ checkTranslations:
   script:
   - ./gradlew checkTranslations
   - if test -n "$(find . -maxdepth 1 -name '*.lang.txt' -print -quit)"; then
-  - tail -n +1 *.lang.txt
+  - tail -vn+1 *.lang.txt
   - exit 1
   - fi
   when: on_success
