@@ -55,6 +55,6 @@ cleanup:
   stage: cleanup
   script:
   - ./gradlew clean
-  - rm -vf $ARTIFACTS
+  - rm -vf $ARTIFACTS *.lang.txt
   - mkdir -p $CACHE_DIR $CACHE_DIR2
   when: always
