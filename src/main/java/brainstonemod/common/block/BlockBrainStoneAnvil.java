@@ -56,7 +56,7 @@ public class BlockBrainStoneAnvil extends BlockAnvil {
 		if (effect) {
 			// TODO: Check that priority
 			worldIn.scheduleBlockUpdate(pos, this,
-					(int) worldIn.getTotalWorldTime() % (new Random()).nextInt(tickRate(worldIn) + 1), 0);
+					(int) worldIn.getTotalWorldTime() % ((new Random()).nextInt(tickRate(worldIn)) + 1), 0);
 		}
 	}
 
