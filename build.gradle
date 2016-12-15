@@ -121,16 +121,27 @@ repositories {
     maven { // Immersive Engeneering
         url "http://blamejared.com/maven"
     }
+    maven { // Forestry
+        url "http://maven.ic2.player.to"
+    }
     flatDir {
         dirs "lib"
     }
 }
 
 dependencies {
+    // Until mappings are updated in DE (Then remove this and exclusion under DE)
+    deobfProvided "com.brandon3055.brandonscore:BrandonsCore:1.10.2-2.1.1.+:universal"
     // External Mods
     deobfProvided "team.chisel:Chisel:MC${minecraft_version}-${chisel_version}"
+    // Until mappings are updated in DE (Then remove this and exclusion under DE)
+    deobfProvided "codechicken:CodeChickenLib:1.10.2-2.4.3.+:universal"
     // Mappings do not match!
     deobfProvided("com.brandon3055.draconicevolution:Draconic-Evolution:${minecraft_version}-${draconicEvolution_version}:universal") {
+        // Until mappings are updated
+        exclude module: "BrandonsCore"
+        // Until mappings are updated
+        exclude module: "CodeChickenLib"
         exclude module: "jei_${minecraft_version}"
         exclude module: "OpenComputers"
     }
@@ -138,8 +149,11 @@ dependencies {
     deobfProvided("com.enderio:EnderIO:${minecraft_version}-${enderio_version}") {
         exclude module: "appliedenergistics2"
     }
+    deobfProvided("net.sengir.forestry:forestry_${minecraft_version}:${forestry_version}") {
+        exclude module: "jei_${minecraft_version}"
+    }
     // Mappings do not match!
-    deobfProvided "blusunrize:ImmersiveEngineering:${immersive_engineering_version}:deobf"
+    deobfProvided "blusunrize:ImmersiveEngineering:${immersive_engineering_version}"
     deobfProvided "mezz.jei:jei_${minecraft_version}:${jei_version}"
     // Deobf exists but Access Transformers are messed up
     deobfProvided "slimeknights.mantle:Mantle:${minecraft_version}-${mantle_version}"
@@ -432,6 +446,7 @@ curseforge {
             optionalLibrary "chisel"
             optionalLibrary "draconic-evolution"
             optionalLibrary "ender-io"
+            optionalLibrary "forestry"
             optionalLibrary "immersive-engineering"
             optionalLibrary "just-enough-items-jei"
             optionalLibrary "just-enough-resources-jer"

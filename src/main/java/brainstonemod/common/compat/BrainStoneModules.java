@@ -29,6 +29,7 @@ public final class BrainStoneModules {
 	public static final String BETTER_ACHIEVEMENTS_MODID = "BetterAchievements";
 	public static final String DRACONIC_EVOLUTION_MODID = "draconicevolution";
 	public static final String ENDER_IO_MODID = "EnderIO";
+	public static final String FORESTRY_MODID = "forestry";
 	public static final String IMMERSIVE_ENGINEERING_MODID = "immersiveengineering";
 	public static final String JEI_MODID = "JEI";
 	public static final String JER_MODID = "jeresources";
@@ -38,7 +39,7 @@ public final class BrainStoneModules {
 	public static final String TINKERS_CONSTRUCT_MODID = "tconstruct";
 
 	public static final String DEPENDENCIES = "after:" + BAUBLES_MODID + ";after:" + BETTER_ACHIEVEMENTS_MODID
-			+ ";after:" + DRACONIC_EVOLUTION_MODID + ";after:" + ENDER_IO_MODID + ";after:"
+			+ ";after:" + DRACONIC_EVOLUTION_MODID + ";after:" + ENDER_IO_MODID + ";after:" + FORESTRY_MODID + ";after:"
 			+ IMMERSIVE_ENGINEERING_MODID + ";after:" + JEI_MODID + ";after:" + JER_MODID + "@[0.5.6.84,);after:"
 			+ MFR_MODID + ";after:" + OVERLORD_MODID + ";after:" + THAUMCRAFT_MODID + ";after:"
 			+ TINKERS_CONSTRUCT_MODID;
@@ -47,6 +48,7 @@ public final class BrainStoneModules {
 	private static Boolean BETTER_ACHIEVEMENTS;
 	private static Boolean DRACONIC_EVOLUTION;
 	private static Boolean ENDER_IO;
+	private static Boolean FORESTRY;
 	private static Boolean IMMERSIVE_ENGINEERING;
 	private static Boolean JEI;
 	private static Boolean JER;
@@ -94,6 +96,15 @@ public final class BrainStoneModules {
 		}
 
 		return ENDER_IO;
+	}
+	
+	@Module(modid = FORESTRY_MODID, name = "Forestry", message = "Adding bees and related items.")
+	public static boolean forestry() {
+		if (FORESTRY == null) {
+			FORESTRY = Loader.isModLoaded(FORESTRY_MODID);
+		}
+
+		return FORESTRY;
 	}
 
 	@Module(modid = IMMERSIVE_ENGINEERING_MODID, name = "Immersive Engineering", message = "Adding recipes.", integration = ImmersiveEngineeringCompat.class)
