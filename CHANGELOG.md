@@ -1,3 +1,13 @@
+4.2.3-alpha
+-----------
+
+- Fixed the crash for real this time
+- Added Forestry as an optional dependency
+- Added Tiny Pile of Brain Stone Dust:
+  - for bees, etc.
+  - Currently no way of getting it
+  - Can be crafted into regular Brain Stone Dust using a 2x2 square
+
 4.1.31
 ------
 
