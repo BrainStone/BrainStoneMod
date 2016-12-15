@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 
 import brainstonemod.common.compat.betterachievements.BetterAchievementsCompat;
 import brainstonemod.common.compat.enderio.EnderIOCompat;
+import brainstonemod.common.compat.forestry.ForestryCompat;
 import brainstonemod.common.compat.immersiveengineering.ImmersiveEngineeringCompat;
 import brainstonemod.common.compat.jeresources.JEResourcesCompat;
 import brainstonemod.common.compat.overlord.OverlordCompat;
@@ -98,7 +99,7 @@ public final class BrainStoneModules {
 		return ENDER_IO;
 	}
 	
-	@Module(modid = FORESTRY_MODID, name = "Forestry", message = "Adding bees and related items.")
+	@Module(modid = FORESTRY_MODID, name = "Forestry", message = "Adding bees and related items.", integration = ForestryCompat.class)
 	public static boolean forestry() {
 		if (FORESTRY == null) {
 			FORESTRY = Loader.isModLoaded(FORESTRY_MODID);

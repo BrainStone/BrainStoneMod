@@ -7,10 +7,6 @@ import net.minecraft.item.ItemStack;
 public class ItemBrainStoneBase extends Item {
 	private final EnumRarity customRarity;
 
-	public ItemBrainStoneBase() {
-		this(null);
-	}
-
 	public ItemBrainStoneBase(EnumRarity customRarity) {
 		super();
 

@@ -33,7 +33,6 @@ import brainstonemod.common.item.ItemEssenceOfLife;
 import brainstonemod.common.item.ItemHoeBrainStone;
 import brainstonemod.common.item.ItemSwordBrainStone;
 import brainstonemod.common.item.ItemToolBrainStone;
-import brainstonemod.common.item.template.ItemBrainStoneBase;
 import brainstonemod.common.tileentity.TileEntityBrainLightSensor;
 import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
 import brainstonemod.common.worldgenerators.BrainStoneHouseWorldGenerator;
@@ -607,13 +606,13 @@ public class BrainStone {
 		blocks.put("brain_stone_out", new BlockBrainStone(true));
 		blocks.put("brain_stone_ore", new BlockBrainStoneOre());
 		blocks.put("dirty_brain_stone", (new Block(Material.ROCK)).setHardness(2.4F).setResistance(0.5F)
-				.setLightLevel(0.5F).setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.BUILDING_BLOCKS)));
+				.setLightLevel(0.5F).setCreativeTab(getCreativeTab(CreativeTabs.BUILDING_BLOCKS)));
 		blocks.put("brain_light_sensor", new BlockBrainLightSensor());
 		blocks.put("brain_stone_trigger", new BlockBrainStoneTrigger());
 		blocks.put("pulsating_brain_stone", new BlockPulsatingBrainStone(false));
 		blocks.put("pulsating_brain_stone_effect", new BlockPulsatingBrainStone(true));
 		blocks.put("stable_pulsating_brain_stone", (new Block(Material.ROCK)).setHardness(4.0F).setResistance(1.5F)
-				.setLightLevel(1.0F).setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.BUILDING_BLOCKS)));
+				.setLightLevel(1.0F).setCreativeTab(getCreativeTab(CreativeTabs.BUILDING_BLOCKS)));
 		blocks.put("brain_stone_anvil", new BlockBrainStoneAnvil());
 		blocks.put("pulsating_brain_stone_anvil", new BlockBrainStoneAnvil(true));
 
@@ -624,10 +623,8 @@ public class BrainStone {
 		stablePulsatingBrainStone().setHarvestLevel("pickaxe", 4);
 
 		// Items
-		items.put("brain_stone_dust",
-				(new ItemBrainStoneBase()).setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.MATERIALS)));
-		items.put("brain_processor",
-				(new ItemBrainStoneBase()).setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.MISC)));
+		items.put("brain_stone_dust", (new Item()).setCreativeTab(getCreativeTab(CreativeTabs.MATERIALS)));
+		items.put("brain_processor", (new Item()).setCreativeTab(getCreativeTab(CreativeTabs.MISC)));
 		items.put("brain_stone_sword", new ItemSwordBrainStone(toolBRAINSTONE));
 		items.put("brain_stone_shovel", new ItemToolBrainStone(toolBRAINSTONE, "spade"));
 		items.put("brain_stone_pickaxe", new ItemToolBrainStone(toolBRAINSTONE, "pickaxe"));
@@ -993,6 +990,14 @@ public class BrainStone {
 	 */
 	public static final ItemBrainStoneLifeCapacitor brainStoneLifeCapacitor() {
 		return (ItemBrainStoneLifeCapacitor) items.get("brain_stone_life_capacitor");
+	}
+
+	/**
+	 * @return the instance of Brain Stone Dust Tiny.<br>
+	 *         <strong>Only available when Forestry is present!</strong>
+	 */
+	public static final Item brainStoneDustTiny() {
+		return items.get("brain_stone_dust_tiny");
 	}
 
 	/**

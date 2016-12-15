@@ -37,6 +37,8 @@ item.stable_pulsating_brain_stone_leggings.name=Stabiler Pulsierender Hirnsteinh
 item.stable_pulsating_brain_stone_boots.name=Stabiler Pulsierender Hirsteinstiefel
 item.brain_stone_life_capacitor.name=Hirnsteinlebenskondensator
 
+item.brain_stone_dust_tiny.name=Kleiner Haufen Hirnsteinstaub
+
 achievement.brainstonemod.WTHIT=Was zur Hölle ist das???
 achievement.brainstonemod.WTHIT.desc=Du must ein seltsames grünes Pulver finden.
 achievement.brainstonemod.itLives=Es lebt!

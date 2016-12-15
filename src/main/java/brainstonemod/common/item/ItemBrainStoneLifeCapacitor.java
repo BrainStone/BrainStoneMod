@@ -76,7 +76,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	}
 
 	public ItemBrainStoneLifeCapacitor() {
-		super();
+		super(null);
 
 		setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.TOOLS));
 		setHasSubtypes(true);
