@@ -14,6 +14,9 @@ public class ForestryCompat implements IModIntegration {
 	public void preInit(FMLPreInitializationEvent event) {
 		BrainStone.items.put("brain_stone_dust_tiny",
 				(new Item()).setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.MATERIALS)));
+		BrainStone.items.put("brain_stone_scoop", (new ItemBrainStoneScoop(BrainStone.toolBRAINSTONE)));
+		BrainStone.items.put("stable_pulsating_brain_stone_scoop",
+				(new ItemBrainStoneScoop(BrainStone.toolSTABLEPULSATINGBS)));
 	}
 
 	@Override
