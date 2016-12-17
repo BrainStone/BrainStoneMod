@@ -38,6 +38,8 @@ item.stable_pulsating_brain_stone_boots.name=Stable Pulsating Brain Stone Boots
 item.brain_stone_life_capacitor.name=Brain Stone Life Capacitor
 
 item.brain_stone_dust_tiny.name=Tiny Pile of Brain Stone Dust
+item.brain_stone_scoop.name=Brain Stone Scoop
+item.stable_pulsating_brain_stone_scoop.name=Stable Pulsating Brain Stone Scoop
 
 achievement.brainstonemod.WTHIT=What the Hell is that???
 achievement.brainstonemod.WTHIT.desc=You have to find a strange green powder.

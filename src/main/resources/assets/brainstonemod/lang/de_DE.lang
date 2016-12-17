@@ -38,6 +38,8 @@ item.stable_pulsating_brain_stone_boots.name=Stabiler Pulsierender Hirsteinstief
 item.brain_stone_life_capacitor.name=Hirnsteinlebenskondensator
 
 item.brain_stone_dust_tiny.name=Kleiner Haufen Hirnsteinstaub
+item.brain_stone_scoop.name=Hirnsteinkescher
+item.stable_pulsating_brain_stone_scoop.name=Stabiler Pulsierender Hirnsteinkescher
 
 achievement.brainstonemod.WTHIT=Was zur Hölle ist das???
 achievement.brainstonemod.WTHIT.desc=Du must ein seltsames grünes Pulver finden.
