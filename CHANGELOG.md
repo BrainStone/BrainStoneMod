@@ -1,3 +1,9 @@
+4.2.7-alpha
+-----------
+
+- Added Brain Stone Scoop (For Forestry)
+- Added Stable Pulsating brain Stone Scoop (For Forestry)
+
 4.2.3-alpha
 -----------
 
