@@ -999,6 +999,22 @@ public class BrainStone {
 	public static final Item brainStoneDustTiny() {
 		return items.get("brain_stone_dust_tiny");
 	}
+	
+	/**
+	 * @return the instance of Brain Stone Scoop.<br>
+	 *         <strong>Only available when Forestry is present!</strong>
+	 */
+	public static final Item brainStoneScoop() {
+		return items.get("brain_stone_scoop");
+	}
+	
+	/**
+	 * @return the instance of Stable Pulsating Brain Stone Scoop.<br>
+	 *         <strong>Only available when Forestry is present!</strong>
+	 */
+	public static final Item stablePulsatingBrainStoneScoop() {
+		return items.get("stable_pulsating_brain_stone_scoop");
+	}
 
 	/**
 	 * @return the instance of WTHIT

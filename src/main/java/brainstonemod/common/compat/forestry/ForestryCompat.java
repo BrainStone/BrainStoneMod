@@ -3,6 +3,8 @@ package brainstonemod.common.compat.forestry;
 import brainstonemod.BrainStone;
 import brainstonemod.common.compat.IModIntegration;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -23,6 +25,10 @@ public class ForestryCompat implements IModIntegration {
 	public void init(FMLInitializationEvent event) {
 		BrainStone.addRecipe(new ItemStack(BrainStone.brainStoneDust(), 1), "XX", "XX", 'X',
 				BrainStone.brainStoneDustTiny());
+		BrainStone.addRecipe(new ItemStack(BrainStone.brainStoneScoop(), 1), "SWS", "SBS", " S ", 'S', Items.STICK, 'W',
+				Blocks.WOOL, 'B', BrainStone.brainStone());
+		BrainStone.addRecipe(new ItemStack(BrainStone.stablePulsatingBrainStoneScoop(), 1), "SWS", "SBS", " R ", 'S',
+				Items.STICK, 'W', Blocks.WOOL, 'B', BrainStone.stablePulsatingBrainStone(), 'R', Blocks.REDSTONE_BLOCK);
 	}
 
 	@Override
