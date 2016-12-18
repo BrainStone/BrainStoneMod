@@ -1,3 +1,9 @@
+4.2.10-alpha
+------------
+
+- Fixed Brain Light Sensor being invisible
+- Internal improvements and cleanup
+
 4.2.7-alpha
 -----------
 
