@@ -85,7 +85,7 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 
 	@Override
 	public boolean isSideSolid(IBlockState base_state, IBlockAccess world, BlockPos pos, EnumFacing side) {
-		return true;
+		return side != EnumFacing.UP;
 	}
 
 	@Override

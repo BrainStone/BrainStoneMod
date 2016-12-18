@@ -22,7 +22,6 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -238,11 +237,6 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 	@Override
 	public boolean isOpaqueCube(IBlockState state) {
 		return true;
-	}
-
-	@Override
-	public EnumBlockRenderType getRenderType(IBlockState iBlockState) {
-		return EnumBlockRenderType.MODEL;
 	}
 
 	@Override
