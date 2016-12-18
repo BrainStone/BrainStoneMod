@@ -51,15 +51,15 @@ public class CommonProxy {
 		return key;
 	}
 
-	public void rmm(Item i) {
+	public void rmm(Item item) {
 		// Do nothing
 	}
 
-	public void rmm(Block b) {
+	public void rmm(Block block) {
 		// Do nothing
 	}
 
-	public void rmm(BlockBrainStoneAnvil b) {
+	public void rmm(BlockBrainStoneAnvil block) {
 		// Do nothing
 	}
 }

@@ -62,18 +62,17 @@ public class ClientProxy extends CommonProxy {
 
 	@Override
 	public void rmm(BlockBrainStoneAnvil b) {
+		String blockName = b.getUnlocalizedName().substring(5);
+
 		ModelBakery.registerItemVariants(Item.getItemFromBlock(b),
-				new ModelResourceLocation(RESOURCE_PREFIX + b.getUnlocalizedName().substring(5) + "_intact",
-						"inventory"),
-				new ModelResourceLocation(RESOURCE_PREFIX + b.getUnlocalizedName().substring(5) + "_slightly_damaged",
-						"inventory"),
-				new ModelResourceLocation(RESOURCE_PREFIX + b.getUnlocalizedName().substring(5) + "_very_damaged",
-						"inventory"));
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(b), 0, new ModelResourceLocation(
-				RESOURCE_PREFIX + b.getUnlocalizedName().substring(5) + "_intact", "inventory"));
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(b), 1, new ModelResourceLocation(
-				RESOURCE_PREFIX + b.getUnlocalizedName().substring(5) + "_slightly_damaged", "inventory"));
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(b), 2, new ModelResourceLocation(
-				RESOURCE_PREFIX + b.getUnlocalizedName().substring(5) + "_very_damaged", "inventory"));
+				new ModelResourceLocation(RESOURCE_PREFIX + blockName + "_intact", "inventory"),
+				new ModelResourceLocation(RESOURCE_PREFIX + blockName + "_slightly_damaged", "inventory"),
+				new ModelResourceLocation(RESOURCE_PREFIX + blockName + "_very_damaged", "inventory"));
+		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(b), 0,
+				new ModelResourceLocation(RESOURCE_PREFIX + blockName + "_intact", "inventory"));
+		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(b), 1,
+				new ModelResourceLocation(RESOURCE_PREFIX + blockName + "_slightly_damaged", "inventory"));
+		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(b), 2,
+				new ModelResourceLocation(RESOURCE_PREFIX + blockName + "_very_damaged", "inventory"));
 	}
 }
