@@ -8,9 +8,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
 public abstract class BlockBrainStoneContainerBase extends BlockContainer {
-
-	protected BlockBrainStoneContainerBase(Material par2Material) {
-		super(par2Material);
+	protected BlockBrainStoneContainerBase(Material material) {
+		super(material);
 	}
 
 	@Override

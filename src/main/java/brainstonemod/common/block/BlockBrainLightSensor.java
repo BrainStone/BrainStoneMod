@@ -24,8 +24,6 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.relauncher.Side;
 
 public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 
@@ -124,14 +122,7 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 	}
 
 	public void smoke(World world, int x, int y, int z, Random random) {
-		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {// Why
-																			// are
-																			// we
-																			// using
-																			// this
-																			// and
-																			// not
-																			// world.isRemote?
+		if (world.isRemote) {
 			world.playSound(x, y, z, SoundEvents.UI_BUTTON_CLICK, SoundCategory.BLOCKS, 1.0F, 1.0F, true);
 			int randInt = random.nextInt(5) + random.nextInt(6) + 5;
 
