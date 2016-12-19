@@ -29,7 +29,9 @@ public class ForestryCompat implements IModIntegration {
 				Blocks.WOOL, 'B', BrainStone.brainStone());
 		BrainStone.addRecipe(new ItemStack(BrainStone.stablePulsatingBrainStoneScoop(), 1), "SWS", "SBS", " R ", 'S',
 				Items.STICK, 'W', Blocks.WOOL, 'B', BrainStone.stablePulsatingBrainStone(), 'R', Blocks.REDSTONE_BLOCK);
-		
+
+		BeeGenes.intiGenes();
+		BeeGenes.intiFlowers();
 		BeeBranches.initBranches();
 		BeeSpecies.initBees();
 	}

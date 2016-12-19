@@ -12,6 +12,7 @@ import forestry.apiculture.genetics.alleles.AlleleEffect;
 import forestry.core.genetics.IBranchDefinition;
 import forestry.core.genetics.alleles.AlleleHelper;
 import forestry.core.genetics.alleles.EnumAllele;
+import lombok.Getter;
 
 public enum BeeBranches implements IBranchDefinition {
 	BRAIN_STONE("Cerebrum Lapidem") {
@@ -23,13 +24,13 @@ public enum BeeBranches implements IBranchDefinition {
 			AlleleHelper.instance.set(alleles, EnumBeeChromosome.NEVER_SLEEPS, true);
 			AlleleHelper.instance.set(alleles, EnumBeeChromosome.HUMIDITY_TOLERANCE, EnumAllele.Tolerance.BOTH_2);
 			AlleleHelper.instance.set(alleles, EnumBeeChromosome.CAVE_DWELLING, true);
-			AlleleHelper.instance.set(alleles, EnumBeeChromosome.FLOWER_PROVIDER, EnumAllele.Flowers.VANILLA);
+			AlleleHelper.instance.set(alleles, EnumBeeChromosome.FLOWER_PROVIDER, BeeGenes.flowerTypeBrainStone);
 			AlleleHelper.instance.set(alleles, EnumBeeChromosome.TERRITORY, EnumAllele.Territory.LARGER);
 		}
 	};
 
 	private static IAllele[] defaultTemplate;
-
+	@Getter
 	private final IClassification branch;
 
 	private static IAllele[] getDefaultTemplate() {
@@ -64,11 +65,6 @@ public enum BeeBranches implements IBranchDefinition {
 
 	BeeBranches(String scientific) {
 		branch = BeeManager.beeFactory.createBranch(name().toLowerCase(Locale.ENGLISH), scientific);
-	}
-
-	@Override
-	public final IClassification getBranch() {
-		return branch;
 	}
 
 	@Override

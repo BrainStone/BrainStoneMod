@@ -23,13 +23,14 @@ import forestry.apiculture.items.EnumHoneyComb;
 import forestry.core.genetics.IBranchDefinition;
 import forestry.core.genetics.alleles.AlleleHelper;
 import forestry.core.genetics.alleles.EnumAllele;
+import lombok.Getter;
 import net.minecraft.item.ItemStack;
 
 public enum BeeSpecies implements IBeeDefinition {
 	BRAIN_STONE(BeeBranches.BRAIN_STONE, "mundanis", false, new Color(0x23B23B), new Color(0x33FF57)) {
 		@Override
 		protected void registerMutations() {
-			BeeManager.beeMutationFactory.createMutation(IndustriousBee, DemonicBee, getTemplate(), 15);
+			BeeManager.beeMutationFactory.createMutation(industriousBee, demonicBee, getTemplate(), 15);
 		}
 
 		@Override
@@ -50,7 +51,7 @@ public enum BeeSpecies implements IBeeDefinition {
 	PULSATING_BRAIN_STONE(BeeBranches.BRAIN_STONE, "vibrantis", false, new Color(0x33FF57), new Color(0x23B23B)) {
 		@Override
 		protected void registerMutations() {
-			BeeManager.beeMutationFactory.createMutation(BRAIN_STONE.species, ImperialBee, getTemplate(), 10);
+			BeeManager.beeMutationFactory.createMutation(BRAIN_STONE.species, imperialBee, getTemplate(), 10);
 		}
 
 		@Override
@@ -72,7 +73,7 @@ public enum BeeSpecies implements IBeeDefinition {
 			new Color(0x7FFF94)) {
 		@Override
 		protected void registerMutations() {
-			BeeManager.beeMutationFactory.createMutation(PULSATING_BRAIN_STONE.species, PhantasmalBee, getTemplate(),
+			BeeManager.beeMutationFactory.createMutation(PULSATING_BRAIN_STONE.species, phantasmalBee, getTemplate(),
 					5);
 		}
 
@@ -81,6 +82,8 @@ public enum BeeSpecies implements IBeeDefinition {
 			AlleleHelper.instance.set(template, EnumBeeChromosome.SPEED, EnumAllele.Speed.SLOW);
 			AlleleHelper.instance.set(template, EnumBeeChromosome.LIFESPAN, EnumAllele.Lifespan.LONGEST);
 			AlleleHelper.instance.set(template, EnumBeeChromosome.TOLERATES_RAIN, true);
+			AlleleHelper.instance.set(template, EnumBeeChromosome.FLOWER_PROVIDER,
+					BeeGenes.flowerTypeStablePulsatingBrainStone);
 			AlleleHelper.instance.set(template, EnumBeeChromosome.TERRITORY, EnumAllele.Territory.LARGEST);
 		}
 
@@ -93,18 +96,19 @@ public enum BeeSpecies implements IBeeDefinition {
 	};
 
 	// Forestry bees
-	private static final IAlleleBeeSpecies DemonicBee = (IAlleleBeeSpecies) AlleleManager.alleleRegistry
+	private static final IAlleleBeeSpecies demonicBee = (IAlleleBeeSpecies) AlleleManager.alleleRegistry
 			.getAllele("forestry.speciesDemonic");
-	private static final IAlleleBeeSpecies IndustriousBee = (IAlleleBeeSpecies) AlleleManager.alleleRegistry
+	private static final IAlleleBeeSpecies industriousBee = (IAlleleBeeSpecies) AlleleManager.alleleRegistry
 			.getAllele("forestry.speciesIndustrious");
-	private static final IAlleleBeeSpecies ImperialBee = (IAlleleBeeSpecies) AlleleManager.alleleRegistry
+	private static final IAlleleBeeSpecies imperialBee = (IAlleleBeeSpecies) AlleleManager.alleleRegistry
 			.getAllele("forestry.speciesImperial");
-	private static final IAlleleBeeSpecies PhantasmalBee = (IAlleleBeeSpecies) AlleleManager.alleleRegistry
+	private static final IAlleleBeeSpecies phantasmalBee = (IAlleleBeeSpecies) AlleleManager.alleleRegistry
 			.getAllele("forestry.speciesPhantasmal");
 
 	private final IBranchDefinition branch;
 	private final IAlleleBeeSpecies species;
 	private IAllele[] template;
+	@Getter
 	private IBeeGenome genome;
 
 	public static void initBees() {
@@ -135,11 +139,6 @@ public enum BeeSpecies implements IBeeDefinition {
 
 		setSpeciesProperties(speciesBuilder);
 		this.species = speciesBuilder.build();
-	}
-
-	@Override
-	public final IBeeGenome getGenome() {
-		return genome;
 	}
 
 	@Override
