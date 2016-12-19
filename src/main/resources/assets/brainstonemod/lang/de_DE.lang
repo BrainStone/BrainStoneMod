@@ -134,12 +134,27 @@ trigger.all=Alle:
 brainstone.power.rf=RF
 brainstone.power.tick=/t
 
+// -----------------------------------------------------------------------------
+//                            Mods
+// -----------------------------------------------------------------------------
+
+// Thaumcraft
 tc.aspect.brainstone=Hirn+Stein
 
+// Ender IO
 enderio.darksteel.upgrade.brainstone.name=Pulsierender Hirnstein-Schutz
 enderio.darksteel.upgrade.brainstone.tooltip.detailed.line1=Schütz dich vor den Effekten des
 enderio.darksteel.upgrade.brainstone.tooltip.detailed.line2=Pulsierenden Hirnsteins, wenn dieses
 enderio.darksteel.upgrade.brainstone.tooltip.detailed.line3=Upgrade auf allen Rüstungsteilen ist
 
+// Tinker's Construct
 material.brainstone.name=Hirnstein
 material.stablepulsatingbrainstone.name=S.P. Hirnstein
+
+// Forestry
+for.bees.species.brainstonemod.species_brain_stone=Hirnstein
+for.bees.species.brainstonemod.species_brain_stone.description="Stellt Hirnstein her. Was denn sonst?"|Beekeeping 101
+for.bees.species.brainstonemod.species_pulsating_brain_stone=Pulsierender Hirnstein
+for.bees.species.brainstonemod.species_pulsating_brain_stone.description="Zweite Stufe der Hirnsteinbienen. Es ist immer gut bessere Bienen zu haben, richtig?"|Beekeeping 101
+for.bees.species.brainstonemod.species_stable_pulsating_brain_stone=Stabiler Pulsierender Hirnstein
+for.bees.species.brainstonemod.species_stable_pulsating_brain_stone.description="Ich bin an diesen Bienen vorbeigelaufen und wurde in die Luft geworfen!... Ich schöre!"|"Sir" Sengir, Verrückter

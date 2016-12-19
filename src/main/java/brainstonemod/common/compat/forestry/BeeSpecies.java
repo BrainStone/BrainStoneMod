@@ -22,18 +22,22 @@ import forestry.apiculture.genetics.IBeeDefinition;
 import forestry.apiculture.items.EnumHoneyComb;
 import forestry.core.genetics.IBranchDefinition;
 import forestry.core.genetics.alleles.AlleleHelper;
+import forestry.core.genetics.alleles.EnumAllele;
 import net.minecraft.item.ItemStack;
 
 public enum BeeSpecies implements IBeeDefinition {
-	BRAIN_STONE(BeeBranches.BRAIN_STONE, "Brain Stone", false, new Color(0x23B23B), new Color(0x33FF57)) {
+	BRAIN_STONE(BeeBranches.BRAIN_STONE, "mundanis", false, new Color(0x23B23B), new Color(0x33FF57)) {
 		@Override
 		protected void registerMutations() {
-			BeeManager.beeMutationFactory.createMutation(IndustriousBee, DemonicBee, getTemplate(), 5);
+			BeeManager.beeMutationFactory.createMutation(IndustriousBee, DemonicBee, getTemplate(), 15);
 		}
 
 		@Override
 		protected void setAlleles(IAllele[] template) {
-			// Default values
+			AlleleHelper.instance.set(template, EnumBeeChromosome.LIFESPAN, EnumAllele.Lifespan.NORMAL);
+			AlleleHelper.instance.set(template, EnumBeeChromosome.TEMPERATURE_TOLERANCE, EnumAllele.Tolerance.BOTH_1);
+			AlleleHelper.instance.set(template, EnumBeeChromosome.HUMIDITY_TOLERANCE, EnumAllele.Tolerance.BOTH_1);
+			AlleleHelper.instance.set(template, EnumBeeChromosome.TERRITORY, EnumAllele.Territory.LARGE);
 		}
 
 		@Override
@@ -42,18 +46,66 @@ public enum BeeSpecies implements IBeeDefinition {
 					.addSpecialty(new ItemStack(BrainStone.brainStoneDustTiny(), 1), 0.10f)
 					.setTemperature(EnumTemperature.NORMAL).setHumidity(EnumHumidity.NORMAL);
 		}
+	},
+	PULSATING_BRAIN_STONE(BeeBranches.BRAIN_STONE, "vibrantis", false, new Color(0x33FF57), new Color(0x23B23B)) {
+		@Override
+		protected void registerMutations() {
+			BeeManager.beeMutationFactory.createMutation(BRAIN_STONE.species, ImperialBee, getTemplate(), 10);
+		}
+
+		@Override
+		protected void setAlleles(IAllele[] template) {
+			AlleleHelper.instance.set(template, EnumBeeChromosome.SPEED, EnumAllele.Speed.FAST);
+			AlleleHelper.instance.set(template, EnumBeeChromosome.LIFESPAN, EnumAllele.Lifespan.SHORTER);
+			AlleleHelper.instance.set(template, EnumBeeChromosome.FLOWERING, EnumAllele.Flowering.SLOWER);
+			AlleleHelper.instance.set(template, EnumBeeChromosome.FERTILITY, EnumAllele.Fertility.HIGH);
+		}
+
+		@Override
+		protected void setSpeciesProperties(IAlleleBeeSpeciesBuilder beeSpecies) {
+			beeSpecies.addProduct(PluginApiculture.items.beeComb.get(EnumHoneyComb.SIMMERING, 1), 0.30f)
+					.addSpecialty(new ItemStack(BrainStone.brainStoneDustTiny(), 1), 0.10f)
+					.setTemperature(EnumTemperature.NORMAL).setHumidity(EnumHumidity.NORMAL);
+		}
+	},
+	STABLE_PULSATING_BRAIN_STONE(BeeBranches.BRAIN_STONE, "vibrantis stabilis", false, new Color(0x33FF57),
+			new Color(0x7FFF94)) {
+		@Override
+		protected void registerMutations() {
+			BeeManager.beeMutationFactory.createMutation(PULSATING_BRAIN_STONE.species, PhantasmalBee, getTemplate(),
+					5);
+		}
+
+		@Override
+		protected void setAlleles(IAllele[] template) {
+			AlleleHelper.instance.set(template, EnumBeeChromosome.SPEED, EnumAllele.Speed.SLOW);
+			AlleleHelper.instance.set(template, EnumBeeChromosome.LIFESPAN, EnumAllele.Lifespan.LONGEST);
+			AlleleHelper.instance.set(template, EnumBeeChromosome.TOLERATES_RAIN, true);
+			AlleleHelper.instance.set(template, EnumBeeChromosome.TERRITORY, EnumAllele.Territory.LARGEST);
+		}
+
+		@Override
+		protected void setSpeciesProperties(IAlleleBeeSpeciesBuilder beeSpecies) {
+			beeSpecies.addProduct(PluginApiculture.items.beeComb.get(EnumHoneyComb.SIMMERING, 1), 0.30f)
+					.addSpecialty(new ItemStack(BrainStone.brainStoneDustTiny(), 1), 0.10f)
+					.setTemperature(EnumTemperature.NORMAL).setHumidity(EnumHumidity.NORMAL).setHasEffect();
+		}
 	};
 
 	// Forestry bees
-	private static IAlleleBeeSpecies IndustriousBee = (IAlleleBeeSpecies) AlleleManager.alleleRegistry
-			.getAllele("forestry.speciesIndustrious");
-	private static IAlleleBeeSpecies DemonicBee = (IAlleleBeeSpecies) AlleleManager.alleleRegistry
+	private static final IAlleleBeeSpecies DemonicBee = (IAlleleBeeSpecies) AlleleManager.alleleRegistry
 			.getAllele("forestry.speciesDemonic");
+	private static final IAlleleBeeSpecies IndustriousBee = (IAlleleBeeSpecies) AlleleManager.alleleRegistry
+			.getAllele("forestry.speciesIndustrious");
+	private static final IAlleleBeeSpecies ImperialBee = (IAlleleBeeSpecies) AlleleManager.alleleRegistry
+			.getAllele("forestry.speciesImperial");
+	private static final IAlleleBeeSpecies PhantasmalBee = (IAlleleBeeSpecies) AlleleManager.alleleRegistry
+			.getAllele("forestry.speciesPhantasmal");
 
-	// BrainStoneMod Bees
-	// private static IAlleleBeeSpecies BrainStoneBee = (IAlleleBeeSpecies)
-	// AlleleManager.alleleRegistry
-	// .getAllele(BrainStone.MOD_ID + ".species_brain_stone");
+	private final IBranchDefinition branch;
+	private final IAlleleBeeSpecies species;
+	private IAllele[] template;
+	private IBeeGenome genome;
 
 	public static void initBees() {
 		for (BeeSpecies bee : values()) {
@@ -64,13 +116,6 @@ public enum BeeSpecies implements IBeeDefinition {
 			bee.registerMutations();
 		}
 	}
-
-	private final IBranchDefinition branch;
-
-	private final IAlleleBeeSpecies species;
-	private IAllele[] template;
-
-	private IBeeGenome genome;
 
 	BeeSpecies(IBranchDefinition branch, String binomial, boolean dominant, Color primary, Color secondary) {
 		String lowercaseName = toString().toLowerCase(Locale.ENGLISH);

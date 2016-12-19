@@ -17,6 +17,8 @@ public enum BeeBranches implements IBranchDefinition {
 	BRAIN_STONE("Cerebrum Lapidem") {
 		@Override
 		protected void setBranchProperties(IAllele[] alleles) {
+			AlleleHelper.instance.set(defaultTemplate, EnumBeeChromosome.SPEED, EnumAllele.Speed.NORMAL);
+			AlleleHelper.instance.set(alleles, EnumBeeChromosome.LIFESPAN, EnumAllele.Lifespan.SHORT);
 			AlleleHelper.instance.set(alleles, EnumBeeChromosome.TEMPERATURE_TOLERANCE, EnumAllele.Tolerance.BOTH_2);
 			AlleleHelper.instance.set(alleles, EnumBeeChromosome.NEVER_SLEEPS, true);
 			AlleleHelper.instance.set(alleles, EnumBeeChromosome.HUMIDITY_TOLERANCE, EnumAllele.Tolerance.BOTH_2);
@@ -27,6 +29,8 @@ public enum BeeBranches implements IBranchDefinition {
 	};
 
 	private static IAllele[] defaultTemplate;
+
+	private final IClassification branch;
 
 	private static IAllele[] getDefaultTemplate() {
 		if (defaultTemplate == null) {
@@ -58,8 +62,6 @@ public enum BeeBranches implements IBranchDefinition {
 		}
 	}
 
-	private final IClassification branch;
-
 	BeeBranches(String scientific) {
 		branch = BeeManager.beeFactory.createBranch(name().toLowerCase(Locale.ENGLISH), scientific);
 	}
@@ -77,5 +79,6 @@ public enum BeeBranches implements IBranchDefinition {
 	}
 
 	protected void setBranchProperties(IAllele[] template) {
+		// No Overrides by default
 	}
 }

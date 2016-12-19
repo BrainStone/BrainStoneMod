@@ -134,12 +134,27 @@ trigger.all=All:
 brainstone.power.rf=RF
 brainstone.power.tick=/t
 
+// -----------------------------------------------------------------------------
+//                            Mods
+// -----------------------------------------------------------------------------
+
+// Thaumcraft
 tc.aspect.brainstone=Brain+Stone
 
+// Ender IO
 enderio.darksteel.upgrade.brainstone.name=Pulsating Brain Stone Protection
 enderio.darksteel.upgrade.brainstone.tooltip.detailed.line1=If applied to all parts of the armor
 enderio.darksteel.upgrade.brainstone.tooltip.detailed.line2=you will be protected from the
 enderio.darksteel.upgrade.brainstone.tooltip.detailed.line3=effects of the Pulsating Brain Stone
 
+// Tinker's Construct
 material.brainstone.name=Brain Stone
 material.stablepulsatingbrainstone.name=S.P. Brain Stone
+
+// Forestry
+for.bees.species.brainstonemod.species_brain_stone=Brain Stone
+for.bees.species.brainstonemod.species_brain_stone.description="Produces Brain Stone. Duhh"|Beekeeping 101
+for.bees.species.brainstonemod.species_pulsating_brain_stone=Pulsating Brain Stone
+for.bees.species.brainstonemod.species_pulsating_brain_stone.description="Second tier of the Brain Stone Bees. Always good to have better bees, right?"|Beekeeping 101
+for.bees.species.brainstonemod.species_stable_pulsating_brain_stone=Stable Pulsating Brain Stone
+for.bees.species.brainstonemod.species_stable_pulsating_brain_stone.description="I walked past these bees and was thrown into the air!... I swear!"|"Sir" Sengir, madman
