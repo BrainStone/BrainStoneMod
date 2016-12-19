@@ -29,15 +29,18 @@ public class ForestryCompat implements IModIntegration {
 				Blocks.WOOL, 'B', BrainStone.brainStone());
 		BrainStone.addRecipe(new ItemStack(BrainStone.stablePulsatingBrainStoneScoop(), 1), "SWS", "SBS", " R ", 'S',
 				Items.STICK, 'W', Blocks.WOOL, 'B', BrainStone.stablePulsatingBrainStone(), 'R', Blocks.REDSTONE_BLOCK);
+		
+		BeeBranches.initBranches();
+		BeeSpecies.initBees();
 	}
 
 	@Override
 	public void postInit(FMLPostInitializationEvent event) {
-		// TODO Auto-generated method stub
+		// Do nothing
 	}
 
 	@Override
 	public void addAchievement() {
-		// TODO Auto-generated method stub
+		// Do nothing
 	}
 }
