@@ -4,10 +4,11 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import brainstonemod.common.compat.betterachievements.BetterAchievementsCompat;
 import brainstonemod.common.compat.enderio.EnderIOCompat;
@@ -98,7 +99,7 @@ public final class BrainStoneModules {
 
 		return ENDER_IO;
 	}
-	
+
 	@Module(modid = FORESTRY_MODID, name = "Forestry", message = "Adding bees and related items.", integration = ForestryCompat.class)
 	public static boolean forestry() {
 		if (FORESTRY == null) {
@@ -229,22 +230,22 @@ public final class BrainStoneModules {
 	}
 
 	public static void preInit(FMLPreInitializationEvent event) {
-		getFilteredModuleStream().forEach(module -> module.getIntegration().preInit(event));
+		forEachActiveModule(integration -> integration.preInit(event));
 	}
 
 	public static void init(FMLInitializationEvent event) {
-		getFilteredModuleStream().forEach(module -> module.getIntegration().init(event));
+		forEachActiveModule(integration -> integration.init(event));
 	}
 
 	public static void postInit(FMLPostInitializationEvent event) {
-		getFilteredModuleStream().forEach(module -> module.getIntegration().postInit(event));
+		forEachActiveModule(integration -> integration.postInit(event));
 	}
 
 	public static void addAchievement() {
-		getFilteredModuleStream().forEach(module -> module.getIntegration().addAchievement());
+		forEachActiveModule(integration -> integration.addAchievement());
 	}
 
-	private static Stream<ModuleInformation> getFilteredModuleStream() {
-		return activeModules.stream().filter(module -> module.getIntegration() != null);
+	private static void forEachActiveModule(Consumer<? super IModIntegration> consumer) {
+		activeModules.stream().map(module -> module.getIntegration()).filter(Objects::nonNull).forEach(consumer);
 	}
 }
