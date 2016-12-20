@@ -3,6 +3,133 @@
     "textures": {
         "top": "brainstonemod:blocks/brain_light_sensor",
         "side": "brainstonemod:blocks/brain_stone_machine_side",
-        "bottom": "brainstonemod:blocks/brain_stone_machine_bottom"
-    }
+        "bottom": "brainstonemod:blocks/brain_stone_machine_bottom",
+        "core": "brainstonemod:blocks/brain_stone"
+    },
+    "elements": [
+        {
+            "from": [
+                0,
+                0,
+                0
+            ],
+            "to": [
+                16,
+                16,
+                16
+            ],
+            "faces": {
+                "down": {
+                    "texture": "#bottom",
+                    "cullface": "down"
+                },
+                "up": {
+                    "texture": "#top",
+                    "cullface": "up"
+                },
+                "north": {
+                    "texture": "#side",
+                    "cullface": "north"
+                },
+                "south": {
+                    "texture": "#side",
+                    "cullface": "south"
+                },
+                "west": {
+                    "texture": "#side",
+                    "cullface": "west"
+                },
+                "east": {
+                    "texture": "#side",
+                    "cullface": "east"
+                }
+            }
+        },
+        {
+            "from": [
+                4,
+                10,
+                4
+            ],
+            "to": [
+                12,
+                10,
+                12
+            ],
+            "faces": {
+                "up": {
+                    "texture": "#core"
+                }
+            }
+        },
+        {
+            "from": [
+                12,
+                10,
+                4
+            ],
+            "to": [
+                12,
+                16,
+                12
+            ],
+            "faces": {
+                "west": {
+                    "texture": "#side"
+                }
+            }
+        },
+        {
+            "from": [
+                4,
+                10,
+                12
+            ],
+            "to": [
+                12,
+                16,
+                12
+            ],
+            "faces": {
+                "north": {
+                    "texture": "#side"
+                }
+            }
+        },
+        {
+            "from": [
+                4,
+                10,
+                4
+            ],
+            "to": [
+                4,
+                16,
+                12
+            ],
+            "faces": {
+                "east": {
+                    "texture": "#side"
+                }
+            }
+        },
+        {
+            "from": [
+                4,
+                10,
+                4
+            ],
+            "to": [
+                12,
+                16,
+                4
+            ],
+            "faces": {
+                "south": {
+                    "texture": "#side",
+                    "culling": "up"
+                }
+            }
+        }
+    ]
 }

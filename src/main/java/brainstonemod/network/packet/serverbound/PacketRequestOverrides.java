@@ -7,9 +7,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketRequestOverrides implements IMessage {
-	public PacketRequestOverrides() {
-	}
-
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		// No data to send. Do nothing
