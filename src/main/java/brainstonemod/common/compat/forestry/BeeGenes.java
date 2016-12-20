@@ -33,10 +33,9 @@ public class BeeGenes {
 
 	public static void intiGenes() {
 		flowerTypeBrainStone = AlleleManager.alleleFactory.createFlowers(BrainStone.MOD_ID, "flowers", flowerBrainStone,
-				getFlowerProvider(flowerBrainStone), false,
-				new IChromosomeType[] { EnumBeeChromosome.FLOWER_PROVIDER });
+				getFlowerProvider(flowerBrainStone), true, new IChromosomeType[] { EnumBeeChromosome.FLOWER_PROVIDER });
 		flowerTypeStablePulsatingBrainStone = AlleleManager.alleleFactory.createFlowers(BrainStone.MOD_ID, "flowers",
-				flowerStablePulsatingBrainStone, getFlowerProvider(flowerStablePulsatingBrainStone), false,
+				flowerStablePulsatingBrainStone, getFlowerProvider(flowerStablePulsatingBrainStone), true,
 				new IChromosomeType[] { EnumBeeChromosome.FLOWER_PROVIDER });
 	}
 
