@@ -288,7 +288,7 @@ artifacts {
 task checkTranslations {
     doLast {
         boolean langs_ok = true
-        Map<String, String> map_en = new HashMap<String, String>()
+        Map<String, String> map_en = new LinkedHashMap<String, String>()
         (file("src/main/resources/assets/brainstonemod/lang/en_US.lang")).eachLine {
               def (value1, value2) = it.tokenize( '=' )
               if (value1 == null || value2 == null) {return}
@@ -297,7 +297,7 @@ task checkTranslations {
         
         file("src/main/resources/assets/brainstonemod/lang/").eachFileMatch( ~".*\\.lang\$" ) { langfile ->
             if (!langfile.getName().contains("en_US")) {
-      	        Map<String, String> map = new HashMap<String, String>()
+      	        Map<String, String> map = new LinkedHashMap<String, String>()
       	        File outfile = file(langfile.getName() + ".txt")
       	        Writer outwriter = outfile.newWriter("UTF-8")
                 boolean lang_ok = true
