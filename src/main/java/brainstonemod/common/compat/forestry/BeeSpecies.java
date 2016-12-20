@@ -43,8 +43,7 @@ public enum BeeSpecies implements IBeeDefinition {
 
 		@Override
 		protected void setSpeciesProperties(IAlleleBeeSpeciesBuilder beeSpecies) {
-			beeSpecies.addProduct(PluginApiculture.items.beeComb.get(EnumHoneyComb.SIMMERING, 1), 0.30f)
-					.addSpecialty(new ItemStack(BrainStone.brainStoneDustTiny(), 1), 0.10f)
+			beeSpecies.addProduct(new ItemStack(BrainStone.brainStoneComb()), 0.30f)
 					.setTemperature(EnumTemperature.NORMAL).setHumidity(EnumHumidity.NORMAL);
 		}
 	},
@@ -64,8 +63,7 @@ public enum BeeSpecies implements IBeeDefinition {
 
 		@Override
 		protected void setSpeciesProperties(IAlleleBeeSpeciesBuilder beeSpecies) {
-			beeSpecies.addProduct(PluginApiculture.items.beeComb.get(EnumHoneyComb.SIMMERING, 1), 0.30f)
-					.addSpecialty(new ItemStack(BrainStone.brainStoneDustTiny(), 1), 0.10f)
+			beeSpecies.addProduct(new ItemStack(BrainStone.brainStoneComb()), 0.50f)
 					.setTemperature(EnumTemperature.NORMAL).setHumidity(EnumHumidity.NORMAL);
 		}
 	},
@@ -89,8 +87,8 @@ public enum BeeSpecies implements IBeeDefinition {
 
 		@Override
 		protected void setSpeciesProperties(IAlleleBeeSpeciesBuilder beeSpecies) {
-			beeSpecies.addProduct(PluginApiculture.items.beeComb.get(EnumHoneyComb.SIMMERING, 1), 0.30f)
-					.addSpecialty(new ItemStack(BrainStone.brainStoneDustTiny(), 1), 0.10f)
+			beeSpecies.addProduct(new ItemStack(BrainStone.brainStoneComb()), 0.50f)
+					.addProduct(new ItemStack(BrainStone.brainStoneDustTiny(), 1), 0.10f) // Will be smallest of EoL fragments
 					.setTemperature(EnumTemperature.NORMAL).setHumidity(EnumHumidity.NORMAL).setHasEffect();
 		}
 	};

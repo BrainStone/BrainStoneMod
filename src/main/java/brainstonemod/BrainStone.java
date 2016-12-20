@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
+import javax.annotation.Nullable;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.Logger;
 
@@ -996,22 +998,34 @@ public class BrainStone {
 	 * @return the instance of Brain Stone Dust Tiny.<br>
 	 *         <strong>Only available when Forestry is present!</strong>
 	 */
+	@Nullable
 	public static final Item brainStoneDustTiny() {
 		return items.get("brain_stone_dust_tiny");
 	}
-	
+
+	/**
+	 * @return the instance of Brain Stone Comb.<br>
+	 *         <strong>Only available when Forestry is present!</strong>
+	 */
+	@Nullable
+	public static final Item brainStoneComb() {
+		return items.get("brain_stone_comb");
+	}
+
 	/**
 	 * @return the instance of Brain Stone Scoop.<br>
 	 *         <strong>Only available when Forestry is present!</strong>
 	 */
+	@Nullable
 	public static final Item brainStoneScoop() {
 		return items.get("brain_stone_scoop");
 	}
-	
+
 	/**
 	 * @return the instance of Stable Pulsating Brain Stone Scoop.<br>
 	 *         <strong>Only available when Forestry is present!</strong>
 	 */
+	@Nullable
 	public static final Item stablePulsatingBrainStoneScoop() {
 		return items.get("stable_pulsating_brain_stone_scoop");
 	}

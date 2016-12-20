@@ -1,7 +1,12 @@
 package brainstonemod.common.compat.forestry;
 
+import com.google.common.collect.ImmutableMap;
+
 import brainstonemod.BrainStone;
 import brainstonemod.common.compat.IModIntegration;
+import forestry.api.core.Tabs;
+import forestry.api.recipes.RecipeManagers;
+import forestry.core.PluginCore;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -24,15 +29,19 @@ public class ForestryCompat implements IModIntegration {
 	private static void registerCarpenterRecipes() {
 		// Nothing yet!
 	}
-	
+
 	private static void registerCentrifugeRecipes() {
-		// Nothing yet!
+		RecipeManagers.centrifugeManager.addRecipe(20, new ItemStack(BrainStone.brainStoneComb()),
+				ImmutableMap.of(PluginCore.items.beeswax.getItemStack(), 1.0f,
+						new ItemStack(BrainStone.brainStoneDustTiny()), 0.9f, null, 1.0f));
 	}
 
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		BrainStone.items.put("brain_stone_dust_tiny",
 				(new Item()).setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.MATERIALS)));
+		BrainStone.items.put("brain_stone_comb",
+				(new Item()).setCreativeTab(BrainStone.getCreativeTab(Tabs.tabApiculture)));
 		BrainStone.items.put("brain_stone_scoop", (new ItemBrainStoneScoop(BrainStone.toolBRAINSTONE)));
 		BrainStone.items.put("stable_pulsating_brain_stone_scoop",
 				(new ItemBrainStoneScoop(BrainStone.toolSTABLEPULSATINGBS)));
