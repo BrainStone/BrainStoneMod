@@ -33,7 +33,8 @@ public class ForestryCompat implements IModIntegration {
 	private static void registerCentrifugeRecipes() {
 		RecipeManagers.centrifugeManager.addRecipe(20, new ItemStack(BrainStone.brainStoneComb()),
 				ImmutableMap.of(PluginCore.items.beeswax.getItemStack(), 1.0f,
-						new ItemStack(BrainStone.brainStoneDustTiny()), 0.9f, null, 1.0f));
+						new ItemStack(BrainStone.brainStoneDustTiny()), 0.9f,
+						new ItemStack(BrainStone.brainStoneDustTiny()), 0.1f));
 	}
 
 	@Override
