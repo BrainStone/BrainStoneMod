@@ -1,6 +1,7 @@
 {
     "parent": "block/block",
     "textures": {
+        "particle": "brainstonemod:blocks/brain_stone_machine_side",
         "top": "brainstonemod:blocks/brain_light_sensor",
         "side": "brainstonemod:blocks/brain_stone_machine_side",
         "bottom": "brainstonemod:blocks/brain_stone_machine_bottom",
