@@ -1,3 +1,11 @@
+4.2.27-beta
+-----------
+
+- Added 3 new bees. Only available when Forestry is available too.
+- New model for the Brain Logic Block
+- Fixed missing texture
+- Optimized textures
+
 4.2.10-alpha
 ------------
 
