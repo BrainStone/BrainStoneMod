@@ -1002,6 +1002,24 @@ public class BrainStone {
 	public static final Item brainStoneDustTiny() {
 		return items.get("brain_stone_dust_tiny");
 	}
+	
+	/**
+	 * @return the instance of Essence of Life Dust.<br>
+	 *         <strong>Only available when Forestry is present!</strong>
+	 */
+	@Nullable
+	public static final Item essenceOfLifeDust() {
+		return items.get("essence_of_life_dust");
+	}
+	
+	/**
+	 * @return the instance of Essence of Life Fragment.<br>
+	 *         <strong>Only available when Forestry is present!</strong>
+	 */
+	@Nullable
+	public static final Item essenceOfLifeFragment() {
+		return items.get("essence_of_life_fragment");
+	}
 
 	/**
 	 * @return the instance of Brain Stone Comb.<br>

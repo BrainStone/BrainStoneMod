@@ -86,7 +86,7 @@ public enum BeeSpecies implements IBeeDefinition {
 		@Override
 		protected void setSpeciesProperties(IAlleleBeeSpeciesBuilder beeSpecies) {
 			beeSpecies.addProduct(new ItemStack(BrainStone.brainStoneComb()), 0.50f)
-					.addProduct(new ItemStack(BrainStone.brainStoneDustTiny(), 1), 0.10f) // Will be smallest of EoL fragments
+					.addProduct(new ItemStack(BrainStone.essenceOfLifeDust(), 1), 0.10f)
 					.setTemperature(EnumTemperature.NORMAL).setHumidity(EnumHumidity.NORMAL).setHasEffect();
 		}
 	};
