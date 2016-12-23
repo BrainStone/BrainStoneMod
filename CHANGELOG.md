@@ -1,7 +1,26 @@
+4.2.28
+------
+
+- Added Forestry as an optional dependency
+- Added 3 new bees. Only available when Forestry is available too.
+- Added Tiny Pile of Brain Stone Dust:
+- Added Brain Stone Comb as Bee product
+- Added Essence of Life Dust and Fragement as Bee product
+- Added Brain Stone Scoop (For Forestry)
+- Added Stable Pulsating brain Stone Scoop (For Forestry)
+- New model for the Brain Logic Block
+- Fixed missing texture
+- Fixed Brain Logic Block (#20 and some other issues)
+- Fixed rare crash from last release for real this time.
+- Internal improvements and cleanup
+- Optimized textures
+
 4.2.27-beta
 -----------
 
 - Added 3 new bees. Only available when Forestry is available too.
+- Added Brain Stone Comb as Bee product
+- Added Essence of Life Dust and Fragement as Bee product
 - New model for the Brain Logic Block
 - Fixed missing texture
 - Optimized textures
