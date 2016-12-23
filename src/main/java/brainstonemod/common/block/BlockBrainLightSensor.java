@@ -118,10 +118,8 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 		world.notifyNeighborsOfStateChange(pos.add(0, 0, -1), this);
 		world.notifyNeighborsOfStateChange(pos.add(0, 0, 1), this);
 
-		world.scheduleBlockUpdate(pos, this, tickRate(world) - ((int) world.getTotalWorldTime() % tickRate(world)), 0);// TODO:
-																														// Check
-																														// that
-																														// priority
+		// TODO: Check that priority
+		world.scheduleBlockUpdate(pos, this, tickRate(world) - ((int) world.getTotalWorldTime() % tickRate(world)), 0);
 	}
 
 	public void smoke(World world, int x, int y, int z, Random random) {
@@ -155,66 +153,38 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 
 	@Override
 	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
-		final TileEntityBrainLightSensor tileentity = (TileEntityBrainLightSensor) world.getTileEntity(pos);
+		final TileEntityBrainLightSensor tileEntity = (TileEntityBrainLightSensor) world.getTileEntity(pos);
 
-		if (tileentity != null) {
-			if (tileentity.isClassic()) {
-				final boolean power = tileentity.getPowerOn();
-				final boolean direction = tileentity.getDirection();
-				final int worldLight = tileentity.getCurLightLevel();
-				final int lightLevel = tileentity.getLightLevel();
+		if (tileEntity != null) {
+			final int worldLight = tileEntity.getCurLightLevel();
 
-				final boolean tmpPower = direction ? worldLight <= lightLevel : worldLight >= lightLevel;
+			if (tileEntity.isClassic()) {
+				final int lightLevel = tileEntity.getLightLevel();
 
-				if (tmpPower != power) {
-					BrainStonePacketHelper.sendBrainLightSensorSmokePacket(world.provider.getDimension(), pos.getX(),
-							pos.getY(), pos.getZ());
-
-					tileentity.setPowerOn(tmpPower);
-
-					world.scheduleBlockUpdate(pos, this, tickRate(world), 0);// TODO:
-																				// Check
-																				// that
-																				// priority
-					world.notifyNeighborsOfStateChange(pos, this);
-					world.notifyNeighborsOfStateChange(pos.add(-1, 0, 0), this);
-					world.notifyNeighborsOfStateChange(pos.add(1, 0, 0), this);
-					world.notifyNeighborsOfStateChange(pos.down(), this);
-					world.notifyNeighborsOfStateChange(pos.up(), this);
-					world.notifyNeighborsOfStateChange(pos.add(0, 0, -1), this);
-					world.notifyNeighborsOfStateChange(pos.add(0, 0, 1), this);
-				}
+				tileEntity.setPowerOn(tileEntity.getDirection() ? worldLight <= lightLevel : worldLight >= lightLevel);
 			} else {
-				final int worldLight = world.getLight(pos.up());
-				final short tmpPower = tileentity.getPower();
-				final short power = (short) (tileentity.getDirection() ? worldLight : 15 - worldLight);
-
-				if (tmpPower != power) {
-					BrainStonePacketHelper.sendBrainLightSensorSmokePacket(world.provider.getDimension(), pos.getX(),
-							pos.getY(), pos.getZ());
-
-					tileentity.setPower(power);
-
-					world.scheduleBlockUpdate(pos, this, tickRate(world), 0);// TODO:
-																				// Check
-																				// that
-																				// priority
-					world.notifyNeighborsOfStateChange(pos, this);
-					world.notifyNeighborsOfStateChange(pos.add(-1, 0, 0), this);
-					world.notifyNeighborsOfStateChange(pos.add(1, 0, 0), this);
-					world.notifyNeighborsOfStateChange(pos.down(), this);
-					world.notifyNeighborsOfStateChange(pos.up(), this);
-					world.notifyNeighborsOfStateChange(pos.add(0, 0, -1), this);
-					world.notifyNeighborsOfStateChange(pos.add(0, 0, 1), this);
-				}
+				tileEntity.setPower((short) (tileEntity.getDirection() ? worldLight : 15 - worldLight));
 			}
 
-			world.scheduleBlockUpdate(pos, this, tickRate(world), 0);// TODO:
-																		// Check
-																		// that
-																		// priority
+			if (tileEntity.getNeedsUpdate()) {
+				if (tileEntity.isClassic()) {
+					BrainStonePacketHelper.sendBrainLightSensorSmokePacket(world.provider.getDimension(), pos.getX(),
+							pos.getY(), pos.getZ());
+				}
+
+				world.notifyNeighborsOfStateChange(pos, this);
+				world.notifyNeighborsOfStateChange(pos.add(-1, 0, 0), this);
+				world.notifyNeighborsOfStateChange(pos.add(1, 0, 0), this);
+				world.notifyNeighborsOfStateChange(pos.down(), this);
+				world.notifyNeighborsOfStateChange(pos.up(), this);
+				world.notifyNeighborsOfStateChange(pos.add(0, 0, -1), this);
+				world.notifyNeighborsOfStateChange(pos.add(0, 0, 1), this);
+			}
+
+			// TODO: Check that priority
+			world.scheduleBlockUpdate(pos, this, tickRate(world), 0);
 		} else {
-			BSP.fatal("Die TileEntity fehlt!");
+			BSP.fatal("TileEntity missing!");
 		}
 	}
 

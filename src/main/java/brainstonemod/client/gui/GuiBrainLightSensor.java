@@ -61,7 +61,7 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 
 			curLightLevel = tileentity.getCurLightLevel();
 			drawTexturedModalRect((curLightLevel * 7) + 8, 22, 8 + (7 * curLightLevel), 158, 6, 66);
-			drawString(I18n.format("tile.brainLightSensor.name"), 6, 16, 0x404040);
+			drawString(I18n.format("tile.brain_light_sensor.name"), 6, 16, 0x404040);
 			drawCenteredString(I18n.format("gui.brainstone.classic"), 32, 7, 0x404040);
 			drawCenteredString(I18n.format("gui.brainstone.simple"), 96, 7, 0x404040);
 		} else {

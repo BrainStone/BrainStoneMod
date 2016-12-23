@@ -1,62 +1,57 @@
 package brainstonemod.common.tileentity;
 
+import lombok.Getter;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.relauncher.Side;
 
 public class TileEntityBrainLightSensor extends TileEntity {
+	private boolean needsUpdate;
+	@Getter
 	private int lightLevel;
 	private boolean classicDirection;
 	private boolean simpleDirection;
-	private boolean powerOn;
+	@Getter
 	private boolean state;
-	private int curLightLevel;
+	@Getter
+	private boolean powerOn;
+	@Getter
 	private short power;
 
 	public TileEntityBrainLightSensor() {
+		needsUpdate = true;
 		lightLevel = 8;
 		classicDirection = true;
 		simpleDirection = true;
 		powerOn = false;
-		curLightLevel = lightLevel;
 		state = false;
 	}
 
 	public void changeState() {
+		needsUpdate = true;
 		state = !state;
 	}
 
+	public boolean getNeedsUpdate() {
+		if (needsUpdate) {
+			needsUpdate = false;
+
+			return true;
+		} else
+			return false;
+	}
+
 	public int getCurLightLevel() {
-		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
+		if (world.isRemote) {
 			world.calculateInitialSkylight();
 		}
 
-		curLightLevel = world.getLight(pos.up(), false);
-
-		return curLightLevel;
+		return world.getLight(pos.up(), true);
 	}
 
 	public boolean getDirection() {
 		return state ? classicDirection : simpleDirection;
-	}
-
-	public int getLightLevel() {
-		return lightLevel;
-	}
-
-	public int getOldCurLightLevel() {
-		return curLightLevel;
-	}
-
-	public short getPower() {
-		return power;
-	}
-
-	public boolean getPowerOn() {
-		return powerOn;
 	}
 
 	/**
@@ -85,34 +80,38 @@ public class TileEntityBrainLightSensor extends TileEntity {
 		}
 	}
 
+	public void setLightLevel(int lightLevel) {
+		if ((lightLevel >= 0) && (lightLevel <= 15)) {
+			needsUpdate = needsUpdate || (this.lightLevel != lightLevel);
+			this.lightLevel = lightLevel;
+		}
+	}
+
 	public void setDirection(boolean direction) {
 		if (state) {
+			needsUpdate = needsUpdate || (classicDirection != direction);
 			classicDirection = direction;
 		} else {
+			needsUpdate = needsUpdate || (simpleDirection != direction);
 			simpleDirection = direction;
 		}
 	}
 
-	public void setLightLevel(int lightLevel) {
-		this.lightLevel = lightLevel;
-	}
-
-	public void setPower(short Power) {
-		if ((Power >= 0) && (Power <= 15)) {
-			power = Power;
-		}
-	}
-
-	public void setPowerOn(boolean power) {
-		powerOn = power;
-	}
-
 	public void setState(boolean state) {
+		needsUpdate = needsUpdate || (this.state != state);
 		this.state = state;
 	}
 
-	public boolean getState() {
-		return state;
+	public void setPowerOn(boolean powerOn) {
+		needsUpdate = needsUpdate || (this.powerOn != powerOn);
+		this.powerOn = powerOn;
+	}
+
+	public void setPower(short power) {
+		if ((power >= 0) && (power <= 15)) {
+			needsUpdate = needsUpdate || (this.power != power);
+			this.power = power;
+		}
 	}
 
 	/**
