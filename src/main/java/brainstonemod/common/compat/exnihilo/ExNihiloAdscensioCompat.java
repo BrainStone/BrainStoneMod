@@ -3,6 +3,7 @@ package brainstonemod.common.compat.exnihilo;
 import brainstonemod.BrainStone;
 import brainstonemod.common.compat.IModIntegration;
 import exnihiloadscensio.blocks.ENBlocks;
+import exnihiloadscensio.blocks.BlockSieve.MeshType;
 import exnihiloadscensio.registries.SieveRegistry;
 import exnihiloadscensio.util.BlockInfo;
 import exnihiloadscensio.util.ItemInfo;
@@ -30,8 +31,8 @@ public class ExNihiloAdscensioCompat implements IModIntegration {
 
 		// Get this to only register when the defaults are generated.
 		// Probably needs some modification in the mod itself!
-		SieveRegistry.register(dust, brainStoneDustTiny, 0.01f, 3);
-		SieveRegistry.register(dust, brainStoneDustTiny, 0.05f, 4);
+		SieveRegistry.register(dust, brainStoneDustTiny, 0.01f, MeshType.IRON.getID());
+		SieveRegistry.register(dust, brainStoneDustTiny, 0.05f, MeshType.DIAMOND.getID());
 	}
 
 	@Override
