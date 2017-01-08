@@ -1,3 +1,8 @@
+4.3.2-beta
+----------
+
+- Added preliminary Ex Nihilio Adscensio support
+
 4.2.35
 ------
 
