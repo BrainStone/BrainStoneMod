@@ -131,11 +131,13 @@ repositories {
 
 dependencies {
     // Until mappings are updated in DE (Then remove this and exclusion under DE)
-    deobfProvided "com.brandon3055.brandonscore:BrandonsCore:1.10.2-2.1.1.+:universal"
+    deobfProvided("com.brandon3055.brandonscore:BrandonsCore:1.10.2-2.1.3.+:universal") {
+        exclude module: "CodeChickenLib"
+    }
     // External Mods
     deobfProvided "team.chisel:Chisel:MC${minecraft_version}-${chisel_version}"
     // Until mappings are updated in DE (Then remove this and exclusion under DE)
-    deobfProvided "codechicken:CodeChickenLib:1.10.2-2.4.3.+:universal"
+    deobfProvided "codechicken:CodeChickenLib:1.10.2-2.5.1.+:universal"
     // Mappings do not match!
     deobfProvided("com.brandon3055.draconicevolution:Draconic-Evolution:${minecraft_version}-${draconicEvolution_version}:universal") {
         // Until mappings are updated
