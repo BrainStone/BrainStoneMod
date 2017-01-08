@@ -121,8 +121,8 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 
 	public ItemStack getLeveledCapacitor(int level, boolean full, boolean fakeOwner) {
 		ItemStack stack = base.copy();
-		setCapacityLevel(stack, 1);
-		setChargingLevel(stack, 1);
+		setCapacityLevel(stack, level);
+		setChargingLevel(stack, level);
 
 		if (full) {
 			setEnergyStored(stack, getMaxEnergyStored(stack));
