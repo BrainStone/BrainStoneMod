@@ -450,6 +450,7 @@ curseforge {
             optionalLibrary "chisel"
             optionalLibrary "draconic-evolution"
             optionalLibrary "ender-io"
+            optionalLibrary "ex-nihilo-adscensio"
             optionalLibrary "forestry"
             optionalLibrary "immersive-engineering"
             optionalLibrary "just-enough-items-jei"
