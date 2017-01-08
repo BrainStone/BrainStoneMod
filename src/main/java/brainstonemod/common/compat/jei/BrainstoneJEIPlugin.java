@@ -19,8 +19,8 @@ public class BrainstoneJEIPlugin implements IModPlugin {
 	@Override
 	public void register(@Nonnull IModRegistry registry) {
 		helpers = registry.getJeiHelpers();
-		helpers.getItemBlacklist().addItemToBlacklist(new ItemStack(BrainStone.pulsatingBrainStoneEffect()));
-		helpers.getItemBlacklist().addItemToBlacklist(new ItemStack(BrainStone.brainStoneOut()));
+		helpers.getIngredientBlacklist().addIngredientToBlacklist(new ItemStack(BrainStone.pulsatingBrainStoneEffect()));
+		helpers.getIngredientBlacklist().addIngredientToBlacklist(new ItemStack(BrainStone.brainStoneOut()));
 		registry.addRecipeHandlers(new CapacitorUpgradeRecipeHandler());
 	}
 
@@ -39,6 +39,7 @@ public class BrainstoneJEIPlugin implements IModPlugin {
 		// Do nothing
 	}
 
+	@SuppressWarnings("deprecation")
 	public static void reloadJEI() {
 		helpers.reload();
 	}
