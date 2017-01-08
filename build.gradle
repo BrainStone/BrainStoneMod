@@ -172,6 +172,8 @@ dependencies {
     deobfProvided "lib:Baubles:+"
     // Mappings do not match!
     deobfProvided "lib:BetterAchievements:+"
+    // Mappings do not match!
+    deobfProvided "lib:exnihiloadscensio:+"
     provided "lib:JustEnoughResources:+:deobf"
 }
 
