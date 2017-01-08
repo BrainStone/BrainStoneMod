@@ -1,3 +1,10 @@
+4.2.35
+------
+
+- Fixed Brain Stone Life Capacitor having wrong levels in Creative Menu
+- Updated dependencies (and code referencing them)
+- Internal improvements
+
 4.2.28
 ------
 
