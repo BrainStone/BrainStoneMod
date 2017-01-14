@@ -77,6 +77,8 @@ gui.brainstone.config.cat.modules.disabledraconicevolution=Disable Draconic Evol
 gui.brainstone.config.cat.modules.disabledraconicevolution.tooltip=Manually disable the compatibility module for Draconic Evolution
 gui.brainstone.config.cat.modules.disableenderio=Disable Ender IO
 gui.brainstone.config.cat.modules.disableenderio.tooltip=Manually disable the compatibility module for Ender IO
+gui.brainstone.config.cat.modules.disableexnihiloadscensio=Disable Ex Nihilo Adscensio
+gui.brainstone.config.cat.modules.disableexnihiloadscensio.tooltip=Manually disable the compatibility module for Ex Nihilo Adscensio
 gui.brainstone.config.cat.modules.disableforestry=Disable Forestry
 gui.brainstone.config.cat.modules.disableforestry.tooltip=Manually disable the compatibility module for Forestry
 gui.brainstone.config.cat.modules.disableimmersiveengineering=Disable Immersive Engineering
@@ -89,6 +91,8 @@ gui.brainstone.config.cat.modules.disableoverlord=Disable Overlord
 gui.brainstone.config.cat.modules.disableoverlord.tooltip=Manually disable the compatibility module for Overlord
 gui.brainstone.config.cat.modules.disabletconstruct=Disable Tinker's Construct
 gui.brainstone.config.cat.modules.disabletconstruct.tooltip=Manually disable the compatibility module for Tinker's Construct
+gui.brainstone.config.cat.modules.disabletesla=Disable TESLA
+gui.brainstone.config.cat.modules.disabletesla.tooltip=Manually disable the compatibility module for TESLA
 gui.brainstone.config.cat.modules.enablejeireloading=Enable JEI Reloading
 gui.brainstone.config.cat.modules.enablejeireloading.tooltip=Reload JEI when settings change.\n§4Big modpacks should disable this! If not on the client then on the server!\nThis setting also doesn't break anything if disabled. It only prevents some incorrect tooltips in JEI when some server and client configs are different.
 
