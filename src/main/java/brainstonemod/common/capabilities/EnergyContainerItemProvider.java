@@ -3,10 +3,10 @@ package brainstonemod.common.capabilities;
 import javax.annotation.Nullable;
 
 import brainstonemod.common.compat.BrainStoneModules;
+import brainstonemod.common.compat.tesla.TeslaCompat;
 import net.darkhax.tesla.api.ITeslaConsumer;
 import net.darkhax.tesla.api.ITeslaHolder;
 import net.darkhax.tesla.api.ITeslaProducer;
-import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
@@ -40,9 +40,8 @@ public class EnergyContainerItemProvider
 
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
-		return (capability == CapabilityEnergy.ENERGY) || (capability == TeslaCapabilities.CAPABILITY_CONSUMER)
-				|| (capability == TeslaCapabilities.CAPABILITY_PRODUCER)
-				|| (capability == TeslaCapabilities.CAPABILITY_HOLDER);
+		return (capability == CapabilityEnergy.ENERGY)
+				|| (BrainStoneModules.tesla() && TeslaCompat.isTeslaCapability(capability));
 	}
 
 	@SuppressWarnings("unchecked")
