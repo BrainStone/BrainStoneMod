@@ -96,15 +96,6 @@ public final class BrainStoneModules {
 		return DRACONIC_EVOLUTION;
 	}
 
-	@Module(modid = EX_NIHILO_ADSCENSIO_MODID, name = "Ex Nihilo Adscensio", message = "Making Brain Stone siftable.", integration = ExNihiloAdscensioCompat.class)
-	public static boolean exNihiloAdscensio() {
-		if (EX_NIHILO_ADSCENSIO == null) {
-			EX_NIHILO_ADSCENSIO = Loader.isModLoaded(EX_NIHILO_ADSCENSIO_MODID);
-		}
-
-		return EX_NIHILO_ADSCENSIO;
-	}
-
 	@Module(modid = ENDER_IO_MODID, name = "Ender IO", message = "Enabling recipes and armor upgrade.", integration = EnderIOCompat.class)
 	public static boolean enderIO() {
 		if (ENDER_IO == null) {
@@ -112,6 +103,15 @@ public final class BrainStoneModules {
 		}
 
 		return ENDER_IO;
+	}
+
+	@Module(modid = EX_NIHILO_ADSCENSIO_MODID, name = "Ex Nihilo Adscensio", message = "Making Brain Stone siftable.", integration = ExNihiloAdscensioCompat.class)
+	public static boolean exNihiloAdscensio() {
+		if (EX_NIHILO_ADSCENSIO == null) {
+			EX_NIHILO_ADSCENSIO = Loader.isModLoaded(EX_NIHILO_ADSCENSIO_MODID);
+		}
+
+		return EX_NIHILO_ADSCENSIO;
 	}
 
 	@Module(modid = FORESTRY_MODID, name = "Forestry", message = "Adding bees and related items.", integration = ForestryCompat.class)
@@ -187,7 +187,7 @@ public final class BrainStoneModules {
 
 		return TINKERS_CONSTRUCT;
 	}
-	
+
 	@Module(modid = TESLA_MODID, name = "TESLA", message = "Enabling support for TESLA energy API.")
 	public static boolean tesla() {
 		if (TESLA == null) {
