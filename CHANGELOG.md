@@ -1,3 +1,10 @@
+4.4.6-beta
+----------
+
+- Fixed wrong TESLA integration
+- Fixed crash "java.lang.NoClassDefFoundError: net/darkhax/tesla/capability/TeslaCapabilities"
+- Added missing translations
+
 4.4.2-beta
 ----------
 
