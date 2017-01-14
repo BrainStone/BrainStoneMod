@@ -1,6 +1,14 @@
 package brainstonemod.common.capabilities;
 
+import java.math.BigInteger;
+
+import com.brandon3055.draconicevolution.api.IInvCharge;
+
+import brainstonemod.common.compat.BrainStoneModules;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.Optional.Interface;
+import net.minecraftforge.fml.common.Optional.InterfaceList;
 
 /**
  * This code is mostly taken from <a href=
@@ -11,14 +19,98 @@ import net.minecraft.item.ItemStack;
  *
  * @author BrainStone
  */
-public interface IEnergyContainerItem {
-	long getMaxEnergyStored(ItemStack stack);
+@InterfaceList({ @Interface(iface = "cofh.api.energy.IEnergyContainerItem", modid = "CoFHAPI"),
+		@Interface(iface = "com.brandon3055.draconicevolution.api.IInvCharge", modid = BrainStoneModules.DRACONIC_EVOLUTION_MODID) })
+public interface IEnergyContainerItem extends cofh.api.energy.IEnergyContainerItem, IInvCharge {
+	long getMaxEnergyStoredLong(ItemStack stack);
 
-	long getEnergyStored(ItemStack stack);
+	@Override
+	default int getMaxEnergyStored(ItemStack container) {
+		long maxEnergyStored = getMaxEnergyStoredLong(container);
+
+		if (maxEnergyStored > Integer.MAX_VALUE)
+			return Integer.MAX_VALUE;
+		else
+			return (int) maxEnergyStored;
+	}
+
+	long getEnergyStoredLong(ItemStack stack);
+
+	@Override
+	default int getEnergyStored(ItemStack container) {
+		long energyStored = getEnergyStoredLong(container);
+		long maxEnergyStored = getMaxEnergyStoredLong(container);
+
+		if (maxEnergyStored > Integer.MAX_VALUE)
+			return BigInteger.valueOf(energyStored).multiply(BigInteger.valueOf(Integer.MAX_VALUE))
+					.divide(BigInteger.valueOf(maxEnergyStored)).intValue();
+		else
+			return (int) energyStored;
+	}
 
 	void setEnergyStored(ItemStack container, long energy);
 
 	long getMaxInput(ItemStack stack);
 
 	long getMaxOutput(ItemStack stack);
+
+	default boolean canExtract(ItemStack container) {
+		if (container.stackSize > 1)
+			return false;
+
+		return getMaxOutput(container) > 0;
+	}
+
+	default boolean canReceive(ItemStack container) {
+		if (container.stackSize > 1)
+			return false;
+
+		return getMaxInput(container) > 0;
+	}
+
+	@Override
+	default boolean canCharge(ItemStack container, EntityPlayer player) {
+		return canReceive(container);
+	}
+
+	default long receiveEnergyLong(ItemStack container, long maxReceive, boolean simulate) {
+		if (!canReceive(container))
+			return 0;
+
+		long energy = getEnergyStoredLong(container);
+		long energyReceived = Math.min(getMaxEnergyStoredLong(container) - energy,
+				Math.min(getMaxInput(container), maxReceive));
+
+		if (!simulate) {
+			energy += energyReceived;
+			setEnergyStored(container, energy);
+		}
+
+		return energyReceived;
+	}
+
+	@Override
+	default int receiveEnergy(ItemStack container, int maxReceive, boolean simulate) {
+		return (int) receiveEnergyLong(container, maxReceive, simulate);
+	}
+
+	default long extractEnergyLong(ItemStack container, long maxExtract, boolean simulate) {
+		if (!canExtract(container))
+			return 0;
+
+		long energy = getEnergyStoredLong(container);
+		long energyExtracted = Math.min(energy, Math.min(getMaxOutput(container), maxExtract));
+
+		if (!simulate) {
+			energy -= energyExtracted;
+			setEnergyStored(container, energy);
+		}
+
+		return energyExtracted;
+	}
+
+	@Override
+	default int extractEnergy(ItemStack container, int maxExtract, boolean simulate) {
+		return (int) extractEnergyLong(container, maxExtract, simulate);
+	}
 }

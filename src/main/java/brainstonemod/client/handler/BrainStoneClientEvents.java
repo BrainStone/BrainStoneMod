@@ -84,9 +84,9 @@ public class BrainStoneClientEvents {
 				BrainStoneRenderHelper.drawTexturedRect(left + 16, top - 4, 9, 9, 16, 0, 9, 9, 10);
 				BrainStoneRenderHelper.drawTexturedRect(left + 16, top - 4, 9, 9, 52, 0, 9, 9, 10);
 
-				float hearts = (float) itemCapacitor.getEnergyStored(capacitor)
+				float hearts = (float) itemCapacitor.getEnergyStoredLong(capacitor)
 						/ (float) (ItemBrainStoneLifeCapacitor.RFperHalfHeart * 2);
-				long maxHearts = itemCapacitor.getMaxEnergyStored(capacitor)
+				long maxHearts = itemCapacitor.getMaxEnergyStoredLong(capacitor)
 						/ (ItemBrainStoneLifeCapacitor.RFperHalfHeart * 2);
 
 				BrainStoneRenderHelper.drawString(String.format("%.1f/%d", hearts, maxHearts), left + 26, top - 3,

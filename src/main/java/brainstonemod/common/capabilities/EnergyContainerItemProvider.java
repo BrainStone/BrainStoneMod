@@ -1,15 +1,20 @@
 package brainstonemod.common.capabilities;
 
-import java.math.BigInteger;
-
 import javax.annotation.Nullable;
 
+import brainstonemod.common.compat.BrainStoneModules;
+import net.darkhax.tesla.api.ITeslaConsumer;
+import net.darkhax.tesla.api.ITeslaHolder;
+import net.darkhax.tesla.api.ITeslaProducer;
+import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
+import net.minecraftforge.fml.common.Optional.Interface;
+import net.minecraftforge.fml.common.Optional.InterfaceList;
 
 /**
  * This code is mostly taken from <a href=
@@ -20,7 +25,11 @@ import net.minecraftforge.energy.IEnergyStorage;
  *
  * @author BrainStone
  */
-public class EnergyContainerItemProvider implements IEnergyStorage, ICapabilityProvider {
+@InterfaceList({ @Interface(iface = "net.darkhax.tesla.api.ITeslaConsumer", modid = BrainStoneModules.TESLA_MODID),
+		@Interface(iface = "net.darkhax.tesla.api.ITeslaHolder", modid = BrainStoneModules.TESLA_MODID),
+		@Interface(iface = "net.darkhax.tesla.api.ITeslaProducer", modid = BrainStoneModules.TESLA_MODID) })
+public class EnergyContainerItemProvider
+		implements IEnergyStorage, ITeslaHolder, ITeslaConsumer, ITeslaProducer, ICapabilityProvider {
 	protected final ItemStack container;
 	protected final IEnergyContainerItem item;
 
@@ -31,49 +40,38 @@ public class EnergyContainerItemProvider implements IEnergyStorage, ICapabilityP
 
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
-		return capability == CapabilityEnergy.ENERGY;
+		return (capability == CapabilityEnergy.ENERGY) || (capability == TeslaCapabilities.CAPABILITY_CONSUMER)
+				|| (capability == TeslaCapabilities.CAPABILITY_PRODUCER)
+				|| (capability == TeslaCapabilities.CAPABILITY_HOLDER);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
-		if (capability == CapabilityEnergy.ENERGY)
+		if (hasCapability(capability, facing))
 			return (T) this;
 
 		return null;
 	}
 
 	@Override
+	public long givePower(long maxReceive, boolean simulate) {
+		return item.receiveEnergyLong(container, maxReceive, simulate);
+	}
+
+	@Override
 	public int receiveEnergy(int maxReceive, boolean simulate) {
-		if (!canReceive())
-			return 0;
+		return item.receiveEnergy(container, maxReceive, simulate);
+	}
 
-		long energy = item.getEnergyStored(container);
-		int energyReceived = (int) Math.min(item.getMaxEnergyStored(container) - energy,
-				Math.min(item.getMaxInput(container), maxReceive));
-
-		if (!simulate) {
-			energy += energyReceived;
-			setEnergyStored(energy);
-		}
-
-		return energyReceived;
+	@Override
+	public long takePower(long maxExtract, boolean simulate) {
+		return item.extractEnergyLong(container, maxExtract, simulate);
 	}
 
 	@Override
 	public int extractEnergy(int maxExtract, boolean simulate) {
-		if (!canExtract())
-			return 0;
-
-		long energy = item.getEnergyStored(container);
-		int energyExtracted = (int) Math.min(energy, Math.min(item.getMaxOutput(container), maxExtract));
-
-		if (!simulate) {
-			energy -= energyExtracted;
-			setEnergyStored(energy);
-		}
-
-		return energyExtracted;
+		return item.extractEnergy(container, maxExtract, simulate);
 	}
 
 	public void setEnergyStored(long energy) {
@@ -81,40 +79,32 @@ public class EnergyContainerItemProvider implements IEnergyStorage, ICapabilityP
 	}
 
 	@Override
-	public int getEnergyStored() {
-		long energyStored = item.getEnergyStored(container);
-		long maxEnergyStored = item.getMaxEnergyStored(container);
+	public long getStoredPower() {
+		return item.getEnergyStoredLong(container);
+	}
 
-		if (maxEnergyStored > Integer.MAX_VALUE)
-			return BigInteger.valueOf(energyStored).multiply(BigInteger.valueOf(Integer.MAX_VALUE))
-					.divide(BigInteger.valueOf(maxEnergyStored)).intValue();
-		else
-			return (int) energyStored;
+	@Override
+	public int getEnergyStored() {
+		return item.getEnergyStored(container);
+	}
+
+	@Override
+	public long getCapacity() {
+		return item.getMaxEnergyStoredLong(container);
 	}
 
 	@Override
 	public int getMaxEnergyStored() {
-		long maxEnergyStored = item.getMaxEnergyStored(container);
-
-		if (maxEnergyStored > Integer.MAX_VALUE)
-			return Integer.MAX_VALUE;
-		else
-			return (int) maxEnergyStored;
+		return item.getMaxEnergyStored(container);
 	}
 
 	@Override
 	public boolean canExtract() {
-		if (container.stackSize > 1)
-			return false;
-
-		return item.getMaxOutput(container) > 0;
+		return item.canExtract(container);
 	}
 
 	@Override
 	public boolean canReceive() {
-		if (container.stackSize > 1)
-			return false;
-
-		return item.getMaxInput(container) > 0;
+		return item.canReceive(container);
 	}
 }

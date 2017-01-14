@@ -41,12 +41,13 @@ public final class BrainStoneModules {
 	public static final String OVERLORD_MODID = "overlord";
 	public static final String THAUMCRAFT_MODID = "Thaumcraft";
 	public static final String TINKERS_CONSTRUCT_MODID = "tconstruct";
+	public static final String TESLA_MODID = "tesla";
 
 	public static final String DEPENDENCIES = "after:" + BAUBLES_MODID + ";after:" + BETTER_ACHIEVEMENTS_MODID
 			+ ";after:" + DRACONIC_EVOLUTION_MODID + ";after:" + ENDER_IO_MODID + ";after:" + EX_NIHILO_ADSCENSIO_MODID
 			+ ";after:" + FORESTRY_MODID + ";after:" + IMMERSIVE_ENGINEERING_MODID + ";after:" + JEI_MODID + ";after:"
 			+ JER_MODID + "@[0.5.6.84,);after:" + MFR_MODID + ";after:" + OVERLORD_MODID + ";after:" + THAUMCRAFT_MODID
-			+ ";after:" + TINKERS_CONSTRUCT_MODID;
+			+ ";after:" + TINKERS_CONSTRUCT_MODID + ";after:" + TESLA_MODID;
 
 	private static Boolean BAUBLES;
 	private static Boolean BETTER_ACHIEVEMENTS;
@@ -61,6 +62,7 @@ public final class BrainStoneModules {
 	private static Boolean OVERLORD;
 	private static Boolean THAUMCRAFT;
 	private static Boolean TINKERS_CONSTRUCT;
+	private static Boolean TESLA;
 
 	@Getter
 	private static final Set<ModuleInformation> allModules = detectAllModules();
@@ -184,6 +186,15 @@ public final class BrainStoneModules {
 		}
 
 		return TINKERS_CONSTRUCT;
+	}
+	
+	@Module(modid = TESLA_MODID, name = "TESLA", message = "Enabling support for TESLA energy API.", integration = TiConCompat.class)
+	public static boolean tesla() {
+		if (TESLA == null) {
+			TESLA = Loader.isModLoaded(TESLA_MODID);
+		}
+
+		return TESLA;
 	}
 
 	private static Set<ModuleInformation> detectAllModules() {

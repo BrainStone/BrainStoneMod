@@ -112,7 +112,7 @@ repositories {
     maven { // EnderIO, EnderCore, EnderZoo, The One Probe, Chisel
         url "http://maven.tterrag.com"
     }
-    maven { // Tesla (dependency of EnderIO)
+    maven { // Tesla
         url "https://maven.epoxide.xyz"
     }
     maven { // ChickenBones' mods and Draconic Evolution
@@ -150,6 +150,7 @@ dependencies {
     deobfProvided "com.enderio.core:EnderCore:${minecraft_version}-${endercore_version}"
     deobfProvided("com.enderio:EnderIO:${minecraft_version}-${enderio_version}") {
         exclude module: "appliedenergistics2"
+        exclude module: "Tesla"
     }
     deobfProvided("net.sengir.forestry:forestry_${minecraft_version}:${forestry_version}") {
         exclude module: "jei_${minecraft_version}"
@@ -165,6 +166,7 @@ dependencies {
     }
     
     provided "the_fireplace.overlord:Overlord-${minecraft_version}:${overlord_version}:deobf"
+    provided "net.darkhax.tesla:Tesla:${minecraft_version}-${tesla_version}:deobf"
     
     
     // Local Mods
@@ -457,6 +459,7 @@ curseforge {
             optionalLibrary "just-enough-resources-jer"
             optionalLibrary "overlord"
             optionalLibrary "tinkers-construct"
+            optionalLibrary "tesla"
             
             //optionalLibrary "minefactory-reloaded"
             //optionalLibrary "thermal-foundation"

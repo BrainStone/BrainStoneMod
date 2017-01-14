@@ -99,7 +99,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean hasEffect(ItemStack container) {
-		return (getEnergyStored(container) >= RFperHalfHeart) && hasOwner(container);
+		return (getEnergyStoredLong(container) >= RFperHalfHeart) && hasOwner(container);
 	}
 
 	@Override
@@ -125,7 +125,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 		setChargingLevel(stack, level);
 
 		if (full) {
-			setEnergyStored(stack, getMaxEnergyStored(stack));
+			setEnergyStored(stack, getMaxEnergyStoredLong(stack));
 		} else {
 			setEnergyStored(stack, 0);
 		}
@@ -157,7 +157,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 					+ BrainStonePowerDisplayUtil.abrevation() + "/" + TextFormatting.DARK_RED + "\u2764");
 			list.add(BrainStone.proxy.format("capacitor.capacity") + " " + TextFormatting.GOLD + TextFormatting.BOLD
 					+ String.valueOf(getCapacityLevel(container)) + TextFormatting.RESET + TextFormatting.GRAY + " ("
-					+ BrainStonePowerDisplayUtil.formatPower(getMaxEnergyStored(container)) + " "
+					+ BrainStonePowerDisplayUtil.formatPower(getMaxEnergyStoredLong(container)) + " "
 					+ BrainStonePowerDisplayUtil.abrevation() + " " + TextFormatting.DARK_RED
 					+ ((getCapacityLevel(container) + 1) * 5) + "\u2764" + TextFormatting.GRAY + ")");
 			list.add(BrainStone.proxy.format("capacitor.charging") + " " + TextFormatting.GOLD + TextFormatting.BOLD
@@ -173,14 +173,14 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 							+ TextFormatting.RESET + TextFormatting.GRAY));
 		}
 
-		list.add(BrainStonePowerDisplayUtil.formatStoredPower(getEnergyStored(container),
-				getMaxEnergyStored(container)));
+		list.add(BrainStonePowerDisplayUtil.formatStoredPower(getEnergyStoredLong(container),
+				getMaxEnergyStoredLong(container)));
 	}
 
 	@Override
 	public void onCreated(ItemStack container, World world, EntityPlayer entityPlayer) {
 		// Init NBT if new and keep old NBT
-		getEnergyStored(container);
+		getEnergyStoredLong(container);
 		getCapacityLevel(container);
 		getChargingLevel(container);
 		createUUID(container);
@@ -234,7 +234,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	}
 
 	public void healPlayer(ItemStack container, EntityPlayer player) {
-		if (getEnergyStored(container) < RFperHalfHeart)
+		if (getEnergyStoredLong(container) < RFperHalfHeart)
 			return;
 
 		double heal = Math.floor(player.getMaxHealth() - player.getHealth());
@@ -302,13 +302,13 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	}
 
 	@Override
-	public long getEnergyStored(ItemStack container) {
+	public long getEnergyStoredLong(ItemStack container) {
 		if ((container.getTagCompound() == null) || !container.getTagCompound().hasKey("Energy")) {
 			setEnergyStored(container, 0L);
 		}
 
 		long energyStored = container.getTagCompound().getLong("Energy");
-		long maxEnergyStored = getMaxEnergyStored(container);
+		long maxEnergyStored = getMaxEnergyStoredLong(container);
 
 		if (energyStored > maxEnergyStored) {
 			setEnergyStored(container, energyStored = maxEnergyStored);
@@ -320,7 +320,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	}
 
 	@Override
-	public long getMaxEnergyStored(ItemStack container) {
+	public long getMaxEnergyStoredLong(ItemStack container) {
 		return (getCapacityLevel(container) + 1) * 10 * RFperHalfHeart;
 	}
 
@@ -343,6 +343,11 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	@Override
 	public long getMaxOutput(ItemStack stack) {
 		return 0;
+	}
+
+	@Override
+	public boolean canCharge(ItemStack container, EntityPlayer player) {
+		return canReceive(container) && isCurrentOwner(container, player.getUniqueID());
 	}
 
 	public UUID getUUID(ItemStack container) {
@@ -399,7 +404,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	}
 
 	private void updateDamage(ItemStack container) {
-		float r = (float) getEnergyStored(container) / getMaxEnergyStored(container);
+		float r = (float) getEnergyStoredLong(container) / getMaxEnergyStoredLong(container);
 		int res = MaxDamage - (int) (r * MaxDamage);
 
 		container.setItemDamage(res);
