@@ -94,7 +94,7 @@ public final class BrainStoneModules {
 		return DRACONIC_EVOLUTION;
 	}
 
-	@Module(modid = EX_NIHILO_ADSCENSIO_MODID, name = "Ex Nihilo Adscensio", message = "Enabling recipes and armor upgrade.", integration = ExNihiloAdscensioCompat.class)
+	@Module(modid = EX_NIHILO_ADSCENSIO_MODID, name = "Ex Nihilo Adscensio", message = "Making Brain Stone siftable.", integration = ExNihiloAdscensioCompat.class)
 	public static boolean exNihiloAdscensio() {
 		if (EX_NIHILO_ADSCENSIO == null) {
 			EX_NIHILO_ADSCENSIO = Loader.isModLoaded(EX_NIHILO_ADSCENSIO_MODID);
