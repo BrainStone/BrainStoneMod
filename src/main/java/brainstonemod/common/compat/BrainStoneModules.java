@@ -188,7 +188,7 @@ public final class BrainStoneModules {
 		return TINKERS_CONSTRUCT;
 	}
 	
-	@Module(modid = TESLA_MODID, name = "TESLA", message = "Enabling support for TESLA energy API.", integration = TiConCompat.class)
+	@Module(modid = TESLA_MODID, name = "TESLA", message = "Enabling support for TESLA energy API.")
 	public static boolean tesla() {
 		if (TESLA == null) {
 			TESLA = Loader.isModLoaded(TESLA_MODID);
