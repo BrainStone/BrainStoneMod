@@ -1,3 +1,10 @@
+4.4.2-beta
+----------
+
+- Added support for TESLA and CoFHLib energy systems
+- Added explicit support the for DraconicEvolution Flux Capacitor 
+- Fixed wrong message in log when enabling Ex Nihilio Adscensio support
+
 4.3.2-beta
 ----------
 
