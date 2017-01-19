@@ -7,8 +7,7 @@ import com.brandon3055.draconicevolution.api.IInvCharge;
 import brainstonemod.common.compat.BrainStoneModules;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.Optional.Interface;
-import net.minecraftforge.fml.common.Optional.InterfaceList;
+import net.minecraftforge.fml.common.Optional;
 
 /**
  * This code is mostly taken from <a href=
@@ -19,8 +18,8 @@ import net.minecraftforge.fml.common.Optional.InterfaceList;
  *
  * @author BrainStone
  */
-@InterfaceList({ @Interface(iface = "cofh.api.energy.IEnergyContainerItem", modid = "CoFHAPI"),
-		@Interface(iface = "com.brandon3055.draconicevolution.api.IInvCharge", modid = BrainStoneModules.DRACONIC_EVOLUTION_MODID) })
+@Optional.InterfaceList({ @Optional.Interface(iface = "cofh.api.energy.IEnergyContainerItem", modid = "CoFHAPI|energy"),
+		@Optional.Interface(iface = "com.brandon3055.draconicevolution.api.IInvCharge", modid = BrainStoneModules.DRACONIC_EVOLUTION_MODID) })
 public interface IEnergyContainerItem extends cofh.api.energy.IEnergyContainerItem, IInvCharge {
 	long getMaxEnergyStoredLong(ItemStack stack);
 
