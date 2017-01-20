@@ -13,8 +13,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
-import net.minecraftforge.fml.common.Optional.Interface;
-import net.minecraftforge.fml.common.Optional.InterfaceList;
+import net.minecraftforge.fml.common.Optional;
 
 /**
  * This code is mostly taken from <a href=
@@ -25,9 +24,10 @@ import net.minecraftforge.fml.common.Optional.InterfaceList;
  *
  * @author BrainStone
  */
-@InterfaceList({ @Interface(iface = "net.darkhax.tesla.api.ITeslaConsumer", modid = BrainStoneModules.TESLA_MODID),
-		@Interface(iface = "net.darkhax.tesla.api.ITeslaHolder", modid = BrainStoneModules.TESLA_MODID),
-		@Interface(iface = "net.darkhax.tesla.api.ITeslaProducer", modid = BrainStoneModules.TESLA_MODID) })
+@Optional.InterfaceList({
+		@Optional.Interface(iface = "net.darkhax.tesla.api.ITeslaConsumer", modid = BrainStoneModules.TESLA_MODID),
+		@Optional.Interface(iface = "net.darkhax.tesla.api.ITeslaHolder", modid = BrainStoneModules.TESLA_MODID),
+		@Optional.Interface(iface = "net.darkhax.tesla.api.ITeslaProducer", modid = BrainStoneModules.TESLA_MODID) })
 public class EnergyContainerItemProvider
 		implements IEnergyStorage, ITeslaHolder, ITeslaConsumer, ITeslaProducer, ICapabilityProvider {
 	protected final ItemStack container;
