@@ -181,7 +181,6 @@ dependencies {
 
 lombok {
     version = "1.16.10"
-    version = "1.16.12"
     sha256 = "7e9079406585c67fe25f607c34b17fbed48da0a9bceb15c09a558444cefcef0e"
 }
 
