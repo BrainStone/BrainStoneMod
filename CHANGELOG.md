@@ -1,3 +1,8 @@
+4.4.10-beta
+-----------
+
+- Fixed crash related to the old CoFH API (Fixes #22)
+
 4.4.6-beta
 ----------
 
