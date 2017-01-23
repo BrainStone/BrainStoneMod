@@ -1,3 +1,8 @@
+4.4.14-beta
+-----------
+
+- Updated to new Ex Nihilo Adscensio system: When there is no config Tiny Brain Stone Dust gets added automatically to the config. Also the Dust is no longer added automatically.
+
 4.4.10-beta
 -----------
 
