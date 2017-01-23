@@ -177,6 +177,8 @@ dependencies {
     // Mappings do not match!
     deobfProvided "lib:exnihiloadscensio:+"
     provided "lib:JustEnoughResources:+:deobf"
+    // Mappings do not match!
+    deobfProvided "lib:mysticalagriculture-1.10.2:+"
 }
 
 lombok {
