@@ -270,11 +270,17 @@ task showVersion {
 }
 
 task gitTag {
-    description "Tags the current version in git"
+    description "Tags the current version in git. Specify the version by passing \"-PtagVersion=version\""
     group "help"
     
     doLast {
-        def tagVersion = "v" + version.split("-")[1];
+        def tagVersion
+    
+        if ( project.hasProperty("tagVersion") ) {
+            tagVersion = project.tagVersion
+        } else {
+            tagVersion = "v" + version.split("-")[1]
+        }
         
         "git tag -a ${tagVersion} -m \"" + StringEscapeUtils.escapeJava(getChangelog()) + "\"".execute();
     }
