@@ -119,7 +119,7 @@ minecraft {
 
 repositories {
     maven { // Home repo (also contains overlord)
-        url "http://maven.brainstonemod.com"
+        url "https://maven.brainstonemod.com"
     }
     maven { // JEI, Natura, Mantle, TiCon
         url "http://dvs1.progwml6.com/files/maven"
@@ -146,13 +146,13 @@ repositories {
 
 dependencies {
     // Until mappings are updated in DE (Then remove this and exclusion under DE)
-    deobfProvided("com.brandon3055.brandonscore:BrandonsCore:1.10.2-2.1.3.+:universal") {
+    deobfProvided("com.brandon3055.brandonscore:BrandonsCore:1.10.2-2.1.6.+:universal") {
         exclude module: "CodeChickenLib"
     }
     // External Mods
     deobfProvided "team.chisel:Chisel:MC${minecraft_version}-${chisel_version}"
     // Until mappings are updated in DE (Then remove this and exclusion under DE)
-    deobfProvided "codechicken:CodeChickenLib:1.10.2-2.5.1.+:universal"
+    deobfProvided "codechicken:CodeChickenLib:1.10.2-2.5.7.+:universal"
     // Mappings do not match!
     deobfProvided("com.brandon3055.draconicevolution:Draconic-Evolution:${minecraft_version}-${draconicEvolution_version}:universal") {
         // Until mappings are updated
@@ -175,22 +175,18 @@ dependencies {
     deobfProvided "mezz.jei:jei_${minecraft_version}:${jei_version}"
     // Deobf exists but Access Transformers are messed up
     deobfProvided "slimeknights.mantle:Mantle:${minecraft_version}-${mantle_version}"
-    // Mappings do not match!
-    deobfProvided("slimeknights:TConstruct:${minecraft_version}-${tconstruct_version}") {
-        exclude module: "jei_${minecraft_version}"
-    }
     
     provided "the_fireplace.overlord:Overlord-${minecraft_version}:${overlord_version}:deobf"
     provided "net.darkhax.tesla:Tesla:${minecraft_version}-${tesla_version}:deobf"
+    provided("slimeknights:TConstruct:${minecraft_version}-${tconstruct_version}:deobf") {
+        exclude module: "jei_${minecraft_version}"
+    }
     
     
     // Local Mods
-    // Mappings do not match!
-    deobfProvided "lib:Baubles:+"
-    // Mappings do not match!
-    deobfProvided "lib:BetterAchievements:+"
-    // Mappings do not match!
-    deobfProvided "lib:exnihiloadscensio:+"
+    provided "lib:Baubles:+:deobf"
+    provided "lib:BetterAchievements:+:deobf"
+    provided "lib:exnihiloadscensio:+:deobf"
     provided "lib:JustEnoughResources:+:deobf"
     // Mappings do not match!
     deobfProvided "lib:mysticalagriculture-1.10.2:+"
