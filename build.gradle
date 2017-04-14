@@ -54,12 +54,27 @@ def getVersionType() {
 }
 def getVersionName() {
     try {
-        def tmp = "${minecraft_version}-" + ("git describe --tags --dirty=-SNAPSHOT".execute().text.trim().substring(1).replaceFirst("(\\d+)-g[0-9a-f]+", "dev\$1"));
+        def version;
+        def tmp = "git describe --tags --dirty=-SNAPSHOT".execute().text.trim().substring(1).split("-");
+        
+        if (tmp.length <= 2) {
+            version = tmp.join("-");
+        } else {
+            def versions = tmp[0].split("\\.");
+            versions[2] = String.valueOf(versions[2].toInteger() + tmp[1].toInteger());
+            
+            version = versions.join(".");
+            
+            if (tmp.length == 4)
+                version += "-" + tmp[3];
+        }
+        
+        version = "${minecraft_version}-${version}";
         
         if (mod_version_postfix.isEmpty())
-            return tmp;
+            return version;
         else
-            return tmp.replaceFirst("(.+?-[^\\-]+)(-)?", "\$1-${mod_version_postfix}\$2");
+            return version.replaceFirst("(.+?-[^\\-]+)(-)?", "\$1-${mod_version_postfix}\$2");
     } catch(Exception e) {
         println e
         return "UNKNOWN-VERSION"
@@ -252,6 +267,17 @@ task showVersion {
     }
     
     outputs.upToDateWhen { false }
+}
+
+task gitTag {
+    description "Tags the current version in git"
+    group "help"
+    
+    doLast {
+        def tagVersion = "v" + version.split("-")[1];
+        
+        "git tag -a ${tagVersion} -m \"" + StringEscapeUtils.escapeJava(getChangelog()) + "\"".execute();
+    }
 }
 
 jar {
