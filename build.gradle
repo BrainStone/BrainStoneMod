@@ -4,6 +4,7 @@ import static groovyx.net.http.Method.*
 import groovy.json.*
 import groovyx.net.http.HTTPBuilder
 import io.franzbecker.gradle.lombok.task.DelombokTask
+import java.util.regex.*
 
 buildscript {
     repositories {
@@ -35,11 +36,15 @@ apply plugin: "maven"
 apply plugin: "maven-publish"
 
 def getChangelog() {
-    try {
-        def tag = "git describe --abbrev=0 --tags".execute().text.trim();
-        return ("git tag -l -n99999 " + tag).execute().text.trim().replaceFirst(tag, "").replaceAll("(?m)^\\s+", "")
-    } catch(Exception e) {
-        return ""
+    Pattern pattern = Pattern.compile("^.+?\n-+\n\n((?:- .+?\n)+)");
+    Matcher match = pattern.matcher(file("CHANGELOG.md").text.replaceAll("\r", ""));
+    
+    if (match.find()) {
+        String res = match.group(1);
+    
+        return res.substring(0, res.length() - 1);
+    } else {
+        return "";
     }
 }
 def getVersionType() {
