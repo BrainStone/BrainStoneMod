@@ -10,8 +10,9 @@ Starts where all others end
 [Issue Reporting](https://github.com/BrainStone/brainstone/issues)
 ------------------------------------------------------------------
 
-If you found a bug or even are experiencing a crash please report it so we can fix it. Please check at first if a bug report for the issue already [exits]
-(https://github.com/BrainStone/brainstone/issues). If not just create a [new issue](https://github.com/BrainStone/brainstone/issues/new) and fill out the form.
+If you found a bug or even are experiencing a crash please report it so we can fix it. Please check at first if a bug report for the issue already
+[exits](https://github.com/BrainStone/brainstone/issues). If not just create a [new issue](https://github.com/BrainStone/brainstone/issues/new) and fill out the
+form.
 
 Please include the following:
 
