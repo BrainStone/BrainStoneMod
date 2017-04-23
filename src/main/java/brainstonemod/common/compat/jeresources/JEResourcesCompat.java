@@ -5,7 +5,6 @@ import brainstonemod.common.compat.IModIntegration;
 import brainstonemod.common.config.BrainStoneConfigWrapper;
 import jeresources.api.IJERAPI;
 import jeresources.api.JERPlugin;
-import jeresources.api.conditionals.Conditional;
 import jeresources.api.distributions.DistributionSquare;
 import jeresources.api.drop.LootDrop;
 import net.minecraft.entity.boss.EntityWither;
@@ -38,9 +37,9 @@ public class JEResourcesCompat implements IModIntegration {
 		jerAPI.getWorldGenRegistry().register(brainStoneOre,
 				new DistributionSquare(BrainStoneConfigWrapper.getBrainStoneOreVeinCount(),
 						BrainStoneConfigWrapper.getBrainStoneOreVeinSize(), 0, 32),
-				new LootDrop(brainStoneDust, 0, 1, 1.0f, 0), new LootDrop(brainStoneDust, 0, 2, 1.0f, 1),
-				new LootDrop(brainStoneDust, 0, 3, 1.0f, 2), new LootDrop(brainStoneDust, 0, 4, 1.0f, 3),
-				new LootDrop(brainStoneOre, 1, 1, Conditional.silkTouch));
+				true,
+				new LootDrop(brainStoneDust, 0, 1, 1/2, 0), new LootDrop(brainStoneDust, 0, 2, 2/3, 1),
+				new LootDrop(brainStoneDust, 0, 3, 3/4, 2), new LootDrop(brainStoneDust, 0, 4, 4/5, 3));
 
 		jerAPI.getDungeonRegistry().registerCategory("chests/house/top", "BrainStone House Top");
 		jerAPI.getDungeonRegistry().registerChest("chests/house/top",
