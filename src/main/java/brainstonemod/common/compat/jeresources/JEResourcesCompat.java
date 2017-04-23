@@ -38,8 +38,8 @@ public class JEResourcesCompat implements IModIntegration {
 				new DistributionSquare(BrainStoneConfigWrapper.getBrainStoneOreVeinCount(),
 						BrainStoneConfigWrapper.getBrainStoneOreVeinSize(), 0, 32),
 				true,
-				new LootDrop(brainStoneDust, 0, 1, 1/2, 0), new LootDrop(brainStoneDust, 0, 2, 2/3, 1),
-				new LootDrop(brainStoneDust, 0, 3, 3/4, 2), new LootDrop(brainStoneDust, 0, 4, 4/5, 3));
+				new LootDrop(brainStoneDust, 0, 1, 1f/2f, 0), new LootDrop(brainStoneDust, 0, 2, 2f/3f, 1),
+				new LootDrop(brainStoneDust, 0, 3, 3f/4f, 2), new LootDrop(brainStoneDust, 0, 4, 4f/5f, 3));
 
 		jerAPI.getDungeonRegistry().registerCategory("chests/house/top", "BrainStone House Top");
 		jerAPI.getDungeonRegistry().registerChest("chests/house/top",
