@@ -1,12 +1,5 @@
 package brainstonemod.common.worldgenerators;
 
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.Random;
-import java.util.stream.Collectors;
-
-import org.apache.commons.lang3.ArrayUtils;
-
 import brainstonemod.BrainStone;
 import brainstonemod.common.config.BrainStoneConfigWrapper;
 import brainstonemod.common.helper.BSP;
@@ -25,6 +18,12 @@ import net.minecraft.world.gen.structure.template.PlacementSettings;
 import net.minecraft.world.gen.structure.template.Template;
 import net.minecraft.world.gen.structure.template.TemplateManager;
 import net.minecraftforge.fml.common.IWorldGenerator;
+import org.apache.commons.lang3.ArrayUtils;
+
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 public class BrainStoneHouseWorldGenerator implements IWorldGenerator {
 	private final static ResourceLocation LOOT_TABLE_TOP = new ResourceLocation(BrainStone.RESOURCE_PACKAGE,
@@ -214,7 +213,10 @@ public class BrainStoneHouseWorldGenerator implements IWorldGenerator {
 
 			world.setBlockState(chestPos, chestState);
 			chestTE = (TileEntityChest) world.getTileEntity(chestPos);
-			chestTE.setLootTable(LOOT_TABLE_BOTTOM, random.nextLong());
+			if(chestTE != null)
+				chestTE.setLootTable(LOOT_TABLE_BOTTOM, random.nextLong());
+			else
+				BSP.warn("Chest TE was null at "+chestPos+" in "+world.toString());
 		}
 	}
 
