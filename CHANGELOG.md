@@ -1,3 +1,10 @@
+4.4.35-beta
+-----------
+
+- Fixed Crash with Railcraft(Or any other mod with CoFH API)
+- Improved JER Integration
+- Lots of internal optimization
+
 4.4.14-beta
 -----------
 
