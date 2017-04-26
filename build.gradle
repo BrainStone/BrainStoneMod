@@ -79,7 +79,7 @@ def getVersionName() {
         if (mod_version_postfix.isEmpty())
             return version;
         else
-            return version.replaceFirst("^(\\d+\\.\\d+\\.\\d+)", "\$1-${plugin_version_postfix}");
+            return version.replaceFirst("(-\\d+\\.\\d+\\.\\d+)", "\$1-${mod_version_postfix}");
     } catch(Exception e) {
         println e
         return "UNKNOWN-VERSION"
