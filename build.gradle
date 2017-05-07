@@ -68,7 +68,7 @@ def getVersionName() {
             def versions = tmp[0].split("\\.");
             versions[2] = String.valueOf(versions[2].toInteger() + tmp[1].toInteger());
             
-            version = versions.join(".");
+            version = versions.join(".") + "-development";
             
             if (tmp.length == 4)
                 version += "-" + tmp[3];
@@ -79,7 +79,7 @@ def getVersionName() {
         if (mod_version_postfix.isEmpty())
             return version;
         else
-            return version.replaceFirst("^(\\d+\\.\\d+\\.\\d+)", "\$1-${plugin_version_postfix}");
+            return version.replaceFirst("(-\\d+\\.\\d+\\.\\d+)", "\$1-${mod_version_postfix}");
     } catch(Exception e) {
         println e
         return "UNKNOWN-VERSION"
