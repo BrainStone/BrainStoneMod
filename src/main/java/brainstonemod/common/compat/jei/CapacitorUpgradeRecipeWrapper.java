@@ -8,8 +8,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import brainstonemod.common.helper.BrainStoneLifeCapacitorUpgrade;
+import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.recipe.wrapper.ICraftingRecipeWrapper;
+import mezz.jei.api.recipe.wrapper.ICustomCraftingRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
@@ -17,8 +18,7 @@ import net.minecraftforge.fluids.FluidStack;
 /**
  * @author The_Fireplace
  */
-public class CapacitorUpgradeRecipeWrapper implements ICraftingRecipeWrapper {
-
+public class CapacitorUpgradeRecipeWrapper implements ICustomCraftingRecipeWrapper {
 	private BrainStoneLifeCapacitorUpgrade recipe;
 
 	public CapacitorUpgradeRecipeWrapper(BrainStoneLifeCapacitorUpgrade recipe) {
@@ -70,7 +70,12 @@ public class CapacitorUpgradeRecipeWrapper implements ICraftingRecipeWrapper {
 
 	@Override
 	public void getIngredients(IIngredients ingredients) {
-		ingredients.setInputs(ItemStack.class, Arrays.asList(recipe.getStacks()));
-		ingredients.setOutput(ItemStack.class, recipe.getRecipeOutput());
+		ingredients.setInputs(ItemStack.class, getInputs());
+		ingredients.setOutput(ItemStack.class, getOutputs().get(0));
+	}
+
+	@Override
+	public void setRecipe(IRecipeLayout recipeLayout, IIngredients ingredients) {
+		// TODO Auto-generated method stub
 	}
 }
