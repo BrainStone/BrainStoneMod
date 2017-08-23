@@ -21,8 +21,8 @@ stages:
 build:
   stage: build
   script:
-  - ./gradlew clean
-  - ./gradlew assemble
+  - ./gradlew --console=plain clean
+  - ./gradlew --console=plain assemble
   - cp $ORIG_ARTIFACTS .
   when: on_success
   artifacts:
@@ -33,7 +33,7 @@ build:
 deploy:
   stage: deploy
   script:
-  - ./gradlew uploadArchives curseforge updateDownloadServer -Psecret=$secret -PcurseForgeApiKey=$curseForgeApiKey
+  - ./gradlew --console=plain uploadArchives curseforge updateDownloadServer -Psecret=$secret -PcurseForgeApiKey=$curseForgeApiKey
   when: on_success
   only:
   - tags
@@ -41,7 +41,7 @@ deploy:
 checkTranslations:
   stage: checkTranslations
   script:
-  - ./gradlew checkTranslations
+  - ./gradlew --console=plain checkTranslations
   - if test -n "$(find . -maxdepth 1 -name '*.lang.txt' -print -quit)"; then
   - tail -vn+1 *.lang.txt
   - exit 1
@@ -54,7 +54,7 @@ checkTranslations:
 cleanup:
   stage: cleanup
   script:
-  - ./gradlew clean
+  - ./gradlew --console=plain clean
   - rm -vf $ARTIFACTS *.lang.txt
   - mkdir -p $CACHE_DIR $CACHE_DIR2
   when: always
