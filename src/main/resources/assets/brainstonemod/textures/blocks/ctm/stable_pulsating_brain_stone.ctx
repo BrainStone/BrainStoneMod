@@ -1,7 +1,0 @@
-{
-    "type": "CTM",
-    "textures": [
-        "blocks/stable_pulsating_brain_stone",
-        "./stable_pulsating_brain_stone_ctm"
-    ]
-}

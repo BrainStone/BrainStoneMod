@@ -213,8 +213,7 @@ dependencies {
 
     // Deobf exists but Access Transformers are messed up
     deobfProvided "slimeknights.mantle:Mantle:${minecraft_version}-${mantle_version}"
-    // Mappings do not match!
-    deobfProvided("slimeknights:TConstruct:${minecraft_version}-${tconstruct_version}") {
+    provided("slimeknights:TConstruct:${minecraft_version}-${tconstruct_version}:deobf") {
         exclude module: "jei_${minecraft_version}"
     }
     
