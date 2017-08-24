@@ -107,7 +107,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	public EnumRarity getRarity(ItemStack container) {
 		return EnumRarity.EPIC;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs creativeTab, NonNullList<ItemStack> list) {
@@ -192,7 +192,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 		ItemStack stack = player.getHeldItem(hand);
-		
+
 		if (!world.isRemote && player.isSneaking()) {
 			UUID playerUUID = player.getUniqueID();
 
@@ -224,6 +224,11 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 		}
 
 		return new ActionResult<ItemStack>(EnumActionResult.PASS, stack);
+	}
+
+	@Override
+	public boolean isEnchantable(ItemStack stack) {
+		return false;
 	}
 
 	public float handleDamage(ItemStack container, float damage) {
