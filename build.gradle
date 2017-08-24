@@ -21,14 +21,14 @@ buildscript {
     }
     dependencies {
         classpath "net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT"
-        classpath "com.github.ben-manes:gradle-versions-plugin:0.13.0"
         classpath "org.codehaus.groovy.modules.http-builder:http-builder:0.7.2"
     }
 }
 
 plugins {
     id "com.matthewprenger.cursegradle" version "1.0.9"
-    id "io.franzbecker.gradle-lombok" version "1.8"
+    id "io.franzbecker.gradle-lombok" version "1.10"
+    id "com.github.ben-manes.versions" version "0.15.0"
 }
 apply plugin: "com.github.ben-manes.versions"
 apply plugin: "net.minecraftforge.gradle.forge"
@@ -208,8 +208,9 @@ dependencies {
     deobfProvided("cofh:CoFHCore:${minecraft_version}-${coFHCore_version}:universal") {
          exclude module: "jei_${minecraft_version}"
     }
-    provided("cofh:ThermalFoundation:${minecraft_version}-${thermalFoundation_version}:deobf") {
+    provided("cofh:ThermalExpansion:${minecraft_version}-${thermalExpansion_version}:deobf") {
          exclude module: "CoFHCore"
+         exclude module: "CodeChickenLib"
     }
 
     // Deobf exists but Access Transformers are messed up
@@ -225,8 +226,8 @@ dependencies {
 }
 
 lombok {
-    version = "1.16.12"
-    sha256 = "7e9079406585c67fe25f607c34b17fbed48da0a9bceb15c09a558444cefcef0e"
+    version = "1.16.18"
+    sha256 = "9d957f572386b9e257093a45b148f9b411cff80d9efd55eaf6fca27002d2e4d9"
 }
 
 task delombok(type: DelombokTask) {
@@ -518,7 +519,7 @@ curseforge {
             optionalLibrary "just-enough-resources-jer"
             optionalLibrary "overlord"
             optionalLibrary "tesla"
-            optionalLibrary "thermal-foundation"
+            optionalLibrary "thermal-expansion"
             optionalLibrary "tinkers-construct"
             
             //optionalLibrary "ender-io"

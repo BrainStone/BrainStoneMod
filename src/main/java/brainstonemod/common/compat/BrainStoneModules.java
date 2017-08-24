@@ -281,6 +281,6 @@ public final class BrainStoneModules {
 	}
 
 	private static void forEachActiveModule(Consumer<? super IModIntegration> consumer) {
-		activeModules.stream().map(module -> module.getIntegration()).filter(Objects::nonNull).forEach(consumer);
+		activeModules.stream().map(ModuleInformation::getIntegration).filter(Objects::nonNull).forEach(consumer);
 	}
 }
