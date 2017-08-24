@@ -107,7 +107,7 @@ public final class BrainStoneModules {
 
 	// @Module(modid = ENDER_IO_MODID, name = "Ender IO", message = "Enabling
 	// recipes and armor upgrade.", integration = EnderIOCompat.class)
-	public static boolean enderIO() {
+	protected static boolean enderIO() {
 		if (ENDER_IO == null) {
 			ENDER_IO = Loader.isModLoaded(ENDER_IO_MODID);
 		}
@@ -118,7 +118,7 @@ public final class BrainStoneModules {
 	// @Module(modid = EX_NIHILO_ADSCENSIO_MODID, name = "Ex Nihilo Adscensio",
 	// message = "Making Brain Stone siftable.", integration =
 	// ExNihiloAdscensioCompat.class)
-	public static boolean exNihiloAdscensio() {
+	protected static boolean exNihiloAdscensio() {
 		if (EX_NIHILO_ADSCENSIO == null) {
 			EX_NIHILO_ADSCENSIO = Loader.isModLoaded(EX_NIHILO_ADSCENSIO_MODID);
 		}
@@ -164,7 +164,7 @@ public final class BrainStoneModules {
 
 	// @Module(modid = MFR_MODID, name = "MineFactory Reloaded", message =
 	// "Adding BrainStoneOre to the MiningLaser.")
-	public static boolean MFR() {
+	protected static boolean MFR() {
 		if (MFR == null) {
 			MFR = Loader.isModLoaded(MFR_MODID);
 		}
