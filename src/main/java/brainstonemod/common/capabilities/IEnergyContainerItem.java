@@ -18,8 +18,7 @@ import net.minecraftforge.fml.common.Optional;
  *
  * @author BrainStone
  */
-// TODO Use RedstoneFlux mod
-@Optional.InterfaceList({ @Optional.Interface(iface = "cofh.api.energy.IEnergyContainerItem", modid = "CoFHAPI|energy"),
+@Optional.InterfaceList({ @Optional.Interface(iface = "cofh.api.energy.IEnergyContainerItem", modid = "cofhapi|energy"),
 		@Optional.Interface(iface = "com.brandon3055.draconicevolution.api.IInvCharge", modid = BrainStoneModules.DRACONIC_EVOLUTION_MODID) })
 public interface IEnergyContainerItem extends cofh.api.energy.IEnergyContainerItem, IInvCharge {
 	long getMaxEnergyStoredLong(ItemStack stack);

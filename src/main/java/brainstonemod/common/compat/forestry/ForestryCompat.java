@@ -29,8 +29,8 @@ public class ForestryCompat implements IModIntegration {
 	}
 
 	private static void registerCarpenterRecipes() {
-		RecipeManagers.carpenterManager.addRecipe(150, null, new ItemStack(BrainStone.essenceOfLifeFragment(), 1), "DD",
-				"DD", 'D', BrainStone.essenceOfLifeDust());
+		RecipeManagers.carpenterManager.addRecipe(150, ItemStack.EMPTY,
+				new ItemStack(BrainStone.essenceOfLifeFragment(), 1), "DD", "DD", 'D', BrainStone.essenceOfLifeDust());
 	}
 
 	private static void registerCentrifugeRecipes() {

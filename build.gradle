@@ -155,7 +155,7 @@ repositories {
         name = "bintray-way2muchnoise"
         url  "https://dl.bintray.com/way2muchnoise/dev/"
     }
-    maven {
+    maven { // CoFH
     		name = "Covers Maven"
     		url = "http://maven.covers1624.net"
     }
@@ -166,11 +166,19 @@ repositories {
 
 dependencies {
     // External Mods
-    provided "betterachievements:BetterAchievements-${minecraft_version}:${betterAchievements_version}"
+    deobfProvided "betterachievements:BetterAchievements-${minecraft_version}:${betterAchievements_version}"
     
     deobfProvided "team.chisel.ctm:CTM:MC${minecraft_version}-${ctm_version}"
 
-    provided ("com.brandon3055.draconicevolution:Draconic-Evolution:${minecraft_version}-${draconicEvolution_version}:deobf") {
+    // Until mappings are updated in DE (Then remove this and exclusion under DE)
+    deobfProvided("com.brandon3055.brandonscore:BrandonsCore:1.11.2-2.2.3.+:universal") {
+        exclude module: "jei_${minecraft_version}"
+    }
+    deobfProvided ("com.brandon3055.draconicevolution:Draconic-Evolution:${minecraft_version}-${draconicEvolution_version}:universal") {
+        // Until mappings are updated
+        exclude module: "BrandonsCore"
+        // Until mappings are updated
+        exclude module: "CodeChickenLib"
         exclude module: "jei_${minecraft_version}"
         exclude module: "OpenComputers"
     }
@@ -190,19 +198,23 @@ dependencies {
     deobfProvided "mezz.jei:jei_${minecraft_version}:${jei_version}"
     
     provided "jeresources:JustEnoughResources-${minecraft_version}:${justEnoughResources_version}"
-
-    // Deobf exists but Access Transformers are messed up
-    deobfProvided "slimeknights.mantle:Mantle:${minecraft_version}-${mantle_version}"
     
     deobfProvided "the_fireplace.overlord:Overlord-${minecraft_version}:${overlord_version}"
 
     provided "net.darkhax.tesla:Tesla:1.11-${tesla_version}:deobf"
     
-    provided("cofh:ThermalFoundation:${minecraft_version}-${thermalFoundation_version}:deobf") {
+    // Mappings do not match!
+    deobfProvided("cofh:CoFHCore:${minecraft_version}-${coFHCore_version}:universal") {
          exclude module: "jei_${minecraft_version}"
     }
+    provided("cofh:ThermalFoundation:${minecraft_version}-${thermalFoundation_version}:deobf") {
+         exclude module: "CoFHCore"
+    }
 
-    provided("slimeknights:TConstruct:${minecraft_version}-${tconstruct_version}:deobf") {
+    // Deobf exists but Access Transformers are messed up
+    deobfProvided "slimeknights.mantle:Mantle:${minecraft_version}-${mantle_version}"
+    // Mappings do not match!
+    deobfProvided("slimeknights:TConstruct:${minecraft_version}-${tconstruct_version}") {
         exclude module: "jei_${minecraft_version}"
     }
     

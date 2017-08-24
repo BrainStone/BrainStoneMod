@@ -3,11 +3,9 @@ package brainstonemod.common.block;
 import java.util.List;
 import java.util.Random;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 import brainstonemod.BrainStone;
 import brainstonemod.common.compat.BrainStoneModules;
-import brainstonemod.common.compat.enderio.BrainStoneUpgrade;
+import brainstonemod.common.compat.enderio.EnderIOArmorHelper;
 import brainstonemod.common.compat.overlord.IOverlordCompat;
 import brainstonemod.common.compat.overlord.OverlordCompat;
 import brainstonemod.common.helper.BSP;
@@ -24,6 +22,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -194,37 +193,25 @@ public class BlockPulsatingBrainStone extends Block {
 		}
 	}
 
-	public static boolean isProtected(Iterable<ItemStack> armors) {
-		ItemStack[] armor = new ItemStack[] {};
-
-		for (ItemStack armorStack : armors) {
-			armor = ArrayUtils.add(armor, armorStack);
-		}
+	public static boolean isProtected(Iterable<ItemStack> armorStacks) {
+		NonNullList<ItemStack> armor = NonNullList.create();
+		armorStacks.forEach(armor::add);
 
 		int offset = 0;
 
-		if (armor.length < 4)
+		if (armor.size() < 4)
 			return false;
-		else if (armor.length == 5) {
+		else if (armor.size() == 5) {
 			offset = 1;
-		} else if (armor.length > 5)
+		} else if (armor.size() > 5)
 			return false;
 
-		boolean allArmorSlotsFilled = (armor[3 + offset] != null) && (armor[2 + offset] != null)
-				&& (armor[1 + offset] != null) && (armor[offset] != null);
-
-		if (!allArmorSlotsFilled)
+		if (armor.stream().skip(offset).anyMatch(ItemStack::isEmpty))
 			return false;
 
-		boolean enderIOEnabled = Loader.isModLoaded("EnderIO");
+		final boolean enderIOEnabled = Loader.isModLoaded("EnderIO");
 
-		return ((armor[3 + offset].getItem() instanceof ItemArmorBrainStone)
-				|| (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[3 + offset]))))
-				&& ((armor[2 + offset].getItem() instanceof ItemArmorBrainStone)
-						|| (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[2 + offset]))))
-				&& ((armor[1 + offset].getItem() instanceof ItemArmorBrainStone)
-						|| (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[1 + offset]))))
-				&& ((armor[offset].getItem() instanceof ItemArmorBrainStone)
-						|| (enderIOEnabled && (BrainStoneUpgrade.UPGRADE.hasUpgrade(armor[0 + offset]))));
+		return armor.stream().skip(offset).allMatch(stack -> (stack.getItem() instanceof ItemArmorBrainStone)
+				|| (enderIOEnabled && EnderIOArmorHelper.isProtected(stack)));
 	}
 }
