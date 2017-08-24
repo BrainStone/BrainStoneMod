@@ -23,7 +23,6 @@ import brainstonemod.common.block.BlockBrainStoneTrigger;
 import brainstonemod.common.block.BlockPulsatingBrainStone;
 import brainstonemod.common.compat.BrainStoneModules;
 import brainstonemod.common.compat.draconicevolution.DraconicEvolutionItems;
-import brainstonemod.common.compat.enderio.EnderIOItems;
 import brainstonemod.common.config.BrainStoneConfigWrapper;
 import brainstonemod.common.handler.BrainStoneEventHandler;
 import brainstonemod.common.helper.BSP;
@@ -516,8 +515,8 @@ public class BrainStone {
 		GameRegistry.addRecipe(new BrainStoneLifeCapacitorUpgrade(BrainStoneLifeCapacitorUpgrade.Upgrade.CHARGING));
 
 		Object craftingS = new ItemStack(Items.SKULL, 1, 1);
-		Object craftingX = (BrainStoneModules.enderIO()) ? EnderIOItems.getXPRod() : Items.BLAZE_ROD;
-		Object craftingC = (BrainStoneModules.enderIO()) ? EnderIOItems.getOctadicCapacitor() : "dustRedstone";
+		Object craftingX = Items.BLAZE_ROD;
+		Object craftingC = "dustRedstone";
 		Object craftingH = (BrainStoneModules.draconicEvolution()) ? DraconicEvolutionItems.getDragonHeart()
 				: new ItemStack(Items.GOLDEN_APPLE, 1, 1);
 

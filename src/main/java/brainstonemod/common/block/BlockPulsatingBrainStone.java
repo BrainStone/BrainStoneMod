@@ -5,7 +5,6 @@ import java.util.Random;
 
 import brainstonemod.BrainStone;
 import brainstonemod.common.compat.BrainStoneModules;
-import brainstonemod.common.compat.enderio.EnderIOArmorHelper;
 import brainstonemod.common.compat.overlord.IOverlordCompat;
 import brainstonemod.common.compat.overlord.OverlordCompat;
 import brainstonemod.common.helper.BSP;
@@ -28,7 +27,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.Loader;
 
 public class BlockPulsatingBrainStone extends Block {
 	private final boolean effect;
@@ -209,9 +207,13 @@ public class BlockPulsatingBrainStone extends Block {
 		if (armor.stream().skip(offset).anyMatch(ItemStack::isEmpty))
 			return false;
 
-		final boolean enderIOEnabled = Loader.isModLoaded("EnderIO");
+		// Old code
+		// final boolean enderIOEnabled = BrainStoneModules.enderIO();
+		//
+		// return armor.stream().skip(offset).allMatch(stack -> (stack.getItem()
+		// instanceof ItemArmorBrainStone) || (enderIOEnabled &&
+		// EnderIOArmorHelper.isProtected(stack)));
 
-		return armor.stream().skip(offset).allMatch(stack -> (stack.getItem() instanceof ItemArmorBrainStone)
-				|| (enderIOEnabled && EnderIOArmorHelper.isProtected(stack)));
+		return armor.stream().skip(offset).allMatch(stack -> stack.getItem() instanceof ItemArmorBrainStone);
 	}
 }

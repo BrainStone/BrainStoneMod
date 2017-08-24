@@ -183,11 +183,12 @@ dependencies {
         exclude module: "OpenComputers"
     }
 
-    deobfProvided "com.enderio.core:EnderCore:${minecraft_version}-${endercore_version}"
-    deobfProvided("com.enderio:EnderIO:${minecraft_version}-${enderio_version}") {
-        exclude module: "appliedenergistics2"
-        exclude module: "Tesla"
-    }
+    // Wait for update
+    // deobfProvided "com.enderio.core:EnderCore:${minecraft_version}-${endercore_version}"
+    // deobfProvided("com.enderio:EnderIO:${minecraft_version}-${enderio_version}") {
+    //     exclude module: "appliedenergistics2"
+    //     exclude module: "Tesla"
+    // }
 
     deobfProvided("net.sengir.forestry:forestry_${minecraft_version}:${forestry_version}") {
         exclude module: "jei_${minecraft_version}"
@@ -317,14 +318,9 @@ task gitTag {
 }
 
 jar {
-    from sourceSets.api.output
     manifest commonManifest
     
-    doLast {
-        if (!gradle.taskGraph.hasTask(reobfJar)) {
-            signJar(jar)
-        }
-    }
+    finalizedBy reobfJar
 }
 
 reobfJar {
@@ -335,7 +331,6 @@ reobfJar {
 
 task deobfJar(type: Jar) {
     from sourceSets.main.output
-    from sourceSets.api.output
     classifier = "deobf"
     manifest commonManifest
     
@@ -345,8 +340,6 @@ task deobfJar(type: Jar) {
 }
 
 sourceJar {
-    from sourceSets.api.allSource
-
     doLast {
         signJar(sourceJar.archivePath)
     }
@@ -519,7 +512,6 @@ curseforge {
             optionalLibrary "betterachievements"
             optionalLibrary "ctm"
             optionalLibrary "draconic-evolution"
-            optionalLibrary "ender-io"
             optionalLibrary "forestry"
             optionalLibrary "immersive-engineering"
             optionalLibrary "just-enough-items-jei"
@@ -529,6 +521,7 @@ curseforge {
             optionalLibrary "thermal-foundation"
             optionalLibrary "tinkers-construct"
             
+            //optionalLibrary "ender-io"
             //optionalLibrary "ex-nihilo-adscensio"
             //optionalLibrary "minefactory-reloaded"
             //optionalLibrary "thaumcraft"

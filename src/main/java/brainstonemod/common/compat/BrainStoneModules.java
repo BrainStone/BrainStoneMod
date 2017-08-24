@@ -11,7 +11,6 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import brainstonemod.common.compat.betterachievements.BetterAchievementsCompat;
-import brainstonemod.common.compat.enderio.EnderIOCompat;
 import brainstonemod.common.compat.forestry.ForestryCompat;
 import brainstonemod.common.compat.immersiveengineering.ImmersiveEngineeringCompat;
 import brainstonemod.common.compat.jeresources.JEResourcesCompat;
@@ -106,7 +105,8 @@ public final class BrainStoneModules {
 		return DRACONIC_EVOLUTION;
 	}
 
-	@Module(modid = ENDER_IO_MODID, name = "Ender IO", message = "Enabling recipes and armor upgrade.", integration = EnderIOCompat.class)
+	// @Module(modid = ENDER_IO_MODID, name = "Ender IO", message = "Enabling
+	// recipes and armor upgrade.", integration = EnderIOCompat.class)
 	public static boolean enderIO() {
 		if (ENDER_IO == null) {
 			ENDER_IO = Loader.isModLoaded(ENDER_IO_MODID);
