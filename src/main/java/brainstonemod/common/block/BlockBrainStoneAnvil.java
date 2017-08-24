@@ -2,8 +2,6 @@ package brainstonemod.common.block;
 
 import java.util.Random;
 
-import javax.annotation.Nullable;
-
 import brainstonemod.BrainStone;
 import brainstonemod.common.config.BrainStoneConfigWrapper;
 import brainstonemod.network.BrainStoneGuiHandler;
@@ -13,7 +11,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -39,10 +36,10 @@ public class BlockBrainStoneAnvil extends BlockAnvil {
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
-			EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if (!worldIn.isRemote) {
-			playerIn.openGui(BrainStone.MOD_ID, BrainStoneGuiHandler.ID_BRAIN_STONE_ANVIL, worldIn, pos.getX(),
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand,
+			EnumFacing facing, float hitX, float hitY, float hitZ) {
+		if (!world.isRemote) {
+			playerIn.openGui(BrainStone.MOD_ID, BrainStoneGuiHandler.ID_BRAIN_STONE_ANVIL, world, pos.getX(),
 					pos.getY(), pos.getZ());
 		}
 
@@ -54,9 +51,8 @@ public class BlockBrainStoneAnvil extends BlockAnvil {
 		super.onBlockAdded(worldIn, pos, state);
 
 		if (effect) {
-			// TODO: Check that priority
-			worldIn.scheduleBlockUpdate(pos, this,
-					(int) worldIn.getTotalWorldTime() % ((new Random()).nextInt(tickRate(worldIn)) + 1), 0);
+			worldIn.scheduleUpdate(pos, this,
+					(int) worldIn.getTotalWorldTime() % ((new Random()).nextInt(tickRate(worldIn)) + 1));
 		}
 	}
 
@@ -77,8 +73,7 @@ public class BlockBrainStoneAnvil extends BlockAnvil {
 				world.spawnEntity(entityfallingblock);
 			}
 
-			// TODO: Check that priority
-			world.scheduleBlockUpdate(pos, this, random.nextInt(tickRate(world)), 0);
+			world.scheduleUpdate(pos, this, random.nextInt(tickRate(world)));
 		}
 	}
 }

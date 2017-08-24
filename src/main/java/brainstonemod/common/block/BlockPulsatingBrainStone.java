@@ -93,8 +93,7 @@ public class BlockPulsatingBrainStone extends Block {
 	@Override
 	public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
 		super.onBlockAdded(worldIn, pos, state);
-		// TODO: Check that priority
-		worldIn.scheduleBlockUpdate(pos, this, (int) worldIn.getTotalWorldTime() % tickRate(worldIn), 0);
+		worldIn.scheduleUpdate(pos, this, (int) worldIn.getTotalWorldTime() % tickRate(worldIn));
 	}
 
 	@Override
@@ -126,8 +125,7 @@ public class BlockPulsatingBrainStone extends Block {
 			lastGravityChange = world.getTotalWorldTime();
 		}
 
-		// TODO: Check that priority
-		world.scheduleBlockUpdate(pos, this, tickRate(world), 0);
+		world.scheduleUpdate(pos, this, tickRate(world));
 	}
 
 	public static void applyEffect(World world, BlockPos pos, Random random) {

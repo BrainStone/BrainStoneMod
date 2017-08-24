@@ -48,7 +48,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityBoat;
@@ -402,10 +401,10 @@ public class BrainStone {
 		ItemStack stablePulsatingBrainStone = new ItemStack(stablePulsatingBrainStone());
 
 		toolBRAINSTONE.setRepairItem(brainStone);
-		armorBRAINSTONE.customCraftingMaterial = brainStone.getItem();
+		armorBRAINSTONE.setRepairItem(brainStone);
 
 		toolSTABLEPULSATINGBS.setRepairItem(stablePulsatingBrainStone);
-		armorSTABLEPULSATINGBS.customCraftingMaterial = stablePulsatingBrainStone.getItem();
+		armorSTABLEPULSATINGBS.setRepairItem(stablePulsatingBrainStone);
 	}
 
 	/**
@@ -516,8 +515,7 @@ public class BrainStone {
 		GameRegistry.addRecipe(new BrainStoneLifeCapacitorUpgrade(BrainStoneLifeCapacitorUpgrade.Upgrade.CAPACITY));
 		GameRegistry.addRecipe(new BrainStoneLifeCapacitorUpgrade(BrainStoneLifeCapacitorUpgrade.Upgrade.CHARGING));
 
-		Object craftingS = (BrainStoneModules.enderIO()) ? EnderIOItems.getSentientEnder()
-				: new ItemStack(Items.SKULL, 1, 1);
+		Object craftingS = new ItemStack(Items.SKULL, 1, 1);
 		Object craftingX = (BrainStoneModules.enderIO()) ? EnderIOItems.getXPRod() : Items.BLAZE_ROD;
 		Object craftingC = (BrainStoneModules.enderIO()) ? EnderIOItems.getOctadicCapacitor() : "dustRedstone";
 		Object craftingH = (BrainStoneModules.draconicEvolution()) ? DraconicEvolutionItems.getDragonHeart()
@@ -571,8 +569,8 @@ public class BrainStone {
 			tempTriggerEntities.put("gui.brainstone.projectile", new Class[] { EntityArrow.class, EntityThrowable.class,
 					EntityEnderEye.class, EntityFireball.class });
 
-			for (final Entry<String, Class<? extends Entity>> entry : EntityList.NAME_TO_CLASS.entrySet()) {
-				verifyTriggerEntity(tempTriggerEntities, entry.getKey(), entry.getValue());
+			for (final ResourceLocation entry : EntityList.getEntityNameList()) {
+				verifyTriggerEntity(tempTriggerEntities, entry.toString(), EntityList.getClass(entry));
 			}
 
 			triggerEntities.put(Side.SERVER, tempTriggerEntities);

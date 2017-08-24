@@ -2,8 +2,6 @@ package brainstonemod.common.block;
 
 import java.util.Random;
 
-import javax.annotation.Nullable;
-
 import brainstonemod.BrainStone;
 import brainstonemod.common.block.template.BlockBrainStoneContainerBase;
 import brainstonemod.common.helper.BSP;
@@ -15,7 +13,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
@@ -29,7 +26,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
-
 	public BlockBrainLightSensor() {
 		super(Material.ROCK);
 
@@ -39,18 +35,6 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 		setHarvestLevel("pickaxe", 1);
 
 		blockParticleGravity = -0.2F;
-	}
-
-	@Override
-	public void breakBlock(World world, BlockPos pos, IBlockState state) {
-		world.removeTileEntity(pos);
-		world.notifyNeighborsOfStateChange(pos, this);
-		world.notifyNeighborsOfStateChange(pos.add(-1, 0, 0), this);
-		world.notifyNeighborsOfStateChange(pos.add(1, 0, 0), this);
-		world.notifyNeighborsOfStateChange(pos.down(), this);
-		world.notifyNeighborsOfStateChange(pos.up(), this);
-		world.notifyNeighborsOfStateChange(pos.add(0, 0, -1), this);
-		world.notifyNeighborsOfStateChange(pos.add(0, 0, 1), this);
 	}
 
 	@Override
@@ -92,8 +76,8 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand,
-			@Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer playerIn,
+			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		final TileEntityBrainLightSensor tileentity = (TileEntityBrainLightSensor) world.getTileEntity(pos);
 
 		if (tileentity == null) {
@@ -109,17 +93,9 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 
 	@Override
 	public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
-		world.setTileEntity(pos, createNewTileEntity(world, 0));
-		world.notifyNeighborsOfStateChange(pos, this);
-		world.notifyNeighborsOfStateChange(pos.add(-1, 0, 0), this);
-		world.notifyNeighborsOfStateChange(pos.add(1, 0, 0), this);
-		world.notifyNeighborsOfStateChange(pos.down(), this);
-		world.notifyNeighborsOfStateChange(pos.up(), this);
-		world.notifyNeighborsOfStateChange(pos.add(0, 0, -1), this);
-		world.notifyNeighborsOfStateChange(pos.add(0, 0, 1), this);
+		super.onBlockAdded(world, pos, state);
 
-		// TODO: Check that priority
-		world.scheduleBlockUpdate(pos, this, tickRate(world) - ((int) world.getTotalWorldTime() % tickRate(world)), 0);
+		world.scheduleUpdate(pos, this, tickRate(world) - ((int) world.getTotalWorldTime() % tickRate(world)));
 	}
 
 	public void smoke(World world, int x, int y, int z, Random random) {
@@ -172,17 +148,16 @@ public class BlockBrainLightSensor extends BlockBrainStoneContainerBase {
 							pos.getY(), pos.getZ());
 				}
 
-				world.notifyNeighborsOfStateChange(pos, this);
-				world.notifyNeighborsOfStateChange(pos.add(-1, 0, 0), this);
-				world.notifyNeighborsOfStateChange(pos.add(1, 0, 0), this);
-				world.notifyNeighborsOfStateChange(pos.down(), this);
-				world.notifyNeighborsOfStateChange(pos.up(), this);
-				world.notifyNeighborsOfStateChange(pos.add(0, 0, -1), this);
-				world.notifyNeighborsOfStateChange(pos.add(0, 0, 1), this);
+				world.notifyNeighborsOfStateChange(pos, this, true);
+				world.notifyNeighborsOfStateChange(pos.add(-1, 0, 0), this, true);
+				world.notifyNeighborsOfStateChange(pos.add(1, 0, 0), this, true);
+				world.notifyNeighborsOfStateChange(pos.down(), this, true);
+				world.notifyNeighborsOfStateChange(pos.up(), this, true);
+				world.notifyNeighborsOfStateChange(pos.add(0, 0, -1), this, true);
+				world.notifyNeighborsOfStateChange(pos.add(0, 0, 1), this, true);
 			}
 
-			// TODO: Check that priority
-			world.scheduleBlockUpdate(pos, this, tickRate(world), 0);
+			world.scheduleUpdate(pos, this, tickRate(world));
 		} else {
 			BSP.fatal("TileEntity missing!");
 		}

@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 
 import brainstonemod.common.compat.betterachievements.BetterAchievementsCompat;
 import brainstonemod.common.compat.enderio.EnderIOCompat;
-import brainstonemod.common.compat.exnihilo.ExNihiloAdscensioCompat;
 import brainstonemod.common.compat.forestry.ForestryCompat;
 import brainstonemod.common.compat.immersiveengineering.ImmersiveEngineeringCompat;
 import brainstonemod.common.compat.jeresources.JEResourcesCompat;
@@ -28,29 +27,31 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 @UtilityClass
 public final class BrainStoneModules {
-	public static final String BAUBLES_MODID = "Baubles";
-	public static final String BETTER_ACHIEVEMENTS_MODID = "BetterAchievements";
+	public static final String BAUBLES_MODID = "baubles";
+	public static final String BETTER_ACHIEVEMENTS_MODID = "betterachievements";
+	public static final String CTM_MODID = "ctm";
 	public static final String DRACONIC_EVOLUTION_MODID = "draconicevolution";
-	public static final String ENDER_IO_MODID = "EnderIO";
+	public static final String ENDER_IO_MODID = "enderiobase";
 	public static final String EX_NIHILO_ADSCENSIO_MODID = "exnihiloadscensio";
 	public static final String FORESTRY_MODID = "forestry";
 	public static final String IMMERSIVE_ENGINEERING_MODID = "immersiveengineering";
-	public static final String JEI_MODID = "JEI";
+	public static final String JEI_MODID = "jei";
 	public static final String JER_MODID = "jeresources";
-	public static final String MFR_MODID = "MineFactoryReloaded";
+	public static final String MFR_MODID = "minefactoryreloaded";
 	public static final String OVERLORD_MODID = "overlord";
-	public static final String THAUMCRAFT_MODID = "Thaumcraft";
-	public static final String TINKERS_CONSTRUCT_MODID = "tconstruct";
 	public static final String TESLA_MODID = "tesla";
+	public static final String THAUMCRAFT_MODID = "thaumcraft";
+	public static final String TINKERS_CONSTRUCT_MODID = "tconstruct";
 
 	public static final String DEPENDENCIES = "after:" + BAUBLES_MODID + ";after:" + BETTER_ACHIEVEMENTS_MODID
-			+ ";after:" + DRACONIC_EVOLUTION_MODID + ";after:" + ENDER_IO_MODID + ";after:" + EX_NIHILO_ADSCENSIO_MODID
-			+ ";after:" + FORESTRY_MODID + ";after:" + IMMERSIVE_ENGINEERING_MODID + ";after:" + JEI_MODID + ";after:"
-			+ JER_MODID + "@[0.5.6.84,);after:" + MFR_MODID + ";after:" + OVERLORD_MODID + ";after:" + THAUMCRAFT_MODID
-			+ ";after:" + TINKERS_CONSTRUCT_MODID + ";after:" + TESLA_MODID;
+			+ ";after:" + CTM_MODID + ";after:" + DRACONIC_EVOLUTION_MODID + ";after:" + ENDER_IO_MODID + ";after:"
+			+ EX_NIHILO_ADSCENSIO_MODID + ";after:" + FORESTRY_MODID + ";after:" + IMMERSIVE_ENGINEERING_MODID
+			+ ";after:" + JEI_MODID + ";after:" + JER_MODID + ";after:" + MFR_MODID + ";after:" + OVERLORD_MODID
+			+ ";after:" + TESLA_MODID + ";after:" + THAUMCRAFT_MODID + ";after:" + TINKERS_CONSTRUCT_MODID;
 
 	private static Boolean BAUBLES;
 	private static Boolean BETTER_ACHIEVEMENTS;
+	private static Boolean CTM;
 	private static Boolean DRACONIC_EVOLUTION;
 	private static Boolean ENDER_IO;
 	private static Boolean EX_NIHILO_ADSCENSIO;
@@ -87,6 +88,15 @@ public final class BrainStoneModules {
 		return BETTER_ACHIEVEMENTS;
 	}
 
+	@Module(modid = CTM_MODID, name = "Connected Textures Mod", message = "Using connected Textures.")
+	public static boolean CTM() {
+		if (CTM == null) {
+			CTM = Loader.isModLoaded(CTM_MODID);
+		}
+
+		return CTM;
+	}
+
 	@Module(modid = DRACONIC_EVOLUTION_MODID, name = "Draconic Evolution", message = "Balancing and adding recipes.")
 	public static boolean draconicEvolution() {
 		if (DRACONIC_EVOLUTION == null) {
@@ -105,7 +115,9 @@ public final class BrainStoneModules {
 		return ENDER_IO;
 	}
 
-	@Module(modid = EX_NIHILO_ADSCENSIO_MODID, name = "Ex Nihilo Adscensio", message = "Making Brain Stone siftable.", integration = ExNihiloAdscensioCompat.class)
+	// @Module(modid = EX_NIHILO_ADSCENSIO_MODID, name = "Ex Nihilo Adscensio",
+	// message = "Making Brain Stone siftable.", integration =
+	// ExNihiloAdscensioCompat.class)
 	public static boolean exNihiloAdscensio() {
 		if (EX_NIHILO_ADSCENSIO == null) {
 			EX_NIHILO_ADSCENSIO = Loader.isModLoaded(EX_NIHILO_ADSCENSIO_MODID);

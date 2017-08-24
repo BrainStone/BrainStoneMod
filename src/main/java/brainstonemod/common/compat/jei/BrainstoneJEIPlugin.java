@@ -3,6 +3,7 @@ package brainstonemod.common.compat.jei;
 import javax.annotation.Nonnull;
 
 import brainstonemod.BrainStone;
+import brainstonemod.common.helper.BrainStoneLifeCapacitorUpgrade;
 import mezz.jei.api.IJeiHelpers;
 import mezz.jei.api.IJeiRuntime;
 import mezz.jei.api.IModPlugin;
@@ -10,18 +11,17 @@ import mezz.jei.api.IModRegistry;
 import mezz.jei.api.ISubtypeRegistry;
 import mezz.jei.api.JEIPlugin;
 import mezz.jei.api.ingredients.IModIngredientRegistration;
+import mezz.jei.api.recipe.IRecipeCategoryRegistration;
+import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import net.minecraft.item.ItemStack;
 
 @JEIPlugin
 public class BrainstoneJEIPlugin implements IModPlugin {
 	private static IJeiHelpers helpers;
 
-	@Override
-	public void register(@Nonnull IModRegistry registry) {
-		helpers = registry.getJeiHelpers();
-		helpers.getIngredientBlacklist().addIngredientToBlacklist(new ItemStack(BrainStone.pulsatingBrainStoneEffect()));
-		helpers.getIngredientBlacklist().addIngredientToBlacklist(new ItemStack(BrainStone.brainStoneOut()));
-		registry.addRecipeHandlers(new CapacitorUpgradeRecipeHandler());
+	@SuppressWarnings("deprecation")
+	public static void reloadJEI() {
+		helpers.reload();
 	}
 
 	@Override
@@ -30,17 +30,31 @@ public class BrainstoneJEIPlugin implements IModPlugin {
 	}
 
 	@Override
-	public void registerItemSubtypes(ISubtypeRegistry subtypeRegistry) {
+	public void register(@Nonnull IModRegistry modRegistry) {
+		helpers = modRegistry.getJeiHelpers();
+
+		// Hide off variants
+		helpers.getIngredientBlacklist()
+				.addIngredientToBlacklist(new ItemStack(BrainStone.pulsatingBrainStoneEffect()));
+		helpers.getIngredientBlacklist().addIngredientToBlacklist(new ItemStack(BrainStone.brainStoneOut()));
+
+		// Register handler
+		modRegistry.handleRecipes(BrainStoneLifeCapacitorUpgrade.class, CapacitorUpgradeRecipeWrapper::new,
+				VanillaRecipeCategoryUid.CRAFTING);
+	}
+
+	@Override
+	public void registerCategories(IRecipeCategoryRegistration categoryRegistry) {
 		// Do nothing
 	}
 
 	@Override
-	public void registerIngredients(IModIngredientRegistration registry) {
+	public void registerIngredients(IModIngredientRegistration ingredientRegistry) {
 		// Do nothing
 	}
 
-	@SuppressWarnings("deprecation")
-	public static void reloadJEI() {
-		helpers.reload();
+	@Override
+	public void registerItemSubtypes(ISubtypeRegistry subtypeRegistry) {
+		// Do nothing
 	}
 }

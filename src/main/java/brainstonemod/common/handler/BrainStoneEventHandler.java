@@ -67,13 +67,14 @@ public class BrainStoneEventHandler {
 		return null;
 	}
 
+	// TODO: Maybe refactor. Check with other mods
+	@SuppressWarnings("deprecation")
 	@SubscribeEvent
 	public void attachCapabilities(AttachCapabilitiesEvent.Item event) {
 		if (event.getCapabilities().containsKey(BrainStone.RESOURCE_LOCATION))
 			return;
 
 		ItemStack stack = event.getItemStack();
-		@SuppressWarnings("deprecation")
 		Item item = event.getItem();
 
 		if (item instanceof IEnergyContainerItem) {
@@ -104,7 +105,7 @@ public class BrainStoneEventHandler {
 
 	@SubscribeEvent
 	public void itemPickup(ItemPickupEvent event) {
-		if (event.pickedUp.getEntityItem().getItem() == BrainStone.brainStoneDust()) {
+		if (event.pickedUp.getItem().getItem() == BrainStone.brainStoneDust()) {
 			event.player.addStat(BrainStone.WTHIT(), 1);
 		}
 	}

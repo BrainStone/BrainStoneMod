@@ -2,9 +2,9 @@ package brainstonemod.common.compat.enderio;
 
 import brainstonemod.BrainStone;
 import brainstonemod.common.compat.BrainStoneModules;
-import crazypants.enderio.item.darksteel.DarkSteelItems;
-import crazypants.enderio.item.darksteel.upgrade.AbstractUpgrade;
-import crazypants.enderio.item.darksteel.upgrade.IRenderUpgrade;
+import crazypants.enderio.handler.darksteel.AbstractUpgrade;
+import crazypants.enderio.handler.darksteel.IRenderUpgrade;
+import crazypants.enderio.init.ModObject;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelRenderer;
@@ -37,10 +37,10 @@ public class BrainStoneUpgrade extends AbstractUpgrade {
 	@Override
 	@Optional.Method(modid = BrainStoneModules.ENDER_IO_MODID)
 	public boolean canAddToItem(ItemStack stack) {
-		return !((stack == null) || ((stack.getItem() != DarkSteelItems.itemDarkSteelBoots)
-				&& (stack.getItem() != DarkSteelItems.itemDarkSteelLeggings)
-				&& (stack.getItem() != DarkSteelItems.itemDarkSteelChestplate)
-				&& (stack.getItem() != DarkSteelItems.itemDarkSteelHelmet))) && !hasUpgrade(stack);
+		return !((stack == null) || ((stack.getItem() != ModObject.itemDarkSteelBoots.getItem())
+				&& (stack.getItem() != ModObject.itemDarkSteelLeggings.getItem())
+				&& (stack.getItem() != ModObject.itemDarkSteelChestplate.getItem())
+				&& (stack.getItem() != ModObject.itemDarkSteelHelmet.getItem()))) && !hasUpgrade(stack);
 
 	}
 
@@ -68,21 +68,21 @@ public class BrainStoneUpgrade extends AbstractUpgrade {
 			Item stackItem = stack.getItem();
 			boolean sneaking = player.isSneaking();
 
-			if (stackItem == DarkSteelItems.itemDarkSteelHelmet) {
+			if (stackItem == ModObject.itemDarkSteelHelmet.getItem()) {
 				renderStart(sneaking, renderPlayer.getMainModel().bipedHead);
 
 				GlStateManager.translate(0.0f, -0.45f, -0.27f);
 				GlStateManager.scale(0.3f, 0.3f, 0.3f);
 
 				renderEnd();
-			} else if (stackItem == DarkSteelItems.itemDarkSteelChestplate) {
+			} else if (stackItem == ModObject.itemDarkSteelChestplate.getItem()) {
 				renderStart(sneaking, renderPlayer.getMainModel().bipedBody);
 
 				GlStateManager.translate(0, 0.3f, -0.15f);
 				GlStateManager.scale(0.5f, 0.5f, 0.5f);
 
 				renderEnd();
-			} else if (stackItem == DarkSteelItems.itemDarkSteelLeggings) {
+			} else if (stackItem == ModObject.itemDarkSteelLeggings.getItem()) {
 				renderStart(sneaking, renderPlayer.getMainModel().bipedRightLeg);
 
 				GlStateManager.translate(0, 0.3f, -0.125f);
@@ -96,7 +96,7 @@ public class BrainStoneUpgrade extends AbstractUpgrade {
 				GlStateManager.scale(0.3f, 0.3f, 0.3f);
 
 				renderEnd();
-			} else if (stackItem == DarkSteelItems.itemDarkSteelBoots) {
+			} else if (stackItem == ModObject.itemDarkSteelBoots.getItem()) {
 				renderStart(sneaking, renderPlayer.getMainModel().bipedRightLeg);
 
 				GlStateManager.translate(-0.15f, 0.55f, 0.0f);

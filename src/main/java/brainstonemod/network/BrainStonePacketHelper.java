@@ -22,8 +22,6 @@ public class BrainStonePacketHelper {
 	public static void sendBrainLightSensorSmokePacket(int dimension, int x, int y, int z) {
 		PacketDispatcher.sendToAllAround(new PacketSmokeParticle(x, y, z),
 				new NetworkRegistry.TargetPoint(dimension, x, y, z, 100));
-		// TODO Is 100 the radius in blocks? If so, isn't that a bit excessive,
-		// given how far away you need to see particles?
 	}
 
 	public static void sendBrainStoneTriggerMobInformationPacketToPlayer(EntityPlayer player) {

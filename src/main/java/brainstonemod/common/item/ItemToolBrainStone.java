@@ -176,8 +176,8 @@ public class ItemToolBrainStone extends ItemTool {
 	}
 
 	@Override
-	public int getHarvestLevel(ItemStack stack, String toolClass) {
-		final int level = super.getHarvestLevel(stack, toolClass);
+	public int getHarvestLevel(ItemStack stack, String toolClass, EntityPlayer player, IBlockState blockState) {
+		final int level = super.getHarvestLevel(stack, toolClass, player, blockState);
 		if ((level == -1) && (toolClass != null) && toolClass.equals(this.toolClass))
 			return toolMaterial.getHarvestLevel();
 		else
@@ -190,10 +190,12 @@ public class ItemToolBrainStone extends ItemTool {
 	}
 
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos,
-			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand,
+			EnumFacing facing, float hitX, float hitY, float hitZ) {
+		ItemStack stack = player.getHeldItem(hand);
+
 		if (typeId == 0) {
-			if (!playerIn.canPlayerEdit(pos.offset(facing), facing, stack))
+			if (!player.canPlayerEdit(pos.offset(facing), facing, stack))
 				return EnumActionResult.FAIL;
 			else {
 				IBlockState iblockstate = worldIn.getBlockState(pos);
@@ -202,11 +204,11 @@ public class ItemToolBrainStone extends ItemTool {
 				if ((facing != EnumFacing.DOWN) && (worldIn.getBlockState(pos.up()).getMaterial() == Material.AIR)
 						&& (block == Blocks.GRASS)) {
 					IBlockState iblockstate1 = Blocks.GRASS_PATH.getDefaultState();
-					worldIn.playSound(playerIn, pos, SoundEvents.ITEM_SHOVEL_FLATTEN, SoundCategory.BLOCKS, 1.0F, 1.0F);
+					worldIn.playSound(player, pos, SoundEvents.ITEM_SHOVEL_FLATTEN, SoundCategory.BLOCKS, 1.0F, 1.0F);
 
 					if (!worldIn.isRemote) {
 						worldIn.setBlockState(pos, iblockstate1, 11);
-						stack.damageItem(1, playerIn);
+						stack.damageItem(1, player);
 					}
 
 					return EnumActionResult.SUCCESS;

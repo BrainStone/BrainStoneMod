@@ -3,8 +3,6 @@ package brainstonemod.common.block;
 import java.util.List;
 import java.util.Random;
 
-import javax.annotation.Nullable;
-
 import brainstonemod.BrainStone;
 import brainstonemod.common.block.property.UnlistedPropertyCopiedBlock;
 import brainstonemod.common.block.template.BlockBrainStoneHiders;
@@ -19,7 +17,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
@@ -56,14 +53,7 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 			tileentityblockbrainstonetrigger.dropItems(world, pos.getX(), pos.getY(), pos.getZ());
 		}
 
-		world.removeTileEntity(pos);
-		world.notifyNeighborsOfStateChange(pos, this);
-		world.notifyNeighborsOfStateChange(pos.add(-1, 0, 0), this);
-		world.notifyNeighborsOfStateChange(pos.add(1, 0, 0), this);
-		world.notifyNeighborsOfStateChange(pos.down(), this);
-		world.notifyNeighborsOfStateChange(pos.up(), this);
-		world.notifyNeighborsOfStateChange(pos.add(0, 0, -1), this);
-		world.notifyNeighborsOfStateChange(pos.add(0, 0, 1), this);
+		super.breakBlock(world, pos, state);
 	}
 
 	@Override
@@ -92,7 +82,7 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand,
-			@Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+			EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (world.isRemote)
 			return true;
 
@@ -109,19 +99,9 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 
 	@Override
 	public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
-		world.setTileEntity(pos, createNewTileEntity(world, 0));
-		world.notifyNeighborsOfStateChange(pos, this);
-		world.notifyNeighborsOfStateChange(pos.add(-1, 0, 0), this);
-		world.notifyNeighborsOfStateChange(pos.add(1, 0, 0), this);
-		world.notifyNeighborsOfStateChange(pos.down(), this);
-		world.notifyNeighborsOfStateChange(pos.up(), this);
-		world.notifyNeighborsOfStateChange(pos.add(0, 0, -1), this);
-		world.notifyNeighborsOfStateChange(pos.add(0, 0, 1), this);
+		super.onBlockAdded(world, pos, state);
 
-		world.scheduleBlockUpdate(pos, this, tickRate(world) - ((int) world.getTotalWorldTime() % tickRate(world)), 0);// TODO:
-																														// Check
-																														// that
-																														// priority
+		world.scheduleUpdate(pos, this, tickRate(world) - ((int) world.getTotalWorldTime() % tickRate(world)));
 	}
 
 	@Override
@@ -193,10 +173,7 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 				.getTileEntity(pos);
 
 		if (tileEntityBlockBrainStoneTrigger == null) {
-			world.scheduleBlockUpdate(pos, this, tickRate(world), 0);// TODO:
-																		// Check
-																		// that
-																		// priority
+			world.scheduleUpdate(pos, this, tickRate(world));
 			return;
 		}
 
@@ -215,17 +192,15 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 					pos.getZ(), world);
 		}
 
-		world.notifyNeighborsOfStateChange(pos, this);
-		world.notifyNeighborsOfStateChange(pos.add(-1, 0, 0), this);
-		world.notifyNeighborsOfStateChange(pos.add(1, 0, 0), this);
-		world.notifyNeighborsOfStateChange(pos.down(), this);
-		world.notifyNeighborsOfStateChange(pos.up(), this);
-		world.notifyNeighborsOfStateChange(pos.add(0, 0, -1), this);
-		world.notifyNeighborsOfStateChange(pos.add(0, 0, 1), this);
+		world.notifyNeighborsOfStateChange(pos, this, true);
+		world.notifyNeighborsOfStateChange(pos.add(-1, 0, 0), this, true);
+		world.notifyNeighborsOfStateChange(pos.add(1, 0, 0), this, true);
+		world.notifyNeighborsOfStateChange(pos.down(), this, true);
+		world.notifyNeighborsOfStateChange(pos.up(), this, true);
+		world.notifyNeighborsOfStateChange(pos.add(0, 0, -1), this, true);
+		world.notifyNeighborsOfStateChange(pos.add(0, 0, 1), this, true);
 
-		world.scheduleBlockUpdate(pos, this, tickRate(world), 0);// TODO: Check
-																	// that
-																	// priority
+		world.scheduleUpdate(pos, this, tickRate(world));
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -255,8 +230,8 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 	@SuppressWarnings("deprecation")
 	@Override
 	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
-		if (state instanceof IExtendedBlockState) { // avoid crash in case of
-													// mismatch
+		// avoid crash in case of mismatch
+		if (state instanceof IExtendedBlockState) {
 			IExtendedBlockState retval = (IExtendedBlockState) state;
 			if ((world.getTileEntity(pos) instanceof TileEntityBrainStoneTrigger)
 					&& (((TileEntityBrainStoneTrigger) world.getTileEntity(pos)).getStackInSlot(0) != null)

@@ -35,25 +35,55 @@ public class ContainerBrainStoneTrigger extends Container {
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int i) {
-		Slot slot = getSlot(i);
-		if ((slot != null) && slot.getHasStack()) {
-			ItemStack is = slot.getStack();
-			ItemStack result = is.copy();
+	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
+		ItemStack itemstack = ItemStack.EMPTY;
+		Slot slot = inventorySlots.get(index);
+		final int startIndex = trigger.getSizeInventory();
+		final int endIndex = startIndex + 36;
 
-			if (i >= 36) {
-				if (!mergeItemStack(is, 0, 36, false))
-					return null;
-			} else if (!mergeItemStack(is, 36, 36 + trigger.getSizeInventory(), false))
-				return null;
-			if (is.stackSize == 0) {
-				slot.putStack(null);
+		if ((slot != null) && slot.getHasStack()) {
+			ItemStack itemstack_linked = slot.getStack();
+			itemstack = itemstack_linked.copy();
+
+			if (index < startIndex) {
+				if (!mergeItemStack(itemstack_linked, startIndex, endIndex, true))
+					return ItemStack.EMPTY;
+			} else {
+				boolean allSlotsFull = true;
+
+				for (int i = 0; i < startIndex; ++i) {
+					if (inventorySlots.get(0).getHasStack() || !inventorySlots.get(0).isItemValid(itemstack_linked)) {
+						continue;
+					}
+
+					if (!itemstack_linked.isEmpty()) {
+						ItemStack result = itemstack_linked.copy();
+						result.setCount(1);
+
+						inventorySlots.get(0).putStack(result);
+						itemstack_linked.shrink(1);
+
+						allSlotsFull = false;
+						break;
+					}
+				}
+
+				if (allSlotsFull)
+					return ItemStack.EMPTY;
+			}
+
+			if (itemstack_linked.isEmpty()) {
+				slot.putStack(ItemStack.EMPTY);
 			} else {
 				slot.onSlotChanged();
 			}
-			slot.onPickupFromSlot(player, is);
-			return result;
+
+			if (itemstack_linked.getCount() == itemstack.getCount())
+				return ItemStack.EMPTY;
+
+			slot.onTake(player, itemstack_linked);
 		}
-		return null;
+
+		return itemstack;
 	}
 }

@@ -15,9 +15,11 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ContainerRepair;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemNameTag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -44,33 +46,40 @@ public class ContainerBrainStoneAnvil extends ContainerRepair {
 			}
 
 			@Override
-			public boolean canTakeStack(EntityPlayer stack) {
-				return (stack.capabilities.isCreativeMode || (stack.experienceLevel >= maximumCost))
+			public boolean canTakeStack(EntityPlayer playerIn) {
+				return (playerIn.capabilities.isCreativeMode || (playerIn.experienceLevel >= maximumCost))
 						&& (maximumCost > 0) && getHasStack();
 			}
 
 			@Override
-			public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack) {
-				if (!playerIn.capabilities.isCreativeMode) {
-					playerIn.addExperienceLevel(-maximumCost);
+			public ItemStack onTake(EntityPlayer playerIn, ItemStack stack) {
+				if (!player.capabilities.isCreativeMode) {
+					player.addExperienceLevel(-maximumCost);
 				}
 
-				float breakChance = net.minecraftforge.common.ForgeHooks.onAnvilRepair(playerIn, stack,
+				float breakChance = net.minecraftforge.common.ForgeHooks.onAnvilRepair(player, stack,
 						inputSlots.getStackInSlot(0), inputSlots.getStackInSlot(1));
 
-				inputSlots.setInventorySlotContents(0, (ItemStack) null);
+				ItemStack itemstack = inputSlots.getStackInSlot(0);
+
+				if ((itemstack.getCount() != 1) && !player.capabilities.isCreativeMode
+						&& !(itemstack.getItem() instanceof ItemNameTag)) {
+					itemstack.setCount(itemstack.getCount() - 1);
+				} else {
+					inputSlots.setInventorySlotContents(0, ItemStack.EMPTY);
+				}
 
 				if (materialCost > 0) {
-					ItemStack itemstack = inputSlots.getStackInSlot(1);
+					ItemStack itemstack1 = inputSlots.getStackInSlot(1);
 
-					if ((itemstack != null) && (itemstack.stackSize > materialCost)) {
-						itemstack.stackSize -= materialCost;
-						inputSlots.setInventorySlotContents(1, itemstack);
+					if (!itemstack1.isEmpty() && (itemstack1.getCount() > materialCost)) {
+						itemstack1.shrink(materialCost);
+						inputSlots.setInventorySlotContents(1, itemstack1);
 					} else {
-						inputSlots.setInventorySlotContents(1, (ItemStack) null);
+						inputSlots.setInventorySlotContents(1, ItemStack.EMPTY);
 					}
 				} else {
-					inputSlots.setInventorySlotContents(1, (ItemStack) null);
+					inputSlots.setInventorySlotContents(1, ItemStack.EMPTY);
 				}
 
 				maximumCost = 0;
@@ -83,8 +92,8 @@ public class ContainerBrainStoneAnvil extends ContainerRepair {
 					breakChance *= PULSATING_BRAIN_STONE_FACTOR;
 				}
 
-				if (!playerIn.capabilities.isCreativeMode && !world.isRemote && isValidBlock(block)
-						&& (playerIn.getRNG().nextFloat() < breakChance)) {
+				if (!player.capabilities.isCreativeMode && !world.isRemote && (iblockstate.getBlock() == Blocks.ANVIL)
+						&& (player.getRNG().nextFloat() < breakChance)) {
 					int l = iblockstate.getValue(BlockAnvil.DAMAGE).intValue();
 					++l;
 
@@ -99,9 +108,10 @@ public class ContainerBrainStoneAnvil extends ContainerRepair {
 				} else if (!world.isRemote) {
 					world.playEvent(1030, blockPosIn, 0);
 				}
+
+				return stack;
 			}
 		});
-
 	}
 
 	@Override
@@ -118,18 +128,24 @@ public class ContainerBrainStoneAnvil extends ContainerRepair {
 		int j = 0;
 		int k = 0;
 
-		if (itemstack == null) {
-			outputSlot.setInventorySlotContents(0, (ItemStack) null);
+		if (itemstack.isEmpty()) {
+			outputSlot.setInventorySlotContents(0, ItemStack.EMPTY);
 			maximumCost = 0;
 		} else {
 			ItemStack itemstack1 = itemstack.copy();
+
+			if ((itemstack1.getCount() > 1) && !player.capabilities.isCreativeMode
+					&& !(itemstack1.getItem() instanceof ItemNameTag)) {
+				itemstack1.setCount(1);
+			}
+
 			ItemStack itemstack2 = inputSlots.getStackInSlot(1);
 			Map<Enchantment, Integer> map = EnchantmentHelper.getEnchantments(itemstack1);
-			j = j + itemstack.getRepairCost() + (itemstack2 == null ? 0 : itemstack2.getRepairCost());
+			j = j + itemstack.getRepairCost() + (itemstack2.isEmpty() ? 0 : itemstack2.getRepairCost());
 			materialCost = 0;
 			boolean flag = false;
 
-			if (itemstack2 != null) {
+			if (!itemstack2.isEmpty()) {
 				if (!net.minecraftforge.common.ForgeHooks.onAnvilChange(this, itemstack, itemstack2, outputSlot,
 						repairedItemName, j))
 					return;
@@ -137,28 +153,28 @@ public class ContainerBrainStoneAnvil extends ContainerRepair {
 						&& !Items.ENCHANTED_BOOK.getEnchantments(itemstack2).hasNoTags();
 
 				if (itemstack1.isItemStackDamageable() && itemstack1.getItem().getIsRepairable(itemstack, itemstack2)) {
-					int j2 = Math.min(itemstack1.getItemDamage(), itemstack1.getMaxDamage() / 4);
+					int l2 = Math.min(itemstack1.getItemDamage(), itemstack1.getMaxDamage() / 4);
 
-					if (j2 <= 0) {
-						outputSlot.setInventorySlotContents(0, (ItemStack) null);
+					if (l2 <= 0) {
+						outputSlot.setInventorySlotContents(0, ItemStack.EMPTY);
 						maximumCost = 0;
 						return;
 					}
 
-					int k2;
+					int i3;
 
-					for (k2 = 0; (j2 > 0) && (k2 < itemstack2.stackSize); ++k2) {
-						int l2 = itemstack1.getItemDamage() - j2;
-						itemstack1.setItemDamage(l2);
+					for (i3 = 0; (l2 > 0) && (i3 < itemstack2.getCount()); ++i3) {
+						int j3 = itemstack1.getItemDamage() - l2;
+						itemstack1.setItemDamage(j3);
 						++i;
-						j2 = Math.min(itemstack1.getItemDamage(), itemstack1.getMaxDamage() / 4);
+						l2 = Math.min(itemstack1.getItemDamage(), itemstack1.getMaxDamage() / 4);
 					}
 
-					materialCost = k2;
+					materialCost = i3;
 				} else {
 					if (!flag && ((itemstack1.getItem() != itemstack2.getItem())
 							|| !itemstack1.isItemStackDamageable())) {
-						outputSlot.setInventorySlotContents(0, (ItemStack) null);
+						outputSlot.setInventorySlotContents(0, ItemStack.EMPTY);
 						maximumCost = 0;
 						return;
 					}
@@ -181,12 +197,14 @@ public class ContainerBrainStoneAnvil extends ContainerRepair {
 					}
 
 					Map<Enchantment, Integer> map1 = EnchantmentHelper.getEnchantments(itemstack2);
+					boolean flag2 = false;
+					boolean flag3 = false;
 
 					for (Enchantment enchantment1 : map1.keySet()) {
 						if (enchantment1 != null) {
-							int i3 = map.containsKey(enchantment1) ? map.get(enchantment1).intValue() : 0;
-							int j3 = map1.get(enchantment1).intValue();
-							j3 = i3 == j3 ? j3 + 1 : Math.max(j3, i3);
+							int i2 = map.containsKey(enchantment1) ? map.get(enchantment1).intValue() : 0;
+							int j2 = map1.get(enchantment1).intValue();
+							j2 = i2 == j2 ? j2 + 1 : Math.max(j2, i2);
 							boolean flag1 = enchantment1.canApply(itemstack);
 
 							if (player.capabilities.isCreativeMode || (itemstack.getItem() == Items.ENCHANTED_BOOK)) {
@@ -194,21 +212,22 @@ public class ContainerBrainStoneAnvil extends ContainerRepair {
 							}
 
 							for (Enchantment enchantment : map.keySet()) {
-								// Forge BugFix: Let Both enchantments veto
-								// being together
-								if ((enchantment != enchantment1) && !(enchantment1.canApplyTogether(enchantment)
-										&& enchantment.canApplyTogether(enchantment1))) {
+								if ((enchantment != enchantment1) && !enchantment1.func_191560_c(enchantment)) {
 									flag1 = false;
 									++i;
 								}
 							}
 
-							if (flag1) {
-								if (j3 > enchantment1.getMaxLevel()) {
-									j3 = enchantment1.getMaxLevel();
+							if (!flag1) {
+								flag3 = true;
+							} else {
+								flag2 = true;
+
+								if (j2 > enchantment1.getMaxLevel()) {
+									j2 = enchantment1.getMaxLevel();
 								}
 
-								map.put(enchantment1, Integer.valueOf(j3));
+								map.put(enchantment1, Integer.valueOf(j2));
 								int k3 = 0;
 
 								switch (enchantment1.getRarity()) {
@@ -229,15 +248,17 @@ public class ContainerBrainStoneAnvil extends ContainerRepair {
 									k3 = Math.max(1, k3 / 2);
 								}
 
-								i += k3 * j3;
+								i += k3 * j2;
 							}
 						}
 					}
-				}
-			}
 
-			if (flag && !itemstack1.getItem().isBookEnchantable(itemstack1, itemstack2)) {
-				itemstack1 = null;
+					if (flag3 && !flag2) {
+						outputSlot.setInventorySlotContents(0, ItemStack.EMPTY);
+						maximumCost = 0;
+						return;
+					}
+				}
 			}
 
 			if (StringUtils.isBlank(repairedItemName)) {
@@ -251,27 +272,30 @@ public class ContainerBrainStoneAnvil extends ContainerRepair {
 				i += k;
 				itemstack1.setStackDisplayName(repairedItemName);
 			}
+			if (flag && !itemstack1.getItem().isBookEnchantable(itemstack1, itemstack2)) {
+				itemstack1 = ItemStack.EMPTY;
+			}
 
 			maximumCost = j + i;
 
 			if (i <= 0) {
-				itemstack1 = null;
+				itemstack1 = ItemStack.EMPTY;
 			}
 
 			// No max checking!
 
-			if (itemstack1 != null) {
-				int i2 = itemstack1.getRepairCost();
+			if (!itemstack1.isEmpty()) {
+				int k2 = itemstack1.getRepairCost();
 
-				if ((itemstack2 != null) && (i2 < itemstack2.getRepairCost())) {
-					i2 = itemstack2.getRepairCost();
+				if (!itemstack2.isEmpty() && (k2 < itemstack2.getRepairCost())) {
+					k2 = itemstack2.getRepairCost();
 				}
 
 				if ((k != i) || (k == 0)) {
-					i2 = (i2 * 2) + 1;
+					k2 = (k2 * 2) + 1;
 				}
 
-				itemstack1.setRepairCost(i2);
+				itemstack1.setRepairCost(k2);
 				EnchantmentHelper.setEnchantments(map, itemstack1);
 			}
 

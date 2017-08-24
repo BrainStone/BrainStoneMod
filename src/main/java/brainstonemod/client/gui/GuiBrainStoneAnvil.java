@@ -22,7 +22,7 @@ public class GuiBrainStoneAnvil extends GuiRepair {
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		GlStateManager.disableLighting();
 		GlStateManager.disableBlend();
-		fontRendererObj.drawString(I18n.format("container.repair", new Object[0]), 60, 6, 4210752);
+		fontRenderer.drawString(I18n.format("container.repair", new Object[0]), 60, 6, 4210752);
 
 		if (anvil.maximumCost > 0) {
 			int i = 8453920;
@@ -37,19 +37,19 @@ public class GuiBrainStoneAnvil extends GuiRepair {
 
 			if (flag) {
 				int j = -16777216 | ((i & 16579836) >> 2) | (i & -16777216);
-				int k = xSize - 8 - fontRendererObj.getStringWidth(s);
+				int k = xSize - 8 - fontRenderer.getStringWidth(s);
 
 				// No max checking!
-				if (fontRendererObj.getUnicodeFlag()) {
+				if (fontRenderer.getUnicodeFlag()) {
 					drawRect(k - 3, 65, xSize - 7, 77, -16777216);
 					drawRect(k - 2, 66, xSize - 8, 76, -12895429);
 				} else {
-					fontRendererObj.drawString(s, k, 68, j);
-					fontRendererObj.drawString(s, k + 1, 67, j);
-					fontRendererObj.drawString(s, k + 1, 68, j);
+					fontRenderer.drawString(s, k, 68, j);
+					fontRenderer.drawString(s, k + 1, 67, j);
+					fontRenderer.drawString(s, k + 1, 68, j);
 				}
 
-				fontRendererObj.drawString(s, k, 67, i);
+				fontRenderer.drawString(s, k, 67, i);
 			}
 		}
 

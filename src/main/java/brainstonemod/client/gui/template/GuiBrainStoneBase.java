@@ -82,8 +82,8 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 	}
 
 	protected void drawCenteredString(String text, float x, float y, int color, float scale) {
-		drawString(text, x - (fontRendererObj.getStringWidth(text) / 2.0f),
-				y - (text.split("\r\n|\r|\n").length * (fontRendererObj.FONT_HEIGHT / 2)), color, scale);
+		drawString(text, x - (fontRenderer.getStringWidth(text) / 2.0f),
+				y - (text.split("\r\n|\r|\n").length * (fontRenderer.FONT_HEIGHT / 2)), color, scale);
 	}
 
 	protected abstract void drawGuiBackground(float partialTicks, int mouseX, int mouseY);
@@ -167,7 +167,7 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 		GL11.glPushMatrix();
 		prepareMatrices(x, y, scale);
 
-		fontRendererObj.drawString(text, 0, 0, color);
+		fontRenderer.drawString(text, 0, 0, color);
 
 		GL11.glPopMatrix();
 	}

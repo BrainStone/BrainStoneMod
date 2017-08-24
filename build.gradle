@@ -155,6 +155,10 @@ repositories {
         name = "bintray-way2muchnoise"
         url  "https://dl.bintray.com/way2muchnoise/dev/"
     }
+    maven {
+    		name = "Covers Maven"
+    		url = "http://maven.covers1624.net"
+    }
     flatDir {
         dirs "lib"
     }
@@ -193,6 +197,10 @@ dependencies {
     deobfProvided "the_fireplace.overlord:Overlord-${minecraft_version}:${overlord_version}"
 
     provided "net.darkhax.tesla:Tesla:1.11-${tesla_version}:deobf"
+    
+    provided("cofh:ThermalFoundation:${minecraft_version}-${thermalFoundation_version}:deobf") {
+         exclude module: "jei_${minecraft_version}"
+    }
 
     provided("slimeknights:TConstruct:${minecraft_version}-${tconstruct_version}:deobf") {
         exclude module: "jei_${minecraft_version}"

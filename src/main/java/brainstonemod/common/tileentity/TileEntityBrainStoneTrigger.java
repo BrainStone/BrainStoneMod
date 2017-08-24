@@ -161,8 +161,9 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 			for (int i = 0; i < list.tagCount(); i++) {
 				NBTTagCompound item = list.getCompoundTagAt(i);// list.get(i)
 				int slot = item.getByte("Slot");
+
 				if ((slot >= 0) && (slot < getSizeInventory())) {
-					setInventorySlotContents(slot, ItemStack.loadItemStackFromNBT(item));
+					setInventorySlotContents(slot, new ItemStack(item));
 				}
 			}
 		} else {
@@ -291,7 +292,7 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 	public ItemStack decrStackSize(int index, int count) {
 		ItemStack is = getStackInSlot(index);
 		if (is != null) {
-			if (is.stackSize <= count) {
+			if (is.getCount() <= count) {
 				setInventorySlotContents(index, null);
 			} else {
 				is = is.splitStack(count);
@@ -352,10 +353,20 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 	public void setInventorySlotContents(int slot, ItemStack itemstack) {
 		inventory[slot] = itemstack;
 
-		if ((itemstack != null) && (itemstack.stackSize > getInventoryStackLimit())) {
-			itemstack.stackSize = getInventoryStackLimit();
+		if ((itemstack != null) && (itemstack.getCount() > getInventoryStackLimit())) {
+			itemstack.setCount(getInventoryStackLimit());
 		}
 
 		markDirty();
+	}
+
+	@Override
+	public boolean isEmpty() {
+		for (ItemStack stack : inventory) {
+			if (!stack.isEmpty())
+				return false;
+		}
+
+		return true;
 	}
 }

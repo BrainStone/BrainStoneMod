@@ -5,11 +5,14 @@ import java.util.Arrays;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.CombatRules;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.common.ISpecialArmor.ArmorProperties;
 
@@ -38,47 +41,38 @@ public class BrainStoneDamageHelper {
 	 * Taken from
 	 * {@link net.minecraft.entity.EntityLivingBase#applyPotionDamageCalculations}
 	 */
-	private static float applyPotionDamageCalculations(DamageSource damageSource, float initalDamage,
+	private static float applyPotionDamageCalculations(DamageSource damageSource, float initialDamage,
 			EntityPlayer player) {
 		if (damageSource.isDamageAbsolute())
-			return initalDamage;
+			return initialDamage;
 		else {
-			int i;
-			int j;
-			float f1;
-
-			if (player.isPotionActive(MobEffects.RESISTANCE) && (damageSource != DamageSource.outOfWorld)) {
-				i = (player.getActivePotionEffect(MobEffects.RESISTANCE).getAmplifier() + 1) * 5;
-				j = 25 - i;
-				f1 = initalDamage * j;
-				initalDamage = f1 / 25.0F;
+			if (player.isPotionActive(MobEffects.RESISTANCE) && (damageSource != DamageSource.OUT_OF_WORLD)) {
+				int i = (player.getActivePotionEffect(MobEffects.RESISTANCE).getAmplifier() + 1) * 5;
+				int j = 25 - i;
+				float f = initialDamage * j;
+				initialDamage = f / 25.0F;
 			}
 
-			if (initalDamage <= 0.0F)
+			if (initialDamage <= 0.0F)
 				return 0.0F;
 			else {
-				i = EnchantmentHelper.getEnchantmentModifierDamage(player.getEquipmentAndArmor(), damageSource);
+				int k = EnchantmentHelper.getEnchantmentModifierDamage(player.getArmorInventoryList(), damageSource);
 
-				if (i > 20) {
-					i = 20;
+				if (k > 0) {
+					initialDamage = CombatRules.getDamageAfterMagicAbsorb(initialDamage, k);
 				}
 
-				if ((i > 0) && (i <= 20)) {
-					j = 25 - i;
-					f1 = initalDamage * j;
-					initalDamage = f1 / 25.0F;
-				}
-
-				return initalDamage;
+				return initialDamage;
 			}
 		}
 	}
 
 	/**
-	 * Gathers and applies armor reduction to damage being dealt to a entity.
-	 * <br />
+	 * Gathers and applies armor reduction to damage being dealt to a
+	 * entity.<br />
 	 * Taken from
-	 * {@link net.minecraftforge.common.ISpecialArmor.ArmorProperties#ApplyArmor}
+	 * {@link net.minecraftforge.common.ISpecialArmor.ArmorProperties#applyArmor}.
+	 * Added simulate flag to prevent damaging of armor.
 	 *
 	 * @param entity
 	 *            The Entity being damage
@@ -88,30 +82,38 @@ public class BrainStoneDamageHelper {
 	 *            The damage source type
 	 * @param damage
 	 *            The total damage being done
-	 * @param simulate
-	 *            When simulating items do not get damaged!
 	 * @return The left over damage that has not been absorbed by the armor
 	 */
-	private static float applyArmor(EntityLivingBase entity, ItemStack[] inventory, DamageSource source, double damage,
-			boolean simulate) {
-		damage *= 25;
-		ArrayList<ArmorProperties> dmgVals = new ArrayList<>();
-		for (int x = 0; x < inventory.length; x++) {
-			ItemStack stack = inventory[x];
-			if (stack == null) {
+	private static float applyArmor(EntityLivingBase entity, NonNullList<ItemStack> inventory, DamageSource source,
+			double damage, boolean simulate) {
+		if (source.isUnblockable())
+			return (float) damage;
+
+		double totalArmor = entity.getTotalArmorValue();
+		double totalToughness = entity.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).getAttributeValue();
+
+		ArrayList<ArmorProperties> dmgVals = new ArrayList<ArmorProperties>();
+		for (int slot = 0; slot < inventory.size(); slot++) {
+			ItemStack stack = inventory.get(slot);
+
+			if (stack.isEmpty()) {
 				continue;
 			}
+
 			ArmorProperties prop = null;
 			if (stack.getItem() instanceof ISpecialArmor) {
 				ISpecialArmor armor = (ISpecialArmor) stack.getItem();
-				prop = armor.getProperties(entity, stack, source, damage / 25D, x).copy();
-			} else if ((stack.getItem() instanceof ItemArmor) && !source.isUnblockable()) {
+				prop = armor.getProperties(entity, stack, source, damage, slot).copy();
+				totalArmor += prop.Armor;
+				totalToughness += prop.Toughness;
+			} else if (stack.getItem() instanceof ItemArmor) {
 				ItemArmor armor = (ItemArmor) stack.getItem();
-				prop = new ArmorProperties(0, armor.damageReduceAmount / 25D,
-						(armor.getMaxDamage(stack) + 1) - stack.getItemDamage());
+				prop = new ArmorProperties(0, 0, Integer.MAX_VALUE);
+				prop.Armor = armor.damageReduceAmount;
+				prop.Toughness = armor.toughness;
 			}
 			if (prop != null) {
-				prop.Slot = x;
+				prop.Slot = slot;
 				dmgVals.add(prop);
 			}
 		}
@@ -129,31 +131,41 @@ public class BrainStoneDamageHelper {
 				ratio += prop.AbsorbRatio;
 
 				double absorb = damage * prop.AbsorbRatio;
-				if (absorb > 0) {
-					ItemStack stack = inventory[prop.Slot];
-					int itemDamage = (int) ((absorb / 25D) < 1 ? 1 : absorb / 25D);
+				if ((absorb > 0) && !simulate) {
+					ItemStack stack = inventory.get(prop.Slot);
+					int itemDamage = (int) Math.max(1, absorb);
 					if (stack.getItem() instanceof ISpecialArmor) {
-						if (!simulate) {
-							((ISpecialArmor) stack.getItem()).damageArmor(entity, stack, source, itemDamage, prop.Slot);
-						}
+						((ISpecialArmor) stack.getItem()).damageArmor(entity, stack, source, itemDamage, prop.Slot);
 					} else {
-						if (!simulate) {
-							stack.damageItem(itemDamage, entity);
-						}
+						stack.damageItem(itemDamage, entity);
 					}
-					if (stack.stackSize <= 0) {
-						inventory[prop.Slot] = null;
+					if (stack.isEmpty()) {
+						inventory.set(prop.Slot, ItemStack.EMPTY);
 					}
 				}
 			}
 			damage -= (damage * ratio);
 		}
+		if ((damage > 0) && ((totalArmor > 0) || (totalToughness > 0))) {
+			double armorDamage = Math.max(1.0F, damage / 4.0F);
 
-		return (float) (damage / 25.0F);
+			for (int i = 0; i < inventory.size(); i++) {
+				if ((inventory.get(i).getItem() instanceof ItemArmor) && !simulate) {
+					inventory.get(i).damageItem((int) armorDamage, entity);
+
+					if (inventory.get(i).getCount() == 0) {
+						inventory.set(i, ItemStack.EMPTY);
+					}
+				}
+			}
+			damage = CombatRules.getDamageAfterAbsorb((float) damage, (float) totalArmor, (float) totalToughness);
+		}
+
+		return (float) (damage);
 	}
 
 	/**
-	 * Sorts and standardizes the distribution of damage over armor.<br />
+	 * Sorts and standardizes the distribution of damage over armor. <br />
 	 * Taken from
 	 * {@link net.minecraftforge.common.ISpecialArmor.ArmorProperties#StandardizeList}
 	 *

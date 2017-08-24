@@ -18,6 +18,7 @@ import net.minecraftforge.fml.common.Optional;
  *
  * @author BrainStone
  */
+// TODO Use RedstoneFlux mod
 @Optional.InterfaceList({ @Optional.Interface(iface = "cofh.api.energy.IEnergyContainerItem", modid = "CoFHAPI|energy"),
 		@Optional.Interface(iface = "com.brandon3055.draconicevolution.api.IInvCharge", modid = BrainStoneModules.DRACONIC_EVOLUTION_MODID) })
 public interface IEnergyContainerItem extends cofh.api.energy.IEnergyContainerItem, IInvCharge {
@@ -54,14 +55,14 @@ public interface IEnergyContainerItem extends cofh.api.energy.IEnergyContainerIt
 	long getMaxOutput(ItemStack stack);
 
 	default boolean canExtract(ItemStack container) {
-		if (container.stackSize > 1)
+		if (container.getCount() > 1)
 			return false;
 
 		return getMaxOutput(container) > 0;
 	}
 
 	default boolean canReceive(ItemStack container) {
-		if (container.stackSize > 1)
+		if (container.getCount() > 1)
 			return false;
 
 		return getMaxInput(container) > 0;

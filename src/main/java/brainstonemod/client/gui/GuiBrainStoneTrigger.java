@@ -193,10 +193,10 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		for (int i = 0; i < 4; i++) {
 			message = I18n.format(tmp = mobs[i]);
 
-			if (fontRendererObj.getStringWidth(message) > 100) {
+			if (fontRenderer.getStringWidth(message) > 100) {
 				do {
 					message = message.substring(0, message.length() - 1);
-				} while (fontRendererObj.getStringWidth(message + "...") > 100);
+				} while (fontRenderer.getStringWidth(message + "...") > 100);
 
 				message += "...";
 			}

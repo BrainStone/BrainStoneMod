@@ -35,13 +35,13 @@ public class BrainStoneRenderHelper {
 	}
 
 	public static void drawCenteredString(String text, float x, float y, int color) {
-		FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
+		FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
 
 		fontRenderer.drawStringWithShadow(text, x - (fontRenderer.getStringWidth(text) / 2), y, color);
 	}
 
 	public static void drawString(String text, float x, float y, int color) {
-		FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
+		FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
 
 		fontRenderer.drawStringWithShadow(text, x, y, color);
 	}
