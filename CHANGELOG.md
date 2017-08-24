@@ -1,3 +1,9 @@
+4.5.0-alpha
+-----------
+
+- Updated to 1.11.2
+- Some things might not work
+
 4.4.35-beta
 -----------
 
