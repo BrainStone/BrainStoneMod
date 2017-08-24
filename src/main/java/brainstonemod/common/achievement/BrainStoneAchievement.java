@@ -18,44 +18,8 @@ public class BrainStoneAchievement extends Achievement implements ICustomBackgro
 
 	private boolean renderRainbow;
 
-	public static int getRainbowColour() {
-		return getRainbowColour(1.0f, 1.0f, 1.0f, 0, twoThirdPi, twoThirdPi * 2.0f, 127.5f, 127.5f, 1000);
-	}
-
-	/**
-	 * Gives a colour based of {@link System#currentTimeMillis()} and given
-	 * params.<br>
-	 * Adopted and fixed from
-	 * {@link ColourHelper#getRainbowColour(float, float, float, float, float, float, float, float, float)}.
-	 *
-	 * @param freqR
-	 *            frequency of the reds
-	 * @param freqG
-	 *            frequency of the greens
-	 * @param freqB
-	 *            frequency of the blues
-	 * @param phaseR
-	 *            phase shift red
-	 * @param phaseG
-	 *            phase shift green
-	 * @param phaseB
-	 *            phase shift blue
-	 * @param center
-	 *            center value
-	 * @param width
-	 *            width of colour range
-	 * @param length
-	 *            change rate
-	 * @return an int colour
-	 */
-	public static int getRainbowColour(float freqR, float freqG, float freqB, float phaseR, float phaseG, float phaseB,
-			float center, float width, float length) {
-		double i = (System.currentTimeMillis() * 2 * Math.PI) / length;
-		double r = (Math.sin((freqR * i) + phaseR) * width) + center;
-		double g = (Math.sin((freqG * i) + phaseG) * width) + center;
-		double b = (Math.sin((freqB * i) + phaseB) * width) + center;
-
-		return ColourHelper.RGB((int) r, (int) g, (int) b);
+	private static int getRainbowColour() {
+		return ColourHelper.getRainbowColour(1.0f, 1.0f, 1.0f, 0, twoThirdPi, twoThirdPi * 2.0f, 127.5f, 127.5f, 1000);
 	}
 
 	/**
@@ -97,11 +61,10 @@ public class BrainStoneAchievement extends Achievement implements ICustomBackgro
 
 	@Override
 	public int recolourBackground(float greyScale) {
-		int grey = (int) (0xff * greyScale);
-		int greyTone = ColourHelper.RGB(grey, grey, grey);
+		final int greyTone = ColourHelper.RGB(greyScale, greyScale, greyScale);
 
 		if (renderRainbow)
-			return ColourHelper.blend(greyTone, getRainbowColour());
+			return ColourHelper.blend(getRainbowColour(), greyTone);
 		else
 			return greyTone;
 	}
