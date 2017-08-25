@@ -1,3 +1,13 @@
+4.5.10-alpha
+------------
+
+- Fixed NullPointerExceptions caused by the BrainStoneTrigger
+- Fixed GUI textures
+- Made BrainStoneLifeCapacitor not enchantable
+- Slightly changed BrainStoneLifeCapacitor recipe
+- Added ThermalExpansion recipes
+- Internal improvements
+
 4.5.0-alpha
 -----------
 
