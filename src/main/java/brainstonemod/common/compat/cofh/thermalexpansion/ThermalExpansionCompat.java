@@ -8,21 +8,21 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 public class ThermalExpansionCompat implements IModIntegration {
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
-		// TODO Auto-generated method stub
+		// Do nothing
 	}
 
 	@Override
 	public void init(FMLInitializationEvent event) {
-		// TODO Auto-generated method stub
+		// Do nothing
 	}
 
 	@Override
 	public void postInit(FMLPostInitializationEvent event) {
-		// TODO Auto-generated method stub
+		ThermalExpansionRecipes.registerThermalExpansionRecipies();
 	}
 
 	@Override
 	public void addAchievement() {
-		// TODO Auto-generated method stub
+		// Do nothing
 	}
 }

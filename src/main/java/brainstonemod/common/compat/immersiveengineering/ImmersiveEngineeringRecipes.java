@@ -12,11 +12,12 @@ import net.minecraftforge.fml.common.Optional;
 public class ImmersiveEngineeringRecipes {
 	@Optional.Method(modid = BrainStoneModules.IMMERSIVE_ENGINEERING_MODID)
 	public static void registerImmersiveEngineeringRecipies() {
-		ItemStack brainStone = new ItemStack(BrainStone.brainStone());
-		ItemStack dirtyBrainStone = new ItemStack(BrainStone.dirtyBrainStone());
-		ItemStack brainStoneDust = new ItemStack(BrainStone.brainStoneDust());
-		ItemStack brainStoneDust4 = new ItemStack(BrainStone.brainStoneDust(), 4);
-		ItemStack slag = ImmersiveEngineeringItems.getSlag();
+		final ItemStack brainStone = new ItemStack(BrainStone.brainStone());
+		final ItemStack dirtyBrainStone = new ItemStack(BrainStone.dirtyBrainStone());
+		final ItemStack brainStoneOre = new ItemStack(BrainStone.brainStoneOre());
+		final ItemStack brainStoneDust = new ItemStack(BrainStone.brainStoneDust());
+		final ItemStack brainStoneDust4 = new ItemStack(BrainStone.brainStoneDust(), 4);
+		final ItemStack slag = ImmersiveEngineeringItems.getSlag();
 
 		// Crusher
 
@@ -24,13 +25,14 @@ public class ImmersiveEngineeringRecipes {
 		CrusherRecipe.removeRecipes(brainStoneDust);
 
 		// BrainStoneOre => BrainStoneDust, BrainStoneDust 50%
-		addCrusherRecipe(brainStoneDust, BrainStone.brainStoneOre(), 4000, brainStoneDust, 0.5f);
+		addCrusherRecipe(brainStoneDust, brainStoneOre, 4000, brainStoneDust, 0.5f);
 		// BrainStone => 4xBrainStoneDust
 		addCrusherRecipe(brainStoneDust4, brainStone, 5000);
 		// DirtyBrainStone => 4xBrainStoneDust
 		addCrusherRecipe(brainStoneDust4, dirtyBrainStone, 4000);
 
 		// Arc Furnace
+
 		// 4xBrainStoneDust => BrainStone
 		addArcFurnaceRecipe(brainStone, brainStoneDust4, slag, 250);
 		// DirtyBrainStone => BrainStone
