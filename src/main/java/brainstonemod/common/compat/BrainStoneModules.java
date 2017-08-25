@@ -159,13 +159,11 @@ public final class BrainStoneModules {
 	}
 
 	private static boolean testMod(String modID, Boolean storage) {
-		synchronized (storage) {
-			if (storage == null) {
-				storage = Loader.isModLoaded(modID);
-			}
-
-			return storage;
+		if (storage == null) {
+			storage = Loader.isModLoaded(modID);
 		}
+
+		return storage;
 	}
 
 	private static Set<ModuleInformation> detectAllModules() {
