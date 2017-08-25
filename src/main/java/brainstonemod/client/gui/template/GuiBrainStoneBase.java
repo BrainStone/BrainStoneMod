@@ -5,6 +5,8 @@ import org.lwjgl.opengl.GL11;
 import com.google.common.base.CaseFormat;
 
 import brainstonemod.BrainStone;
+import lombok.AccessLevel;
+import lombok.Getter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -19,20 +21,19 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 
 public abstract class GuiBrainStoneBase extends GuiContainer {
-	protected SoundHandler soundHandler;
-	protected TileEntity tileentity;
+	protected final SoundHandler soundHandler;
+	protected final TileEntity tileentity;
 	protected boolean textureLoaded;
+	@Getter(AccessLevel.PROTECTED)
+	private final String textureBaseName;
 
 	public GuiBrainStoneBase(Container par1Container, TileEntity tileentity) {
 		super(par1Container);
 
-		this.tileentity = tileentity;
-
 		soundHandler = Minecraft.getMinecraft().getSoundHandler();
-	}
-
-	protected String getTextureBaseName() {
-		return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, getClass().getSimpleName());
+		this.tileentity = tileentity;
+		textureLoaded = false;
+		textureBaseName = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, getClass().getSimpleName());
 	}
 
 	/**
