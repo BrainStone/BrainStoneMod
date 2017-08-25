@@ -13,12 +13,12 @@ public class ThermalExpansionCompat implements IModIntegration {
 
 	@Override
 	public void init(FMLInitializationEvent event) {
-		// Do nothing
+		ThermalExpansionRecipes.registerThermalExpansionRecipies();
 	}
 
 	@Override
 	public void postInit(FMLPostInitializationEvent event) {
-		ThermalExpansionRecipes.registerThermalExpansionRecipies();
+		// Do nothing
 	}
 
 	@Override

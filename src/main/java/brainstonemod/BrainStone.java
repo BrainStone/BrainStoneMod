@@ -515,7 +515,7 @@ public class BrainStone {
 		GameRegistry.addRecipe(new BrainStoneLifeCapacitorUpgrade(BrainStoneLifeCapacitorUpgrade.Upgrade.CHARGING));
 
 		Object craftingS = new ItemStack(Items.SKULL, 1, 1);
-		Object craftingX = Items.BLAZE_ROD;
+		Object craftingX = Blocks.END_ROD;
 		Object craftingC = "dustRedstone";
 		Object craftingH = (BrainStoneModules.draconicEvolution()) ? DraconicEvolutionItems.getDragonHeart()
 				: new ItemStack(Items.GOLDEN_APPLE, 1, 1);
