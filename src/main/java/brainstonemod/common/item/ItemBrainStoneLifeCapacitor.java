@@ -278,7 +278,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 
 			return container;
 		} else
-			return null;
+			return ItemStack.EMPTY;
 	}
 
 	public int getChargingLevel(ItemStack container) {
@@ -306,7 +306,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 
 			return container;
 		} else
-			return null;
+			return ItemStack.EMPTY;
 	}
 
 	@Override
@@ -499,7 +499,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	@Override
 	@Optional.Method(modid = BrainStoneModules.BAUBLES_MODID)
 	public boolean canEquip(ItemStack stack, EntityLivingBase entity) {
-		if ((stack == null) || (entity == null))
+		if (stack.isEmpty() || (entity == null))
 			return false;
 
 		return isCurrentOwner(stack, entity.getUniqueID());
