@@ -17,13 +17,14 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 
 public class TileEntityBrainStoneTrigger extends TileEntity implements IInventory {
 	private static final ArrayList<TileEntityBrainStoneTrigger> failedTileEntities = new ArrayList<>();
-	private ItemStack inventory[];
+	private NonNullList<ItemStack> inventory;
 
 	public static void retryFailedTileEntities() {
 		for (TileEntityBrainStoneTrigger tileEntity : failedTileEntities) {
@@ -46,11 +47,12 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 	private ItemStack oldStack;
 
 	public TileEntityBrainStoneTrigger() {
-		inventory = new ItemStack[1];
+		inventory = NonNullList.withSize(1, ItemStack.EMPTY);
 		mobTriggered = new HashMap<>();
 		delay = 0;
 		maxDelay = 4;
 		output = 0;
+		oldStack = ItemStack.EMPTY;
 
 		try {
 			fillMobTriggered();
@@ -209,7 +211,7 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 		NBTTagList list = new NBTTagList();
 		for (int i = 0; i < getSizeInventory(); i++) {
 			ItemStack is = getStackInSlot(i);
-			if (is != null) {
+			if (!is.isEmpty()) {
 				NBTTagCompound item = new NBTTagCompound();
 
 				item.setByte("Slot", (byte) i);
@@ -291,9 +293,9 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 	@Override
 	public ItemStack decrStackSize(int index, int count) {
 		ItemStack is = getStackInSlot(index);
-		if (is != null) {
+		if (!is.isEmpty()) {
 			if (is.getCount() <= count) {
-				setInventorySlotContents(index, null);
+				setInventorySlotContents(index, ItemStack.EMPTY);
 			} else {
 				is = is.splitStack(count);
 				markDirty();
@@ -305,7 +307,7 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 	// DOCME
 	public void dropItems(World world, int x, int y, int z) {
 		for (final ItemStack itemstack : inventory) {
-			if (itemstack != null) {
+			if (!itemstack.isEmpty()) {
 				final float f = 0.7F;
 				final double dx = (world.rand.nextFloat() * f) + ((1.0F - f) * 0.5D);
 				final double dy = (world.rand.nextFloat() * f) + ((1.0F - f) * 0.5D);
@@ -319,12 +321,12 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 
 	@Override
 	public int getSizeInventory() {
-		return inventory.length;
+		return inventory.size();
 	}
 
 	@Override
 	public ItemStack getStackInSlot(int slot) {
-		return inventory[slot];
+		return inventory.get(slot);
 	}
 
 	@Override
@@ -351,9 +353,9 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 
 	@Override
 	public void setInventorySlotContents(int slot, ItemStack itemstack) {
-		inventory[slot] = itemstack;
+		inventory.set(slot, itemstack);
 
-		if ((itemstack != null) && (itemstack.getCount() > getInventoryStackLimit())) {
+		if (!itemstack.isEmpty() && (itemstack.getCount() > getInventoryStackLimit())) {
 			itemstack.setCount(getInventoryStackLimit());
 		}
 
@@ -362,11 +364,6 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 
 	@Override
 	public boolean isEmpty() {
-		for (ItemStack stack : inventory) {
-			if (!stack.isEmpty())
-				return false;
-		}
-
-		return true;
+		return inventory.stream().allMatch(ItemStack::isEmpty);
 	}
 }

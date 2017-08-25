@@ -242,6 +242,7 @@ public class BrainStone {
 		// Registering blocks and items.
 		registerBlocks();
 		registerItems();
+		proxy.registerOreDict();
 
 		// Generating Achievements here because the blocks and items need to be
 		// registered at this moment.
@@ -264,8 +265,6 @@ public class BrainStone {
 	public void init(FMLInitializationEvent event) {
 		BrainStoneEventHandler eventHandler = new BrainStoneEventHandler();
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new BrainStoneGuiHandler());
-
-		proxy.registerOre();
 
 		registerTileEntitys(); // TileEntitys
 		addRecipes(); // Recipes
