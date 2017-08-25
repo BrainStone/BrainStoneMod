@@ -2,6 +2,8 @@ package brainstonemod.client.gui.template;
 
 import org.lwjgl.opengl.GL11;
 
+import com.google.common.base.CaseFormat;
+
 import brainstonemod.BrainStone;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
@@ -29,11 +31,15 @@ public abstract class GuiBrainStoneBase extends GuiContainer {
 		soundHandler = Minecraft.getMinecraft().getSoundHandler();
 	}
 
+	protected String getTextureBaseName() {
+		return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, getClass().getSimpleName());
+	}
+
 	/**
 	 * Binds a texture with the name of the current class.
 	 */
 	protected void bindTexture() {
-		bindTexture(this.getClass().getSimpleName());
+		bindTexture(getTextureBaseName());
 	}
 
 	/**

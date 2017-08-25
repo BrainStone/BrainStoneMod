@@ -47,7 +47,7 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 	@Override
 	protected void drawGuiBackground(float partialTicks, int mouseX, int mouseY) {
 		if (tileentity.isClassic()) {
-			bindTexture("GuiBrainLightSensorClassic");
+			bindTexture(getTextureBaseName() + "_classic");
 
 			drawTexturedModalRect(0, 0, 0, 0, xSizeClassic, ySizeClassic);
 
@@ -65,7 +65,7 @@ public class GuiBrainLightSensor extends GuiBrainStoneBase {
 			drawCenteredString(I18n.format("gui.brainstone.classic"), 32, 7, 0x404040);
 			drawCenteredString(I18n.format("gui.brainstone.simple"), 96, 7, 0x404040);
 		} else {
-			bindTexture("GuiBrainLightSensorSimple");
+			bindTexture(getTextureBaseName() + "_simple");
 
 			drawTexturedModalRect(0, 0, 0, 0, xSizeClassic, ySizeClassic);
 			drawTexturedModalRect(8, ((tileentity.getDirection()) ? 18 : 36), 8, 94, 9, 8);
