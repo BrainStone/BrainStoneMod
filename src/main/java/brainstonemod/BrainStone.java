@@ -8,7 +8,6 @@ import java.util.Map.Entry;
 import javax.annotation.Nullable;
 
 import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.core.Logger;
 
 import brainstonemod.client.gui.helper.BrainStoneModCreativeTab;
 import brainstonemod.client.handler.BrainStoneClientEvents;
@@ -214,7 +213,7 @@ public class BrainStone {
 		PacketDispatcher.registerPackets();
 		Level logLevel = DEV_ENV ? Level.INFO : Level.DEBUG;
 
-		BSP.setUpLogger((Logger) event.getModLog());
+		BSP.setUpLogger(event.getModLog());
 		BSP.log(logLevel, "Is release version: " + release, "Is DEV version: " + DEV, "Is DEV environment: " + DEV_ENV,
 				"Is running from jar: " + BrainStoneJarUtils.RUNNING_FROM_JAR);
 

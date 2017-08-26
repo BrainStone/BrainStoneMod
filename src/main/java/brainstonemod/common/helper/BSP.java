@@ -1,9 +1,8 @@
 package brainstonemod.common.helper;
 
 import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.Logger;
 
-import brainstonemod.BrainStone;
 import lombok.experimental.UtilityClass;
 
 /**
@@ -494,12 +493,6 @@ public final class BSP {
 	 */
 	public static void setUpLogger(Logger logger) {
 		BSP.logger = logger;
-
-		if (BrainStone.debug) {
-			BSP.logger.setLevel(Level.ALL);
-		} else {
-			BSP.logger.setLevel(Level.DEBUG);
-		}
 	}
 
 	/**
