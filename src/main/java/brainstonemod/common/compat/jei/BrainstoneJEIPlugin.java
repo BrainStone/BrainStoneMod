@@ -4,29 +4,21 @@ import javax.annotation.Nonnull;
 
 import brainstonemod.BrainStone;
 import brainstonemod.common.helper.BrainStoneLifeCapacitorUpgrade;
+import mezz.jei.api.BlankModPlugin;
 import mezz.jei.api.IJeiHelpers;
-import mezz.jei.api.IJeiRuntime;
-import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.ISubtypeRegistry;
 import mezz.jei.api.JEIPlugin;
-import mezz.jei.api.ingredients.IModIngredientRegistration;
-import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import net.minecraft.item.ItemStack;
 
 @JEIPlugin
-public class BrainstoneJEIPlugin implements IModPlugin {
+public class BrainstoneJEIPlugin extends BlankModPlugin {
 	private static IJeiHelpers helpers;
 
 	@SuppressWarnings("deprecation")
 	public static void reloadJEI() {
 		helpers.reload();
-	}
-
-	@Override
-	public void onRuntimeAvailable(@Nonnull IJeiRuntime jeiRuntime) {
-		// Do nothing
 	}
 
 	@Override
@@ -42,19 +34,9 @@ public class BrainstoneJEIPlugin implements IModPlugin {
 		modRegistry.handleRecipes(BrainStoneLifeCapacitorUpgrade.class, CapacitorUpgradeRecipeWrapper::new,
 				VanillaRecipeCategoryUid.CRAFTING);
 	}
-
-	@Override
-	public void registerCategories(IRecipeCategoryRegistration categoryRegistry) {
-		// Do nothing
-	}
-
-	@Override
-	public void registerIngredients(IModIngredientRegistration ingredientRegistry) {
-		// Do nothing
-	}
-
+	
 	@Override
 	public void registerItemSubtypes(ISubtypeRegistry subtypeRegistry) {
-		// Do nothing
+		subtypeRegistry.registerSubtypeInterpreter(BrainStone.brainStoneLifeCapacitor(), itemStack -> "");
 	}
 }
