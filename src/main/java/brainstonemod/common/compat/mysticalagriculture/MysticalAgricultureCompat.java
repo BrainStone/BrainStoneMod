@@ -1,7 +1,8 @@
 package brainstonemod.common.compat.mysticalagriculture;
 
-import com.blakebr0.mysticalagriculture.crafting.ModRecipes;
-import com.blakebr0.mysticalagriculture.crafting.ReprocessorManager;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.function.Consumer;
 
 import brainstonemod.BrainStone;
 import brainstonemod.common.compat.BrainStoneModules;
@@ -14,30 +15,28 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public class MysticalAgricultureCompat implements IModIntegration {
-	public MysticalCropCropHelper brainStone;
-	public MysticalCropCropHelper essenceOfLife;
+	public MysticalAgricultureCropType brainStone;
+	public MysticalAgricultureCropType essenceOfLife;
 
-	private static void addSeedRecipe(MysticalCropCropHelper crop, Object material) {
-		if (crop.isEnabled()) {
-			BrainStone.addRecipe(new ItemStack(crop.getSeed()), "MEM", "ESE", "MEM", 'E',
-					ModRecipes.getEssence(crop.getTier()), 'S', ModRecipes.getCraftingSeed(crop.getTier()), 'M',
-					material);
-		}
+	protected List<MysticalAgricultureCropType> crops = new LinkedList<>();
+
+	protected MysticalAgricultureCropType newCrop(String name, int tier, Object material, boolean enabled) {
+		MysticalAgricultureCropType crop = MysticalAgricultureCropType.of(name, tier, material, enabled);
+		crops.add(crop);
+
+		return crop;
 	}
 
-	private void addReprocessorRecipe(MysticalCropCropHelper crop) {
-		if (crop.isEnabled()) {
-			ReprocessorManager.addRecipe(new ItemStack(crop.getCrop(), 2, 0), new ItemStack(crop.getSeed(), 1, 0));
-		}
+	protected final void forEachCrop(Consumer<? super MysticalAgricultureCropType> operation) {
+		crops.stream().forEach(operation);
 	}
 
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
-		brainStone = new MysticalCropCropHelper("brain_stone", 3, true);
-		essenceOfLife = new MysticalCropCropHelper("essence_of_life", 5, true);
+		brainStone = newCrop("brain_stone", 3, BrainStone.brainStoneDust(), true);
+		essenceOfLife = newCrop("essence_of_life", 5, BrainStone.essenceOfLife(), true);
 
-		brainStone.generate();
-		essenceOfLife.generate();
+		forEachCrop(MysticalAgricultureCropType::generate);
 
 		BrainStone.items.put("essence_of_life_fragment",
 				(new Item()).setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.MATERIALS)));
@@ -55,11 +54,8 @@ public class MysticalAgricultureCompat implements IModIntegration {
 					BrainStone.essenceOfLifeFragment());
 		}
 
-		addSeedRecipe(brainStone, BrainStone.brainStoneDust());
-		addSeedRecipe(essenceOfLife, BrainStone.essenceOfLife());
-
-		addReprocessorRecipe(brainStone);
-		addReprocessorRecipe(essenceOfLife);
+		forEachCrop(MysticalAgricultureCropType::addSeedRecipe);
+		forEachCrop(MysticalAgricultureCropType::addReprocessorRecipe);
 	}
 
 	@Override
