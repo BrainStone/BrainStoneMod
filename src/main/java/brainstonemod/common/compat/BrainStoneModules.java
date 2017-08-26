@@ -15,6 +15,7 @@ import brainstonemod.common.compat.cofh.thermalexpansion.ThermalExpansionCompat;
 import brainstonemod.common.compat.forestry.ForestryCompat;
 import brainstonemod.common.compat.immersiveengineering.ImmersiveEngineeringCompat;
 import brainstonemod.common.compat.jeresources.JEResourcesCompat;
+import brainstonemod.common.compat.mysticalagriculture.MysticalAgricultureCompat;
 import brainstonemod.common.compat.overlord.OverlordCompat;
 import brainstonemod.common.compat.tconstruct.TiConCompat;
 import brainstonemod.common.helper.BSP;
@@ -38,6 +39,7 @@ public final class BrainStoneModules {
 	public static final String JEI_MODID = "jei";
 	public static final String JER_MODID = "jeresources";
 	public static final String MFR_MODID = "minefactoryreloaded";
+	public static final String MYSTICAL_AGRICULTURE_MODID = "mysticalagriculture";
 	public static final String OVERLORD_MODID = "overlord";
 	public static final String TESLA_MODID = "tesla";
 	public static final String THAUMCRAFT_MODID = "thaumcraft";
@@ -47,9 +49,9 @@ public final class BrainStoneModules {
 	public static final String DEPENDENCIES = "after:" + BAUBLES_MODID + ";after:" + BETTER_ACHIEVEMENTS_MODID
 			+ ";after:" + CTM_MODID + ";after:" + DRACONIC_EVOLUTION_MODID + ";after:" + ENDER_IO_MODID + ";after:"
 			+ EX_NIHILO_ADSCENSIO_MODID + ";after:" + FORESTRY_MODID + ";after:" + IMMERSIVE_ENGINEERING_MODID
-			+ ";after:" + JEI_MODID + ";after:" + JER_MODID + ";after:" + MFR_MODID + ";after:" + OVERLORD_MODID
-			+ ";after:" + TESLA_MODID + ";after:" + THAUMCRAFT_MODID + ";after:" + THERMAL_EXPANSION_MODID + ";after:"
-			+ TINKERS_CONSTRUCT_MODID;
+			+ ";after:" + JEI_MODID + ";after:" + JER_MODID + ";after:" + MFR_MODID + ";after:"
+			+ MYSTICAL_AGRICULTURE_MODID + ";after:" + OVERLORD_MODID + ";after:" + TESLA_MODID + ";after:"
+			+ THAUMCRAFT_MODID + ";after:" + THERMAL_EXPANSION_MODID + ";after:" + TINKERS_CONSTRUCT_MODID;
 
 	private static Boolean BAUBLES;
 	private static Boolean BETTER_ACHIEVEMENTS;
@@ -62,6 +64,7 @@ public final class BrainStoneModules {
 	private static Boolean JEI;
 	private static Boolean JER;
 	private static Boolean MFR;
+	private static Boolean MYSTICAL_AGRICULTURE;
 	private static Boolean OVERLORD;
 	private static Boolean THAUMCRAFT;
 	private static Boolean THERMAL_EXPANSION;
@@ -130,6 +133,11 @@ public final class BrainStoneModules {
 	// "Adding BrainStoneOre to the MiningLaser.")
 	protected static boolean MFR() {
 		return testMod(MFR_MODID, MFR);
+	}
+
+	@Module(modid = MYSTICAL_AGRICULTURE_MODID, name = "Mystical Agriculture", message = "Adding BrainStone Seeds.", integration = MysticalAgricultureCompat.class)
+	public static boolean mysticalAgriculture() {
+		return testMod(MYSTICAL_AGRICULTURE_MODID, MYSTICAL_AGRICULTURE);
 	}
 
 	@Module(modid = OVERLORD_MODID, name = "Overlord", message = "Adding Pulsating BrainStone Augment.", integration = OverlordCompat.class)

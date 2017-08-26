@@ -1,0 +1,6 @@
+{
+    "parent": "block/cross",
+    "textures": {
+        "cross": "brainstonemod:blocks/brain_stone_crop"
+    }
+}
