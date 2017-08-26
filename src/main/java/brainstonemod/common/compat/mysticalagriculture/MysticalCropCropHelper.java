@@ -29,7 +29,7 @@ public class MysticalCropCropHelper {
 		seed = new ItemSeed(getName() + SEEDS, getPlant(), tier);
 	}
 
-	public void register() {
+	public void generate() {
 		if (!isEnabled())
 			return;
 

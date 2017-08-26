@@ -1017,7 +1017,8 @@ public class BrainStone {
 
 	/**
 	 * @return the instance of Essence of Life Fragment.<br>
-	 *         <strong>Only available when Forestry is present!</strong>
+	 *         <strong>Only available when Forestry or Mystical Agriculture is
+	 *         present!</strong>
 	 */
 	@Nullable
 	public static final Item essenceOfLifeFragment() {
@@ -1050,55 +1051,61 @@ public class BrainStone {
 	public static final Item stablePulsatingBrainStoneScoop() {
 		return items.get("stable_pulsating_brain_stone_scoop");
 	}
-	
+
 	/**
 	 * @return the instance of Brain Stone Crop.<br>
-	 *         <strong>Only available when Mystical Agriculture is present!</strong>
+	 *         <strong>Only available when Mystical Agriculture is
+	 *         present!</strong>
 	 */
 	@Nullable
 	public static final Block brainStoneCrop() {
 		return blocks.get("brain_stone_crop");
 	}
-	
+
 	/**
 	 * @return the instance of Brain Stone Essence.<br>
-	 *         <strong>Only available when Mystical Agriculture is present!</strong>
+	 *         <strong>Only available when Mystical Agriculture is
+	 *         present!</strong>
 	 */
 	@Nullable
 	public static final Item brainStoneEssence() {
 		return items.get("brain_stone_essence");
 	}
-	
+
 	/**
 	 * @return the instance of Brain Stone Seeds.<br>
-	 *         <strong>Only available when Mystical Agriculture is present!</strong>
+	 *         <strong>Only available when Mystical Agriculture is
+	 *         present!</strong>
 	 */
 	@Nullable
 	public static final Item brainStoneSeeds() {
 		return items.get("brain_stone_seeds");
 	}
-	
+
 	/**
 	 * @return the instance of Essence of Life Crop.<br>
-	 *         <strong>Only available when Mystical Agriculture is present!</strong>
+	 *         <strong>Only available when Mystical Agriculture is
+	 *         present!</strong>
 	 */
 	@Nullable
 	public static final Block essenceOfLifeCrop() {
 		return blocks.get("essence_of_life_crop");
 	}
-	
+
 	/**
 	 * @return the instance of Essence of Life Essence.<br>
-	 *         <strong>Only available when Mystical Agriculture is present!</strong>
+	 *         <strong>Only available when Mystical Agriculture is
+	 *         present!</strong>
 	 */
 	@Nullable
 	public static final Item essenceOfLifeEssence() {
 		return items.get("essence_of_life_essence");
 	}
-	
+
 	/**
 	 * @return the instance of Essence of Life Seeds.<br>
-	 *         <strong>Only available when Mystical Agriculture is present!</strong>
+	 *         <strong>Only available when Mystical Agriculture is
+	 *         present!</strong>
 	 */
 	@Nullable
 	public static final Item essenceOfLifeSeeds() {
