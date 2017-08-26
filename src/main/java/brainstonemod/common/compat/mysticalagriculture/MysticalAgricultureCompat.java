@@ -4,6 +4,7 @@ import com.blakebr0.mysticalagriculture.crafting.ModRecipes;
 import com.blakebr0.mysticalagriculture.crafting.ReprocessorManager;
 
 import brainstonemod.BrainStone;
+import brainstonemod.common.compat.BrainStoneModules;
 import brainstonemod.common.compat.IModIntegration;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -46,11 +47,13 @@ public class MysticalAgricultureCompat implements IModIntegration {
 	public void init(FMLInitializationEvent event) {
 		BrainStone.addRecipe(new ItemStack(BrainStone.brainStoneDust(), 1), "EE", "EE", 'E',
 				BrainStone.brainStoneEssence());
-
-		BrainStone.addRecipe(new ItemStack(BrainStone.essenceOfLife(), 1), "FF", "FF", 'F',
-				BrainStone.essenceOfLifeFragment());
 		BrainStone.addRecipe(new ItemStack(BrainStone.essenceOfLifeFragment(), 1), "EEE", "EEE", "EEE", 'E',
 				BrainStone.essenceOfLifeEssence());
+
+		if (!BrainStoneModules.forestry()) {
+			BrainStone.addRecipe(new ItemStack(BrainStone.essenceOfLife(), 1), "FF", "FF", 'F',
+					BrainStone.essenceOfLifeFragment());
+		}
 
 		addSeedRecipe(brainStone, BrainStone.brainStoneDust());
 		addSeedRecipe(essenceOfLife, BrainStone.essenceOfLife());
