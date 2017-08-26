@@ -38,10 +38,10 @@ apply plugin: "maven-publish"
 def getChangelog() {
     Pattern pattern = Pattern.compile("^.+?\n-+\n\n((?:- .+?\n)+)");
     Matcher match = pattern.matcher(file("CHANGELOG.md").text.replaceAll("\r", ""));
-    
+
     if (match.find()) {
         String res = match.group(1);
-    
+
         return res.substring(0, res.length() - 1);
     } else {
         return "";
@@ -49,7 +49,7 @@ def getChangelog() {
 }
 def getVersionType() {
     def lower_version = version.toLowerCase();
-    
+
     if (lower_version.contains("beta") || lower_version.contains("rc"))
         return "beta";
     else if (lower_version.contains("alpha"))
@@ -61,21 +61,21 @@ def getVersionName() {
     try {
         def version;
         def tmp = "git describe --tags --dirty=-SNAPSHOT".execute().text.trim().substring(1).split("-");
-        
+
         if (tmp.length <= 2) {
             version = tmp.join("-");
         } else {
             def versions = tmp[0].split("\\.");
             versions[2] = String.valueOf(versions[2].toInteger() + tmp[1].toInteger());
-            
+
             version = versions.join(".") + "-development";
-            
+
             if (tmp.length == 4)
                 version += "-" + tmp[3];
         }
-        
+
         version = "${minecraft_version}-${version}";
-        
+
         if (mod_version_postfix.isEmpty())
             return version;
         else
@@ -100,7 +100,8 @@ def signJar(archivePath) {
 }
 
 def MainDirResources = fileTree(dir: file("."), includes: ["README.md", "LICENSE", "CHANGELOG.md"])
-def jsonPatterns = ["mcmod.info", "**/*.json", "**/*.mcmeta", "**/*.cf", "**/*.ctx"]
+def jsonPatterns = ["mcmod.info", "**/*.json", "**/*.mcmeta"]
+def pngPatterns = ["**/*.png"]
 def commonManifest = { attributes "FMLAT": "BrainStoneMod_at.cfg" }
 version = getVersionName()
 group = "brainstonemod" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
@@ -117,7 +118,7 @@ minecraft {
     replace '${version}', project.version
     mappings = mapping_version
     useDepAts = true
-    
+
     clientJvmArgs += "-Xmx2G"
     serverJvmArgs += "-Xmx2G"
 }
@@ -151,7 +152,7 @@ repositories {
         name = "IC2"
         url "http://maven.ic2.player.to"
     }
-    maven { // BetterAchievements, JustEnoughResources 
+    maven { // BetterAchievements, JustEnoughResources
         name = "bintray-way2muchnoise"
         url  "https://dl.bintray.com/way2muchnoise/dev/"
     }
@@ -167,7 +168,7 @@ repositories {
 dependencies {
     // External Mods
     deobfProvided "betterachievements:BetterAchievements-${minecraft_version}:${betterAchievements_version}"
-    
+
     deobfProvided "team.chisel.ctm:CTM:MC${minecraft_version}-${ctm_version}"
 
     // Until mappings are updated in DE (Then remove this and exclusion under DE)
@@ -197,13 +198,13 @@ dependencies {
     provided "blusunrize:ImmersiveEngineering:${immersive_engineering_version}:deobf"
 
     deobfProvided "mezz.jei:jei_${minecraft_version}:${jei_version}"
-    
+
     provided "jeresources:JustEnoughResources-${minecraft_version}:${justEnoughResources_version}"
-    
+
     deobfProvided "the_fireplace.overlord:Overlord-${minecraft_version}:${overlord_version}"
 
     provided "net.darkhax.tesla:Tesla:1.11-${tesla_version}:deobf"
-    
+
     // Mappings do not match!
     deobfProvided("cofh:CoFHCore:${minecraft_version}-${coFHCore_version}:universal") {
          exclude module: "jei_${minecraft_version}"
@@ -218,8 +219,8 @@ dependencies {
     provided("slimeknights:TConstruct:${minecraft_version}-${tconstruct_version}:deobf") {
         exclude module: "jei_${minecraft_version}"
     }
-    
-    
+
+
     // Local Mods
     provided "lib:Baubles:+:deobf"
     provided "lib:mysticalagriculture-1.11.2:+:deobf"
@@ -244,6 +245,19 @@ task formatJson {
     }
 }
 
+task optimizePng {
+    doLast {
+        sourceSets.main.resources.srcDirs.each {
+            dir -> fileTree(dir: dir, includes: pngPatterns).each {
+                File file -> exec {
+                    executable "optipng"
+                    args "-o7", "-zm1-9", "-strip", "all", file
+                }
+            }
+        }
+    }
+}
+
 sourceMainJava {
     source = sourceSets.main.allSource
 }
@@ -256,20 +270,20 @@ processResources {
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include "mcmod.info"
-                
+
         // replace version and mcversion
         expand "version": project.version, "mcversion": project.minecraft.version
     }
-        
+
     // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude "mcmod.info"
     }
-    
+
     from MainDirResources
-    
+
     rename "(.+_at.cfg)", 'META-INF/$1'
-    
+
     // Minify json resources
     doLast {
         fileTree(dir: outputs.files.asPath, includes: jsonPatterns).each {
@@ -281,36 +295,36 @@ processResources {
 task showVersion {
     description "Displays the current version"
     group "help"
-    
+
     compileJava.dependsOn showVersion
     deobfCompileDummyTask.dependsOn showVersion
     extractMcpMappings.dependsOn showVersion
-  
+
     doLast {
         println version
-        
+
         def versionFile = new File(buildDir, '.version');
-    
+
         versionFile.getParentFile().mkdirs();
         versionFile.text = version;
     }
-    
+
     outputs.upToDateWhen { false }
 }
 
 task gitTag {
     description "Tags the current version in git. Specify the version by passing \"-PtagVersion=version\""
     group "help"
-    
+
     doLast {
         def tagVersion
-    
+
         if ( project.hasProperty("tagVersion") ) {
             tagVersion = project.tagVersion
         } else {
             tagVersion = "v" + version.split("-")[1]
         }
-        
+
         exec {
             executable "git"
             args "tag", "-a", tagVersion, "-m", getChangelog()
@@ -320,7 +334,7 @@ task gitTag {
 
 jar {
     manifest commonManifest
-    
+
     finalizedBy reobfJar
 }
 
@@ -334,7 +348,7 @@ task deobfJar(type: Jar) {
     from sourceSets.main.output
     classifier = "deobf"
     manifest commonManifest
-    
+
     doLast {
         signJar(deobfJar.archivePath)
     }
@@ -362,20 +376,20 @@ task checkTranslations {
               if (value1 == null || value2 == null) {return}
               map_en.put(value1, value2)
         }
-        
+
         file("src/main/resources/assets/brainstonemod/lang/").eachFileMatch( ~".*\\.lang\$" ) { langfile ->
             if (!langfile.getName().contains("en_US")) {
       	        Map<String, String> map = new LinkedHashMap<String, String>()
       	        File outfile = file(langfile.getName() + ".txt")
       	        Writer outwriter = outfile.newWriter("UTF-8")
                 boolean lang_ok = true
-                
+
       	        outwriter.write("\n// Additional translations:\n")
       	        outwriter << langfile.filterLine {
       	            def (value1, value2) = it.tokenize( "=" )
       	            if (value1 == null || value2 == null) {return false}
       	            map.put(value1, value2)
-                    
+
       	            if (map_en.containsKey(value1)) {
                         return false
                     } else {
@@ -383,7 +397,7 @@ task checkTranslations {
                         return true
                     }
       	        }
-      	        
+
       	        outwriter.append("\n// Missing translations:\n")
       	        for (e in map_en) {
       	            if (!map.containsKey(e.key)) {
@@ -391,9 +405,9 @@ task checkTranslations {
                         lang_ok = false
       	            }
       	        }
-                
+
                 outwriter.close()
-                
+
                 if (lang_ok) {
                     outfile.delete()
                 } else {
@@ -403,7 +417,7 @@ task checkTranslations {
                 }
             }
         }
-        
+
         if(!langs_ok)
             println "\nSome language files are not up to date. See log above!"
     }
@@ -487,7 +501,7 @@ uploadArchives {
 
 curseforge {
     apiKey = project.hasProperty("curseForgeApiKey")? project.curseForgeApiKey : "empty"
-    
+
     project {
         id = "250836"
         changelog = file("CHANGELOG.md")
@@ -495,7 +509,7 @@ curseforge {
         releaseType = getVersionType()
         addGameVersion "${minecraft_version}"
         addGameVersion "Java 8"
-        
+
         mainArtifact(jar) {
             displayName = jar.archiveName.replace(".jar", "")
         }
@@ -507,7 +521,7 @@ curseforge {
             displayName = sourceJar.archiveName.replace(".jar", "")
             changelog = "*This is a file for mod developers. If you don't know what to do with it, don't use it!*"
         }
-        
+
         relations {
             optionalLibrary "baubles"
             optionalLibrary "betterachievements"
@@ -521,7 +535,7 @@ curseforge {
             optionalLibrary "tesla"
             optionalLibrary "thermalexpansion"
             optionalLibrary "tinkers-construct"
-            
+
             //optionalLibrary "ender-io"
             //optionalLibrary "ex-nihilo-adscensio"
             //optionalLibrary "minefactory-reloaded"
@@ -534,14 +548,14 @@ task updateDownloadServer {
     dependsOn jar
     dependsOn deobfJar
     dependsOn sourceJar
-    
+
     doLast {
         if (!project.hasProperty("secret")) {
             println "Secret needs to be set with the parameter -Psecret=xxx"
-            
+
             return
         }
-        
+
         def http = new HTTPBuilder("http://download.brainstonemod.com/")
         http.request( POST ) {
             uri.path = "/admin/new_version.php"
@@ -560,7 +574,7 @@ task updateDownloadServer {
                 ("artifact-" + deobfJar.classifier): deobfJar.archivePath.bytes.encodeBase64().toString(),
                 ("artifact-" + sourceJar.classifier): sourceJar.archivePath.bytes.encodeBase64().toString()
             ]
-        
+
             response.success = { resp, reader ->
                 assert resp.status == 200
                 println "POST response status: ${resp.statusLine}"
