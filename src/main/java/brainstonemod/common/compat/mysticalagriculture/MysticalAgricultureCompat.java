@@ -38,8 +38,10 @@ public class MysticalAgricultureCompat implements IModIntegration {
 
 		forEachCrop(MysticalAgricultureCropType::generate);
 
-		BrainStone.items.put("essence_of_life_fragment",
-				(new Item()).setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.MATERIALS)));
+		if (!BrainStoneModules.forestry()) {
+			BrainStone.items.put("essence_of_life_fragment",
+					(new Item()).setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.MATERIALS)));
+		}
 	}
 
 	@Override

@@ -1,6 +1,5 @@
 package brainstonemod.common.compat.mysticalagriculture;
 
-import com.blakebr0.mysticalagriculture.MysticalAgriculture;
 import com.blakebr0.mysticalagriculture.blocks.crop.BlockMysticalCrop;
 import com.blakebr0.mysticalagriculture.crafting.ModRecipes;
 import com.blakebr0.mysticalagriculture.crafting.ReprocessorManager;
@@ -42,9 +41,6 @@ public class MysticalAgricultureCropType {
 
 		getPlant().setCrop(getCrop());
 		getPlant().setSeed(getSeed());
-
-		getCrop().setCreativeTab(BrainStone.getCreativeTab(MysticalAgriculture.tabMysticalAgriculture));
-		getSeed().setCreativeTab(BrainStone.getCreativeTab(MysticalAgriculture.tabMysticalAgriculture));
 
 		BrainStone.blocks.put(getName() + CROP, getPlant());
 

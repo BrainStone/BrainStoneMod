@@ -48,11 +48,11 @@ public class ForestryCompat implements IModIntegration {
 				(new Item()).setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.MATERIALS)));
 		BrainStone.items.put("essence_of_life_fragment",
 				(new Item()).setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.MATERIALS)));
-		BrainStone.items.put("brain_stone_comb",
-				(new Item()).setCreativeTab(BrainStone.getCreativeTab(Tabs.tabApiculture)));
-		BrainStone.items.put("brain_stone_scoop", (new ItemBrainStoneScoop(BrainStone.toolBRAINSTONE)));
+		BrainStone.items.put("brain_stone_comb", (new Item()).setCreativeTab(Tabs.tabApiculture));
+		BrainStone.items.put("brain_stone_scoop",
+				(new ItemBrainStoneScoop(BrainStone.toolBRAINSTONE)).setCreativeTab(Tabs.tabApiculture));
 		BrainStone.items.put("stable_pulsating_brain_stone_scoop",
-				(new ItemBrainStoneScoop(BrainStone.toolSTABLEPULSATINGBS)));
+				(new ItemBrainStoneScoop(BrainStone.toolSTABLEPULSATINGBS)).setCreativeTab(Tabs.tabApiculture));
 	}
 
 	@Override
