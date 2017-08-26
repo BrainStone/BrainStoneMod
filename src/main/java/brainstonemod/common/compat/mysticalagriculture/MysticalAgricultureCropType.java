@@ -16,9 +16,9 @@ import net.minecraft.item.ItemStack;
 @Getter(AccessLevel.PROTECTED)
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class MysticalAgricultureCropType {
-	private static final String CROP = "_crop";
-	private static final String ESSENCE = "_essence";
-	private static final String SEEDS = "_seeds";
+	protected static final String CROP = "_crop";
+	protected static final String ESSENCE = "_essence";
+	protected static final String SEEDS = "_seeds";
 
 	private final String name;
 	private final int tier;
