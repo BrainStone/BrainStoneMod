@@ -1,3 +1,8 @@
+4.5.14-alpha
+------------
+
+- Fixed BrainStoneLifeCapacitor recipes
+
 4.5.10-alpha
 ------------
 
