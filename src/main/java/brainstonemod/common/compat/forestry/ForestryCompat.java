@@ -18,14 +18,15 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public class ForestryCompat implements IModIntegration {
 	private static void registerRecipes() {
-		BrainStone.addRecipe(new ItemStack(BrainStone.brainStoneDust(), 1), "TT", "TT", 'T',
+		BrainStone.addShapedRecipe(new ItemStack(BrainStone.brainStoneDust(), 1), "TT", "TT", 'T',
 				BrainStone.brainStoneDustTiny());
-		BrainStone.addRecipe(new ItemStack(BrainStone.essenceOfLife(), 1), "FF", "FF", 'F',
+		BrainStone.addShapedRecipe(new ItemStack(BrainStone.essenceOfLife(), 1), "FF", "FF", 'F',
 				BrainStone.essenceOfLifeFragment());
-		BrainStone.addRecipe(new ItemStack(BrainStone.brainStoneScoop(), 1), "SWS", "SBS", " S ", 'S', Items.STICK, 'W',
-				Blocks.WOOL, 'B', BrainStone.brainStone());
-		BrainStone.addRecipe(new ItemStack(BrainStone.stablePulsatingBrainStoneScoop(), 1), "SWS", "SBS", " R ", 'S',
-				Items.STICK, 'W', Blocks.WOOL, 'B', BrainStone.stablePulsatingBrainStone(), 'R', Blocks.REDSTONE_BLOCK);
+		BrainStone.addShapedRecipe(new ItemStack(BrainStone.brainStoneScoop(), 1), "SWS", "SBS", " S ", 'S',
+				Items.STICK, 'W', Blocks.WOOL, 'B', BrainStone.brainStone());
+		BrainStone.addShapedRecipe(new ItemStack(BrainStone.stablePulsatingBrainStoneScoop(), 1), "SWS", "SBS", " R ",
+				'S', Items.STICK, 'W', Blocks.WOOL, 'B', BrainStone.stablePulsatingBrainStone(), 'R',
+				Blocks.REDSTONE_BLOCK);
 	}
 
 	private static void registerCarpenterRecipes() {

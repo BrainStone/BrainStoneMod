@@ -52,8 +52,8 @@ public class MysticalAgricultureCropType {
 		if (!isEnabled())
 			return;
 
-		BrainStone.addRecipe(new ItemStack(getSeed()), "MEM", "ESE", "MEM", 'E', ModRecipes.getEssence(getTier()), 'S',
-				ModRecipes.getCraftingSeed(getTier()), 'M', material);
+		BrainStone.addShapedRecipe(new ItemStack(getSeed()), "MEM", "ESE", "MEM", 'E', ModRecipes.getEssence(getTier()),
+				'S', ModRecipes.getCraftingSeed(getTier()), 'M', material);
 	}
 
 	public void addReprocessorRecipe() {

@@ -46,13 +46,13 @@ public class MysticalAgricultureCompat implements IModIntegration {
 
 	@Override
 	public void init(FMLInitializationEvent event) {
-		BrainStone.addRecipe(new ItemStack(BrainStone.brainStoneDust(), 1), "EE", "EE", 'E',
+		BrainStone.addShapedRecipe(new ItemStack(BrainStone.brainStoneDust(), 1), "EE", "EE", 'E',
 				BrainStone.brainStoneEssence());
-		BrainStone.addRecipe(new ItemStack(BrainStone.essenceOfLifeFragment(), 1), "EEE", "EEE", "EEE", 'E',
+		BrainStone.addShapedRecipe(new ItemStack(BrainStone.essenceOfLifeFragment(), 1), "EEE", "EEE", "EEE", 'E',
 				BrainStone.essenceOfLifeEssence());
 
 		if (!BrainStoneModules.forestry()) {
-			BrainStone.addRecipe(new ItemStack(BrainStone.essenceOfLife(), 1), "FF", "FF", 'F',
+			BrainStone.addShapedRecipe(new ItemStack(BrainStone.essenceOfLife(), 1), "FF", "FF", 'F',
 					BrainStone.essenceOfLifeFragment());
 		}
 
