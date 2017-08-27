@@ -144,6 +144,11 @@ public final class BrainStoneModules {
 	public static boolean overlord() {
 		return testMod(OVERLORD_MODID, OVERLORD);
 	}
+	
+	@Module(modid = TESLA_MODID, name = "TESLA", message = "Enabling support for TESLA energy API.")
+	public static boolean tesla() {
+		return testMod(TESLA_MODID, TESLA);
+	}
 
 	// @Module(modid = THAUMCRAFT_MODID, name = "Thaumcraft", message = "Adding
 	// aspect and fitting aspects to items.")
@@ -159,11 +164,6 @@ public final class BrainStoneModules {
 	@Module(modid = TINKERS_CONSTRUCT_MODID, name = "Tinker's Construct", message = "Registering BrainStone materials as tool materials.", integration = TiConCompat.class)
 	public static boolean tinkersConstruct() {
 		return testMod(TINKERS_CONSTRUCT_MODID, TINKERS_CONSTRUCT);
-	}
-
-	@Module(modid = TESLA_MODID, name = "TESLA", message = "Enabling support for TESLA energy API.")
-	public static boolean tesla() {
-		return testMod(TESLA_MODID, TESLA);
 	}
 
 	private static boolean testMod(String modID, Boolean storage) {
