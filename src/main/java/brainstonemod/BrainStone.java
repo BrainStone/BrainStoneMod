@@ -596,7 +596,8 @@ public class BrainStone {
 					EntityEnderEye.class, EntityFireball.class });
 
 			for (final ResourceLocation entry : EntityList.getEntityNameList()) {
-				verifyTriggerEntity(tempTriggerEntities, entry.toString(), EntityList.getClass(entry));
+				verifyTriggerEntity(tempTriggerEntities, EntityList.getTranslationName(entry),
+						EntityList.getClass(entry));
 			}
 
 			triggerEntities.put(Side.SERVER, tempTriggerEntities);

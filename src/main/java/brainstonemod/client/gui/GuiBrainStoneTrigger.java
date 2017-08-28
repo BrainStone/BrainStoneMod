@@ -23,7 +23,6 @@ import net.minecraft.client.audio.ISound;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 
-//TODO: Fix wrong translations
 public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 	private final TileEntityBrainStoneTrigger tileentity;
 	private int page, hovered;
@@ -188,11 +187,10 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		if (tileentity == null)
 			return;
 
-		String tmp;
 		String message;
 
 		for (int i = 0; i < 4; i++) {
-			message = I18n.format(tmp = mobs[i]);
+			message = I18n.format(mobs[i]);
 
 			if (fontRenderer.getStringWidth(message) > 100) {
 				do {
@@ -202,7 +200,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 				message += "...";
 			}
 
-			drawString(message, 25, 12 + (18 * i), tileentity.getMobTriggered(tmp) ? 0xffffff : 0x111111);
+			drawString(message, 25, 12 + (18 * i), tileentity.getMobTriggered(mobs[i]) ? 0xffffff : 0x111111);
 		}
 
 		drawCenteredString(I18n.format("trigger.all"), 153, 13, 0x000000);
@@ -212,10 +210,10 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 
 		this.bindTexture();
 
-		if ((hovered != -1) && tileentity.getMobTriggered((tmp = mobs[hovered]))) {
+		if ((hovered != -1) && tileentity.getMobTriggered(mobs[hovered])) {
 			drawTexturedModalRect(80, 13 + (18 * hovered), 80, 166, 6, 6);
 			drawTexturedModalRect(120, 13 + (18 * hovered), 120, 166, 6, 6);
-			drawTexturedModalRect(88, 13 + (18 * hovered), 88, 166, tileentity.getMobPower(tmp) * 2, 6);
+			drawTexturedModalRect(88, 13 + (18 * hovered), 88, 166, tileentity.getMobPower(mobs[hovered]) * 2, 6);
 		}
 
 		if (renderNyanCat) {
