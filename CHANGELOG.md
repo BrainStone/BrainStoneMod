@@ -1,3 +1,11 @@
+4.5.39-alpha
+------------
+
+- Added missing translations
+- Added ThermalFoundation Compat
+- Added RedstoneArsenal Compat
+- Added lots of variantions for the recipe of the Brain Stone Life Capacitor depending on which mods are present
+
 4.5.28-alpha
 ------------
 
