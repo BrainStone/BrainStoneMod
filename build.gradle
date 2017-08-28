@@ -167,8 +167,10 @@ repositories {
 
 dependencies {
     // External Mods
-    deobfProvided "betterachievements:BetterAchievements-${minecraft_version}:${betterAchievements_version}"
+    // Mappings do not match!
+    //deobfProvided "betterachievements:BetterAchievements-${minecraft_version}:${betterAchievements_version}"
 
+    // Mappings do not match!
     deobfProvided "team.chisel.ctm:CTM:MC${minecraft_version}-${ctm_version}"
 
     // Until mappings are updated in DE (Then remove this and exclusion under DE)
@@ -191,21 +193,26 @@ dependencies {
     //     exclude module: "Tesla"
     // }
 
+    // Mappings do not match!
     deobfProvided("net.sengir.forestry:forestry_${minecraft_version}:${forestry_version}") {
         exclude module: "jei_${minecraft_version}"
     }
 
     provided "blusunrize:ImmersiveEngineering:${immersive_engineering_version}:deobf"
 
+    // Mappings do not match!
     deobfProvided "mezz.jei:jei_${minecraft_version}:${jei_version}"
 
     provided "jeresources:JustEnoughResources-${minecraft_version}:${justEnoughResources_version}"
 
+    // Mappings do not match!
     deobfProvided "the_fireplace.overlord:Overlord-${minecraft_version}:${overlord_version}"
 
     provided "net.darkhax.tesla:Tesla:1.11-${tesla_version}:deobf"
 
-    provided "cofh:RedstoneArsenal:${minecraft_version}-${redstoneArsenal_version}:deobf"
+    provided ("cofh:RedstoneArsenal:${minecraft_version}-${redstoneArsenal_version}:deobf") {
+        exclude module: "CoFHCore"
+    }
 
     // Mappings do not match!
     deobfProvided("cofh:CoFHCore:${minecraft_version}-${coFHCore_version}:universal") {
@@ -218,14 +225,17 @@ dependencies {
 
     // Deobf exists but Access Transformers are messed up
     deobfProvided "slimeknights.mantle:Mantle:${minecraft_version}-${mantle_version}"
-    provided("slimeknights:TConstruct:${minecraft_version}-${tconstruct_version}:deobf") {
+    // Mappings do not match!
+    deobfProvided("slimeknights:TConstruct:${minecraft_version}-${tconstruct_version}") {
         exclude module: "jei_${minecraft_version}"
     }
 
 
     // Local Mods
-    provided "lib:Baubles:+:deobf"
-    provided "lib:mysticalagriculture-1.11.2:+:deobf"
+    deobfProvided "lib:BetterAchievements-${minecraft_version}:+"
+    provided "lib:Baubles-1.11:+:deobf"
+    // Mappings do not match!
+    deobfProvided "lib:mysticalagriculture-${minecraft_version}:+"
 }
 
 lombok {
