@@ -22,6 +22,7 @@ import brainstonemod.common.block.BlockBrainStoneTrigger;
 import brainstonemod.common.block.BlockPulsatingBrainStone;
 import brainstonemod.common.compat.BrainStoneModules;
 import brainstonemod.common.compat.draconicevolution.DraconicEvolutionItems;
+import brainstonemod.common.compat.forestry.ForestryItems;
 import brainstonemod.common.compat.immersiveengineering.ImmersiveEngineeringItems;
 import brainstonemod.common.compat.tinkersconstruct.TinkersConstructItems;
 import brainstonemod.common.config.BrainStoneConfigWrapper;
@@ -526,6 +527,7 @@ public class BrainStone {
 		Object craftingC = IngredientSwitch.make()
 				.add(BrainStoneModules::draconicEvolution, () -> DraconicEvolutionItems.getWyvernFluxCapacitor())
 				.add(BrainStoneModules::immersiveEngineering, () -> ImmersiveEngineeringItems.getHVCapacitor())
+				.add(BrainStoneModules::forestry, () -> ForestryItems.getEmeraldElectronTube())
 				.add(BrainStoneModules::tinkersConstruct, () -> TinkersConstructItems.getMendingMoss())
 				.getIngredient("dustRedstone");
 		Object craftingH = IngredientSwitch.make()
