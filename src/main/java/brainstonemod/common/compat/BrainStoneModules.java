@@ -17,7 +17,7 @@ import brainstonemod.common.compat.immersiveengineering.ImmersiveEngineeringComp
 import brainstonemod.common.compat.jeresources.JEResourcesCompat;
 import brainstonemod.common.compat.mysticalagriculture.MysticalAgricultureCompat;
 import brainstonemod.common.compat.overlord.OverlordCompat;
-import brainstonemod.common.compat.tconstruct.TiConCompat;
+import brainstonemod.common.compat.tconstruct.TinkersConstructCompat;
 import brainstonemod.common.helper.BSP;
 import lombok.Getter;
 import lombok.experimental.UtilityClass;
@@ -161,7 +161,7 @@ public final class BrainStoneModules {
 		return testMod(THERMAL_EXPANSION_MODID, THERMAL_EXPANSION);
 	}
 
-	@Module(modid = TINKERS_CONSTRUCT_MODID, name = "Tinker's Construct", message = "Registering BrainStone materials as tool materials.", integration = TiConCompat.class)
+	@Module(modid = TINKERS_CONSTRUCT_MODID, name = "Tinker's Construct", message = "Registering BrainStone materials as tool materials.", integration = TinkersConstructCompat.class)
 	public static boolean tinkersConstruct() {
 		return testMod(TINKERS_CONSTRUCT_MODID, TINKERS_CONSTRUCT);
 	}

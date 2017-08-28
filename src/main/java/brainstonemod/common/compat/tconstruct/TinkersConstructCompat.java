@@ -5,10 +5,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-/**
- * @author The_Fireplace
- */
-public class TiConCompat implements IModIntegration {
+public class TinkersConstructCompat implements IModIntegration {
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		// Do nothing

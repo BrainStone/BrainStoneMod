@@ -10,4 +10,8 @@ public final class DraconicEvolutionItems {
 	public static ItemStack getDragonHeart() {
 		return new ItemStack(DEFeatures.dragonHeart);
 	}
+
+	public static ItemStack getWyvernFluxCapacitor() {
+		return DEFeatures.wyvernCapacitor;
+	}
 }
