@@ -21,6 +21,7 @@ import brainstonemod.common.block.BlockBrainStoneOre;
 import brainstonemod.common.block.BlockBrainStoneTrigger;
 import brainstonemod.common.block.BlockPulsatingBrainStone;
 import brainstonemod.common.compat.BrainStoneModules;
+import brainstonemod.common.compat.cofh.thermalexpansion.ThermalExpansionItems;
 import brainstonemod.common.compat.draconicevolution.DraconicEvolutionItems;
 import brainstonemod.common.compat.forestry.ForestryItems;
 import brainstonemod.common.compat.immersiveengineering.ImmersiveEngineeringItems;
@@ -526,6 +527,7 @@ public class BrainStone {
 				.add(BrainStoneModules::tinkersConstruct, () -> TinkersConstructItems.getManyullyToughRod())
 				.getIngredient(Blocks.END_ROD);
 		Object craftingC = IngredientSwitch.make()
+				.add(BrainStoneModules::thermalExpansion, () -> ThermalExpansionItems.getResonantFluxCapacitor())
 				.add(BrainStoneModules::draconicEvolution, () -> DraconicEvolutionItems.getWyvernFluxCapacitor())
 				.add(BrainStoneModules::immersiveEngineering, () -> ImmersiveEngineeringItems.getHVCapacitor())
 				.add(BrainStoneModules::forestry, () -> ForestryItems.getEmeraldElectronTube())
