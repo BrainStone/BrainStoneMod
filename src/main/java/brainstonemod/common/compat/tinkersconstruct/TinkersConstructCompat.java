@@ -1,4 +1,4 @@
-package brainstonemod.common.compat.tconstruct;
+package brainstonemod.common.compat.tinkersconstruct;
 
 import brainstonemod.common.compat.IModIntegration;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -18,7 +18,7 @@ public class TinkersConstructCompat implements IModIntegration {
 
 	@Override
 	public void postInit(FMLPostInitializationEvent event) {
-		TinkersContructMaterialBrainStone.initToolMaterials();
+		TinkersContructMaterials.initToolMaterials();
 	}
 
 	@Override

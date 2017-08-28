@@ -17,7 +17,7 @@ import brainstonemod.common.compat.immersiveengineering.ImmersiveEngineeringComp
 import brainstonemod.common.compat.jeresources.JEResourcesCompat;
 import brainstonemod.common.compat.mysticalagriculture.MysticalAgricultureCompat;
 import brainstonemod.common.compat.overlord.OverlordCompat;
-import brainstonemod.common.compat.tconstruct.TinkersConstructCompat;
+import brainstonemod.common.compat.tinkersconstruct.TinkersConstructCompat;
 import brainstonemod.common.helper.BSP;
 import lombok.Getter;
 import lombok.experimental.UtilityClass;

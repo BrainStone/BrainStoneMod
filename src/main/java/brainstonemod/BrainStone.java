@@ -23,6 +23,7 @@ import brainstonemod.common.block.BlockPulsatingBrainStone;
 import brainstonemod.common.compat.BrainStoneModules;
 import brainstonemod.common.compat.draconicevolution.DraconicEvolutionItems;
 import brainstonemod.common.compat.immersiveengineering.ImmersiveEngineeringItems;
+import brainstonemod.common.compat.tinkersconstruct.TinkersConstructItems;
 import brainstonemod.common.config.BrainStoneConfigWrapper;
 import brainstonemod.common.handler.BrainStoneEventHandler;
 import brainstonemod.common.helper.BSP;
@@ -519,10 +520,13 @@ public class BrainStone {
 		GameRegistry.addRecipe(new BrainStoneLifeCapacitorUpgrade(BrainStoneLifeCapacitorUpgrade.Upgrade.CHARGING));
 
 		Object craftingS = new ItemStack(Items.SKULL, 1, 5);
-		Object craftingX = IngredientSwitch.make().getIngredient(Blocks.END_ROD);
+		Object craftingX = IngredientSwitch.make()
+				.add(BrainStoneModules::tinkersConstruct, () -> TinkersConstructItems.getManyullyToughRod())
+				.getIngredient(Blocks.END_ROD);
 		Object craftingC = IngredientSwitch.make()
 				.add(BrainStoneModules::draconicEvolution, () -> DraconicEvolutionItems.getWyvernFluxCapacitor())
 				.add(BrainStoneModules::immersiveEngineering, () -> ImmersiveEngineeringItems.getHVCapacitor())
+				.add(BrainStoneModules::tinkersConstruct, () -> TinkersConstructItems.getMendingMoss())
 				.getIngredient("dustRedstone");
 		Object craftingH = IngredientSwitch.make()
 				.add(BrainStoneModules::draconicEvolution, () -> DraconicEvolutionItems.getDragonHeart())

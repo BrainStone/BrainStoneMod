@@ -1,4 +1,4 @@
-package brainstonemod.common.compat.tconstruct;
+package brainstonemod.common.compat.tinkersconstruct;
 
 import static slimeknights.tconstruct.library.materials.MaterialTypes.EXTRA;
 import static slimeknights.tconstruct.library.materials.MaterialTypes.HANDLE;
@@ -10,11 +10,13 @@ import static slimeknights.tconstruct.tools.TinkerTraits.momentum;
 import static slimeknights.tconstruct.tools.TinkerTraits.unnatural;
 import static slimeknights.tconstruct.tools.TinkerTraits.writable;
 
+import java.util.Arrays;
+
 import brainstonemod.BrainStone;
-import brainstonemod.common.compat.BrainStoneModules;
+import lombok.Getter;
 import lombok.experimental.UtilityClass;
 import net.minecraft.item.Item.ToolMaterial;
-import net.minecraftforge.fml.common.Optional;
+import slimeknights.tconstruct.library.MaterialIntegration;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.materials.BowMaterialStats;
 import slimeknights.tconstruct.library.materials.ExtraMaterialStats;
@@ -24,12 +26,16 @@ import slimeknights.tconstruct.library.materials.Material;
 import slimeknights.tconstruct.tools.TinkerMaterials;
 
 @UtilityClass
-public class TinkersContructMaterialBrainStone {
-	@Optional.Method(modid = BrainStoneModules.TINKERS_CONSTRUCT_MODID)
+public class TinkersContructMaterials {
+	@Getter
+	private static Material brainStone;
+	@Getter
+	private static Material stablePulsatingBrainStone;
+
 	public static void initToolMaterials() {
 		// Materials
-		Material brainStone = newMaterial("brainstone", 0x33FF57);
-		Material stablePulsatingBrainStone = newMaterial("stablepulsatingbrainstone", 0x004d00);
+		brainStone = newMaterial("brainstone", 0x33FF57);
+		stablePulsatingBrainStone = newMaterial("stablepulsatingbrainstone", 0x004d00);
 
 		// Basic traits and properties
 		brainStone.setCraftable(true);
@@ -59,8 +65,12 @@ public class TinkersContructMaterialBrainStone {
 		TinkerRegistry.addMaterialStats(stablePulsatingBrainStone, new BowMaterialStats(2.0f, 7.9f, 2.0f));
 
 		// Adding the materials
-		TinkerRegistry.addMaterial(brainStone);
-		TinkerRegistry.addMaterial(stablePulsatingBrainStone);
+		for (MaterialIntegration materialIntegration : Arrays.asList(new MaterialIntegration(brainStone),
+				new MaterialIntegration(stablePulsatingBrainStone))) {
+			materialIntegration.toolforge();
+			materialIntegration.integrate();
+			materialIntegration.integrateRecipes();
+		}
 	}
 
 	private static Material newMaterial(String name, int color) {
