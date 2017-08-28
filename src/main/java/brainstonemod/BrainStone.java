@@ -24,6 +24,7 @@ import brainstonemod.common.compat.BrainStoneModules;
 import brainstonemod.common.compat.draconicevolution.DraconicEvolutionItems;
 import brainstonemod.common.compat.forestry.ForestryItems;
 import brainstonemod.common.compat.immersiveengineering.ImmersiveEngineeringItems;
+import brainstonemod.common.compat.mysticalagriculture.MysticalAgricultureItems;
 import brainstonemod.common.compat.tinkersconstruct.TinkersConstructItems;
 import brainstonemod.common.config.BrainStoneConfigWrapper;
 import brainstonemod.common.handler.BrainStoneEventHandler;
@@ -532,6 +533,7 @@ public class BrainStone {
 				.getIngredient("dustRedstone");
 		Object craftingH = IngredientSwitch.make()
 				.add(BrainStoneModules::draconicEvolution, () -> DraconicEvolutionItems.getDragonHeart())
+				.add(BrainStoneModules::mysticalAgriculture, () -> MysticalAgricultureItems.getSupremiumApple())
 				.getIngredient(() -> new ItemStack(Items.GOLDEN_APPLE, 1, 1));
 
 		BrainStone.addShapedRecipe(new ItemStack(brainStoneLifeCapacitor(), 1), "SBX", "CHC", " P ", 'S', craftingS,
