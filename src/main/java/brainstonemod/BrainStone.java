@@ -22,6 +22,7 @@ import brainstonemod.common.block.BlockBrainStoneTrigger;
 import brainstonemod.common.block.BlockPulsatingBrainStone;
 import brainstonemod.common.compat.BrainStoneModules;
 import brainstonemod.common.compat.cofh.thermalexpansion.ThermalExpansionItems;
+import brainstonemod.common.compat.cofh.thermalfoundation.ThermalFoundationItems;
 import brainstonemod.common.compat.draconicevolution.DraconicEvolutionItems;
 import brainstonemod.common.compat.forestry.ForestryItems;
 import brainstonemod.common.compat.immersiveengineering.ImmersiveEngineeringItems;
@@ -532,6 +533,7 @@ public class BrainStone {
 				.add(BrainStoneModules::immersiveEngineering, () -> ImmersiveEngineeringItems.getHVCapacitor())
 				.add(BrainStoneModules::forestry, () -> ForestryItems.getEmeraldElectronTube())
 				.add(BrainStoneModules::tinkersConstruct, () -> TinkersConstructItems.getMendingMoss())
+				.add(BrainStoneModules::tinkersConstruct, () -> ThermalFoundationItems.getPyrotheumDustDict())
 				.getIngredient("dustRedstone");
 		Object craftingH = IngredientSwitch.make()
 				.add(BrainStoneModules::draconicEvolution, () -> DraconicEvolutionItems.getDragonHeart())

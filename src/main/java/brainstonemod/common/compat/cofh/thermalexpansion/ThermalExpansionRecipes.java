@@ -2,6 +2,7 @@ package brainstonemod.common.compat.cofh.thermalexpansion;
 
 import brainstonemod.BrainStone;
 import brainstonemod.common.compat.BrainStoneModules;
+import brainstonemod.common.compat.cofh.thermalfoundation.ThermalFoundationItems;
 import cofh.api.util.ThermalExpansionHelper;
 import lombok.experimental.UtilityClass;
 import net.minecraft.init.Blocks;
@@ -17,7 +18,7 @@ public class ThermalExpansionRecipes {
 		final ItemStack brainStoneOre = new ItemStack(BrainStone.brainStoneOre());
 		final ItemStack brainStoneDust = new ItemStack(BrainStone.brainStoneDust());
 		final ItemStack brainStoneDust4 = new ItemStack(BrainStone.brainStoneDust(), 4);
-		final ItemStack slag = ThermalExpansionItems.getSlag();
+		final ItemStack slag = ThermalFoundationItems.getSlag();
 		final ItemStack sand = new ItemStack(Blocks.SAND);
 
 		// Pulverizer

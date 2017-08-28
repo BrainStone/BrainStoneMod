@@ -44,6 +44,7 @@ public final class BrainStoneModules {
 	public static final String TESLA_MODID = "tesla";
 	public static final String THAUMCRAFT_MODID = "thaumcraft";
 	public static final String THERMAL_EXPANSION_MODID = "thermalexpansion";
+	public static final String THERMAL_FOUNDATION_MODID = "thermaldoundation";
 	public static final String TINKERS_CONSTRUCT_MODID = "tconstruct";
 
 	public static final String DEPENDENCIES = "after:" + BAUBLES_MODID + ";after:" + BETTER_ACHIEVEMENTS_MODID
@@ -51,7 +52,8 @@ public final class BrainStoneModules {
 			+ EX_NIHILO_ADSCENSIO_MODID + ";after:" + FORESTRY_MODID + ";after:" + IMMERSIVE_ENGINEERING_MODID
 			+ ";after:" + JEI_MODID + ";after:" + JER_MODID + ";after:" + MFR_MODID + ";after:"
 			+ MYSTICAL_AGRICULTURE_MODID + ";after:" + OVERLORD_MODID + ";after:" + TESLA_MODID + ";after:"
-			+ THAUMCRAFT_MODID + ";after:" + THERMAL_EXPANSION_MODID + ";after:" + TINKERS_CONSTRUCT_MODID;
+			+ THAUMCRAFT_MODID + ";after:" + THERMAL_EXPANSION_MODID + ";after:" + THERMAL_FOUNDATION_MODID + ";after:"
+			+ TINKERS_CONSTRUCT_MODID;
 
 	private static Boolean BAUBLES;
 	private static Boolean BETTER_ACHIEVEMENTS;
@@ -66,10 +68,11 @@ public final class BrainStoneModules {
 	private static Boolean MFR;
 	private static Boolean MYSTICAL_AGRICULTURE;
 	private static Boolean OVERLORD;
+	private static Boolean TESLA;
 	private static Boolean THAUMCRAFT;
 	private static Boolean THERMAL_EXPANSION;
+	private static Boolean THERMAL_FOUNDATION;
 	private static Boolean TINKERS_CONSTRUCT;
-	private static Boolean TESLA;
 
 	@Getter
 	private static final Set<ModuleInformation> allModules = detectAllModules();
@@ -144,7 +147,7 @@ public final class BrainStoneModules {
 	public static boolean overlord() {
 		return testMod(OVERLORD_MODID, OVERLORD);
 	}
-	
+
 	@Module(modid = TESLA_MODID, name = "TESLA", message = "Enabling support for TESLA energy API.")
 	public static boolean tesla() {
 		return testMod(TESLA_MODID, TESLA);
@@ -156,9 +159,14 @@ public final class BrainStoneModules {
 		return testMod(THAUMCRAFT_MODID, THAUMCRAFT);
 	}
 
-	@Module(modid = THERMAL_EXPANSION_MODID, name = "Thermal Expansion", message = "Adding recipes.", integration = ThermalExpansionCompat.class)
+	@Module(modid = THERMAL_EXPANSION_MODID, name = "Thermal Expansion", message = "Adding recipes and making Brain Stone Life Capacitor harder to craft.", integration = ThermalExpansionCompat.class)
 	public static boolean thermalExpansion() {
 		return testMod(THERMAL_EXPANSION_MODID, THERMAL_EXPANSION);
+	}
+
+	@Module(modid = THERMAL_FOUNDATION_MODID, name = "Thermal Foundation", message = "Making Brain Stone Life Capacitor harder to craft.")
+	public static boolean thermalFoundation() {
+		return testMod(THERMAL_FOUNDATION_MODID, THERMAL_FOUNDATION);
 	}
 
 	@Module(modid = TINKERS_CONSTRUCT_MODID, name = "Tinker's Construct", message = "Registering BrainStone materials as tool materials.", integration = TinkersConstructCompat.class)

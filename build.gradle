@@ -534,6 +534,7 @@ curseforge {
             optionalLibrary "overlord"
             optionalLibrary "tesla"
             optionalLibrary "thermalexpansion"
+            optionalLibrary "thermal-foundation"
             optionalLibrary "tinkers-construct"
 
             //optionalLibrary "ender-io"
