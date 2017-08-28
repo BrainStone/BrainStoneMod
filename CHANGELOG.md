@@ -1,3 +1,8 @@
+4.5.43-beta
+-----------
+
+- Fixed translations in Brain Stone Trigger 
+
 4.5.39-alpha
 ------------
 
