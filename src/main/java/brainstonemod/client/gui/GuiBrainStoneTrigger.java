@@ -23,6 +23,7 @@ import net.minecraft.client.audio.ISound;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 
+//TODO: Fix wrong translations
 public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 	private final TileEntityBrainStoneTrigger tileentity;
 	private int page, hovered;
@@ -269,6 +270,13 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 		if (nyanCat) {
 			stopEasterEgg();
 		}
+	}
+
+	@Override
+	protected void mouseReleased(int x, int y, int button) {
+		super.mouseReleased(x, y, button);
+
+		buttons.onRelease();
 	}
 
 	@Override
