@@ -205,6 +205,8 @@ dependencies {
 
     provided "net.darkhax.tesla:Tesla:1.11-${tesla_version}:deobf"
 
+    provided "cofh:RedstoneArsenal:${minecraft_version}-${redstoneArsenal_version}:deobf"
+
     // Mappings do not match!
     deobfProvided("cofh:CoFHCore:${minecraft_version}-${coFHCore_version}:universal") {
          exclude module: "jei_${minecraft_version}"

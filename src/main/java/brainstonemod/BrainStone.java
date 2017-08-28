@@ -27,6 +27,7 @@ import brainstonemod.common.compat.draconicevolution.DraconicEvolutionItems;
 import brainstonemod.common.compat.forestry.ForestryItems;
 import brainstonemod.common.compat.immersiveengineering.ImmersiveEngineeringItems;
 import brainstonemod.common.compat.mysticalagriculture.MysticalAgricultureItems;
+import brainstonemod.common.compat.redstonearsenal.RedstoneArsenalItems;
 import brainstonemod.common.compat.tinkersconstruct.TinkersConstructItems;
 import brainstonemod.common.config.BrainStoneConfigWrapper;
 import brainstonemod.common.handler.BrainStoneEventHandler;
@@ -525,12 +526,14 @@ public class BrainStone {
 
 		Object craftingS = new ItemStack(Items.SKULL, 1, 5);
 		Object craftingX = IngredientSwitch.make()
+				.add(BrainStoneModules::redstoneArsenal, () -> RedstoneArsenalItems.getFluxInfusedObsidianRod())
 				.add(BrainStoneModules::tinkersConstruct, () -> TinkersConstructItems.getManyullyToughRod())
 				.getIngredient(Blocks.END_ROD);
 		Object craftingC = IngredientSwitch.make()
 				.add(BrainStoneModules::thermalExpansion, () -> ThermalExpansionItems.getResonantFluxCapacitor())
 				.add(BrainStoneModules::draconicEvolution, () -> DraconicEvolutionItems.getWyvernFluxCapacitor())
 				.add(BrainStoneModules::immersiveEngineering, () -> ImmersiveEngineeringItems.getHVCapacitor())
+				.add(BrainStoneModules::redstoneArsenal, () -> RedstoneArsenalItems.getFluxedArmorPlating())
 				.add(BrainStoneModules::forestry, () -> ForestryItems.getEmeraldElectronTube())
 				.add(BrainStoneModules::tinkersConstruct, () -> TinkersConstructItems.getMendingMoss())
 				.add(BrainStoneModules::tinkersConstruct, () -> ThermalFoundationItems.getPyrotheumDustDict())

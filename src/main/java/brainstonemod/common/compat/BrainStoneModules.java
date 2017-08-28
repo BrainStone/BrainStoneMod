@@ -41,6 +41,7 @@ public final class BrainStoneModules {
 	public static final String MFR_MODID = "minefactoryreloaded";
 	public static final String MYSTICAL_AGRICULTURE_MODID = "mysticalagriculture";
 	public static final String OVERLORD_MODID = "overlord";
+	public static final String REDSTONE_ARSENAL_MODID = "redstonearsenal";
 	public static final String TESLA_MODID = "tesla";
 	public static final String THAUMCRAFT_MODID = "thaumcraft";
 	public static final String THERMAL_EXPANSION_MODID = "thermalexpansion";
@@ -68,6 +69,7 @@ public final class BrainStoneModules {
 	private static Boolean MFR;
 	private static Boolean MYSTICAL_AGRICULTURE;
 	private static Boolean OVERLORD;
+	private static Boolean REDSTONE_ARSENAL;
 	private static Boolean TESLA;
 	private static Boolean THAUMCRAFT;
 	private static Boolean THERMAL_EXPANSION;
@@ -146,6 +148,11 @@ public final class BrainStoneModules {
 	@Module(modid = OVERLORD_MODID, name = "Overlord", message = "Adding Pulsating BrainStone Augment.", integration = OverlordCompat.class)
 	public static boolean overlord() {
 		return testMod(OVERLORD_MODID, OVERLORD);
+	}
+
+	@Module(modid = REDSTONE_ARSENAL_MODID, name = "Redstone Aresenal", message = "Tweaking the Brain Stone Life Capacitor recipe.")
+	public static boolean redstoneArsenal() {
+		return testMod(REDSTONE_ARSENAL_MODID, REDSTONE_ARSENAL);
 	}
 
 	@Module(modid = TESLA_MODID, name = "TESLA", message = "Enabling support for TESLA energy API.")
