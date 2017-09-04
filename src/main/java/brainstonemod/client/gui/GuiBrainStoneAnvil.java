@@ -10,8 +10,6 @@ import net.minecraft.world.World;
 
 // TODO: Anvils not working!
 public class GuiBrainStoneAnvil extends GuiRepair {
-	private final ContainerBrainStoneAnvil anvil;
-
 	public GuiBrainStoneAnvil(InventoryPlayer inventoryIn, World worldIn) {
 		super(inventoryIn, worldIn);
 
@@ -30,6 +28,7 @@ public class GuiBrainStoneAnvil extends GuiRepair {
 			boolean flag = true;
 			String s = I18n.format("container.repair.cost", new Object[] { Integer.valueOf(anvil.maximumCost) });
 
+			// No max checking!
 			if (!anvil.getSlot(2).getHasStack()) {
 				flag = false;
 			} else if (!anvil.getSlot(2).canTakeStack(playerInventory.player)) {
@@ -40,7 +39,6 @@ public class GuiBrainStoneAnvil extends GuiRepair {
 				int j = -16777216 | ((i & 16579836) >> 2) | (i & -16777216);
 				int k = xSize - 8 - fontRenderer.getStringWidth(s);
 
-				// No max checking!
 				if (fontRenderer.getUnicodeFlag()) {
 					drawRect(k - 3, 65, xSize - 7, 77, -16777216);
 					drawRect(k - 2, 66, xSize - 8, 76, -12895429);
