@@ -1,3 +1,19 @@
+4.5.48
+------
+
+- Updated to 1.11.2
+- Added support for TESLA and CoFHLib energy systems
+- Added explicit support the for DraconicEvolution Flux Capacitor
+- Improved JER Integration
+- Lots of internal optimization
+- Added ThermalExpansion recipes
+- Added Mystical Agriculture support
+- Changed some creative tabs
+- Optimized all textures
+- Added ThermalFoundation Compat
+- Added RedstoneArsenal Compat
+- Added lots of variantions for the recipe of the Brain Stone Life Capacitor depending on which mods are present
+
 4.5.43-beta
 -----------
 
