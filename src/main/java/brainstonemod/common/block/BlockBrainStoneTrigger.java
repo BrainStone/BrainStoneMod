@@ -31,7 +31,6 @@ import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-// TODO: Fix Block not updating when block taken out
 public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 	public static final UnlistedPropertyCopiedBlock COPIEDBLOCK = new UnlistedPropertyCopiedBlock();
 
@@ -178,6 +177,8 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 			return;
 		}
 
+		final int oldPower = getStrongPower(state, world, pos, null);
+
 		tileEntityBlockBrainStoneTrigger.setOutput(triggerCorrectMob(world, pos.getX(), pos.getY(), pos.getZ()));
 		if (tileEntityBlockBrainStoneTrigger.getOutput() > 0) {
 			tileEntityBlockBrainStoneTrigger.setOutputBuffered(tileEntityBlockBrainStoneTrigger.getOutput());
@@ -193,13 +194,9 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 					pos.getZ(), world);
 		}
 
-		world.notifyNeighborsOfStateChange(pos, this, true);
-		world.notifyNeighborsOfStateChange(pos.add(-1, 0, 0), this, true);
-		world.notifyNeighborsOfStateChange(pos.add(1, 0, 0), this, true);
-		world.notifyNeighborsOfStateChange(pos.down(), this, true);
-		world.notifyNeighborsOfStateChange(pos.up(), this, true);
-		world.notifyNeighborsOfStateChange(pos.add(0, 0, -1), this, true);
-		world.notifyNeighborsOfStateChange(pos.add(0, 0, 1), this, true);
+		if (oldPower != getStrongPower(state, world, pos, null)) {
+			world.setBlockState(pos, state, 1 | 2);
+		}
 
 		world.scheduleUpdate(pos, this, tickRate(world));
 	}

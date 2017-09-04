@@ -122,7 +122,6 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 				.forEach(mob -> mobTriggered.put(mob, -1 * mobTriggered.get(mob)));
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
 		if (!(itemstack.getItem() instanceof ItemBlock))
@@ -130,7 +129,7 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 
 		Block block = Block.getBlockFromItem(itemstack.getItem());
 		return (block != null) && !((block == BrainStone.brainStoneTrigger()) || (block == Blocks.LEAVES))
-				&& block.isOpaqueCube(block.getDefaultState());
+				&& block.getDefaultState().isOpaqueCube() && block.getDefaultState().isFullCube();
 
 	}
 
@@ -293,6 +292,7 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 	@Override
 	public ItemStack decrStackSize(int index, int count) {
 		ItemStack is = getStackInSlot(index);
+
 		if (!is.isEmpty()) {
 			if (is.getCount() <= count) {
 				setInventorySlotContents(index, ItemStack.EMPTY);
@@ -301,6 +301,7 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 				markDirty();
 			}
 		}
+
 		return is;
 	}
 
@@ -333,6 +334,9 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 	public ItemStack removeStackFromSlot(int index) {
 		ItemStack is = getStackInSlot(index);
 		setInventorySlotContents(index, null);
+
+		markDirty();
+
 		return is;
 	}
 

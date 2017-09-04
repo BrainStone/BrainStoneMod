@@ -67,7 +67,6 @@ public class BrainStoneEventHandler {
 		return null;
 	}
 
-	// TODO: Maybe refactor. Check with other mods
 	@SuppressWarnings("deprecation")
 	@SubscribeEvent
 	public void attachCapabilities(AttachCapabilitiesEvent.Item event) {
