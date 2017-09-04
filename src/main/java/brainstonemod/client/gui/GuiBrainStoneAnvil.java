@@ -8,7 +8,6 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.world.World;
 
-// TODO: Anvils not working!
 public class GuiBrainStoneAnvil extends GuiRepair {
 	public GuiBrainStoneAnvil(InventoryPlayer inventoryIn, World worldIn) {
 		super(inventoryIn, worldIn);

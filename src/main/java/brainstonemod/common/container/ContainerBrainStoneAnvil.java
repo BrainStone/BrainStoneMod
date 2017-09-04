@@ -39,7 +39,7 @@ public class ContainerBrainStoneAnvil extends ContainerRepair {
 			EntityPlayer player) {
 		super(playerInventory, world, blockPosIn, player);
 
-		inventorySlots.set(2, new Slot(outputSlot, 2, 134, 47) {
+		overrideSlot(2, new Slot(outputSlot, 2, 134, 47) {
 			@Override
 			public boolean isItemValid(@Nullable ItemStack stack) {
 				return false;
@@ -302,6 +302,13 @@ public class ContainerBrainStoneAnvil extends ContainerRepair {
 			outputSlot.setInventorySlotContents(0, itemstack1);
 			detectAndSendChanges();
 		}
+	}
+
+	private Slot overrideSlot(int index, Slot slotIn) {
+		inventorySlots.set(index, slotIn);
+		slotIn.slotNumber = index;
+
+		return slotIn;
 	}
 
 	private static boolean isValidBlock(IBlockState iblockstate) {
