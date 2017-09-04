@@ -23,9 +23,6 @@ public class ThermalExpansionRecipes {
 
 		// Pulverizer
 
-		// Remove default recipe
-		ThermalExpansionHelper.removePulverizerRecipe(brainStoneOre);
-
 		// BrainStoneOre => BrainStoneDust, BrainStoneDust 50%
 		ThermalExpansionHelper.addPulverizerRecipe(4000, brainStoneOre, brainStoneDust, brainStoneDust, 50);
 		// BrainStone => 4xBrainStoneDust

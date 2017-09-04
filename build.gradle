@@ -218,7 +218,8 @@ dependencies {
     deobfProvided("cofh:CoFHCore:${minecraft_version}-${coFHCore_version}:universal") {
          exclude module: "jei_${minecraft_version}"
     }
-    provided("cofh:ThermalExpansion:${minecraft_version}-${thermalExpansion_version}:deobf") {
+    // Mappings do not match!
+    deobfProvided("cofh:ThermalExpansion:${minecraft_version}-${thermalExpansion_version}:universal") {
          exclude module: "CoFHCore"
          exclude module: "CodeChickenLib"
     }
@@ -537,7 +538,7 @@ curseforge {
         relations {
             optionalLibrary "baubles"
             optionalLibrary "betterachievements"
-            optionalLibrary "ctm"
+            requiredLibrary "ctm"
             optionalLibrary "draconic-evolution"
             optionalLibrary "forestry"
             optionalLibrary "immersive-engineering"
