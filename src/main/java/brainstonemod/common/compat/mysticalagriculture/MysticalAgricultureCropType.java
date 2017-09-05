@@ -1,9 +1,10 @@
 package brainstonemod.common.compat.mysticalagriculture;
 
+import com.blakebr0.cucumber.item.ItemBase;
+import com.blakebr0.mysticalagriculture.MysticalAgriculture;
 import com.blakebr0.mysticalagriculture.blocks.crop.BlockMysticalCrop;
 import com.blakebr0.mysticalagriculture.crafting.ModRecipes;
 import com.blakebr0.mysticalagriculture.crafting.ReprocessorManager;
-import com.blakebr0.mysticalagriculture.items.ItemCore;
 import com.blakebr0.mysticalagriculture.items.ItemSeed;
 
 import brainstonemod.BrainStoneBlocks;
@@ -26,12 +27,12 @@ public class MysticalAgricultureCropType {
 	private final Object material;
 	private final boolean enabled;
 	private final BlockMysticalCrop plant;
-	private final ItemCore crop;
+	private final ItemBase crop;
 	private final ItemSeed seed;
 
 	public static MysticalAgricultureCropType of(String name, int tier, Object material, boolean enabled) {
 		BlockMysticalCrop plant = new BlockMysticalCrop(name + CROP);
-		ItemCore crop = new ItemCore(name + ESSENCE);
+		ItemBase crop = new ItemBase(name + ESSENCE);
 		ItemSeed seed = new ItemSeed(name + SEEDS, plant, tier);
 
 		return new MysticalAgricultureCropType(name, tier, material, enabled, plant, crop, seed);
@@ -41,11 +42,11 @@ public class MysticalAgricultureCropType {
 		if (!isEnabled())
 			return;
 
+		getCrop().setCreativeTab(MysticalAgriculture.tabMysticalAgriculture);
 		getPlant().setCrop(getCrop());
 		getPlant().setSeed(getSeed());
 
 		BrainStoneBlocks.addBlock(getName() + CROP, getPlant());
-
 		BrainStoneItems.addItem(getName() + ESSENCE, getCrop());
 		BrainStoneItems.addItem(getName() + SEEDS, getSeed());
 	}
