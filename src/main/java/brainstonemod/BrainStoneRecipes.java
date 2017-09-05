@@ -47,9 +47,9 @@ public class BrainStoneRecipes {
 		addShapedRecipe(new ItemStack(BrainStoneBlocks.pulsatingBrainStone(), 1), "BdB", "dDd", "BdB", 'd',
 				"dustBrainstone", 'B', "brainstone", 'D', "gemDiamond");
 		addShapedRecipe(new ItemStack(BrainStoneBlocks.stablePulsatingBrainStone(), 1), "EPE", "PSP", "EPE", 'E',
-				BrainStoneItems.essenceOfLife(), 'P', BrainStoneBlocks.pulsatingBrainStone(), 'S', Items.NETHER_STAR);
+				BrainStoneItems.essenceOfLife(), 'P', "pulsatingbrainstone", 'S', Items.NETHER_STAR);
 		addShapedRecipe(new ItemStack(BrainStoneBlocks.stablePulsatingBrainStone(), 1), "PEP", "ESE", "PEP", 'E',
-				BrainStoneItems.essenceOfLife(), 'P', BrainStoneBlocks.pulsatingBrainStone(), 'S', Items.NETHER_STAR);
+				BrainStoneItems.essenceOfLife(), 'P', "pulsatingbrainstone", 'S', Items.NETHER_STAR);
 		addShapedRecipe(new ItemStack(BrainStoneBlocks.brainStoneAnvil(), 1), "PPP", " B ", "BBB", 'P',
 				BrainStoneBlocks.pulsatingBrainStone(), 'B', "brainstone");
 		addShapedRecipe(new ItemStack(BrainStoneBlocks.pulsatingBrainStoneAnvil(), 1), "PEP", " P ", "BBB", 'P',
@@ -71,23 +71,23 @@ public class BrainStoneRecipes {
 		addShapedRecipe(new ItemStack(BrainStoneItems.brainProcessor(), 4), "TRT", "SBS", "TRT", 'B', "brainstone", 'S',
 				"dustRedstone", 'T', Blocks.REDSTONE_TORCH, 'R', Items.REPEATER);
 		addShapedRecipe(new ItemStack(BrainStoneItems.stablePulsatingBrainStoneSword(), 1), "B", "B", "S", 'S',
-				"blockRedstone", 'B', BrainStoneBlocks.stablePulsatingBrainStone());
+				"blockRedstone", 'B', "stablepulsatingbrainstone");
 		addShapedRecipe(new ItemStack(BrainStoneItems.stablePulsatingBrainStoneShovel(), 1), "B", "S", "S", 'S',
-				"blockRedstone", 'B', BrainStoneBlocks.stablePulsatingBrainStone());
+				"blockRedstone", 'B', "stablepulsatingbrainstone");
 		addShapedRecipe(new ItemStack(BrainStoneItems.stablePulsatingBrainStonePickaxe(), 1), "BBB", " S ", " S ", 'S',
-				"blockRedstone", 'B', BrainStoneBlocks.stablePulsatingBrainStone());
+				"blockRedstone", 'B', "stablepulsatingbrainstone");
 		addShapedRecipe(new ItemStack(BrainStoneItems.stablePulsatingBrainStoneAxe(), 1), "BB", "BS", " S", 'S',
-				"blockRedstone", 'B', BrainStoneBlocks.stablePulsatingBrainStone());
+				"blockRedstone", 'B', "stablepulsatingbrainstone");
 		addShapedRecipe(new ItemStack(BrainStoneItems.stablePulsatingBrainStoneHoe(), 1), "BB", " S", " S", 'S',
-				"blockRedstone", 'B', BrainStoneBlocks.stablePulsatingBrainStone());
+				"blockRedstone", 'B', "stablepulsatingbrainstone");
 		addShapedRecipe(new ItemStack(BrainStoneItems.stablePulsatingBrainStoneHelmet(), 1), "BBB", "B B", 'B',
-				BrainStoneBlocks.stablePulsatingBrainStone());
+				"stablepulsatingbrainstone");
 		addShapedRecipe(new ItemStack(BrainStoneItems.stablePulsatingBrainStonePlate(), 1), "B B", "BBB", "BBB", 'B',
-				BrainStoneBlocks.stablePulsatingBrainStone());
+				"stablepulsatingbrainstone");
 		addShapedRecipe(new ItemStack(BrainStoneItems.stablePulsatingBrainStoneLeggings(), 1), "BBB", "B B", "B B", 'B',
-				BrainStoneBlocks.stablePulsatingBrainStone());
+				"stablepulsatingbrainstone");
 		addShapedRecipe(new ItemStack(BrainStoneItems.stablePulsatingBrainStoneBoots(), 1), "B B", "B B", 'B',
-				BrainStoneBlocks.stablePulsatingBrainStone());
+				"stablepulsatingbrainstone");
 
 		Object craftingS = new ItemStack(Items.SKULL, 1, 5);
 		Object craftingX = IngredientSwitch.make()
@@ -174,7 +174,9 @@ public class BrainStoneRecipes {
 		IForgeRegistry<IRecipe> registry = event.getRegistry();
 
 		// Capacitor Recipes
-		registry.register(new BrainStoneLifeCapacitorUpgrade(BrainStoneLifeCapacitorUpgrade.Upgrade.CAPACITY).setRegistryName("brain_stone_life_capacitor_upgrade_capacity"));
-		registry.register(new BrainStoneLifeCapacitorUpgrade(BrainStoneLifeCapacitorUpgrade.Upgrade.CHARGING).setRegistryName("brain_stone_life_capacitor_upgrade_charging"));
+		registry.register(new BrainStoneLifeCapacitorUpgrade(BrainStoneLifeCapacitorUpgrade.Upgrade.CAPACITY)
+				.setRegistryName("brain_stone_life_capacitor_upgrade_capacity"));
+		registry.register(new BrainStoneLifeCapacitorUpgrade(BrainStoneLifeCapacitorUpgrade.Upgrade.CHARGING)
+				.setRegistryName("brain_stone_life_capacitor_upgrade_charging"));
 	}
 }
