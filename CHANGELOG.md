@@ -1,3 +1,9 @@
+4.6.0-alpha
+-----------
+
+- Updated to 1.12 (compatible with 1.12.1)
+- Advancements do not exist yet.
+
 4.5.48
 ------
 
