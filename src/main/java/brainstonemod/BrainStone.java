@@ -176,9 +176,6 @@ public class BrainStone {
 
 		BrainStoneModules.preInit(event);
 
-		// Registering ore dict
-		proxy.registerOreDict();
-
 		if (event.getSide().isClient()) {
 			clPreInit();
 		}
@@ -211,6 +208,9 @@ public class BrainStone {
 		GameRegistry.registerWorldGenerator(new BrainStoneOreWorldGenerator(), 1);
 
 		BrainStoneModules.init(event);
+
+		// Registering ore dict
+		proxy.registerOreDict();
 	}
 
 	/**
