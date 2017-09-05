@@ -33,6 +33,7 @@ public final class BrainStoneModules {
 	public static final String CTM_MODID = "ctm";
 	public static final String DRACONIC_EVOLUTION_MODID = "draconicevolution";
 	public static final String ENDER_IO_MODID = "enderiobase";
+	public static final String ENVIRONMENTAL_TECH_MODID = "environmentaltech";
 	public static final String EX_NIHILO_ADSCENSIO_MODID = "exnihiloadscensio";
 	public static final String FORESTRY_MODID = "forestry";
 	public static final String IMMERSIVE_ENGINEERING_MODID = "immersiveengineering";
@@ -61,6 +62,7 @@ public final class BrainStoneModules {
 	private static Boolean CTM;
 	private static Boolean DRACONIC_EVOLUTION;
 	private static Boolean ENDER_IO;
+	private static Boolean ENVIRONMENTAL_TECH;
 	private static Boolean EX_NIHILO_ADSCENSIO;
 	private static Boolean FORESTRY;
 	private static Boolean IMMERSIVE_ENGINEERING;
@@ -105,6 +107,11 @@ public final class BrainStoneModules {
 	// recipes and armor upgrade.", integration = EnderIOCompat.class)
 	protected static boolean enderIO() {
 		return testMod(ENDER_IO_MODID, ENDER_IO);
+	}
+
+	@Module(modid = ENVIRONMENTAL_TECH_MODID, name = "Environmental Tech", message = "Adding BrainStone Ore to Void Ore Miner.")
+	public static boolean environmentalTech() {
+		return testMod(ENVIRONMENTAL_TECH_MODID, ENVIRONMENTAL_TECH);
 	}
 
 	// @Module(modid = EX_NIHILO_ADSCENSIO_MODID, name = "Ex Nihilo Adscensio",

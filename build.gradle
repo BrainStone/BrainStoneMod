@@ -20,7 +20,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT"
+        classpath "net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT"
         classpath "org.codehaus.groovy.modules.http-builder:http-builder:0.7.2"
     }
 }
@@ -132,7 +132,7 @@ repositories {
         name = "JEI"
         url "http://dvs1.progwml6.com/files/maven"
     }
-    maven { // EnderIO, EnderCore, EnderZoo, The One Probe, Chisel
+    maven { // EnderIO, EnderCore, EnderZoo, The One Probe, CTM
         name = "tterrag"
         url "http://maven.tterrag.com"
     }
@@ -152,7 +152,7 @@ repositories {
         name = "IC2"
         url "http://maven.ic2.player.to"
     }
-    maven { // BetterAchievements, JustEnoughResources
+    maven { // BetterAdvancements, JustEnoughResources
         name = "bintray-way2muchnoise"
         url  "https://dl.bintray.com/way2muchnoise/dev/"
     }
@@ -167,21 +167,11 @@ repositories {
 
 dependencies {
     // External Mods
-    // Mappings do not match!
-    //deobfProvided "betterachievements:BetterAchievements-${minecraft_version}:${betterAchievements_version}"
+    provided "betteradvancements:BetterAdvancements-${minecraft_version}:${betterAdvancements_version}:deobf"
 
-    // Mappings do not match!
     deobfProvided "team.chisel.ctm:CTM:MC${minecraft_version}-${ctm_version}"
 
-    // Until mappings are updated in DE (Then remove this and exclusion under DE)
-    deobfProvided("com.brandon3055.brandonscore:BrandonsCore:1.11.2-2.2.3.+:universal") {
-        exclude module: "jei_${minecraft_version}"
-    }
-    deobfProvided ("com.brandon3055.draconicevolution:Draconic-Evolution:${minecraft_version}-${draconicEvolution_version}:universal") {
-        // Until mappings are updated
-        exclude module: "BrandonsCore"
-        // Until mappings are updated
-        exclude module: "CodeChickenLib"
+    provided ("com.brandon3055.draconicevolution:Draconic-Evolution:${minecraft_version}-${draconicEvolution_version}:deobf") {
         exclude module: "jei_${minecraft_version}"
         exclude module: "OpenComputers"
     }
@@ -193,50 +183,39 @@ dependencies {
     //     exclude module: "Tesla"
     // }
 
-    // Mappings do not match!
     deobfProvided("net.sengir.forestry:forestry_${minecraft_version}:${forestry_version}") {
         exclude module: "jei_${minecraft_version}"
     }
 
     provided "blusunrize:ImmersiveEngineering:${immersive_engineering_version}:deobf"
 
-    // Mappings do not match!
     deobfProvided "mezz.jei:jei_${minecraft_version}:${jei_version}"
 
-    provided "jeresources:JustEnoughResources-${minecraft_version}:${justEnoughResources_version}"
+    provided "jeresources:JustEnoughResources-${minecraft_version}:${justEnoughResources_version}:deobf"
 
-    // Mappings do not match!
-    deobfProvided "the_fireplace.overlord:Overlord-${minecraft_version}:${overlord_version}"
+    provided "the_fireplace.overlord:Overlord-${minecraft_version}:${overlord_version}:deobf"
 
-    provided "net.darkhax.tesla:Tesla:1.11-${tesla_version}:deobf"
+    provided "net.darkhax.tesla:Tesla-${minecraft_version}:${tesla_version}:deobf"
 
     provided ("cofh:RedstoneArsenal:${minecraft_version}-${redstoneArsenal_version}:deobf") {
-        exclude module: "CoFHCore"
+        exclude module: "jei_${minecraft_version}"
     }
 
-    // Mappings do not match!
-    deobfProvided("cofh:CoFHCore:${minecraft_version}-${coFHCore_version}:universal") {
+    provided("cofh:ThermalExpansion:${minecraft_version}-${thermalExpansion_version}:deobf") {
          exclude module: "jei_${minecraft_version}"
-    }
-    // Mappings do not match!
-    deobfProvided("cofh:ThermalExpansion:${minecraft_version}-${thermalExpansion_version}:universal") {
-         exclude module: "CoFHCore"
-         exclude module: "CodeChickenLib"
     }
 
     // Deobf exists but Access Transformers are messed up
     deobfProvided "slimeknights.mantle:Mantle:${minecraft_version}-${mantle_version}"
-    // Mappings do not match!
-    deobfProvided("slimeknights:TConstruct:${minecraft_version}-${tconstruct_version}") {
+    provided("slimeknights:TConstruct:${minecraft_version}-${tconstruct_version}:deobf") {
         exclude module: "jei_${minecraft_version}"
     }
 
 
     // Local Mods
-    deobfProvided "lib:BetterAchievements-${minecraft_version}:+"
-    provided "lib:Baubles-1.11:+:deobf"
-    // Mappings do not match!
-    deobfProvided "lib:mysticalagriculture-${minecraft_version}:+"
+    provided "lib:Baubles-${minecraft_version}:+:deobf"
+    
+    provided "lib:mysticalagriculture-${minecraft_version}:+:deobf"
 }
 
 lombok {
@@ -521,6 +500,7 @@ curseforge {
         changelogType = "markdown"
         releaseType = getVersionType()
         addGameVersion "${minecraft_version}"
+        addGameVersion "1.12.1"
         addGameVersion "Java 8"
 
         mainArtifact(jar) {
@@ -537,9 +517,10 @@ curseforge {
 
         relations {
             optionalLibrary "baubles"
-            optionalLibrary "betterachievements"
+            optionalLibrary "better-advancements"
             requiredLibrary "ctm"
             optionalLibrary "draconic-evolution"
+            optionalLibrary "environmental-tech"
             optionalLibrary "forestry"
             optionalLibrary "immersive-engineering"
             optionalLibrary "just-enough-items-jei"
