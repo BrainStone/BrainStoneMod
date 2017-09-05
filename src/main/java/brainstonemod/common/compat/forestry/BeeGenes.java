@@ -1,6 +1,7 @@
 package brainstonemod.common.compat.forestry;
 
 import brainstonemod.BrainStone;
+import brainstonemod.BrainStoneBlocks;
 import forestry.api.apiculture.EnumBeeChromosome;
 import forestry.api.apiculture.FlowerManager;
 import forestry.api.genetics.AlleleManager;
@@ -21,13 +22,13 @@ public class BeeGenes {
 	public static void intiFlowers() {
 		IFlowerRegistry flowerRegistry = FlowerManager.flowerRegistry;
 
-		flowerRegistry.registerAcceptableFlower(BrainStone.brainStoneOre(), flowerBrainStone);
-		flowerRegistry.registerAcceptableFlower(BrainStone.brainStone(), flowerBrainStone);
-		flowerRegistry.registerAcceptableFlower(BrainStone.brainStoneOut(), flowerBrainStone);
-		flowerRegistry.registerAcceptableFlower(BrainStone.dirtyBrainStone(), flowerBrainStone);
-		flowerRegistry.registerAcceptableFlower(BrainStone.pulsatingBrainStone(), flowerBrainStone);
-		flowerRegistry.registerAcceptableFlower(BrainStone.pulsatingBrainStoneEffect(), flowerBrainStone);
-		flowerRegistry.registerAcceptableFlower(BrainStone.stablePulsatingBrainStone(), flowerBrainStone,
+		flowerRegistry.registerAcceptableFlower(BrainStoneBlocks.brainStoneOre(), flowerBrainStone);
+		flowerRegistry.registerAcceptableFlower(BrainStoneBlocks.brainStone(), flowerBrainStone);
+		flowerRegistry.registerAcceptableFlower(BrainStoneBlocks.brainStoneOut(), flowerBrainStone);
+		flowerRegistry.registerAcceptableFlower(BrainStoneBlocks.dirtyBrainStone(), flowerBrainStone);
+		flowerRegistry.registerAcceptableFlower(BrainStoneBlocks.pulsatingBrainStone(), flowerBrainStone);
+		flowerRegistry.registerAcceptableFlower(BrainStoneBlocks.pulsatingBrainStoneEffect(), flowerBrainStone);
+		flowerRegistry.registerAcceptableFlower(BrainStoneBlocks.stablePulsatingBrainStone(), flowerBrainStone,
 				flowerStablePulsatingBrainStone);
 	}
 

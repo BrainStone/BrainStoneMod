@@ -20,9 +20,4 @@ public class ThermalExpansionCompat implements IModIntegration {
 	public void postInit(FMLPostInitializationEvent event) {
 		// Do nothing
 	}
-
-	@Override
-	public void addAchievement() {
-		// Do nothing
-	}
 }

@@ -1,6 +1,7 @@
 package brainstonemod.common.helper;
 
-import brainstonemod.BrainStone;
+import brainstonemod.BrainStoneBlocks;
+import brainstonemod.BrainStoneItems;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.block.Block;
@@ -10,12 +11,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
-import net.minecraftforge.oredict.RecipeSorter;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 
 @RequiredArgsConstructor
-public class BrainStoneLifeCapacitorUpgrade implements IRecipe {
+public class BrainStoneLifeCapacitorUpgrade extends IForgeRegistryEntry.Impl<IRecipe> implements IRecipe {
 	public enum Upgrade {
-		CAPACITY(BrainStone.essenceOfLife()), CHARGING(BrainStone.pulsatingBrainStone());
+		CAPACITY(BrainStoneItems.essenceOfLife()), CHARGING(BrainStoneBlocks.pulsatingBrainStone());
 
 		@Getter
 		private final ItemStack upgrade;
@@ -33,11 +34,6 @@ public class BrainStoneLifeCapacitorUpgrade implements IRecipe {
 		}
 	}
 
-	static {
-		RecipeSorter.register(BrainStone.RESOURCE_PREFIX + "BrainStoneLiveCapacitorUpgrade",
-				BrainStoneLifeCapacitorUpgrade.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless");
-	}
-
 	private final Upgrade upgrade;
 
 	@Override
@@ -48,7 +44,7 @@ public class BrainStoneLifeCapacitorUpgrade implements IRecipe {
 		for (int i = 0; i < items.getSizeInventory(); i++) {
 			slot = items.getStackInSlot(i);
 
-			if (!slot.isEmpty() && (slot.getItem() == BrainStone.brainStoneLifeCapacitor())) {
+			if (!slot.isEmpty() && (slot.getItem() == BrainStoneItems.brainStoneLifeCapacitor())) {
 				capacitor = slot;
 				break;
 			}
@@ -57,9 +53,9 @@ public class BrainStoneLifeCapacitorUpgrade implements IRecipe {
 		ItemStack res = capacitor.copy();
 
 		if (upgrade == Upgrade.CAPACITY) {
-			res = BrainStone.brainStoneLifeCapacitor().upgradeCapacity(res);
+			res = BrainStoneItems.brainStoneLifeCapacitor().upgradeCapacity(res);
 		} else if (upgrade == Upgrade.CHARGING) {
-			res = BrainStone.brainStoneLifeCapacitor().upgradeCharging(res);
+			res = BrainStoneItems.brainStoneLifeCapacitor().upgradeCharging(res);
 		}
 
 		return res;
@@ -73,7 +69,7 @@ public class BrainStoneLifeCapacitorUpgrade implements IRecipe {
 		ItemStack slot;
 		Item item;
 
-		final Item capacitor = BrainStone.brainStoneLifeCapacitor();
+		final Item capacitor = BrainStoneItems.brainStoneLifeCapacitor();
 		final Item upgradeItem = upgrade.getUpgrade().getItem();
 
 		for (int i = 0; i < items.getSizeInventory(); i++) {
@@ -103,18 +99,13 @@ public class BrainStoneLifeCapacitorUpgrade implements IRecipe {
 	}
 
 	@Override
-	public int getRecipeSize() {
-		return 2;
-	}
-
-	@Override
 	public ItemStack getRecipeOutput() {
-		final ItemStack baseStack = new ItemStack(BrainStone.brainStoneLifeCapacitor());
+		final ItemStack baseStack = new ItemStack(BrainStoneItems.brainStoneLifeCapacitor());
 
 		if (upgrade == Upgrade.CAPACITY)
-			return BrainStone.brainStoneLifeCapacitor().upgradeCapacity(baseStack);
+			return BrainStoneItems.brainStoneLifeCapacitor().upgradeCapacity(baseStack);
 		else if (upgrade == Upgrade.CHARGING)
-			return BrainStone.brainStoneLifeCapacitor().upgradeCharging(baseStack);
+			return BrainStoneItems.brainStoneLifeCapacitor().upgradeCharging(baseStack);
 		else
 			return ItemStack.EMPTY;
 	}
@@ -125,6 +116,11 @@ public class BrainStoneLifeCapacitorUpgrade implements IRecipe {
 	}
 
 	public ItemStack[] getStacks() {
-		return new ItemStack[] { new ItemStack(BrainStone.brainStoneLifeCapacitor()), upgrade.getUpgrade() };
+		return new ItemStack[] { new ItemStack(BrainStoneItems.brainStoneLifeCapacitor()), upgrade.getUpgrade() };
+	}
+
+	@Override
+	public boolean canFit(int width, int height) {
+		return (width * height) > 2;
 	}
 }

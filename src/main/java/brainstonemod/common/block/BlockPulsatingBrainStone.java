@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import brainstonemod.BrainStone;
+import brainstonemod.BrainStoneBlocks;
 import brainstonemod.common.compat.BrainStoneModules;
 import brainstonemod.common.compat.overlord.IOverlordCompat;
 import brainstonemod.common.compat.overlord.OverlordCompat;
@@ -74,7 +75,7 @@ public class BlockPulsatingBrainStone extends Block {
 	@Override
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos,
 			EntityPlayer player) {
-		return new ItemStack(BrainStone.pulsatingBrainStone());
+		return new ItemStack(BrainStoneBlocks.pulsatingBrainStone());
 	}
 
 	public static Potion getRandomPotion(Random random) {

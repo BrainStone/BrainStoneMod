@@ -4,13 +4,13 @@ import java.util.Random;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-import brainstonemod.BrainStone;
+import brainstonemod.BrainStoneBlocks;
 import brainstonemod.common.config.BrainStoneConfigWrapper;
 import net.minecraft.block.Block;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.IChunkGenerator;
 import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.fml.common.IWorldGenerator;
 
@@ -33,7 +33,7 @@ public class BrainStoneOreWorldGenerator implements IWorldGenerator {
 		this.world = world;
 
 		if (ArrayUtils.contains(BrainStoneConfigWrapper.getBrainStoneOreDims(), this.world.provider.getDimension())) {
-			this.genMinable(BrainStone.brainStoneOre(), BrainStoneConfigWrapper.getBrainStoneOreVeinSize(),
+			this.genMinable(BrainStoneBlocks.brainStoneOre(), BrainStoneConfigWrapper.getBrainStoneOreVeinSize(),
 					BrainStoneConfigWrapper.getBrainStoneOreVeinCount(), 32);
 		}
 	}

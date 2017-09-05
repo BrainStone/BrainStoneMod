@@ -1,6 +1,7 @@
 package brainstonemod.common;
 
-import brainstonemod.BrainStone;
+import brainstonemod.BrainStoneBlocks;
+import brainstonemod.BrainStoneItems;
 import brainstonemod.common.block.BlockBrainStoneAnvil;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -38,9 +39,9 @@ public class CommonProxy {
 	 * Registers the ore(s) in the OreDictionary
 	 */
 	public void registerOreDict() {
-		OreDictionary.registerOre("oreBrainstone", BrainStone.brainStoneOre());
-		OreDictionary.registerOre("dustBrainstone", BrainStone.brainStoneDust());
-		OreDictionary.registerOre("brainstone", BrainStone.brainStone());
+		OreDictionary.registerOre("oreBrainstone", BrainStoneBlocks.brainStoneOre());
+		OreDictionary.registerOre("dustBrainstone", BrainStoneItems.brainStoneDust());
+		OreDictionary.registerOre("brainstone", BrainStoneBlocks.brainStone());
 	}
 
 	public EntityPlayer getPlayerEntity(MessageContext ctx) {

@@ -2,7 +2,8 @@ package brainstonemod.common.compat.immersiveengineering;
 
 import blusunrize.immersiveengineering.api.crafting.ArcFurnaceRecipe;
 import blusunrize.immersiveengineering.api.crafting.CrusherRecipe;
-import brainstonemod.BrainStone;
+import brainstonemod.BrainStoneBlocks;
+import brainstonemod.BrainStoneItems;
 import brainstonemod.common.compat.BrainStoneModules;
 import lombok.experimental.UtilityClass;
 import net.minecraft.item.ItemStack;
@@ -12,11 +13,11 @@ import net.minecraftforge.fml.common.Optional;
 public class ImmersiveEngineeringRecipes {
 	@Optional.Method(modid = BrainStoneModules.IMMERSIVE_ENGINEERING_MODID)
 	public static void registerImmersiveEngineeringRecipies() {
-		final ItemStack brainStone = new ItemStack(BrainStone.brainStone());
-		final ItemStack dirtyBrainStone = new ItemStack(BrainStone.dirtyBrainStone());
-		final ItemStack brainStoneOre = new ItemStack(BrainStone.brainStoneOre());
-		final ItemStack brainStoneDust = new ItemStack(BrainStone.brainStoneDust());
-		final ItemStack brainStoneDust4 = new ItemStack(BrainStone.brainStoneDust(), 4);
+		final ItemStack brainStone = new ItemStack(BrainStoneBlocks.brainStone());
+		final ItemStack dirtyBrainStone = new ItemStack(BrainStoneBlocks.dirtyBrainStone());
+		final ItemStack brainStoneOre = new ItemStack(BrainStoneBlocks.brainStoneOre());
+		final ItemStack brainStoneDust = new ItemStack(BrainStoneItems.brainStoneDust());
+		final ItemStack brainStoneDust4 = new ItemStack(BrainStoneItems.brainStoneDust(), 4);
 		final ItemStack slag = ImmersiveEngineeringItems.getSlag();
 
 		// Crusher

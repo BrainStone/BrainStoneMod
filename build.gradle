@@ -152,7 +152,7 @@ repositories {
         name = "IC2"
         url "http://maven.ic2.player.to"
     }
-    maven { // BetterAdvancements, JustEnoughResources
+    maven { // JustEnoughResources
         name = "bintray-way2muchnoise"
         url  "https://dl.bintray.com/way2muchnoise/dev/"
     }
@@ -167,8 +167,6 @@ repositories {
 
 dependencies {
     // External Mods
-    provided "betteradvancements:BetterAdvancements-${minecraft_version}:${betterAdvancements_version}:deobf"
-
     deobfProvided "team.chisel.ctm:CTM:MC${minecraft_version}-${ctm_version}"
 
     provided ("com.brandon3055.draconicevolution:Draconic-Evolution:${minecraft_version}-${draconicEvolution_version}:deobf") {
@@ -517,7 +515,6 @@ curseforge {
 
         relations {
             optionalLibrary "baubles"
-            optionalLibrary "better-advancements"
             requiredLibrary "ctm"
             optionalLibrary "draconic-evolution"
             optionalLibrary "environmental-tech"

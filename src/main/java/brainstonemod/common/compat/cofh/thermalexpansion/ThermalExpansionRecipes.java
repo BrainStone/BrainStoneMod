@@ -1,6 +1,7 @@
 package brainstonemod.common.compat.cofh.thermalexpansion;
 
-import brainstonemod.BrainStone;
+import brainstonemod.BrainStoneBlocks;
+import brainstonemod.BrainStoneItems;
 import brainstonemod.common.compat.BrainStoneModules;
 import brainstonemod.common.compat.cofh.thermalfoundation.ThermalFoundationItems;
 import cofh.api.util.ThermalExpansionHelper;
@@ -13,11 +14,11 @@ import net.minecraftforge.fml.common.Optional;
 public class ThermalExpansionRecipes {
 	@Optional.Method(modid = BrainStoneModules.THERMAL_EXPANSION_MODID)
 	public static void registerThermalExpansionRecipies() {
-		final ItemStack brainStone = new ItemStack(BrainStone.brainStone());
-		final ItemStack dirtyBrainStone = new ItemStack(BrainStone.dirtyBrainStone());
-		final ItemStack brainStoneOre = new ItemStack(BrainStone.brainStoneOre());
-		final ItemStack brainStoneDust = new ItemStack(BrainStone.brainStoneDust());
-		final ItemStack brainStoneDust4 = new ItemStack(BrainStone.brainStoneDust(), 4);
+		final ItemStack brainStone = new ItemStack(BrainStoneBlocks.brainStone());
+		final ItemStack dirtyBrainStone = new ItemStack(BrainStoneBlocks.dirtyBrainStone());
+		final ItemStack brainStoneOre = new ItemStack(BrainStoneBlocks.brainStoneOre());
+		final ItemStack brainStoneDust = new ItemStack(BrainStoneItems.brainStoneDust());
+		final ItemStack brainStoneDust4 = new ItemStack(BrainStoneItems.brainStoneDust(), 4);
 		final ItemStack slag = ThermalFoundationItems.getSlag();
 		final ItemStack sand = new ItemStack(Blocks.SAND);
 

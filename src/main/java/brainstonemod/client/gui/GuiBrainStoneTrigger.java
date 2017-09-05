@@ -6,12 +6,12 @@ import java.util.Random;
 import org.lwjgl.opengl.GL11;
 
 import brainstonemod.BrainStone;
+import brainstonemod.BrainStoneSounds;
 import brainstonemod.client.gui.helper.BrainStoneButton;
 import brainstonemod.client.gui.helper.BrainStoneGuiButton;
 import brainstonemod.client.gui.template.GuiBrainStoneBase;
 import brainstonemod.common.container.ContainerBrainStoneTrigger;
 import brainstonemod.common.helper.BSP;
-import brainstonemod.common.helper.BrainStoneSounds;
 import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
 import brainstonemod.network.PacketDispatcher;
 import brainstonemod.network.packet.serverbound.PacketDisableMobs;

@@ -18,9 +18,10 @@ import net.minecraftforge.fml.common.Optional;
  *
  * @author BrainStone
  */
-@Optional.InterfaceList({ @Optional.Interface(iface = "cofh.api.energy.IEnergyContainerItem", modid = "cofhapi|energy"),
+@Optional.InterfaceList({
+		@Optional.Interface(iface = "cofh.redstoneflux.api.IEnergyContainerItem", modid = "redstoneflux"),
 		@Optional.Interface(iface = "com.brandon3055.draconicevolution.api.IInvCharge", modid = BrainStoneModules.DRACONIC_EVOLUTION_MODID) })
-public interface IEnergyContainerItem extends cofh.api.energy.IEnergyContainerItem, IInvCharge {
+public interface IEnergyContainerItem extends cofh.redstoneflux.api.IEnergyContainerItem, IInvCharge {
 	long getMaxEnergyStoredLong(ItemStack stack);
 
 	@Override

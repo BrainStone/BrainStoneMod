@@ -1,6 +1,6 @@
 package brainstonemod.common.slot;
 
-import brainstonemod.BrainStone;
+import brainstonemod.BrainStoneBlocks;
 import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -26,7 +26,7 @@ public class SlotBlockBrainStoneTrigger extends Slot {
 			return false;
 
 		final Block block = Block.getBlockFromItem(itemstack.getItem());
-		return (block != null) && !((block == BrainStone.brainStoneTrigger()) || (block == Blocks.LEAVES))
+		return (block != null) && !((block == BrainStoneBlocks.brainStoneTrigger()) || (block == Blocks.LEAVES))
 				&& block.isOpaqueCube(block.getDefaultState());
 
 	}

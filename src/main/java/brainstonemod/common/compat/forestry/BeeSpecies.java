@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Locale;
 
 import brainstonemod.BrainStone;
+import brainstonemod.BrainStoneItems;
 import forestry.api.apiculture.BeeManager;
 import forestry.api.apiculture.EnumBeeChromosome;
 import forestry.api.apiculture.EnumBeeType;
@@ -42,7 +43,7 @@ public enum BeeSpecies implements IBeeDefinition {
 
 		@Override
 		protected void setSpeciesProperties(IAlleleBeeSpeciesBuilder beeSpecies) {
-			beeSpecies.addProduct(new ItemStack(BrainStone.brainStoneComb()), 0.30f)
+			beeSpecies.addProduct(new ItemStack(BrainStoneItems.brainStoneComb()), 0.30f)
 					.setTemperature(EnumTemperature.NORMAL).setHumidity(EnumHumidity.NORMAL);
 		}
 	},
@@ -62,7 +63,7 @@ public enum BeeSpecies implements IBeeDefinition {
 
 		@Override
 		protected void setSpeciesProperties(IAlleleBeeSpeciesBuilder beeSpecies) {
-			beeSpecies.addProduct(new ItemStack(BrainStone.brainStoneComb()), 0.50f)
+			beeSpecies.addProduct(new ItemStack(BrainStoneItems.brainStoneComb()), 0.50f)
 					.setTemperature(EnumTemperature.NORMAL).setHumidity(EnumHumidity.NORMAL);
 		}
 	},
@@ -86,8 +87,8 @@ public enum BeeSpecies implements IBeeDefinition {
 
 		@Override
 		protected void setSpeciesProperties(IAlleleBeeSpeciesBuilder beeSpecies) {
-			beeSpecies.addProduct(new ItemStack(BrainStone.brainStoneComb()), 0.50f)
-					.addProduct(new ItemStack(BrainStone.essenceOfLifeDust(), 1), 0.10f)
+			beeSpecies.addProduct(new ItemStack(BrainStoneItems.brainStoneComb()), 0.50f)
+					.addProduct(new ItemStack(BrainStoneItems.essenceOfLifeDust(), 1), 0.10f)
 					.setTemperature(EnumTemperature.NORMAL).setHumidity(EnumHumidity.NORMAL).setHasEffect();
 		}
 	};

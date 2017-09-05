@@ -6,7 +6,7 @@ import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.StringUtils;
 
-import brainstonemod.BrainStone;
+import brainstonemod.BrainStoneBlocks;
 import brainstonemod.common.block.BlockBrainStoneAnvil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAnvil;
@@ -19,6 +19,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ContainerRepair;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemEnchantedBook;
 import net.minecraft.item.ItemNameTag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
@@ -86,9 +87,9 @@ public class ContainerBrainStoneAnvil extends ContainerRepair {
 				IBlockState iblockstate = world.getBlockState(blockPosIn);
 				Block block = iblockstate.getBlock();
 
-				if (block == BrainStone.brainStoneAnvil()) {
+				if (block == BrainStoneBlocks.brainStoneAnvil()) {
 					breakChance *= BRAIN_STONE_FACTOR;
-				} else if (block == BrainStone.pulsatingBrainStoneAnvil()) {
+				} else if (block == BrainStoneBlocks.pulsatingBrainStoneAnvil()) {
 					breakChance *= PULSATING_BRAIN_STONE_FACTOR;
 				}
 
@@ -133,12 +134,6 @@ public class ContainerBrainStoneAnvil extends ContainerRepair {
 			maximumCost = 0;
 		} else {
 			ItemStack itemstack1 = itemstack.copy();
-
-			if ((itemstack1.getCount() > 1) && !player.capabilities.isCreativeMode
-					&& !(itemstack1.getItem() instanceof ItemNameTag)) {
-				itemstack1.setCount(1);
-			}
-
 			ItemStack itemstack2 = inputSlots.getStackInSlot(1);
 			Map<Enchantment, Integer> map = EnchantmentHelper.getEnchantments(itemstack1);
 			j = j + itemstack.getRepairCost() + (itemstack2.isEmpty() ? 0 : itemstack2.getRepairCost());
@@ -150,7 +145,7 @@ public class ContainerBrainStoneAnvil extends ContainerRepair {
 						repairedItemName, j))
 					return;
 				flag = (itemstack2.getItem() == Items.ENCHANTED_BOOK)
-						&& !Items.ENCHANTED_BOOK.getEnchantments(itemstack2).hasNoTags();
+						&& !ItemEnchantedBook.getEnchantments(itemstack2).hasNoTags();
 
 				if (itemstack1.isItemStackDamageable() && itemstack1.getItem().getIsRepairable(itemstack, itemstack2)) {
 					int l2 = Math.min(itemstack1.getItemDamage(), itemstack1.getMaxDamage() / 4);
@@ -212,7 +207,7 @@ public class ContainerBrainStoneAnvil extends ContainerRepair {
 							}
 
 							for (Enchantment enchantment : map.keySet()) {
-								if ((enchantment != enchantment1) && !enchantment1.func_191560_c(enchantment)) {
+								if ((enchantment != enchantment1) && !enchantment1.isCompatibleWith(enchantment)) {
 									flag1 = false;
 									++i;
 								}
@@ -249,6 +244,10 @@ public class ContainerBrainStoneAnvil extends ContainerRepair {
 								}
 
 								i += k3 * j2;
+
+								if (itemstack.getCount() > 1) {
+									i = 40;
+								}
 							}
 						}
 					}

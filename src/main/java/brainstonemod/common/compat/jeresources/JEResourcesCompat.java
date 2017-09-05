@@ -1,6 +1,8 @@
 package brainstonemod.common.compat.jeresources;
 
 import brainstonemod.BrainStone;
+import brainstonemod.BrainStoneBlocks;
+import brainstonemod.BrainStoneItems;
 import brainstonemod.common.compat.IModIntegration;
 import brainstonemod.common.config.BrainStoneConfigWrapper;
 import jeresources.api.IJERAPI;
@@ -27,9 +29,9 @@ public class JEResourcesCompat implements IModIntegration {
 	@Override
 	public void init(FMLInitializationEvent event) {
 		final World world = jerAPI.getWorld();
-		final ItemStack essenceOfLife = new ItemStack(BrainStone.essenceOfLife());
-		final ItemStack brainStoneOre = new ItemStack(BrainStone.brainStoneOre());
-		final ItemStack brainStoneDust = new ItemStack(BrainStone.brainStoneDust());
+		final ItemStack essenceOfLife = new ItemStack(BrainStoneItems.essenceOfLife());
+		final ItemStack brainStoneOre = new ItemStack(BrainStoneBlocks.brainStoneOre());
+		final ItemStack brainStoneDust = new ItemStack(BrainStoneItems.brainStoneDust());
 
 		jerAPI.getMobRegistry().register(new EntityWither(world),
 				new LootDrop(essenceOfLife, (float) BrainStoneConfigWrapper.getEssenceOfLifeBaseChance()));
@@ -37,9 +39,8 @@ public class JEResourcesCompat implements IModIntegration {
 		jerAPI.getWorldGenRegistry().register(brainStoneOre,
 				new DistributionSquare(BrainStoneConfigWrapper.getBrainStoneOreVeinCount(),
 						BrainStoneConfigWrapper.getBrainStoneOreVeinSize(), 0, 32),
-				true,
-				new LootDrop(brainStoneDust, 0, 1, 1f/2f, 0), new LootDrop(brainStoneDust, 0, 2, 2f/3f, 1),
-				new LootDrop(brainStoneDust, 0, 3, 3f/4f, 2), new LootDrop(brainStoneDust, 0, 4, 4f/5f, 3));
+				true, new LootDrop(brainStoneDust, 0, 1, 1f / 2f, 0), new LootDrop(brainStoneDust, 0, 2, 2f / 3f, 1),
+				new LootDrop(brainStoneDust, 0, 3, 3f / 4f, 2), new LootDrop(brainStoneDust, 0, 4, 4f / 5f, 3));
 
 		jerAPI.getDungeonRegistry().registerCategory("chests/house/top", "BrainStone House Top");
 		jerAPI.getDungeonRegistry().registerChest("chests/house/top",
@@ -51,11 +52,6 @@ public class JEResourcesCompat implements IModIntegration {
 
 	@Override
 	public void postInit(FMLPostInitializationEvent event) {
-		// Do nothing
-	}
-
-	@Override
-	public void addAchievement() {
 		// Do nothing
 	}
 }

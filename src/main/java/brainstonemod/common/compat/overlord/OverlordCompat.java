@@ -27,11 +27,6 @@ public class OverlordCompat implements IModIntegration, IOverlordCompat {
 	}
 
 	@Override
-	public void addAchievement() {
-		// Do nothing
-	}
-
-	@Override
 	public boolean exemptEntity(Entity entity) {
 		return ((entity instanceof EntityArmyMember) && (((EntityArmyMember) entity).getAugment() != null)
 				&& ((EntityArmyMember) entity).getAugment().augmentId().equals("pulsatingbrainstone"));

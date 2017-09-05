@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import brainstonemod.BrainStone;
+import brainstonemod.BrainStoneBlocks;
 import brainstonemod.common.block.BlockBrainStoneTrigger;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -47,7 +48,7 @@ public class BSTriggerModel implements IBakedModel {
 	 */
 	private IBakedModel handleBlockState(@Nullable IBlockState iBlockState) {
 		IBakedModel retval = modelWhenNotCamouflaged; // default
-		IBlockState UNCAMOUFLAGED_BLOCK = BrainStone.brainStoneTrigger().getDefaultState();
+		IBlockState UNCAMOUFLAGED_BLOCK = BrainStoneBlocks.brainStoneTrigger().getDefaultState();
 
 		// Extract the block to be copied from the IExtendedBlockState,
 		// previously set by Block.getExtendedState()

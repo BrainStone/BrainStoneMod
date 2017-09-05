@@ -6,6 +6,7 @@ import java.util.UUID;
 import baubles.api.BaubleType;
 import baubles.api.BaublesApi;
 import brainstonemod.BrainStone;
+import brainstonemod.BrainStoneItems;
 import brainstonemod.common.capabilities.EnergyContainerItemProvider;
 import brainstonemod.common.capabilities.IEnergyContainerItem;
 import brainstonemod.common.compat.BrainStoneModules;
@@ -15,7 +16,6 @@ import brainstonemod.common.helper.BrainStoneDamageHelper;
 import brainstonemod.common.item.ItemBrainStoneLifeCapacitor;
 import brainstonemod.network.PacketDispatcher;
 import brainstonemod.network.packet.clientbound.PacketCapacitorData;
-import net.minecraft.block.Block;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,21 +31,19 @@ import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
 
 public class BrainStoneEventHandler {
 	private static boolean checkStack(ItemStack stack, UUID capacitorUUID) {
-		return (stack != null) && (stack.getItem() != null) && (stack.getItem() == BrainStone.brainStoneLifeCapacitor())
-				&& (capacitorUUID.equals(BrainStone.brainStoneLifeCapacitor().getUUID(stack)));
+		return (stack != null) && (stack.getItem() != null)
+				&& (stack.getItem() == BrainStoneItems.brainStoneLifeCapacitor())
+				&& (capacitorUUID.equals(BrainStoneItems.brainStoneLifeCapacitor().getUUID(stack)));
 	}
 
 	public static ItemStack getBrainStoneLiveCapacitor(EntityPlayer player) {
-		ItemBrainStoneLifeCapacitor capacitor = BrainStone.brainStoneLifeCapacitor();
+		ItemBrainStoneLifeCapacitor capacitor = BrainStoneItems.brainStoneLifeCapacitor();
 		ItemBrainStoneLifeCapacitor.PlayerCapacitorMapping mapping = capacitor.getPlayerCapacitorMapping();
 		UUID capacitorUUID = mapping.getCapacitorUUID(player.getUniqueID());
 
@@ -67,52 +65,17 @@ public class BrainStoneEventHandler {
 		return null;
 	}
 
-	@SuppressWarnings("deprecation")
 	@SubscribeEvent
-	public void attachCapabilities(AttachCapabilitiesEvent.Item event) {
+	public void attachCapabilities(AttachCapabilitiesEvent<ItemStack> event) {
 		if (event.getCapabilities().containsKey(BrainStone.RESOURCE_LOCATION))
 			return;
 
-		ItemStack stack = event.getItemStack();
-		Item item = event.getItem();
+		ItemStack stack = event.getObject();
+		Item item = stack.getItem();
 
 		if (item instanceof IEnergyContainerItem) {
 			IEnergyContainerItem energyItem = (IEnergyContainerItem) item;
 			event.addCapability(BrainStone.RESOURCE_LOCATION, new EnergyContainerItemProvider(energyItem, stack));
-		}
-	}
-
-	@SubscribeEvent
-	public void itemCrafted(ItemCraftedEvent event) {
-		final ItemStack stack = event.crafting;
-		final Item item = stack.getItem();
-		final Block block = Block.getBlockFromItem(item);
-		final EntityPlayer player = event.player;
-		final ItemBrainStoneLifeCapacitor capacitor = BrainStone.brainStoneLifeCapacitor();
-
-		if ((block == BrainStone.brainLightSensor()) || (block == BrainStone.brainStoneTrigger())) {
-			player.addStat(BrainStone.intelligentBlocks(), 1);
-		} else if ((item == BrainStone.brainStoneSword()) || (item == BrainStone.brainStoneShovel())
-				|| (item == BrainStone.brainStonePickaxe()) || (item == BrainStone.brainStoneAxe())
-				|| (item == BrainStone.brainStoneHoe())) {
-			player.addStat(BrainStone.intelligentTools(), 1);
-		} else if ((item == capacitor) && capacitor.isCurrentOwner(stack, player.getUniqueID())
-				&& (capacitor.getCapacityLevel(stack) > 9000)) {
-			player.addStat(BrainStone.over9000(), 1);
-		}
-	}
-
-	@SubscribeEvent
-	public void itemPickup(ItemPickupEvent event) {
-		if (event.pickedUp.getItem().getItem() == BrainStone.brainStoneDust()) {
-			event.player.addStat(BrainStone.WTHIT(), 1);
-		}
-	}
-
-	@SubscribeEvent
-	public void itemSmelted(ItemSmeltedEvent event) {
-		if (Block.getBlockFromItem(event.smelting.getItem()) == BrainStone.brainStone()) {
-			event.player.addStat(BrainStone.itLives(), 1);
 		}
 	}
 
@@ -138,13 +101,14 @@ public class BrainStoneEventHandler {
 			if (capacitor != null) {
 				float adjustedDamage = BrainStoneDamageHelper.getAdjustedDamage(event.getSource(), amount, player,
 						true);
-				float newDamage = BrainStone.brainStoneLifeCapacitor().handleDamage(capacitor, adjustedDamage, true);
+				float newDamage = BrainStoneItems.brainStoneLifeCapacitor().handleDamage(capacitor, adjustedDamage,
+						true);
 
 				if (newDamage == 0.0f) {
 					event.setCanceled(true);
 
 					BrainStoneDamageHelper.getAdjustedDamage(event.getSource(), amount, player, false);
-					BrainStone.brainStoneLifeCapacitor().handleDamage(capacitor, adjustedDamage, false);
+					BrainStoneItems.brainStoneLifeCapacitor().handleDamage(capacitor, adjustedDamage, false);
 					player.hurtResistantTime = player.maxHurtResistantTime;
 					player.lastDamage = event.getAmount();
 					player.maxHurtTime = 10;
@@ -161,7 +125,7 @@ public class BrainStoneEventHandler {
 			ItemStack capacitor = getBrainStoneLiveCapacitor(player);
 
 			if (capacitor != null) {
-				float newDamage = BrainStone.brainStoneLifeCapacitor().handleDamage(capacitor, event.getAmount());
+				float newDamage = BrainStoneItems.brainStoneLifeCapacitor().handleDamage(capacitor, event.getAmount());
 
 				if (newDamage == 0.0f) {
 					event.setCanceled(true);
@@ -179,8 +143,9 @@ public class BrainStoneEventHandler {
 					event.getLootingLevel() + 1);
 
 			if ((new Random()).nextDouble() >= chance) {
-				event.getDrops().add(new EntityItem(event.getEntity().world, event.getEntity().posX,
-						event.getEntity().posY, event.getEntity().posZ, new ItemStack(BrainStone.essenceOfLife())));
+				event.getDrops()
+						.add(new EntityItem(event.getEntity().world, event.getEntity().posX, event.getEntity().posY,
+								event.getEntity().posZ, new ItemStack(BrainStoneItems.essenceOfLife())));
 			}
 		}
 	}
@@ -222,7 +187,7 @@ public class BrainStoneEventHandler {
 			ItemStack capacitor = getBrainStoneLiveCapacitor(player);
 
 			if (capacitor != null) {
-				BrainStone.brainStoneLifeCapacitor().healPlayer(capacitor, player);
+				BrainStoneItems.brainStoneLifeCapacitor().healPlayer(capacitor, player);
 
 				// Prevent natural regeneration
 				if (stats.getFoodLevel() >= 18) {
@@ -234,8 +199,9 @@ public class BrainStoneEventHandler {
 
 	@SubscribeEvent
 	public void playerJoinServer(PlayerEvent.PlayerLoggedInEvent event) {
-		BrainStone.brainStoneLifeCapacitor().getPlayerCapacitorMapping().updateName(event.player.getUniqueID(), false);
-		PacketDispatcher.sendToAll(
-				new PacketCapacitorData(BrainStone.brainStoneLifeCapacitor().getPlayerCapacitorMapping().getMap()));
+		BrainStoneItems.brainStoneLifeCapacitor().getPlayerCapacitorMapping().updateName(event.player.getUniqueID(),
+				false);
+		PacketDispatcher.sendToAll(new PacketCapacitorData(
+				BrainStoneItems.brainStoneLifeCapacitor().getPlayerCapacitorMapping().getMap()));
 	}
 }

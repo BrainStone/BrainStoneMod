@@ -13,6 +13,4 @@ public interface IModIntegration {
 	void init(FMLInitializationEvent event);
 
 	void postInit(FMLPostInitializationEvent event);
-
-	void addAchievement();
 }

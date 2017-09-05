@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import brainstonemod.BrainStone;
+import brainstonemod.BrainStoneItems;
+import brainstonemod.BrainStoneRecipes;
 import brainstonemod.common.compat.BrainStoneModules;
 import brainstonemod.common.compat.IModIntegration;
 import net.minecraft.creativetab.CreativeTabs;
@@ -33,27 +35,27 @@ public class MysticalAgricultureCompat implements IModIntegration {
 
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
-		brainStone = newCrop("brain_stone", 3, BrainStone.brainStoneDust(), true);
-		essenceOfLife = newCrop("essence_of_life", 5, BrainStone.essenceOfLife(), true);
+		brainStone = newCrop("brain_stone", 3, BrainStoneItems.brainStoneDust(), true);
+		essenceOfLife = newCrop("essence_of_life", 5, BrainStoneItems.essenceOfLife(), true);
 
 		forEachCrop(MysticalAgricultureCropType::generate);
 
 		if (!BrainStoneModules.forestry()) {
-			BrainStone.items.put("essence_of_life_fragment",
+			BrainStoneItems.addItem("essence_of_life_fragment",
 					(new Item()).setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.MATERIALS)));
 		}
 	}
 
 	@Override
 	public void init(FMLInitializationEvent event) {
-		BrainStone.addShapedRecipe(new ItemStack(BrainStone.brainStoneDust(), 1), "EE", "EE", 'E',
-				BrainStone.brainStoneEssence());
-		BrainStone.addShapedRecipe(new ItemStack(BrainStone.essenceOfLifeFragment(), 1), "EEE", "EEE", "EEE", 'E',
-				BrainStone.essenceOfLifeEssence());
+		BrainStoneRecipes.addShapedRecipe(new ItemStack(BrainStoneItems.brainStoneDust(), 1), "EE", "EE", 'E',
+				BrainStoneItems.brainStoneEssence());
+		BrainStoneRecipes.addShapedRecipe(new ItemStack(BrainStoneItems.essenceOfLifeFragment(), 1), "EEE", "EEE",
+				"EEE", 'E', BrainStoneItems.essenceOfLifeEssence());
 
 		if (!BrainStoneModules.forestry()) {
-			BrainStone.addShapedRecipe(new ItemStack(BrainStone.essenceOfLife(), 1), "FF", "FF", 'F',
-					BrainStone.essenceOfLifeFragment());
+			BrainStoneRecipes.addShapedRecipe(new ItemStack(BrainStoneItems.essenceOfLife(), 1), "FF", "FF", 'F',
+					BrainStoneItems.essenceOfLifeFragment());
 		}
 
 		forEachCrop(MysticalAgricultureCropType::addSeedRecipe);
@@ -62,11 +64,6 @@ public class MysticalAgricultureCompat implements IModIntegration {
 
 	@Override
 	public void postInit(FMLPostInitializationEvent event) {
-		// Do nothing
-	}
-
-	@Override
-	public void addAchievement() {
 		// Do nothing
 	}
 }

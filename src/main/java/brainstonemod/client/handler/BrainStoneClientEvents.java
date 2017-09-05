@@ -1,6 +1,7 @@
 package brainstonemod.client.handler;
 
 import brainstonemod.BrainStone;
+import brainstonemod.BrainStoneItems;
 import brainstonemod.client.render.BSTriggerModel;
 import brainstonemod.client.render.BrainStoneRenderHelper;
 import brainstonemod.common.config.BrainStoneConfigWrapper;
@@ -75,7 +76,7 @@ public class BrainStoneClientEvents {
 				int height = event.getResolution().getScaledHeight();
 				int left = (width / 2) - 91;
 				int top = height - GuiIngameForge.left_height;
-				ItemBrainStoneLifeCapacitor itemCapacitor = BrainStone.brainStoneLifeCapacitor();
+				ItemBrainStoneLifeCapacitor itemCapacitor = BrainStoneItems.brainStoneLifeCapacitor();
 
 				BrainStoneRenderHelper.drawTexturedRect(left, top - 8, 16, 16, 0, 0, 16, 16, 10);
 

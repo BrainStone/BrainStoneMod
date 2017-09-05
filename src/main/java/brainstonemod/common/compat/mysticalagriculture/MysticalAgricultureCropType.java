@@ -3,10 +3,12 @@ package brainstonemod.common.compat.mysticalagriculture;
 import com.blakebr0.mysticalagriculture.blocks.crop.BlockMysticalCrop;
 import com.blakebr0.mysticalagriculture.crafting.ModRecipes;
 import com.blakebr0.mysticalagriculture.crafting.ReprocessorManager;
-import com.blakebr0.mysticalagriculture.items.ItemBase;
+import com.blakebr0.mysticalagriculture.items.ItemCore;
 import com.blakebr0.mysticalagriculture.items.ItemSeed;
 
-import brainstonemod.BrainStone;
+import brainstonemod.BrainStoneBlocks;
+import brainstonemod.BrainStoneItems;
+import brainstonemod.BrainStoneRecipes;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -24,12 +26,12 @@ public class MysticalAgricultureCropType {
 	private final Object material;
 	private final boolean enabled;
 	private final BlockMysticalCrop plant;
-	private final ItemBase crop;
+	private final ItemCore crop;
 	private final ItemSeed seed;
 
 	public static MysticalAgricultureCropType of(String name, int tier, Object material, boolean enabled) {
 		BlockMysticalCrop plant = new BlockMysticalCrop(name + CROP);
-		ItemBase crop = new ItemBase(name + ESSENCE);
+		ItemCore crop = new ItemCore(name + ESSENCE);
 		ItemSeed seed = new ItemSeed(name + SEEDS, plant, tier);
 
 		return new MysticalAgricultureCropType(name, tier, material, enabled, plant, crop, seed);
@@ -42,18 +44,18 @@ public class MysticalAgricultureCropType {
 		getPlant().setCrop(getCrop());
 		getPlant().setSeed(getSeed());
 
-		BrainStone.blocks.put(getName() + CROP, getPlant());
+		BrainStoneBlocks.addBlock(getName() + CROP, getPlant());
 
-		BrainStone.items.put(getName() + ESSENCE, getCrop());
-		BrainStone.items.put(getName() + SEEDS, getSeed());
+		BrainStoneItems.addItem(getName() + ESSENCE, getCrop());
+		BrainStoneItems.addItem(getName() + SEEDS, getSeed());
 	}
 
 	public void addSeedRecipe() {
 		if (!isEnabled())
 			return;
 
-		BrainStone.addShapedRecipe(new ItemStack(getSeed()), "MEM", "ESE", "MEM", 'E', ModRecipes.getEssence(getTier()),
-				'S', ModRecipes.getCraftingSeed(getTier()), 'M', material);
+		BrainStoneRecipes.addShapedRecipe(new ItemStack(getSeed()), "MEM", "ESE", "MEM", 'E',
+				ModRecipes.getEssence(getTier()), 'S', ModRecipes.getCraftingSeed(getTier()), 'M', material);
 	}
 
 	public void addReprocessorRecipe() {

@@ -10,7 +10,6 @@ import java.util.TreeSet;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-import brainstonemod.common.compat.betterachievements.BetterAchievementsCompat;
 import brainstonemod.common.compat.cofh.thermalexpansion.ThermalExpansionCompat;
 import brainstonemod.common.compat.forestry.ForestryCompat;
 import brainstonemod.common.compat.immersiveengineering.ImmersiveEngineeringCompat;
@@ -29,7 +28,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 @UtilityClass
 public final class BrainStoneModules {
 	public static final String BAUBLES_MODID = "baubles";
-	public static final String BETTER_ACHIEVEMENTS_MODID = "betterachievements";
+	public static final String BETTER_ADVANCEMENTS_MODID = "betterachievements";
 	public static final String CTM_MODID = "ctm";
 	public static final String DRACONIC_EVOLUTION_MODID = "draconicevolution";
 	public static final String ENDER_IO_MODID = "enderiobase";
@@ -49,7 +48,7 @@ public final class BrainStoneModules {
 	public static final String THERMAL_FOUNDATION_MODID = "thermaldoundation";
 	public static final String TINKERS_CONSTRUCT_MODID = "tconstruct";
 
-	public static final String DEPENDENCIES = "after:" + BAUBLES_MODID + ";after:" + BETTER_ACHIEVEMENTS_MODID
+	public static final String DEPENDENCIES = "after:" + BAUBLES_MODID + ";after:" + BETTER_ADVANCEMENTS_MODID
 			+ ";after:" + CTM_MODID + ";after:" + DRACONIC_EVOLUTION_MODID + ";after:" + ENDER_IO_MODID + ";after:"
 			+ EX_NIHILO_ADSCENSIO_MODID + ";after:" + FORESTRY_MODID + ";after:" + IMMERSIVE_ENGINEERING_MODID
 			+ ";after:" + JEI_MODID + ";after:" + JER_MODID + ";after:" + MFR_MODID + ";after:"
@@ -58,7 +57,7 @@ public final class BrainStoneModules {
 			+ TINKERS_CONSTRUCT_MODID;
 
 	private static Boolean BAUBLES;
-	private static Boolean BETTER_ACHIEVEMENTS;
+	private static Boolean BETTER_ADVANCEMENTS;
 	private static Boolean CTM;
 	private static Boolean DRACONIC_EVOLUTION;
 	private static Boolean ENDER_IO;
@@ -88,9 +87,9 @@ public final class BrainStoneModules {
 		return testMod(BAUBLES_MODID, BAUBLES);
 	}
 
-	@Module(modid = BETTER_ACHIEVEMENTS_MODID, name = "Better Achievements", message = "Setting custom achievement icon.", integration = BetterAchievementsCompat.class)
-	public static boolean betterAchievements() {
-		return testMod(BETTER_ACHIEVEMENTS_MODID, BETTER_ACHIEVEMENTS);
+	@Module(modid = BETTER_ADVANCEMENTS_MODID, name = "Better Achievements", message = "Using custom colors.")
+	public static boolean betterAdvancements() {
+		return testMod(BETTER_ADVANCEMENTS_MODID, BETTER_ADVANCEMENTS);
 	}
 
 	@Module(modid = CTM_MODID, name = "Connected Textures Mod", message = "Using connected Textures.")
@@ -261,10 +260,6 @@ public final class BrainStoneModules {
 
 	public static void postInit(FMLPostInitializationEvent event) {
 		forEachActiveModule(integration -> integration.postInit(event));
-	}
-
-	public static void addAchievement() {
-		forEachActiveModule(integration -> integration.addAchievement());
 	}
 
 	private static void forEachActiveModule(Consumer<? super IModIntegration> consumer) {

@@ -3,6 +3,7 @@ package brainstonemod.common.block;
 import java.util.Random;
 
 import brainstonemod.BrainStone;
+import brainstonemod.BrainStoneBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -47,22 +48,22 @@ public class BlockBrainStone extends Block {
 
 	@Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-		return Item.getItemFromBlock(BrainStone.dirtyBrainStone());
+		return Item.getItemFromBlock(BrainStoneBlocks.dirtyBrainStone());
 	}
 
 	@Override
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos,
 			EntityPlayer player) {
-		return new ItemStack(BrainStone.brainStone());
+		return new ItemStack(BrainStoneBlocks.brainStone());
 	}
 
 	@Override
 	public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
 		if (!world.isRemote) {
 			if (powered && (world.isBlockIndirectlyGettingPowered(pos) == 0)) {
-				world.setBlockState(pos, BrainStone.brainStone().getDefaultState(), 2);
+				world.setBlockState(pos, BrainStoneBlocks.brainStone().getDefaultState(), 2);
 			} else if (!powered && (world.isBlockIndirectlyGettingPowered(pos) > 0)) {
-				world.setBlockState(pos, BrainStone.brainStoneOut().getDefaultState(), 2);
+				world.setBlockState(pos, BrainStoneBlocks.brainStoneOut().getDefaultState(), 2);
 			}
 		}
 	}

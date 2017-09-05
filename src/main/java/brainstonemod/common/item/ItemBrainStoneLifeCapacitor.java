@@ -26,11 +26,11 @@ import brainstonemod.common.item.template.ItemBrainStoneBase;
 import brainstonemod.network.PacketDispatcher;
 import brainstonemod.network.packet.clientbound.PacketCapacitorData;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
@@ -110,13 +110,13 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item item, CreativeTabs creativeTab, NonNullList<ItemStack> list) {
-		list.add(getLeveledCapacitor(1, false, false));
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
+		items.add(getLeveledCapacitor(1, false, false));
 
 		int levels[] = { 1, 2, 3, 5, 9, 19, 99 };
 
 		for (int level : levels) {
-			list.add(getLeveledCapacitor(level, true, false));
+			items.add(getLeveledCapacitor(level, true, false));
 		}
 	}
 
@@ -138,14 +138,15 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack container, EntityPlayer player, List<String> list,
-			boolean advancedToolTipInfo) {
-		boolean sneak = Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak.getKeyCode());
+	public void addInformation(ItemStack container, World worldIn, List<String> list, ITooltipFlag flagIn) {
+		EntityPlayer player = Minecraft.getMinecraft().player;
+		// boolean sneak =
+		// Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak.getKeyCode());
 		boolean correctOwner = isCurrentOwner(container, player.getUniqueID());
 		boolean canClaim = !correctOwner && isNotFormerOwner(container, player.getUniqueID())
 				&& (BrainStoneClientConfigWrapper.getBSLCallowStealing() || !hasOwner(container));
 
-		if (sneak) {
+		if (flagIn.isAdvanced()) {
 			list.add(
 					BrainStone.proxy.format("capacitor.owner") + " " + PCmapping.getPlayerName(getUUID(container), true)
 							+ (correctOwner ? (TextFormatting.GRAY + BrainStone.proxy.format("capacitor.you"))
@@ -207,7 +208,8 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 
 						addOwnerToList(stack, playerUUID);
 
-						player.addStat(BrainStone.lifeCapacitor(), 1);
+						// TODO: Give advancement
+						// player.addStat(BrainStone.lifeCapacitor(), 1);
 
 						return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
 					} else {

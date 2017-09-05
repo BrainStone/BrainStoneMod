@@ -3,6 +3,8 @@ package brainstonemod.common.block;
 import java.util.Random;
 
 import brainstonemod.BrainStone;
+import brainstonemod.BrainStoneBlocks;
+import brainstonemod.BrainStoneItems;
 import net.minecraft.block.BlockOre;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -36,7 +38,7 @@ public class BlockBrainStoneOre extends BlockOre {
 		if (getItemDropped(state, rand, fortune) != Item.getItemFromBlock(this)) {
 			int i = 0;
 
-			if (this == BrainStone.brainStoneOre()) {
+			if (this == BrainStoneBlocks.brainStoneOre()) {
 				i = MathHelper.getInt(rand, 10, 20);
 			}
 
@@ -47,7 +49,7 @@ public class BlockBrainStoneOre extends BlockOre {
 
 	@Override
 	public Item getItemDropped(IBlockState i, Random random, int j) {
-		return BrainStone.brainStoneDust();
+		return BrainStoneItems.brainStoneDust();
 	}
 
 	@Override

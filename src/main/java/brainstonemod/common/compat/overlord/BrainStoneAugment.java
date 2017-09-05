@@ -2,7 +2,7 @@ package brainstonemod.common.compat.overlord;
 
 import java.util.Random;
 
-import brainstonemod.BrainStone;
+import brainstonemod.BrainStoneBlocks;
 import brainstonemod.common.block.BlockPulsatingBrainStone;
 import brainstonemod.common.compat.BrainStoneModules;
 import net.minecraft.entity.Entity;
@@ -25,7 +25,7 @@ public class BrainStoneAugment extends Augment {
 	public BrainStoneAugment() {
 		random = new Random();
 		effect = false;
-		AugmentRegistry.registerAugment(new ItemStack(BrainStone.pulsatingBrainStone()), this);
+		AugmentRegistry.registerAugment(new ItemStack(BrainStoneBlocks.pulsatingBrainStone()), this);
 	}
 
 	@Override

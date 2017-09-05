@@ -1,6 +1,6 @@
 package brainstonemod.network.packet.clientbound;
 
-import brainstonemod.BrainStone;
+import brainstonemod.BrainStoneItems;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -32,7 +32,7 @@ public class PacketCapacitorData implements IMessage {
 	public static class Handler extends AbstractClientMessageHandler<PacketCapacitorData> {
 		@Override
 		public IMessage handleClientMessage(EntityPlayer player, PacketCapacitorData message, MessageContext ctx) {
-			BrainStone.brainStoneLifeCapacitor().getPlayerCapacitorMapping().setMap(message.data);
+			BrainStoneItems.brainStoneLifeCapacitor().getPlayerCapacitorMapping().setMap(message.data);
 			return null;
 		}
 	}

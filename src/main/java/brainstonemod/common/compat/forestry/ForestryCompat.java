@@ -3,6 +3,9 @@ package brainstonemod.common.compat.forestry;
 import com.google.common.collect.ImmutableMap;
 
 import brainstonemod.BrainStone;
+import brainstonemod.BrainStoneBlocks;
+import brainstonemod.BrainStoneItems;
+import brainstonemod.BrainStoneRecipes;
 import brainstonemod.common.compat.IModIntegration;
 import forestry.api.core.Tabs;
 import forestry.api.recipes.RecipeManagers;
@@ -18,42 +21,45 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public class ForestryCompat implements IModIntegration {
 	private static void registerRecipes() {
-		BrainStone.addShapedRecipe(new ItemStack(BrainStone.brainStoneDust(), 1), "TT", "TT", 'T',
-				BrainStone.brainStoneDustTiny());
-		BrainStone.addShapedRecipe(new ItemStack(BrainStone.essenceOfLife(), 1), "FF", "FF", 'F',
-				BrainStone.essenceOfLifeFragment());
-		BrainStone.addShapedRecipe(new ItemStack(BrainStone.brainStoneScoop(), 1), "SWS", "SBS", " S ", 'S',
-				Items.STICK, 'W', Blocks.WOOL, 'B', BrainStone.brainStone());
-		BrainStone.addShapedRecipe(new ItemStack(BrainStone.stablePulsatingBrainStoneScoop(), 1), "SWS", "SBS", " R ",
-				'S', Items.STICK, 'W', Blocks.WOOL, 'B', BrainStone.stablePulsatingBrainStone(), 'R',
-				Blocks.REDSTONE_BLOCK);
+		BrainStoneRecipes.addShapedRecipe(new ItemStack(BrainStoneItems.brainStoneDust(), 1), "TT", "TT", 'T',
+				BrainStoneItems.brainStoneDustTiny());
+		BrainStoneRecipes.addShapedRecipe(new ItemStack(BrainStoneItems.essenceOfLife(), 1), "FF", "FF", 'F',
+				BrainStoneItems.essenceOfLifeFragment());
+		BrainStoneRecipes.addShapedRecipe(new ItemStack(BrainStoneItems.brainStoneScoop(), 1), "SWS", "SBS", " S ", 'S',
+				Items.STICK, 'W', Blocks.WOOL, 'B', BrainStoneBlocks.brainStone());
+		BrainStoneRecipes.addShapedRecipe(new ItemStack(BrainStoneItems.stablePulsatingBrainStoneScoop(), 1), "SWS",
+				"SBS", " R ", 'S', Items.STICK, 'W', Blocks.WOOL, 'B', BrainStoneBlocks.stablePulsatingBrainStone(),
+				'R', Blocks.REDSTONE_BLOCK);
 	}
 
 	private static void registerCarpenterRecipes() {
 		RecipeManagers.carpenterManager.addRecipe(150, ItemStack.EMPTY,
-				new ItemStack(BrainStone.essenceOfLifeFragment(), 1), "DD", "DD", 'D', BrainStone.essenceOfLifeDust());
+				new ItemStack(BrainStoneItems.essenceOfLifeFragment(), 1), "DD", "DD", 'D',
+				BrainStoneItems.essenceOfLifeDust());
 	}
 
 	private static void registerCentrifugeRecipes() {
-		RecipeManagers.centrifugeManager.addRecipe(20, new ItemStack(BrainStone.brainStoneComb()), ImmutableMap.of(
-				PluginCore.items.beeswax.getItemStack(), 1.0f, new ItemStack(BrainStone.brainStoneDustTiny()), 0.9f,
-				new ItemStack(BrainStone.brainStoneDustTiny()), 0.1f, new ItemStack(BrainStone.brainStoneDustTiny()),
-				0.1f, new ItemStack(BrainStone.brainStoneDustTiny()), 0.1f));
+		RecipeManagers.centrifugeManager.addRecipe(20, new ItemStack(BrainStoneItems.brainStoneComb()),
+				ImmutableMap.of(PluginCore.items.beeswax.getItemStack(), 1.0f,
+						new ItemStack(BrainStoneItems.brainStoneDustTiny()), 0.9f,
+						new ItemStack(BrainStoneItems.brainStoneDustTiny()), 0.1f,
+						new ItemStack(BrainStoneItems.brainStoneDustTiny()), 0.1f,
+						new ItemStack(BrainStoneItems.brainStoneDustTiny()), 0.1f));
 	}
 
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
-		BrainStone.items.put("brain_stone_dust_tiny",
+		BrainStoneItems.addItem("brain_stone_dust_tiny",
 				(new Item()).setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.MATERIALS)));
-		BrainStone.items.put("essence_of_life_dust",
+		BrainStoneItems.addItem("essence_of_life_dust",
 				(new Item()).setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.MATERIALS)));
-		BrainStone.items.put("essence_of_life_fragment",
+		BrainStoneItems.addItem("essence_of_life_fragment",
 				(new Item()).setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.MATERIALS)));
-		BrainStone.items.put("brain_stone_comb", (new Item()).setCreativeTab(Tabs.tabApiculture));
-		BrainStone.items.put("brain_stone_scoop",
-				(new ItemBrainStoneScoop(BrainStone.toolBRAINSTONE)).setCreativeTab(Tabs.tabApiculture));
-		BrainStone.items.put("stable_pulsating_brain_stone_scoop",
-				(new ItemBrainStoneScoop(BrainStone.toolSTABLEPULSATINGBS)).setCreativeTab(Tabs.tabApiculture));
+		BrainStoneItems.addItem("brain_stone_comb", (new Item()).setCreativeTab(Tabs.tabApiculture));
+		BrainStoneItems.addItem("brain_stone_scoop",
+				(new ItemBrainStoneScoop(BrainStoneItems.toolBRAINSTONE)).setCreativeTab(Tabs.tabApiculture));
+		BrainStoneItems.addItem("stable_pulsating_brain_stone_scoop",
+				(new ItemBrainStoneScoop(BrainStoneItems.toolSTABLEPULSATINGBS)).setCreativeTab(Tabs.tabApiculture));
 	}
 
 	@Override
@@ -69,11 +75,6 @@ public class ForestryCompat implements IModIntegration {
 
 	@Override
 	public void postInit(FMLPostInitializationEvent event) {
-		// Do nothing
-	}
-
-	@Override
-	public void addAchievement() {
 		// Do nothing
 	}
 }

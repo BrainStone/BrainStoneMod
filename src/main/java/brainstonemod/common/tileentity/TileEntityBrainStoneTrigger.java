@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import brainstonemod.BrainStone;
+import brainstonemod.BrainStoneBlocks;
 import brainstonemod.common.helper.BSP;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
@@ -128,7 +129,7 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 			return false;
 
 		Block block = Block.getBlockFromItem(itemstack.getItem());
-		return (block != null) && !((block == BrainStone.brainStoneTrigger()) || (block == Blocks.LEAVES))
+		return (block != null) && !((block == BrainStoneBlocks.brainStoneTrigger()) || (block == Blocks.LEAVES))
 				&& block.getDefaultState().isOpaqueCube() && block.getDefaultState().isFullCube();
 
 	}

@@ -3,6 +3,7 @@ package brainstonemod.common.block;
 import java.util.Random;
 
 import brainstonemod.BrainStone;
+import brainstonemod.BrainStoneBlocks;
 import brainstonemod.common.config.BrainStoneConfigWrapper;
 import brainstonemod.network.BrainStoneGuiHandler;
 import net.minecraft.block.BlockAnvil;
@@ -65,7 +66,7 @@ public class BlockBrainStoneAnvil extends BlockAnvil {
 	public void updateTick(World world, BlockPos pos, IBlockState state, Random random) {
 		if (effect) {
 			if (!world.isRemote && (random.nextInt(BrainStoneConfigWrapper.getPulsatingBrainStoneJumpChance()) == 0)
-					&& (world.getBlockState(pos.down()).getBlock() != BrainStone.stablePulsatingBrainStone())) {
+					&& (world.getBlockState(pos.down()).getBlock() != BrainStoneBlocks.stablePulsatingBrainStone())) {
 				EntityFallingBlock entityfallingblock = new EntityFallingBlock(world, pos.getX() + 0.5D, pos.getY(),
 						pos.getZ() + 0.5D, world.getBlockState(pos));
 				onStartFalling(entityfallingblock);

@@ -5,11 +5,11 @@ import java.util.Arrays;
 import brainstonemod.common.helper.BrainStoneLifeCapacitorUpgrade;
 import lombok.RequiredArgsConstructor;
 import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.recipe.BlankRecipeWrapper;
+import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.item.ItemStack;
 
 @RequiredArgsConstructor
-public class CapacitorUpgradeRecipeWrapper extends BlankRecipeWrapper {
+public class CapacitorUpgradeRecipeWrapper implements IRecipeWrapper {
 	private final BrainStoneLifeCapacitorUpgrade recipe;
 
 	@Override

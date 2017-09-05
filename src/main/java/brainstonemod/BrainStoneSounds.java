@@ -1,26 +1,37 @@
-package brainstonemod.common.helper;
+package brainstonemod;
 
-import brainstonemod.BrainStone;
+import java.util.LinkedList;
+import java.util.List;
+
 import brainstonemod.network.BrainStonePacketHelper;
-import lombok.experimental.UtilityClass;
+import lombok.NoArgsConstructor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.play.server.SPacketSoundEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-@UtilityClass
+@NoArgsConstructor(staticName = "registrar")
 public class BrainStoneSounds {
 	public static final SoundEvent nyan_intro = sound("nyan.intro");
 	public static final SoundEvent nyan_loop = sound("nyan.loop");
 
+	private static final List<SoundEvent> sounds = new LinkedList<>();
+
 	private static SoundEvent sound(String name) {
 		ResourceLocation location = new ResourceLocation(BrainStone.RESOURCE_PACKAGE, name);
 		SoundEvent event = new SoundEvent(location);
-		GameRegistry.register(event, location);
+
+		sounds.add(event);
 
 		return event;
+	}
+
+	@SubscribeEvent
+	public void registerItems(RegistryEvent.Register<SoundEvent> event) {
+		sounds.stream().forEach(event.getRegistry()::register);
 	}
 
 	public static void playSoundForAll(Entity entity, SoundEvent sound) {

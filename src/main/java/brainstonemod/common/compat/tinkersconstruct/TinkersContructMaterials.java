@@ -11,11 +11,16 @@ import static slimeknights.tconstruct.tools.TinkerTraits.unnatural;
 import static slimeknights.tconstruct.tools.TinkerTraits.writable;
 
 import java.util.Arrays;
+import java.util.List;
 
-import brainstonemod.BrainStone;
+import brainstonemod.BrainStoneBlocks;
+import brainstonemod.BrainStoneItems;
 import lombok.Getter;
-import lombok.experimental.UtilityClass;
 import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraftforge.event.RegistryEvent.Register;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.registries.IForgeRegistry;
 import slimeknights.tconstruct.library.MaterialIntegration;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.materials.BowMaterialStats;
@@ -25,29 +30,29 @@ import slimeknights.tconstruct.library.materials.HeadMaterialStats;
 import slimeknights.tconstruct.library.materials.Material;
 import slimeknights.tconstruct.tools.TinkerMaterials;
 
-@UtilityClass
 public class TinkersContructMaterials {
 	@Getter
-	private static Material brainStone;
+	private Material brainStone;
 	@Getter
-	private static Material stablePulsatingBrainStone;
+	private Material stablePulsatingBrainStone;
+	private List<MaterialIntegration> materiaIntegrations;
 
-	public static void initToolMaterials() {
+	public void initToolMaterials() {
 		// Materials
 		brainStone = newMaterial("brainstone", 0x33FF57);
 		stablePulsatingBrainStone = newMaterial("stablepulsatingbrainstone", 0x004d00);
 
 		// Basic traits and properties
 		brainStone.setCraftable(true);
-		brainStone.addItem(BrainStone.brainStone(), Material.VALUE_Ingot);
-		brainStone.setRepresentativeItem(BrainStone.brainStone());
+		brainStone.addItem(BrainStoneBlocks.brainStone(), Material.VALUE_Ingot);
+		brainStone.setRepresentativeItem(BrainStoneBlocks.brainStone());
 		brainStone.addTrait(magnetic, HEAD);
 		brainStone.addTrait(alien, HEAD);
 		brainStone.addTrait(alien);
 
 		stablePulsatingBrainStone.setCraftable(true);
-		stablePulsatingBrainStone.addItem(BrainStone.stablePulsatingBrainStone(), Material.VALUE_Ingot);
-		stablePulsatingBrainStone.setRepresentativeItem(BrainStone.stablePulsatingBrainStone());
+		stablePulsatingBrainStone.addItem(BrainStoneBlocks.stablePulsatingBrainStone(), Material.VALUE_Ingot);
+		stablePulsatingBrainStone.setRepresentativeItem(BrainStoneBlocks.stablePulsatingBrainStone());
 		stablePulsatingBrainStone.addTrait(magnetic2, HEAD);
 		stablePulsatingBrainStone.addTrait(momentum, HEAD);
 		stablePulsatingBrainStone.addTrait(alien, HEAD);
@@ -58,17 +63,18 @@ public class TinkersContructMaterials {
 		stablePulsatingBrainStone.addTrait(unnatural, HANDLE);
 
 		// Stats
-		addMaterialStats(brainStone, BrainStone.toolBRAINSTONE, 1.5f);
+		addMaterialStats(brainStone, BrainStoneItems.toolBRAINSTONE, 1.5f);
 		TinkerRegistry.addMaterialStats(brainStone, new BowMaterialStats(1.3f, 5.25f, 1.0f));
 
-		addMaterialStats(stablePulsatingBrainStone, BrainStone.toolSTABLEPULSATINGBS, 3.0f);
+		addMaterialStats(stablePulsatingBrainStone, BrainStoneItems.toolSTABLEPULSATINGBS, 3.0f);
 		TinkerRegistry.addMaterialStats(stablePulsatingBrainStone, new BowMaterialStats(2.0f, 7.9f, 2.0f));
 
 		// Adding the materials
-		for (MaterialIntegration materialIntegration : Arrays.asList(new MaterialIntegration(brainStone),
-				new MaterialIntegration(stablePulsatingBrainStone))) {
+		materiaIntegrations = Arrays.asList(new MaterialIntegration(brainStone),
+				new MaterialIntegration(stablePulsatingBrainStone));
+
+		for (MaterialIntegration materialIntegration : materiaIntegrations) {
 			materialIntegration.toolforge();
-			materialIntegration.integrate();
 			materialIntegration.integrateRecipes();
 		}
 	}
@@ -85,5 +91,14 @@ public class TinkersContructMaterials {
 						toolMaterial.getDamageVsEntity() + 2.0f, toolMaterial.getHarvestLevel()),
 				new HandleMaterialStats(handleModifier, toolMaterial.getMaxUses() / 4),
 				new ExtraMaterialStats(toolMaterial.getMaxUses() / 4));
+	}
+
+	@SubscribeEvent
+	public void registerRecipes(Register<IRecipe> event) {
+		IForgeRegistry<IRecipe> registry = event.getRegistry();
+
+		for (MaterialIntegration materialIntegration : materiaIntegrations) {
+			materialIntegration.registerToolForgeRecipe(registry);
+		}
 	}
 }

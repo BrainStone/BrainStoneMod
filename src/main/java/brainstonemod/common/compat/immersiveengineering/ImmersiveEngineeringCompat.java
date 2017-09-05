@@ -20,9 +20,4 @@ public class ImmersiveEngineeringCompat implements IModIntegration {
 	public void postInit(FMLPostInitializationEvent event) {
 		ImmersiveEngineeringRecipes.registerImmersiveEngineeringRecipies();
 	}
-
-	@Override
-	public void addAchievement() {
-		// Do nothing
-	}
 }
