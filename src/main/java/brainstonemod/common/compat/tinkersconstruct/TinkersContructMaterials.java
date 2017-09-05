@@ -29,6 +29,7 @@ import slimeknights.tconstruct.library.materials.HandleMaterialStats;
 import slimeknights.tconstruct.library.materials.HeadMaterialStats;
 import slimeknights.tconstruct.library.materials.Material;
 import slimeknights.tconstruct.tools.TinkerMaterials;
+import slimeknights.tconstruct.tools.TinkerTools;
 
 public class TinkersContructMaterials {
 	@Getter
@@ -74,7 +75,7 @@ public class TinkersContructMaterials {
 				new MaterialIntegration(stablePulsatingBrainStone));
 
 		for (MaterialIntegration materialIntegration : materiaIntegrations) {
-			materialIntegration.toolforge();
+			materialIntegration.preInit();
 			materialIntegration.integrateRecipes();
 		}
 	}
@@ -98,7 +99,7 @@ public class TinkersContructMaterials {
 		IForgeRegistry<IRecipe> registry = event.getRegistry();
 
 		for (MaterialIntegration materialIntegration : materiaIntegrations) {
-			materialIntegration.registerToolForgeRecipe(registry);
+			TinkerTools.registerToolForgeBlock(registry, materialIntegration.material.identifier);
 		}
 	}
 }
