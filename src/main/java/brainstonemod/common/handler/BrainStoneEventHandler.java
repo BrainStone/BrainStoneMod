@@ -16,6 +16,7 @@ import brainstonemod.common.helper.BrainStoneDamageHelper;
 import brainstonemod.common.item.ItemBrainStoneLifeCapacitor;
 import brainstonemod.network.PacketDispatcher;
 import brainstonemod.network.packet.clientbound.PacketCapacitorData;
+import lombok.NoArgsConstructor;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -35,6 +36,7 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
 
+@NoArgsConstructor(staticName = "registrar")
 public class BrainStoneEventHandler {
 	private static boolean checkStack(ItemStack stack, UUID capacitorUUID) {
 		return (stack != null) && (stack.getItem() != null)

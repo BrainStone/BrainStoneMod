@@ -90,13 +90,14 @@ public class BrainStoneItems {
 	}
 
 	public static void addItem(String name, Item item) {
+		if (items.containsKey(name))
+			return;
+
 		if (item.getRegistryName() == null) {
-			item.setRegistryName(name);
+			item.setUnlocalizedName(name).setRegistryName(BrainStone.MOD_ID, name);
 		}
 
-		item.setUnlocalizedName(name);
 		items.put(name, item);
-		BrainStone.proxy.rmm(item);
 	}
 
 	/**
@@ -351,6 +352,9 @@ public class BrainStoneItems {
 
 	@SubscribeEvent
 	public void registerItems(RegistryEvent.Register<Item> event) {
-		items.values().stream().forEach(event.getRegistry()::register);
+		items.values().stream().forEach(item -> {
+			event.getRegistry().register(item);
+			BrainStone.proxy.registerModel(item);
+		});
 	}
 }

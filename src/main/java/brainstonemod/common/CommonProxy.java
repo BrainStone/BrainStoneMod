@@ -2,7 +2,6 @@ package brainstonemod.common;
 
 import brainstonemod.BrainStoneBlocks;
 import brainstonemod.BrainStoneItems;
-import brainstonemod.common.block.BlockBrainStoneAnvil;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -52,15 +51,11 @@ public class CommonProxy {
 		return key;
 	}
 
-	public void rmm(Item item) {
+	public void registerModel(Item item) {
 		// Do nothing
 	}
 
-	public void rmm(Block block) {
-		// Do nothing
-	}
-
-	public void rmm(BlockBrainStoneAnvil block) {
+	public void registerModel(Block block) {
 		// Do nothing
 	}
 }

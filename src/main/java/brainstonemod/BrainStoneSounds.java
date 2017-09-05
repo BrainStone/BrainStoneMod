@@ -15,14 +15,14 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @NoArgsConstructor(staticName = "registrar")
 public class BrainStoneSounds {
+	private static final List<SoundEvent> sounds = new LinkedList<>();
+
 	public static final SoundEvent nyan_intro = sound("nyan.intro");
 	public static final SoundEvent nyan_loop = sound("nyan.loop");
 
-	private static final List<SoundEvent> sounds = new LinkedList<>();
-
 	private static SoundEvent sound(String name) {
 		ResourceLocation location = new ResourceLocation(BrainStone.RESOURCE_PACKAGE, name);
-		SoundEvent event = new SoundEvent(location);
+		SoundEvent event = new SoundEvent(location).setRegistryName(location);
 
 		sounds.add(event);
 
@@ -30,7 +30,7 @@ public class BrainStoneSounds {
 	}
 
 	@SubscribeEvent
-	public void registerItems(RegistryEvent.Register<SoundEvent> event) {
+	public void registerSounds(RegistryEvent.Register<SoundEvent> event) {
 		sounds.stream().forEach(event.getRegistry()::register);
 	}
 

@@ -3,7 +3,6 @@ package brainstonemod.client;
 import static brainstonemod.BrainStone.RESOURCE_PREFIX;
 
 import brainstonemod.common.CommonProxy;
-import brainstonemod.common.block.BlockBrainStoneAnvil;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -12,6 +11,7 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemAnvilBlock;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -49,30 +49,34 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	@Override
-	public void rmm(Item i) {
-		ModelLoader.setCustomModelResourceLocation(i, 0,
-				new ModelResourceLocation(RESOURCE_PREFIX + i.getUnlocalizedName().substring(5), "inventory"));
+	public void registerModel(Item item) {
+		final String prefix = RESOURCE_PREFIX + item.getUnlocalizedName().substring(5);
+
+		if (item instanceof ItemAnvilBlock) {
+			ModelResourceLocation intact = new ModelResourceLocation(prefix + "_intact", "inventory");
+			ModelResourceLocation slightlyDamaged = new ModelResourceLocation(prefix + "_slightly_damaged",
+					"inventory");
+			ModelResourceLocation veryDamaged = new ModelResourceLocation(prefix + "_very_damaged", "inventory");
+
+			ModelBakery.registerItemVariants(item, intact, slightlyDamaged, veryDamaged);
+			registerModel(item, 0, intact);
+			registerModel(item, 1, slightlyDamaged);
+			registerModel(item, 2, new ModelResourceLocation(prefix + "_very_damaged", "inventory"));
+		} else {
+			registerModel(item, new ModelResourceLocation(prefix, "inventory"));
+		}
 	}
 
 	@Override
-	public void rmm(Block b) {
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(b), 0,
-				new ModelResourceLocation(RESOURCE_PREFIX + b.getUnlocalizedName().substring(5), "inventory"));
+	public void registerModel(Block block) {
+		registerModel(Item.getItemFromBlock(block));
 	}
 
-	@Override
-	public void rmm(BlockBrainStoneAnvil b) {
-		String blockName = b.getUnlocalizedName().substring(5);
+	private static void registerModel(Item item, ModelResourceLocation model) {
+		registerModel(item, 0, model);
+	}
 
-		ModelBakery.registerItemVariants(Item.getItemFromBlock(b),
-				new ModelResourceLocation(RESOURCE_PREFIX + blockName + "_intact", "inventory"),
-				new ModelResourceLocation(RESOURCE_PREFIX + blockName + "_slightly_damaged", "inventory"),
-				new ModelResourceLocation(RESOURCE_PREFIX + blockName + "_very_damaged", "inventory"));
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(b), 0,
-				new ModelResourceLocation(RESOURCE_PREFIX + blockName + "_intact", "inventory"));
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(b), 1,
-				new ModelResourceLocation(RESOURCE_PREFIX + blockName + "_slightly_damaged", "inventory"));
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(b), 2,
-				new ModelResourceLocation(RESOURCE_PREFIX + blockName + "_very_damaged", "inventory"));
+	private static void registerModel(Item item, int meta, ModelResourceLocation model) {
+		ModelLoader.setCustomModelResourceLocation(item, meta, model);
 	}
 }

@@ -174,7 +174,7 @@ public class BrainStoneRecipes {
 		IForgeRegistry<IRecipe> registry = event.getRegistry();
 
 		// Capacitor Recipes
-		registry.register(new BrainStoneLifeCapacitorUpgrade(BrainStoneLifeCapacitorUpgrade.Upgrade.CAPACITY));
-		registry.register(new BrainStoneLifeCapacitorUpgrade(BrainStoneLifeCapacitorUpgrade.Upgrade.CHARGING));
+		registry.register(new BrainStoneLifeCapacitorUpgrade(BrainStoneLifeCapacitorUpgrade.Upgrade.CAPACITY).setRegistryName("brain_stone_life_capacitor_upgrade_capacity"));
+		registry.register(new BrainStoneLifeCapacitorUpgrade(BrainStoneLifeCapacitorUpgrade.Upgrade.CHARGING).setRegistryName("brain_stone_life_capacitor_upgrade_charging"));
 	}
 }

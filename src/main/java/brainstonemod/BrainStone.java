@@ -182,6 +182,13 @@ public class BrainStone {
 		if (event.getSide().isClient()) {
 			clPreInit();
 		}
+
+		// Event Handlers
+		MinecraftForge.EVENT_BUS.register(BrainStoneEventHandler.registrar());
+		MinecraftForge.EVENT_BUS.register(BrainStoneBlocks.registrar());
+		MinecraftForge.EVENT_BUS.register(BrainStoneItems.registrar());
+		MinecraftForge.EVENT_BUS.register(BrainStoneRecipes.registrar());
+		MinecraftForge.EVENT_BUS.register(BrainStoneSounds.registrar());
 	}
 
 	/**
@@ -194,7 +201,6 @@ public class BrainStone {
 	 */
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-		BrainStoneEventHandler eventHandler = new BrainStoneEventHandler();
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new BrainStoneGuiHandler());
 
 		registerTileEntitys(); // TileEntitys
@@ -203,12 +209,6 @@ public class BrainStone {
 		// WorldGen
 		GameRegistry.registerWorldGenerator(new BrainStoneHouseWorldGenerator(), 0);
 		GameRegistry.registerWorldGenerator(new BrainStoneOreWorldGenerator(), 1);
-		// Event Handler
-		MinecraftForge.EVENT_BUS.register(eventHandler);
-		MinecraftForge.EVENT_BUS.register(BrainStoneBlocks.registrar());
-		MinecraftForge.EVENT_BUS.register(BrainStoneItems.registrar());
-		MinecraftForge.EVENT_BUS.register(BrainStoneRecipes.registrar());
-		MinecraftForge.EVENT_BUS.register(BrainStoneSounds.registrar());
 
 		BrainStoneModules.init(event);
 	}

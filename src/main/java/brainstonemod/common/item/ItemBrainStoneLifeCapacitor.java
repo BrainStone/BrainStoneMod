@@ -140,13 +140,12 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack container, World worldIn, List<String> list, ITooltipFlag flagIn) {
 		EntityPlayer player = Minecraft.getMinecraft().player;
-		// boolean sneak =
-		// Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak.getKeyCode());
-		boolean correctOwner = isCurrentOwner(container, player.getUniqueID());
-		boolean canClaim = !correctOwner && isNotFormerOwner(container, player.getUniqueID())
+		boolean sneak = Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak.getKeyCode());
+		boolean correctOwner = isCurrentOwner(container, player);
+		boolean canClaim = !correctOwner && isNotFormerOwner(container, player)
 				&& (BrainStoneClientConfigWrapper.getBSLCallowStealing() || !hasOwner(container));
 
-		if (flagIn.isAdvanced()) {
+		if (sneak) {
 			list.add(
 					BrainStone.proxy.format("capacitor.owner") + " " + PCmapping.getPlayerName(getUUID(container), true)
 							+ (correctOwner ? (TextFormatting.GRAY + BrainStone.proxy.format("capacitor.you"))
@@ -388,8 +387,32 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 		return container.getTagCompound().hasKey("fakeOwner") || (PCmapping.getPlayerUUID(getUUID(container)) != null);
 	}
 
+	public boolean isCurrentOwner(ItemStack container, EntityPlayer player) {
+		UUID uuid;
+
+		if (player == null) {
+			uuid = emptyUUID;
+		} else {
+			uuid = player.getUniqueID();
+		}
+
+		return isCurrentOwner(container, uuid);
+	}
+
 	public boolean isCurrentOwner(ItemStack container, UUID playerUUID) {
 		return playerUUID.equals(PCmapping.getPlayerUUID(getUUID(container)));
+	}
+
+	public boolean isNotFormerOwner(ItemStack container, EntityPlayer player) {
+		UUID uuid;
+
+		if (player == null) {
+			uuid = emptyUUID;
+		} else {
+			uuid = player.getUniqueID();
+		}
+
+		return isNotFormerOwner(container, uuid);
 	}
 
 	public boolean isNotFormerOwner(ItemStack container, UUID playerUUID) {

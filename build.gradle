@@ -213,6 +213,7 @@ dependencies {
     // Local Mods
     provided "lib:Baubles-${minecraft_version}:+:deobf"
     
+    deobfProvided "lib:cucumber-${minecraft_version}:+"
     provided "lib:mysticalagriculture-${minecraft_version}:+:deobf"
 }
 

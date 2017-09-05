@@ -1,8 +1,6 @@
 package brainstonemod;
 
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nullable;
@@ -17,7 +15,6 @@ import lombok.NoArgsConstructor;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemAnvilBlock;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.event.RegistryEvent;
@@ -26,7 +23,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 @NoArgsConstructor(staticName = "registrar")
 public class BrainStoneBlocks {
 	private static final Map<String, Block> blocks = new LinkedHashMap<>();
-	private static final List<Item> items = new LinkedList<>();
 
 	protected static void generateBlocks() {
 		addBlock("brain_stone", new BlockBrainStone(false));
@@ -51,22 +47,23 @@ public class BrainStoneBlocks {
 	}
 
 	public static void addBlock(String name, Block block) {
+		if (blocks.containsKey(name))
+			return;
+
 		if (block.getRegistryName() == null) {
-			block.setRegistryName(name);
+			block.setUnlocalizedName(name).setRegistryName(BrainStone.MOD_ID, name);
 		}
 
-		block.setUnlocalizedName(name);
 		blocks.put(name, block);
+		ItemBlock item;
 
 		if (block instanceof BlockBrainStoneAnvil) {
-			items.add(new ItemAnvilBlock(block).setRegistryName(block.getRegistryName()));
-
-			BrainStone.proxy.rmm((BlockBrainStoneAnvil) block);
+			item = new ItemAnvilBlock(block);
 		} else {
-			items.add(new ItemBlock(block).setRegistryName(block.getRegistryName()));
-
-			BrainStone.proxy.rmm(block);
+			item = new ItemBlock(block);
 		}
+
+		BrainStoneItems.addItem(name, item);
 	}
 
 	/**
@@ -168,11 +165,9 @@ public class BrainStoneBlocks {
 
 	@SubscribeEvent
 	public void registerBlocks(RegistryEvent.Register<Block> event) {
-		blocks.values().stream().forEach(event.getRegistry()::register);
-	}
-
-	@SubscribeEvent
-	public void registerItems(RegistryEvent.Register<Item> event) {
-		items.stream().forEach(event.getRegistry()::register);
+		blocks.values().stream().forEach(block -> {
+			event.getRegistry().register(block);
+			BrainStone.proxy.registerModel(block);
+		});
 	}
 }
