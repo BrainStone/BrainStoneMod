@@ -1,3 +1,13 @@
+4.6.5-beta
+----------
+
+- Fixed Mystical Agriculture integration
+- Fixed Tinker's Contruct integration
+- Improved Tinker's Contruct
+- Fixed oreDict
+- Added more oreDict entries
+- Using these new oreDict entries in recipes
+
 4.6.0-alpha
 -----------
 
