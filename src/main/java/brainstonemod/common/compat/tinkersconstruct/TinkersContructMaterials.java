@@ -76,7 +76,7 @@ public class TinkersContructMaterials {
 
 		for (MaterialIntegration materialIntegration : materiaIntegrations) {
 			materialIntegration.preInit();
-			materialIntegration.integrateRecipes();
+			materialIntegration.integrate();
 		}
 	}
 
