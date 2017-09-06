@@ -1,3 +1,8 @@
+4.6.8-beta
+----------
+
+- Fixed Tinker's Construct integration
+
 4.6.5-beta
 ----------
 
