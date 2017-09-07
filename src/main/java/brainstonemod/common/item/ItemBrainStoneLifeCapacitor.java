@@ -111,6 +111,9 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
+		if (!isInCreativeTab(tab))
+			return;
+
 		items.add(getLeveledCapacitor(1, false, false));
 
 		int levels[] = { 1, 2, 3, 5, 9, 19, 99 };
