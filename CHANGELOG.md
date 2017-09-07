@@ -1,3 +1,8 @@
+4.6.11-beta
+-----------
+
+- Fixed Brain Stone Life Capacitor being in all Creative Tabs
+
 4.6.8-beta
 ----------
 
