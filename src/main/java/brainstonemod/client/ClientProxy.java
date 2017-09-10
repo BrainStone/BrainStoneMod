@@ -24,8 +24,16 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class ClientProxy extends CommonProxy {
+	private static void registerModel(Item item, ModelResourceLocation model) {
+		registerModel(item, 0, model);
+	}
+
+	private static void registerModel(Item item, int meta, ModelResourceLocation model) {
+		ModelLoader.setCustomModelResourceLocation(item, meta, model);
+	}
+
 	@SubscribeEvent
-	public static void registerModels(ModelRegistryEvent event) {
+	public void registerModels(ModelRegistryEvent event) {
 		StateMapperBase ignoreState = new StateMapperBase() {
 			@Override
 			protected ModelResourceLocation getModelResourceLocation(IBlockState iBlockState) {
@@ -39,14 +47,6 @@ public class ClientProxy extends CommonProxy {
 		final int DEFAULT_ITEM_SUBTYPE = 0;
 		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(BrainStoneBlocks.brainStoneTrigger()),
 				DEFAULT_ITEM_SUBTYPE, itemModelResourceLocation);
-	}
-
-	private static void registerModel(Item item, ModelResourceLocation model) {
-		registerModel(item, 0, model);
-	}
-
-	private static void registerModel(Item item, int meta, ModelResourceLocation model) {
-		ModelLoader.setCustomModelResourceLocation(item, meta, model);
 	}
 
 	/**
