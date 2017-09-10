@@ -1,12 +1,14 @@
 package brainstonemod.common.compat.tinkersconstruct;
 
 import brainstonemod.common.compat.IModIntegration;
+import lombok.Getter;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public class TinkersConstructCompat implements IModIntegration {
+	@Getter
 	private TinkersContructMaterials materials;
 
 	@Override

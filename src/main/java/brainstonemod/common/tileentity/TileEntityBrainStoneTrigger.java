@@ -25,6 +25,14 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class TileEntityBrainStoneTrigger extends TileEntity implements IInventory {
 	private static final ArrayList<TileEntityBrainStoneTrigger> failedTileEntities = new ArrayList<>();
+
+	private NonNullList<ItemStack> inventory;
+
+	private final HashMap<String, Integer> mobTriggered;
+	private byte delay, maxDelay, output, outputBuffered;
+
+	private ItemStack oldStack;
+	
 	public static void retryFailedTileEntities() {
 		for (TileEntityBrainStoneTrigger tileEntity : failedTileEntities) {
 			try {
@@ -34,13 +42,6 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
 			}
 		}
 	}
-
-	private NonNullList<ItemStack> inventory;
-
-	private final HashMap<String, Integer> mobTriggered;
-	private byte delay, maxDelay, output, outputBuffered;
-
-	private ItemStack oldStack;
 
 	public TileEntityBrainStoneTrigger() {
 		inventory = NonNullList.withSize(1, ItemStack.EMPTY);
