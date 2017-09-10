@@ -9,6 +9,7 @@ import brainstonemod.common.handler.BrainStoneEventHandler;
 import brainstonemod.common.item.ItemBrainStoneLifeCapacitor;
 import brainstonemod.network.PacketDispatcher;
 import brainstonemod.network.packet.serverbound.PacketRequestOverrides;
+import lombok.NoArgsConstructor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -30,6 +31,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * @author BrainStone
  */
 @SideOnly(Side.CLIENT)
+@NoArgsConstructor(staticName = "registrar")
 public class BrainStoneClientEvents {
 	private static final ResourceLocation brainStoneLifeCapacitorTexture = new ResourceLocation(
 			BrainStone.RESOURCE_PACKAGE, "textures/items/brain_stone_life_capacitor.png");

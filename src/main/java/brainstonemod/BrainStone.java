@@ -8,7 +8,6 @@ import org.apache.logging.log4j.Level;
 
 import brainstonemod.client.gui.helper.BrainStoneModCreativeTab;
 import brainstonemod.client.handler.BrainStoneClientEvents;
-import brainstonemod.client.render.BSTriggerModel;
 import brainstonemod.common.CommonProxy;
 import brainstonemod.common.compat.BrainStoneModules;
 import brainstonemod.common.config.BrainStoneConfigWrapper;
@@ -22,9 +21,6 @@ import brainstonemod.common.worldgenerators.BrainStoneOreWorldGenerator;
 import brainstonemod.network.BrainStoneGuiHandler;
 import brainstonemod.network.BrainStonePacketHelper;
 import brainstonemod.network.PacketDispatcher;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
@@ -39,12 +35,10 @@ import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityFireball;
 import net.minecraft.entity.projectile.EntityFishHook;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.item.Item;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
@@ -64,7 +58,6 @@ import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientConnectedToSe
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * The main file of the mod
@@ -176,16 +169,17 @@ public class BrainStone {
 
 		BrainStoneModules.preInit(event);
 
-		if (event.getSide().isClient()) {
-			clPreInit();
-		}
-
 		// Event Handlers
 		MinecraftForge.EVENT_BUS.register(BrainStoneEventHandler.registrar());
 		MinecraftForge.EVENT_BUS.register(BrainStoneBlocks.registrar());
 		MinecraftForge.EVENT_BUS.register(BrainStoneItems.registrar());
 		MinecraftForge.EVENT_BUS.register(BrainStoneRecipes.registrar());
 		MinecraftForge.EVENT_BUS.register(BrainStoneSounds.registrar());
+
+		if (event.getSide().isClient()) {
+			MinecraftForge.EVENT_BUS.register(BrainStoneClientEvents.registrar());
+			MinecraftForge.EVENT_BUS.register(proxy);
+		}
 	}
 
 	/**
@@ -345,25 +339,6 @@ public class BrainStone {
 		}
 
 		event.getModMetadata().logoFile = logoFile + ".png";
-	}
-
-	@SideOnly(Side.CLIENT)
-	public void clPreInit() {
-		StateMapperBase ignoreState = new StateMapperBase() {
-			@Override
-			protected ModelResourceLocation getModelResourceLocation(IBlockState iBlockState) {
-				return BSTriggerModel.variantTag;
-			}
-		};
-		ModelLoader.setCustomStateMapper(BrainStoneBlocks.brainStoneTrigger(), ignoreState);
-
-		MinecraftForge.EVENT_BUS.register(new BrainStoneClientEvents());
-
-		ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(
-				RESOURCE_PREFIX + "brain_stone_trigger", "inventory");
-		final int DEFAULT_ITEM_SUBTYPE = 0;
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(BrainStoneBlocks.brainStoneTrigger()),
-				DEFAULT_ITEM_SUBTYPE, itemModelResourceLocation);
 	}
 
 	// DOCME

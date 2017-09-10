@@ -11,7 +11,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class CommonProxy {
-
 	/**
 	 * Returns the Client Minecraft Instance.<br>
 	 * <b><u>!!! Will do nothing !!! This is the server proxy !!!</u></b>
