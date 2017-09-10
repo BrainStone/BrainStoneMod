@@ -187,12 +187,14 @@ public final class BrainStoneModules {
 		return testMod(TINKERS_CONSTRUCT_MODID, TINKERS_CONSTRUCT);
 	}
 
-	private static boolean testMod(String modID, Boolean storage) {
-		if (storage == null) {
-			storage = Loader.isModLoaded(modID);
+	private static boolean testMod(String modID, Boolean... storage) {
+		assert storage.length == 1;
+
+		if (storage[0] == null) {
+			storage[0] = Loader.isModLoaded(modID);
 		}
 
-		return storage;
+		return storage[0];
 	}
 
 	private static Set<ModuleInformation> detectAllModules() {
