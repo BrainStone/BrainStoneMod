@@ -8,9 +8,11 @@ import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Enumeration;
-import java.util.Vector;
+import java.util.Iterator;
+import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
@@ -114,7 +116,7 @@ public final class BrainStoneJarUtils {
 		@Cleanup
 		final JarFile jarFile = getRunningJar(true);
 
-		final Vector<JarEntry> entriesVec = new Vector<>();
+		final List<JarEntry> entriesVec = new ArrayList<>();
 
 		// Ensure the jar file is signed.
 		final Manifest man = jarFile.getManifest();
@@ -133,7 +135,7 @@ public final class BrainStoneJarUtils {
 				continue;
 			}
 
-			entriesVec.addElement(je);
+			entriesVec.add(je);
 			@Cleanup
 			final InputStream is = jarFile.getInputStream(je);
 
@@ -144,10 +146,10 @@ public final class BrainStoneJarUtils {
 		}
 
 		// Get the list of signer certificates
-		final Enumeration<JarEntry> e = entriesVec.elements();
+		final Iterator<JarEntry> it = entriesVec.iterator();
 
-		while (e.hasMoreElements()) {
-			final JarEntry je = e.nextElement();
+		while (it.hasNext()) {
+			final JarEntry je = it.next();
 
 			// Every file must be signed except files in META-INF.
 			final Certificate[] certs = je.getCertificates();

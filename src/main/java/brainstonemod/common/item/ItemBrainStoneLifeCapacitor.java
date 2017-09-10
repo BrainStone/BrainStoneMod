@@ -58,6 +58,11 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	 */
 	public static int MaxLevel;
 	private static final UUID emptyUUID = new UUID(0, 0);
+	private static final String KEY_ENERGY = "Energy";
+	private static final String KEY_LEVEL_CAPACITY = "LevelCapacity";
+	private static final String KEY_LEVEL_CHARGING = "LevelCharging";
+	private static final String KEY_OWNER_LIST = "OwnerList";
+	private static final String KEY_UUID = "UUID";
 
 	private PlayerCapacitorMapping PCmapping;
 	private final ItemStack base;
@@ -258,11 +263,11 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	}
 
 	public int getCapacityLevel(ItemStack container) {
-		if ((container.getTagCompound() == null) || !container.getTagCompound().hasKey("LevelCapacity")) {
+		if ((container.getTagCompound() == null) || !container.getTagCompound().hasKey(KEY_LEVEL_CAPACITY)) {
 			setCapacityLevel(container, 1);
 		}
 
-		int capacityLevel = container.getTagCompound().getInteger("LevelCapacity");
+		int capacityLevel = container.getTagCompound().getInteger(KEY_LEVEL_CAPACITY);
 
 		if (capacityLevel >= MaxLevel) {
 			setCapacityLevel(container, capacityLevel = (MaxLevel - 1));
@@ -286,11 +291,11 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	}
 
 	public int getChargingLevel(ItemStack container) {
-		if ((container.getTagCompound() == null) || !container.getTagCompound().hasKey("LevelCharging")) {
+		if ((container.getTagCompound() == null) || !container.getTagCompound().hasKey(KEY_LEVEL_CHARGING)) {
 			setChargingLevel(container, 1);
 		}
 
-		int chargingLevel = container.getTagCompound().getInteger("LevelCharging");
+		int chargingLevel = container.getTagCompound().getInteger(KEY_LEVEL_CHARGING);
 
 		if (chargingLevel >= MaxLevel) {
 			setChargingLevel(container, chargingLevel = (MaxLevel - 1));
@@ -315,11 +320,11 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 
 	@Override
 	public long getEnergyStoredLong(ItemStack container) {
-		if ((container.getTagCompound() == null) || !container.getTagCompound().hasKey("Energy")) {
+		if ((container.getTagCompound() == null) || !container.getTagCompound().hasKey(KEY_ENERGY)) {
 			setEnergyStored(container, 0L);
 		}
 
-		long energyStored = container.getTagCompound().getLong("Energy");
+		long energyStored = container.getTagCompound().getLong(KEY_ENERGY);
 		long maxEnergyStored = getMaxEnergyStoredLong(container);
 
 		if (energyStored > maxEnergyStored) {
@@ -342,7 +347,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 			container.setTagCompound(new NBTTagCompound());
 		}
 
-		container.getTagCompound().setLong("Energy", energy);
+		container.getTagCompound().setLong(KEY_ENERGY, energy);
 
 		updateDamage(container);
 	}
@@ -363,11 +368,11 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	}
 
 	public UUID getUUID(ItemStack container) {
-		if ((container.getTagCompound() == null) || !container.getTagCompound().hasKey("UUID")) {
+		if ((container.getTagCompound() == null) || !container.getTagCompound().hasKey(KEY_UUID)) {
 			createUUID(container);
 		}
 
-		return UUID.fromString(container.getTagCompound().getString("UUID"));
+		return UUID.fromString(container.getTagCompound().getString(KEY_UUID));
 	}
 
 	public void setFakeOwner(ItemStack container, boolean fakeOwner) {
@@ -423,15 +428,15 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	}
 
 	private int extractEnergyIntern(ItemStack container, int maxExtract, boolean simulate) {
-		if ((container.getTagCompound() == null) || !container.getTagCompound().hasKey("Energy"))
+		if ((container.getTagCompound() == null) || !container.getTagCompound().hasKey(KEY_ENERGY))
 			return 0;
 
-		long energy = container.getTagCompound().getLong("Energy");
+		long energy = container.getTagCompound().getLong(KEY_ENERGY);
 		int energyExtracted = (int) Math.min(energy, maxExtract);
 
 		if (!simulate) {
 			energy -= energyExtracted;
-			container.getTagCompound().setLong("Energy", energy);
+			container.getTagCompound().setLong(KEY_ENERGY, energy);
 		}
 
 		updateDamage(container);
@@ -451,7 +456,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 			container.setTagCompound(new NBTTagCompound());
 		}
 
-		container.getTagCompound().setInteger("LevelCapacity", level);
+		container.getTagCompound().setInteger(KEY_LEVEL_CAPACITY, level);
 
 		updateDamage(container);
 	}
@@ -461,7 +466,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 			container.setTagCompound(new NBTTagCompound());
 		}
 
-		container.getTagCompound().setInteger("LevelCharging", level);
+		container.getTagCompound().setInteger(KEY_LEVEL_CHARGING, level);
 	}
 
 	private void createUUID(ItemStack container) {
@@ -471,7 +476,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 			container.setTagCompound(new NBTTagCompound());
 		}
 
-		if (container.getTagCompound().hasKey("UUID")) {
+		if (container.getTagCompound().hasKey(KEY_UUID)) {
 			uuid = getUUID(container);
 		} else {
 			uuid = emptyUUID;
@@ -480,7 +485,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 		if (emptyUUID.equals(uuid)) {
 			uuid = UUID.randomUUID();
 
-			container.getTagCompound().setString("UUID", uuid.toString());
+			container.getTagCompound().setString(KEY_UUID, uuid.toString());
 		}
 	}
 
@@ -489,30 +494,30 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 			container.setTagCompound(new NBTTagCompound());
 		}
 
-		container.getTagCompound().setString("UUID", emptyUUID.toString());
+		container.getTagCompound().setString(KEY_UUID, emptyUUID.toString());
 	}
 
 	private void addOwnerToList(ItemStack container, UUID uuid) {
-		if ((container.getTagCompound() == null) || !container.getTagCompound().hasKey("OwnerList")) {
+		if ((container.getTagCompound() == null) || !container.getTagCompound().hasKey(KEY_OWNER_LIST)) {
 			getOwnerList(container);
 		}
 
-		NBTTagList tagList = container.getTagCompound().getTagList("OwnerList", NBT.TAG_STRING);
+		NBTTagList tagList = container.getTagCompound().getTagList(KEY_OWNER_LIST, NBT.TAG_STRING);
 
 		tagList.appendTag(new NBTTagString(uuid.toString()));
 
-		container.getTagCompound().setTag("OwnerList", tagList);
+		container.getTagCompound().setTag(KEY_OWNER_LIST, tagList);
 	}
 
 	private List<UUID> getOwnerList(ItemStack container) {
 		if (container.getTagCompound() == null) {
 			container.setTagCompound(new NBTTagCompound());
 		}
-		if (!container.getTagCompound().hasKey("OwnerList")) {
-			container.getTagCompound().setTag("OwnerList", new NBTTagList());
+		if (!container.getTagCompound().hasKey(KEY_OWNER_LIST)) {
+			container.getTagCompound().setTag(KEY_OWNER_LIST, new NBTTagList());
 		}
 
-		NBTTagList tagList = container.getTagCompound().getTagList("OwnerList", NBT.TAG_STRING);
+		NBTTagList tagList = container.getTagCompound().getTagList(KEY_OWNER_LIST, NBT.TAG_STRING);
 		final int size = tagList.tagCount();
 
 		List<UUID> out = new ArrayList<>(size);
@@ -547,6 +552,9 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 
 	public class PlayerCapacitorMapping {
 		private static final String relativePath = "/data/" + BrainStone.MOD_ID + "/brainStoneLifeCapacitor.dat";
+		private static final String KEY_CAPACITOR_TO_PLAYER = "capacitorToPlayer";
+		private static final String KEY_PLAYER_NAME_CACHE = "playerNameCache";
+		private static final String KEY_PLAYER_TO_CAPACITOR = "playerToCapacitor";
 
 		private final File currentFile;
 		private NBTTagCompound map;
@@ -610,18 +618,18 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 		}
 
 		public void updateMapping(UUID playerUUID, UUID capacitorUUID) {
-			if (!map.hasKey("capacitorToPlayer")) {
-				map.setTag("capacitorToPlayer", new NBTTagCompound());
+			if (!map.hasKey(KEY_CAPACITOR_TO_PLAYER)) {
+				map.setTag(KEY_CAPACITOR_TO_PLAYER, new NBTTagCompound());
 			}
-			if (!map.hasKey("playerNameCache")) {
-				map.setTag("playerNameCache", new NBTTagCompound());
+			if (!map.hasKey(KEY_PLAYER_NAME_CACHE)) {
+				map.setTag(KEY_PLAYER_NAME_CACHE, new NBTTagCompound());
 			}
-			if (!map.hasKey("playerToCapacitor")) {
-				map.setTag("playerToCapacitor", new NBTTagCompound());
+			if (!map.hasKey(KEY_PLAYER_TO_CAPACITOR)) {
+				map.setTag(KEY_PLAYER_TO_CAPACITOR, new NBTTagCompound());
 			}
 
-			NBTTagCompound capacitorToPlayer = map.getCompoundTag("capacitorToPlayer");
-			NBTTagCompound playerToCapacitor = map.getCompoundTag("playerToCapacitor");
+			NBTTagCompound capacitorToPlayer = map.getCompoundTag(KEY_CAPACITOR_TO_PLAYER);
+			NBTTagCompound playerToCapacitor = map.getCompoundTag(KEY_PLAYER_TO_CAPACITOR);
 
 			final String player = playerUUID.toString();
 			final String capacitor = capacitorUUID.toString();
@@ -644,12 +652,12 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 		}
 
 		public void updateName(UUID playerUUID, boolean force) {
-			if (!map.hasKey("playerNameCache")) {
-				map.setTag("playerNameCache", new NBTTagCompound());
+			if (!map.hasKey(KEY_PLAYER_NAME_CACHE)) {
+				map.setTag(KEY_PLAYER_NAME_CACHE, new NBTTagCompound());
 			}
 
 			String player = playerUUID.toString();
-			NBTTagCompound playerNameCache = map.getCompoundTag("playerNameCache");
+			NBTTagCompound playerNameCache = map.getCompoundTag(KEY_PLAYER_NAME_CACHE);
 
 			if (force || playerNameCache.hasKey(player)) {
 				playerNameCache.setString(player, UsernameCache.getLastKnownUsername(playerUUID));
@@ -657,11 +665,11 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 		}
 
 		public UUID getPlayerUUID(UUID capacitorUUID) {
-			if (!map.hasKey("capacitorToPlayer")) {
-				map.setTag("capacitorToPlayer", new NBTTagCompound());
+			if (!map.hasKey(KEY_CAPACITOR_TO_PLAYER)) {
+				map.setTag(KEY_CAPACITOR_TO_PLAYER, new NBTTagCompound());
 			}
 
-			NBTTagCompound capacitorToPlayer = map.getCompoundTag("capacitorToPlayer");
+			NBTTagCompound capacitorToPlayer = map.getCompoundTag(KEY_CAPACITOR_TO_PLAYER);
 
 			if (!capacitorToPlayer.hasKey(capacitorUUID.toString()))
 				return null;
@@ -674,13 +682,13 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 		}
 
 		public String getPlayerName(UUID capacitorUUID, boolean colorCode) {
-			if (!map.hasKey("playerNameCache")) {
-				map.setTag("playerNameCache", new NBTTagCompound());
+			if (!map.hasKey(KEY_PLAYER_NAME_CACHE)) {
+				map.setTag(KEY_PLAYER_NAME_CACHE, new NBTTagCompound());
 			}
 
 			UUID playerUUID = getPlayerUUID(capacitorUUID);
 			String player = (playerUUID == null) ? "" : playerUUID.toString();
-			NBTTagCompound playerNameCache = map.getCompoundTag("playerNameCache");
+			NBTTagCompound playerNameCache = map.getCompoundTag(KEY_PLAYER_NAME_CACHE);
 
 			if (!playerNameCache.hasKey(player))
 				return (colorCode ? (TextFormatting.DARK_AQUA + "" + TextFormatting.ITALIC) : "") + '<'
@@ -690,11 +698,11 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 		}
 
 		public UUID getCapacitorUUID(UUID playerUUID) {
-			if (!map.hasKey("playerToCapacitor")) {
-				map.setTag("playerToCapacitor", new NBTTagCompound());
+			if (!map.hasKey(KEY_PLAYER_TO_CAPACITOR)) {
+				map.setTag(KEY_PLAYER_TO_CAPACITOR, new NBTTagCompound());
 			}
 
-			NBTTagCompound playerToCapacitor = map.getCompoundTag("playerToCapacitor");
+			NBTTagCompound playerToCapacitor = map.getCompoundTag(KEY_PLAYER_TO_CAPACITOR);
 
 			if (!playerToCapacitor.hasKey(playerUUID.toString()))
 				return null;
