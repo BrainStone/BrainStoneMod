@@ -1,0 +1,29 @@
+{
+    "conditions": [
+        {
+            "type": "minecraft:item_exists",
+            "item": "brainstonemod:brain_stone_scoop"
+        }
+    ],
+    "result": {
+        "item": "brainstonemod:brain_stone_scoop"
+    },
+    "pattern": [
+        "SWS",
+        "SBS",
+        " S "
+    ],
+    "type": "minecraft:crafting_shaped",
+    "key": {
+        "B": {
+            "item": "brainstonemod:brain_stone"
+        },
+        "S": {
+            "item": "minecraft:stick"
+        },
+        "W": {
+            "item": "minecraft:wool",
+            "data": 0
+        }
+    }
+}

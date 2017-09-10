@@ -1,0 +1,21 @@
+{
+    "conditions": [
+        {
+            "type": "minecraft:item_exists",
+            "item": "brainstonemod:brain_stone_essence"
+        }
+    ],
+    "result": {
+        "item": "brainstonemod:brain_stone_dust"
+    },
+    "pattern": [
+        "EE",
+        "EE"
+    ],
+    "type": "minecraft:crafting_shaped",
+    "key": {
+        "E": {
+            "item": "brainstonemod:brain_stone_essence"
+        }
+    }
+}

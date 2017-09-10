@@ -1,0 +1,15 @@
+{
+    "result": {
+        "item": "brainstonemod:dirty_brain_stone"
+    },
+    "pattern": [
+        "XX",
+        "XX"
+    ],
+    "type": "forge:ore_shaped",
+    "key": {
+        "X": {
+            "item": "#DUSTBRAINSTONE"
+        }
+    }
+}

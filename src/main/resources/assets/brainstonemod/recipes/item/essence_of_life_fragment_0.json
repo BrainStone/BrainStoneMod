@@ -1,0 +1,21 @@
+{
+    "conditions": [
+        {
+            "type": "minecraft:item_exists",
+            "item": "brainstonemod:essence_of_life_dust"
+        }
+    ],
+    "result": {
+        "item": "brainstonemod:essence_of_life_fragment"
+    },
+    "pattern": [
+        "EE",
+        "EE"
+    ],
+    "type": "minecraft:crafting_shaped",
+    "key": {
+        "E": {
+            "item": "brainstonemod:essence_of_life_dust"
+        }
+    }
+}

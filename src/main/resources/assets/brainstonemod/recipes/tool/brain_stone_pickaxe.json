@@ -1,0 +1,19 @@
+{
+    "result": {
+        "item": "brainstonemod:brain_stone_pickaxe"
+    },
+    "pattern": [
+        "BBB",
+        " S ",
+        " S "
+    ],
+    "type": "forge:ore_shaped",
+    "key": {
+        "B": {
+            "item": "#BRAINSTONE"
+        },
+        "S": {
+            "item": "#STICKWOOD"
+        }
+    }
+}

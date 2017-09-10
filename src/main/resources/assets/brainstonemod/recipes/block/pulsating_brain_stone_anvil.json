@@ -1,0 +1,23 @@
+{
+    "result": {
+        "item": "brainstonemod:pulsating_brain_stone_anvil",
+        "data": 0
+    },
+    "pattern": [
+        "PEP",
+        " P ",
+        "BBB"
+    ],
+    "type": "forge:ore_shaped",
+    "key": {
+        "P": {
+            "item": "brainstonemod:pulsating_brain_stone"
+        },
+        "B": {
+            "item": "#BRAINSTONE"
+        },
+        "E": {
+            "item": "brainstonemod:essence_of_life"
+        }
+    }
+}

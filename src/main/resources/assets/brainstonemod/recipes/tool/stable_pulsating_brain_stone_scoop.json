@@ -1,0 +1,32 @@
+{
+    "conditions": [
+        {
+            "type": "minecraft:item_exists",
+            "item": "brainstonemod:stable_pulsating_brain_stone_scoop"
+        }
+    ],
+    "result": {
+        "item": "brainstonemod:stable_pulsating_brain_stone_scoop"
+    },
+    "pattern": [
+        "SWS",
+        "SBS",
+        " R "
+    ],
+    "type": "minecraft:crafting_shaped",
+    "key": {
+        "B": {
+            "item": "brainstonemod:stable_pulsating_brain_stone"
+        },
+        "R": {
+            "item": "minecraft:redstone_block"
+        },
+        "S": {
+            "item": "minecraft:stick"
+        },
+        "W": {
+            "item": "minecraft:wool",
+            "data": 0
+        }
+    }
+}

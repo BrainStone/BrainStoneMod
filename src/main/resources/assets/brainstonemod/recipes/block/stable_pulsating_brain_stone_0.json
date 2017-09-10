@@ -1,0 +1,22 @@
+{
+    "result": {
+        "item": "brainstonemod:stable_pulsating_brain_stone"
+    },
+    "pattern": [
+        "EPE",
+        "PSP",
+        "EPE"
+    ],
+    "type": "forge:ore_shaped",
+    "key": {
+        "P": {
+            "item": "#PULSATINGBRAINSTONE"
+        },
+        "S": {
+            "item": "minecraft:nether_star"
+        },
+        "E": {
+            "item": "brainstonemod:essence_of_life"
+        }
+    }
+}

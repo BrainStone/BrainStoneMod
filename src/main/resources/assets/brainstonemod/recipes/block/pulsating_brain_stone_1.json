@@ -1,0 +1,22 @@
+{
+    "result": {
+        "item": "brainstonemod:pulsating_brain_stone"
+    },
+    "pattern": [
+        "BdB",
+        "dDd",
+        "BdB"
+    ],
+    "type": "forge:ore_shaped",
+    "key": {
+        "B": {
+            "item": "#BRAINSTONE"
+        },
+        "d": {
+            "item": "#DUSTBRAINSTONE"
+        },
+        "D": {
+            "item": "#GEMDIAMOND"
+        }
+    }
+}

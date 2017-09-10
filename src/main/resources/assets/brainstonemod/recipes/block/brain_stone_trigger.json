@@ -1,0 +1,25 @@
+{
+    "result": {
+        "item": "brainstonemod:brain_stone_trigger"
+    },
+    "pattern": [
+        "XXX",
+        "RPR",
+        "XBX"
+    ],
+    "type": "forge:ore_shaped",
+    "key": {
+        "P": {
+            "item": "brainstonemod:brain_processor"
+        },
+        "B": {
+            "item": "#BRAINSTONE"
+        },
+        "R": {
+            "item": "#DUSTREDSTONE"
+        },
+        "X": {
+            "item": "#STONE"
+        }
+    }
+}

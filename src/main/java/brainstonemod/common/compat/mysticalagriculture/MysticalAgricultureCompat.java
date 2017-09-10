@@ -6,12 +6,10 @@ import java.util.function.Consumer;
 
 import brainstonemod.BrainStone;
 import brainstonemod.BrainStoneItems;
-import brainstonemod.BrainStoneRecipes;
 import brainstonemod.common.compat.BrainStoneModules;
 import brainstonemod.common.compat.IModIntegration;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -48,16 +46,6 @@ public class MysticalAgricultureCompat implements IModIntegration {
 
 	@Override
 	public void init(FMLInitializationEvent event) {
-		BrainStoneRecipes.addShapedRecipe(new ItemStack(BrainStoneItems.brainStoneDust(), 1), "EE", "EE", 'E',
-				BrainStoneItems.brainStoneEssence());
-		BrainStoneRecipes.addShapedRecipe(new ItemStack(BrainStoneItems.essenceOfLifeFragment(), 1), "EEE", "EEE",
-				"EEE", 'E', BrainStoneItems.essenceOfLifeEssence());
-
-		if (!BrainStoneModules.forestry()) {
-			BrainStoneRecipes.addShapedRecipe(new ItemStack(BrainStoneItems.essenceOfLife(), 1), "FF", "FF", 'F',
-					BrainStoneItems.essenceOfLifeFragment());
-		}
-
 		forEachCrop(MysticalAgricultureCropType::addSeedRecipe);
 		forEachCrop(MysticalAgricultureCropType::addReprocessorRecipe);
 	}

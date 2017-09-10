@@ -1,0 +1,25 @@
+{
+    "result": {
+        "item": "brainstonemod:brain_light_sensor"
+    },
+    "pattern": [
+        "XGX",
+        "XBX",
+        "XPX"
+    ],
+    "type": "forge:ore_shaped",
+    "key": {
+        "P": {
+            "item": "brainstonemod:brain_processor"
+        },
+        "B": {
+            "item": "#BRAINSTONE"
+        },
+        "G": {
+            "item": "#BLOCKGLASS"
+        },
+        "X": {
+            "item": "#STONE"
+        }
+    }
+}

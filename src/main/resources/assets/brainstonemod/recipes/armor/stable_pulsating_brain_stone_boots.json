@@ -1,0 +1,15 @@
+{
+    "result": {
+        "item": "brainstonemod:stable_pulsating_brain_stone_boots"
+    },
+    "pattern": [
+        "B B",
+        "B B"
+    ],
+    "type": "forge:ore_shaped",
+    "key": {
+        "B": {
+            "item": "#STABLEPULSATINGBRAINSTONE"
+        }
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "result": {
+        "item": "brainstonemod:brain_stone_hoe"
+    },
+    "pattern": [
+        "BB",
+        " S",
+        " S"
+    ],
+    "type": "forge:ore_shaped",
+    "key": {
+        "B": {
+            "item": "#BRAINSTONE"
+        },
+        "S": {
+            "item": "#STICKWOOD"
+        }
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "result": {
+        "item": "brainstonemod:stable_pulsating_brain_stone_axe"
+    },
+    "pattern": [
+        "BB",
+        "BS",
+        " S"
+    ],
+    "type": "forge:ore_shaped",
+    "key": {
+        "B": {
+            "item": "#STABLEPULSATINGBRAINSTONE"
+        },
+        "S": {
+            "item": "#BLOCKREDSTONE"
+        }
+    }
+}

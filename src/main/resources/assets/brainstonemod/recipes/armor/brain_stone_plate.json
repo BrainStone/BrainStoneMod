@@ -1,0 +1,16 @@
+{
+    "result": {
+        "item": "brainstonemod:brain_stone_plate"
+    },
+    "pattern": [
+        "B B",
+        "BBB",
+        "BBB"
+    ],
+    "type": "forge:ore_shaped",
+    "key": {
+        "B": {
+            "item": "#BRAINSTONE"
+        }
+    }
+}

@@ -9,7 +9,6 @@ import com.blakebr0.mysticalagriculture.items.ItemSeed;
 
 import brainstonemod.BrainStoneBlocks;
 import brainstonemod.BrainStoneItems;
-import brainstonemod.BrainStoneRecipes;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -55,8 +54,8 @@ public class MysticalAgricultureCropType {
 		if (!isEnabled())
 			return;
 
-		BrainStoneRecipes.addShapedRecipe(new ItemStack(getSeed()), "MEM", "ESE", "MEM", 'E',
-				ModRecipes.getEssence(getTier()), 'S', ModRecipes.getCraftingSeed(getTier()), 'M', material);
+		ModRecipes.addShapedRecipe(new ItemStack(getSeed()), "MEM", "ESE", "MEM", 'E', ModRecipes.getEssence(getTier()),
+				'S', ModRecipes.getCraftingSeed(getTier()), 'M', getMaterial());
 	}
 
 	public void addReprocessorRecipe() {

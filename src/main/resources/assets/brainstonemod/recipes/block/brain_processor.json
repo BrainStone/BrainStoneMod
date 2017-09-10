@@ -1,0 +1,26 @@
+{
+    "result": {
+        "item": "brainstonemod:brain_processor",
+        "count": 4
+    },
+    "pattern": [
+        "TRT",
+        "SBS",
+        "TRT"
+    ],
+    "type": "forge:ore_shaped",
+    "key": {
+        "B": {
+            "item": "#BRAINSTONE"
+        },
+        "R": {
+            "item": "minecraft:repeater"
+        },
+        "S": {
+            "item": "#DUSTREDSTONE"
+        },
+        "T": {
+            "item": "minecraft:redstone_torch"
+        }
+    }
+}

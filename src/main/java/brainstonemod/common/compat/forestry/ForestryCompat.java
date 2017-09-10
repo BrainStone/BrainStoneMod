@@ -3,16 +3,12 @@ package brainstonemod.common.compat.forestry;
 import com.google.common.collect.ImmutableMap;
 
 import brainstonemod.BrainStone;
-import brainstonemod.BrainStoneBlocks;
 import brainstonemod.BrainStoneItems;
-import brainstonemod.BrainStoneRecipes;
 import brainstonemod.common.compat.IModIntegration;
 import forestry.api.core.Tabs;
 import forestry.api.recipes.RecipeManagers;
 import forestry.core.PluginCore;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -20,18 +16,6 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public class ForestryCompat implements IModIntegration {
-	private static void registerRecipes() {
-		BrainStoneRecipes.addShapedRecipe(new ItemStack(BrainStoneItems.brainStoneDust(), 1), "TT", "TT", 'T',
-				BrainStoneItems.brainStoneDustTiny());
-		BrainStoneRecipes.addShapedRecipe(new ItemStack(BrainStoneItems.essenceOfLife(), 1), "FF", "FF", 'F',
-				BrainStoneItems.essenceOfLifeFragment());
-		BrainStoneRecipes.addShapedRecipe(new ItemStack(BrainStoneItems.brainStoneScoop(), 1), "SWS", "SBS", " S ", 'S',
-				Items.STICK, 'W', Blocks.WOOL, 'B', BrainStoneBlocks.brainStone());
-		BrainStoneRecipes.addShapedRecipe(new ItemStack(BrainStoneItems.stablePulsatingBrainStoneScoop(), 1), "SWS",
-				"SBS", " R ", 'S', Items.STICK, 'W', Blocks.WOOL, 'B', BrainStoneBlocks.stablePulsatingBrainStone(),
-				'R', Blocks.REDSTONE_BLOCK);
-	}
-
 	private static void registerCarpenterRecipes() {
 		RecipeManagers.carpenterManager.addRecipe(150, ItemStack.EMPTY,
 				new ItemStack(BrainStoneItems.essenceOfLifeFragment(), 1), "DD", "DD", 'D',
@@ -68,7 +52,6 @@ public class ForestryCompat implements IModIntegration {
 		BeeGenes.intiFlowers();
 		BeeBranches.initBranches();
 		BeeSpecies.initBees();
-		registerRecipes();
 		registerCentrifugeRecipes();
 		registerCarpenterRecipes();
 	}
