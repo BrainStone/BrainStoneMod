@@ -2,7 +2,6 @@ package brainstonemod.common;
 
 import brainstonemod.BrainStoneBlocks;
 import brainstonemod.BrainStoneItems;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayer;
@@ -53,10 +52,6 @@ public class CommonProxy {
 	}
 
 	public void registerModel(Item item) {
-		// Do nothing
-	}
-
-	public void registerModel(Block block) {
 		// Do nothing
 	}
 }

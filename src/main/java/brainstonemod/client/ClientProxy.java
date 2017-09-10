@@ -5,7 +5,6 @@ import static brainstonemod.BrainStone.RESOURCE_PREFIX;
 import brainstonemod.BrainStoneBlocks;
 import brainstonemod.client.render.BSTriggerModel;
 import brainstonemod.common.CommonProxy;
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -82,7 +81,7 @@ public class ClientProxy extends CommonProxy {
 
 	@Override
 	public void registerModel(Item item) {
-		final String prefix = RESOURCE_PREFIX + item.getUnlocalizedName().substring(5);
+		final String prefix = item.getRegistryName().toString();
 
 		if (item instanceof ItemAnvilBlock) {
 			ModelResourceLocation intact = new ModelResourceLocation(prefix + "_intact", INVENTORY);
@@ -96,10 +95,5 @@ public class ClientProxy extends CommonProxy {
 		} else {
 			registerModel(item, new ModelResourceLocation(prefix, INVENTORY));
 		}
-	}
-
-	@Override
-	public void registerModel(Block block) {
-		registerModel(Item.getItemFromBlock(block));
 	}
 }

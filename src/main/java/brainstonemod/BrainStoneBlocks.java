@@ -167,7 +167,6 @@ public class BrainStoneBlocks {
 	public void registerBlocks(RegistryEvent.Register<Block> event) {
 		blocks.values().stream().forEach(block -> {
 			event.getRegistry().register(block);
-			BrainStone.proxy.registerModel(block);
 		});
 	}
 }
