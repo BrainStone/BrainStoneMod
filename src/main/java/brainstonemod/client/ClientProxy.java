@@ -2,7 +2,6 @@ package brainstonemod.client;
 
 import static brainstonemod.BrainStone.RESOURCE_PREFIX;
 
-import brainstonemod.BrainStone;
 import brainstonemod.BrainStoneBlocks;
 import brainstonemod.client.render.BSTriggerModel;
 import brainstonemod.common.CommonProxy;
@@ -24,6 +23,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class ClientProxy extends CommonProxy {
+	private static final String INVENTORY = "inventory";
+
 	private static void registerModel(Item item, ModelResourceLocation model) {
 		registerModel(item, 0, model);
 	}
@@ -43,7 +44,7 @@ public class ClientProxy extends CommonProxy {
 		ModelLoader.setCustomStateMapper(BrainStoneBlocks.brainStoneTrigger(), ignoreState);
 
 		ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(
-				BrainStone.RESOURCE_PREFIX + "brain_stone_trigger", "inventory");
+				RESOURCE_PREFIX + "brain_stone_trigger", INVENTORY);
 		final int DEFAULT_ITEM_SUBTYPE = 0;
 		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(BrainStoneBlocks.brainStoneTrigger()),
 				DEFAULT_ITEM_SUBTYPE, itemModelResourceLocation);
@@ -84,17 +85,16 @@ public class ClientProxy extends CommonProxy {
 		final String prefix = RESOURCE_PREFIX + item.getUnlocalizedName().substring(5);
 
 		if (item instanceof ItemAnvilBlock) {
-			ModelResourceLocation intact = new ModelResourceLocation(prefix + "_intact", "inventory");
-			ModelResourceLocation slightlyDamaged = new ModelResourceLocation(prefix + "_slightly_damaged",
-					"inventory");
-			ModelResourceLocation veryDamaged = new ModelResourceLocation(prefix + "_very_damaged", "inventory");
+			ModelResourceLocation intact = new ModelResourceLocation(prefix + "_intact", INVENTORY);
+			ModelResourceLocation slightlyDamaged = new ModelResourceLocation(prefix + "_slightly_damaged", INVENTORY);
+			ModelResourceLocation veryDamaged = new ModelResourceLocation(prefix + "_very_damaged", INVENTORY);
 
 			ModelBakery.registerItemVariants(item, intact, slightlyDamaged, veryDamaged);
 			registerModel(item, 0, intact);
 			registerModel(item, 1, slightlyDamaged);
-			registerModel(item, 2, new ModelResourceLocation(prefix + "_very_damaged", "inventory"));
+			registerModel(item, 2, veryDamaged);
 		} else {
-			registerModel(item, new ModelResourceLocation(prefix, "inventory"));
+			registerModel(item, new ModelResourceLocation(prefix, INVENTORY));
 		}
 	}
 
