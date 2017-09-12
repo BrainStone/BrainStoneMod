@@ -51,18 +51,18 @@ item.brain_stone_comb.name=Brain Stone Comb
 item.brain_stone_scoop.name=Brain Stone Scoop
 item.stable_pulsating_brain_stone_scoop.name=Stable Pulsating Brain Stone Scoop
 
-achievement.brainstonemod.WTHIT=What the Hell is that???
-achievement.brainstonemod.WTHIT.desc=You have to find a strange green powder.
-achievement.brainstonemod.itLives=It lives!
-achievement.brainstonemod.itLives.desc=Crafting and a Smelting is the key!
-achievement.brainstonemod.intelligentBlocks=Intelligent Blocks
-achievement.brainstonemod.intelligentBlocks.desc=Make useful intelligent Blocks out of this green stone!
-achievement.brainstonemod.intelligentTools=Intelligent Tools
-achievement.brainstonemod.intelligentTools.desc=Make Tools out of this green stone!
-achievement.brainstonemod.lifeCapacitor=Life Capacitor
-achievement.brainstonemod.lifeCapacitor.desc=Make and claim a Brain Stone Life Capacitor!
-achievement.brainstonemod.over9000=It's over 9000!!!!!!!!!!!!!
-achievement.brainstonemod.over9000.desc=Upgrade the capacity level of a Brain Stone Life Capacitor over 9000. (Don't even try)
+advancement.brainstonemod.WTHIT=What the Hell is that???
+advancement.brainstonemod.WTHIT.desc=You have to find a strange green powder.
+advancement.brainstonemod.itLives=It lives!
+advancement.brainstonemod.itLives.desc=Crafting and a Smelting is the key!
+advancement.brainstonemod.intelligentBlocks=Intelligent Blocks
+advancement.brainstonemod.intelligentBlocks.desc=Make useful intelligent Blocks out of this green stone!
+advancement.brainstonemod.intelligentTools=Intelligent Tools
+advancement.brainstonemod.intelligentTools.desc=Make Tools out of this green stone!
+advancement.brainstonemod.lifeCapacitor=Life Capacitor
+advancement.brainstonemod.lifeCapacitor.desc=Make and claim a Brain Stone Life Capacitor!
+advancement.brainstonemod.over9000=It's over 9000!!!!!!!!!!!!!
+advancement.brainstonemod.over9000.desc=Upgrade the capacity level of a Brain Stone Life Capacitor over 9000. (Don't even try)
 
 itemGroup.tabbrainstonemod=Brain Stone Mod
 

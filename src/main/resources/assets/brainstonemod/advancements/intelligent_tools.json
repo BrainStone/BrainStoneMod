@@ -1,0 +1,86 @@
+{
+    "display": {
+        "icon": {
+            "item": "brainstonemod:brain_stone_pickaxe"
+        },
+        "title": {
+            "translate": "advancement.brainstonemod.intelligentTools"
+        },
+        "description": {
+            "translate": "advancement.brainstonemod.intelligentTools.desc"
+        }
+    },
+    "parent": "brainstonemod:it_lives",
+    "criteria": {
+        "craft_brain_stone_sword": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "brainstonemod:brain_stone_sword"
+                    }
+                ]
+            }
+        },
+        "craft_brain_stone_shovel": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "brainstonemod:brain_stone_shovel"
+                    }
+                ]
+            }
+        },
+        "craft_brain_stone_pickaxe": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "brainstonemod:brain_stone_pickaxe"
+                    }
+                ]
+            }
+        },
+        "craft_brain_stone_axe": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "brainstonemod:brain_stone_axe"
+                    }
+                ]
+            }
+        },
+        "craft_brain_stone_hoe": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "brainstonemod:brain_stone_hoe"
+                    }
+                ]
+            }
+        },
+        "craft_brain_stone_scoop": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "brainstonemod:brain_stone_sword"
+                    }
+                ]
+            }
+        }
+    },
+    "requirements": [
+        [
+            "craft_brain_stone_sword",
+            "craft_brain_stone_shovel",
+            "craft_brain_stone_pickaxe",
+            "craft_brain_stone_axe",
+            "craft_brain_stone_hoe",
+            "craft_brain_stone_scoop"
+        ]
+    ]
+}

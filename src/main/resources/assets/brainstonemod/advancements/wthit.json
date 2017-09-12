@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "brainstonemod:brain_stone_dust"
+        },
+        "title": {
+            "translate": "advancement.brainstonemod.WTHIT"
+        },
+        "description": {
+            "translate": "advancement.brainstonemod.WTHIT.desc"
+        },
+        "background": "brainstonemod:textures/gui/advancements/backgrounds/brain_stone_ore.png"
+    },
+    "criteria": {
+        "find_brain_stone_dust": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "brainstonemod:brain_stone_dust"
+                    }
+                ]
+            }
+        }
+    }
+}

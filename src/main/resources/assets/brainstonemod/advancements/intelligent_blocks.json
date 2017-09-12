@@ -1,0 +1,42 @@
+{
+    "display": {
+        "icon": {
+            "item": "brainstonemod:brain_stone_trigger"
+        },
+        "title": {
+            "translate": "advancement.brainstonemod.intelligentBlocks"
+        },
+        "description": {
+            "translate": "advancement.brainstonemod.intelligentBlocks.desc"
+        }
+    },
+    "parent": "brainstonemod:it_lives",
+    "criteria": {
+        "craft_brain_stone_trigger": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "brainstonemod:brain_stone_trigger"
+                    }
+                ]
+            }
+        },
+        "craft_brain_light_sensor": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "brainstonemod:brain_light_sensor"
+                    }
+                ]
+            }
+        }
+    },
+    "requirements": [
+        [
+            "craft_brain_stone_trigger",
+            "craft_brain_light_sensor"
+        ]
+    ]
+}

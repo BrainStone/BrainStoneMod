@@ -51,18 +51,18 @@ item.brain_stone_comb.name=Hirnsteinwabe
 item.brain_stone_scoop.name=Hirnsteinkescher
 item.stable_pulsating_brain_stone_scoop.name=Stabiler Pulsierender Hirnsteinkescher
 
-achievement.brainstonemod.WTHIT=Was zur Hölle ist das???
-achievement.brainstonemod.WTHIT.desc=Du must ein seltsames grünes Pulver finden.
-achievement.brainstonemod.itLives=Es lebt!
-achievement.brainstonemod.itLives.desc=Craften und Schmelzen ist die Lösung!
-achievement.brainstonemod.intelligentBlocks=Intelligente Blöcke
-achievement.brainstonemod.intelligentBlocks.desc=Stelle nützliche intelligente Blöcke aus diesem grünen Stein her!
-achievement.brainstonemod.intelligentTools=Intelligente Werkzeuge
-achievement.brainstonemod.intelligentTools.desc=Stelle Werkzeuge aus diesem grünen Stein her!
-achievement.brainstonemod.lifeCapacitor=Lebenskondensator!
-achievement.brainstonemod.lifeCapacitor.desc=Baue und besitze einen Hirsteinlebenskondensator!
-achievement.brainstonemod.over9000=Es it über 9000!!!!!!!!!!!!!
-achievement.brainstonemod.over9000.desc=Upgrade das Kapazitäts-Level eines Hirsteinlebenskondensator über 9000. (Versuchs nicht mal)
+advancement.brainstonemod.WTHIT=Was zur Hölle ist das???
+advancement.brainstonemod.WTHIT.desc=Du must ein seltsames grünes Pulver finden.
+advancement.brainstonemod.itLives=Es lebt!
+advancement.brainstonemod.itLives.desc=Craften und Schmelzen ist die Lösung!
+advancement.brainstonemod.intelligentBlocks=Intelligente Blöcke
+advancement.brainstonemod.intelligentBlocks.desc=Stelle nützliche intelligente Blöcke aus diesem grünen Stein her!
+advancement.brainstonemod.intelligentTools=Intelligente Werkzeuge
+advancement.brainstonemod.intelligentTools.desc=Stelle Werkzeuge aus diesem grünen Stein her!
+advancement.brainstonemod.lifeCapacitor=Lebenskondensator!
+advancement.brainstonemod.lifeCapacitor.desc=Baue und besitze einen Hirsteinlebenskondensator!
+advancement.brainstonemod.over9000=Es it über 9000!!!!!!!!!!!!!
+advancement.brainstonemod.over9000.desc=Upgrade das Kapazitäts-Level eines Hirsteinlebenskondensator über 9000. (Versuchs nicht mal)
 
 itemGroup.tabbrainstonemod=Brain Stone Mod
 

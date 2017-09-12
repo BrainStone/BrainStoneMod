@@ -1,0 +1,27 @@
+{
+    "display": {
+        "icon": {
+            "item": "brainstonemod:brain_stone_life_capacitor"
+        },
+        "title": {
+            "translate": "advancement.brainstonemod.lifeCapacitor"
+        },
+        "description": {
+            "translate": "advancement.brainstonemod.lifeCapacitor.desc"
+        },
+        "frame": "goal"
+    },
+    "parent": "brainstonemod:intelligent_tools",
+    "criteria": {
+        "craft_brain_stone_life_capacitor": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "brainstonemod:brain_stone_life_capacitor"
+                    }
+                ]
+            }
+        }
+    }
+}

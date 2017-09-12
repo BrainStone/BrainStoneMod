@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "brainstonemod:brain_stone"
+        },
+        "title": {
+            "translate": "advancement.brainstonemod.itLives"
+        },
+        "description": {
+            "translate": "advancement.brainstonemod.itLives.desc"
+        }
+    },
+    "parent": "brainstonemod:wthit",
+    "criteria": {
+        "craft_brain_stone": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "brainstonemod:brain_stone"
+                    }
+                ]
+            }
+        }
+    }
+}

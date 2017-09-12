@@ -1,4 +1,4 @@
-﻿tile.brain_stone.name=Piedra Cerebral
+tile.brain_stone.name=Piedra Cerebral
 tile.brain_stone_out.name=Piedra Cerebral
 tile.brain_stone_ore.name=Mineral de Piedra Cerebral
 tile.dirty_brain_stone.name=Piedra Cerebral Sucio
@@ -31,18 +31,18 @@ item.stable_pulsating_brain_stone_leggings.name=Polainas de Piedra Cerebral Puls
 item.stable_pulsating_brain_stone_boots.name=Botas de Piedra Cerebral Pulsante Estable
 item.brain_stone_life_capacitor.name=Capacitador de Vida de Piedra Cerebral
 
-achievement.brainstonemod.WTHIT=Que demonios es eso???
-achievement.brainstonemod.WTHIT.desc=Tienes que encontrat el polvo verde raro.
-achievement.brainstonemod.itLives=¡Vive!
-achievement.brainstonemod.itLives.desc=¡Elaboración y una fundición es la clave!
-achievement.brainstonemod.intelligentBlocks=Bloques inteligentes.
-achievement.brainstonemod.intelligentBlocks.desc=¡Haga bloques inteligentes útiles de esta piedra verde!
-achievement.brainstonemod.intelligentTools=Herramientas inteligentes.
-achievement.brainstonemod.intelligentTools.desc=¡Haga herramientas de esta piedra verde!
-achievement.brainstonemod.lifeCapacitor=Capacitador Celebral
-achievement.brainstonemod.lifeCapacitor.desc=¡Haga y reclama un capacitador de vida de la piedra cerebral!
-achievement.brainstonemod.over9000=¡¡¡¡¡¡¡¡¡¡¡¡¡Esta sobre 9000!!!!!!!!!!!!!
-achievement.brainstonemod.over9000.desc=Actualize el nivel de capacidad de un capacitador de vida de piedra celebral sobre 9000. (No lo intentes)
+advancement.brainstonemod.WTHIT=Que demonios es eso???
+advancement.brainstonemod.WTHIT.desc=Tienes que encontrat el polvo verde raro.
+advancement.brainstonemod.itLives=¡Vive!
+advancement.brainstonemod.itLives.desc=¡Elaboración y una fundición es la clave!
+advancement.brainstonemod.intelligentBlocks=Bloques inteligentes.
+advancement.brainstonemod.intelligentBlocks.desc=¡Haga bloques inteligentes útiles de esta piedra verde!
+advancement.brainstonemod.intelligentTools=Herramientas inteligentes.
+advancement.brainstonemod.intelligentTools.desc=¡Haga herramientas de esta piedra verde!
+advancement.brainstonemod.lifeCapacitor=Capacitador Celebral
+advancement.brainstonemod.lifeCapacitor.desc=¡Haga y reclama un capacitador de vida de la piedra cerebral!
+advancement.brainstonemod.over9000=¡¡¡¡¡¡¡¡¡¡¡¡¡Esta sobre 9000!!!!!!!!!!!!!
+advancement.brainstonemod.over9000.desc=Actualize el nivel de capacidad de un capacitador de vida de piedra celebral sobre 9000. (No lo intentes)
 
 itemGroup.tabbrainstonemod=Brain Stone Mod
 
