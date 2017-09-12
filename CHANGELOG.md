@@ -1,3 +1,11 @@
+4.6.22-beta
+-----------
+
+- Turned recipes into JSON files
+- Fixed weird resource loading error
+- Added basic advancements
+- Lots of internal improvements
+
 4.6.11-beta
 -----------
 
