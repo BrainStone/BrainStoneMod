@@ -17,6 +17,7 @@ import brainstonemod.network.packet.clientbound.PacketTriggerMobs;
 import brainstonemod.network.packet.serverbound.PacketChangeDirection;
 import brainstonemod.network.packet.serverbound.PacketChangeState;
 import brainstonemod.network.packet.serverbound.PacketDisableMobs;
+import brainstonemod.network.packet.serverbound.PacketEasterEgg;
 import brainstonemod.network.packet.serverbound.PacketEnableMobs;
 import brainstonemod.network.packet.serverbound.PacketInvertMobTriggered;
 import brainstonemod.network.packet.serverbound.PacketLightSensor;
@@ -62,6 +63,7 @@ public class PacketDispatcher {
 		registerMessage(PacketSyncDisableMobs.Handler.class, PacketSyncDisableMobs.class, Side.CLIENT);
 		registerMessage(PacketEnableMobs.Handler.class, PacketEnableMobs.class, Side.SERVER);
 		registerMessage(PacketSyncEnableMobs.Handler.class, PacketSyncEnableMobs.class, Side.CLIENT);
+		registerMessage(PacketEasterEgg.Handler.class, PacketEasterEgg.class, Side.SERVER);
 	}
 
 	/**

@@ -17,10 +17,12 @@ import baubles.api.BaubleType;
 import baubles.api.IBauble;
 import brainstonemod.BrainStone;
 import brainstonemod.client.config.BrainStoneClientConfigWrapper;
+import brainstonemod.common.advancement.CriterionRegistry;
 import brainstonemod.common.capability.IEnergyContainerItem;
 import brainstonemod.common.compat.BrainStoneModules;
 import brainstonemod.common.config.BrainStoneConfigWrapper;
 import brainstonemod.common.helper.BSP;
+import brainstonemod.common.helper.BrainStoneLifeCapacitorUpgrade;
 import brainstonemod.common.helper.BrainStonePowerDisplayUtil;
 import brainstonemod.common.item.template.ItemBrainStoneBase;
 import brainstonemod.network.PacketDispatcher;
@@ -30,6 +32,7 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
@@ -59,6 +62,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 	public static int MaxLevel;
 	private static final UUID emptyUUID = new UUID(0, 0);
 	private static final String KEY_ENERGY = "Energy";
+	private static final String KEY_FAKE_OWNER = "FakeOwner";
 	private static final String KEY_LEVEL_CAPACITY = "LevelCapacity";
 	private static final String KEY_LEVEL_CHARGING = "LevelCharging";
 	private static final String KEY_OWNER_LIST = "OwnerList";
@@ -215,8 +219,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 
 						addOwnerToList(stack, playerUUID);
 
-						// TODO: Give advancement
-						// player.addStat(BrainStone.lifeCapacitor(), 1);
+						CriterionRegistry.CLAIM_BRAIN_STONE_LIFE_CAPACITOR.trigger((EntityPlayerMP) player);
 
 						return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, stack);
 					} else {
@@ -260,6 +263,28 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 		int energySpent = extractEnergyIntern(container, energy, false);
 
 		player.heal((float) energySpent / (float) RFperHalfHeart);
+	}
+
+	public int getTypeLevel(ItemStack container, BrainStoneLifeCapacitorUpgrade.Upgrade type) {
+		switch (type) {
+		case CAPACITY:
+			return getCapacityLevel(container);
+		case CHARGING:
+			return getChargingLevel(container);
+		default:
+			throw new IllegalArgumentException("type is neither CAPACITY, nor CHARGING. It is: " + type);
+		}
+	}
+
+	public ItemStack upgradeType(ItemStack container, BrainStoneLifeCapacitorUpgrade.Upgrade type) {
+		switch (type) {
+		case CAPACITY:
+			return upgradeCapacity(container);
+		case CHARGING:
+			return upgradeCharging(container);
+		default:
+			throw new IllegalArgumentException("type is neither CAPACITY, nor CHARGING. It is: " + type);
+		}
 	}
 
 	public int getCapacityLevel(ItemStack container) {
@@ -381,9 +406,9 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 		}
 
 		if (fakeOwner) {
-			container.getTagCompound().setBoolean("fakeOwner", true);
+			container.getTagCompound().setBoolean(KEY_FAKE_OWNER, true);
 		} else {
-			container.getTagCompound().removeTag("fakeOwner");
+			container.getTagCompound().removeTag(KEY_FAKE_OWNER);
 		}
 	}
 
@@ -392,7 +417,7 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase implements I
 			container.setTagCompound(new NBTTagCompound());
 		}
 
-		return container.getTagCompound().hasKey("fakeOwner") || (PCmapping.getPlayerUUID(getUUID(container)) != null);
+		return container.getTagCompound().hasKey(KEY_FAKE_OWNER) || (PCmapping.getPlayerUUID(getUUID(container)) != null);
 	}
 
 	public boolean isCurrentOwner(ItemStack container, EntityPlayer player) {

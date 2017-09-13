@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Level;
 import brainstonemod.client.gui.helper.BrainStoneModCreativeTab;
 import brainstonemod.client.handler.BrainStoneClientEvents;
 import brainstonemod.common.CommonProxy;
+import brainstonemod.common.advancement.CriterionRegistry;
 import brainstonemod.common.compat.BrainStoneModules;
 import brainstonemod.common.config.BrainStoneConfigWrapper;
 import brainstonemod.common.handler.BrainStoneEventHandler;
@@ -200,6 +201,9 @@ public class BrainStone {
 		// WorldGen
 		GameRegistry.registerWorldGenerator(new BrainStoneHouseWorldGenerator(), 0);
 		GameRegistry.registerWorldGenerator(new BrainStoneOreWorldGenerator(), 1);
+
+		// Advancement stuff
+		CriterionRegistry.init();
 
 		BrainStoneModules.init(event);
 

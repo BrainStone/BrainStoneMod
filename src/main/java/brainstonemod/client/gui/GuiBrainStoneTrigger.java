@@ -15,6 +15,7 @@ import brainstonemod.common.helper.BSP;
 import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
 import brainstonemod.network.PacketDispatcher;
 import brainstonemod.network.packet.serverbound.PacketDisableMobs;
+import brainstonemod.network.packet.serverbound.PacketEasterEgg;
 import brainstonemod.network.packet.serverbound.PacketEnableMobs;
 import brainstonemod.network.packet.serverbound.PacketInvertMobTriggered;
 import brainstonemod.network.packet.serverbound.PacketSetMaxDelay;
@@ -470,6 +471,8 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 
 			numberStars = (width * height) / starEachPixels;
 			renderNyanCat = false;
+
+			PacketDispatcher.sendToServer(new PacketEasterEgg());
 		}
 	}
 
@@ -491,6 +494,7 @@ public class GuiBrainStoneTrigger extends GuiBrainStoneBase {
 					} catch (final InterruptedException e) {
 						BSP.warnException(e);
 					}
+
 					soundHandler.resumeSounds();
 				}
 			}).start();

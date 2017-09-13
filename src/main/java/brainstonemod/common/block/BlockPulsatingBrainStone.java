@@ -1,10 +1,12 @@
 package brainstonemod.common.block;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
 import brainstonemod.BrainStone;
 import brainstonemod.BrainStoneBlocks;
+import brainstonemod.common.advancement.CriterionRegistry;
 import brainstonemod.common.compat.BrainStoneModules;
 import brainstonemod.common.compat.overlord.IOverlordCompat;
 import brainstonemod.common.compat.overlord.OverlordCompat;
@@ -18,6 +20,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
@@ -79,13 +82,10 @@ public class BlockPulsatingBrainStone extends Block {
 	}
 
 	public static Potion getRandomPotion(Random random) {
-		Potion potion;
+		List<Potion> potions = new LinkedList<>();
+		Potion.REGISTRY.iterator().forEachRemaining(potions::add);
 
-		do {
-			potion = Potion.getPotionById(random.nextInt(Potion.REGISTRY.getKeys().size()));
-		} while (potion == null);
-
-		return potion;
+		return potions.get(random.nextInt(potions.size()));
 	}
 
 	@Override
@@ -132,13 +132,10 @@ public class BlockPulsatingBrainStone extends Block {
 		double radius;
 		int taskRand;
 		EntityLivingBase entity;
-		Object tmpEntity;
-		final List<?> list = world.getEntitiesWithinAABBExcludingEntity(null,
+		final List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(null,
 				new AxisAlignedBB(pos.add(-10, -10, -10), pos.add(11, 11, 11)));
 
-		for (Object aList : list) {
-			tmpEntity = aList;
-
+		for (Entity tmpEntity : list) {
 			BSP.debug(tmpEntity.getClass().getName());
 
 			if (tmpEntity instanceof EntityLivingBase) {
@@ -146,30 +143,33 @@ public class BlockPulsatingBrainStone extends Block {
 
 				BSP.debug(entity, entity.getArmorInventoryList());
 
-				if (isProtected(entity.getArmorInventoryList())) {
-					BSP.debug("Mob/Player wears armor! No effect!");
-
-					continue;
-				}
-
-				if (BrainStoneModules.overlord()) {
-					IOverlordCompat compat = new OverlordCompat();
-					if (compat.exemptEntity(entity)) {
-						BSP.debug("Army Member has Pulsating BrainStone Augment! No effect!");
-						continue;
-					}
-				}
-
 				radius = MathHelper.nextDouble(random, 2.0, 10.0);
 
 				if (entity.getDistance(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5) <= radius) {
+					boolean isProtected = isProtected(entity.getArmorInventoryList());
+
+					if (entity instanceof EntityPlayer) {
+						CriterionRegistry.PULSATING_BRAIN_STONE_EFFECT.trigger((EntityPlayerMP) entity, isProtected);
+					}
+
+					if (isProtected) {
+						BSP.debug("Mob/Player wears armor! No effect!");
+
+						continue;
+					}
+
+					if (BrainStoneModules.overlord()) {
+						IOverlordCompat compat = new OverlordCompat();
+						if (compat.exemptEntity(entity)) {
+							BSP.debug("Army Member has Pulsating BrainStone Augment! No effect!");
+							continue;
+						}
+					}
+
 					taskRand = random.nextInt(10);
 
 					if ((taskRand >= 0) && (taskRand < 6)) {
-						BSP.debug("Potion Effect");
-
-						entity.addPotionEffect(new PotionEffect(getRandomPotion(random), random.nextInt(5980) + 20,
-								random.nextInt(4)));
+						potionEffect(entity, random);
 					} else if ((taskRand >= 6) && (taskRand < 10)) {
 						kickEntity(entity, random, 3.0);
 					}
@@ -190,6 +190,15 @@ public class BlockPulsatingBrainStone extends Block {
 		} else {
 			entity.addVelocity(x1, y1, z1);
 		}
+	}
+
+	public static void potionEffect(EntityLivingBase entity, Random random) {
+		BSP.debug("Potion Effect");
+
+		Potion potion = getRandomPotion(random);
+
+		entity.addPotionEffect(
+				new PotionEffect(potion, potion.isInstant() ? 1 : (random.nextInt(5980) + 20), random.nextInt(4)));
 	}
 
 	public static boolean isProtected(Iterable<ItemStack> armorStacks) {

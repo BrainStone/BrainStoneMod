@@ -21,6 +21,7 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.event.RegistryEvent.Register;
 import net.minecraftforge.fml.common.Loader;
@@ -122,11 +123,16 @@ public class BrainStoneRecipes {
 	@SubscribeEvent
 	public void registerRecipes(Register<IRecipe> event) {
 		IForgeRegistry<IRecipe> registry = event.getRegistry();
+		BrainStoneLifeCapacitorUpgrade upgradeCapacity = new BrainStoneLifeCapacitorUpgrade(
+				BrainStoneLifeCapacitorUpgrade.Upgrade.CAPACITY);
+		BrainStoneLifeCapacitorUpgrade upgradeCharging = new BrainStoneLifeCapacitorUpgrade(
+				BrainStoneLifeCapacitorUpgrade.Upgrade.CHARGING);
 
 		// Capacitor Recipes
-		registry.register(new BrainStoneLifeCapacitorUpgrade(BrainStoneLifeCapacitorUpgrade.Upgrade.CAPACITY)
-				.setRegistryName("brain_stone_life_capacitor_upgrade_capacity"));
-		registry.register(new BrainStoneLifeCapacitorUpgrade(BrainStoneLifeCapacitorUpgrade.Upgrade.CHARGING)
-				.setRegistryName("brain_stone_life_capacitor_upgrade_charging"));
+		registry.register(upgradeCapacity.setRegistryName("brain_stone_life_capacitor_upgrade_capacity"));
+		registry.register(upgradeCharging.setRegistryName("brain_stone_life_capacitor_upgrade_charging"));
+
+		MinecraftForge.EVENT_BUS.register(upgradeCapacity);
+		MinecraftForge.EVENT_BUS.register(upgradeCharging);
 	}
 }
