@@ -1,0 +1,23 @@
+{
+    "display": {
+        "icon": {
+            "item": "brainstonemod:brain_stone_plate"
+        },
+        "title": {
+            "translate": "advancement.brainstonemod.notThisTime"
+        },
+        "description": {
+            "translate": "advancement.brainstonemod.notThisTime.desc"
+        },
+        "hidden": true
+    },
+    "parent": "brainstonemod:surprise",
+    "criteria": {
+        "pulsating_brain_stone_effect_protection": {
+            "trigger": "brainstonemod:pulsating_brain_stone_effect",
+            "conditions": {
+                "protectionRequired": true
+            }
+        }
+    }
+}

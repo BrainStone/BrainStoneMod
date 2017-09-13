@@ -1,0 +1,25 @@
+{
+    "display": {
+        "icon": {
+            "item": "brainstonemod:brain_stone_trigger",
+            "nbt": "{ench:[{id:0,lvl:0}]}"
+        },
+        "title": {
+            "translate": "advancement.brainstonemod.easterEgg"
+        },
+        "description": {
+            "translate": "advancement.brainstonemod.easterEgg.desc"
+        },
+        "frame": "challenge",
+        "hidden": true
+    },
+    "parent": "brainstonemod:intelligent_blocks",
+    "criteria": {
+        "find_easter_egg": {
+            "trigger": "brainstonemod:easter_egg"
+        }
+    },
+    "rewards": {
+        "experience": 5000
+    }
+}

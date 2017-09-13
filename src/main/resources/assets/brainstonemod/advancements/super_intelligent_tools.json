@@ -1,0 +1,87 @@
+{
+    "display": {
+        "icon": {
+            "item": "brainstonemod:stable_pulsating_brain_stone_pickaxe"
+        },
+        "title": {
+            "translate": "advancement.brainstonemod.superIntelligentTools"
+        },
+        "description": {
+            "translate": "advancement.brainstonemod.superIntelligentTools.desc"
+        },
+        "frame": "goal"
+    },
+    "parent": "brainstonemod:intelligent_tools",
+    "criteria": {
+        "craft_stable_pulsating_brain_stone_sword": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "brainstonemod:stable_pulsating_brain_stone_sword"
+                    }
+                ]
+            }
+        },
+        "craft_stable_pulsating_brain_stone_shovel": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "brainstonemod:stable_pulsating_brain_stone_shovel"
+                    }
+                ]
+            }
+        },
+        "craft_stable_pulsating_brain_stone_pickaxe": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "brainstonemod:stable_pulsating_brain_stone_pickaxe"
+                    }
+                ]
+            }
+        },
+        "craft_stable_pulsating_brain_stone_axe": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "brainstonemod:stable_pulsating_brain_stone_axe"
+                    }
+                ]
+            }
+        },
+        "craft_stable_pulsating_brain_stone_hoe": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "brainstonemod:stable_pulsating_brain_stone_hoe"
+                    }
+                ]
+            }
+        },
+        "craft_stable_pulsating_brain_stone_scoop": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "brainstonemod:stable_pulsating_brain_stone_sword"
+                    }
+                ]
+            }
+        }
+    },
+    "requirements": [
+        [
+            "craft_stable_pulsating_brain_stone_sword",
+            "craft_stable_pulsating_brain_stone_shovel",
+            "craft_stable_pulsating_brain_stone_pickaxe",
+            "craft_stable_pulsating_brain_stone_axe",
+            "craft_stable_pulsating_brain_stone_hoe",
+            "craft_stable_pulsating_brain_stone_scoop"
+        ]
+    ]
+}

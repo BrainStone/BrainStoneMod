@@ -1,0 +1,20 @@
+{
+    "display": {
+        "icon": {
+            "item": "brainstonemod:pulsating_brain_stone"
+        },
+        "title": {
+            "translate": "advancement.brainstonemod.surprise"
+        },
+        "description": {
+            "translate": "advancement.brainstonemod.surprise.desc"
+        },
+        "hidden": true
+    },
+    "parent": "brainstonemod:it_lives",
+    "criteria": {
+        "pulsating_brain_stone_effect": {
+            "trigger": "brainstonemod:pulsating_brain_stone_effect"
+        }
+    }
+}

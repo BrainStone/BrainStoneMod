@@ -11,17 +11,10 @@
         },
         "frame": "goal"
     },
-    "parent": "brainstonemod:intelligent_tools",
+    "parent": "brainstonemod:life",
     "criteria": {
-        "craft_brain_stone_life_capacitor": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "brainstonemod:brain_stone_life_capacitor"
-                    }
-                ]
-            }
+        "claim_brain_stone_life_capacitor": {
+            "trigger": "brainstonemod:claim_brain_stone_life_capacitor"
         }
     }
 }

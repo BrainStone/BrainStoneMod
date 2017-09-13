@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "brainstonemod:essence_of_life"
+        },
+        "title": {
+            "translate": "advancement.brainstonemod.life"
+        },
+        "description": {
+            "translate": "advancement.brainstonemod.life.desc"
+        }
+    },
+    "parent": "brainstonemod:it_lives",
+    "criteria": {
+        "find_essence_of_life": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "brainstonemod:essence_of_life"
+                    }
+                ]
+            }
+        }
+    }
+}

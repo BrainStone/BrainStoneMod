@@ -1,0 +1,47 @@
+{
+    "display": {
+        "icon": {
+            "item": "brainstonemod:brain_stone_life_capacitor",
+            "nbt": "{\"Energy\":20000000,\"FakeOwner\":1b}"
+        },
+        "title": {
+            "translate": "advancement.brainstonemod.over9000"
+        },
+        "description": {
+            "translate": "advancement.brainstonemod.over9000.desc"
+        },
+        "frame": "challenge"
+    },
+    "parent": "brainstonemod:answer_to_all_damage",
+    "criteria": {
+        "claim_brain_stone_life_capacitor": {
+            "trigger": "brainstonemod:claim_brain_stone_life_capacitor"
+        },
+        "upgrade_capacity": {
+            "trigger": "brainstonemod:upgrade_brain_stone_life_capacitor",
+            "conditions": {
+                "type": "capacity",
+                "level": 9001
+            }
+        },
+        "upgrade_charging": {
+            "trigger": "brainstonemod:upgrade_brain_stone_life_capacitor",
+            "conditions": {
+                "type": "charging",
+                "level": 9001
+            }
+        }
+    },
+    "requirements": [
+        [
+            "claim_brain_stone_life_capacitor"
+        ],
+        [
+            "upgrade_capacity",
+            "upgrade_charging"
+        ]
+    ],
+    "rewards": {
+        "experience": 10000
+    }
+}

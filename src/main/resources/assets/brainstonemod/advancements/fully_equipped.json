@@ -1,0 +1,111 @@
+{
+    "display": {
+        "icon": {
+            "item": "brainstonemod:stable_pulsating_brain_stone_helmet",
+            "nbt": "{ench:[{id:0,lvl:0}]}"
+        },
+        "title": {
+            "translate": "advancement.brainstonemod.fullyEquipped"
+        },
+        "description": {
+            "translate": "advancement.brainstonemod.fullyEquipped.desc"
+        },
+        "frame": "challenge"
+    },
+    "parent": "brainstonemod:super_intelligent_tools",
+    "criteria": {
+        "carry_stable_pulsating_brain_stone_sword": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "brainstonemod:stable_pulsating_brain_stone_sword"
+                    }
+                ]
+            }
+        },
+        "carry_stable_pulsating_brain_stone_shovel": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "brainstonemod:stable_pulsating_brain_stone_shovel"
+                    }
+                ]
+            }
+        },
+        "carry_stable_pulsating_brain_stone_pickaxe": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "brainstonemod:stable_pulsating_brain_stone_pickaxe"
+                    }
+                ]
+            }
+        },
+        "carry_stable_pulsating_brain_stone_axe": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "brainstonemod:stable_pulsating_brain_stone_axe"
+                    }
+                ]
+            }
+        },
+        "carry_stable_pulsating_brain_stone_hoe": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "brainstonemod:stable_pulsating_brain_stone_hoe"
+                    }
+                ]
+            }
+        },
+        "carry_stable_pulsating_brain_stone_helmet": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "brainstonemod:stable_pulsating_brain_stone_helmet"
+                    }
+                ]
+            }
+        },
+        "carry_stable_pulsating_brain_stone_plate": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "brainstonemod:stable_pulsating_brain_stone_plate"
+                    }
+                ]
+            }
+        },
+        "carry_stable_pulsating_brain_stone_leggings": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "brainstonemod:stable_pulsating_brain_stone_leggings"
+                    }
+                ]
+            }
+        },
+        "carry_stable_pulsating_brain_stone_boots": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "brainstonemod:stable_pulsating_brain_stone_boots"
+                    }
+                ]
+            }
+        }
+    },
+    "rewards": {
+        "experience": 500
+    }
+}

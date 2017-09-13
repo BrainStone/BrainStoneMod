@@ -1,0 +1,30 @@
+{
+    "display": {
+        "icon": {
+            "item": "brainstonemod:essence_of_life",
+            "nbt": "{ench:[{id:0,lvl:0}]}"
+        },
+        "title": {
+            "translate": "advancement.brainstonemod.healthySnack"
+        },
+        "description": {
+            "translate": "advancement.brainstonemod.healthySnack.desc"
+        },
+        "frame": "challenge",
+        "hidden": true
+    },
+    "parent": "brainstonemod:life",
+    "criteria": {
+        "consume_essence_of_life": {
+            "trigger": "minecraft:consume_item",
+            "conditions": {
+                "item": {
+                    "item": "brainstonemod:essence_of_life"
+                }
+            }
+        }
+    },
+    "rewards": {
+        "experience": 50
+    }
+}
