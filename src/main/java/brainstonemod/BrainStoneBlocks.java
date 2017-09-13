@@ -11,6 +11,7 @@ import brainstonemod.common.block.BlockBrainStoneAnvil;
 import brainstonemod.common.block.BlockBrainStoneOre;
 import brainstonemod.common.block.BlockBrainStoneTrigger;
 import brainstonemod.common.block.BlockPulsatingBrainStone;
+import brainstonemod.common.block.BlockStablePulsatingBrainStone;
 import lombok.NoArgsConstructor;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -34,16 +35,12 @@ public class BrainStoneBlocks {
 		addBlock("brain_stone_trigger", new BlockBrainStoneTrigger());
 		addBlock("pulsating_brain_stone", new BlockPulsatingBrainStone(false));
 		addBlock("pulsating_brain_stone_effect", new BlockPulsatingBrainStone(true));
-		addBlock("stable_pulsating_brain_stone", (new Block(Material.ROCK)).setHardness(4.0F).setResistance(1.5F)
-				.setLightLevel(1.0F).setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.BUILDING_BLOCKS)));
+		addBlock("stable_pulsating_brain_stone", new BlockStablePulsatingBrainStone());
 		addBlock("brain_stone_anvil", new BlockBrainStoneAnvil());
 		addBlock("pulsating_brain_stone_anvil", new BlockBrainStoneAnvil(true));
 
 		dirtyBrainStone().blockParticleGravity = -0.1F;
 		dirtyBrainStone().setHarvestLevel("pickaxe", 2);
-
-		stablePulsatingBrainStone().blockParticleGravity = -0.2F;
-		stablePulsatingBrainStone().setHarvestLevel("pickaxe", 4);
 	}
 
 	public static void addBlock(String name, Block block) {
