@@ -1,4 +1,4 @@
-package brainstonemod.common.worldgenerators;
+package brainstonemod.common.worldgenerator;
 
 import java.util.List;
 import java.util.Map.Entry;

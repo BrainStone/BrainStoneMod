@@ -1,4 +1,4 @@
-package brainstonemod.common.worldgenerators;
+package brainstonemod.common.worldgenerator;
 
 import java.util.Random;
 
