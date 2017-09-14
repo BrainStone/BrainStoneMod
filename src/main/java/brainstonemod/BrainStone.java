@@ -95,11 +95,6 @@ public class BrainStone {
 	/** States if this jar is valid or not. */
 	public static boolean VALID_JAR = true;
 
-	/** A String with the English localization (en_EN) */
-	private static final String en = "en_EN";
-	/** A String with the German localization (de_DE) */
-	private static final String de = "de_DE";
-
 	/**
 	 * The proxy. Used to perform side dependent operation such as getting the
 	 * local player<br>
@@ -164,7 +159,6 @@ public class BrainStone {
 		BrainStoneConfigWrapper.loadConfig(new Configuration(event.getSuggestedConfigurationFile()));
 		BrainStoneModules.detectActiveModules();
 
-		generateMcModInfoFile(event);
 		BrainStoneBlocks.generateBlocks();
 		BrainStoneItems.generateItems();
 
@@ -288,61 +282,6 @@ public class BrainStone {
 		for (String line : lines) {
 			player.sendMessage(new TextComponentString(line));
 		}
-	}
-
-	/**
-	 * Generates the mcmod.info file.
-	 */
-	private static final void generateMcModInfoFile(FMLPreInitializationEvent event) {
-		event.getModMetadata().modId = MOD_ID;
-		event.getModMetadata().name = NAME;
-		event.getModMetadata().version = VERSION;
-		event.getModMetadata().url = "https://minecraft.curseforge.com/projects/brain-stone-mod";
-		event.getModMetadata().credits = "The_BrainStone(Code, Textures, Ideas), The_Fireplace(Code), Herr_Kermit(Textures), Count Grimhart(Textures), Jobbel(Name)";
-		event.getModMetadata().authorList = Arrays.asList("The_BrainStone", "The_Fireplace", "Herr_Kermit",
-				"Count Grimhart");
-		event.getModMetadata().description = "This mod adds the mysterious block BrainStone. You can craft almost magical things from it.\nBut see yourself!\n\n\nThanks for downloading and supporting this mod!";
-		event.getModMetadata().parent = "";
-		event.getModMetadata().screenshots = new String[] {};
-
-		String logoFile = "/assets/brainstonemod/textures/logo/Logo_";
-		String currentLanguage;
-
-		try {
-			// To prevent game crash when getCurrentLanguage() throws a
-			// NullPointerException
-
-			currentLanguage = FMLCommonHandler.instance().getCurrentLanguage();
-		} catch (final NullPointerException e) {
-			// Default to English, print the exception and add a warning to the
-			// mod description!
-
-			currentLanguage = en;
-			BSP.warnException(e,
-					"This is nothing really to worry about. But it is interesting.\nIf you see this please report it anyway. It will help me get rid of this!");
-			event.getModMetadata().description += "\n\nSomething went wrong while trying to detect your language at start up. Please check the current Forge log and report the stack trace.\nThank you!";
-		}
-
-		switch (currentLanguage) {
-		case de:
-			// German logo
-
-			logoFile += "de";
-			break;
-		case en:
-			// English logo
-
-			logoFile += "en";
-			break;
-		default:
-			// Unsupported language =>
-			// English logo
-
-			logoFile += "en";
-			break;
-		}
-
-		event.getModMetadata().logoFile = logoFile + ".png";
 	}
 
 	// DOCME

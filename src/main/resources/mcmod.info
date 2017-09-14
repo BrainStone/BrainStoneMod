@@ -2,10 +2,18 @@
     {
         "modid": "brainstonemod",
         "name": "Brain Stone Mod",
-        "dependencies": [
-            
-        ],
+        "description": "This mod adds the mysterious block BrainStone. You can craft almost magical things from it.\nBut see yourself!\n\n\nThanks for downloading and supporting this mod!",
         "version": "${version}",
-        "mcversion": "${mcversion}"
+        "mcversion": "${mcversion}",
+        "url": "https://minecraft.curseforge.com/projects/brain-stone-mod",
+        "updateJSON": "http://download.brainstonemod.com/update.json",
+        "authorList": [
+            "The_BrainStone",
+            "The_Fireplace",
+            "Herr_Kermit",
+            "Count Grimhart"
+        ],
+        "credits": "The_BrainStone(Code, Textures, Ideas), The_Fireplace(Code), Herr_Kermit(Textures), Count Grimhart(Textures), Jobbel(Name)",
+        "logoFile": "/assets/brainstonemod/Logo.png"
     }
 ]
