@@ -1,3 +1,9 @@
+4.6.30-beta
+-----------
+
+- Added new Advancements with custom triggers
+- Lots of internal improvements
+
 4.6.22-beta
 -----------
 
