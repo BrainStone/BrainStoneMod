@@ -1,3 +1,8 @@
+4.5.51
+------
+
+- Made Stable Pulsating Brain Stone Dragon and Wither proof
+
 4.5.48
 ------
 

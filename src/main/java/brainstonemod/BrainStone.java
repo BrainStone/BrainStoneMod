@@ -20,6 +20,7 @@ import brainstonemod.common.block.BlockBrainStoneAnvil;
 import brainstonemod.common.block.BlockBrainStoneOre;
 import brainstonemod.common.block.BlockBrainStoneTrigger;
 import brainstonemod.common.block.BlockPulsatingBrainStone;
+import brainstonemod.common.block.BlockStablePulsatingBrainStone;
 import brainstonemod.common.compat.BrainStoneModules;
 import brainstonemod.common.compat.cofh.thermalexpansion.ThermalExpansionItems;
 import brainstonemod.common.compat.cofh.thermalfoundation.ThermalFoundationItems;
@@ -638,16 +639,12 @@ public class BrainStone {
 		blocks.put("brain_stone_trigger", new BlockBrainStoneTrigger());
 		blocks.put("pulsating_brain_stone", new BlockPulsatingBrainStone(false));
 		blocks.put("pulsating_brain_stone_effect", new BlockPulsatingBrainStone(true));
-		blocks.put("stable_pulsating_brain_stone", (new Block(Material.ROCK)).setHardness(4.0F).setResistance(1.5F)
-				.setLightLevel(1.0F).setCreativeTab(getCreativeTab(CreativeTabs.BUILDING_BLOCKS)));
+		blocks.put("stable_pulsating_brain_stone", new BlockStablePulsatingBrainStone());
 		blocks.put("brain_stone_anvil", new BlockBrainStoneAnvil());
 		blocks.put("pulsating_brain_stone_anvil", new BlockBrainStoneAnvil(true));
 
 		dirtyBrainStone().blockParticleGravity = -0.1F;
 		dirtyBrainStone().setHarvestLevel("pickaxe", 2);
-
-		stablePulsatingBrainStone().blockParticleGravity = -0.2F;
-		stablePulsatingBrainStone().setHarvestLevel("pickaxe", 4);
 
 		// Items
 		items.put("brain_stone_dust", (new Item()).setCreativeTab(getCreativeTab(CreativeTabs.MATERIALS)));
