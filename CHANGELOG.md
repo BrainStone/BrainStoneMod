@@ -2,6 +2,7 @@
 -----------
 
 - Added new Advancements with custom triggers
+- Made Stable Pulsating Brain Stone Dragon and Wither proof
 - Lots of internal improvements
 
 4.6.22-beta
