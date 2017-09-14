@@ -23,24 +23,8 @@
                 "type": "capacity",
                 "level": 9001
             }
-        },
-        "upgrade_charging": {
-            "trigger": "brainstonemod:upgrade_brain_stone_life_capacitor",
-            "conditions": {
-                "type": "charging",
-                "level": 9001
-            }
         }
     },
-    "requirements": [
-        [
-            "claim_brain_stone_life_capacitor"
-        ],
-        [
-            "upgrade_capacity",
-            "upgrade_charging"
-        ]
-    ],
     "rewards": {
         "experience": 10000
     }
