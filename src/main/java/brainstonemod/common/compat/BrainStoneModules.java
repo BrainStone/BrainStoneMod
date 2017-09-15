@@ -45,7 +45,7 @@ public final class BrainStoneModules {
 	public static final String TESLA_MODID = "tesla";
 	public static final String THAUMCRAFT_MODID = "thaumcraft";
 	public static final String THERMAL_EXPANSION_MODID = "thermalexpansion";
-	public static final String THERMAL_FOUNDATION_MODID = "thermaldoundation";
+	public static final String THERMAL_FOUNDATION_MODID = "thermalfoundation";
 	public static final String TINKERS_CONSTRUCT_MODID = "tconstruct";
 
 	public static final String DEPENDENCIES = "after:" + BAUBLES_MODID + ";after:" + BETTER_ADVANCEMENTS_MODID
