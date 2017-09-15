@@ -52,9 +52,9 @@ public final class BrainStoneModules {
 			+ ";after:" + CTM_MODID + ";after:" + DRACONIC_EVOLUTION_MODID + ";after:" + ENDER_IO_MODID + ";after:"
 			+ EX_NIHILO_ADSCENSIO_MODID + ";after:" + FORESTRY_MODID + ";after:" + IMMERSIVE_ENGINEERING_MODID
 			+ ";after:" + JEI_MODID + ";after:" + JER_MODID + ";after:" + MFR_MODID + ";after:"
-			+ MYSTICAL_AGRICULTURE_MODID + ";after:" + OVERLORD_MODID + ";after:" + TESLA_MODID + ";after:"
-			+ THAUMCRAFT_MODID + ";after:" + THERMAL_EXPANSION_MODID + ";after:" + THERMAL_FOUNDATION_MODID + ";after:"
-			+ TINKERS_CONSTRUCT_MODID;
+			+ MYSTICAL_AGRICULTURE_MODID + ";after:" + OVERLORD_MODID + ";after:" + REDSTONE_ARSENAL_MODID + ";after:"
+			+ TESLA_MODID + ";after:" + THAUMCRAFT_MODID + ";after:" + THERMAL_EXPANSION_MODID + ";after:"
+			+ THERMAL_FOUNDATION_MODID + ";after:" + TINKERS_CONSTRUCT_MODID;
 
 	private static Boolean BAUBLES;
 	private static Boolean BETTER_ADVANCEMENTS;
