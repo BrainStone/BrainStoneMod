@@ -117,7 +117,7 @@ minecraft {
     runDir = "run"
     replace '${version}', project.version
     mappings = mapping_version
-    useDepAts = true
+    //useDepAts = true
 
     clientJvmArgs += "-Xmx2G"
     serverJvmArgs += "-Xmx2G"
@@ -138,7 +138,7 @@ repositories {
     }
     maven { // Tesla
         name = "Tesla"
-        url "https://maven.epoxide.xyz"
+        url "https://maven.epoxide.org"//old link: https://maven.epoxide.xyz
     }
     maven { // ChickenBone's mods and Draconic Evolution
         name = "ChickenBone's"
@@ -167,9 +167,9 @@ repositories {
 
 dependencies {
     // External Mods
-    deobfProvided "team.chisel.ctm:CTM:MC${minecraft_version}-${ctm_version}"
+    deobfProvided "team.chisel.ctm:CTM:MC1.12-${ctm_version}"
 
-    provided ("com.brandon3055.draconicevolution:Draconic-Evolution:${minecraft_version}-${draconicEvolution_version}:deobf") {
+    provided ("com.brandon3055.draconicevolution:Draconic-Evolution:1.12-${draconicEvolution_version}:deobf") {
         exclude module: "jei_${minecraft_version}"
         exclude module: "OpenComputers"
     }
@@ -191,7 +191,7 @@ dependencies {
 
     provided "jeresources:JustEnoughResources-${minecraft_version}:${justEnoughResources_version}:deobf"
 
-    provided "the_fireplace.overlord:Overlord-${minecraft_version}:${overlord_version}:deobf"
+    provided "the_fireplace.overlord:Overlord-1.12.1:${overlord_version}:deobf"
 
     provided "net.darkhax.tesla:Tesla-${minecraft_version}:${tesla_version}:deobf"
 
@@ -204,17 +204,17 @@ dependencies {
     }
 
     // Deobf exists but Access Transformers are messed up
-    deobfProvided "slimeknights.mantle:Mantle:${minecraft_version}-${mantle_version}"
+    deobfProvided "slimeknights.mantle:Mantle:1.12-${mantle_version}"
     provided("slimeknights:TConstruct:${minecraft_version}-${tconstruct_version}:deobf") {
         exclude module: "jei_${minecraft_version}"
     }
 
 
     // Local Mods
-    provided "lib:Baubles-${minecraft_version}:+:deobf"
+    provided "lib:Baubles-1.12:+:deobf"
     
-    deobfProvided "lib:cucumber-${minecraft_version}:+"
-    provided "lib:mysticalagriculture-${minecraft_version}:+:deobf"
+    deobfProvided "lib:cucumber-1.12:+"
+    provided "lib:mysticalagriculture-1.12:+:deobf"
 }
 
 lombok {
@@ -507,6 +507,7 @@ curseforge {
         releaseType = getVersionType()
         addGameVersion "${minecraft_version}"
         addGameVersion "1.12.1"
+        addGameVersion "1.12"
         addGameVersion "Java 8"
 
         mainArtifact(jar) {
