@@ -1,0 +1,191 @@
+tile.brain_stone.name=ǝuoʇS uᴉɐɹᗺ
+tile.brain_stone_out.name=ǝuoʇS uᴉɐɹᗺ
+tile.brain_stone_ore.name=ǝɹO ǝuoʇS uᴉɐɹᗺ
+tile.dirty_brain_stone.name=ǝuoʇS uᴉɐɹᗺ ʎʇɹᴉᗡ
+tile.brain_light_sensor.name=ɹosuǝS ʇɥᵷᴉꞀ uᴉɐɹᗺ
+tile.brain_stone_trigger.name=ɹǝᵷᵷᴉɹ⟘ ǝuoʇS uᴉɐɹᗺ
+tile.pulsating_brain_stone.name=ǝuoʇS uᴉɐɹᗺ ᵷuᴉʇɐsꞁnԀ
+tile.pulsating_brain_stone_effect.name=ǝuoʇS uᴉɐɹᗺ ᵷuᴉʇɐsꞁnԀ
+tile.stable_pulsating_brain_stone.name=ǝuoʇS uᴉɐɹᗺ ᵷuᴉʇɐsꞁnԀ ǝꞁqɐʇS
+tile.brain_stone_anvil.intact.name=ꞁᴉʌuⱯ ǝuoʇS uᴉɐɹᗺ
+tile.brain_stone_anvil.slightlyDamaged.name=ꞁᴉʌuⱯ ǝuoʇS uᴉɐɹᗺ pǝᵷɐɯɐᗡ ʎꞁʇɥᵷᴉꞁS
+tile.brain_stone_anvil.veryDamaged.name=ꞁᴉʌuⱯ ǝuoʇS uᴉɐɹᗺ pǝᵷɐɯɐᗡ ʎɹǝᴧ
+tile.pulsating_brain_stone_anvil.intact.name=ꞁᴉʌuⱯ ǝuoʇS uᴉɐɹᗺ ᵷuᴉʇɐsꞁnԀ
+tile.pulsating_brain_stone_anvil.slightlyDamaged.name=ꞁᴉʌuⱯ ǝuoʇS uᴉɐɹᗺ ᵷuᴉʇɐsꞁnԀ pǝᵷɐɯɐᗡ ʎꞁʇɥᵷᴉꞁS
+tile.pulsating_brain_stone_anvil.veryDamaged.name=ꞁᴉʌuⱯ ǝuoʇS uᴉɐɹᗺ ᵷuᴉʇɐsꞁnԀ pǝᵷɐɯɐᗡ ʎɹǝᴧ
+
+item.brain_stone_dust.name=ʇsnᗡ ǝuoʇS uᴉɐɹᗺ
+item.brain_processor.name=ɹossǝɔoɹԀ uᴉɐɹᗺ
+item.brain_stone_sword.name=pɹoʍS ǝuoʇS uᴉɐɹᗺ
+item.brain_stone_shovel.name=ꞁǝʌoɥS ǝuoʇS uᴉɐɹᗺ
+item.brain_stone_pickaxe.name=ǝxɐʞɔᴉԀ ǝuoʇS uᴉɐɹᗺ
+item.brain_stone_axe.name=ǝxⱯ ǝuoʇS uᴉɐɹᗺ
+item.brain_stone_hoe.name=ǝoH ǝuoʇS uᴉɐɹᗺ
+item.brain_stone_helmet.name=ʇǝɯꞁǝH ǝuoʇS uᴉɐɹᗺ
+item.brain_stone_plate.name=ǝʇɐꞁdʇsǝɥƆ ǝuoʇS uᴉɐɹᗺ
+item.brain_stone_leggings.name=sᵷuᴉᵷᵷǝꞀ ǝuoʇS uᴉɐɹᗺ
+item.brain_stone_boots.name=sʇooᗺ ǝuoʇS uᴉɐɹᗺ
+item.essence_of_life.name=ǝɟᴉꞀ ɟo ǝɔuǝssƎ
+item.stable_pulsating_brain_stone_sword.name=pɹoʍS ǝuoʇS uᴉɐɹᗺ ᵷuᴉʇɐsꞁnԀ ǝꞁqɐʇS
+item.stable_pulsating_brain_stone_shovel.name=ꞁǝʌoɥS ǝuoʇS uᴉɐɹᗺ ᵷuᴉʇɐsꞁnԀ ǝꞁqɐʇS
+item.stable_pulsating_brain_stone_pickaxe.name=ǝxɐʞɔᴉԀ ǝuoʇS uᴉɐɹᗺ ᵷuᴉʇɐsꞁnԀ ǝꞁqɐʇS
+item.stable_pulsating_brain_stone_axe.name=ǝxⱯ ǝuoʇS uᴉɐɹᗺ ᵷuᴉʇɐsꞁnԀ ǝꞁqɐʇS
+item.stable_pulsating_brain_stone_hoe.name=ǝoH ǝuoʇS uᴉɐɹᗺ ᵷuᴉʇɐsꞁnԀ ǝꞁqɐʇS
+item.stable_pulsating_brain_stone_helmet.name=ʇǝɯꞁǝH ǝuoʇS uᴉɐɹᗺ ᵷuᴉʇɐsꞁnԀ ǝꞁqɐʇS
+item.stable_pulsating_brain_stone_plate.name=ǝʇɐꞁdʇsǝɥƆ ǝuoʇS uᴉɐɹᗺ ᵷuᴉʇɐsꞁnԀ ǝꞁqɐʇS
+item.stable_pulsating_brain_stone_leggings.name=sᵷuᴉᵷᵷǝꞀ ǝuoʇS uᴉɐɹᗺ ᵷuᴉʇɐsꞁnԀ ǝꞁqɐʇS
+item.stable_pulsating_brain_stone_boots.name=sʇooᗺ ǝuoʇS uᴉɐɹᗺ ᵷuᴉʇɐsꞁnԀ ǝꞁqɐʇS
+item.brain_stone_life_capacitor.name=ɹoʇᴉɔɐdɐƆ ǝɟᴉꞀ ǝuoʇS uᴉɐɹᗺ
+
+tile.brain_stone_crop.name=doɹƆ ǝuoʇS uᴉɐɹᗺ
+tile.essence_of_life_crop.name=doɹƆ ǝɟᴉꞀ ɟo ǝɔuǝssƎ
+
+item.brain_stone_dust_tiny.name=ʇsnᗡ ǝuoʇS uᴉɐɹᗺ ɟo ǝꞁᴉԀ ʎuᴉ⟘
+item.brain_stone_essence.name=ǝɔuǝssƎ ǝuoʇS uᴉɐɹᗺ
+item.brain_stone_seeds.name=spǝǝS ǝuoʇS uᴉɐɹᗺ
+item.essence_of_life_dust.name=ʇsnᗡ ǝɟᴉꞀ ɟo ǝɔuǝssƎ
+item.essence_of_life_fragment.name=ʇuǝɯᵷɐɹℲ ǝɟᴉꞀ ɟo ǝɔuǝssƎ
+item.essence_of_life_essence.name=ǝɔuǝssƎ ǝɟᴉꞀ ɟo ǝɔuǝssƎ
+item.essence_of_life_seeds.name=spǝǝS ǝɟᴉꞀ ɟo ǝɔuǝssƎ
+item.brain_stone_comb.name=qɯoƆ ǝuoʇS uᴉɐɹᗺ
+item.brain_stone_scoop.name=dooɔS ǝuoʇS uᴉɐɹᗺ
+item.stable_pulsating_brain_stone_scoop.name=dooɔS ǝuoʇS uᴉɐɹᗺ ᵷuᴉʇɐsꞁnԀ ǝꞁqɐʇS
+
+advancement.brainstonemod.WTHIT=¿¿¿ʇɐɥʇ sᴉ ꞁꞁǝH ǝɥʇ ʇɐɥM
+advancement.brainstonemod.WTHIT.desc=ɹǝpʍod uǝǝɹᵷ ǝᵷuɐɹʇs ɐ puᴉɟ oʇ ǝʌɐɥ no⅄
+advancement.brainstonemod.itLives=¡sǝʌᴉꞁ ʇI
+advancement.brainstonemod.itLives.desc=ʎǝʞ ǝɥʇ sᴉ ᵷuᴉʇꞁǝɯs puɐ ᵷuᴉʇɟɐɹƆ
+advancement.brainstonemod.intelligentBlocks=sʞɔoꞁᗺ ʇuǝᵷᴉꞁꞁǝʇuI
+advancement.brainstonemod.intelligentBlocks.desc=ǝuoʇs uǝǝɹᵷ sᴉɥʇ ɟo ʇno sʞɔoꞁq ʇuǝᵷᴉꞁꞁǝʇuᴉ ꞁnɟǝsn ǝʞɐW
+advancement.brainstonemod.surprise=¡ǝsᴉdɹnS
+advancement.brainstonemod.surprise.desc=ǝuoʇS uᴉɐɹᗺ ᵷuᴉʇɐsꞁnԀ ɐ ʎq pǝsᴉɹdɹns ʇǝ⅁
+advancement.brainstonemod.life=ǝɟᴉꞀ ɟo ǝɔǝᴉԀ Ɐ
+advancement.brainstonemod.life.desc=spuɐɥ ɹnoʎ uᴉ ǝɟᴉꞁ ɟo ǝɔǝᴉd ɐ pꞁoH
+advancement.brainstonemod.intelligentTools=sꞁoo⟘ ʇuǝᵷᴉꞁꞁǝʇuI
+advancement.brainstonemod.intelligentTools.desc=ǝuoʇs uǝǝɹᵷ sᴉɥʇ ɟo ʇno sꞁooʇ ǝʞɐW
+advancement.brainstonemod.easterEgg=ᵷᵷƎ ɹǝʇsɐƎ
+advancement.brainstonemod.easterEgg.desc=ᵷᵷƎ ɹǝʇsɐƎ ǝɥʇ puᴉℲ
+advancement.brainstonemod.notThisTime=¡ǝɯᴉ⟘ sᴉɥ⟘ ʇoN
+advancement.brainstonemod.notThisTime.desc=ǝuoʇS uᴉɐɹᗺ ᵷuᴉʇɐsꞁnԀ ɐ ʎq pǝsᴉɹdɹns ʇǝᵷ ʇ,uoᗡ
+advancement.brainstonemod.healthySnack=ʞɔɐuS ʎɥʇꞁɐǝH
+advancement.brainstonemod.healthySnack.desc=snoᴉʇᴉɹʇnu ʎɹǝʌ sᴉ ǝɟᴉꞀ ɟo ǝɔuǝssƎ ǝɥʇ ʇɐɥʇ ʇno puᴉℲ
+advancement.brainstonemod.lifeCapacitor=ɹoʇᴉɔɐdɐƆ ǝɟᴉꞀ
+advancement.brainstonemod.lifeCapacitor.desc=ɹoʇᴉɔɐdɐƆ ǝɟᴉꞀ ǝuoʇS uᴉɐɹᗺ ɐ ɯᴉɐꞁɔ puɐ ǝʞɐW
+advancement.brainstonemod.superIntelligentTools=sꞁoo⟘ ʇuǝᵷᴉꞁꞁǝʇuI ɹǝdnS
+advancement.brainstonemod.superIntelligentTools.desc=ǝuoʇs uǝǝɹᵷ sᴉɥʇ ɟo ʇno sꞁooʇ ɹǝʇʇǝq uǝʌǝ ǝʞɐW
+advancement.brainstonemod.answerToAllDamage=ǝᵷɯɐᗡ ꞁꞁɐ oʇ ɹǝʍsuⱯ
+advancement.brainstonemod.answerToAllDamage.desc=ᘔᔭ ꞁǝʌǝꞁ oʇ ɹoʇᴉɔɐdɐƆ ǝɟᴉꞀ ǝuoʇS uᴉɐɹᗺ ɹnoʎ ǝpɐɹᵷd∩
+advancement.brainstonemod.fullyEquipped=pǝddᴉnbƎ ʎꞁꞁnℲ
+advancement.brainstonemod.fullyEquipped.desc=ʇuǝdᴉnbǝ ǝuoʇS uᴉɐɹᗺ ᵷuᴉʇɐsꞁnԀ ǝꞁqɐʇS ɥʇᴉʍ pǝddᴉnbǝ ʎꞁꞁnɟ ʇǝ⅁
+advancement.brainstonemod.over9000=¡¡¡¡¡¡¡¡¡¡¡¡¡0006 ɹǝʌo s,ʇI
+advancement.brainstonemod.over9000.desc=(ʎɹʇ uǝʌǝ ʇ,uoᗡ) 0006 ɹǝʌo ɹoʇᴉɔɐdɐƆ ǝɟᴉꞀ ǝuoʇS uᴉɐɹᗺ ɹnoʎ ɟo ꞁǝʌǝꞁ ʎʇᴉɔɐdɐɔ ǝɥʇ ǝpɐɹᵷd∩
+
+itemGroup.tabbrainstonemod=poW ǝuoʇS uᴉɐɹᗺ
+
+gui.brainstone.item=ʇɔǝɾqO/ɯǝʇI
+gui.brainstone.player=ɹǝʎɐꞁԀ
+gui.brainstone.projectile=ǝꞁᴉʇɔǝɾoɹԀ
+gui.brainstone.classic=ɔᴉssɐꞁƆ
+gui.brainstone.simple=ǝꞁdɯᴉS
+gui.brainstone.proportional=ꞁɐuoᴉʇɹodoɹԀ
+gui.brainstone.inverted=pǝʇɹǝʌuI
+
+gui.brainstone.config.cat.modules=sǝꞁnpoW
+gui.brainstone.config.cat.modules.tooltip=sǝꞁnpoɯ ʎʇᴉꞁᴉqᴉʇɐdɯoɔ uᴉɐʇɹǝɔ ǝꞁqɐsᴉp ʎꞁꞁɐnuɐW
+gui.brainstone.config.cat.modules.disablebaubles=sǝꞁqnɐᗺ ǝꞁqɐsᴉᗡ
+gui.brainstone.config.cat.modules.disablebaubles.tooltip=sǝꞁqnɐᗺ ɹoɟ ǝꞁnpoɯ ʎʇᴉꞁᴉqᴉʇɐdɯoɔ ǝɥʇ ǝꞁqɐsᴉp ʎꞁꞁɐnuɐW
+gui.brainstone.config.cat.modules.disablebetterachievements=sʇuǝɯǝʌǝᴉɥɔⱯ ɹǝʇʇǝᗺ ǝꞁqɐsᴉᗡ
+gui.brainstone.config.cat.modules.disablectm.tooltip=sʇuǝɯǝʌǝᴉɥɔⱯ ɹǝʇʇǝᗺ ɹoɟ ǝꞁnpoɯ ʎʇᴉꞁᴉqᴉʇɐdɯoɔ ǝɥʇ ǝꞁqɐsᴉp ʎꞁꞁɐnuɐW
+gui.brainstone.config.cat.modules.disablectm=poW sǝɹnʇxǝ⟘ pǝʇɔǝuuoƆ ǝꞁqɐsᴉᗡ
+gui.brainstone.config.cat.modules.disablebetterachievements.tooltip=poW sǝɹnʇxǝ⟘ pǝʇɔǝuuoƆ ɹoɟ ǝꞁnpoɯ ʎʇᴉꞁᴉqᴉʇɐdɯoɔ ǝɥʇ ǝꞁqɐsᴉp ʎꞁꞁɐnuɐW
+gui.brainstone.config.cat.modules.disabledraconicevolution=uoᴉʇnꞁoʌƎ ɔᴉuoɔɐɹᗡ ǝꞁqɐsᴉᗡ
+gui.brainstone.config.cat.modules.disabledraconicevolution.tooltip=uoᴉʇnꞁoʌƎ ɔᴉuoɔɐɹᗡ ɹoɟ ǝꞁnpoɯ ʎʇᴉꞁᴉqᴉʇɐdɯoɔ ǝɥʇ ǝꞁqɐsᴉp ʎꞁꞁɐnuɐW
+gui.brainstone.config.cat.modules.disableenderiobase=OI ɹǝpuƎ ǝꞁqɐsᴉᗡ
+gui.brainstone.config.cat.modules.disableenderiobase.tooltip=OI ɹǝpuƎ ɹoɟ ǝꞁnpoɯ ʎʇᴉꞁᴉqᴉʇɐdɯoɔ ǝɥʇ ǝꞁqɐsᴉp ʎꞁꞁɐnuɐW
+gui.brainstone.config.cat.modules.disableexnihiloadscensio=oᴉsuǝɔspⱯ oꞁᴉɥᴉN xƎ ǝꞁqɐsᴉᗡ
+gui.brainstone.config.cat.modules.disableexnihiloadscensio.tooltip=oᴉsuǝɔspⱯ oꞁᴉɥᴉN xƎ ɹoɟ ǝꞁnpoɯ ʎʇᴉꞁᴉqᴉʇɐdɯoɔ ǝɥʇ ǝꞁqɐsᴉp ʎꞁꞁɐnuɐW
+gui.brainstone.config.cat.modules.disableforestry=ʎɹʇsǝɹoℲ ǝꞁqɐsᴉᗡ
+gui.brainstone.config.cat.modules.disableforestry.tooltip=ʎɹʇsǝɹoℲ ɹoɟ ǝꞁnpoɯ ʎʇᴉꞁᴉqᴉʇɐdɯoɔ ǝɥʇ ǝꞁqɐsᴉp ʎꞁꞁɐnuɐW
+gui.brainstone.config.cat.modules.disableimmersiveengineering=ᵷuᴉɹǝǝuᴉᵷuƎ ǝʌᴉsɹǝɯɯI ǝꞁqɐsᴉᗡ
+gui.brainstone.config.cat.modules.disableimmersiveengineering.tooltip=ᵷuᴉɹǝǝuᴉᵷuƎ ǝʌᴉsɹǝɯɯI ɹoɟ ǝꞁnpoɯ ʎʇᴉꞁᴉqᴉʇɐdɯoɔ ǝɥʇ ǝꞁqɐsᴉp ʎꞁꞁɐnuɐW
+gui.brainstone.config.cat.modules.disablejei=(IƎՐ) sɯǝʇI ɥᵷnouƎ ʇsnՐ ǝꞁqɐsᴉᗡ
+gui.brainstone.config.cat.modules.disablejei.tooltip=(IƎՐ) sɯǝʇI ɥᵷnouƎ ʇsnՐ ɹoɟ ǝꞁnpoɯ ʎʇᴉꞁᴉqᴉʇɐdɯoɔ ǝɥʇ ǝꞁqɐsᴉp ʎꞁꞁɐnuɐW
+gui.brainstone.config.cat.modules.disablejeresources=(ᴚƎՐ) sǝɔɹnosǝᴚ ɥᵷnouƎ ʇsnՐ ǝꞁqɐsᴉᗡ
+gui.brainstone.config.cat.modules.disablejeresources.tooltip=(ᴚƎՐ) sǝɔɹnosǝᴚ ɥᵷnouƎ ʇsnՐ ɹoɟ ǝꞁnpoɯ ʎʇᴉꞁᴉqᴉʇɐdɯoɔ ǝɥʇ ǝꞁqɐsᴉp ʎꞁꞁɐnuɐW
+gui.brainstone.config.cat.modules.disablemysticalagriculture=ǝɹnʇꞁnɔᴉɹᵷⱯ ꞁɐɔᴉʇsʎW ǝꞁqɐsᴉᗡ
+gui.brainstone.config.cat.modules.disablemysticalagriculture.tooltip=ǝɹnʇꞁnɔᴉɹᵷⱯ ꞁɐɔᴉʇsʎW ɹoɟ ǝꞁnpoɯ ʎʇᴉꞁᴉqᴉʇɐdɯoɔ ǝɥʇ ǝꞁqɐsᴉp ʎꞁꞁɐnuɐW
+gui.brainstone.config.cat.modules.disableoverlord=pɹoꞁɹǝʌO ǝꞁqɐsᴉᗡ
+gui.brainstone.config.cat.modules.disableoverlord.tooltip=pɹoꞁɹǝʌO ɹoɟ ǝꞁnpoɯ ʎʇᴉꞁᴉqᴉʇɐdɯoɔ ǝɥʇ ǝꞁqɐsᴉp ʎꞁꞁɐnuɐW
+gui.brainstone.config.cat.modules.disabletesla=ⱯꞀSƎ⟘ ǝꞁqɐsᴉᗡ
+gui.brainstone.config.cat.modules.disabletesla.tooltip=ⱯꞀSƎ⟘ ɹoɟ ǝꞁnpoɯ ʎʇᴉꞁᴉqᴉʇɐdɯoɔ ǝɥʇ ǝꞁqɐsᴉp ʎꞁꞁɐnuɐW
+gui.brainstone.config.cat.modules.disabletconstruct=ʇɔnɹʇsuoƆ s,ɹǝʞuᴉ⟘ ǝꞁqɐsᴉᗡ
+gui.brainstone.config.cat.modules.disabletconstruct.tooltip=ʇɔnɹʇsuoƆ s,ɹǝʞuᴉ⟘ ɹoɟ ǝꞁnpoɯ ʎʇᴉꞁᴉqᴉʇɐdɯoɔ ǝɥʇ ǝꞁqɐsᴉp ʎꞁꞁɐnuɐW
+gui.brainstone.config.cat.modules.disablethermalexpansion=uoᴉsuɐdxƎ ꞁɐɯɹǝɥ⟘ ǝꞁqɐsᴉᗡ
+gui.brainstone.config.cat.modules.disablethermalexpansion.tooltip=uoᴉsuɐdxƎ ꞁɐɯɹǝɥ⟘ ɹoɟ ǝꞁnpoɯ ʎʇᴉꞁᴉqᴉʇɐdɯoɔ ǝɥʇ ǝꞁqɐsᴉp ʎꞁꞁɐnuɐW
+gui.brainstone.config.cat.modules.enablejeireloading=ᵷuᴉpɐoꞁǝᴚ IƎՐ ǝꞁqɐuƎ
+gui.brainstone.config.cat.modules.enablejeireloading.tooltip=§4˙ʇuǝɹǝɟɟᴉp ǝɹɐ sᵷᴉɟuoɔ ʇuǝᴉꞁɔ puɐ ɹǝʌɹǝs ǝɯos uǝɥʍ IƎՐ uᴉ sdᴉʇꞁooʇ ʇɔǝɹɹoɔuᴉ ǝɯos sʇuǝʌǝɹd ʎꞁuo ʇI ˙pǝꞁqɐsᴉp ɟᴉ ᵷuᴉɥʇʎuɐ ʞɐǝɹq ʇ,usǝop osꞁɐ ᵷuᴉʇʇǝs sᴉɥ⟘\n¡ɹǝʌɹǝs ǝɥʇ uo uǝɥʇ ʇuǝᴉꞁɔ ǝɥʇ uo ʇou ɟI ¡sᴉɥʇ ǝꞁqɐsᴉp pꞁnoɥs sʞɔɐdpoɯ ᵷᴉᗺ§f\n˙ǝᵷuɐɥɔ sᵷuᴉʇʇǝs uǝɥʍ IƎՐ pɐoꞁǝᴚ
+
+gui.brainstone.config.cat.miscellaneous=snoǝuɐꞁꞁǝɔsᴉW
+gui.brainstone.config.cat.miscellaneous.tooltip=sᵷuᴉʇʇǝs snoǝuɐꞁꞁǝɔsᴉɯ ǝɥʇ ꞁꞁɐ ʎɟᴉpoW
+gui.brainstone.config.cat.miscellaneous.enablecreativetab=qɐ⟘ ǝʌᴉʇɐǝɹƆ ǝꞁqɐuƎ
+gui.brainstone.config.cat.miscellaneous.enablecreativetab.tooltip=¿poɯ sᴉɥʇ ɹoɟ qɐ⟘ ǝʌᴉʇɐǝɹƆ ɯoʇsnɔ ɐ ǝʌɐɥ oʇ ʇuɐʍ noʎ oᗡ
+gui.brainstone.config.cat.miscellaneous.essenceoflifedropchancemodifier=ɹǝᴉɟᴉpoW ǝɔuɐɥƆ doɹᗡ ǝɟᴉꞀ ɟo ǝɔuǝssƎ
+gui.brainstone.config.cat.miscellaneous.essenceoflifedropchancemodifier.tooltip=˙%%09 = (%%0ᘔ * %%05) + %%05 sǝɯoɔǝq ǝɔuɐɥɔ ǝɥʇ (%%) 0ᘔ oʇ ǝnꞁɐʌ sᴉɥʇ ʇǝs noʎ puɐ (pǝpɐoꞁ ǝʌɐɥ noʎ spoɯ ɹǝɥʇo ʇɐɥʍ uo spuǝdǝp) %%05 sᴉ ǝɔuɐɥɔ ǝsɐq ǝɥʇ ɟI\n˙ʇuǝɔɹǝd uᴉ ǝnꞁɐᴧ ˙ǝɟᴉꞀ ɟo ǝɔuǝssƎ ǝɥʇ ɟo ǝɔuɐɥɔ doɹp ǝɥʇ sǝᴉɟᴉpoW
+gui.brainstone.config.cat.miscellaneous.pulsatingbrainstoneanviljumpchance=ǝɔuɐɥƆ dɯnՐ ꞁᴉʌuⱯ ǝuoʇS uᴉɐɹᗺ ᵷuᴉʇɐsꞁnԀ
+gui.brainstone.config.cat.miscellaneous.pulsatingbrainstoneanviljumpchance.tooltip=˙ʇᴉ sǝꞁqɐsᴉp 0 ˙ǝɔuɐɥɔ ɹǝʍoꞁ <- sǝnꞁɐʌ ɹǝɥᵷᴉH ˙ꞁᴉʌuⱯ ǝuoʇS uᴉɐɹᗺ ᵷuᴉʇɐsꞁnԀ ǝɥʇ ɟo ǝɔuɐɥɔ dɯnɾ ǝɥʇ sʇǝS
+
+gui.brainstone.config.cat.brainstonelifecapacitor=ɹoʇᴉɔɐdɐƆ ǝɟᴉꞀ ǝuoʇS uᴉɐɹᗺ
+gui.brainstone.config.cat.brainstonelifecapacitor.tooltip=ɹoʇᴉɔɐdɐƆ ǝɟᴉꞀ ǝuoʇS uᴉɐɹᗺ ǝɥʇ oʇ pǝʇɐꞁǝɹ sᵷuᴉʇʇǝs ǝɥʇ ꞁꞁɐ ʎɟᴉpoW
+gui.brainstone.config.cat.brainstonelifecapacitor.allowstealing=ᵷuᴉꞁɐǝʇS ʍoꞁꞁⱯ
+gui.brainstone.config.cat.brainstonelifecapacitor.allowstealing.tooltip=¿ɹoʇᴉɔɐdɐƆǝɟᴉꞀǝuoʇSuᴉɐɹᗺ ǝɥʇ ɟo ᵷuᴉꞁɐǝʇs ǝɥʇ ʍoꞁꞁɐ oʇ ʇuɐʍ noʎ oᗡ
+gui.brainstone.config.cat.brainstonelifecapacitor.rfperhalfheart=ʇɹɐǝH ɟꞁɐH ɹǝd Ⅎᴚ
+gui.brainstone.config.cat.brainstonelifecapacitor.rfperhalfheart.tooltip=¿ʇsoɔ pꞁnoɥs ʇɹɐǝɥ ɐ ɟꞁɐɥ ʎᵷɹǝuǝ ɥɔnɯ ʍoH
+
+gui.brainstone.config.cat.worldgen=uǝᵷpꞁɹoM
+gui.brainstone.config.cat.worldgen.tooltip=uǝᵷpꞁɹoʍ ǝɥʇ oʇ pǝʇɐꞁǝɹ sᵷuᴉʇʇǝs ǝɥʇ ꞁꞁɐ ʎɟᴉpoW
+gui.brainstone.config.cat.worldgen.brainstonehousedimensionswhitelist=ʇsᴉꞁǝʇᴉɥM suoᴉsuǝɯᴉᗡ ǝsnoH ǝuoʇS uᴉɐɹᗺ
+gui.brainstone.config.cat.worldgen.brainstonehousedimensionswhitelist.tooltip=¿pǝʇɐɹǝuǝᵷ ǝq ǝsnoH ǝuoʇS uᴉɐɹᗺ ǝɥʇ pꞁnoɥs suoᴉsuǝɯᴉp ɥɔᴉɥʍ uI
+gui.brainstone.config.cat.worldgen.brainstonehouserarity=ʎʇᴉɹɐᴚ ǝsnoH ǝuoʇS uᴉɐɹᗺ
+gui.brainstone.config.cat.worldgen.brainstonehouserarity.tooltip=(sʞunɥɔ u ʎɹǝʌǝ ǝɔuo pǝʇɐɹǝuǝ⅁) ¿ǝq ǝsnoHǝuoʇSNᴉɐɹᗺ ǝɥʇ pꞁnoɥs ǝɹɐɹ ʍoH
+gui.brainstone.config.cat.worldgen.brainstoneoredimensionswhitelist=ʇsᴉꞁǝʇᴉɥM suoᴉsuǝɯᴉᗡ ǝɹO ǝuoʇS uᴉɐɹᗺ
+gui.brainstone.config.cat.worldgen.brainstoneoredimensionswhitelist.tooltip=¿pǝʇɐɹǝuǝᵷ ǝq ǝɹO ǝuoʇS uᴉɐɹᗺ pꞁnoɥs suoᴉsuǝɯᴉp ɥɔᴉɥʍ uI
+gui.brainstone.config.cat.worldgen.brainstoneoreveincount=ʇunoƆ uᴉǝᴧ ǝɹO ǝuoʇS uᴉɐɹᗺ
+gui.brainstone.config.cat.worldgen.brainstoneoreveincount.tooltip=¿pǝʇɐɹǝuǝᵷ ǝq pꞁnoɥs ʞunɥɔ ɹǝd ǝɹOǝuoʇSuᴉɐɹᗺ ɟo suᴉǝʌ ʎuɐɯ ʍoH
+gui.brainstone.config.cat.worldgen.brainstoneoreveinsize=ǝzᴉS uᴉǝᴧ ǝɹO ǝuoʇS uᴉɐɹᗺ
+gui.brainstone.config.cat.worldgen.brainstoneoreveinsize.tooltip=(ǝᵷɐɹǝʌɐ uo sʞɔoꞁq uI) ¿ǝq suᴉǝʌ ǝɹOǝuoʇSuᴉɐɹᗺ ǝɥʇ pꞁnoɥs ᵷᴉq ʍoH
+
+capacitor.owner=:ɹǝuʍO
+capacitor.nobody=ʎpoqoN
+capacitor.you=(no⅄) 
+capacitor.claim=(ɯᴉɐꞁɔ oʇ ʞɔᴉꞁƆ-ᴚ-ʇɟᴉɥS) 
+capacitor.summary=˙pǝɹǝʍod ǝꞁᴉɥʍ ǝᵷɐɯɐp ꞁꞁɐ sqɹosqⱯ
+capacitor.costs=sʇsoƆ
+capacitor.capacity=:ꞁǝʌǝꞀ ʎʇᴉɔɐdɐƆ
+capacitor.charging=:ꞁǝʌǝꞀ ᵷuᴉᵷɹɐɥƆ
+capacitor.details=sꞁᴉɐʇǝp ɹoɟ %s pꞁoH
+
+trigger.delay=ʎɐꞁǝᗡ
+trigger.all=:ꞁꞁⱯ
+
+brainstone.power.rf=Ⅎᴚ
+brainstone.power.tick=ʇ/
+
+
+tc.aspect.brainstone=ǝuoʇS+uᴉɐɹᗺ
+
+enderio.darksteel.upgrade.brainstone.name=uoᴉʇɔǝʇoɹԀ ǝuoʇS uᴉɐɹᗺ ᵷuᴉʇɐsꞁnԀ
+enderio.darksteel.upgrade.brainstone.tooltip.detailed.line1=ɹoɯɹɐ ǝɥʇ ɟo sʇɹɐd ꞁꞁɐ oʇ pǝᴉꞁddɐ ɟI
+enderio.darksteel.upgrade.brainstone.tooltip.detailed.line2=ǝɥʇ ɯoɹɟ pǝʇɔǝʇoɹd ǝq ꞁꞁᴉʍ noʎ
+enderio.darksteel.upgrade.brainstone.tooltip.detailed.line3=ǝuoʇS uᴉɐɹᗺ ᵷuᴉʇɐsꞁnԀ ǝɥʇ ɟo sʇɔǝɟɟǝ
+
+material.brainstone.name=ǝuoʇS uᴉɐɹᗺ
+material.stablepulsatingbrainstone.name=ǝuoʇS uᴉɐɹᗺ ˙Ԁ˙S
+
+for.bees.species.brainstonemod.species_brain_stone=ǝuoʇS uᴉɐɹᗺ
+for.bees.species.brainstonemod.species_brain_stone.description=⥝0⥝ ᵷuᴉdǝǝʞǝǝᗺ|„ɥɥnᗡ ˙ǝuoʇS uᴉɐɹᗺ sǝɔnpoɹԀ„
+for.bees.species.brainstonemod.species_pulsating_brain_stone=ǝuoʇS uᴉɐɹᗺ ᵷuᴉʇɐsꞁnԀ
+for.bees.species.brainstonemod.species_pulsating_brain_stone.description=⥝0⥝ ᵷuᴉdǝǝʞǝǝᗺ|„¿ʇɥᵷᴉɹ 'sǝǝq ɹǝʇʇǝq ǝʌɐɥ oʇ pooᵷ sʎɐʍꞁⱯ ˙sǝǝᗺ ǝuoʇS uᴉɐɹᗺ ǝɥʇ ɟo ɹǝᴉʇ puoɔǝS„
+for.bees.species.brainstonemod.species_stable_pulsating_brain_stone=ǝuoʇS uᴉɐɹᗺ ᵷuᴉʇɐsꞁnԀ ǝꞁqɐʇS
+for.bees.species.brainstonemod.species_stable_pulsating_brain_stone.description=uɐɯpɐɯ 'ɹᴉᵷuǝS „ɹᴉS„|„¡ɹɐǝʍs I ˙˙˙¡ɹᴉɐ ǝɥʇ oʇuᴉ uʍoɹɥʇ sɐʍ puɐ sǝǝq ǝsǝɥʇ ʇsɐd pǝʞꞁɐʍ I„
+for.flowers.brainstonemod.brain_stone=ǝuoʇS uᴉɐɹᗺ
+for.flowers.brainstonemod.stable_pulsating_brain_stone=ǝuoʇS uᴉɐɹᗺ ᵷuᴉʇɐsꞁnԀ ǝꞁqɐʇS
