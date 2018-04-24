@@ -124,10 +124,6 @@ minecraft {
 }
 
 repositories {
-    maven { // Home repo (also contains overlord)
-        name = "BrainStoneMod"
-        url "https://maven.brainstonemod.com"
-    }
     maven { // JEI, Natura, Mantle, TiCon
         name = "JEI"
         url "http://dvs1.progwml6.com/files/maven"
@@ -167,14 +163,14 @@ repositories {
 
 dependencies {
     // External Mods
-    deobfProvided "team.chisel.ctm:CTM:MC${minecraft_version}-${ctm_version}"
+    deobfProvided "team.chisel.ctm:CTM:MC1.12-${ctm_version}"
 
-    provided ("com.brandon3055.draconicevolution:Draconic-Evolution:${minecraft_version}-${draconicEvolution_version}:deobf") {
+    provided ("com.brandon3055.draconicevolution:Draconic-Evolution:1.12-${draconicEvolution_version}:deobf") {
         exclude module: "jei_${minecraft_version}"
+        exclude module: "jei_1.12"
         exclude module: "OpenComputers"
     }
 
-    // Wait for update
     // deobfProvided "com.enderio.core:EnderCore:${minecraft_version}-${endercore_version}"
     // deobfProvided("com.enderio:EnderIO:${minecraft_version}-${enderio_version}") {
     //     exclude module: "appliedenergistics2"
@@ -183,6 +179,7 @@ dependencies {
 
     deobfProvided("net.sengir.forestry:forestry_${minecraft_version}:${forestry_version}") {
         exclude module: "jei_${minecraft_version}"
+        exclude module: "jei_1.12"
     }
 
     provided "blusunrize:ImmersiveEngineering:${immersive_engineering_version}:deobf"
@@ -191,35 +188,37 @@ dependencies {
 
     provided "jeresources:JustEnoughResources-${minecraft_version}:${justEnoughResources_version}:deobf"
 
-    provided "the_fireplace.overlord:Overlord-${minecraft_version}:${overlord_version}:deobf"
-
     provided "net.darkhax.tesla:Tesla-${minecraft_version}:${tesla_version}:deobf"
 
     provided ("cofh:RedstoneArsenal:${minecraft_version}-${redstoneArsenal_version}:deobf") {
         exclude module: "jei_${minecraft_version}"
+        exclude module: "jei_1.12"
     }
 
     provided("cofh:ThermalExpansion:${minecraft_version}-${thermalExpansion_version}:deobf") {
          exclude module: "jei_${minecraft_version}"
+         exclude module: "jei_1.12"
     }
 
     // Deobf exists but Access Transformers are messed up
-    deobfProvided "slimeknights.mantle:Mantle:${minecraft_version}-${mantle_version}"
+    deobfProvided "slimeknights.mantle:Mantle:1.12-${mantle_version}"
     provided("slimeknights:TConstruct:${minecraft_version}-${tconstruct_version}:deobf") {
         exclude module: "jei_${minecraft_version}"
     }
 
 
     // Local Mods
-    provided "lib:Baubles-${minecraft_version}:+:deobf"
+    provided "lib:Baubles-1.12:+:deobf"
     
-    deobfProvided "lib:cucumber-${minecraft_version}:+"
-    provided "lib:mysticalagriculture-${minecraft_version}:+:deobf"
+    provided "lib:Overlord-${minecraft_version}:+:deobf"
+    
+    deobfProvided "lib:cucumber-1.12:+"
+    provided "lib:mysticalagriculture-1.12:+:deobf"
 }
 
 lombok {
-    version = "1.16.18"
-    sha256 = "9d957f572386b9e257093a45b148f9b411cff80d9efd55eaf6fca27002d2e4d9"
+    version = "1.16.20"
+    sha256 = "c5178b18caaa1a15e17b99ba5e4023d2de2ebc18b58cde0f5a04ca4b31c10e6d"
 }
 
 task delombok(type: DelombokTask) {
