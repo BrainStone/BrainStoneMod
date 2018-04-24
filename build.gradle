@@ -505,7 +505,6 @@ curseforge {
         changelogType = "markdown"
         releaseType = getVersionType()
         addGameVersion "${minecraft_version}"
-        addGameVersion "1.12.1"
         addGameVersion "Java 8"
 
         mainArtifact(jar) {
