@@ -1,3 +1,18 @@
+4.6.54
+------
+
+- Updated to 1.12.2
+- Added en_UD
+- When Draconic Evolution is present, the Brain Stone Life Capacitor can only be upgraded through Fusion Crafting
+- Added new Advancements with custom triggers
+- Made Stable Pulsating Brain Stone Dragon and Wither proof
+- Turned recipes into JSON files
+- Improved Tinker's Contruct integration
+- Fixed oreDict
+- Added more oreDict entries
+- Using these new oreDict entries in recipes
+- Lots of internal optimization
+
 4.6.45-beta
 -----------
 
