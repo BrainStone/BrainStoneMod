@@ -1,16 +1,7 @@
 package brainstonemod.common.compat;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
-
 import brainstonemod.common.compat.cofh.thermalexpansion.ThermalExpansionCompat;
+import brainstonemod.common.compat.draconicevolution.DraconicEvolutionCompat;
 import brainstonemod.common.compat.forestry.ForestryCompat;
 import brainstonemod.common.compat.immersiveengineering.ImmersiveEngineeringCompat;
 import brainstonemod.common.compat.jeresources.JEResourcesCompat;
@@ -24,6 +15,16 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 @UtilityClass
 public final class BrainStoneModules {
@@ -97,7 +98,7 @@ public final class BrainStoneModules {
 		return testMod(CTM_MODID, CTM);
 	}
 
-	@Module(modid = DRACONIC_EVOLUTION_MODID, name = "Draconic Evolution", message = "Balancing and adding recipes.")
+	@Module(modid = DRACONIC_EVOLUTION_MODID, name = "Draconic Evolution", message = "Balancing and adding recipes.", integration = DraconicEvolutionCompat.class)
 	public static boolean draconicEvolution() {
 		return testMod(DRACONIC_EVOLUTION_MODID, DRACONIC_EVOLUTION);
 	}
