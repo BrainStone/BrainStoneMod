@@ -1,3 +1,10 @@
+4.6.43-beta
+-----------
+
+- Updated to 1.12.2
+- Added en_UD
+- Lots of internal improvements
+
 4.6.30-beta
 -----------
 
@@ -58,7 +65,7 @@
 4.5.43-beta
 -----------
 
-- Fixed translations in Brain Stone Trigger 
+- Fixed translations in Brain Stone Trigger
 
 4.5.39-alpha
 ------------
@@ -124,7 +131,7 @@
 ----------
 
 - Added support for TESLA and CoFHLib energy systems
-- Added explicit support the for DraconicEvolution Flux Capacitor 
+- Added explicit support the for DraconicEvolution Flux Capacitor
 - Fixed wrong message in log when enabling Ex Nihilio Adscensio support
 
 4.3.2-beta
