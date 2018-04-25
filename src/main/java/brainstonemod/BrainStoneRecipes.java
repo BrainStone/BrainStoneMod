@@ -40,21 +40,21 @@ public class BrainStoneRecipes {
 	protected static final void addRecipes() {
 		Object craftingS = new ItemStack(Items.SKULL, 1, 5);
 		Object craftingX = IngredientSwitch.make()
-				.add(BrainStoneModules::redstoneArsenal, RedstoneArsenalItems::getFluxInfusedObsidianRod)
-				.add(BrainStoneModules::tinkersConstruct, TinkersConstructItems::getManyullyToughRod)
+				.add(BrainStoneModules::redstoneArsenal, () -> RedstoneArsenalItems.getFluxInfusedObsidianRod())
+				.add(BrainStoneModules::tinkersConstruct, () -> TinkersConstructItems.getManyullyToughRod())
 				.getIngredient(Blocks.END_ROD);
 		Object craftingC = IngredientSwitch.make()
-				.add(BrainStoneModules::thermalExpansion, ThermalExpansionItems::getResonantFluxCapacitor)
-				.add(BrainStoneModules::draconicEvolution, DraconicEvolutionItems::getWyvernFluxCapacitor)
-				.add(BrainStoneModules::immersiveEngineering, ImmersiveEngineeringItems::getHVCapacitor)
-				.add(BrainStoneModules::redstoneArsenal, RedstoneArsenalItems::getFluxedArmorPlating)
-				.add(BrainStoneModules::forestry, ForestryItems::getEmeraldElectronTube)
-				.add(BrainStoneModules::tinkersConstruct, TinkersConstructItems::getMendingMoss)
-				.add(BrainStoneModules::thermalFoundation, ThermalFoundationItems::getPyrotheumDustDict)
+				.add(BrainStoneModules::thermalExpansion, () -> ThermalExpansionItems.getResonantFluxCapacitor())
+				.add(BrainStoneModules::draconicEvolution, () -> DraconicEvolutionItems.getWyvernFluxCapacitor())
+				.add(BrainStoneModules::immersiveEngineering, () -> ImmersiveEngineeringItems.getHVCapacitor())
+				.add(BrainStoneModules::redstoneArsenal, () -> RedstoneArsenalItems.getFluxedArmorPlating())
+				.add(BrainStoneModules::forestry, () -> ForestryItems.getEmeraldElectronTube())
+				.add(BrainStoneModules::tinkersConstruct, () -> TinkersConstructItems.getMendingMoss())
+				.add(BrainStoneModules::thermalFoundation, () -> ThermalFoundationItems.getPyrotheumDustDict())
 				.getIngredient("dustRedstone");
 		Object craftingH = IngredientSwitch.make()
-				.add(BrainStoneModules::draconicEvolution, DraconicEvolutionItems::getDragonHeart)
-				.add(BrainStoneModules::mysticalAgriculture, MysticalAgricultureItems::getSupremiumApple)
+				.add(BrainStoneModules::draconicEvolution, () -> DraconicEvolutionItems.getDragonHeart())
+				.add(BrainStoneModules::mysticalAgriculture, () -> MysticalAgricultureItems.getSupremiumApple())
 				.getIngredient(() -> new ItemStack(Items.GOLDEN_APPLE, 1, 1));
 
 		addShapedRecipe(new ItemStack(BrainStoneItems.brainStoneLifeCapacitor(), 1), "SBX", "CHC", " P ", 'S',
