@@ -199,7 +199,8 @@ dependencies {
 
     // Deobf exists but Access Transformers are messed up
     deobfProvided "slimeknights.mantle:Mantle:1.12-${mantle_version}"
-    provided("slimeknights:TConstruct:${minecraft_version}-${tconstruct_version}:deobf") {
+    // Mapping outdated :/
+    deobfProvided("slimeknights:TConstruct:${minecraft_version}-${tconstruct_version}") {
         exclude module: "jei_${minecraft_version}"
     }
 
@@ -210,7 +211,8 @@ dependencies {
     provided "lib:Overlord-${minecraft_version}:+:deobf"
     
     deobfProvided "lib:cucumber-1.12:+"
-    provided "lib:mysticalagriculture-1.12:+:deobf"
+    // Mapping outdated :/
+    deobfProvided "lib:mysticalagriculture-1.12:+"
 }
 
 lombok {
