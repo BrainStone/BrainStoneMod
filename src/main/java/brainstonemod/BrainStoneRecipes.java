@@ -11,6 +11,7 @@ import brainstonemod.common.compat.redstonearsenal.RedstoneArsenalItems;
 import brainstonemod.common.compat.tinkersconstruct.TinkersConstructItems;
 import brainstonemod.common.helper.BrainStoneLifeCapacitorUpgrade;
 import brainstonemod.common.helper.IngredientSwitch;
+import com.brandon3055.draconicevolution.api.fusioncrafting.FusionRecipeAPI;
 import lombok.NoArgsConstructor;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -122,16 +123,23 @@ public class BrainStoneRecipes {
 
 	@SubscribeEvent
 	public void registerRecipes(Register<IRecipe> event) {
-		IForgeRegistry<IRecipe> registry = event.getRegistry();
 		BrainStoneLifeCapacitorUpgrade upgradeCapacity = new BrainStoneLifeCapacitorUpgrade(
 				BrainStoneLifeCapacitorUpgrade.Upgrade.CAPACITY);
 		BrainStoneLifeCapacitorUpgrade upgradeCharging = new BrainStoneLifeCapacitorUpgrade(
 				BrainStoneLifeCapacitorUpgrade.Upgrade.CHARGING);
 
 		// Capacitor Recipes
-		registry.register(upgradeCapacity.setRegistryName("brain_stone_life_capacitor_upgrade_capacity"));
-		registry.register(upgradeCharging.setRegistryName("brain_stone_life_capacitor_upgrade_charging"));
+		if (BrainStoneModules.draconicEvolution()) {
+			FusionRecipeAPI.addRecipe(upgradeCapacity);
+			FusionRecipeAPI.addRecipe(upgradeCharging);
+		} else {
+			IForgeRegistry<IRecipe> registry = event.getRegistry();
 
+			registry.register(upgradeCapacity.setRegistryName("brain_stone_life_capacitor_upgrade_capacity"));
+			registry.register(upgradeCharging.setRegistryName("brain_stone_life_capacitor_upgrade_charging"));
+		}
+
+		// For advancements
 		MinecraftForge.EVENT_BUS.register(upgradeCapacity);
 		MinecraftForge.EVENT_BUS.register(upgradeCharging);
 	}

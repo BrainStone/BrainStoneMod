@@ -1,9 +1,8 @@
 package brainstonemod.common.compat.jei;
 
-import javax.annotation.Nonnull;
-
 import brainstonemod.BrainStoneBlocks;
 import brainstonemod.BrainStoneItems;
+import brainstonemod.common.compat.BrainStoneModules;
 import brainstonemod.common.helper.BrainStoneLifeCapacitorUpgrade;
 import mezz.jei.api.IJeiHelpers;
 import mezz.jei.api.IModPlugin;
@@ -12,6 +11,8 @@ import mezz.jei.api.ISubtypeRegistry;
 import mezz.jei.api.JEIPlugin;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import net.minecraft.item.ItemStack;
+
+import javax.annotation.Nonnull;
 
 @JEIPlugin
 public class BrainstoneJEIPlugin implements IModPlugin {
@@ -31,9 +32,11 @@ public class BrainstoneJEIPlugin implements IModPlugin {
 				.addIngredientToBlacklist(new ItemStack(BrainStoneBlocks.pulsatingBrainStoneEffect()));
 		helpers.getIngredientBlacklist().addIngredientToBlacklist(new ItemStack(BrainStoneBlocks.brainStoneOut()));
 
-		// Register handler
-		modRegistry.handleRecipes(BrainStoneLifeCapacitorUpgrade.class, CapacitorUpgradeRecipeWrapper::new,
-				VanillaRecipeCategoryUid.CRAFTING);
+		if (!BrainStoneModules.draconicEvolution()) {
+			// Register handler
+			modRegistry.handleRecipes(BrainStoneLifeCapacitorUpgrade.class, CapacitorUpgradeRecipeWrapper::new,
+					VanillaRecipeCategoryUid.CRAFTING);
+		}
 	}
 
 	@Override

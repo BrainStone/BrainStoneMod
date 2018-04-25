@@ -196,3 +196,7 @@ for.bees.species.brainstonemod.species_stable_pulsating_brain_stone=Stable Pulsa
 for.bees.species.brainstonemod.species_stable_pulsating_brain_stone.description="I walked past these bees and was thrown into the air!... I swear!"|"Sir" Sengir, madman
 for.flowers.brainstonemod.brain_stone=Brain Stone
 for.flowers.brainstonemod.stable_pulsating_brain_stone=Stable Pulsating Brain Stone
+
+// Draconic Evolution
+de.fusion.upgradeOther.capacity=Capacity Level too high! Upgrade Charging Level first!
+de.fusion.upgradeOther.charging=Charging Level too high! Upgrade Capacity Level first!

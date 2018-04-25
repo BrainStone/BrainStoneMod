@@ -196,3 +196,7 @@ for.bees.species.brainstonemod.species_stable_pulsating_brain_stone=Stabiler Pul
 for.bees.species.brainstonemod.species_stable_pulsating_brain_stone.description="Ich bin an diesen Bienen vorbeigelaufen und wurde in die Luft geworfen!... Ich schöre!"|"Sir" Sengir, Verrückter
 for.flowers.brainstonemod.brain_stone=Hirnstein
 for.flowers.brainstonemod.stable_pulsating_brain_stone=Stabiler Pulsierender Hirnstein
+
+// Draconic Evolution
+de.fusion.upgradeOther.capacity=Kapazitäts-Level zu hoch! Upgrade Auflade-Level zuerst!
+de.fusion.upgradeOther.charging=Auflade-Level zu hoch! Upgrade Kapazitäts-Level zuerst!

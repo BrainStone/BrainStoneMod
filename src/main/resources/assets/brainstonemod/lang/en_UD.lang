@@ -170,17 +170,24 @@ trigger.all=:ꞁꞁⱯ
 brainstone.power.rf=Ⅎᴚ
 brainstone.power.tick=ʇ/
 
+// -----------------------------------------------------------------------------
+//                            Mods
+// -----------------------------------------------------------------------------
 
+// Thaumcraft
 tc.aspect.brainstone=ǝuoʇS+uᴉɐɹᗺ
 
+// Ender IO
 enderio.darksteel.upgrade.brainstone.name=uoᴉʇɔǝʇoɹԀ ǝuoʇS uᴉɐɹᗺ ᵷuᴉʇɐsꞁnԀ
 enderio.darksteel.upgrade.brainstone.tooltip.detailed.line1=ɹoɯɹɐ ǝɥʇ ɟo sʇɹɐd ꞁꞁɐ oʇ pǝᴉꞁddɐ ɟI
 enderio.darksteel.upgrade.brainstone.tooltip.detailed.line2=ǝɥʇ ɯoɹɟ pǝʇɔǝʇoɹd ǝq ꞁꞁᴉʍ noʎ
 enderio.darksteel.upgrade.brainstone.tooltip.detailed.line3=ǝuoʇS uᴉɐɹᗺ ᵷuᴉʇɐsꞁnԀ ǝɥʇ ɟo sʇɔǝɟɟǝ
 
+// Tinker's Construct
 material.brainstone.name=ǝuoʇS uᴉɐɹᗺ
 material.stablepulsatingbrainstone.name=ǝuoʇS uᴉɐɹᗺ ˙Ԁ˙S
 
+// Forestry
 for.bees.species.brainstonemod.species_brain_stone=ǝuoʇS uᴉɐɹᗺ
 for.bees.species.brainstonemod.species_brain_stone.description=⥝0⥝ ᵷuᴉdǝǝʞǝǝᗺ|„ɥɥnᗡ ˙ǝuoʇS uᴉɐɹᗺ sǝɔnpoɹԀ„
 for.bees.species.brainstonemod.species_pulsating_brain_stone=ǝuoʇS uᴉɐɹᗺ ᵷuᴉʇɐsꞁnԀ
@@ -189,3 +196,7 @@ for.bees.species.brainstonemod.species_stable_pulsating_brain_stone=ǝuoʇS uᴉ
 for.bees.species.brainstonemod.species_stable_pulsating_brain_stone.description=uɐɯpɐɯ 'ɹᴉᵷuǝS „ɹᴉS„|„¡ɹɐǝʍs I ˙˙˙¡ɹᴉɐ ǝɥʇ oʇuᴉ uʍoɹɥʇ sɐʍ puɐ sǝǝq ǝsǝɥʇ ʇsɐd pǝʞꞁɐʍ I„
 for.flowers.brainstonemod.brain_stone=ǝuoʇS uᴉɐɹᗺ
 for.flowers.brainstonemod.stable_pulsating_brain_stone=ǝuoʇS uᴉɐɹᗺ ᵷuᴉʇɐsꞁnԀ ǝꞁqɐʇS
+
+// Draconic Evolution
+de.fusion.upgradeOther.capacity=¡ʇsɹᴉɟ lǝʌǝ˥ ƃuᴉƃɹɐɥƆ ǝpɐɹƃd∩ ¡ɥƃᴉɥ ooʇ lǝʌǝ˥ ʎʇᴉɔɐdɐƆ
+de.fusion.upgradeOther.charging=¡ʇsɹᴉɟ lǝʌǝ˥ ʎʇᴉɔɐdɐƆ ǝpɐɹƃd∩ ¡ɥƃᴉɥ ooʇ lǝʌǝ˥ ƃuᴉƃɹɐɥƆ
