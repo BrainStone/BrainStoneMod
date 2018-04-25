@@ -195,6 +195,7 @@ dependencies {
          exclude module: "jei_${minecraft_version}"
          exclude module: "jei_1.12"
     }
+    provided "codechicken:CodeChickenLib:1.12.2-3.1.6.+:deobf"
 
     // Deobf exists but Access Transformers are messed up
     deobfProvided "slimeknights.mantle:Mantle:1.12-${mantle_version}"
