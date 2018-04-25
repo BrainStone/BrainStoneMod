@@ -522,7 +522,7 @@ curseforge {
             optionalLibrary "environmental-tech"
             optionalLibrary "forestry"
             optionalLibrary "immersive-engineering"
-            optionalLibrary "just-enough-items-jei"
+            optionalLibrary "jei"
             optionalLibrary "just-enough-resources-jer"
             optionalLibrary "overlord"
             optionalLibrary "tesla"
