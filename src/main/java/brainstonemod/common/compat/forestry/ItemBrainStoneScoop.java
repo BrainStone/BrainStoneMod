@@ -8,7 +8,7 @@ public class ItemBrainStoneScoop extends ItemScoop {
 	public ItemBrainStoneScoop(ToolMaterial toolMaterial) {
 		setHarvestLevel("scoop", toolMaterial.getHarvestLevel());
 		setMaxDamage(toolMaterial.getMaxUses() / 100);
-		setEfficiencyOnProperMaterial(toolMaterial.getEfficiencyOnProperMaterial());
+		setEfficiencyOnProperMaterial(toolMaterial.getEfficiency());
 
 		setCreativeTab(BrainStone.getCreativeTab(Tabs.tabApiculture));
 	}

@@ -1,13 +1,12 @@
 package brainstonemod.common.compat.forestry;
 
-import com.google.common.collect.ImmutableMap;
-
 import brainstonemod.BrainStone;
 import brainstonemod.BrainStoneItems;
 import brainstonemod.common.compat.IModIntegration;
+import com.google.common.collect.ImmutableMap;
 import forestry.api.core.Tabs;
 import forestry.api.recipes.RecipeManagers;
-import forestry.core.PluginCore;
+import forestry.core.ModuleCore;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -24,7 +23,7 @@ public class ForestryCompat implements IModIntegration {
 
 	private static void registerCentrifugeRecipes() {
 		RecipeManagers.centrifugeManager.addRecipe(20, new ItemStack(BrainStoneItems.brainStoneComb()),
-				ImmutableMap.of(PluginCore.items.beeswax.getItemStack(), 1.0f,
+				ImmutableMap.of(ModuleCore.items.beeswax.getItemStack(), 1.0f,
 						new ItemStack(BrainStoneItems.brainStoneDustTiny()), 0.9f,
 						new ItemStack(BrainStoneItems.brainStoneDustTiny()), 0.1f,
 						new ItemStack(BrainStoneItems.brainStoneDustTiny()), 0.1f,

@@ -23,7 +23,7 @@ public class ImmersiveEngineeringRecipes {
 		// Crusher
 
 		// Remove default recipe
-		CrusherRecipe.removeRecipes(brainStoneDust);
+		CrusherRecipe.removeRecipesForOutput(brainStoneDust);
 
 		// BrainStoneOre => BrainStoneDust, BrainStoneDust 50%
 		addCrusherRecipe(brainStoneDust, brainStoneOre, 4000, brainStoneDust, 0.5f);

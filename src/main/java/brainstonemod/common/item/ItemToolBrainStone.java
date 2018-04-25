@@ -124,19 +124,19 @@ public class ItemToolBrainStone extends ItemTool {
 	}
 
 	@Override
-	public float getStrVsBlock(ItemStack stack, IBlockState state) {
+	public float getDestroySpeed(ItemStack stack, IBlockState state) {
 		Material material = state.getMaterial();
 		switch (typeId) {
 		case 1:
 			return (material != Material.IRON) && (material != Material.ANVIL) && (material != Material.ROCK)
-					? super.getStrVsBlock(stack, state)
-					: efficiencyOnProperMaterial;
+					? super.getDestroySpeed(stack, state)
+					: efficiency;
 		case 2:
 			return (material != Material.WOOD) && (material != Material.PLANTS) && (material != Material.VINE)
-					? super.getStrVsBlock(stack, state)
-					: efficiencyOnProperMaterial;
+					? super.getDestroySpeed(stack, state)
+					: efficiency;
 		default:
-			return super.getStrVsBlock(stack, state);
+			return super.getDestroySpeed(stack, state);
 		}
 	}
 
