@@ -121,36 +121,40 @@ minecraft {
 
 repositories {
     maven { // JEI, Natura, Mantle, TiCon
-        name = "JEI"
+        name "JEI"
         url "http://dvs1.progwml6.com/files/maven"
     }
     maven { // EnderIO, EnderCore, EnderZoo, The One Probe, CTM
-        name = "tterrag"
+        name "tterrag"
         url "http://maven.tterrag.com"
     }
     maven { // Tesla
-        name = "Tesla"
+        name "Tesla"
         url "https://maven.epoxide.xyz"
     }
     maven { // ChickenBone's mods and Draconic Evolution
-        name = "ChickenBone's"
-        url "http://chickenbones.net/maven/"
+        name "ChickenBone's"
+        url "http://chickenbones.net/maven"
     }
     maven { // Immersive Engeneering
-        name = "Blamejared"
+        name "Blamejared"
         url "http://blamejared.com/maven"
     }
     maven { // Forestry
-        name = "IC2"
+        name "IC2"
         url "http://maven.ic2.player.to"
     }
     maven { // JustEnoughResources
-        name = "bintray-way2muchnoise"
-        url  "https://dl.bintray.com/way2muchnoise/dev/"
+        name "bintray-way2muchnoise"
+        url "https://dl.bintray.com/way2muchnoise/dev"
     }
     maven { // CoFH
     		name = "Covers Maven"
     		url = "http://maven.covers1624.net"
+    }
+    maven { // Industrial Foregoing
+    		name = "dyonovan"
+    		url = "http://dyonovan.com/maven2"
     }
     flatDir {
         dirs "lib"
@@ -177,6 +181,8 @@ dependencies {
         exclude module: "jei_${minecraft_version}"
         exclude module: "jei_1.12"
     }
+    
+    provided "com.buuz135.industrial.IndustrialForegoing:industrialforegoing:${minecraft_version}-${industrialForegoing_version}:deobf"
 
     provided "blusunrize:ImmersiveEngineering:${immersive_engineering_version}:deobf"
 
