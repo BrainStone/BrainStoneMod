@@ -1,3 +1,9 @@
+4.7.20-beta
+-----------
+
+- Fixed using wrong item as SentientEnder
+- Fixed crash with JER
+
 4.7.17-beta
 -----------
 
