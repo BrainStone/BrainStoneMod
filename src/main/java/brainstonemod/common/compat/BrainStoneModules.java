@@ -2,6 +2,7 @@ package brainstonemod.common.compat;
 
 import brainstonemod.common.compat.cofh.thermalexpansion.ThermalExpansionCompat;
 import brainstonemod.common.compat.draconicevolution.DraconicEvolutionCompat;
+import brainstonemod.common.compat.extremereactors.ExtremeReactorsCompat;
 import brainstonemod.common.compat.forestry.ForestryCompat;
 import brainstonemod.common.compat.immersiveengineering.ImmersiveEngineeringCompat;
 import brainstonemod.common.compat.industrialforegoing.IndustrialForegoingCompat;
@@ -36,6 +37,7 @@ public final class BrainStoneModules {
 	public static final String ENDER_IO_MODID = "enderiobase";
 	public static final String ENVIRONMENTAL_TECH_MODID = "environmentaltech";
 	public static final String EX_NIHILO_ADSCENSIO_MODID = "exnihiloadscensio";
+	public static final String EXTREME_REACTORS_MODID = "bigreactors";
 	public static final String FORESTRY_MODID = "forestry";
 	public static final String INDUSTRIAL_FOREGOING_MODID = "industrialforegoing";
 	public static final String IMMERSIVE_ENGINEERING_MODID = "immersiveengineering";
@@ -53,10 +55,10 @@ public final class BrainStoneModules {
 
 	public static final String DEPENDENCIES = "after:" + BAUBLES_MODID + ";after:" + BETTER_ADVANCEMENTS_MODID
 			+ ";after:" + CTM_MODID + ";after:" + DRACONIC_EVOLUTION_MODID + ";after:" + ENDER_IO_MODID + ";after:"
-			+ EX_NIHILO_ADSCENSIO_MODID + ";after:" + FORESTRY_MODID + ";after:" + INDUSTRIAL_FOREGOING_MODID
-			+ ";after:" + IMMERSIVE_ENGINEERING_MODID + ";after:" + JEI_MODID + ";after:" + JER_MODID + ";after:"
-			+ MFR_MODID + ";after:" + MYSTICAL_AGRICULTURE_MODID + ";after:" + OVERLORD_MODID + ";after:"
-			+ REDSTONE_ARSENAL_MODID + ";after:" + TESLA_MODID + ";after:" + THAUMCRAFT_MODID + ";after:"
+			+ EX_NIHILO_ADSCENSIO_MODID + ";after:" + EXTREME_REACTORS_MODID + ";after:" + FORESTRY_MODID + ";after:"
+			+ INDUSTRIAL_FOREGOING_MODID + ";after:" + IMMERSIVE_ENGINEERING_MODID + ";after:" + JEI_MODID + ";after:"
+			+ JER_MODID + ";after:" + MFR_MODID + ";after:" + MYSTICAL_AGRICULTURE_MODID + ";after:" + OVERLORD_MODID
+			+ ";after:" + REDSTONE_ARSENAL_MODID + ";after:" + TESLA_MODID + ";after:" + THAUMCRAFT_MODID + ";after:"
 			+ THERMAL_EXPANSION_MODID + ";after:" + THERMAL_FOUNDATION_MODID + ";after:" + TINKERS_CONSTRUCT_MODID;
 
 	private static Boolean BAUBLES;
@@ -66,6 +68,7 @@ public final class BrainStoneModules {
 	private static Boolean ENDER_IO;
 	private static Boolean ENVIRONMENTAL_TECH;
 	private static Boolean EX_NIHILO_ADSCENSIO;
+	private static Boolean EXTREME_REACTORS;
 	private static Boolean FORESTRY;
 	private static Boolean INDUSTRIAL_FOREGOING;
 	private static Boolean IMMERSIVE_ENGINEERING;
@@ -122,6 +125,11 @@ public final class BrainStoneModules {
 	// ExNihiloAdscensioCompat.class)
 	protected static boolean exNihiloAdscensio() {
 		return testMod(EX_NIHILO_ADSCENSIO_MODID, EX_NIHILO_ADSCENSIO);
+	}
+
+	@Module(modid = EXTREME_REACTORS_MODID, name = "Extreme Reactors", message = "Adding reactants and interiors.", integration = ExtremeReactorsCompat.class)
+	public static boolean extremeReactors() {
+		return testMod(EXTREME_REACTORS_MODID, EXTREME_REACTORS);
 	}
 
 	@Module(modid = FORESTRY_MODID, name = "Forestry", message = "Adding bees and related items.", integration = ForestryCompat.class)

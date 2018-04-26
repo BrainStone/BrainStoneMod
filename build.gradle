@@ -547,6 +547,7 @@ curseforge {
             optionalLibrary "baubles"
             optionalLibrary "draconic-evolution"
             optionalLibrary "environmental-tech"
+            optionalLibrary "extreme-reactors"
             optionalLibrary "forestry"
             optionalLibrary "industrial-foregoing"
             optionalLibrary "immersive-engineering"
