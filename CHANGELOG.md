@@ -1,3 +1,9 @@
+4.7.10-beta
+-----------
+
+- Added Brain Stone and Stable Pulsating Brain Stone as Reactor Interiors and Turbine Coils for Extreme Reactors (WIP)
+- Added Essence Of Life as a Reactor Fuel for Extreme Reactors (WIP)
+
 4.7.3-beta
 ----------
 
