@@ -23,7 +23,7 @@ public class ExtremeReactorsCompat implements IModIntegration {
 	private static final String MATERIAL_BRAINSTONE = "brainstone";
 	private static final String MATERIAL_STABLE_PULSATING_BRAINSTONE = "stablepulsatingbrainstone";
 
-	@SuppressWarnings("deprecation") // Just logging the same way
+	@SuppressWarnings({ "deprecation", "unused" }) // Just logging the same way
 	private static void registerCustomReactant(ReactantData reactant) {
 		try {
 			final Field fieldReactants = Reactants.class.getDeclaredField("_reactants");
@@ -52,7 +52,8 @@ public class ExtremeReactorsCompat implements IModIntegration {
 
 	@Override
 	public void init(FMLInitializationEvent event) {
-		registerCustomReactant(new EssenceOfLifeReactantData(REACTANT_ESSENCE_OF_LIFE, 0));
+		//registerCustomReactant(new EssenceOfLifeReactantData(REACTANT_ESSENCE_OF_LIFE, 0));
+		Reactants.registerReactant(REACTANT_ESSENCE_OF_LIFE, 0, 0xe3237b);
 		Reactants.registerReactant(REACTANT_BRAINSTONE, 1, 0x214d12);
 
 		Reactants.registerSolid("essenceOfLife", REACTANT_ESSENCE_OF_LIFE, 250);
