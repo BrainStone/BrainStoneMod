@@ -179,11 +179,12 @@ dependencies {
         exclude module: "OpenComputers"
     }
 
-    deobfProvided "com.enderio.core:EnderCore:${minecraft_version}-${endercore_version}"
-    provided("com.enderio:EnderIO-base:${minecraft_version}-${enderio_version}:api") {
-         exclude module: "appliedenergistics2"
-         exclude module: "Tesla"
-    }
+    // deobfProvided "com.enderio.core:EnderCore:${minecraft_version}-${endercore_version}"
+    // provided("com.enderio:EnderIO-base:${minecraft_version}-${enderio_version}:api") {
+    //      exclude module: "appliedenergistics2"
+    //      exclude module: "Tesla"
+    // }
+    provided "lib:EnderIO-base:+:api"
 
     deobfProvided("net.sengir.forestry:forestry_${minecraft_version}:${forestry_version}") {
         exclude module: "jei_${minecraft_version}"
