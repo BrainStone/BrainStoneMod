@@ -1,3 +1,8 @@
+4.7.3-beta
+----------
+
+- Added Brain Stone Ore to Laser Drill from IndsutrialForegoing
+
 4.6.54
 ------
 
