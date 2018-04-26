@@ -9,6 +9,8 @@ import jeresources.api.IJERAPI;
 import jeresources.api.JERPlugin;
 import jeresources.api.distributions.DistributionSquare;
 import jeresources.api.drop.LootDrop;
+import jeresources.api.restrictions.DimensionRestriction;
+import jeresources.api.restrictions.Restriction;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -33,14 +35,19 @@ public class JEResourcesCompat implements IModIntegration {
 		final ItemStack brainStoneOre = new ItemStack(BrainStoneBlocks.brainStoneOre());
 		final ItemStack brainStoneDust = new ItemStack(BrainStoneItems.brainStoneDust());
 
+		final LootDrop[] drops = new LootDrop[] { new LootDrop(brainStoneDust, 0, 1, 1f / 2f, 0),
+				new LootDrop(brainStoneDust, 0, 2, 2f / 3f, 1), new LootDrop(brainStoneDust, 0, 3, 3f / 4f, 2),
+				new LootDrop(brainStoneDust, 0, 4, 4f / 5f, 3) };
+
 		jerAPI.getMobRegistry().register(new EntityWither(world),
 				new LootDrop(essenceOfLife, (float) BrainStoneConfigWrapper.getEssenceOfLifeBaseChance()));
 
-		jerAPI.getWorldGenRegistry().register(brainStoneOre,
-				new DistributionSquare(BrainStoneConfigWrapper.getBrainStoneOreVeinCount(),
-						BrainStoneConfigWrapper.getBrainStoneOreVeinSize(), 0, 32),
-				true, new LootDrop(brainStoneDust, 0, 1, 1f / 2f, 0), new LootDrop(brainStoneDust, 0, 2, 2f / 3f, 1),
-				new LootDrop(brainStoneDust, 0, 3, 3f / 4f, 2), new LootDrop(brainStoneDust, 0, 4, 4f / 5f, 3));
+		for (int dim : BrainStoneConfigWrapper.getBrainStoneOreDims()) {
+			jerAPI.getWorldGenRegistry().register(brainStoneOre,
+					new DistributionSquare(BrainStoneConfigWrapper.getBrainStoneOreVeinCount(),
+							BrainStoneConfigWrapper.getBrainStoneOreVeinSize(), 0, 32),
+					new Restriction(new DimensionRestriction(dim)), true, drops);
+		}
 
 		jerAPI.getDungeonRegistry().registerCategory("chests/house/top", "BrainStone House Top");
 		jerAPI.getDungeonRegistry().registerChest("chests/house/top",
