@@ -52,6 +52,7 @@ public class ExtremeReactorsCompat implements IModIntegration {
 
 	@Override
 	public void init(FMLInitializationEvent event) {
+		// Todo
 		//registerCustomReactant(new EssenceOfLifeReactantData(REACTANT_ESSENCE_OF_LIFE, 0));
 		Reactants.registerReactant(REACTANT_ESSENCE_OF_LIFE, 0, 0xe3237b);
 		Reactants.registerReactant(REACTANT_BRAINSTONE, 1, 0x214d12);

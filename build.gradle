@@ -160,7 +160,7 @@ repositories {
         name = "Shadowfacts"
         url "http://maven.shadowfacts.net"
     }
-    maven {
+    maven { // ZeroCore
         name "zerocore"
         url "http://maven.zerono.it"
     }
@@ -179,11 +179,11 @@ dependencies {
         exclude module: "OpenComputers"
     }
 
-    // deobfProvided "com.enderio.core:EnderCore:${minecraft_version}-${endercore_version}"
-    // deobfProvided("com.enderio:EnderIO:${minecraft_version}-${enderio_version}") {
-    //     exclude module: "appliedenergistics2"
-    //     exclude module: "Tesla"
-    // }
+    deobfProvided "com.enderio.core:EnderCore:${minecraft_version}-${endercore_version}"
+    provided("com.enderio:EnderIO-base:${minecraft_version}-${enderio_version}:api") {
+         exclude module: "appliedenergistics2"
+         exclude module: "Tesla"
+    }
 
     deobfProvided("net.sengir.forestry:forestry_${minecraft_version}:${forestry_version}") {
         exclude module: "jei_${minecraft_version}"
@@ -546,6 +546,7 @@ curseforge {
 
             optionalLibrary "baubles"
             optionalLibrary "draconic-evolution"
+            optionalLibrary "ender-io"
             optionalLibrary "environmental-tech"
             optionalLibrary "extreme-reactors"
             optionalLibrary "forestry"
@@ -559,7 +560,6 @@ curseforge {
             optionalLibrary "thermal-foundation"
             optionalLibrary "tinkers-construct"
 
-            //optionalLibrary "ender-io"
             //optionalLibrary "ex-nihilo-adscensio"
             //optionalLibrary "minefactory-reloaded"
             //optionalLibrary "thaumcraft"
