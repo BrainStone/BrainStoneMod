@@ -2,6 +2,7 @@ package brainstonemod.common.compat;
 
 import brainstonemod.common.compat.cofh.thermalexpansion.ThermalExpansionCompat;
 import brainstonemod.common.compat.draconicevolution.DraconicEvolutionCompat;
+import brainstonemod.common.compat.enderio.EnderIOCompat;
 import brainstonemod.common.compat.extremereactors.ExtremeReactorsCompat;
 import brainstonemod.common.compat.forestry.ForestryCompat;
 import brainstonemod.common.compat.immersiveengineering.ImmersiveEngineeringCompat;
@@ -109,9 +110,8 @@ public final class BrainStoneModules {
 		return testMod(DRACONIC_EVOLUTION_MODID, DRACONIC_EVOLUTION);
 	}
 
-	// @Module(modid = ENDER_IO_MODID, name = "Ender IO", message = "Enabling
-	// recipes and armor upgrade.", integration = EnderIOCompat.class)
-	protected static boolean enderIO() {
+	@Module(modid = ENDER_IO_MODID, name = "Ender IO", message = "Enabling recipes and armor upgrade.", integration = EnderIOCompat.class)
+	public static boolean enderIO() {
 		return testMod(ENDER_IO_MODID, ENDER_IO);
 	}
 

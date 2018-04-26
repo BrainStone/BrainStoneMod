@@ -1,52 +1,28 @@
 package brainstonemod.common.compat.enderio;
 
-import brainstonemod.BrainStone;
+import brainstonemod.BrainStoneBlocks;
+import brainstonemod.BrainStoneItems;
 import brainstonemod.common.compat.BrainStoneModules;
-import crazypants.enderio.handler.darksteel.DarkSteelRecipeManager;
-import crazypants.enderio.recipe.BasicManyToOneRecipe;
-import crazypants.enderio.recipe.Recipe;
-import crazypants.enderio.recipe.RecipeBonusType;
-import crazypants.enderio.recipe.RecipeInput;
-import crazypants.enderio.recipe.RecipeOutput;
-import crazypants.enderio.recipe.alloysmelter.AlloyRecipeManager;
-import crazypants.enderio.recipe.sagmill.SagMillRecipeManager;
-import lombok.experimental.UtilityClass;
+import crazypants.enderio.api.upgrades.IDarkSteelUpgrade;
+import crazypants.enderio.base.recipe.BasicManyToOneRecipe;
+import crazypants.enderio.base.recipe.Recipe;
+import crazypants.enderio.base.recipe.RecipeBonusType;
+import crazypants.enderio.base.recipe.RecipeInput;
+import crazypants.enderio.base.recipe.RecipeOutput;
+import crazypants.enderio.base.recipe.alloysmelter.AlloyRecipeManager;
+import crazypants.enderio.base.recipe.sagmill.SagMillRecipeManager;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Optional;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.registries.IForgeRegistry;
 
-@UtilityClass
+import javax.annotation.Nonnull;
+
 public class EnderIORecipes {
-	@Optional.Method(modid = BrainStoneModules.ENDER_IO_MODID)
-	public static void registerEnderIORecipies() {
-		ItemStack brainStoneDust4 = new ItemStack(BrainStone.brainStoneDust(), 4);
-
-		// SAG Mill
-
-		// BrainStoneOre => BrainStoneDust, BrainStoneDust 50%
-		addSAGMillRecipe(BrainStone.brainStoneOre(), 4000, BrainStone.brainStoneDust(),
-				new RecipeOutput(new ItemStack(BrainStone.brainStoneDust()), 0.5f),
-				new RecipeOutput(new ItemStack(Blocks.COBBLESTONE), 0.15f));
-		// BrainStone => 4xBrainStoneDust
-		addSAGMillRecipe(BrainStone.brainStone(), 5000, RecipeBonusType.NONE, brainStoneDust4);
-		// DirtyBrainStone => 4xBrainStoneDust
-		addSAGMillRecipe(BrainStone.dirtyBrainStone(), 4000, RecipeBonusType.NONE, brainStoneDust4);
-
-		// Alloy Smelter
-
-		// 4xBrainStoneDust => BrainStone
-		addAlloySmelterRecipe(BrainStone.brainStone(), 3000, brainStoneDust4);
-		// 4xBrainStoneDust, 4xBrainStoneDust => 2xBrainStone
-		addAlloySmelterRecipe(new ItemStack(BrainStone.brainStone(), 2), 6000, brainStoneDust4, brainStoneDust4);
-		// 4xBrainStoneDust, 4xBrainStoneDust, 4xBrainStoneDust => 3xBrainStone
-		addAlloySmelterRecipe(new ItemStack(BrainStone.brainStone(), 3), 9000, brainStoneDust4, brainStoneDust4,
-				brainStoneDust4);
-
-		DarkSteelRecipeManager.instance.getUpgrades().add(BrainStoneUpgrade.UPGRADE);
-	}
-
 	@Optional.Method(modid = BrainStoneModules.ENDER_IO_MODID)
 	private static void addSAGMillRecipe(Object input, int energyRequired, Object... outputs) {
 		addSAGMillRecipe(input, energyRequired, RecipeBonusType.MULTIPLY_OUTPUT, outputs);
@@ -110,5 +86,39 @@ public class EnderIORecipes {
 			return (RecipeInput) object;
 
 		return null;
+	}
+
+	@Optional.Method(modid = BrainStoneModules.ENDER_IO_MODID)
+	public void registerEnderIORecipies() {
+		ItemStack brainStoneDust4 = new ItemStack(BrainStoneItems.brainStoneDust(), 4);
+	
+		// SAG Mill
+	
+		// BrainStoneOre => BrainStoneDust, BrainStoneDust 50%
+		addSAGMillRecipe(BrainStoneBlocks.brainStoneOre(), 4000, BrainStoneItems.brainStoneDust(),
+				new RecipeOutput(new ItemStack(BrainStoneItems.brainStoneDust()), 0.5f),
+				new RecipeOutput(new ItemStack(Blocks.COBBLESTONE), 0.15f));
+		// BrainStone => 4xBrainStoneDust
+		addSAGMillRecipe(BrainStoneBlocks.brainStone(), 5000, RecipeBonusType.NONE, brainStoneDust4);
+		// DirtyBrainStone => 4xBrainStoneDust
+		addSAGMillRecipe(BrainStoneBlocks.dirtyBrainStone(), 4000, RecipeBonusType.NONE, brainStoneDust4);
+	
+		// Alloy Smelter
+	
+		// 4xBrainStoneDust => BrainStone
+		addAlloySmelterRecipe(BrainStoneBlocks.brainStone(), 3000, brainStoneDust4);
+		// 4xBrainStoneDust, 4xBrainStoneDust => 2xBrainStone
+		addAlloySmelterRecipe(new ItemStack(BrainStoneBlocks.brainStone(), 2), 6000, brainStoneDust4, brainStoneDust4);
+		// 4xBrainStoneDust, 4xBrainStoneDust, 4xBrainStoneDust => 3xBrainStone
+		addAlloySmelterRecipe(new ItemStack(BrainStoneBlocks.brainStone(), 3), 9000, brainStoneDust4, brainStoneDust4,
+				brainStoneDust4);
+	}
+
+	@SubscribeEvent
+	@Optional.Method(modid = BrainStoneModules.ENDER_IO_MODID)
+	public void registerDarkSteelUpgrades(@Nonnull RegistryEvent.Register<IDarkSteelUpgrade> event) {
+		final IForgeRegistry<IDarkSteelUpgrade> registry = event.getRegistry();
+
+		registry.register(BrainStoneUpgrade.UPGRADE);
 	}
 }

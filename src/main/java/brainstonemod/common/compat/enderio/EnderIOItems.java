@@ -1,6 +1,6 @@
 package brainstonemod.common.compat.enderio;
 
-import crazypants.enderio.init.ModObject;
+import crazypants.enderio.base.init.ModObject;
 import lombok.experimental.UtilityClass;
 import net.minecraft.item.ItemStack;
 

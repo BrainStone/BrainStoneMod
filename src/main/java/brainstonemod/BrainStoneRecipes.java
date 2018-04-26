@@ -4,6 +4,7 @@ import brainstonemod.common.compat.BrainStoneModules;
 import brainstonemod.common.compat.cofh.thermalexpansion.ThermalExpansionItems;
 import brainstonemod.common.compat.cofh.thermalfoundation.ThermalFoundationItems;
 import brainstonemod.common.compat.draconicevolution.DraconicEvolutionItems;
+import brainstonemod.common.compat.enderio.EnderIOItems;
 import brainstonemod.common.compat.forestry.ForestryItems;
 import brainstonemod.common.compat.immersiveengineering.ImmersiveEngineeringItems;
 import brainstonemod.common.compat.mysticalagriculture.MysticalAgricultureItems;
@@ -41,11 +42,13 @@ public class BrainStoneRecipes {
 		Object craftingS = new ItemStack(Items.SKULL, 1, 5);
 		Object craftingX = IngredientSwitch.make()
 				.add(BrainStoneModules::redstoneArsenal, () -> RedstoneArsenalItems.getFluxInfusedObsidianRod())
+				.add(BrainStoneModules::enderIO, () -> EnderIOItems.getXPRod())
 				.add(BrainStoneModules::tinkersConstruct, () -> TinkersConstructItems.getManyullyToughRod())
 				.getIngredient(Blocks.END_ROD);
 		Object craftingC = IngredientSwitch.make()
 				.add(BrainStoneModules::thermalExpansion, () -> ThermalExpansionItems.getResonantFluxCapacitor())
 				.add(BrainStoneModules::draconicEvolution, () -> DraconicEvolutionItems.getWyvernFluxCapacitor())
+				.add(BrainStoneModules::enderIO, () -> EnderIOItems.getOctadicCapacitor())
 				.add(BrainStoneModules::immersiveEngineering, () -> ImmersiveEngineeringItems.getHVCapacitor())
 				.add(BrainStoneModules::redstoneArsenal, () -> RedstoneArsenalItems.getFluxedArmorPlating())
 				.add(BrainStoneModules::forestry, () -> ForestryItems.getEmeraldElectronTube())

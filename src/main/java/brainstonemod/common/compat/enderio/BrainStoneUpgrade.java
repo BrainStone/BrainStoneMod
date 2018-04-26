@@ -1,55 +1,48 @@
 package brainstonemod.common.compat.enderio;
 
 import brainstonemod.BrainStone;
+import brainstonemod.BrainStoneBlocks;
 import brainstonemod.common.compat.BrainStoneModules;
-import crazypants.enderio.handler.darksteel.AbstractUpgrade;
-import crazypants.enderio.handler.darksteel.IRenderUpgrade;
-import crazypants.enderio.init.ModObject;
+import crazypants.enderio.api.upgrades.IDarkSteelItem;
+import crazypants.enderio.api.upgrades.IHasPlayerRenderer;
+import crazypants.enderio.api.upgrades.IRenderUpgrade;
+import crazypants.enderio.base.handler.darksteel.AbstractUpgrade;
+import crazypants.enderio.base.init.ModObject;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.entity.RenderPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@Optional.Interface(iface = "crazypants.enderio.item.darksteel.upgrade.IDarkSteelUpgrade", modid = BrainStoneModules.ENDER_IO_MODID)
-public class BrainStoneUpgrade extends AbstractUpgrade {
+@Optional.Interface(iface = "crazypants.enderio.api.upgrades.IDarkSteelUpgrade", modid = BrainStoneModules.ENDER_IO_MODID)
+public class BrainStoneUpgrade extends AbstractUpgrade implements IHasPlayerRenderer {
 	private static String UPGRADE_NAME = "brainstone";
 
-	public static final BrainStoneUpgrade UPGRADE = new BrainStoneUpgrade(new ItemStack(BrainStone.brainStone()), 20);
-
+	public static final BrainStoneUpgrade UPGRADE = new BrainStoneUpgrade(new ItemStack(BrainStoneBlocks.brainStone()), 20);
+	
 	private Render render;
 
+	@SuppressWarnings("deprecation")
 	protected BrainStoneUpgrade(ItemStack upgradeItem, int levelCost) {
-		super(UPGRADE_NAME, KEY_UPGRADE_PREFIX + UPGRADE_NAME, upgradeItem, levelCost);
+		super(BrainStone.MOD_ID, UPGRADE_NAME, 0, KEY_UPGRADE_PREFIX + UPGRADE_NAME, upgradeItem, levelCost);
 	}
-
-	public BrainStoneUpgrade(NBTTagCompound tag) {
-		super(UPGRADE_NAME, tag);
-	}
-
+	
 	@Override
 	@Optional.Method(modid = BrainStoneModules.ENDER_IO_MODID)
-	public boolean canAddToItem(ItemStack stack) {
+	public boolean canAddToItem(ItemStack stack, IDarkSteelItem item) {
 		return !((stack == null) || ((stack.getItem() != ModObject.itemDarkSteelBoots.getItem())
 				&& (stack.getItem() != ModObject.itemDarkSteelLeggings.getItem())
 				&& (stack.getItem() != ModObject.itemDarkSteelChestplate.getItem())
 				&& (stack.getItem() != ModObject.itemDarkSteelHelmet.getItem()))) && !hasUpgrade(stack);
-
 	}
-
-	@Override
-	@Optional.Method(modid = BrainStoneModules.ENDER_IO_MODID)
-	public void writeUpgradeToNBT(NBTTagCompound upgradeRoot) {
-		// Do nothing
-	}
-
+	
 	@Override
 	@Optional.Method(modid = BrainStoneModules.ENDER_IO_MODID)
 	@SideOnly(Side.CLIENT)
@@ -59,13 +52,13 @@ public class BrainStoneUpgrade extends AbstractUpgrade {
 
 	@SideOnly(Side.CLIENT)
 	private class Render implements IRenderUpgrade {
-		private final ItemStack brainStone = new ItemStack(BrainStone.brainStone());
+		private final ItemStack brainStone = new ItemStack(BrainStoneBlocks.brainStone());
 
 		@Override
-		public void doRenderLayer(RenderPlayer renderPlayer, ItemStack stack, AbstractClientPlayer player,
-				float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_,
-				float p_177141_7_, float scale) {
-			Item stackItem = stack.getItem();
+		public void doRenderLayer(RenderPlayer renderPlayer, EntityEquipmentSlot equipmentSlot, ItemStack piece,
+				AbstractClientPlayer player, float limbSwing, float limbSwingAmount, float partialTicks,
+				float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+			Item stackItem = piece.getItem();
 			boolean sneaking = player.isSneaking();
 
 			if (stackItem == ModObject.itemDarkSteelHelmet.getItem()) {

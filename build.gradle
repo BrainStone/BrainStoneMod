@@ -184,7 +184,6 @@ dependencies {
     //      exclude module: "appliedenergistics2"
     //      exclude module: "Tesla"
     // }
-    provided "lib:EnderIO:+:api"
     deobfProvided "lib:EnderIO-base:+"
     deobfProvided "lib:EnderIO-machines:+"
     deobfProvided "lib:EnderIO-conduits:+"
