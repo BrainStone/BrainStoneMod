@@ -41,6 +41,7 @@ public class CommonProxy {
 		OreDictionary.registerOre("brainstone", BrainStoneBlocks.brainStone());
 		OreDictionary.registerOre("pulsatingbrainstone", BrainStoneBlocks.pulsatingBrainStone());
 		OreDictionary.registerOre("stablepulsatingbrainstone", BrainStoneBlocks.stablePulsatingBrainStone());
+		OreDictionary.registerOre("essenceOfLife", BrainStoneItems.essenceOfLife());
 	}
 
 	public EntityPlayer getPlayerEntity(MessageContext ctx) {
