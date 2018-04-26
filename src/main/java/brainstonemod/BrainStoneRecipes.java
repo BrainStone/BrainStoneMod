@@ -39,7 +39,9 @@ public class BrainStoneRecipes {
 	 * Adds the recipes.
 	 */
 	protected static final void addRecipes() {
-		Object craftingS = new ItemStack(Items.SKULL, 1, 5);
+		Object craftingS = IngredientSwitch.make()
+				.add(BrainStoneModules::enderIO, () -> EnderIOItems.getSentientEnder())
+				.getIngredient(new ItemStack(Items.SKULL, 1, 5));
 		Object craftingX = IngredientSwitch.make()
 				.add(BrainStoneModules::redstoneArsenal, () -> RedstoneArsenalItems.getFluxInfusedObsidianRod())
 				.add(BrainStoneModules::enderIO, () -> EnderIOItems.getXPRod())

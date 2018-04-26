@@ -13,4 +13,8 @@ public final class EnderIOItems {
 	public static final ItemStack getOctadicCapacitor() {
 		return new ItemStack(ModObject.itemBasicCapacitor.getItem(), 1, 2);
 	}
+	
+	public static final ItemStack getSentientEnder() {
+		return new ItemStack(ModObject.itemBasicCapacitor.getItem(), 1, 2);
+	}
 }
