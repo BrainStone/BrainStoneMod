@@ -4,6 +4,7 @@ import brainstonemod.common.compat.cofh.thermalexpansion.ThermalExpansionCompat;
 import brainstonemod.common.compat.draconicevolution.DraconicEvolutionCompat;
 import brainstonemod.common.compat.forestry.ForestryCompat;
 import brainstonemod.common.compat.immersiveengineering.ImmersiveEngineeringCompat;
+import brainstonemod.common.compat.industrialforegoing.IndustrialForegoingCompat;
 import brainstonemod.common.compat.jeresources.JEResourcesCompat;
 import brainstonemod.common.compat.mysticalagriculture.MysticalAgricultureCompat;
 import brainstonemod.common.compat.overlord.OverlordCompat;
@@ -29,13 +30,14 @@ import java.util.stream.Collectors;
 @UtilityClass
 public final class BrainStoneModules {
 	public static final String BAUBLES_MODID = "baubles";
-	public static final String BETTER_ADVANCEMENTS_MODID = "betterachievements";
+	public static final String BETTER_ADVANCEMENTS_MODID = "betteradvancements";
 	public static final String CTM_MODID = "ctm";
 	public static final String DRACONIC_EVOLUTION_MODID = "draconicevolution";
 	public static final String ENDER_IO_MODID = "enderiobase";
 	public static final String ENVIRONMENTAL_TECH_MODID = "environmentaltech";
 	public static final String EX_NIHILO_ADSCENSIO_MODID = "exnihiloadscensio";
 	public static final String FORESTRY_MODID = "forestry";
+	public static final String INDUSTRIAL_FOREGOING_MODID = "industrialforegoing";
 	public static final String IMMERSIVE_ENGINEERING_MODID = "immersiveengineering";
 	public static final String JEI_MODID = "jei";
 	public static final String JER_MODID = "jeresources";
@@ -51,11 +53,11 @@ public final class BrainStoneModules {
 
 	public static final String DEPENDENCIES = "after:" + BAUBLES_MODID + ";after:" + BETTER_ADVANCEMENTS_MODID
 			+ ";after:" + CTM_MODID + ";after:" + DRACONIC_EVOLUTION_MODID + ";after:" + ENDER_IO_MODID + ";after:"
-			+ EX_NIHILO_ADSCENSIO_MODID + ";after:" + FORESTRY_MODID + ";after:" + IMMERSIVE_ENGINEERING_MODID
-			+ ";after:" + JEI_MODID + ";after:" + JER_MODID + ";after:" + MFR_MODID + ";after:"
-			+ MYSTICAL_AGRICULTURE_MODID + ";after:" + OVERLORD_MODID + ";after:" + REDSTONE_ARSENAL_MODID + ";after:"
-			+ TESLA_MODID + ";after:" + THAUMCRAFT_MODID + ";after:" + THERMAL_EXPANSION_MODID + ";after:"
-			+ THERMAL_FOUNDATION_MODID + ";after:" + TINKERS_CONSTRUCT_MODID;
+			+ EX_NIHILO_ADSCENSIO_MODID + ";after:" + FORESTRY_MODID + ";after:" + INDUSTRIAL_FOREGOING_MODID
+			+ ";after:" + IMMERSIVE_ENGINEERING_MODID + ";after:" + JEI_MODID + ";after:" + JER_MODID + ";after:"
+			+ MFR_MODID + ";after:" + MYSTICAL_AGRICULTURE_MODID + ";after:" + OVERLORD_MODID + ";after:"
+			+ REDSTONE_ARSENAL_MODID + ";after:" + TESLA_MODID + ";after:" + THAUMCRAFT_MODID + ";after:"
+			+ THERMAL_EXPANSION_MODID + ";after:" + THERMAL_FOUNDATION_MODID + ";after:" + TINKERS_CONSTRUCT_MODID;
 
 	private static Boolean BAUBLES;
 	private static Boolean BETTER_ADVANCEMENTS;
@@ -65,6 +67,7 @@ public final class BrainStoneModules {
 	private static Boolean ENVIRONMENTAL_TECH;
 	private static Boolean EX_NIHILO_ADSCENSIO;
 	private static Boolean FORESTRY;
+	private static Boolean INDUSTRIAL_FOREGOING;
 	private static Boolean IMMERSIVE_ENGINEERING;
 	private static Boolean JEI;
 	private static Boolean JER;
@@ -124,6 +127,11 @@ public final class BrainStoneModules {
 	@Module(modid = FORESTRY_MODID, name = "Forestry", message = "Adding bees and related items.", integration = ForestryCompat.class)
 	public static boolean forestry() {
 		return testMod(FORESTRY_MODID, FORESTRY);
+	}
+
+	@Module(modid = INDUSTRIAL_FOREGOING_MODID, name = "Industrial Foregoing", message = "Adding BrainStoneOre to Laser Drill.", integration = IndustrialForegoingCompat.class)
+	public static boolean industrialForegoing() {
+		return testMod(INDUSTRIAL_FOREGOING_MODID, INDUSTRIAL_FOREGOING);
 	}
 
 	@Module(modid = IMMERSIVE_ENGINEERING_MODID, name = "Immersive Engineering", message = "Adding recipes.", integration = ImmersiveEngineeringCompat.class)

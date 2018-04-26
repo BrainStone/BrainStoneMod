@@ -156,6 +156,10 @@ repositories {
     		name = "dyonovan"
     		url = "http://dyonovan.com/maven2"
     }
+    maven { // Forgelin
+        name = "Shadowfacts"
+        url "http://maven.shadowfacts.net/"
+    }
     flatDir {
         dirs "lib"
     }
@@ -182,7 +186,12 @@ dependencies {
         exclude module: "jei_1.12"
     }
     
-    provided "com.buuz135.industrial.IndustrialForegoing:industrialforegoing:${minecraft_version}-${industrialForegoing_version}:deobf"
+    provided("com.buuz135.industrial.IndustrialForegoing:industrialforegoing:${minecraft_version}-${industrialForegoing_version}:deobf") {
+        exclude module: "jei_${minecraft_version}"
+        exclude module: "jei_1.12"
+        exclude module: "RedstoneFlux"
+    }
+    provided "net.shadowfacts:Forgelin:1.6.0"
 
     provided "blusunrize:ImmersiveEngineering:${immersive_engineering_version}:deobf"
 
@@ -525,11 +534,13 @@ curseforge {
         }
 
         relations {
-            optionalLibrary "baubles"
             requiredLibrary "ctm"
+
+            optionalLibrary "baubles"
             optionalLibrary "draconic-evolution"
             optionalLibrary "environmental-tech"
             optionalLibrary "forestry"
+            optionalLibrary "industrial-foregoing"
             optionalLibrary "immersive-engineering"
             optionalLibrary "jei"
             optionalLibrary "just-enough-resources-jer"
