@@ -5,6 +5,7 @@ import brainstonemod.BrainStoneBlocks;
 import brainstonemod.BrainStoneItems;
 import brainstonemod.common.compat.IModIntegration;
 import brainstonemod.common.config.BrainStoneConfigWrapper;
+import brainstonemod.common.helper.BSP;
 import jeresources.api.IJERAPI;
 import jeresources.api.JERPlugin;
 import jeresources.api.distributions.DistributionSquare;
@@ -43,10 +44,14 @@ public class JEResourcesCompat implements IModIntegration {
 				new LootDrop(essenceOfLife, (float) BrainStoneConfigWrapper.getEssenceOfLifeBaseChance()));
 
 		for (int dim : BrainStoneConfigWrapper.getBrainStoneOreDims()) {
-			jerAPI.getWorldGenRegistry().register(brainStoneOre,
-					new DistributionSquare(BrainStoneConfigWrapper.getBrainStoneOreVeinCount(),
-							BrainStoneConfigWrapper.getBrainStoneOreVeinSize(), 0, 32),
-					new Restriction(new DimensionRestriction(dim)), true, drops);
+			try {
+				jerAPI.getWorldGenRegistry().register(brainStoneOre,
+						new DistributionSquare(BrainStoneConfigWrapper.getBrainStoneOreVeinCount(),
+								BrainStoneConfigWrapper.getBrainStoneOreVeinSize(), 0, 32),
+						new Restriction(new DimensionRestriction(dim)), true, drops);
+			} catch (IllegalArgumentException e) {
+				BSP.warn("JER doesn't know about DIM" + dim);
+			}
 		}
 
 		jerAPI.getDungeonRegistry().registerCategory("chests/house/top", "BrainStone House Top");
