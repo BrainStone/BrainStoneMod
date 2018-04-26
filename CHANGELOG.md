@@ -1,3 +1,10 @@
+4.7.17-beta
+-----------
+
+- Added Recipes for EnderIO machines (back)
+- Added EnderIO components to the Brain Stone Life Capacitor
+- Show Brain Stone Ore generation of all dimensions in JER
+
 4.7.10-beta
 -----------
 
