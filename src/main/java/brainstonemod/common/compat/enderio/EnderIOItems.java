@@ -15,6 +15,6 @@ public final class EnderIOItems {
 	}
 	
 	public static final ItemStack getSentientEnder() {
-		return new ItemStack(ModObject.itemBasicCapacitor.getItem(), 1, 2);
+		return new ItemStack(ModObject.itemMaterial.getItem(), 1, 44);
 	}
 }
