@@ -158,7 +158,11 @@ repositories {
     }
     maven { // Forgelin
         name = "Shadowfacts"
-        url "http://maven.shadowfacts.net/"
+        url "http://maven.shadowfacts.net"
+    }
+    maven {
+        name "zerocore"
+        url "http://maven.zerono.it"
     }
     flatDir {
         dirs "lib"
@@ -191,7 +195,6 @@ dependencies {
         exclude module: "jei_1.12"
         exclude module: "RedstoneFlux"
     }
-    provided "net.shadowfacts:Forgelin:1.6.0"
 
     provided "blusunrize:ImmersiveEngineering:${immersive_engineering_version}:deobf"
 
@@ -222,6 +225,11 @@ dependencies {
 
     // Local Mods
     provided "lib:Baubles-1.12:+:deobf"
+    
+    deobfProvided "lib:ExtremeReactors-${minecraft_version}:+"
+    provided("it.zerono.mods.zerocore:zerocore:1.12-${zerocore_version}:deobf") {
+        exclude module: "ComputerCraft"
+    }
     
     provided "lib:Overlord-${minecraft_version}:+:deobf"
     
