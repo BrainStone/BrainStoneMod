@@ -23,7 +23,7 @@ stages:
 build:
   stage: build
   script:
-  - ./gradlew --console=plain assemble
+  - ./gradlew --console=plain en2ud assemble
   - cp $ORIG_ARTIFACTS .
   when: on_success
   artifacts:

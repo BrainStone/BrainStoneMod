@@ -25,6 +25,7 @@ plugins {
     id "com.matthewprenger.cursegradle" version "1.0.10"
     id "io.franzbecker.gradle-lombok" version "1.10"
     id "com.github.ben-manes.versions" version "0.15.0"
+	id "thefireplace.en2ud" version "1.0.2"
 }
 apply plugin: "com.github.ben-manes.versions"
 apply plugin: "net.minecraftforge.gradle.forge"
@@ -117,6 +118,11 @@ minecraft {
 
     clientJvmArgs += "-Xmx2G"
     serverJvmArgs += "-Xmx2G"
+}
+
+en2ud {
+	modid = "brainstonemod"
+	copyInvalidLines = true
 }
 
 repositories {
