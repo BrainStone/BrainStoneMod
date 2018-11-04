@@ -1,11 +1,5 @@
 package brainstonemod;
 
-import java.lang.reflect.Modifier;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-
-import org.apache.logging.log4j.Level;
-
 import brainstonemod.client.gui.helper.BrainStoneModCreativeTab;
 import brainstonemod.client.handler.BrainStoneClientEvents;
 import brainstonemod.common.CommonProxy;
@@ -17,6 +11,7 @@ import brainstonemod.common.helper.BSP;
 import brainstonemod.common.helper.BrainStoneJarUtils;
 import brainstonemod.common.tileentity.TileEntityBrainLightSensor;
 import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
+import brainstonemod.common.tileentity.fixer.TileEntityIDDataFixer;
 import brainstonemod.common.worldgenerator.BrainStoneHouseWorldGenerator;
 import brainstonemod.common.worldgenerator.BrainStoneOreWorldGenerator;
 import brainstonemod.network.BrainStoneGuiHandler;
@@ -38,6 +33,7 @@ import net.minecraft.entity.projectile.EntityFishHook;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.datafix.FixTypes;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.DimensionManager;
@@ -59,6 +55,11 @@ import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientConnectedToSe
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
+import org.apache.logging.log4j.Level;
+
+import java.lang.reflect.Modifier;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 
 /**
  * The main file of the mod
@@ -189,7 +190,7 @@ public class BrainStone {
 	public void init(FMLInitializationEvent event) {
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new BrainStoneGuiHandler());
 
-		registerTileEntitys(); // TileEntitys
+		registerTileEntities(); // TileEntitys
 		BrainStoneRecipes.addRecipes(); // Recipes
 		BrainStoneRecipes.addSmeltings(); // Smeltings
 		// WorldGen
@@ -203,6 +204,10 @@ public class BrainStone {
 
 		// Registering ore dict
 		proxy.registerOreDict();
+
+		// Register data fixer
+		FMLCommonHandler.instance().getDataFixer().init(MOD_ID, TileEntityIDDataFixer.VERSION)
+				.registerFix(FixTypes.BLOCK_ENTITY, new TileEntityIDDataFixer());
 	}
 
 	/**
@@ -329,10 +334,11 @@ public class BrainStone {
 	/**
 	 * Registers all the TileEnties.
 	 */
-	@SuppressWarnings("deprecation")
-	private static final void registerTileEntitys() {
-		GameRegistry.registerTileEntity(TileEntityBrainLightSensor.class, "TileEntityBlockBrainLightSensor");
-		GameRegistry.registerTileEntity(TileEntityBrainStoneTrigger.class, "TileEntityBlockBrainStoneTrigger");
+	private static final void registerTileEntities() {
+		GameRegistry.registerTileEntity(TileEntityBrainLightSensor.class,
+				new ResourceLocation(MOD_ID, "brain_light_sensor"));
+		GameRegistry.registerTileEntity(TileEntityBrainStoneTrigger.class,
+				new ResourceLocation(MOD_ID, "brain_stone_trigger"));
 	}
 
 	public static final CreativeTabs getCreativeTab(CreativeTabs defaultTab) {
