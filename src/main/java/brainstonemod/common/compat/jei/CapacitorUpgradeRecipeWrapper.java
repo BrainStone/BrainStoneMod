@@ -1,12 +1,12 @@
 package brainstonemod.common.compat.jei;
 
-import java.util.Arrays;
-
 import brainstonemod.common.helper.BrainStoneLifeCapacitorUpgrade;
 import lombok.RequiredArgsConstructor;
 import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeWrapper;
-import net.minecraft.item.ItemStack;
+
+import java.util.Arrays;
 
 @RequiredArgsConstructor
 public class CapacitorUpgradeRecipeWrapper implements IRecipeWrapper {
@@ -14,7 +14,7 @@ public class CapacitorUpgradeRecipeWrapper implements IRecipeWrapper {
 
 	@Override
 	public void getIngredients(IIngredients ingredients) {
-		ingredients.setInputs(ItemStack.class, Arrays.asList(recipe.getStacks()));
-		ingredients.setOutput(ItemStack.class, recipe.getRecipeOutput());
+		ingredients.setInputs(VanillaTypes.ITEM, Arrays.asList(recipe.getStacks()));
+		ingredients.setOutput(VanillaTypes.ITEM, recipe.getRecipeOutput());
 	}
 }

@@ -116,7 +116,7 @@ minecraft {
     mappings = mapping_version
     useDepAts = true
 
-    clientJvmArgs += "-Xmx2G"
+    clientJvmArgs += "-Xmx3G"
     serverJvmArgs += "-Xmx2G"
 }
 
@@ -177,9 +177,9 @@ repositories {
 
 dependencies {
     // External Mods
-    deobfProvided "team.chisel.ctm:CTM:MC1.12-${ctm_version}"
+    deobfProvided "team.chisel.ctm:CTM:MC${minecraft_version}-${ctm_version}"
 
-    provided ("com.brandon3055.draconicevolution:Draconic-Evolution:1.12-${draconicEvolution_version}:deobf") {
+    deobfProvided ("com.brandon3055.draconicevolution:Draconic-Evolution:${minecraft_version}-${draconicEvolution_version}:universal") {
         exclude module: "jei_${minecraft_version}"
         exclude module: "jei_1.12"
         exclude module: "OpenComputers"
@@ -201,36 +201,56 @@ dependencies {
         exclude module: "jei_1.12"
     }
     
-    provided("com.buuz135.industrial.IndustrialForegoing:industrialforegoing:${minecraft_version}-${industrialForegoing_version}:deobf") {
+    deobfProvided "net.ndrei:tesla-core-lib:1.12.2-1.0.15.+"
+    deobfProvided("com.buuz135.industrial.IndustrialForegoing:industrialforegoing:${minecraft_version}-${industrialForegoing_version}") {
         exclude module: "jei_${minecraft_version}"
         exclude module: "jei_1.12"
         exclude module: "RedstoneFlux"
+        exclude module: "tesla-core-lib"
     }
 
-    provided "blusunrize:ImmersiveEngineering:${immersive_engineering_version}:deobf"
+    deobfProvided "blusunrize:ImmersiveEngineering:${immersive_engineering_version}"
 
     deobfProvided "mezz.jei:jei_${minecraft_version}:${jei_version}"
 
-    provided "jeresources:JustEnoughResources-${minecraft_version}:${justEnoughResources_version}:deobf"
+    deobfProvided "jeresources:JustEnoughResources-${minecraft_version}:${justEnoughResources_version}"
 
-    provided "net.darkhax.tesla:Tesla-${minecraft_version}:${tesla_version}:deobf"
+    deobfProvided "net.darkhax.tesla:Tesla-${minecraft_version}:${tesla_version}"
 
-    provided ("cofh:RedstoneArsenal:${minecraft_version}-${redstoneArsenal_version}:deobf") {
+    deobfProvided ("cofh:RedstoneArsenal:${minecraft_version}-${redstoneArsenal_version}:universal") {
         exclude module: "jei_${minecraft_version}"
         exclude module: "jei_1.12"
     }
 
-    provided("cofh:ThermalExpansion:${minecraft_version}-${thermalExpansion_version}:deobf") {
+    deobfProvided("cofh:CoFHCore:${minecraft_version}-${coFHCore_version}:universal") {
          exclude module: "jei_${minecraft_version}"
          exclude module: "jei_1.12"
     }
-    provided "codechicken:CodeChickenLib:1.12.2-3.1.6.+:deobf"
+    deobfProvided("cofh:CoFHWorld:${minecraft_version}-${coFHWorld_version}:universal") {
+         exclude module: "jei_${minecraft_version}"
+         exclude module: "jei_1.12"
+    }
+    deobfProvided("cofh:RedstoneFlux:1.12-${redstoneFlux_version}:universal") {
+         exclude module: "jei_${minecraft_version}"
+         exclude module: "jei_1.12"
+    }
+    deobfProvided("cofh:ThermalFoundation:${minecraft_version}-${thermalFoundation_version}:universal") {
+         exclude module: "jei_${minecraft_version}"
+         exclude module: "jei_1.12"
+    }
+    deobfProvided("cofh:ThermalExpansion:${minecraft_version}-${thermalExpansion_version}:universal") {
+         exclude module: "jei_${minecraft_version}"
+         exclude module: "jei_1.12"
+    }
+    deobfProvided "codechicken:CodeChickenLib:1.12.2-3.2.2.+:universal"
 
-    // Deobf exists but Access Transformers are messed up
     deobfProvided "slimeknights.mantle:Mantle:1.12-${mantle_version}"
-    // Mapping outdated :/
     deobfProvided("slimeknights:TConstruct:${minecraft_version}-${tconstruct_version}") {
         exclude module: "jei_${minecraft_version}"
+    }
+
+    deobfProvided("it.zerono.mods.zerocore:zerocore:1.12-${zerocore_version}") {
+        exclude module: "ComputerCraft"
     }
 
 
@@ -238,15 +258,12 @@ dependencies {
     provided "lib:Baubles-1.12:+:deobf"
     
     deobfProvided "lib:ExtremeReactors-${minecraft_version}:+"
-    provided("it.zerono.mods.zerocore:zerocore:1.12-${zerocore_version}:deobf") {
-        exclude module: "ComputerCraft"
-    }
     
-    provided "lib:Overlord-${minecraft_version}:+:deobf"
+    deobfProvided "lib:Overlord-${minecraft_version}:+"
     
-    deobfProvided "lib:cucumber-1.12:+"
+    deobfProvided "lib:Cucumber-${minecraft_version}:+"
     // Mapping outdated :/
-    deobfProvided "lib:mysticalagriculture-1.12:+"
+    deobfProvided "lib:MysticalAgriculture-1.12:+"
 }
 
 lombok {

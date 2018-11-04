@@ -327,8 +327,9 @@ public class BrainStone {
 	}
 
 	/**
-	 * Registers all the TileEntiys.
+	 * Registers all the TileEnties.
 	 */
+	@SuppressWarnings("deprecation")
 	private static final void registerTileEntitys() {
 		GameRegistry.registerTileEntity(TileEntityBrainLightSensor.class, "TileEntityBlockBrainLightSensor");
 		GameRegistry.registerTileEntity(TileEntityBrainStoneTrigger.class, "TileEntityBlockBrainStoneTrigger");
