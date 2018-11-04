@@ -10,9 +10,6 @@ import static slimeknights.tconstruct.tools.TinkerTraits.momentum;
 import static slimeknights.tconstruct.tools.TinkerTraits.unnatural;
 import static slimeknights.tconstruct.tools.TinkerTraits.writable;
 
-import java.util.Arrays;
-import java.util.List;
-
 import brainstonemod.BrainStoneBlocks;
 import brainstonemod.BrainStoneItems;
 import lombok.Getter;
@@ -31,6 +28,9 @@ import slimeknights.tconstruct.library.materials.Material;
 import slimeknights.tconstruct.tools.TinkerMaterials;
 import slimeknights.tconstruct.tools.TinkerTools;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class TinkersContructMaterials {
 	@Getter
 	private Material brainStone;
@@ -38,15 +38,18 @@ public class TinkersContructMaterials {
 	private Material stablePulsatingBrainStone;
 	private List<MaterialIntegration> materiaIntegrations;
 
-	public void initToolMaterials() {
+	public void createToolMaterials() {
 		// Materials
 		brainStone = newMaterial("brainstone", 0x33FF57);
 		stablePulsatingBrainStone = newMaterial("stablepulsatingbrainstone", 0x004d00);
 
+		// Adding the materials
+		materiaIntegrations = Arrays.asList(new MaterialIntegration(brainStone),
+				new MaterialIntegration(stablePulsatingBrainStone));
+	}
+
+	public void addToolMaterialTraits() {
 		// Basic traits and properties
-		brainStone.setCraftable(true);
-		brainStone.addItem(BrainStoneBlocks.brainStone(), Material.VALUE_Ingot);
-		brainStone.setRepresentativeItem(BrainStoneBlocks.brainStone());
 		brainStone.addTrait(magnetic, HEAD);
 		brainStone.addTrait(alien, HEAD);
 		brainStone.addTrait(alien);
@@ -62,20 +65,36 @@ public class TinkersContructMaterials {
 		stablePulsatingBrainStone.addTrait(unnatural, EXTRA);
 		stablePulsatingBrainStone.addTrait(alien, HANDLE);
 		stablePulsatingBrainStone.addTrait(unnatural, HANDLE);
+	}
 
+	public void addToolMaterialStats() {
 		// Stats
 		addMaterialStats(brainStone, BrainStoneItems.toolBRAINSTONE, 1.5f);
 		TinkerRegistry.addMaterialStats(brainStone, new BowMaterialStats(1.3f, 5.25f, 1.0f));
 
 		addMaterialStats(stablePulsatingBrainStone, BrainStoneItems.toolSTABLEPULSATINGBS, 3.0f);
 		TinkerRegistry.addMaterialStats(stablePulsatingBrainStone, new BowMaterialStats(2.0f, 7.9f, 2.0f));
+	}
 
-		// Adding the materials
-		materiaIntegrations = Arrays.asList(new MaterialIntegration(brainStone),
-				new MaterialIntegration(stablePulsatingBrainStone));
+	public void addToolMaterialItems() {
+		// Items
+		brainStone.setCraftable(true);
+		brainStone.addItem(BrainStoneBlocks.brainStone(), Material.VALUE_Ingot);
+		brainStone.setRepresentativeItem(BrainStoneBlocks.brainStone());
 
+		stablePulsatingBrainStone.setCraftable(true);
+		stablePulsatingBrainStone.addItem(BrainStoneBlocks.stablePulsatingBrainStone(), Material.VALUE_Ingot);
+		stablePulsatingBrainStone.setRepresentativeItem(BrainStoneBlocks.stablePulsatingBrainStone());
+	}
+
+	public void preInitToolMaterials() {
 		for (MaterialIntegration materialIntegration : materiaIntegrations) {
 			materialIntegration.preInit();
+		}
+	}
+
+	public void initToolMaterials() {
+		for (MaterialIntegration materialIntegration : materiaIntegrations) {
 			materialIntegration.integrate();
 		}
 	}

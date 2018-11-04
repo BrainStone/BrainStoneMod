@@ -13,15 +13,20 @@ public class TinkersConstructCompat implements IModIntegration {
 
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
-		// Do nothing
+		materials = new TinkersContructMaterials();
+
+		materials.createToolMaterials();
+		materials.addToolMaterialTraits();
+		materials.addToolMaterialStats();
+		materials.preInitToolMaterials();
+
+		MinecraftForge.EVENT_BUS.register(materials);
 	}
 
 	@Override
 	public void init(FMLInitializationEvent event) {
-		materials = new TinkersContructMaterials();
-
+		materials.addToolMaterialItems();
 		materials.initToolMaterials();
-		MinecraftForge.EVENT_BUS.register(materials);
 	}
 
 	@Override
