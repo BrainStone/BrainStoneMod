@@ -16,7 +16,6 @@ public class TinkersConstructCompat implements IModIntegration {
 		materials = new TinkersContructMaterials();
 
 		materials.createToolMaterials();
-		materials.addToolMaterialTraits();
 		materials.addToolMaterialStats();
 		materials.preInitToolMaterials();
 
@@ -25,6 +24,7 @@ public class TinkersConstructCompat implements IModIntegration {
 
 	@Override
 	public void init(FMLInitializationEvent event) {
+		materials.addToolMaterialTraits();
 		materials.addToolMaterialItems();
 		materials.initToolMaterials();
 	}
