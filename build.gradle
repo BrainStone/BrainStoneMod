@@ -136,7 +136,7 @@ repositories {
     }
     maven { // Tesla
         name "Tesla"
-        url "https://maven.epoxide.xyz"
+        url "http://maven.mcmoddev.com"
     }
     maven { // ChickenBone's mods and Draconic Evolution
         name "ChickenBone's"
