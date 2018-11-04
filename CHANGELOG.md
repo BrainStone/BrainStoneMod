@@ -1,3 +1,14 @@
+4.7.31-beta
+-----------
+
+- Updated dependencies
+- Fixed Tinker's Construct materials not being craftable
+- Fixed some deprecations
+- Updated TileEntitiy IDs
+- Implemented DataFixer to convert IDs
+- Removed updateJSON URL
+- Updated en_UD
+
 4.7.20-beta
 -----------
 
