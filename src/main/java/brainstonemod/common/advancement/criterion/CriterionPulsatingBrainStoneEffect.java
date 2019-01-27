@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import net.minecraft.advancements.ICriterionTrigger;
 import net.minecraft.advancements.PlayerAdvancements;
 import net.minecraft.advancements.critereon.AbstractCriterionInstance;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
@@ -74,6 +75,14 @@ public class CriterionPulsatingBrainStoneEffect
 	}
 
 	public void trigger(EntityPlayerMP parPlayer, boolean protection) {
+		final Minecraft minecraft = Minecraft.getMinecraft();
+
+		if (!minecraft.isCallingFromMinecraftThread()) {
+			minecraft.addScheduledTask(() -> trigger(parPlayer, protection));
+
+			return;
+		}
+
 		CriterionPulsatingBrainStoneEffect.Listeners upgradeBrainStoneLifeCapacitor$listeners = listeners
 				.get(parPlayer.getAdvancements());
 

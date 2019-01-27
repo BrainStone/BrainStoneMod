@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import net.minecraft.advancements.ICriterionTrigger;
 import net.minecraft.advancements.PlayerAdvancements;
 import net.minecraft.advancements.critereon.AbstractCriterionInstance;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ResourceLocation;
 
@@ -72,6 +73,14 @@ public class CriterionClaimBrainStoneLifeCapacitor
 	}
 
 	public void trigger(EntityPlayerMP parPlayer) {
+		final Minecraft minecraft = Minecraft.getMinecraft();
+
+		if (!minecraft.isCallingFromMinecraftThread()) {
+			minecraft.addScheduledTask(() -> trigger(parPlayer));
+
+			return;
+		}
+
 		CriterionClaimBrainStoneLifeCapacitor.Listeners claimBrainStoneLifeCapacitor$listeners = listeners
 				.get(parPlayer.getAdvancements());
 

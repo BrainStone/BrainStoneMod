@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import net.minecraft.advancements.ICriterionTrigger;
 import net.minecraft.advancements.PlayerAdvancements;
 import net.minecraft.advancements.critereon.AbstractCriterionInstance;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
@@ -84,6 +85,14 @@ public class CriterionUpgradeBrainStoneLifeCapacitor
 	}
 
 	public void trigger(EntityPlayerMP parPlayer, BrainStoneLifeCapacitorUpgrade.Upgrade type, int level) {
+		final Minecraft minecraft = Minecraft.getMinecraft();
+
+		if (!minecraft.isCallingFromMinecraftThread()) {
+			minecraft.addScheduledTask(() -> trigger(parPlayer, type, level));
+
+			return;
+		}
+
 		CriterionUpgradeBrainStoneLifeCapacitor.Listeners upgradeBrainStoneLifeCapacitor$listeners = listeners
 				.get(parPlayer.getAdvancements());
 
