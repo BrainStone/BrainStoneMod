@@ -1,25 +1,25 @@
 package brainstonemod.common.advancement.criterion;
 
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
+import brainstonemod.BrainStone;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
-
-import brainstonemod.BrainStone;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.advancements.ICriterionTrigger;
 import net.minecraft.advancements.PlayerAdvancements;
 import net.minecraft.advancements.critereon.AbstractCriterionInstance;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.server.FMLServerHandler;
+
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class CriterionPulsatingBrainStoneEffect
 		implements ICriterionTrigger<CriterionPulsatingBrainStoneEffect.Instance> {
@@ -75,10 +75,10 @@ public class CriterionPulsatingBrainStoneEffect
 	}
 
 	public void trigger(EntityPlayerMP parPlayer, boolean protection) {
-		final Minecraft minecraft = Minecraft.getMinecraft();
+		final MinecraftServer server = FMLServerHandler.instance().getServer();
 
-		if (!minecraft.isCallingFromMinecraftThread()) {
-			minecraft.addScheduledTask(() -> trigger(parPlayer, protection));
+		if (!server.isCallingFromMinecraftThread()) {
+			server.addScheduledTask(() -> trigger(parPlayer, protection));
 
 			return;
 		}

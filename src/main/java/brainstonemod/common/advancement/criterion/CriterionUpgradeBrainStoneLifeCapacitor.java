@@ -1,27 +1,27 @@
 package brainstonemod.common.advancement.criterion;
 
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
+import brainstonemod.BrainStone;
+import brainstonemod.common.helper.BrainStoneLifeCapacitorUpgrade;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
-
-import brainstonemod.BrainStone;
-import brainstonemod.common.helper.BrainStoneLifeCapacitorUpgrade;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.advancements.ICriterionTrigger;
 import net.minecraft.advancements.PlayerAdvancements;
 import net.minecraft.advancements.critereon.AbstractCriterionInstance;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.server.FMLServerHandler;
+
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class CriterionUpgradeBrainStoneLifeCapacitor
 		implements ICriterionTrigger<CriterionUpgradeBrainStoneLifeCapacitor.Instance> {
@@ -85,10 +85,10 @@ public class CriterionUpgradeBrainStoneLifeCapacitor
 	}
 
 	public void trigger(EntityPlayerMP parPlayer, BrainStoneLifeCapacitorUpgrade.Upgrade type, int level) {
-		final Minecraft minecraft = Minecraft.getMinecraft();
+		final MinecraftServer server = FMLServerHandler.instance().getServer();
 
-		if (!minecraft.isCallingFromMinecraftThread()) {
-			minecraft.addScheduledTask(() -> trigger(parPlayer, type, level));
+		if (!server.isCallingFromMinecraftThread()) {
+			server.addScheduledTask(() -> trigger(parPlayer, type, level));
 
 			return;
 		}
