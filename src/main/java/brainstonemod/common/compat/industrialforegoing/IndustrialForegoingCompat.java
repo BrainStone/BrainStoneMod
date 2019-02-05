@@ -1,10 +1,9 @@
 package brainstonemod.common.compat.industrialforegoing;
 
-import brainstonemod.BrainStoneBlocks;
+import brainstonemod.BrainStone;
 import brainstonemod.common.compat.IModIntegration;
-import com.buuz135.industrial.api.IndustrialForegoingHelper;
 import com.buuz135.industrial.api.recipe.LaserDrillEntry;
-import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -12,15 +11,13 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 public class IndustrialForegoingCompat implements IModIntegration {
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
-		// Do nothing
+		LaserDrillEntry.addOreFile(
+				new ResourceLocation(BrainStone.RESOURCE_PACKAGE, "compat/industrial_foregoing_default_ores.json"));
 	}
 
 	@Override
 	public void init(FMLInitializationEvent event) {
-		// As rare as diamond
-		// Preferred color is green
-		IndustrialForegoingHelper
-				.addLaserDrillEntry(new LaserDrillEntry(13, new ItemStack(BrainStoneBlocks.brainStoneOre()), 4));
+		// Do nothing
 	}
 
 	@Override
