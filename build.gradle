@@ -202,12 +202,12 @@ dependencies {
     }
     
     deobfProvided "net.ndrei:tesla-core-lib:1.12.2-1.0.15.+"
-    deobfProvided("com.buuz135.industrial.IndustrialForegoing:industrialforegoing:${minecraft_version}-${industrialForegoing_version}") {
-        exclude module: "jei_${minecraft_version}"
-        exclude module: "jei_1.12"
-        exclude module: "RedstoneFlux"
-        exclude module: "tesla-core-lib"
-    }
+    // deobfProvided("com.buuz135.industrial.IndustrialForegoing:industrialforegoing:${minecraft_version}-${industrialForegoing_version}") {
+    //     exclude module: "jei_${minecraft_version}"
+    //     exclude module: "jei_1.12"
+    //     exclude module: "RedstoneFlux"
+    //     exclude module: "tesla-core-lib"
+    // }
 
     deobfProvided "blusunrize:ImmersiveEngineering:${immersive_engineering_version}"
 
@@ -258,6 +258,8 @@ dependencies {
     provided "lib:Baubles-1.12:+:deobf"
     
     deobfProvided "lib:ExtremeReactors-${minecraft_version}:+"
+    
+    deobfProvided "lib:industrialforegoing-${minecraft_version}:+"
     
     deobfProvided "lib:Overlord-${minecraft_version}:+"
     
