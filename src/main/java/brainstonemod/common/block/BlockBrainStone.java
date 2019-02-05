@@ -69,9 +69,7 @@ public class BlockBrainStone extends Block {
 	}
 
 	@Override
-	public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor) {
-		if (world instanceof World) {
-			onBlockAdded((World) world, pos, world.getBlockState(pos));
-		}
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+		onBlockAdded(worldIn, pos, worldIn.getBlockState(pos));
 	}
 }
