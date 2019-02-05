@@ -263,7 +263,7 @@ dependencies {
     
     deobfProvided "lib:Cucumber-${minecraft_version}:+"
     // Mapping outdated :/
-    deobfProvided "lib:MysticalAgriculture-1.12:+"
+    deobfProvided "lib:MysticalAgriculture-${minecraft_version}:+"
 }
 
 lombok {
