@@ -41,7 +41,7 @@ public class MysticalAgricultureCropType {
 		if (!isEnabled())
 			return;
 
-		getCrop().setCreativeTab(MysticalAgriculture.tabMysticalAgriculture);
+		getCrop().setCreativeTab(MysticalAgriculture.CREATIVE_TAB);
 		getPlant().setCrop(getCrop());
 		getPlant().setSeed(getSeed());
 
