@@ -2,7 +2,7 @@
 ============================================================================
 
 [![Curse Forge](http://cf.way2muchnoise.eu/short_250836_downloads.svg)](https://minecraft.curseforge.com/projects/brain-stone-mod)
-[![Build Status](https://gitlab.brainstonemod.com/BrainStone/brainstone/badges/1.12.x/build.svg)](https://gitlab.brainstonemod.com/BrainStone/brainstone/commits/1.12.x)
+[![Build Status](https://gitlab.aura-dev.team/BrainStone/brainstone/badges/1.12.x/build.svg)](https://gitlab.aura-dev.team/BrainStone/brainstone/commits/1.12.x)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/5c4ec0299d094cf3a46a3104122bcc76)](https://www.codacy.com/app/BrainStone/brainstone?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=BrainStone/brainstone&amp;utm_campaign=Badge_Grade)
 
 Starts where all others end
@@ -66,7 +66,7 @@ Development builds
 Between each offical release there are several bleeding edge development builds, which you can also use. But be aware that they might contain unfinished
 features and therefore won't work properly.
 
-You can find the builds here: https://gitlab.brainstonemod.com/BrainStone/brainstone/pipelines
+You can find the builds here: https://gitlab.aura-dev.team/BrainStone/brainstone/pipelines
 
 On the right is a download symbol, click that a dropdown will open. Select "build". Then you'll download a zip file containing all atrifacts including the
 plugin jar.
