@@ -1,3 +1,11 @@
+4.7.48-beta
+-----------
+
+- Updated dependencies
+- Fixed issues with advancement triggers
+- Fixed incompatibility with Mystical Agriculture
+- Added ore config for IndustrialForegoing
+
 4.7.31-beta
 -----------
 
