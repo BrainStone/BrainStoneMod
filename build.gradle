@@ -586,7 +586,7 @@ curseforge {
             optionalLibrary "just-enough-resources-jer"
             optionalLibrary "overlord"
             optionalLibrary "tesla"
-            optionalLibrary "thermalexpansion"
+            optionalLibrary "thermal-expansion"
             optionalLibrary "thermal-foundation"
             optionalLibrary "tinkers-construct"
 
