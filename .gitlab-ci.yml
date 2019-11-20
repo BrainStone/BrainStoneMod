@@ -5,6 +5,9 @@ variables:
   GRADLE_OPTS: >
     -Dorg.gradle.project.branchName="$CI_COMMIT_REF_NAME"
     -Dorg.gradle.project.curseForgeApiKey="$curseForgeApiKey"
+    -Dorg.gradle.project.keyStoreAlias="$keyStoreAlias"
+    -Dorg.gradle.project.keyStore="$keyStore"
+    -Dorg.gradle.project.keyStorePass="$keyStorePass"
 
 cache:
   key: "$CI_COMMIT_REF_NAME_$CI_COMMIT_SHA"
