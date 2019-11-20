@@ -4,7 +4,6 @@ variables:
   ARTIFACTS: "$CI_PROJECT_DIR/*.jar*"
   GRADLE_OPTS: >
     -Dorg.gradle.project.branchName="$CI_COMMIT_REF_NAME"
-    -Dorg.gradle.project.secret="$secret"
     -Dorg.gradle.project.curseForgeApiKey="$curseForgeApiKey"
 
 cache:
@@ -44,7 +43,7 @@ checkTranslations:
 deploy:
   stage: deploy
   script:
-  - ./gradlew --console=plain uploadArchives curseforge updateDownloadServer
+  - ./gradlew --console=plain uploadArchives curseforge
   when: on_success
   only:
   - tags
