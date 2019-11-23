@@ -119,6 +119,9 @@ public class EnderIORecipes {
 	public void registerDarkSteelUpgrades(@Nonnull RegistryEvent.Register<IDarkSteelUpgrade> event) {
 		final IForgeRegistry<IDarkSteelUpgrade> registry = event.getRegistry();
 
-		registry.register(BrainStoneUpgrade.UPGRADE);
+		registry.register(BrainStoneUpgrade.HELMET);
+		registry.register(BrainStoneUpgrade.CHEST);
+		registry.register(BrainStoneUpgrade.LEGS);
+		registry.register(BrainStoneUpgrade.BOOTS);
 	}
 }

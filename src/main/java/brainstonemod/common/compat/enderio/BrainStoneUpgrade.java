@@ -3,11 +3,16 @@ package brainstonemod.common.compat.enderio;
 import brainstonemod.BrainStone;
 import brainstonemod.BrainStoneBlocks;
 import brainstonemod.common.compat.BrainStoneModules;
-import crazypants.enderio.api.upgrades.IDarkSteelItem;
+import com.enderio.core.common.util.NNList;
 import crazypants.enderio.api.upgrades.IHasPlayerRenderer;
 import crazypants.enderio.api.upgrades.IRenderUpgrade;
+import crazypants.enderio.api.upgrades.IRule;
 import crazypants.enderio.base.handler.darksteel.AbstractUpgrade;
+import crazypants.enderio.base.handler.darksteel.Rules;
 import crazypants.enderio.base.init.ModObject;
+import crazypants.enderio.base.item.darksteel.ItemDarkSteelArmor;
+import info.loenwind.autoconfig.factory.IValue;
+import lombok.RequiredArgsConstructor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelRenderer;
@@ -21,33 +26,44 @@ import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.List;
+
+import javax.annotation.Nonnull;
+
 @Optional.Interface(iface = "crazypants.enderio.api.upgrades.IDarkSteelUpgrade", modid = BrainStoneModules.ENDER_IO_MODID)
 public class BrainStoneUpgrade extends AbstractUpgrade implements IHasPlayerRenderer {
-	private static String UPGRADE_NAME = "brainstone";
+	private static final String UPGRADE_NAME = "brainstone";
+	private static final ItemStack ITEM_BRAINSTONE = new ItemStack(BrainStoneBlocks.brainStone());
+	private static final int LEVEL_COST = 20;
 
-	public static final BrainStoneUpgrade UPGRADE = new BrainStoneUpgrade(new ItemStack(BrainStoneBlocks.brainStone()), 20);
-	
+	public static final @Nonnull BrainStoneUpgrade HELMET = new BrainStoneUpgrade(EntityEquipmentSlot.HEAD,
+			ITEM_BRAINSTONE, LEVEL_COST);
+	public static final @Nonnull BrainStoneUpgrade CHEST = new BrainStoneUpgrade(EntityEquipmentSlot.CHEST,
+			ITEM_BRAINSTONE, LEVEL_COST);
+	public static final @Nonnull BrainStoneUpgrade LEGS = new BrainStoneUpgrade(EntityEquipmentSlot.LEGS,
+			ITEM_BRAINSTONE, LEVEL_COST);
+	public static final @Nonnull BrainStoneUpgrade BOOTS = new BrainStoneUpgrade(EntityEquipmentSlot.FEET,
+			ITEM_BRAINSTONE, LEVEL_COST);
+
 	private Render render;
+	private final @Nonnull EntityEquipmentSlot slot;
 
-	@SuppressWarnings("deprecation")
-	protected BrainStoneUpgrade(ItemStack upgradeItem, int levelCost) {
-		super(BrainStone.MOD_ID, UPGRADE_NAME, 0, KEY_UPGRADE_PREFIX + UPGRADE_NAME, upgradeItem, levelCost);
+	protected BrainStoneUpgrade(@Nonnull EntityEquipmentSlot slot, ItemStack upgradeItem, int levelCost) {
+		super(BrainStone.MOD_ID, UPGRADE_NAME, KEY_UPGRADE_PREFIX + UPGRADE_NAME, new IntValue(levelCost));
+		this.slot = slot;
 	}
-	
-	@Override
-	@Optional.Method(modid = BrainStoneModules.ENDER_IO_MODID)
-	public boolean canAddToItem(ItemStack stack, IDarkSteelItem item) {
-		return !((stack == null) || ((stack.getItem() != ModObject.itemDarkSteelBoots.getItem())
-				&& (stack.getItem() != ModObject.itemDarkSteelLeggings.getItem())
-				&& (stack.getItem() != ModObject.itemDarkSteelChestplate.getItem())
-				&& (stack.getItem() != ModObject.itemDarkSteelHelmet.getItem()))) && !hasUpgrade(stack);
-	}
-	
+
 	@Override
 	@Optional.Method(modid = BrainStoneModules.ENDER_IO_MODID)
 	@SideOnly(Side.CLIENT)
 	public IRenderUpgrade getRender() {
 		return render == null ? render = new Render() : render;
+	}
+
+	@Override
+	public List<IRule> getRules() {
+		return new NNList<>(Rules.forSlot(slot), Rules.staticCheck(item -> item instanceof ItemDarkSteelArmor),
+				Rules.itemTypeTooltip(slot));
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -121,6 +137,16 @@ public class BrainStoneUpgrade extends AbstractUpgrade implements IHasPlayerRend
 			Minecraft.getMinecraft().getRenderItem().renderItem(brainStone, TransformType.FIXED);
 
 			GlStateManager.popMatrix();
+		}
+	}
+
+	@RequiredArgsConstructor
+	private static class IntValue implements IValue<Integer> {
+		private final int value;
+
+		@Override
+		public Integer get() {
+			return value;
 		}
 	}
 }

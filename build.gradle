@@ -130,9 +130,13 @@ repositories {
         name "JEI"
         url "http://dvs1.progwml6.com/files/maven"
     }
-    maven { // EnderIO, EnderCore, EnderZoo, The One Probe, CTM
+    maven { // EnderCore, EnderZoo, The One Probe, CTM
         name "tterrag"
         url "http://maven.tterrag.com"
+    }
+    maven { // EnderIO
+        name "tterrag"
+        url "http://maven2.tterrag.com"
     }
     maven { // Tesla
         name "Tesla"
@@ -186,15 +190,11 @@ dependencies {
     }
 
     deobfProvided "com.enderio.core:EnderCore:${minecraft_version}-${endercore_version}"
-    // provided("com.enderio:EnderIO:${minecraft_version}-${enderio_version}") {
-    //      exclude module: "appliedenergistics2"
-    //      exclude module: "Tesla"
-    // }
-    deobfProvided "lib:EnderIO-base:+"
-    deobfProvided "lib:EnderIO-machines:+"
-    deobfProvided "lib:EnderIO-conduits:+"
-    deobfProvided "lib:EnderIO-integration-forestry:+"
-    deobfProvided "lib:EnderIO-integration-tic:+"
+    deobfProvided("com.enderio:EnderIO:${minecraft_version}-${enderio_version}") {
+        transitive = false
+    }
+    deobfProvided "info.loenwind.autoconfig:AutoConfig:${minecraft_version}-${autoConfig_version}"
+    deobfProvided "info.loenwind.autosave:AutoSave:${minecraft_version}-${autoSave_version}"
 
     deobfProvided("net.sengir.forestry:forestry_${minecraft_version}:${forestry_version}") {
         exclude module: "jei_${minecraft_version}"
