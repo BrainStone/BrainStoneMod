@@ -60,7 +60,7 @@ public class BrainStoneClientEvents {
 		if (event.getType() == ElementType.ALL) {
 			Minecraft mc = Minecraft.getMinecraft();
 
-			mc.mcProfiler.startSection("BSLC");
+			mc.profiler.startSection("BSLC");
 
 			ItemStack capacitor = BrainStoneEventHandler.getBrainStoneLiveCapacitor(mc.player);
 
@@ -104,7 +104,7 @@ public class BrainStoneClientEvents {
 				GlStateManager.disableBlend();
 			}
 
-			mc.mcProfiler.endSection();
+			mc.profiler.endSection();
 		}
 	}
 }

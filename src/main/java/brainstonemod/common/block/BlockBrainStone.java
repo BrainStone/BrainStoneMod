@@ -59,9 +59,9 @@ public class BlockBrainStone extends Block {
 	@Override
 	public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
 		if (!world.isRemote) {
-			if (powered && (world.isBlockIndirectlyGettingPowered(pos) == 0)) {
+			if (powered && (world.getRedstonePowerFromNeighbors(pos) == 0)) {
 				world.setBlockState(pos, BrainStoneBlocks.brainStone().getDefaultState(), 2);
-			} else if (!powered && (world.isBlockIndirectlyGettingPowered(pos) > 0)) {
+			} else if (!powered && (world.getRedstonePowerFromNeighbors(pos) > 0)) {
 				world.setBlockState(pos, BrainStoneBlocks.brainStoneOut().getDefaultState(), 2);
 			}
 		}

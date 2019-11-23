@@ -48,7 +48,7 @@ public class BrainStoneBlocks {
 			return;
 
 		if (block.getRegistryName() == null) {
-			block.setUnlocalizedName(name).setRegistryName(BrainStone.MOD_ID, name);
+			block.setTranslationKey(name).setRegistryName(BrainStone.MOD_ID, name);
 		}
 
 		blocks.put(name, block);

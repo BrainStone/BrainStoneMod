@@ -16,7 +16,7 @@ public class BrainStoneModCreativeTab extends CreativeTabs {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public ItemStack getTabIconItem() {
+	public ItemStack createIcon() {
 		if (iconItem == null) {
 			iconItem = new ItemStack(BrainStoneBlocks.brainStone());
 		}

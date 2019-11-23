@@ -117,8 +117,9 @@ public class ContainerBrainStoneAnvil extends ContainerRepair {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer playerIn) {
-		return isValidBlock(world.getBlockState(selfPosition)) ? (playerIn.getDistanceSq(selfPosition.getX() + 0.5D,
-				selfPosition.getY() + 0.5D, selfPosition.getZ() + 0.5D) <= 64.0D) : false;
+		return isValidBlock(world.getBlockState(pos))
+				? (playerIn.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64.0D)
+				: false;
 	}
 
 	@Override
@@ -145,7 +146,7 @@ public class ContainerBrainStoneAnvil extends ContainerRepair {
 						repairedItemName, j))
 					return;
 				flag = (itemstack2.getItem() == Items.ENCHANTED_BOOK)
-						&& !ItemEnchantedBook.getEnchantments(itemstack2).hasNoTags();
+						&& !ItemEnchantedBook.getEnchantments(itemstack2).isEmpty();
 
 				if (itemstack1.isItemStackDamageable() && itemstack1.getItem().getIsRepairable(itemstack, itemstack2)) {
 					int l2 = Math.min(itemstack1.getItemDamage(), itemstack1.getMaxDamage() / 4);

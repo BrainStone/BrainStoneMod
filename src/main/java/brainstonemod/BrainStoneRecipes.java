@@ -86,7 +86,7 @@ public class BrainStoneRecipes {
 	@Deprecated
 	public static final void addShapelessRecipe(ItemStack output, Object... input) {
 		ResourceLocation location = getNameForRecipe(output);
-		ShapelessRecipes recipe = new ShapelessRecipes(location.getResourceDomain(), output, buildInput(input));
+		ShapelessRecipes recipe = new ShapelessRecipes(location.getNamespace(), output, buildInput(input));
 		recipe.setRegistryName(location);
 		GameData.register_impl(recipe);
 	}
@@ -94,13 +94,13 @@ public class BrainStoneRecipes {
 	private static ResourceLocation getNameForRecipe(ItemStack output) {
 		ModContainer activeContainer = Loader.instance().activeModContainer();
 		ResourceLocation baseLoc = new ResourceLocation(activeContainer.getModId(),
-				output.getItem().getRegistryName().getResourcePath());
+				output.getItem().getRegistryName().getPath());
 		ResourceLocation recipeLoc = baseLoc;
 		int index = 0;
 
 		while (CraftingManager.REGISTRY.containsKey(recipeLoc)) {
 			index++;
-			recipeLoc = new ResourceLocation(activeContainer.getModId(), baseLoc.getResourcePath() + "_" + index);
+			recipeLoc = new ResourceLocation(activeContainer.getModId(), baseLoc.getPath() + "_" + index);
 		}
 
 		return recipeLoc;

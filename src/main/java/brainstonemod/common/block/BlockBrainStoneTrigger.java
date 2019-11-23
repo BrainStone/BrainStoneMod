@@ -203,7 +203,7 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public BlockRenderLayer getBlockLayer() {
+	public BlockRenderLayer getRenderLayer() {
 		return BlockRenderLayer.SOLID;
 	}
 

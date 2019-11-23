@@ -94,7 +94,7 @@ public class BrainStoneItems {
 			return;
 
 		if (item.getRegistryName() == null) {
-			item.setUnlocalizedName(name).setRegistryName(BrainStone.MOD_ID, name);
+			item.setTranslationKey(name).setRegistryName(BrainStone.MOD_ID, name);
 		}
 
 		items.put(name, item);
