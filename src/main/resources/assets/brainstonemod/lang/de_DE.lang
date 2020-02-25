@@ -179,9 +179,7 @@ tc.aspect.brainstone=Hirn+Stein
 
 // Ender IO
 enderio.darksteel.upgrade.brainstone.name=Pulsierender Hirnstein-Schutz
-enderio.darksteel.upgrade.brainstone.tooltip.detailed.line1=Schütz dich vor den Effekten des
-enderio.darksteel.upgrade.brainstone.tooltip.detailed.line2=Pulsierenden Hirnsteins, wenn dieses
-enderio.darksteel.upgrade.brainstone.tooltip.detailed.line3=Upgrade auf allen Rüstungsteilen ist
+enderio.darksteel.upgrade.brainstone.tooltip.detailed.line1=Schütz dich vor den Effekten des Pulsierenden Hirnsteins, wenn dieses Upgrade auf allen Rüstungsteilen ist
 
 // Tinker's Construct
 material.brainstone.name=Hirnstein

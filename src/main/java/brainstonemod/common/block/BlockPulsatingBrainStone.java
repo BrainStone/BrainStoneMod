@@ -1,13 +1,10 @@
 package brainstonemod.common.block;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
-
 import brainstonemod.BrainStone;
 import brainstonemod.BrainStoneBlocks;
 import brainstonemod.common.advancement.CriterionRegistry;
 import brainstonemod.common.compat.BrainStoneModules;
+import brainstonemod.common.compat.enderio.EnderIOArmorHelper;
 import brainstonemod.common.compat.overlord.IOverlordCompat;
 import brainstonemod.common.compat.overlord.OverlordCompat;
 import brainstonemod.common.helper.BSP;
@@ -31,6 +28,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
 
 public class BlockPulsatingBrainStone extends Block {
 	private final boolean effect;
@@ -101,6 +102,9 @@ public class BlockPulsatingBrainStone extends Block {
 
 	@Override
 	public void updateTick(World world, BlockPos pos, IBlockState state, Random random) {
+		if (world.isRemote)
+			return;
+
 		final int metaData = (int) ((world.getTotalWorldTime() / tickRate(world)) % 16);
 
 		if (metaData >= 15) {
@@ -217,13 +221,9 @@ public class BlockPulsatingBrainStone extends Block {
 		if (armor.stream().skip(offset).anyMatch(ItemStack::isEmpty))
 			return false;
 
-		// Old code
-		// final boolean enderIOEnabled = BrainStoneModules.enderIO();
-		//
-		// return armor.stream().skip(offset).allMatch(stack -> (stack.getItem()
-		// instanceof ItemArmorBrainStone) || (enderIOEnabled &&
-		// EnderIOArmorHelper.isProtected(stack)));
+		final boolean enderIOEnabled = BrainStoneModules.enderIO();
 
-		return armor.stream().skip(offset).allMatch(stack -> stack.getItem() instanceof ItemArmorBrainStone);
+		return armor.stream().skip(offset).allMatch(stack -> (stack.getItem() instanceof ItemArmorBrainStone)
+				|| (enderIOEnabled && EnderIOArmorHelper.isProtected(stack)));
 	}
 }

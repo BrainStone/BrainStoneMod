@@ -1,0 +1,23 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "enderio:item_generated",
+        "textures": {
+            "layer0": "enderio:items/item_dark_steel_upgrade"
+        }
+    },
+    "variants": {
+        "inventory": [
+            {
+                
+            }
+        ],
+        "upgrade": {
+            "brainstone": {
+                "textures": {
+                    "layer0": "brainstonemod:items/item_dark_steel_upgrade_brainstone"
+                }
+            }
+        }
+    }
+}

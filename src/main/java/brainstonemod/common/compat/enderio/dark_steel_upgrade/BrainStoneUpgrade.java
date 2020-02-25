@@ -1,18 +1,15 @@
-package brainstonemod.common.compat.enderio;
+package brainstonemod.common.compat.enderio.dark_steel_upgrade;
 
-import brainstonemod.BrainStone;
 import brainstonemod.BrainStoneBlocks;
 import brainstonemod.common.compat.BrainStoneModules;
 import com.enderio.core.common.util.NNList;
 import crazypants.enderio.api.upgrades.IHasPlayerRenderer;
 import crazypants.enderio.api.upgrades.IRenderUpgrade;
 import crazypants.enderio.api.upgrades.IRule;
-import crazypants.enderio.base.handler.darksteel.AbstractUpgrade;
 import crazypants.enderio.base.handler.darksteel.Rules;
 import crazypants.enderio.base.init.ModObject;
 import crazypants.enderio.base.item.darksteel.ItemDarkSteelArmor;
-import info.loenwind.autoconfig.factory.IValue;
-import lombok.RequiredArgsConstructor;
+import crazypants.enderio.base.lang.Lang;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelRenderer;
@@ -31,26 +28,17 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 @Optional.Interface(iface = "crazypants.enderio.api.upgrades.IDarkSteelUpgrade", modid = BrainStoneModules.ENDER_IO_MODID)
-public class BrainStoneUpgrade extends AbstractUpgrade implements IHasPlayerRenderer {
+public class BrainStoneUpgrade extends DarkSteelBaseUpgrade implements IHasPlayerRenderer {
 	private static final String UPGRADE_NAME = "brainstone";
 	private static final ItemStack ITEM_BRAINSTONE = new ItemStack(BrainStoneBlocks.brainStone());
 	private static final int LEVEL_COST = 20;
 
-	public static final @Nonnull BrainStoneUpgrade HELMET = new BrainStoneUpgrade(EntityEquipmentSlot.HEAD,
-			ITEM_BRAINSTONE, LEVEL_COST);
-	public static final @Nonnull BrainStoneUpgrade CHEST = new BrainStoneUpgrade(EntityEquipmentSlot.CHEST,
-			ITEM_BRAINSTONE, LEVEL_COST);
-	public static final @Nonnull BrainStoneUpgrade LEGS = new BrainStoneUpgrade(EntityEquipmentSlot.LEGS,
-			ITEM_BRAINSTONE, LEVEL_COST);
-	public static final @Nonnull BrainStoneUpgrade BOOTS = new BrainStoneUpgrade(EntityEquipmentSlot.FEET,
-			ITEM_BRAINSTONE, LEVEL_COST);
+	public static final @Nonnull BrainStoneUpgrade UPGRADE = new BrainStoneUpgrade();
 
 	private Render render;
-	private final @Nonnull EntityEquipmentSlot slot;
 
-	protected BrainStoneUpgrade(@Nonnull EntityEquipmentSlot slot, ItemStack upgradeItem, int levelCost) {
-		super(BrainStone.MOD_ID, UPGRADE_NAME, KEY_UPGRADE_PREFIX + UPGRADE_NAME, new IntValue(levelCost));
-		this.slot = slot;
+	protected BrainStoneUpgrade() {
+		super(ITEM_BRAINSTONE, UPGRADE_NAME, LEVEL_COST);
 	}
 
 	@Override
@@ -62,8 +50,11 @@ public class BrainStoneUpgrade extends AbstractUpgrade implements IHasPlayerRend
 
 	@Override
 	public List<IRule> getRules() {
-		return new NNList<>(Rules.forSlot(slot), Rules.staticCheck(item -> item instanceof ItemDarkSteelArmor),
-				Rules.itemTypeTooltip(slot));
+		return new NNList<>(
+				Rules.or(Rules.forSlot(EntityEquipmentSlot.HEAD), Rules.forSlot(EntityEquipmentSlot.CHEST),
+						Rules.forSlot(EntityEquipmentSlot.LEGS), Rules.forSlot(EntityEquipmentSlot.FEET)),
+				Rules.staticCheck(item -> item instanceof ItemDarkSteelArmor),
+				Rules.itemTypeTooltip(Lang.DSU_CLASS_ARMOR));
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -137,16 +128,6 @@ public class BrainStoneUpgrade extends AbstractUpgrade implements IHasPlayerRend
 			Minecraft.getMinecraft().getRenderItem().renderItem(brainStone, TransformType.FIXED);
 
 			GlStateManager.popMatrix();
-		}
-	}
-
-	@RequiredArgsConstructor
-	private static class IntValue implements IValue<Integer> {
-		private final int value;
-
-		@Override
-		public Integer get() {
-			return value;
 		}
 	}
 }

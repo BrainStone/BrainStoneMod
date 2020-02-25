@@ -123,9 +123,7 @@ brainstone.power.tick=/t
 tc.aspect.brainstone=Cerebro+Piedra
 
 enderio.darksteel.upgrade.brainstone.name=protección de piedra cerebral pulsante
-enderio.darksteel.upgrade.brainstone.tooltip.detailed.line1=Si se aplica a todas las partes de la armadura
-enderio.darksteel.upgrade.brainstone.tooltip.detailed.line2=Usted estará protegido por los
-enderio.darksteel.upgrade.brainstone.tooltip.detailed.line3=efectos de la piedra cerebral pulsante
+enderio.darksteel.upgrade.brainstone.tooltip.detailed.line1=Si se aplica a todas las partes de la armadura Usted estará protegido por los efectos de la piedra cerebral pulsante
 
 material.brainstone.name=Piedra Cerebral
 material.stablepulsatingbrainstone.name=Piedra Cerebral P.E.
