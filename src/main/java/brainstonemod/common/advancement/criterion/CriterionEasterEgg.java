@@ -13,7 +13,6 @@ import net.minecraft.advancements.critereon.AbstractCriterionInstance;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.server.FMLServerHandler;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -67,7 +66,7 @@ public class CriterionEasterEgg implements ICriterionTrigger<CriterionEasterEgg.
 	}
 
 	public void trigger(EntityPlayerMP parPlayer) {
-		final MinecraftServer server = FMLServerHandler.instance().getServer();
+		final MinecraftServer server = parPlayer.getServer();
 
 		if (!server.isCallingFromMinecraftThread()) {
 			server.addScheduledTask(() -> trigger(parPlayer));

@@ -16,7 +16,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.server.FMLServerHandler;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -85,7 +84,7 @@ public class CriterionUpgradeBrainStoneLifeCapacitor
 	}
 
 	public void trigger(EntityPlayerMP parPlayer, BrainStoneLifeCapacitorUpgrade.Upgrade type, int level) {
-		final MinecraftServer server = FMLServerHandler.instance().getServer();
+		final MinecraftServer server = parPlayer.getServer();
 
 		if (!server.isCallingFromMinecraftThread()) {
 			server.addScheduledTask(() -> trigger(parPlayer, type, level));
