@@ -475,70 +475,75 @@ task checkTranslations {
 uploadArchives {
     repositories {
         mavenDeployer {
-            if (project.hasProperty("local_maven")) {
+            if (project.hasProperty("auradev_maven")) {
+                repository(url: "${-> auradev_maven}") {
+                    authentication(userName: project.findProperty("maven_user"), password: project.findProperty("maven_password"))
+                }
+            } else if (project.hasProperty("local_maven")) {
                 repository(url: "file://${local_maven}")
-                pom {
-                    groupId = project.group
-                    version = project.version
-                    artifactId = project.archivesBaseName
-                    project {
-                        name project.archivesBaseName
-                        packaging "jar"
-                        description "Brain Stone Mod"
+            }
+
+            pom {
+                groupId = project.group
+                version = project.version
+                artifactId = project.archivesBaseName
+                project {
+                    name project.archivesBaseName
+                    packaging "jar"
+                    description "Brain Stone Mod"
+                    url "https://github.com/BrainStone/brainstone"
+                    scm {
                         url "https://github.com/BrainStone/brainstone"
-                        scm {
-                            url "https://github.com/BrainStone/brainstone"
-                            connection "scm:git:git@github.com:BrainStone/brainstone.git"
-                            developerConnection "scm:git:git@github.com:BrainStone/brainstone.git"
+                        connection "scm:git:git@github.com:BrainStone/brainstone.git"
+                        developerConnection "scm:git:git@github.com:BrainStone/brainstone.git"
+                    }
+                    issueManagement {
+                        system "github"
+                        url "https://github.com/BrainStone/brainstone/issues"
+                    }
+                    licenses {
+                        license {
+                            name "License"
+                            url "https://raw.githubusercontent.com/BrainStone/brainstone/master/LICENSE"
+                            distribution "repo"
                         }
-                        issueManagement {
-                            system "github"
-                            url "https://github.com/BrainStone/brainstone/issues"
-                        }
-                        licenses {
-                            license {
-                                name "License"
-                                url "https://raw.githubusercontent.com/BrainStone/brainstone/master/LICENSE"
-                                distribution "repo"
-                            }
-                        }
-                        developers {
-                            developer {
-                                id "brainstone"
-                                name "The_BrainStone"
-                                roles {
-                                    role "owner"
-                                    role "developer"
-                                }
-                            }
-                            developer {
-                                id "fireplace"
-                                name "The_Fireplace"
-                                roles {
-                                    role "developer"
-                                }
+                    }
+                    developers {
+                        developer {
+                            id "brainstone"
+                            name "The_BrainStone"
+                            roles {
+                                role "owner"
+                                role "developer"
                             }
                         }
-                        contributors {
-                            contributor {
-                                name "Jobbel"
-                                roles {
-                                    role "texturer"
-                                    role "conceptionist"
-                                }
+                        developer {
+                            id "fireplace"
+                            name "The_Fireplace"
+                            roles {
+                                role "developer"
                             }
-                            contributor {
-                                name "Herr_Kermit"
-                                roles {
-                                    role "texturer"
-                                }
+                        }
+                    }
+                    contributors {
+                        contributor {
+                            name "Jobbel"
+                            roles {
+                                role "texturer"
+                                role "conceptionist"
                             }
-                            contributor {
-                                name "Count Grimhart"
-                                roles {
-                                    role "texturer"
-                                    role "translator"
-                                }
+                        }
+                        contributor {
+                            name "Herr_Kermit"
+                            roles {
+                                role "texturer"
+                            }
+                        }
+                        contributor {
+                            name "Count Grimhart"
+                            roles {
+                                role "texturer"
+                                role "translator"
                             }
                         }
                     }
