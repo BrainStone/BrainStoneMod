@@ -1,3 +1,10 @@
+4.7.56-beta
+-----------
+
+- Updated dependencies
+- Fixed issues with criterions/advancement triggers
+- Updated to new Dark Steel Upgrade system (EnderIO compat)
+
 4.7.48-beta
 -----------
 
