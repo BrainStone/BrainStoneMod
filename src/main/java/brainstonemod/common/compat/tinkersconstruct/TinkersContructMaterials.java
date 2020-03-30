@@ -106,11 +106,13 @@ public class TinkersContructMaterials {
 	}
 
 	private static void addMaterialStats(Material material, ToolMaterial toolMaterial, float handleModifier) {
+		final int baseUses = toolMaterial.getMaxUses() / 10;
+		
 		TinkerRegistry.addMaterialStats(material,
-				new HeadMaterialStats(toolMaterial.getMaxUses(), toolMaterial.getEfficiency(),
+				new HeadMaterialStats(baseUses, toolMaterial.getEfficiency(),
 						toolMaterial.getAttackDamage() + 2.0f, toolMaterial.getHarvestLevel()),
-				new HandleMaterialStats(handleModifier, toolMaterial.getMaxUses() / 4),
-				new ExtraMaterialStats(toolMaterial.getMaxUses() / 4));
+				new HandleMaterialStats(handleModifier, baseUses / 4),
+				new ExtraMaterialStats(baseUses / 4));
 	}
 
 	@SubscribeEvent
