@@ -8,11 +8,11 @@ import slimeknights.tconstruct.tools.TinkerTools;
 
 @UtilityClass
 public class TinkersConstructItems {
-	public static ItemStack getManyullyToughRod() {
-		return TinkerTools.toughToolRod.getItemstackWithMaterial(TinkerMaterials.manyullyn);
-	}
+  public static ItemStack getManyullyToughRod() {
+    return TinkerTools.toughToolRod.getItemstackWithMaterial(TinkerMaterials.manyullyn);
+  }
 
-	public static ItemStack getMendingMoss() {
-		return TinkerCommons.matMendingMoss;
-	}
+  public static ItemStack getMendingMoss() {
+    return TinkerCommons.matMendingMoss;
+  }
 }

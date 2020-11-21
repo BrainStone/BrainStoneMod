@@ -1,9 +1,8 @@
 package brainstonemod;
 
+import brainstonemod.network.BrainStonePacketHelper;
 import java.util.LinkedList;
 import java.util.List;
-
-import brainstonemod.network.BrainStonePacketHelper;
 import lombok.NoArgsConstructor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -15,41 +14,51 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @NoArgsConstructor(staticName = "registrar")
 public class BrainStoneSounds {
-	private static final List<SoundEvent> sounds = new LinkedList<>();
+  private static final List<SoundEvent> sounds = new LinkedList<>();
 
-	public static final SoundEvent nyan_intro = sound("nyan.intro");
-	public static final SoundEvent nyan_loop = sound("nyan.loop");
+  public static final SoundEvent nyan_intro = sound("nyan.intro");
+  public static final SoundEvent nyan_loop = sound("nyan.loop");
 
-	private static SoundEvent sound(String name) {
-		ResourceLocation location = new ResourceLocation(BrainStone.RESOURCE_PACKAGE, name);
-		SoundEvent event = new SoundEvent(location).setRegistryName(location);
+  private static SoundEvent sound(String name) {
+    ResourceLocation location = new ResourceLocation(BrainStone.RESOURCE_PACKAGE, name);
+    SoundEvent event = new SoundEvent(location).setRegistryName(location);
 
-		sounds.add(event);
+    sounds.add(event);
 
-		return event;
-	}
+    return event;
+  }
 
-	@SubscribeEvent
-	public void registerSounds(RegistryEvent.Register<SoundEvent> event) {
-		sounds.stream().forEach(event.getRegistry()::register);
-	}
+  @SubscribeEvent
+  public void registerSounds(RegistryEvent.Register<SoundEvent> event) {
+    sounds.stream().forEach(event.getRegistry()::register);
+  }
 
-	public static void playSoundForAll(Entity entity, SoundEvent sound) {
-		playSoundForAll(entity, sound, 1.0f, 1.0f);
-	}
+  public static void playSoundForAll(Entity entity, SoundEvent sound) {
+    playSoundForAll(entity, sound, 1.0f, 1.0f);
+  }
 
-	public static void playSoundForAll(Entity entity, SoundEvent sound, float volume, float pitch) {
-		entity.world.playSound(null, entity.getPosition(), sound, entity.getSoundCategory(), volume, pitch);
-	}
+  public static void playSoundForAll(Entity entity, SoundEvent sound, float volume, float pitch) {
+    entity.world.playSound(
+        null, entity.getPosition(), sound, entity.getSoundCategory(), volume, pitch);
+  }
 
-	public static void playSoundForPlayer(Entity entity, SoundEvent sound) {
-		playSoundForPlayer(entity, sound, 1.0f, 1.0f);
-	}
+  public static void playSoundForPlayer(Entity entity, SoundEvent sound) {
+    playSoundForPlayer(entity, sound, 1.0f, 1.0f);
+  }
 
-	public static void playSoundForPlayer(Entity player, SoundEvent sound, float volume, float pitch) {
-		if (player instanceof EntityPlayerMP) {
-			BrainStonePacketHelper.sendPacket(player, new SPacketSoundEffect(sound, player.getSoundCategory(),
-					player.posX, player.posY, player.posZ, volume, pitch));
-		}
-	}
+  public static void playSoundForPlayer(
+      Entity player, SoundEvent sound, float volume, float pitch) {
+    if (player instanceof EntityPlayerMP) {
+      BrainStonePacketHelper.sendPacket(
+          player,
+          new SPacketSoundEffect(
+              sound,
+              player.getSoundCategory(),
+              player.posX,
+              player.posY,
+              player.posZ,
+              volume,
+              pitch));
+    }
+  }
 }

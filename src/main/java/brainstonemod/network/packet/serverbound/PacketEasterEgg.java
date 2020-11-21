@@ -8,22 +8,23 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketEasterEgg implements IMessage {
-	@Override
-	public void fromBytes(ByteBuf buf) {
-		// No data to send. Do nothing
-	}
+  @Override
+  public void fromBytes(ByteBuf buf) {
+    // No data to send. Do nothing
+  }
 
-	@Override
-	public void toBytes(ByteBuf buf) {
-		// No data to send. Do nothing
-	}
+  @Override
+  public void toBytes(ByteBuf buf) {
+    // No data to send. Do nothing
+  }
 
-	public static class Handler extends AbstractServerMessageHandler<PacketEasterEgg> {
-		@Override
-		public IMessage handleServerMessage(EntityPlayer player, PacketEasterEgg message, MessageContext ctx) {
-			CriterionRegistry.EASTER_EGG.trigger((EntityPlayerMP) player);
+  public static class Handler extends AbstractServerMessageHandler<PacketEasterEgg> {
+    @Override
+    public IMessage handleServerMessage(
+        EntityPlayer player, PacketEasterEgg message, MessageContext ctx) {
+      CriterionRegistry.EASTER_EGG.trigger((EntityPlayerMP) player);
 
-			return null;
-		}
-	}
+      return null;
+    }
+  }
 }

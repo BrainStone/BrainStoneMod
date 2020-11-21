@@ -22,78 +22,83 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class ClientProxy extends CommonProxy {
-	private static final String INVENTORY = "inventory";
+  private static final String INVENTORY = "inventory";
 
-	private static void registerModel(Item item, ModelResourceLocation model) {
-		registerModel(item, 0, model);
-	}
+  private static void registerModel(Item item, ModelResourceLocation model) {
+    registerModel(item, 0, model);
+  }
 
-	private static void registerModel(Item item, int meta, ModelResourceLocation model) {
-		ModelLoader.setCustomModelResourceLocation(item, meta, model);
-	}
+  private static void registerModel(Item item, int meta, ModelResourceLocation model) {
+    ModelLoader.setCustomModelResourceLocation(item, meta, model);
+  }
 
-	@SubscribeEvent
-	public void registerModels(ModelRegistryEvent event) {
-		StateMapperBase ignoreState = new StateMapperBase() {
-			@Override
-			protected ModelResourceLocation getModelResourceLocation(IBlockState iBlockState) {
-				return BSTriggerModel.variantTag;
-			}
-		};
-		ModelLoader.setCustomStateMapper(BrainStoneBlocks.brainStoneTrigger(), ignoreState);
+  @SubscribeEvent
+  public void registerModels(ModelRegistryEvent event) {
+    StateMapperBase ignoreState =
+        new StateMapperBase() {
+          @Override
+          protected ModelResourceLocation getModelResourceLocation(IBlockState iBlockState) {
+            return BSTriggerModel.variantTag;
+          }
+        };
+    ModelLoader.setCustomStateMapper(BrainStoneBlocks.brainStoneTrigger(), ignoreState);
 
-		ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(
-				RESOURCE_PREFIX + "brain_stone_trigger", INVENTORY);
-		final int DEFAULT_ITEM_SUBTYPE = 0;
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(BrainStoneBlocks.brainStoneTrigger()),
-				DEFAULT_ITEM_SUBTYPE, itemModelResourceLocation);
-	}
+    ModelResourceLocation itemModelResourceLocation =
+        new ModelResourceLocation(RESOURCE_PREFIX + "brain_stone_trigger", INVENTORY);
+    final int DEFAULT_ITEM_SUBTYPE = 0;
+    ModelLoader.setCustomModelResourceLocation(
+        Item.getItemFromBlock(BrainStoneBlocks.brainStoneTrigger()),
+        DEFAULT_ITEM_SUBTYPE,
+        itemModelResourceLocation);
+  }
 
-	/**
-	 * Returns the Client Minecraft Instance.
-	 *
-	 * @return the Client Minecraft Instance
-	 */
-	@Override
-	public Minecraft getClient() {
-		return FMLClientHandler.instance().getClient();
-	}
+  /**
+   * Returns the Client Minecraft Instance.
+   *
+   * @return the Client Minecraft Instance
+   */
+  @Override
+  public Minecraft getClient() {
+    return FMLClientHandler.instance().getClient();
+  }
 
-	/**
-	 * Returns the Client Player Instance.
-	 *
-	 * @return the Client player Instance
-	 */
-	@Override
-	public EntityPlayerSP getPlayer() {
-		return getClient().player;
-	}
+  /**
+   * Returns the Client Player Instance.
+   *
+   * @return the Client player Instance
+   */
+  @Override
+  public EntityPlayerSP getPlayer() {
+    return getClient().player;
+  }
 
-	@Override
-	public EntityPlayer getPlayerEntity(MessageContext ctx) {
-		return (ctx.side.isClient() ? Minecraft.getMinecraft().player : super.getPlayerEntity(ctx));
-	}
+  @Override
+  public EntityPlayer getPlayerEntity(MessageContext ctx) {
+    return (ctx.side.isClient() ? Minecraft.getMinecraft().player : super.getPlayerEntity(ctx));
+  }
 
-	@Override
-	public String format(String key, Object... args) {
-		return I18n.format(key, args);
-	}
+  @Override
+  public String format(String key, Object... args) {
+    return I18n.format(key, args);
+  }
 
-	@Override
-	public void registerModel(Item item) {
-		final String prefix = item.getRegistryName().toString();
+  @Override
+  public void registerModel(Item item) {
+    final String prefix = item.getRegistryName().toString();
 
-		if (item instanceof ItemAnvilBlock) {
-			ModelResourceLocation intact = new ModelResourceLocation(prefix + "_intact", INVENTORY);
-			ModelResourceLocation slightlyDamaged = new ModelResourceLocation(prefix + "_slightly_damaged", INVENTORY);
-			ModelResourceLocation veryDamaged = new ModelResourceLocation(prefix + "_very_damaged", INVENTORY);
+    if (item instanceof ItemAnvilBlock) {
+      ModelResourceLocation intact = new ModelResourceLocation(prefix + "_intact", INVENTORY);
+      ModelResourceLocation slightlyDamaged =
+          new ModelResourceLocation(prefix + "_slightly_damaged", INVENTORY);
+      ModelResourceLocation veryDamaged =
+          new ModelResourceLocation(prefix + "_very_damaged", INVENTORY);
 
-			ModelBakery.registerItemVariants(item, intact, slightlyDamaged, veryDamaged);
-			registerModel(item, 0, intact);
-			registerModel(item, 1, slightlyDamaged);
-			registerModel(item, 2, veryDamaged);
-		} else {
-			registerModel(item, new ModelResourceLocation(prefix, INVENTORY));
-		}
-	}
+      ModelBakery.registerItemVariants(item, intact, slightlyDamaged, veryDamaged);
+      registerModel(item, 0, intact);
+      registerModel(item, 1, slightlyDamaged);
+      registerModel(item, 2, veryDamaged);
+    } else {
+      registerModel(item, new ModelResourceLocation(prefix, INVENTORY));
+    }
+  }
 }

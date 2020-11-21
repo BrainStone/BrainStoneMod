@@ -33,78 +33,82 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 @NoArgsConstructor(staticName = "registrar")
 public class BrainStoneClientEvents {
-	private static final ResourceLocation brainStoneLifeCapacitorTexture = new ResourceLocation(
-			BrainStone.RESOURCE_PACKAGE, "textures/items/brain_stone_life_capacitor.png");
+  private static final ResourceLocation brainStoneLifeCapacitorTexture =
+      new ResourceLocation(
+          BrainStone.RESOURCE_PACKAGE, "textures/items/brain_stone_life_capacitor.png");
 
-	@SubscribeEvent
-	public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
-		if (eventArgs.getModID().equals(BrainStone.MOD_ID)) {
-			BrainStoneConfigWrapper.loadConfig();
-			PacketDispatcher.sendToServer(new PacketRequestOverrides());
-		}
-	}
+  @SubscribeEvent
+  public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
+    if (eventArgs.getModID().equals(BrainStone.MOD_ID)) {
+      BrainStoneConfigWrapper.loadConfig();
+      PacketDispatcher.sendToServer(new PacketRequestOverrides());
+    }
+  }
 
-	@SubscribeEvent
-	public void onModelBakeEvent(ModelBakeEvent event) {
-		Object object = event.getModelRegistry().getObject(BSTriggerModel.variantTag);
+  @SubscribeEvent
+  public void onModelBakeEvent(ModelBakeEvent event) {
+    Object object = event.getModelRegistry().getObject(BSTriggerModel.variantTag);
 
-		if (object instanceof IBakedModel) {
-			IBakedModel existingModel = (IBakedModel) object;
-			BSTriggerModel customModel = new BSTriggerModel(existingModel);
-			event.getModelRegistry().putObject(BSTriggerModel.variantTag, customModel);
-		}
-	}
+    if (object instanceof IBakedModel) {
+      IBakedModel existingModel = (IBakedModel) object;
+      BSTriggerModel customModel = new BSTriggerModel(existingModel);
+      event.getModelRegistry().putObject(BSTriggerModel.variantTag, customModel);
+    }
+  }
 
-	@SubscribeEvent
-	public void onRendeGameOverlay(RenderGameOverlayEvent.Post event) {
-		if (event.getType() == ElementType.ALL) {
-			Minecraft mc = Minecraft.getMinecraft();
+  @SubscribeEvent
+  public void onRendeGameOverlay(RenderGameOverlayEvent.Post event) {
+    if (event.getType() == ElementType.ALL) {
+      Minecraft mc = Minecraft.getMinecraft();
 
-			mc.profiler.startSection("BSLC");
+      mc.profiler.startSection("BSLC");
 
-			ItemStack capacitor = BrainStoneEventHandler.getBrainStoneLiveCapacitor(mc.player);
+      ItemStack capacitor = BrainStoneEventHandler.getBrainStoneLiveCapacitor(mc.player);
 
-			if (capacitor != null) {
-				GlStateManager.enableBlend();
-				BrainStoneRenderHelper.setTexture(brainStoneLifeCapacitorTexture, 16);
+      if (capacitor != null) {
+        GlStateManager.enableBlend();
+        BrainStoneRenderHelper.setTexture(brainStoneLifeCapacitorTexture, 16);
 
-				boolean rendersArmor = (ForgeHooks.getTotalArmorValue(mc.player) == 0) && GuiIngameForge.renderArmor;
+        boolean rendersArmor =
+            (ForgeHooks.getTotalArmorValue(mc.player) == 0) && GuiIngameForge.renderArmor;
 
-				if (rendersArmor) {
-					GuiIngameForge.left_height -= 10;
-				}
+        if (rendersArmor) {
+          GuiIngameForge.left_height -= 10;
+        }
 
-				int width = event.getResolution().getScaledWidth();
-				int height = event.getResolution().getScaledHeight();
-				int left = (width / 2) - 91;
-				int top = height - GuiIngameForge.left_height;
-				ItemBrainStoneLifeCapacitor itemCapacitor = BrainStoneItems.brainStoneLifeCapacitor();
+        int width = event.getResolution().getScaledWidth();
+        int height = event.getResolution().getScaledHeight();
+        int left = (width / 2) - 91;
+        int top = height - GuiIngameForge.left_height;
+        ItemBrainStoneLifeCapacitor itemCapacitor = BrainStoneItems.brainStoneLifeCapacitor();
 
-				BrainStoneRenderHelper.drawTexturedRect(left, top - 8, 16, 16, 0, 0, 16, 16, 10);
+        BrainStoneRenderHelper.drawTexturedRect(left, top - 8, 16, 16, 0, 0, 16, 16, 10);
 
-				BrainStoneRenderHelper.setTexture(Gui.ICONS, 256);
+        BrainStoneRenderHelper.setTexture(Gui.ICONS, 256);
 
-				BrainStoneRenderHelper.drawTexturedRect(left + 16, top - 4, 9, 9, 16, 0, 9, 9, 10);
-				BrainStoneRenderHelper.drawTexturedRect(left + 16, top - 4, 9, 9, 52, 0, 9, 9, 10);
+        BrainStoneRenderHelper.drawTexturedRect(left + 16, top - 4, 9, 9, 16, 0, 9, 9, 10);
+        BrainStoneRenderHelper.drawTexturedRect(left + 16, top - 4, 9, 9, 52, 0, 9, 9, 10);
 
-				float hearts = (float) itemCapacitor.getEnergyStoredLong(capacitor)
-						/ (float) (ItemBrainStoneLifeCapacitor.RFperHalfHeart * 2);
-				long maxHearts = itemCapacitor.getMaxEnergyStoredLong(capacitor)
-						/ (ItemBrainStoneLifeCapacitor.RFperHalfHeart * 2);
+        float hearts =
+            (float) itemCapacitor.getEnergyStoredLong(capacitor)
+                / (float) (ItemBrainStoneLifeCapacitor.RFperHalfHeart * 2);
+        long maxHearts =
+            itemCapacitor.getMaxEnergyStoredLong(capacitor)
+                / (ItemBrainStoneLifeCapacitor.RFperHalfHeart * 2);
 
-				BrainStoneRenderHelper.drawString(String.format("%.1f/%d", hearts, maxHearts), left + 26, top - 3,
-						0xFF0000);
+        BrainStoneRenderHelper.drawString(
+            String.format("%.1f/%d", hearts, maxHearts), left + 26, top - 3, 0xFF0000);
 
-				if (rendersArmor) {
-					GuiIngameForge.left_height += 26;
-				} else {
-					GuiIngameForge.left_height += 16;
-				}
+        if (rendersArmor) {
+          GuiIngameForge.left_height += 26;
+        } else {
+          GuiIngameForge.left_height += 16;
+        }
 
-				GlStateManager.disableBlend();
-			}
+        GlStateManager.disableBlend();
+      }
 
-			mc.profiler.endSection();
-		}
-	}
+      mc.profiler.endSection();
+    }
+  }
 }

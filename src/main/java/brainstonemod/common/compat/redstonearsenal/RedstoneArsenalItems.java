@@ -6,11 +6,11 @@ import net.minecraft.item.ItemStack;
 
 @UtilityClass
 public class RedstoneArsenalItems {
-	public static ItemStack getFluxInfusedObsidianRod() {
-		return ItemMaterial.rodObsidianFlux;
-	}
+  public static ItemStack getFluxInfusedObsidianRod() {
+    return ItemMaterial.rodObsidianFlux;
+  }
 
-	public static ItemStack getFluxedArmorPlating() {
-		return ItemMaterial.plateArmorFlux;
-	}
+  public static ItemStack getFluxedArmorPlating() {
+    return ItemMaterial.plateArmorFlux;
+  }
 }

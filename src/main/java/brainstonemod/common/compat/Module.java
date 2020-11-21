@@ -15,11 +15,11 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface Module {
-	String modid();
+  String modid();
 
-	String name();
+  String name();
 
-	String message();
+  String message();
 
-	Class<? extends IModIntegration> integration() default IModIntegration.class;
+  Class<? extends IModIntegration> integration() default IModIntegration.class;
 }

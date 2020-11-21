@@ -9,18 +9,19 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public class IndustrialForegoingCompat implements IModIntegration {
-	@Override
-	public void preInit(FMLPreInitializationEvent event) {
-		LaserDrillEntry.addOreFile(new ResourceLocation(BrainStone.RESOURCE_PACKAGE, "brainstonemod_ores.json"));
-	}
+  @Override
+  public void preInit(FMLPreInitializationEvent event) {
+    LaserDrillEntry.addOreFile(
+        new ResourceLocation(BrainStone.RESOURCE_PACKAGE, "brainstonemod_ores.json"));
+  }
 
-	@Override
-	public void init(FMLInitializationEvent event) {
-		// Do nothing
-	}
+  @Override
+  public void init(FMLInitializationEvent event) {
+    // Do nothing
+  }
 
-	@Override
-	public void postInit(FMLPostInitializationEvent event) {
-		// Do nothing
-	}
+  @Override
+  public void postInit(FMLPostInitializationEvent event) {
+    // Do nothing
+  }
 }

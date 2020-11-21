@@ -7,13 +7,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Use this annotation to mark all fields which need to be overridden on the
- * client.
+ * Use this annotation to mark all fields which need to be overridden on the client.
  *
  * @author BrainStone
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface ServerOverride {
-}
+public @interface ServerOverride {}

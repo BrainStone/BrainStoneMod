@@ -35,113 +35,150 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 @NoArgsConstructor(staticName = "registrar")
 public class BrainStoneRecipes {
-	/**
-	 * Adds the recipes.
-	 */
-	protected static final void addRecipes() {
-		Object craftingS = IngredientSwitch.make()
-				.add(BrainStoneModules::enderIO, () -> EnderIOItems.getSentientEnder())
-				.getIngredient(new ItemStack(Items.SKULL, 1, 5));
-		Object craftingX = IngredientSwitch.make()
-				.add(BrainStoneModules::redstoneArsenal, () -> RedstoneArsenalItems.getFluxInfusedObsidianRod())
-				.add(BrainStoneModules::enderIO, () -> EnderIOItems.getXPRod())
-				.add(BrainStoneModules::tinkersConstruct, () -> TinkersConstructItems.getManyullyToughRod())
-				.getIngredient(Blocks.END_ROD);
-		Object craftingC = IngredientSwitch.make()
-				.add(BrainStoneModules::thermalExpansion, () -> ThermalExpansionItems.getResonantFluxCapacitor())
-				.add(BrainStoneModules::draconicEvolution, () -> DraconicEvolutionItems.getWyvernFluxCapacitor())
-				.add(BrainStoneModules::enderIO, () -> EnderIOItems.getOctadicCapacitor())
-				.add(BrainStoneModules::immersiveEngineering, () -> ImmersiveEngineeringItems.getHVCapacitor())
-				.add(BrainStoneModules::redstoneArsenal, () -> RedstoneArsenalItems.getFluxedArmorPlating())
-				.add(BrainStoneModules::forestry, () -> ForestryItems.getEmeraldElectronTube())
-				.add(BrainStoneModules::tinkersConstruct, () -> TinkersConstructItems.getMendingMoss())
-				.add(BrainStoneModules::thermalFoundation, () -> ThermalFoundationItems.getPyrotheumDustDict())
-				.getIngredient("dustRedstone");
-		Object craftingH = IngredientSwitch.make()
-				.add(BrainStoneModules::draconicEvolution, () -> DraconicEvolutionItems.getDragonHeart())
-				.add(BrainStoneModules::mysticalAgriculture, () -> MysticalAgricultureItems.getSupremiumApple())
-				.getIngredient(() -> new ItemStack(Items.GOLDEN_APPLE, 1, 1));
+  /** Adds the recipes. */
+  protected static final void addRecipes() {
+    Object craftingS =
+        IngredientSwitch.make()
+            .add(BrainStoneModules::enderIO, () -> EnderIOItems.getSentientEnder())
+            .getIngredient(new ItemStack(Items.SKULL, 1, 5));
+    Object craftingX =
+        IngredientSwitch.make()
+            .add(
+                BrainStoneModules::redstoneArsenal,
+                () -> RedstoneArsenalItems.getFluxInfusedObsidianRod())
+            .add(BrainStoneModules::enderIO, () -> EnderIOItems.getXPRod())
+            .add(
+                BrainStoneModules::tinkersConstruct,
+                () -> TinkersConstructItems.getManyullyToughRod())
+            .getIngredient(Blocks.END_ROD);
+    Object craftingC =
+        IngredientSwitch.make()
+            .add(
+                BrainStoneModules::thermalExpansion,
+                () -> ThermalExpansionItems.getResonantFluxCapacitor())
+            .add(
+                BrainStoneModules::draconicEvolution,
+                () -> DraconicEvolutionItems.getWyvernFluxCapacitor())
+            .add(BrainStoneModules::enderIO, () -> EnderIOItems.getOctadicCapacitor())
+            .add(
+                BrainStoneModules::immersiveEngineering,
+                () -> ImmersiveEngineeringItems.getHVCapacitor())
+            .add(
+                BrainStoneModules::redstoneArsenal,
+                () -> RedstoneArsenalItems.getFluxedArmorPlating())
+            .add(BrainStoneModules::forestry, () -> ForestryItems.getEmeraldElectronTube())
+            .add(BrainStoneModules::tinkersConstruct, () -> TinkersConstructItems.getMendingMoss())
+            .add(
+                BrainStoneModules::thermalFoundation,
+                () -> ThermalFoundationItems.getPyrotheumDustDict())
+            .getIngredient("dustRedstone");
+    Object craftingH =
+        IngredientSwitch.make()
+            .add(
+                BrainStoneModules::draconicEvolution, () -> DraconicEvolutionItems.getDragonHeart())
+            .add(
+                BrainStoneModules::mysticalAgriculture,
+                () -> MysticalAgricultureItems.getSupremiumApple())
+            .getIngredient(() -> new ItemStack(Items.GOLDEN_APPLE, 1, 1));
 
-		addShapedRecipe(new ItemStack(BrainStoneItems.brainStoneLifeCapacitor(), 1), "SBX", "CHC", " P ", 'S',
-				craftingS, 'B', BrainStoneItems.brainProcessor(), 'X', craftingX, 'C', craftingC, 'H', craftingH, 'P',
-				BrainStoneItems.stablePulsatingBrainStonePlate());
-	}
+    addShapedRecipe(
+        new ItemStack(BrainStoneItems.brainStoneLifeCapacitor(), 1),
+        "SBX",
+        "CHC",
+        " P ",
+        'S',
+        craftingS,
+        'B',
+        BrainStoneItems.brainProcessor(),
+        'X',
+        craftingX,
+        'C',
+        craftingC,
+        'H',
+        craftingH,
+        'P',
+        BrainStoneItems.stablePulsatingBrainStonePlate());
+  }
 
-	/**
-	 * Adds the smeltings.
-	 */
-	protected static final void addSmeltings() {
-		GameRegistry.addSmelting(BrainStoneBlocks.dirtyBrainStone(), new ItemStack(BrainStoneBlocks.brainStone(), 1, 0),
-				3.0F);
-	}
+  /** Adds the smeltings. */
+  protected static final void addSmeltings() {
+    GameRegistry.addSmelting(
+        BrainStoneBlocks.dirtyBrainStone(),
+        new ItemStack(BrainStoneBlocks.brainStone(), 1, 0),
+        3.0F);
+  }
 
-	@Deprecated
-	public static final void addShapedRecipe(ItemStack output, Object... input) {
-		ResourceLocation location = getNameForRecipe(output);
-		ShapedOreRecipe recipe = new ShapedOreRecipe(location, output, input);
-		recipe.setRegistryName(location);
-		GameData.register_impl(recipe);
-	}
+  @Deprecated
+  public static final void addShapedRecipe(ItemStack output, Object... input) {
+    ResourceLocation location = getNameForRecipe(output);
+    ShapedOreRecipe recipe = new ShapedOreRecipe(location, output, input);
+    recipe.setRegistryName(location);
+    GameData.register_impl(recipe);
+  }
 
-	@Deprecated
-	public static final void addShapelessRecipe(ItemStack output, Object... input) {
-		ResourceLocation location = getNameForRecipe(output);
-		ShapelessRecipes recipe = new ShapelessRecipes(location.getNamespace(), output, buildInput(input));
-		recipe.setRegistryName(location);
-		GameData.register_impl(recipe);
-	}
+  @Deprecated
+  public static final void addShapelessRecipe(ItemStack output, Object... input) {
+    ResourceLocation location = getNameForRecipe(output);
+    ShapelessRecipes recipe =
+        new ShapelessRecipes(location.getNamespace(), output, buildInput(input));
+    recipe.setRegistryName(location);
+    GameData.register_impl(recipe);
+  }
 
-	private static ResourceLocation getNameForRecipe(ItemStack output) {
-		ModContainer activeContainer = Loader.instance().activeModContainer();
-		ResourceLocation baseLoc = new ResourceLocation(activeContainer.getModId(),
-				output.getItem().getRegistryName().getPath());
-		ResourceLocation recipeLoc = baseLoc;
-		int index = 0;
+  private static ResourceLocation getNameForRecipe(ItemStack output) {
+    ModContainer activeContainer = Loader.instance().activeModContainer();
+    ResourceLocation baseLoc =
+        new ResourceLocation(
+            activeContainer.getModId(), output.getItem().getRegistryName().getPath());
+    ResourceLocation recipeLoc = baseLoc;
+    int index = 0;
 
-		while (CraftingManager.REGISTRY.containsKey(recipeLoc)) {
-			index++;
-			recipeLoc = new ResourceLocation(activeContainer.getModId(), baseLoc.getPath() + "_" + index);
-		}
+    while (CraftingManager.REGISTRY.containsKey(recipeLoc)) {
+      index++;
+      recipeLoc = new ResourceLocation(activeContainer.getModId(), baseLoc.getPath() + "_" + index);
+    }
 
-		return recipeLoc;
-	}
+    return recipeLoc;
+  }
 
-	private static NonNullList<Ingredient> buildInput(Object[] input) {
-		NonNullList<Ingredient> list = NonNullList.create();
+  private static NonNullList<Ingredient> buildInput(Object[] input) {
+    NonNullList<Ingredient> list = NonNullList.create();
 
-		for (Object obj : input) {
-			if (obj instanceof Ingredient) {
-				list.add((Ingredient) obj);
-			} else {
-				Ingredient ingredient = CraftingHelper.getIngredient(obj);
+    for (Object obj : input) {
+      if (obj instanceof Ingredient) {
+        list.add((Ingredient) obj);
+      } else {
+        Ingredient ingredient = CraftingHelper.getIngredient(obj);
 
-				if (ingredient == null) {
-					ingredient = Ingredient.EMPTY;
-				}
+        if (ingredient == null) {
+          ingredient = Ingredient.EMPTY;
+        }
 
-				list.add(ingredient);
-			}
-		}
+        list.add(ingredient);
+      }
+    }
 
-		return list;
-	}
+    return list;
+  }
 
-	@SubscribeEvent
-	public void registerRecipes(Register<IRecipe> event) {
-		if (!BrainStoneModules.draconicEvolution()) {
-			IForgeRegistry<IRecipe> registry = event.getRegistry();
-			BrainStoneLifeCapacitorUpgrade upgradeCapacity = new BrainStoneLifeCapacitorUpgrade(
-					BrainStoneLifeCapacitorUpgrade.Upgrade.CAPACITY);
-			BrainStoneLifeCapacitorUpgrade upgradeCharging = new BrainStoneLifeCapacitorUpgrade(
-					BrainStoneLifeCapacitorUpgrade.Upgrade.CHARGING);
+  @SubscribeEvent
+  public void registerRecipes(Register<IRecipe> event) {
+    if (!BrainStoneModules.draconicEvolution()) {
+      IForgeRegistry<IRecipe> registry = event.getRegistry();
+      BrainStoneLifeCapacitorUpgrade upgradeCapacity =
+          new BrainStoneLifeCapacitorUpgrade(BrainStoneLifeCapacitorUpgrade.Upgrade.CAPACITY);
+      BrainStoneLifeCapacitorUpgrade upgradeCharging =
+          new BrainStoneLifeCapacitorUpgrade(BrainStoneLifeCapacitorUpgrade.Upgrade.CHARGING);
 
-			// Capacitor Recipes
-			registry.register(upgradeCapacity.setRegistryName("brain_stone_life_capacitor_upgrade_capacity"));
-			registry.register(upgradeCharging.setRegistryName("brain_stone_life_capacitor_upgrade_charging"));
+      // Capacitor Recipes
+      registry.register(
+          upgradeCapacity.setRegistryName("brain_stone_life_capacitor_upgrade_capacity"));
+      registry.register(
+          upgradeCharging.setRegistryName("brain_stone_life_capacitor_upgrade_charging"));
 
-			// For advancements
-			MinecraftForge.EVENT_BUS.register(upgradeCapacity);
-			MinecraftForge.EVENT_BUS.register(upgradeCharging);
-		}
-	}
+      // For advancements
+      MinecraftForge.EVENT_BUS.register(upgradeCapacity);
+      MinecraftForge.EVENT_BUS.register(upgradeCharging);
+    }
+  }
 }

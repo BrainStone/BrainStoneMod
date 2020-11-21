@@ -17,6 +17,9 @@ import brainstonemod.common.worldgenerator.BrainStoneOreWorldGenerator;
 import brainstonemod.network.BrainStoneGuiHandler;
 import brainstonemod.network.BrainStonePacketHelper;
 import brainstonemod.network.PacketDispatcher;
+import java.lang.reflect.Modifier;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
@@ -57,324 +60,348 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.Level;
 
-import java.lang.reflect.Modifier;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-
 /**
  * The main file of the mod
  *
  * @author Yannick Schinko (alias The_BrainStone)
  * @author The_Fireplace
  */
-@Mod(modid = BrainStone.MOD_ID, name = BrainStone.NAME, version = BrainStone.VERSION, dependencies = BrainStoneModules.DEPENDENCIES, certificateFingerprint = BrainStone.FINGERPRINT, guiFactory = BrainStone.GUI_FACTORY)
+@Mod(
+    modid = BrainStone.MOD_ID,
+    name = BrainStone.NAME,
+    version = BrainStone.VERSION,
+    dependencies = BrainStoneModules.DEPENDENCIES,
+    certificateFingerprint = BrainStone.FINGERPRINT,
+    guiFactory = BrainStone.GUI_FACTORY)
 public class BrainStone {
-	public static final String MOD_ID = "brainstonemod";
-	public static final String RESOURCE_PACKAGE = MOD_ID;
-	public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
-	public static final ResourceLocation RESOURCE_LOCATION = new ResourceLocation(RESOURCE_PACKAGE);
-	public static final String NAME = "Brain Stone Mod";
-	public static final String VERSION = "${version}";
-	public static final String FINGERPRINT = "2238d4a92d81ab407741a2fdb741cebddfeacba6";
-	public static final String GUI_FACTORY = "brainstonemod.client.gui.config.BrainStoneGuiFactory";
+  public static final String MOD_ID = "brainstonemod";
+  public static final String RESOURCE_PACKAGE = MOD_ID;
+  public static final String RESOURCE_PREFIX = RESOURCE_PACKAGE + ":";
+  public static final ResourceLocation RESOURCE_LOCATION = new ResourceLocation(RESOURCE_PACKAGE);
+  public static final String NAME = "Brain Stone Mod";
+  public static final String VERSION = "${version}";
+  public static final String FINGERPRINT = "2238d4a92d81ab407741a2fdb741cebddfeacba6";
+  public static final String GUI_FACTORY = "brainstonemod.client.gui.config.BrainStoneGuiFactory";
 
-	/** The instance of this mod */
-	@Instance(MOD_ID)
-	public static BrainStone instance;
+  /** The instance of this mod */
+  @Instance(MOD_ID)
+  public static BrainStone instance;
 
-	/** States if the current mod version is a release version or not */
-	public static final boolean release = VERSION.toLowerCase().contains("release");
-	/** States if the current mod version is a debug version or not */
-	public static final boolean debug = VERSION.toLowerCase().contains("debug");
-	/** States if the current mod version is a DEV version or not */
-	public static final boolean DEV = VERSION.toLowerCase().contains("dev")
-			|| VERSION.toLowerCase().contains("prerelease");
-	/** States if this is the eclipse working environment or not */
-	public static boolean DEV_ENV = (Boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment");
-	/** States if this jar is valid or not. */
-	public static boolean VALID_JAR = true;
+  /** States if the current mod version is a release version or not */
+  public static final boolean release = VERSION.toLowerCase().contains("release");
+  /** States if the current mod version is a debug version or not */
+  public static final boolean debug = VERSION.toLowerCase().contains("debug");
+  /** States if the current mod version is a DEV version or not */
+  public static final boolean DEV =
+      VERSION.toLowerCase().contains("dev") || VERSION.toLowerCase().contains("prerelease");
+  /** States if this is the eclipse working environment or not */
+  public static boolean DEV_ENV = (Boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment");
+  /** States if this jar is valid or not. */
+  public static boolean VALID_JAR = true;
 
-	/**
-	 * The proxy. Used to perform side dependent operation such as getting the
-	 * local player<br>
-	 * <br>
-	 * - is client-proxy when this is the client<br>
-	 * - is server-proxy when this is the server
-	 */
-	@SidedProxy(clientSide = "brainstonemod.client.ClientProxy", serverSide = "brainstonemod.common.CommonProxy")
-	public static CommonProxy proxy;
+  /**
+   * The proxy. Used to perform side dependent operation such as getting the local player<br>
+   * <br>
+   * - is client-proxy when this is the client<br>
+   * - is server-proxy when this is the server
+   */
+  @SidedProxy(
+      clientSide = "brainstonemod.client.ClientProxy",
+      serverSide = "brainstonemod.common.CommonProxy")
+  public static CommonProxy proxy;
 
-	/**
-	 * This Map maps the different mob types of the BrainStoneTrigger to the
-	 * corresponding Classes
-	 */
-	private static final LinkedHashMap<Side, LinkedHashMap<String, Class<?>[]>> triggerEntities = new LinkedHashMap<>();
-	/** The custom creative tab */
-	private static BrainStoneModCreativeTab tabBrainStoneMod = null;
+  /** This Map maps the different mob types of the BrainStoneTrigger to the corresponding Classes */
+  private static final LinkedHashMap<Side, LinkedHashMap<String, Class<?>[]>> triggerEntities =
+      new LinkedHashMap<>();
+  /** The custom creative tab */
+  private static BrainStoneModCreativeTab tabBrainStoneMod = null;
 
-	/**
-	 * Called when the signature does not match the expected hash. Marks the jar
-	 * invalid in that case.<br>
-	 * Does nothing in case the mod is not running from a jar
-	 *
-	 * @param event
-	 *            he MCForge FingerprintViolationEvent
-	 */
-	@EventHandler
-	public static final void onInvalidCertificate(FMLFingerprintViolationEvent event) {
-		if (BrainStoneJarUtils.RUNNING_FROM_JAR && BrainStoneJarUtils.SIGNED_JAR) {
-			VALID_JAR = false;
-		}
-	}
+  /**
+   * Called when the signature does not match the expected hash. Marks the jar invalid in that case.
+   * <br>
+   * Does nothing in case the mod is not running from a jar
+   *
+   * @param event he MCForge FingerprintViolationEvent
+   */
+  @EventHandler
+  public static final void onInvalidCertificate(FMLFingerprintViolationEvent event) {
+    if (BrainStoneJarUtils.RUNNING_FROM_JAR && BrainStoneJarUtils.SIGNED_JAR) {
+      VALID_JAR = false;
+    }
+  }
 
-	/**
-	 * Preinitialization. Reads the ids from the config file and fills the block
-	 * and item HashMaps with the blocks and items.
-	 *
-	 * @param event
-	 *            The MCForge PreInitializationEvent
-	 */
-	@EventHandler
-	public void preInit(FMLPreInitializationEvent event) {
-		PacketDispatcher.registerPackets();
-		Level logLevel = DEV_ENV ? Level.INFO : Level.DEBUG;
+  /**
+   * Preinitialization. Reads the ids from the config file and fills the block and item HashMaps
+   * with the blocks and items.
+   *
+   * @param event The MCForge PreInitializationEvent
+   */
+  @EventHandler
+  public void preInit(FMLPreInitializationEvent event) {
+    PacketDispatcher.registerPackets();
+    Level logLevel = DEV_ENV ? Level.INFO : Level.DEBUG;
 
-		BSP.setUpLogger(event.getModLog());
-		BSP.log(logLevel, "Is release version: " + release, "Is DEV version: " + DEV, "Is DEV environment: " + DEV_ENV,
-				"Is running from jar: " + BrainStoneJarUtils.RUNNING_FROM_JAR);
+    BSP.setUpLogger(event.getModLog());
+    BSP.log(
+        logLevel,
+        "Is release version: " + release,
+        "Is DEV version: " + DEV,
+        "Is DEV environment: " + DEV_ENV,
+        "Is running from jar: " + BrainStoneJarUtils.RUNNING_FROM_JAR);
 
-		if (VALID_JAR && BrainStoneJarUtils.RUNNING_FROM_JAR) {
-			try {
-				BrainStoneJarUtils.verifyJar();
-			} catch (SecurityException e) {
-				BSP.warn(e.getMessage());
-				VALID_JAR = false;
-			}
-		}
+    if (VALID_JAR && BrainStoneJarUtils.RUNNING_FROM_JAR) {
+      try {
+        BrainStoneJarUtils.verifyJar();
+      } catch (SecurityException e) {
+        BSP.warn(e.getMessage());
+        VALID_JAR = false;
+      }
+    }
 
-		BSP.log(VALID_JAR ? logLevel : Level.WARN, "Jar is " + (VALID_JAR ? "" : "not ") + "valid!",
-				"Jar is " + (BrainStoneJarUtils.SIGNED_JAR ? "" : "not ") + "signed!");
+    BSP.log(
+        VALID_JAR ? logLevel : Level.WARN,
+        "Jar is " + (VALID_JAR ? "" : "not ") + "valid!",
+        "Jar is " + (BrainStoneJarUtils.SIGNED_JAR ? "" : "not ") + "signed!");
 
-		BrainStoneConfigWrapper.loadConfig(new Configuration(event.getSuggestedConfigurationFile()));
-		BrainStoneModules.detectActiveModules();
+    BrainStoneConfigWrapper.loadConfig(new Configuration(event.getSuggestedConfigurationFile()));
+    BrainStoneModules.detectActiveModules();
 
-		BrainStoneBlocks.generateBlocks();
-		BrainStoneItems.generateItems();
+    BrainStoneBlocks.generateBlocks();
+    BrainStoneItems.generateItems();
 
-		BrainStoneModules.preInit(event);
+    BrainStoneModules.preInit(event);
 
-		// Event Handlers
-		MinecraftForge.EVENT_BUS.register(BrainStoneEventHandler.registrar());
-		MinecraftForge.EVENT_BUS.register(BrainStoneBlocks.registrar());
-		MinecraftForge.EVENT_BUS.register(BrainStoneItems.registrar());
-		MinecraftForge.EVENT_BUS.register(BrainStoneRecipes.registrar());
-		MinecraftForge.EVENT_BUS.register(BrainStoneSounds.registrar());
+    // Event Handlers
+    MinecraftForge.EVENT_BUS.register(BrainStoneEventHandler.registrar());
+    MinecraftForge.EVENT_BUS.register(BrainStoneBlocks.registrar());
+    MinecraftForge.EVENT_BUS.register(BrainStoneItems.registrar());
+    MinecraftForge.EVENT_BUS.register(BrainStoneRecipes.registrar());
+    MinecraftForge.EVENT_BUS.register(BrainStoneSounds.registrar());
 
-		if (event.getSide().isClient()) {
-			MinecraftForge.EVENT_BUS.register(BrainStoneClientEvents.registrar());
-			MinecraftForge.EVENT_BUS.register(proxy);
-		}
-	}
+    if (event.getSide().isClient()) {
+      MinecraftForge.EVENT_BUS.register(BrainStoneClientEvents.registrar());
+      MinecraftForge.EVENT_BUS.register(proxy);
+    }
+  }
 
-	/**
-	 * Initialization. Registers the client render information, the GuiHandler,
-	 * the blocks, the TileEntitys, adds the names, the recipes, smeltings,
-	 * registers the FuelHandler, the WordGenerator and adds the localizations.
-	 *
-	 * @param event
-	 *            The MCForge InitializationEvent
-	 */
-	@EventHandler
-	public void init(FMLInitializationEvent event) {
-		NetworkRegistry.INSTANCE.registerGuiHandler(this, new BrainStoneGuiHandler());
+  /**
+   * Initialization. Registers the client render information, the GuiHandler, the blocks, the
+   * TileEntitys, adds the names, the recipes, smeltings, registers the FuelHandler, the
+   * WordGenerator and adds the localizations.
+   *
+   * @param event The MCForge InitializationEvent
+   */
+  @EventHandler
+  public void init(FMLInitializationEvent event) {
+    NetworkRegistry.INSTANCE.registerGuiHandler(this, new BrainStoneGuiHandler());
 
-		registerTileEntities(); // TileEntitys
-		BrainStoneRecipes.addRecipes(); // Recipes
-		BrainStoneRecipes.addSmeltings(); // Smeltings
-		// WorldGen
-		GameRegistry.registerWorldGenerator(new BrainStoneHouseWorldGenerator(), 0);
-		GameRegistry.registerWorldGenerator(new BrainStoneOreWorldGenerator(), 1);
+    registerTileEntities(); // TileEntitys
+    BrainStoneRecipes.addRecipes(); // Recipes
+    BrainStoneRecipes.addSmeltings(); // Smeltings
+    // WorldGen
+    GameRegistry.registerWorldGenerator(new BrainStoneHouseWorldGenerator(), 0);
+    GameRegistry.registerWorldGenerator(new BrainStoneOreWorldGenerator(), 1);
 
-		// Advancement stuff
-		CriterionRegistry.init();
+    // Advancement stuff
+    CriterionRegistry.init();
 
-		BrainStoneModules.init(event);
+    BrainStoneModules.init(event);
 
-		// Registering ore dict
-		proxy.registerOreDict();
+    // Registering ore dict
+    proxy.registerOreDict();
 
-		// Register data fixer
-		FMLCommonHandler.instance().getDataFixer().init(MOD_ID, TileEntityIDDataFixer.VERSION)
-				.registerFix(FixTypes.BLOCK_ENTITY, new TileEntityIDDataFixer());
-	}
+    // Register data fixer
+    FMLCommonHandler.instance()
+        .getDataFixer()
+        .init(MOD_ID, TileEntityIDDataFixer.VERSION)
+        .registerFix(FixTypes.BLOCK_ENTITY, new TileEntityIDDataFixer());
+  }
 
-	/**
-	 * Postinitialization. Postinitializes the packet pipeline
-	 *
-	 * @param event
-	 *            The MCForge PostInitializationEvent
-	 */
-	@EventHandler
-	public void postInit(FMLPostInitializationEvent event) {
-		BrainStoneModules.postInit(event);
-	}
+  /**
+   * Postinitialization. Postinitializes the packet pipeline
+   *
+   * @param event The MCForge PostInitializationEvent
+   */
+  @EventHandler
+  public void postInit(FMLPostInitializationEvent event) {
+    BrainStoneModules.postInit(event);
+  }
 
-	/**
-	 * Fills the triggerEntity's for the BrainStoneTrigger after the server is
-	 * starting.
-	 *
-	 * @param event
-	 *            The MCForge ServerAboutToStartEvent
-	 */
-	@EventHandler
-	public static final void onServerAboutToStart(FMLServerAboutToStartEvent event) {
-		fillTriggerEntities();
-	}
+  /**
+   * Fills the triggerEntity's for the BrainStoneTrigger after the server is starting.
+   *
+   * @param event The MCForge ServerAboutToStartEvent
+   */
+  @EventHandler
+  public static final void onServerAboutToStart(FMLServerAboutToStartEvent event) {
+    fillTriggerEntities();
+  }
 
-	/**
-	 * Loads the brainStoneLifeCapacitor mapping
-	 *
-	 * @param event
-	 *            The MCForge ServerStartingEvent
-	 */
-	@EventHandler
-	public static final void onServerStarting(FMLServerStartingEvent event) {
-		BrainStoneItems.brainStoneLifeCapacitor()
-				.newPlayerCapacitorMapping(DimensionManager.getCurrentSaveRootDirectory());
-	}
+  /**
+   * Loads the brainStoneLifeCapacitor mapping
+   *
+   * @param event The MCForge ServerStartingEvent
+   */
+  @EventHandler
+  public static final void onServerStarting(FMLServerStartingEvent event) {
+    BrainStoneItems.brainStoneLifeCapacitor()
+        .newPlayerCapacitorMapping(DimensionManager.getCurrentSaveRootDirectory());
+  }
 
-	/**
-	 * This method is client side called when a player joins the game. Both for
-	 * a server or a single player world.
-	 */
-	public static final void onPlayerJoinClient(EntityPlayer player, ClientConnectedToServerEvent event) {
-		if (!VALID_JAR) {
-			sendToPlayer(player,
-					TextFormatting.DARK_RED + "The .jar file of the BrainStoneMod appears to be corrupted\n"
-							+ TextFormatting.DARK_RED + "or modified!\n" + TextFormatting.DARK_RED
-							+ "Please DO NOT use it as it may cause harm to your computer!\n" + TextFormatting.YELLOW
-							+ "You can download a fresh .jar file from here\n" + TextFormatting.DARK_BLUE
-							+ "https://download.brainstonemod.com " + TextFormatting.YELLOW + "!");
-		} else if (!BrainStoneJarUtils.SIGNED_JAR && !DEV_ENV) {
-			sendToPlayer(player,
-					TextFormatting.DARK_RED + "The .jar file of the BrainStoneMod is not signed!\n"
-							+ TextFormatting.YELLOW + "If you did not create this version yourself download a\n"
-							+ TextFormatting.YELLOW + "fresh .jar file from here " + TextFormatting.DARK_BLUE
-							+ "https://download.brainstonemod.com " + TextFormatting.YELLOW + "!");
-		}
-	}
+  /**
+   * This method is client side called when a player joins the game. Both for a server or a single
+   * player world.
+   */
+  public static final void onPlayerJoinClient(
+      EntityPlayer player, ClientConnectedToServerEvent event) {
+    if (!VALID_JAR) {
+      sendToPlayer(
+          player,
+          TextFormatting.DARK_RED
+              + "The .jar file of the BrainStoneMod appears to be corrupted\n"
+              + TextFormatting.DARK_RED
+              + "or modified!\n"
+              + TextFormatting.DARK_RED
+              + "Please DO NOT use it as it may cause harm to your computer!\n"
+              + TextFormatting.YELLOW
+              + "You can download a fresh .jar file from here\n"
+              + TextFormatting.DARK_BLUE
+              + "https://download.brainstonemod.com "
+              + TextFormatting.YELLOW
+              + "!");
+    } else if (!BrainStoneJarUtils.SIGNED_JAR && !DEV_ENV) {
+      sendToPlayer(
+          player,
+          TextFormatting.DARK_RED
+              + "The .jar file of the BrainStoneMod is not signed!\n"
+              + TextFormatting.YELLOW
+              + "If you did not create this version yourself download a\n"
+              + TextFormatting.YELLOW
+              + "fresh .jar file from here "
+              + TextFormatting.DARK_BLUE
+              + "https://download.brainstonemod.com "
+              + TextFormatting.YELLOW
+              + "!");
+    }
+  }
 
-	/**
-	 * This method is server side called when a player joins the game. Both for
-	 * a server or a single player world.
-	 */
-	public static final void onPlayerJoinServer(EntityPlayer player, PlayerLoggedInEvent event) {
-		BrainStonePacketHelper.sendBrainStoneTriggerMobInformationPacketToPlayer(player);
-		BrainStonePacketHelper.sendServerOverridesPacket(player);
-	}
+  /**
+   * This method is server side called when a player joins the game. Both for a server or a single
+   * player world.
+   */
+  public static final void onPlayerJoinServer(EntityPlayer player, PlayerLoggedInEvent event) {
+    BrainStonePacketHelper.sendBrainStoneTriggerMobInformationPacketToPlayer(player);
+    BrainStonePacketHelper.sendServerOverridesPacket(player);
+  }
 
-	/**
-	 * Sends a chat message to the current player. Only works client side
-	 *
-	 * @param message
-	 *            the message to be sent
-	 */
-	public static final void sendToPlayer(EntityPlayer player, String message) {
-		String[] lines = message.split("\n");
+  /**
+   * Sends a chat message to the current player. Only works client side
+   *
+   * @param message the message to be sent
+   */
+  public static final void sendToPlayer(EntityPlayer player, String message) {
+    String[] lines = message.split("\n");
 
-		for (String line : lines) {
-			player.sendMessage(new TextComponentString(line));
-		}
-	}
+    for (String line : lines) {
+      player.sendMessage(new TextComponentString(line));
+    }
+  }
 
-	// DOCME
-	private static final void fillTriggerEntities() {
-		if ((getServerSideTriggerEntities() == null) || (getServerSideTriggerEntities().size() == 0)) {
-			BSP.debug("Filling triggerEntities");
+  // DOCME
+  private static final void fillTriggerEntities() {
+    if ((getServerSideTriggerEntities() == null) || (getServerSideTriggerEntities().size() == 0)) {
+      BSP.debug("Filling triggerEntities");
 
-			final LinkedHashMap<String, Class<?>[]> tempTriggerEntities = new LinkedHashMap<>();
+      final LinkedHashMap<String, Class<?>[]> tempTriggerEntities = new LinkedHashMap<>();
 
-			tempTriggerEntities.put("gui.brainstone.player", new Class<?>[] { EntityPlayer.class });
-			tempTriggerEntities.put("gui.brainstone.item", new Class<?>[] { EntityBoat.class, EntityFishHook.class,
-					EntityItem.class, EntityMinecart.class, EntityTNTPrimed.class, EntityXPOrb.class });
-			tempTriggerEntities.put("gui.brainstone.projectile", new Class[] { EntityArrow.class, EntityThrowable.class,
-					EntityEnderEye.class, EntityFireball.class });
+      tempTriggerEntities.put("gui.brainstone.player", new Class<?>[] {EntityPlayer.class});
+      tempTriggerEntities.put(
+          "gui.brainstone.item",
+          new Class<?>[] {
+            EntityBoat.class,
+            EntityFishHook.class,
+            EntityItem.class,
+            EntityMinecart.class,
+            EntityTNTPrimed.class,
+            EntityXPOrb.class
+          });
+      tempTriggerEntities.put(
+          "gui.brainstone.projectile",
+          new Class[] {
+            EntityArrow.class, EntityThrowable.class, EntityEnderEye.class, EntityFireball.class
+          });
 
-			for (final ResourceLocation entry : EntityList.getEntityNameList()) {
-				verifyTriggerEntity(tempTriggerEntities, EntityList.getTranslationName(entry),
-						EntityList.getClass(entry));
-			}
+      for (final ResourceLocation entry : EntityList.getEntityNameList()) {
+        verifyTriggerEntity(
+            tempTriggerEntities, EntityList.getTranslationName(entry), EntityList.getClass(entry));
+      }
 
-			triggerEntities.put(Side.SERVER, tempTriggerEntities);
+      triggerEntities.put(Side.SERVER, tempTriggerEntities);
 
-			BSP.debug("Done filling triggerEntities");
-		}
-	}
+      BSP.debug("Done filling triggerEntities");
+    }
+  }
 
-	/**
-	 * Verifies and adds (if verification was successful) it to the passed map.
-	 *
-	 * @param tempTriggerEntities
-	 *            The map to append the class to
-	 * @param name
-	 *            The name it will be registered with
-	 * @param entityClass
-	 *            The class it refers to
-	 */
-	private static final void verifyTriggerEntity(LinkedHashMap<String, Class<?>[]> tempTriggerEntities, String name,
-			Class<?> entityClass) {
-		if ((entityClass != null) && (!Modifier.isAbstract(entityClass.getModifiers()))
-				&& (EntityLiving.class.isAssignableFrom(entityClass))) {
-			tempTriggerEntities.put("entity." + name + ".name", new Class[] { entityClass });
-		}
-	}
+  /**
+   * Verifies and adds (if verification was successful) it to the passed map.
+   *
+   * @param tempTriggerEntities The map to append the class to
+   * @param name The name it will be registered with
+   * @param entityClass The class it refers to
+   */
+  private static final void verifyTriggerEntity(
+      LinkedHashMap<String, Class<?>[]> tempTriggerEntities, String name, Class<?> entityClass) {
+    if ((entityClass != null)
+        && (!Modifier.isAbstract(entityClass.getModifiers()))
+        && (EntityLiving.class.isAssignableFrom(entityClass))) {
+      tempTriggerEntities.put("entity." + name + ".name", new Class[] {entityClass});
+    }
+  }
 
-	/**
-	 * Registers all the TileEnties.
-	 */
-	private static final void registerTileEntities() {
-		GameRegistry.registerTileEntity(TileEntityBrainLightSensor.class,
-				new ResourceLocation(MOD_ID, "brain_light_sensor"));
-		GameRegistry.registerTileEntity(TileEntityBrainStoneTrigger.class,
-				new ResourceLocation(MOD_ID, "brain_stone_trigger"));
-	}
+  /** Registers all the TileEnties. */
+  private static final void registerTileEntities() {
+    GameRegistry.registerTileEntity(
+        TileEntityBrainLightSensor.class, new ResourceLocation(MOD_ID, "brain_light_sensor"));
+    GameRegistry.registerTileEntity(
+        TileEntityBrainStoneTrigger.class, new ResourceLocation(MOD_ID, "brain_stone_trigger"));
+  }
 
-	public static final CreativeTabs getCreativeTab(CreativeTabs defaultTab) {
-		if (BrainStoneConfigWrapper.getEnableCreativeTab()) {
-			if (tabBrainStoneMod == null) {
-				tabBrainStoneMod = new BrainStoneModCreativeTab();
-			}
+  public static final CreativeTabs getCreativeTab(CreativeTabs defaultTab) {
+    if (BrainStoneConfigWrapper.getEnableCreativeTab()) {
+      if (tabBrainStoneMod == null) {
+        tabBrainStoneMod = new BrainStoneModCreativeTab();
+      }
 
-			return tabBrainStoneMod;
-		} else
-			return defaultTab;
-	}
+      return tabBrainStoneMod;
+    } else return defaultTab;
+  }
 
-	public static final LinkedHashMap<String, Class<?>[]> getClientSideTiggerEntities() {
-		return triggerEntities.get(Side.CLIENT);
-	}
+  public static final LinkedHashMap<String, Class<?>[]> getClientSideTiggerEntities() {
+    return triggerEntities.get(Side.CLIENT);
+  }
 
-	public static final void setClientSideTiggerEntities(LinkedHashMap<String, Class<?>[]> triggerEntities) {
-		BSP.debug("Dumping triggerEntities in setClientSideTriggerEntities");
+  public static final void setClientSideTiggerEntities(
+      LinkedHashMap<String, Class<?>[]> triggerEntities) {
+    BSP.debug("Dumping triggerEntities in setClientSideTriggerEntities");
 
-		for (final String key : triggerEntities.keySet()) {
-			BSP.debug(key + ":" + Arrays.toString(triggerEntities.get(key)));
-		}
+    for (final String key : triggerEntities.keySet()) {
+      BSP.debug(key + ":" + Arrays.toString(triggerEntities.get(key)));
+    }
 
-		BSP.debug("End of Dump");
+    BSP.debug("End of Dump");
 
-		BrainStone.triggerEntities.put(Side.CLIENT, triggerEntities);
+    BrainStone.triggerEntities.put(Side.CLIENT, triggerEntities);
 
-		// Make sure all TileEntityBlockBrainStoneTrigger objects are
-		// initialized correctly
-		TileEntityBrainStoneTrigger.retryFailedTileEntities();
-	}
+    // Make sure all TileEntityBlockBrainStoneTrigger objects are
+    // initialized correctly
+    TileEntityBrainStoneTrigger.retryFailedTileEntities();
+  }
 
-	public static final LinkedHashMap<String, Class<?>[]> getServerSideTriggerEntities() {
-		return triggerEntities.get(Side.SERVER);
-	}
+  public static final LinkedHashMap<String, Class<?>[]> getServerSideTriggerEntities() {
+    return triggerEntities.get(Side.SERVER);
+  }
 
-	public static final LinkedHashMap<String, Class<?>[]> getSidedTriggerEntities() {
-		return triggerEntities.get(FMLCommonHandler.instance().getEffectiveSide());
-	}
+  public static final LinkedHashMap<String, Class<?>[]> getSidedTriggerEntities() {
+    return triggerEntities.get(FMLCommonHandler.instance().getEffectiveSide());
+  }
 }

@@ -8,19 +8,19 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BrainStoneModCreativeTab extends CreativeTabs {
-	private ItemStack iconItem = null;
+  private ItemStack iconItem = null;
 
-	public BrainStoneModCreativeTab() {
-		super("tab" + BrainStone.MOD_ID);
-	}
+  public BrainStoneModCreativeTab() {
+    super("tab" + BrainStone.MOD_ID);
+  }
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public ItemStack createIcon() {
-		if (iconItem == null) {
-			iconItem = new ItemStack(BrainStoneBlocks.brainStone());
-		}
+  @Override
+  @SideOnly(Side.CLIENT)
+  public ItemStack createIcon() {
+    if (iconItem == null) {
+      iconItem = new ItemStack(BrainStoneBlocks.brainStone());
+    }
 
-		return iconItem;
-	}
+    return iconItem;
+  }
 }

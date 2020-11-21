@@ -8,29 +8,28 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public class TinkersConstructCompat implements IModIntegration {
-	@Getter
-	private TinkersContructMaterials materials;
+  @Getter private TinkersContructMaterials materials;
 
-	@Override
-	public void preInit(FMLPreInitializationEvent event) {
-		materials = new TinkersContructMaterials();
+  @Override
+  public void preInit(FMLPreInitializationEvent event) {
+    materials = new TinkersContructMaterials();
 
-		materials.createToolMaterials();
-		materials.addToolMaterialStats();
-		materials.preInitToolMaterials();
+    materials.createToolMaterials();
+    materials.addToolMaterialStats();
+    materials.preInitToolMaterials();
 
-		MinecraftForge.EVENT_BUS.register(materials);
-	}
+    MinecraftForge.EVENT_BUS.register(materials);
+  }
 
-	@Override
-	public void init(FMLInitializationEvent event) {
-		materials.addToolMaterialTraits();
-		materials.addToolMaterialItems();
-		materials.initToolMaterials();
-	}
+  @Override
+  public void init(FMLInitializationEvent event) {
+    materials.addToolMaterialTraits();
+    materials.addToolMaterialItems();
+    materials.initToolMaterials();
+  }
 
-	@Override
-	public void postInit(FMLPostInitializationEvent event) {
-		// Do nothing
-	}
+  @Override
+  public void postInit(FMLPostInitializationEvent event) {
+    // Do nothing
+  }
 }

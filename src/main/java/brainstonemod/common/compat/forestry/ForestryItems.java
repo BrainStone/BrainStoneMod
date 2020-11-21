@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 
 @UtilityClass
 public class ForestryItems {
-	public static ItemStack getEmeraldElectronTube() {
-		return ModuleCore.items.tubes.get(EnumElectronTube.EMERALD, 1);
-	}
+  public static ItemStack getEmeraldElectronTube() {
+    return ModuleCore.items.tubes.get(EnumElectronTube.EMERALD, 1);
+  }
 }

@@ -9,29 +9,29 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public class DraconicEvolutionCompat implements IModIntegration {
-	@Override
-	public void preInit(FMLPreInitializationEvent event) {
-		// Do nothing
-	}
+  @Override
+  public void preInit(FMLPreInitializationEvent event) {
+    // Do nothing
+  }
 
-	@Override
-	public void init(FMLInitializationEvent event) {
-		BrainStoneLifeCapacitorFusionUpgrade upgradeCapacity = new BrainStoneLifeCapacitorFusionUpgrade(
-				BrainStoneLifeCapacitorUpgrade.Upgrade.CAPACITY);
-		BrainStoneLifeCapacitorFusionUpgrade upgradeCharging = new BrainStoneLifeCapacitorFusionUpgrade(
-				BrainStoneLifeCapacitorUpgrade.Upgrade.CHARGING);
+  @Override
+  public void init(FMLInitializationEvent event) {
+    BrainStoneLifeCapacitorFusionUpgrade upgradeCapacity =
+        new BrainStoneLifeCapacitorFusionUpgrade(BrainStoneLifeCapacitorUpgrade.Upgrade.CAPACITY);
+    BrainStoneLifeCapacitorFusionUpgrade upgradeCharging =
+        new BrainStoneLifeCapacitorFusionUpgrade(BrainStoneLifeCapacitorUpgrade.Upgrade.CHARGING);
 
-		// Capacitor Recipes
-		FusionRecipeAPI.addRecipe(upgradeCapacity);
-		FusionRecipeAPI.addRecipe(upgradeCharging);
+    // Capacitor Recipes
+    FusionRecipeAPI.addRecipe(upgradeCapacity);
+    FusionRecipeAPI.addRecipe(upgradeCharging);
 
-		// For advancements
-		MinecraftForge.EVENT_BUS.register(upgradeCapacity);
-		MinecraftForge.EVENT_BUS.register(upgradeCharging);
-	}
+    // For advancements
+    MinecraftForge.EVENT_BUS.register(upgradeCapacity);
+    MinecraftForge.EVENT_BUS.register(upgradeCharging);
+  }
 
-	@Override
-	public void postInit(FMLPostInitializationEvent event) {
-		// Do nothing
-	}
+  @Override
+  public void postInit(FMLPostInitializationEvent event) {
+    // Do nothing
+  }
 }

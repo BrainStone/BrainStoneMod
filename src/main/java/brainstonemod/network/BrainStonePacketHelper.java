@@ -19,37 +19,39 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 @Sharable
 @UtilityClass
 public class BrainStonePacketHelper {
-	public static void sendBrainLightSensorSmokePacket(int dimension, int x, int y, int z) {
-		PacketDispatcher.sendToAllAround(new PacketSmokeParticle(x, y, z),
-				new NetworkRegistry.TargetPoint(dimension, x, y, z, 100));
-	}
+  public static void sendBrainLightSensorSmokePacket(int dimension, int x, int y, int z) {
+    PacketDispatcher.sendToAllAround(
+        new PacketSmokeParticle(x, y, z), new NetworkRegistry.TargetPoint(dimension, x, y, z, 100));
+  }
 
-	public static void sendBrainStoneTriggerMobInformationPacketToPlayer(EntityPlayer player) {
-		PacketDispatcher.sendTo(new PacketTriggerMobs(BrainStone.getServerSideTriggerEntities()),
-				(EntityPlayerMP) player);
-	}
+  public static void sendBrainStoneTriggerMobInformationPacketToPlayer(EntityPlayer player) {
+    PacketDispatcher.sendTo(
+        new PacketTriggerMobs(BrainStone.getServerSideTriggerEntities()), (EntityPlayerMP) player);
+  }
 
-	// DOCME
-	public static void sendPlayerUpdateMovementPacket(EntityPlayer entity, double x, double y, double z) {
-		final SPacketEntityVelocity packet = new SPacketEntityVelocity(entity.getEntityId(), x, y, z);
+  // DOCME
+  public static void sendPlayerUpdateMovementPacket(
+      EntityPlayer entity, double x, double y, double z) {
+    final SPacketEntityVelocity packet = new SPacketEntityVelocity(entity.getEntityId(), x, y, z);
 
-		sendPacket(entity, packet);
-	}
+    sendPacket(entity, packet);
+  }
 
-	// DOCME
-	public static void sendReRenderBlockAtPacket(int dimension, int x, int y, int z, World world) {
-		PacketDispatcher.sendToAllAround(new PacketRedoRender(x, y, z),
-				new NetworkRegistry.TargetPoint(dimension, x, y, z, 100));
-	}
+  // DOCME
+  public static void sendReRenderBlockAtPacket(int dimension, int x, int y, int z, World world) {
+    PacketDispatcher.sendToAllAround(
+        new PacketRedoRender(x, y, z), new NetworkRegistry.TargetPoint(dimension, x, y, z, 100));
+  }
 
-	public static void sendServerOverridesPacket(EntityPlayer player) {
-		PacketDispatcher.sendTo(new PacketOverrideClientSettings(BrainStoneConfigWrapper.getOverrideValues()),
-				(EntityPlayerMP) player);
-	}
+  public static void sendServerOverridesPacket(EntityPlayer player) {
+    PacketDispatcher.sendTo(
+        new PacketOverrideClientSettings(BrainStoneConfigWrapper.getOverrideValues()),
+        (EntityPlayerMP) player);
+  }
 
-	public static void sendPacket(Entity player, Packet<?> packet) {
-		if ((player instanceof EntityPlayerMP) && (((EntityPlayerMP) player).connection != null)) {
-			((EntityPlayerMP) player).connection.sendPacket(packet);
-		}
-	}
+  public static void sendPacket(Entity player, Packet<?> packet) {
+    if ((player instanceof EntityPlayerMP) && (((EntityPlayerMP) player).connection != null)) {
+      ((EntityPlayerMP) player).connection.sendPacket(packet);
+    }
+  }
 }

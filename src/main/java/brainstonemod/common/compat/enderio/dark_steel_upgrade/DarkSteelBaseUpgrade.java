@@ -8,23 +8,24 @@ import lombok.RequiredArgsConstructor;
 import net.minecraft.item.ItemStack;
 
 public abstract class DarkSteelBaseUpgrade extends AbstractUpgrade {
-	@Getter private final String id;
-	@Getter private final ItemStack upgradeItem;
-	
-	protected DarkSteelBaseUpgrade(ItemStack upgradeItem, String upgradeName, int levelCost) {
-		super(BrainStone.MOD_ID, upgradeName, KEY_UPGRADE_PREFIX + upgradeName, new IntValue(levelCost));
-		
-		this.id = BrainStone.MOD_ID + ':' + upgradeName;
-		this.upgradeItem = upgradeItem;
-	}
-	
-	@RequiredArgsConstructor
-	private static class IntValue implements IValue<Integer> {
-		private final int value;
+  @Getter private final String id;
+  @Getter private final ItemStack upgradeItem;
 
-		@Override
-		public Integer get() {
-			return value;
-		}
-	}
+  protected DarkSteelBaseUpgrade(ItemStack upgradeItem, String upgradeName, int levelCost) {
+    super(
+        BrainStone.MOD_ID, upgradeName, KEY_UPGRADE_PREFIX + upgradeName, new IntValue(levelCost));
+
+    this.id = BrainStone.MOD_ID + ':' + upgradeName;
+    this.upgradeItem = upgradeItem;
+  }
+
+  @RequiredArgsConstructor
+  private static class IntValue implements IValue<Integer> {
+    private final int value;
+
+    @Override
+    public Integer get() {
+      return value;
+    }
+  }
 }

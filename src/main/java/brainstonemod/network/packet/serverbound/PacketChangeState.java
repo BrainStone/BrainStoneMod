@@ -11,45 +11,53 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketChangeState implements IMessage {
-	private int x;
-	private short y;
-	private int z;
+  private int x;
+  private short y;
+  private int z;
 
-	public PacketChangeState() {
-	}
+  public PacketChangeState() {}
 
-	public PacketChangeState(TileEntity tileentity) {
-		x = tileentity.getPos().getX();
-		y = (short) tileentity.getPos().getY();
-		z = tileentity.getPos().getZ();
-	}
+  public PacketChangeState(TileEntity tileentity) {
+    x = tileentity.getPos().getX();
+    y = (short) tileentity.getPos().getY();
+    z = tileentity.getPos().getZ();
+  }
 
-	@Override
-	public void fromBytes(ByteBuf buf) {
-		x = buf.readInt();
-		y = buf.readShort();
-		z = buf.readInt();
-	}
+  @Override
+  public void fromBytes(ByteBuf buf) {
+    x = buf.readInt();
+    y = buf.readShort();
+    z = buf.readInt();
+  }
 
-	@Override
-	public void toBytes(ByteBuf buf) {
-		buf.writeInt(x);
-		buf.writeShort(y);
-		buf.writeInt(z);
-	}
+  @Override
+  public void toBytes(ByteBuf buf) {
+    buf.writeInt(x);
+    buf.writeShort(y);
+    buf.writeInt(z);
+  }
 
-	public static class Handler extends AbstractServerMessageHandler<PacketChangeState> {
-		@Override
-		public IMessage handleServerMessage(EntityPlayer player, PacketChangeState message, MessageContext ctx) {
-			TileEntity te = player.world.getTileEntity(new BlockPos(message.x, message.y, message.z));
-			if (te instanceof TileEntityBrainLightSensor) {
-				((TileEntityBrainLightSensor) te).changeState();
-				return new PacketSyncChangeState(te, ((TileEntityBrainLightSensor) te).getState());
-			} else {
-				BSP.error("Tile Entity at " + message.x + ", " + message.y + ", " + message.z + " was " + te
-						+ " and not TileEntityBrainLightSensor.");
-				return null;
-			}
-		}
-	}
+  public static class Handler extends AbstractServerMessageHandler<PacketChangeState> {
+    @Override
+    public IMessage handleServerMessage(
+        EntityPlayer player, PacketChangeState message, MessageContext ctx) {
+      TileEntity te = player.world.getTileEntity(new BlockPos(message.x, message.y, message.z));
+      if (te instanceof TileEntityBrainLightSensor) {
+        ((TileEntityBrainLightSensor) te).changeState();
+        return new PacketSyncChangeState(te, ((TileEntityBrainLightSensor) te).getState());
+      } else {
+        BSP.error(
+            "Tile Entity at "
+                + message.x
+                + ", "
+                + message.y
+                + ", "
+                + message.z
+                + " was "
+                + te
+                + " and not TileEntityBrainLightSensor.");
+        return null;
+      }
+    }
+  }
 }

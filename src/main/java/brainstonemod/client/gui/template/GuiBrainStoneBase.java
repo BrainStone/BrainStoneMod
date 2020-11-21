@@ -1,10 +1,7 @@
 package brainstonemod.client.gui.template;
 
-import org.lwjgl.opengl.GL11;
-
-import com.google.common.base.CaseFormat;
-
 import brainstonemod.BrainStone;
+import com.google.common.base.CaseFormat;
 import lombok.AccessLevel;
 import lombok.Getter;
 import net.minecraft.client.Minecraft;
@@ -19,263 +16,258 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
+import org.lwjgl.opengl.GL11;
 
 public abstract class GuiBrainStoneBase extends GuiContainer {
-	protected final SoundHandler soundHandler;
-	protected final TileEntity tileentity;
-	protected boolean textureLoaded;
-	@Getter(AccessLevel.PROTECTED)
-	private final String textureBaseName;
+  protected final SoundHandler soundHandler;
+  protected final TileEntity tileentity;
+  protected boolean textureLoaded;
 
-	public GuiBrainStoneBase(Container par1Container, TileEntity tileentity) {
-		super(par1Container);
+  @Getter(AccessLevel.PROTECTED)
+  private final String textureBaseName;
 
-		soundHandler = Minecraft.getMinecraft().getSoundHandler();
-		this.tileentity = tileentity;
-		textureLoaded = false;
-		textureBaseName = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, getClass().getSimpleName());
-	}
+  public GuiBrainStoneBase(Container par1Container, TileEntity tileentity) {
+    super(par1Container);
 
-	/**
-	 * Binds a texture with the name of the current class.
-	 */
-	protected void bindTexture() {
-		bindTexture(getTextureBaseName());
-	}
+    soundHandler = Minecraft.getMinecraft().getSoundHandler();
+    this.tileentity = tileentity;
+    textureLoaded = false;
+    textureBaseName =
+        CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, getClass().getSimpleName());
+  }
 
-	/**
-	 * Binds the specified texture into the GUI.<br>
-	 *
-	 * @param resource
-	 *            The texture to be bound
-	 */
-	protected void bindTexture(ResourceLocation resource) {
-		textureLoaded = true;
+  /** Binds a texture with the name of the current class. */
+  protected void bindTexture() {
+    bindTexture(getTextureBaseName());
+  }
 
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+  /**
+   * Binds the specified texture into the GUI.<br>
+   *
+   * @param resource The texture to be bound
+   */
+  protected void bindTexture(ResourceLocation resource) {
+    textureLoaded = true;
 
-		mc.getTextureManager().bindTexture(resource);
-	}
+    GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-	/**
-	 * Binds the specified texture into the GUI.<br>
-	 * The texture is located in the "textures/gui" directory of the
-	 * brainstonemod-assets directory.
-	 *
-	 * @param name
-	 *            The texture to be bound
-	 */
-	protected void bindTexture(String name) {
-		bindTexture(new ResourceLocation(BrainStone.RESOURCE_PACKAGE, "textures/gui/" + name + ".png"));
-	}
+    mc.getTextureManager().bindTexture(resource);
+  }
 
-	/**
-	 * Plays the click sound.
-	 */
-	public void click() {
-		playSoundAtClient(SoundEvents.UI_BUTTON_CLICK);
-	}
+  /**
+   * Binds the specified texture into the GUI.<br>
+   * The texture is located in the "textures/gui" directory of the brainstonemod-assets directory.
+   *
+   * @param name The texture to be bound
+   */
+  protected void bindTexture(String name) {
+    bindTexture(new ResourceLocation(BrainStone.RESOURCE_PACKAGE, "textures/gui/" + name + ".png"));
+  }
 
-	protected void drawCenteredString(String text, float x, float y) {
-		drawCenteredString(text, x, y, 0x000000);
-	}
+  /** Plays the click sound. */
+  public void click() {
+    playSoundAtClient(SoundEvents.UI_BUTTON_CLICK);
+  }
 
-	protected void drawCenteredString(String text, float x, float y, float scale) {
-		drawCenteredString(text, x, y, 0x000000, scale);
-	}
+  protected void drawCenteredString(String text, float x, float y) {
+    drawCenteredString(text, x, y, 0x000000);
+  }
 
-	protected void drawCenteredString(String text, float x, float y, int color) {
-		drawCenteredString(text, x, y, color, 1.0f);
-	}
+  protected void drawCenteredString(String text, float x, float y, float scale) {
+    drawCenteredString(text, x, y, 0x000000, scale);
+  }
 
-	protected void drawCenteredString(String text, float x, float y, int color, float scale) {
-		drawString(text, x - (fontRenderer.getStringWidth(text) / 2.0f),
-				y - (text.split("\r\n|\r|\n").length * (fontRenderer.FONT_HEIGHT / 2)), color, scale);
-	}
+  protected void drawCenteredString(String text, float x, float y, int color) {
+    drawCenteredString(text, x, y, color, 1.0f);
+  }
 
-	protected abstract void drawGuiBackground(float partialTicks, int mouseX, int mouseY);
+  protected void drawCenteredString(String text, float x, float y, int color, float scale) {
+    drawString(
+        text,
+        x - (fontRenderer.getStringWidth(text) / 2.0f),
+        y - (text.split("\r\n|\r|\n").length * (fontRenderer.FONT_HEIGHT / 2)),
+        color,
+        scale);
+  }
 
-	@Override
-	protected final void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-		final int xSizeOld = xSize;
-		final int ySizeOld = ySize;
+  protected abstract void drawGuiBackground(float partialTicks, int mouseX, int mouseY);
 
-		guiLeft = (width - xSize) / 2;
-		guiTop = (height - ySize) / 2;
+  @Override
+  protected final void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+    final int xSizeOld = xSize;
+    final int ySizeOld = ySize;
 
-		GL11.glPushMatrix();
-		GL11.glTranslatef(guiLeft, guiTop, 0.0f);
+    guiLeft = (width - xSize) / 2;
+    guiTop = (height - ySize) / 2;
 
-		textureLoaded = false;
-		drawGuiBackground(partialTicks, mouseX, mouseY);
+    GL11.glPushMatrix();
+    GL11.glTranslatef(guiLeft, guiTop, 0.0f);
 
-		GL11.glPopMatrix();
+    textureLoaded = false;
+    drawGuiBackground(partialTicks, mouseX, mouseY);
 
-		xSize = xSizeOld;
-		ySize = ySizeOld;
+    GL11.glPopMatrix();
 
-		guiLeft = (width - xSize) / 2;
-		guiTop = (height - ySize) / 2;
-	}
+    xSize = xSizeOld;
+    ySize = ySizeOld;
 
-	@Override
-	protected final void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
+    guiLeft = (width - xSize) / 2;
+    guiTop = (height - ySize) / 2;
+  }
 
-		final int xSizeOld = xSize;
-		final int ySizeOld = ySize;
+  @Override
+  protected final void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+    super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 
-		guiLeft = (width - xSize) / 2;
-		guiTop = (height - ySize) / 2;
+    final int xSizeOld = xSize;
+    final int ySizeOld = ySize;
 
-		GL11.glPushMatrix();
-		GL11.glTranslatef(-guiLeft, -guiTop, 0.0f);
-		GL11.glPushMatrix();
-		GL11.glTranslatef(guiLeft, guiTop, 0.0f);
+    guiLeft = (width - xSize) / 2;
+    guiTop = (height - ySize) / 2;
 
-		drawGuiForeground(mouseX, mouseY);
+    GL11.glPushMatrix();
+    GL11.glTranslatef(-guiLeft, -guiTop, 0.0f);
+    GL11.glPushMatrix();
+    GL11.glTranslatef(guiLeft, guiTop, 0.0f);
 
-		GL11.glPopMatrix();
-		GL11.glPopMatrix();
+    drawGuiForeground(mouseX, mouseY);
 
-		xSize = xSizeOld;
-		ySize = ySizeOld;
+    GL11.glPopMatrix();
+    GL11.glPopMatrix();
 
-		guiLeft = (width - xSize) / 2;
-		guiTop = (height - ySize) / 2;
-	}
+    xSize = xSizeOld;
+    ySize = ySizeOld;
 
-	protected void drawGuiForeground(int mouseX, int mouseY) {
-		// Do nothing. By default. Sub classes can override this
-	}
+    guiLeft = (width - xSize) / 2;
+    guiTop = (height - ySize) / 2;
+  }
 
-	protected final void drawMyDefaultBackground() {
-		GL11.glPopMatrix();
+  protected void drawGuiForeground(int mouseX, int mouseY) {
+    // Do nothing. By default. Sub classes can override this
+  }
 
-		drawDefaultBackground();
+  protected final void drawMyDefaultBackground() {
+    GL11.glPopMatrix();
 
-		GL11.glPushMatrix();
-		GL11.glTranslatef(guiLeft, guiTop, 0.0f);
-	}
+    drawDefaultBackground();
 
-	protected void drawString(String text, float x, float y) {
-		drawString(text, x, y, 0x000000);
-	}
+    GL11.glPushMatrix();
+    GL11.glTranslatef(guiLeft, guiTop, 0.0f);
+  }
 
-	protected void drawString(String text, float x, float y, float scale) {
-		drawString(text, x, y, 0x000000, scale);
-	}
+  protected void drawString(String text, float x, float y) {
+    drawString(text, x, y, 0x000000);
+  }
 
-	protected void drawString(String text, float x, float y, int color) {
-		drawString(text, x, y, color, 1.0f);
-	}
+  protected void drawString(String text, float x, float y, float scale) {
+    drawString(text, x, y, 0x000000, scale);
+  }
 
-	protected void drawString(String text, float x, float y, int color, float scale) {
-		GL11.glPushMatrix();
-		prepareMatrices(x, y, scale);
+  protected void drawString(String text, float x, float y, int color) {
+    drawString(text, x, y, color, 1.0f);
+  }
 
-		fontRenderer.drawString(text, 0, 0, color);
+  protected void drawString(String text, float x, float y, int color, float scale) {
+    GL11.glPushMatrix();
+    prepareMatrices(x, y, scale);
 
-		GL11.glPopMatrix();
-	}
+    fontRenderer.drawString(text, 0, 0, color);
 
-	@Override
-	public void drawTexturedModalRect(int x, int y, int u, int v, int width, int height) {
-		if (!textureLoaded) {
-			bindTexture();
-		}
+    GL11.glPopMatrix();
+  }
 
-		super.drawTexturedModalRect(x, y, u, v, width, height);
-	}
+  @Override
+  public void drawTexturedModalRect(int x, int y, int u, int v, int width, int height) {
+    if (!textureLoaded) {
+      bindTexture();
+    }
 
-	protected void drawTexturedModalRect(int x, int y, int u, int v, int width, int height, boolean inverted) {
-		if (inverted) {
-			GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
+    super.drawTexturedModalRect(x, y, u, v, width, height);
+  }
 
-			drawTexturedModalRect(-x - width, -y - height, u, v, width, height);
+  protected void drawTexturedModalRect(
+      int x, int y, int u, int v, int width, int height, boolean inverted) {
+    if (inverted) {
+      GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
 
-			GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
-		} else {
-			drawTexturedModalRect(x, y, u, v, width, height);
-		}
-	}
+      drawTexturedModalRect(-x - width, -y - height, u, v, width, height);
 
-	/**
-	 * Takes two coordinates and checks if they are in a given rectangle
-	 *
-	 * @param x
-	 *            x-Coordinate to check
-	 * @param y
-	 *            y-Coordinate to check
-	 * @param xMin
-	 *            min x-Coordinate
-	 * @param yMin
-	 *            min y-Coordinate
-	 * @param xMax
-	 *            max x-Coordinate
-	 * @param yMax
-	 *            max y-Coordinate
-	 * @return true if the coordinates are in the rectangle and false if not
-	 */
-	protected boolean inField(int x, int y, int xMin, int yMin, int xMax, int yMax) {
-		return (x >= xMin) && (x <= xMax) && (y >= yMin) && (y <= yMax);
-	}
+      GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
+    } else {
+      drawTexturedModalRect(x, y, u, v, width, height);
+    }
+  }
 
-	protected ISound playSoundAtClient(SoundEvent event) {
-		return playSoundAtClient(event, 1.0f, 1.0f);
-	}
+  /**
+   * Takes two coordinates and checks if they are in a given rectangle
+   *
+   * @param x x-Coordinate to check
+   * @param y y-Coordinate to check
+   * @param xMin min x-Coordinate
+   * @param yMin min y-Coordinate
+   * @param xMax max x-Coordinate
+   * @param yMax max y-Coordinate
+   * @return true if the coordinates are in the rectangle and false if not
+   */
+  protected boolean inField(int x, int y, int xMin, int yMin, int xMax, int yMax) {
+    return (x >= xMin) && (x <= xMax) && (y >= yMin) && (y <= yMax);
+  }
 
-	protected ISound playSoundAtClient(SoundEvent event, float volume, float pitch) {
-		return playSoundAtClient(event, SoundCategory.MASTER, volume, pitch);
-	}
+  protected ISound playSoundAtClient(SoundEvent event) {
+    return playSoundAtClient(event, 1.0f, 1.0f);
+  }
 
-	protected ISound playSoundAtClient(SoundEvent event, SoundCategory category) {
-		return playSoundAtClient(event, category, 1.0f, 1.0f);
-	}
+  protected ISound playSoundAtClient(SoundEvent event, float volume, float pitch) {
+    return playSoundAtClient(event, SoundCategory.MASTER, volume, pitch);
+  }
 
-	protected ISound playSoundAtClient(SoundEvent event, SoundCategory category, float volume, float pitch) {
-		BlockPos pos = mc.player.getPosition();
+  protected ISound playSoundAtClient(SoundEvent event, SoundCategory category) {
+    return playSoundAtClient(event, category, 1.0f, 1.0f);
+  }
 
-		PositionedSoundRecord sound = new PositionedSoundRecord(event, category, volume, pitch, pos.getX(), pos.getY(),
-				pos.getZ());
-		soundHandler.playSound(sound);
+  protected ISound playSoundAtClient(
+      SoundEvent event, SoundCategory category, float volume, float pitch) {
+    BlockPos pos = mc.player.getPosition();
 
-		return sound;
-	}
+    PositionedSoundRecord sound =
+        new PositionedSoundRecord(
+            event, category, volume, pitch, pos.getX(), pos.getY(), pos.getZ());
+    soundHandler.playSound(sound);
 
-	protected ISound stopSoundAtClient(ISound sound) {
-		soundHandler.stopSound(sound);
+    return sound;
+  }
 
-		return sound;
-	}
+  protected ISound stopSoundAtClient(ISound sound) {
+    soundHandler.stopSound(sound);
 
-	private void prepareMatrices(float x, float y, float scale) {
-		GL11.glTranslatef(x, y, 0.0F);
-		GL11.glScalef(scale, scale, scale);
-	}
+    return sound;
+  }
 
-	/**
-	 * Closes the Gui
-	 */
-	protected void quit() {
-		mc.player.closeScreen();
-	}
+  private void prepareMatrices(float x, float y, float scale) {
+    GL11.glTranslatef(x, y, 0.0F);
+    GL11.glScalef(scale, scale, scale);
+  }
 
-	protected void setSize(int width, int height) {
-		xSize = width;
-		ySize = height;
-	}
+  /** Closes the Gui */
+  protected void quit() {
+    mc.player.closeScreen();
+  }
 
-	protected void setTempSize(int width, int height) {
-		GL11.glPopMatrix();
+  protected void setSize(int width, int height) {
+    xSize = width;
+    ySize = height;
+  }
 
-		xSize = width;
-		ySize = height;
+  protected void setTempSize(int width, int height) {
+    GL11.glPopMatrix();
 
-		guiLeft = (this.width - xSize) / 2;
-		guiTop = (this.height - ySize) / 2;
+    xSize = width;
+    ySize = height;
 
-		GL11.glPushMatrix();
-		GL11.glTranslatef(guiLeft, guiTop, 0.0f);
-	}
+    guiLeft = (this.width - xSize) / 2;
+    guiTop = (this.height - ySize) / 2;
+
+    GL11.glPushMatrix();
+    GL11.glTranslatef(guiLeft, guiTop, 0.0f);
+  }
 }

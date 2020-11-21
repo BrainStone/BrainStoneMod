@@ -37,78 +37,88 @@ import net.minecraftforge.fml.relauncher.Side;
  * @author The_Fireplace
  */
 public class PacketDispatcher {
-	private static byte packetId = 0;
-	private static final SimpleNetworkWrapper dispatcher = NetworkRegistry.INSTANCE.newSimpleChannel(BrainStone.MOD_ID);
+  private static byte packetId = 0;
+  private static final SimpleNetworkWrapper dispatcher =
+      NetworkRegistry.INSTANCE.newSimpleChannel(BrainStone.MOD_ID);
 
-	public static final void registerPackets() {
-		registerMessage(PacketOverrideClientSettings.Handler.class, PacketOverrideClientSettings.class, Side.CLIENT);
-		registerMessage(PacketRequestOverrides.Handler.class, PacketRequestOverrides.class, Side.SERVER);
-		registerMessage(PacketSmokeParticle.Handler.class, PacketSmokeParticle.class, Side.CLIENT);
-		registerMessage(PacketCapacitorData.Handler.class, PacketCapacitorData.class, Side.CLIENT);
-		registerMessage(PacketRedoRender.Handler.class, PacketRedoRender.class, Side.CLIENT);
-		registerMessage(PacketTriggerMobs.Handler.class, PacketTriggerMobs.class, Side.CLIENT);
-		registerMessage(PacketLightSensor.Handler.class, PacketLightSensor.class, Side.SERVER);
-		registerMessage(PacketSyncLightSensor.Handler.class, PacketSyncLightSensor.class, Side.CLIENT);
-		registerMessage(PacketChangeDirection.Handler.class, PacketChangeDirection.class, Side.SERVER);
-		registerMessage(PacketSyncChangeDirection.Handler.class, PacketSyncChangeDirection.class, Side.CLIENT);
-		registerMessage(PacketChangeState.Handler.class, PacketChangeState.class, Side.SERVER);
-		registerMessage(PacketSyncChangeState.Handler.class, PacketSyncChangeState.class, Side.CLIENT);
-		registerMessage(PacketInvertMobTriggered.Handler.class, PacketInvertMobTriggered.class, Side.SERVER);
-		registerMessage(PacketSyncInvertMobTriggered.Handler.class, PacketSyncInvertMobTriggered.class, Side.CLIENT);
-		registerMessage(PacketSetMaxDelay.Handler.class, PacketSetMaxDelay.class, Side.SERVER);
-		registerMessage(PacketSyncSetMaxDelay.Handler.class, PacketSyncSetMaxDelay.class, Side.CLIENT);
-		registerMessage(PacketSetMobTriggered.Handler.class, PacketSetMobTriggered.class, Side.SERVER);
-		registerMessage(PacketSyncSetMobTriggered.Handler.class, PacketSyncSetMobTriggered.class, Side.CLIENT);
-		registerMessage(PacketDisableMobs.Handler.class, PacketDisableMobs.class, Side.SERVER);
-		registerMessage(PacketSyncDisableMobs.Handler.class, PacketSyncDisableMobs.class, Side.CLIENT);
-		registerMessage(PacketEnableMobs.Handler.class, PacketEnableMobs.class, Side.SERVER);
-		registerMessage(PacketSyncEnableMobs.Handler.class, PacketSyncEnableMobs.class, Side.CLIENT);
-		registerMessage(PacketEasterEgg.Handler.class, PacketEasterEgg.class, Side.SERVER);
-	}
+  public static final void registerPackets() {
+    registerMessage(
+        PacketOverrideClientSettings.Handler.class,
+        PacketOverrideClientSettings.class,
+        Side.CLIENT);
+    registerMessage(
+        PacketRequestOverrides.Handler.class, PacketRequestOverrides.class, Side.SERVER);
+    registerMessage(PacketSmokeParticle.Handler.class, PacketSmokeParticle.class, Side.CLIENT);
+    registerMessage(PacketCapacitorData.Handler.class, PacketCapacitorData.class, Side.CLIENT);
+    registerMessage(PacketRedoRender.Handler.class, PacketRedoRender.class, Side.CLIENT);
+    registerMessage(PacketTriggerMobs.Handler.class, PacketTriggerMobs.class, Side.CLIENT);
+    registerMessage(PacketLightSensor.Handler.class, PacketLightSensor.class, Side.SERVER);
+    registerMessage(PacketSyncLightSensor.Handler.class, PacketSyncLightSensor.class, Side.CLIENT);
+    registerMessage(PacketChangeDirection.Handler.class, PacketChangeDirection.class, Side.SERVER);
+    registerMessage(
+        PacketSyncChangeDirection.Handler.class, PacketSyncChangeDirection.class, Side.CLIENT);
+    registerMessage(PacketChangeState.Handler.class, PacketChangeState.class, Side.SERVER);
+    registerMessage(PacketSyncChangeState.Handler.class, PacketSyncChangeState.class, Side.CLIENT);
+    registerMessage(
+        PacketInvertMobTriggered.Handler.class, PacketInvertMobTriggered.class, Side.SERVER);
+    registerMessage(
+        PacketSyncInvertMobTriggered.Handler.class,
+        PacketSyncInvertMobTriggered.class,
+        Side.CLIENT);
+    registerMessage(PacketSetMaxDelay.Handler.class, PacketSetMaxDelay.class, Side.SERVER);
+    registerMessage(PacketSyncSetMaxDelay.Handler.class, PacketSyncSetMaxDelay.class, Side.CLIENT);
+    registerMessage(PacketSetMobTriggered.Handler.class, PacketSetMobTriggered.class, Side.SERVER);
+    registerMessage(
+        PacketSyncSetMobTriggered.Handler.class, PacketSyncSetMobTriggered.class, Side.CLIENT);
+    registerMessage(PacketDisableMobs.Handler.class, PacketDisableMobs.class, Side.SERVER);
+    registerMessage(PacketSyncDisableMobs.Handler.class, PacketSyncDisableMobs.class, Side.CLIENT);
+    registerMessage(PacketEnableMobs.Handler.class, PacketEnableMobs.class, Side.SERVER);
+    registerMessage(PacketSyncEnableMobs.Handler.class, PacketSyncEnableMobs.class, Side.CLIENT);
+    registerMessage(PacketEasterEgg.Handler.class, PacketEasterEgg.class, Side.SERVER);
+  }
 
-	/**
-	 * Registers a packet
-	 *
-	 * @param handlerClass
-	 *            The packet recieved handler
-	 * @param messageClass
-	 *            The packet class
-	 * @param reciver
-	 *            The side the packet will be sent to
-	 */
-	private static final <P extends IMessage, H extends IMessageHandler<P, IMessage>> void registerMessage(
-			Class<H> handlerClass, Class<P> messageClass, Side reciver) {
-		dispatcher.registerMessage(handlerClass, messageClass, packetId++, reciver);
-	}
+  /**
+   * Registers a packet
+   *
+   * @param handlerClass The packet recieved handler
+   * @param messageClass The packet class
+   * @param reciver The side the packet will be sent to
+   */
+  private static final <P extends IMessage, H extends IMessageHandler<P, IMessage>>
+      void registerMessage(Class<H> handlerClass, Class<P> messageClass, Side reciver) {
+    dispatcher.registerMessage(handlerClass, messageClass, packetId++, reciver);
+  }
 
-	// Wrapper methods
-	public static final void sendTo(IMessage message, EntityPlayerMP player) {
-		dispatcher.sendTo(message, player);
-	}
+  // Wrapper methods
+  public static final void sendTo(IMessage message, EntityPlayerMP player) {
+    dispatcher.sendTo(message, player);
+  }
 
-	public static final void sendToAll(IMessage message) {
-		dispatcher.sendToAll(message);
-	}
+  public static final void sendToAll(IMessage message) {
+    dispatcher.sendToAll(message);
+  }
 
-	public static final void sendToAllAround(IMessage message, NetworkRegistry.TargetPoint point) {
-		dispatcher.sendToAllAround(message, point);
-	}
+  public static final void sendToAllAround(IMessage message, NetworkRegistry.TargetPoint point) {
+    dispatcher.sendToAllAround(message, point);
+  }
 
-	public static final void sendToAllAround(IMessage message, int dimension, double x, double y, double z,
-			double range) {
-		sendToAllAround(message, new NetworkRegistry.TargetPoint(dimension, x, y, z, range));
-	}
+  public static final void sendToAllAround(
+      IMessage message, int dimension, double x, double y, double z, double range) {
+    sendToAllAround(message, new NetworkRegistry.TargetPoint(dimension, x, y, z, range));
+  }
 
-	public static final void sendToAllAround(IMessage message, EntityPlayer player, double range) {
-		sendToAllAround(message, new NetworkRegistry.TargetPoint(player.world.provider.getDimension(), player.posX,
-				player.posY, player.posZ, range));
-	}
+  public static final void sendToAllAround(IMessage message, EntityPlayer player, double range) {
+    sendToAllAround(
+        message,
+        new NetworkRegistry.TargetPoint(
+            player.world.provider.getDimension(), player.posX, player.posY, player.posZ, range));
+  }
 
-	public static final void sendToDimension(IMessage message, int dimensionId) {
-		dispatcher.sendToDimension(message, dimensionId);
-	}
+  public static final void sendToDimension(IMessage message, int dimensionId) {
+    dispatcher.sendToDimension(message, dimensionId);
+  }
 
-	public static final void sendToServer(IMessage message) {
-		dispatcher.sendToServer(message);
-	}
+  public static final void sendToServer(IMessage message) {
+    dispatcher.sendToServer(message);
+  }
 }

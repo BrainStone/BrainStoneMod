@@ -8,14 +8,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 
 public class ItemSwordBrainStone extends ItemSword {
-	public ItemSwordBrainStone(ToolMaterial enumtoolmaterial) {
-		super(enumtoolmaterial);
+  public ItemSwordBrainStone(ToolMaterial enumtoolmaterial) {
+    super(enumtoolmaterial);
 
-		setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.COMBAT));
-	}
+    setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.COMBAT));
+  }
 
-	@Override
-	public boolean getIsRepairable(ItemStack tool, ItemStack material) {
-		return Block.getBlockFromItem(material.getItem()) == BrainStoneBlocks.brainStone();
-	}
+  @Override
+  public boolean getIsRepairable(ItemStack tool, ItemStack material) {
+    return Block.getBlockFromItem(material.getItem()) == BrainStoneBlocks.brainStone();
+  }
 }

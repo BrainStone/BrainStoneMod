@@ -7,15 +7,15 @@ import net.minecraftforge.oredict.OreDictionary;
 
 @UtilityClass
 public class ThermalFoundationItems {
-	public static ItemStack getSlag() {
-		return ItemMaterial.crystalSlag;
-	}
+  public static ItemStack getSlag() {
+    return ItemMaterial.crystalSlag;
+  }
 
-	public static ItemStack getPyrotheumDust() {
-		return ItemMaterial.dustPyrotheum;
-	}
+  public static ItemStack getPyrotheumDust() {
+    return ItemMaterial.dustPyrotheum;
+  }
 
-	public static String getPyrotheumDustDict() {
-		return OreDictionary.getOreName(OreDictionary.getOreIDs(getPyrotheumDust())[0]);
-	}
+  public static String getPyrotheumDustDict() {
+    return OreDictionary.getOreName(OreDictionary.getOreIDs(getPyrotheumDust())[0]);
+  }
 }

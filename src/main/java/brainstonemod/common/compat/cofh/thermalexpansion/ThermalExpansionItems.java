@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 
 @UtilityClass
 public class ThermalExpansionItems {
-	public static ItemStack getResonantFluxCapacitor() {
-		return ItemCapacitor.capacitorResonant;
-	}
+  public static ItemStack getResonantFluxCapacitor() {
+    return ItemCapacitor.capacitorResonant;
+  }
 }

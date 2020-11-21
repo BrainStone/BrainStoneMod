@@ -6,14 +6,14 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 
 public abstract class BlockBrainStoneHiders extends BlockBrainStoneContainerBase {
-	public BlockBrainStoneHiders() {
-		super(Material.ROCK);
+  public BlockBrainStoneHiders() {
+    super(Material.ROCK);
 
-		setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.REDSTONE));
-	}
+    setCreativeTab(BrainStone.getCreativeTab(CreativeTabs.REDSTONE));
+  }
 
-	@Override
-	public boolean canProvidePower(IBlockState state) {
-		return true;
-	}
+  @Override
+  public boolean canProvidePower(IBlockState state) {
+    return true;
+  }
 }
