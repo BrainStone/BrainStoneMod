@@ -24,7 +24,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import scala.reflect.internal.Trees.If;
 
 public class ItemToolBrainStone extends ItemTool {
@@ -48,26 +47,11 @@ public class ItemToolBrainStone extends ItemTool {
 		type = type.toLowerCase();
 
 		if (type.contains("spade")) {
-			try {
 				return ItemSpade.EFFECTIVE_ON;
-			} catch (IllegalAccessError e) {
-				return ReflectionHelper.getPrivateValue(ItemSpade.class, null, "EFFECTIVE_ON", "field_150916_c",
-						"field_150915_c", "field_150917_c");
-			}
 		} else if (type.contains("pickaxe")) {
-			try {
 				return ItemPickaxe.EFFECTIVE_ON;
-			} catch (IllegalAccessError e) {
-				return ReflectionHelper.getPrivateValue(ItemPickaxe.class, null, "EFFECTIVE_ON", "field_150916_c",
-						"field_150915_c", "field_150917_c");
-			}
 		} else if (type.contains("axe")) {
-			try {
 				return ItemAxe.EFFECTIVE_ON;
-			} catch (IllegalAccessError e) {
-				return ReflectionHelper.getPrivateValue(ItemAxe.class, null, "EFFECTIVE_ON", "field_150916_c",
-						"field_150915_c", "field_150917_c");
-			}
 		}
 
 		BSP.throwIllegalArgumentException("The tool type \"" + type

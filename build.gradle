@@ -62,6 +62,7 @@ dependencies {
     // External Mods
     api fg.deobf("team.chisel.ctm:CTM:MC${minecraft_version}-${ctm_version}")
 
+    api fg.deobf("com.brandon3055.brandonscore:BrandonsCore:${minecraft_version}-${brandonsCore_version}:universal")
     api fg.deobf("com.brandon3055.draconicevolution:Draconic-Evolution:${minecraft_version}-${draconicEvolution_version}:universal") {
         exclude module: "jei_${minecraft_version}"
         exclude module: "jei_1.12"
