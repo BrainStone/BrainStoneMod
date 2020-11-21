@@ -2,30 +2,27 @@
 ## Gradle
 #################
 
-/build/
-/dist/
-/nbproject/
-build.xml
-manifest.mf
-/bin/
-.project
-log.txt
-.settings/org.eclipse.jdt.core.prefs
-**/bin
-**/build
-.gradle
-**/.project
-**/.classpath
-**/.factorypath
-**/.settings
-**/.apt_generated
+.gradle/
+build/
 gradle-app.setting
+
+# Test reports
+*-TestReport*
+# Coverage reports
+*-CoverageReport*
+# Spotbugs reports
+*-SpotbugsReport*
+
+# MC related folders
+run/
+logs/
 
 #################
 ## Eclipse
 #################
 
 *.pydevproject
+.project
 .metadata
 bin/
 tmp/
@@ -37,7 +34,6 @@ local.properties
 .classpath
 .settings/
 .loadpath
-/eclipse/
 
 # External tool builders
 .externalToolBuilders/
@@ -51,25 +47,33 @@ local.properties
 # PDT-specific
 .buildpath
 
+
 #################
-## Idea
+## IntelliJ
 #################
 
-out
+.idea/
+*.iml
 *.ipr
 *.iws
-*.iml
-.idea
 
-#################
-## Windows
-#################
+
+#############
+## Windows detritus
+#############
 
 # Windows image file caches
 Thumbs.db
+ehthumbs.db
 
 # Folder config file
 Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Mac crap
+.DS_Store
 
 #################
 ## Dev Env

@@ -6,5 +6,5 @@ jdk:
 git:
   depth: false
 
-install: true
-script: "./gradlew build --refresh-dependencies"
+install: "./gradlew assemble --refresh-dependencies"
+script:  "./gradlew build --refresh-dependencies"
