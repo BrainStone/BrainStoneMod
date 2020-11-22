@@ -2,7 +2,7 @@
 ============================================================================
 
 [![Curse Forge](http://cf.way2muchnoise.eu/short_250836_downloads.svg)](https://minecraft.curseforge.com/projects/brain-stone-mod)
-[![Build Status](https://gitlab.aura-dev.team/BrainStone/brainstone/badges/1.12.x/build.svg)](https://gitlab.aura-dev.team/BrainStone/brainstone/commits/1.12.x)
+[![Build Status](https://gitlab.aura-dev.team/BrainStone/brainstone/badges/1.12.x/pipeline.svg)](https://gitlab.aura-dev.team/BrainStone/brainstone/pipelines)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/5c4ec0299d094cf3a46a3104122bcc76)](https://www.codacy.com/app/BrainStone/brainstone?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=BrainStone/brainstone&amp;utm_campaign=Badge_Grade)
 
 Starts where all others end
@@ -19,12 +19,12 @@ Please include the following:
 * Minecraft version
 * Brain Stone Mod version
 * Forge version/build
-* Versions of any mods potentially related to the issue 
+* Versions of any mods potentially related to the issue
 * Any relevant screenshots are greatly appreciated.
 * For crashes:
   * Steps to reproduce
   * ForgeModLoader-client-0.log (the FML log) from the root folder of the client
- 
+
 *(When creating a new issue please follow the template)*
 
 [Feature Requests](https://github.com/BrainStone/brainstone/issues)
@@ -47,7 +47,7 @@ So all you have to do to include the mod is add these lines *(in the appropriate
         }
         // Other repos...
     }
-    
+
     dependencies {
         compile "brainstonemod:BrainStoneMod:<version>:deobf"
         // Other dependencies

@@ -60,72 +60,72 @@ repositories {
 
 dependencies {
     // External Mods
-    compileOnly fg.deobf("team.chisel.ctm:CTM:MC${minecraft_version}-${ctm_version}")
+    compileOnly fg.deobf("team.chisel.ctm:CTM:MC${minecraft_version}-${ctm_version}", true)
 
-    compileOnly fg.deobf("com.brandon3055.brandonscore:BrandonsCore:${minecraft_version}-${brandonsCore_version}:universal")
-    compileOnly fg.deobf("com.brandon3055.draconicevolution:Draconic-Evolution:${minecraft_version}-${draconicEvolution_version}:universal") {
+    compileOnly fg.deobf("com.brandon3055.brandonscore:BrandonsCore:${minecraft_version}-${brandonsCore_version}:universal", true)
+    compileOnly fg.deobf("com.brandon3055.draconicevolution:Draconic-Evolution:${minecraft_version}-${draconicEvolution_version}:universal", true) {
         exclude module: "jei_${minecraft_version}"
         exclude module: "jei_1.12"
         exclude module: "OpenComputers"
     }
 
-    compileOnly fg.deobf("com.enderio.core:EnderCore:${minecraft_version}-${endercore_version}")
-    compileOnly fg.deobf("com.enderio:EnderIO:${minecraft_version}-${enderio_version}") {
+    compileOnly fg.deobf("com.enderio.core:EnderCore:${minecraft_version}-${endercore_version}", true)
+    compileOnly fg.deobf("com.enderio:EnderIO:${minecraft_version}-${enderio_version}", true) {
         transitive = false
     }
-    compileOnly fg.deobf("info.loenwind.autoconfig:AutoConfig:${minecraft_version}-${autoConfig_version}")
-    compileOnly fg.deobf("info.loenwind.autosave:AutoSave:${minecraft_version}-${autoSave_version}")
+    compileOnly fg.deobf("info.loenwind.autoconfig:AutoConfig:${minecraft_version}-${autoConfig_version}", true)
+    compileOnly fg.deobf("info.loenwind.autosave:AutoSave:${minecraft_version}-${autoSave_version}", true)
 
-    compileOnly fg.deobf("net.sengir.forestry:forestry_${minecraft_version}:${forestry_version}") {
+    compileOnly fg.deobf("net.sengir.forestry:forestry_${minecraft_version}:${forestry_version}", true) {
         exclude module: "jei_${minecraft_version}"
         exclude module: "jei_1.12"
     }
 
-    compileOnly fg.deobf("net.ndrei:tesla-core-lib:1.12.2-1.0.15.+")
-    // api fg.deobf("com.buuz135.industrial.IndustrialForegoing:industrialforegoing:${minecraft_version}-${industrialForegoing_version}") {
+    compileOnly fg.deobf("net.ndrei:tesla-core-lib:1.12.2-1.0.15.+", true)
+    // api fg.deobf("com.buuz135.industrial.IndustrialForegoing:industrialforegoing:${minecraft_version}-${industrialForegoing_version}", true) {
     //     exclude module: "jei_${minecraft_version}"
     //     exclude module: "jei_1.12"
     //     exclude module: "RedstoneFlux"
     //     exclude module: "tesla-core-lib"
     // }
 
-    compileOnly fg.deobf("blusunrize:ImmersiveEngineering:${immersive_engineering_version}")
+    compileOnly fg.deobf("blusunrize:ImmersiveEngineering:${immersive_engineering_version}", true)
 
-    compileOnly fg.deobf("mezz.jei:jei_${minecraft_version}:${jei_version}")
+    compileOnly fg.deobf("mezz.jei:jei_${minecraft_version}:${jei_version}", true)
 
-    compileOnly fg.deobf("jeresources:JustEnoughResources-${minecraft_version}:${justEnoughResources_version}")
+    compileOnly fg.deobf("jeresources:JustEnoughResources-${minecraft_version}:${justEnoughResources_version}", true)
 
-    compileOnly fg.deobf("net.darkhax.tesla:Tesla-${minecraft_version}:${tesla_version}")
+    compileOnly fg.deobf("net.darkhax.tesla:Tesla-${minecraft_version}:${tesla_version}", true)
 
-    compileOnly fg.deobf("cofh:RedstoneArsenal:${minecraft_version}-${redstoneArsenal_version}:universal") {
+    compileOnly fg.deobf("cofh:RedstoneArsenal:${minecraft_version}-${redstoneArsenal_version}:universal", true) {
         exclude module: "jei_${minecraft_version}"
         exclude module: "jei_1.12"
     }
 
-    compileOnly fg.deobf("cofh:CoFHCore:${minecraft_version}-${coFHCore_version}:universal") {
+    compileOnly fg.deobf("cofh:CoFHCore:${minecraft_version}-${coFHCore_version}:universal", true) {
          exclude module: "jei_${minecraft_version}"
          exclude module: "jei_1.12"
     }
-    compileOnly fg.deobf("cofh:CoFHWorld:${minecraft_version}-${coFHWorld_version}:universal") {
+    compileOnly fg.deobf("cofh:CoFHWorld:${minecraft_version}-${coFHWorld_version}:universal", true) {
          exclude module: "jei_${minecraft_version}"
          exclude module: "jei_1.12"
     }
-    compileOnly fg.deobf("cofh:RedstoneFlux:1.12-${redstoneFlux_version}:universal") {
+    compileOnly fg.deobf("cofh:RedstoneFlux:1.12-${redstoneFlux_version}:universal", true) {
          exclude module: "jei_${minecraft_version}"
          exclude module: "jei_1.12"
     }
-    compileOnly fg.deobf("cofh:ThermalFoundation:${minecraft_version}-${thermalFoundation_version}:universal") {
+    compileOnly fg.deobf("cofh:ThermalFoundation:${minecraft_version}-${thermalFoundation_version}:universal", true) {
          exclude module: "jei_${minecraft_version}"
          exclude module: "jei_1.12"
     }
-    compileOnly fg.deobf("cofh:ThermalExpansion:${minecraft_version}-${thermalExpansion_version}:universal") {
+    compileOnly fg.deobf("cofh:ThermalExpansion:${minecraft_version}-${thermalExpansion_version}:universal", true) {
          exclude module: "jei_${minecraft_version}"
          exclude module: "jei_1.12"
     }
-    compileOnly fg.deobf("codechicken:CodeChickenLib:1.12.2-3.2.2.+:universal")
+    compileOnly fg.deobf("codechicken:CodeChickenLib:1.12.2-3.2.2.+:universal", true)
 
-    compileOnly fg.deobf("slimeknights.mantle:Mantle:1.12-${mantle_version}")
-    compileOnly fg.deobf("slimeknights:TConstruct:${minecraft_version}-${tconstruct_version}") {
+    compileOnly fg.deobf("slimeknights.mantle:Mantle:1.12-${mantle_version}", true)
+    compileOnly fg.deobf("slimeknights:TConstruct:${minecraft_version}-${tconstruct_version}", true) {
         exclude module: "jei_${minecraft_version}"
     }
 
@@ -137,11 +137,11 @@ dependencies {
     // Local Mods
     compileOnly "lib:Baubles-1.12:+:deobf"
 
-    compileOnly fg.deobf("lib:ExtremeReactors-${minecraft_version}:+")
+    compileOnly fg.deobf("lib:ExtremeReactors-${minecraft_version}:+", true)
 
-    compileOnly fg.deobf("lib:industrialforegoing-${minecraft_version}:+")
+    compileOnly fg.deobf("lib:industrialforegoing-${minecraft_version}:+", true)
 
-    compileOnly fg.deobf("lib:Overlord-${minecraft_version}:+")
+    compileOnly fg.deobf("lib:Overlord-${minecraft_version}:+", true)
 
     compileOnly fg.deobf("lib:Cucumber-${minecraft_version}:+")
     // Mapping outdated :/
