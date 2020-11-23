@@ -3,6 +3,7 @@ package brainstonemod.common.tileentity;
 import brainstonemod.BrainStone;
 import brainstonemod.BrainStoneBlocks;
 import brainstonemod.common.helper.BSP;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.ArrayList;
 import java.util.HashMap;
 import net.minecraft.block.Block;
@@ -155,6 +156,10 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
     // Do nothing
   }
 
+  @SuppressFBWarnings(
+      value = "RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE",
+      justification =
+          "NBTTagList list = (NBTTagList) compound.getTag(\"Items\") can very well return null")
   @Override
   public void readFromNBT(NBTTagCompound compound) {
     super.readFromNBT(compound);
@@ -337,7 +342,7 @@ public class TileEntityBrainStoneTrigger extends TileEntity implements IInventor
   @Override
   public ItemStack removeStackFromSlot(int index) {
     ItemStack is = getStackInSlot(index);
-    setInventorySlotContents(index, null);
+    setInventorySlotContents(index, ItemStack.EMPTY);
 
     markDirty();
 

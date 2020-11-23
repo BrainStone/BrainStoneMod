@@ -5,7 +5,7 @@ import baubles.api.BaublesApi;
 import brainstonemod.BrainStone;
 import brainstonemod.BrainStoneItems;
 import brainstonemod.common.capability.EnergyContainerItemProvider;
-import brainstonemod.common.capability.IEnergyContainerItem;
+import brainstonemod.common.capability.IAllEnergyContainerItem;
 import brainstonemod.common.compat.BrainStoneModules;
 import brainstonemod.common.config.BrainStoneConfigWrapper;
 import brainstonemod.common.helper.BSP;
@@ -37,6 +37,8 @@ import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientConnectedToSe
 
 @NoArgsConstructor(staticName = "registrar")
 public class BrainStoneEventHandler {
+  private static final Random rand = new Random();
+
   private static boolean checkStack(ItemStack stack, UUID capacitorUUID) {
     return (stack != null)
         && (stack.getItem() != null)
@@ -73,8 +75,8 @@ public class BrainStoneEventHandler {
     ItemStack stack = event.getObject();
     Item item = stack.getItem();
 
-    if (item instanceof IEnergyContainerItem) {
-      IEnergyContainerItem energyItem = (IEnergyContainerItem) item;
+    if (item instanceof IAllEnergyContainerItem) {
+      IAllEnergyContainerItem energyItem = (IAllEnergyContainerItem) item;
       event.addCapability(
           BrainStone.RESOURCE_LOCATION, new EnergyContainerItemProvider(energyItem, stack));
     }
@@ -145,7 +147,7 @@ public class BrainStoneEventHandler {
               1.0 - BrainStoneConfigWrapper.getEssenceOfLifeBaseChance(),
               event.getLootingLevel() + 1);
 
-      if ((new Random()).nextDouble() >= chance) {
+      if (rand.nextDouble() >= chance) {
         event
             .getDrops()
             .add(

@@ -51,7 +51,7 @@ public class ItemEssenceOfLife extends ItemFood {
   }
 
   @AllArgsConstructor
-  private class PotionInfo {
+  private static class PotionInfo {
     private final Potion potionEffect;
     private final int duration;
     private final int level;

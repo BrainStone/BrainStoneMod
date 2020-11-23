@@ -4,6 +4,7 @@ import brainstonemod.BrainStone;
 import brainstonemod.BrainStoneItems;
 import brainstonemod.common.compat.BrainStoneModules;
 import brainstonemod.common.compat.IModIntegration;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -13,6 +14,9 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
+@SuppressFBWarnings(
+    value = "URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD",
+    justification = "Publically readable as external API")
 public class MysticalAgricultureCompat implements IModIntegration {
   public MysticalAgricultureCropType brainStone;
   public MysticalAgricultureCropType essenceOfLife;

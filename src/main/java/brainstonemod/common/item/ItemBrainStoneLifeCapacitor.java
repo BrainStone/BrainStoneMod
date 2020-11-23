@@ -5,7 +5,7 @@ import baubles.api.IBauble;
 import brainstonemod.BrainStone;
 import brainstonemod.client.config.BrainStoneClientConfigWrapper;
 import brainstonemod.common.advancement.CriterionRegistry;
-import brainstonemod.common.capability.IEnergyContainerItem;
+import brainstonemod.common.capability.IAllEnergyContainerItem;
 import brainstonemod.common.compat.BrainStoneModules;
 import brainstonemod.common.config.BrainStoneConfigWrapper;
 import brainstonemod.common.helper.BSP;
@@ -14,6 +14,7 @@ import brainstonemod.common.helper.BrainStonePowerDisplayUtil;
 import brainstonemod.common.item.template.ItemBrainStoneBase;
 import brainstonemod.network.PacketDispatcher;
 import brainstonemod.network.packet.clientbound.PacketCapacitorData;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -51,13 +52,21 @@ import org.lwjgl.input.Keyboard;
 
 @Optional.Interface(iface = "baubles.api.IBauble", modid = BrainStoneModules.BAUBLES_MODID)
 public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase
-    implements IEnergyContainerItem, IBauble {
+    implements IAllEnergyContainerItem, IBauble {
   public static final int MaxDamage = 32;
+
+  @SuppressFBWarnings(
+      value = "MS_CANNOT_BE_FINAL",
+      justification = "Variable can be used outside and can change during runtime")
   public static long RFperHalfHeart;
   /**
    * The maximum level for any type. The limit is calculated by dividing the energy limit of 1 000
    * 000 000 000 RF through the RFperHalfHeart * 10
    */
+  @SuppressFBWarnings(
+      value = {"MS_PKGPROTECT", "NM_FIELD_NAMING_CONVENTION"},
+      justification =
+          "Variable can be used outside and can change during runtime. Naming is also intentional her")
   public static int MaxLevel;
 
   private static final UUID emptyUUID = new UUID(0, 0);
@@ -663,16 +672,19 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase
       }
     }
 
+    @SuppressFBWarnings(
+        value = "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE",
+        justification =
+            "Both exceptional return values of mkdirs() and createNewFile() mean that everything is either fine or very wrong."
+                + "If it's fine, it's fine. If not the following code will throw an IOException that gets handled properly.")
     public void readFromFile() {
       try {
         currentFile.getParentFile().mkdirs();
         currentFile.createNewFile();
 
-        FileInputStream fileInpuStream = new FileInputStream(currentFile);
-
-        readFromStream(fileInpuStream);
-
-        fileInpuStream.close();
+        try (FileInputStream fileInpuStream = new FileInputStream(currentFile)) {
+          readFromStream(fileInpuStream);
+        }
       } catch (IOException e) {
         BSP.errorException(e);
       }
@@ -680,13 +692,18 @@ public class ItemBrainStoneLifeCapacitor extends ItemBrainStoneBase
       writeToFile();
     }
 
+    @SuppressFBWarnings(
+        value = "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE",
+        justification =
+            "The exceptional return value of mkdirs() means that everything is either fine or very wrong."
+                + "If it's fine, it's fine. If not the following code will throw an IOException that gets handled properly.")
     public void writeToFile() {
       try {
-        FileOutputStream fileOutputStream = new FileOutputStream(currentFile);
+        currentFile.getParentFile().mkdirs();
 
-        writeToStream(fileOutputStream);
-
-        fileOutputStream.close();
+        try (FileOutputStream fileOutputStream = new FileOutputStream(currentFile)) {
+          writeToStream(fileOutputStream);
+        }
       } catch (IOException e) {
         BSP.errorException(e);
       }

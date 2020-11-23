@@ -35,7 +35,7 @@ public class IngredientSwitch {
   }
 
   @RequiredArgsConstructor
-  private class Switch {
+  private static class Switch {
     private final Supplier<Boolean> condition;
 
     @Delegate(types = Supplier.class)

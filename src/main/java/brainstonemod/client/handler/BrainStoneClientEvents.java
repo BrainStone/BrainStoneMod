@@ -9,6 +9,7 @@ import brainstonemod.common.handler.BrainStoneEventHandler;
 import brainstonemod.common.item.ItemBrainStoneLifeCapacitor;
 import brainstonemod.network.PacketDispatcher;
 import brainstonemod.network.packet.serverbound.PacketRequestOverrides;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.NoArgsConstructor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -30,6 +31,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * @author The_Fireplace
  * @author BrainStone
  */
+@SuppressFBWarnings(
+    value = "ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD",
+    justification =
+        "GuiIngameForge.left_height needs to modifed. This is normal practice and cannot be achieved sensibly in other ways.")
 @SideOnly(Side.CLIENT)
 @NoArgsConstructor(staticName = "registrar")
 public class BrainStoneClientEvents {

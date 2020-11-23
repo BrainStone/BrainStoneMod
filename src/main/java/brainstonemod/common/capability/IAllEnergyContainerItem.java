@@ -1,6 +1,7 @@
 package brainstonemod.common.capability;
 
 import brainstonemod.common.compat.BrainStoneModules;
+import cofh.redstoneflux.api.IEnergyContainerItem;
 import com.brandon3055.draconicevolution.api.IInvCharge;
 import java.math.BigInteger;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,8 +22,7 @@ import net.minecraftforge.fml.common.Optional;
       iface = "com.brandon3055.draconicevolution.api.IInvCharge",
       modid = BrainStoneModules.DRACONIC_EVOLUTION_MODID)
 })
-public interface IEnergyContainerItem
-    extends cofh.redstoneflux.api.IEnergyContainerItem, IInvCharge {
+public interface IAllEnergyContainerItem extends IEnergyContainerItem, IInvCharge {
   long getMaxEnergyStoredLong(ItemStack stack);
 
   @Override

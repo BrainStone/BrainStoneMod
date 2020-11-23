@@ -10,7 +10,6 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.fml.common.IWorldGenerator;
-import org.apache.commons.lang3.ArrayUtils;
 
 public class BrainStoneOreWorldGenerator implements IWorldGenerator {
   /** Temporary storage of the random parameter in generate */
@@ -35,8 +34,8 @@ public class BrainStoneOreWorldGenerator implements IWorldGenerator {
     this.chunkZ = chunkZ * 16;
     this.world = world;
 
-    if (ArrayUtils.contains(
-        BrainStoneConfigWrapper.getBrainStoneOreDims(), this.world.provider.getDimension())) {
+    if (BrainStoneConfigWrapper.getBrainStoneOreDims()
+        .contains(this.world.provider.getDimension())) {
       this.genMinable(
           BrainStoneBlocks.brainStoneOre(),
           BrainStoneConfigWrapper.getBrainStoneOreVeinSize(),

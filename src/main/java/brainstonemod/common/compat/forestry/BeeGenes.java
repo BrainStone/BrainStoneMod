@@ -2,6 +2,7 @@ package brainstonemod.common.compat.forestry;
 
 import brainstonemod.BrainStone;
 import brainstonemod.BrainStoneBlocks;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import forestry.api.apiculture.EnumBeeChromosome;
 import forestry.api.apiculture.FlowerManager;
 import forestry.api.genetics.AlleleManager;
@@ -16,7 +17,17 @@ import lombok.experimental.UtilityClass;
 public class BeeGenes {
   public static final String flowerBrainStone = "brain_stone";
   public static final String flowerStablePulsatingBrainStone = "stable_pulsating_brain_stone";
+
+  @SuppressFBWarnings(
+      value = "MS_PKGPROTECT",
+      justification =
+          "Variable can be used outside of the class and get initialized during runtime")
   public static IAlleleFlowers flowerTypeBrainStone;
+
+  @SuppressFBWarnings(
+      value = "MS_PKGPROTECT",
+      justification =
+          "Variable can be used outside of the class and get initialized during runtime")
   public static IAlleleFlowers flowerTypeStablePulsatingBrainStone;
 
   public static void intiFlowers() {

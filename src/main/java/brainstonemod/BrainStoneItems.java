@@ -6,6 +6,7 @@ import brainstonemod.common.item.ItemEssenceOfLife;
 import brainstonemod.common.item.ItemHoeBrainStone;
 import brainstonemod.common.item.ItemSwordBrainStone;
 import brainstonemod.common.item.ItemToolBrainStone;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.annotation.Nullable;
@@ -21,6 +22,9 @@ import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+@SuppressFBWarnings(
+    value = {"MS_CANNOT_BE_FINAL", "MS_PKGPROTECT"},
+    justification = "No easy way to fix this")
 @NoArgsConstructor(staticName = "registrar")
 public class BrainStoneItems {
   /** The BrainStone Tool Material */

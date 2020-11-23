@@ -36,9 +36,9 @@ import net.minecraftforge.fml.common.Optional;
 public class EnergyContainerItemProvider
     implements IEnergyStorage, ITeslaHolder, ITeslaConsumer, ITeslaProducer, ICapabilityProvider {
   protected final ItemStack container;
-  protected final IEnergyContainerItem item;
+  protected final IAllEnergyContainerItem item;
 
-  public EnergyContainerItemProvider(IEnergyContainerItem item, ItemStack container) {
+  public EnergyContainerItemProvider(IAllEnergyContainerItem item, ItemStack container) {
     this.container = container;
     this.item = item;
   }

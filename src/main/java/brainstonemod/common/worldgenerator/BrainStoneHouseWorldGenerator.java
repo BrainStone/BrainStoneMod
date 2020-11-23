@@ -12,6 +12,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Mirror;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
@@ -22,7 +23,6 @@ import net.minecraft.world.gen.structure.template.PlacementSettings;
 import net.minecraft.world.gen.structure.template.Template;
 import net.minecraft.world.gen.structure.template.TemplateManager;
 import net.minecraftforge.fml.common.IWorldGenerator;
-import org.apache.commons.lang3.ArrayUtils;
 
 public class BrainStoneHouseWorldGenerator implements IWorldGenerator {
   private static final ResourceLocation LOOT_TABLE_TOP =
@@ -63,8 +63,8 @@ public class BrainStoneHouseWorldGenerator implements IWorldGenerator {
     basePos = world.getHeight(new BlockPos(chunkX * 16, 0, chunkZ * 16));
     this.world = world;
 
-    if (ArrayUtils.contains(
-            BrainStoneConfigWrapper.getBrainStoneHouseDims(), this.world.provider.getDimension())
+    if (BrainStoneConfigWrapper.getBrainStoneHouseDims()
+            .contains(this.world.provider.getDimension())
         && (this.random.nextInt(BrainStoneConfigWrapper.getBrainStoneHouseRarity()) == 0)) {
       generate();
     }
@@ -112,7 +112,7 @@ public class BrainStoneHouseWorldGenerator implements IWorldGenerator {
       }
 
       if (locationOk) {
-        housePos = templateShack.getZeroPositionWithTransform(basePos, null, rotation);
+        housePos = templateShack.getZeroPositionWithTransform(basePos, Mirror.NONE, rotation);
 
         break;
       }

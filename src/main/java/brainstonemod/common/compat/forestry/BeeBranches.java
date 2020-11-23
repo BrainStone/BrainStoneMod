@@ -39,29 +39,31 @@ public enum BeeBranches implements IBranchDefinition {
 
   private static IAllele[] getDefaultTemplate() {
     if (defaultTemplate == null) {
-      defaultTemplate = new IAllele[EnumBeeChromosome.values().length];
+      IAllele[] newTemplate = new IAllele[EnumBeeChromosome.values().length];
 
       AlleleHelper.getInstance()
-          .set(defaultTemplate, EnumBeeChromosome.SPEED, EnumAllele.Speed.SLOWEST);
+          .set(newTemplate, EnumBeeChromosome.SPEED, EnumAllele.Speed.SLOWEST);
       AlleleHelper.getInstance()
-          .set(defaultTemplate, EnumBeeChromosome.LIFESPAN, EnumAllele.Lifespan.SHORTER);
+          .set(newTemplate, EnumBeeChromosome.LIFESPAN, EnumAllele.Lifespan.SHORTER);
       AlleleHelper.getInstance()
-          .set(defaultTemplate, EnumBeeChromosome.FERTILITY, EnumAllele.Fertility.NORMAL);
+          .set(newTemplate, EnumBeeChromosome.FERTILITY, EnumAllele.Fertility.NORMAL);
       AlleleHelper.getInstance()
-          .set(defaultTemplate, EnumBeeChromosome.TEMPERATURE_TOLERANCE, EnumAllele.Tolerance.NONE);
-      AlleleHelper.getInstance().set(defaultTemplate, EnumBeeChromosome.NEVER_SLEEPS, false);
+          .set(newTemplate, EnumBeeChromosome.TEMPERATURE_TOLERANCE, EnumAllele.Tolerance.NONE);
+      AlleleHelper.getInstance().set(newTemplate, EnumBeeChromosome.NEVER_SLEEPS, false);
       AlleleHelper.getInstance()
-          .set(defaultTemplate, EnumBeeChromosome.HUMIDITY_TOLERANCE, EnumAllele.Tolerance.NONE);
-      AlleleHelper.getInstance().set(defaultTemplate, EnumBeeChromosome.TOLERATES_RAIN, false);
-      AlleleHelper.getInstance().set(defaultTemplate, EnumBeeChromosome.CAVE_DWELLING, false);
+          .set(newTemplate, EnumBeeChromosome.HUMIDITY_TOLERANCE, EnumAllele.Tolerance.NONE);
+      AlleleHelper.getInstance().set(newTemplate, EnumBeeChromosome.TOLERATES_RAIN, false);
+      AlleleHelper.getInstance().set(newTemplate, EnumBeeChromosome.CAVE_DWELLING, false);
       AlleleHelper.getInstance()
-          .set(defaultTemplate, EnumBeeChromosome.FLOWER_PROVIDER, EnumAllele.Flowers.VANILLA);
+          .set(newTemplate, EnumBeeChromosome.FLOWER_PROVIDER, EnumAllele.Flowers.VANILLA);
       AlleleHelper.getInstance()
-          .set(defaultTemplate, EnumBeeChromosome.FLOWERING, EnumAllele.Flowering.SLOWEST);
+          .set(newTemplate, EnumBeeChromosome.FLOWERING, EnumAllele.Flowering.SLOWEST);
       AlleleHelper.getInstance()
-          .set(defaultTemplate, EnumBeeChromosome.TERRITORY, EnumAllele.Territory.AVERAGE);
+          .set(newTemplate, EnumBeeChromosome.TERRITORY, EnumAllele.Territory.AVERAGE);
       AlleleHelper.getInstance()
-          .set(defaultTemplate, EnumBeeChromosome.EFFECT, AlleleEffects.effectNone);
+          .set(newTemplate, EnumBeeChromosome.EFFECT, AlleleEffects.effectNone);
+
+      defaultTemplate = newTemplate;
     }
 
     return Arrays.copyOf(defaultTemplate, defaultTemplate.length);

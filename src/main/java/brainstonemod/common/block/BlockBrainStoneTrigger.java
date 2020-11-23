@@ -3,10 +3,10 @@ package brainstonemod.common.block;
 import brainstonemod.BrainStone;
 import brainstonemod.common.block.property.UnlistedPropertyCopiedBlock;
 import brainstonemod.common.block.template.BlockBrainStoneHiders;
-import brainstonemod.common.helper.BSP;
 import brainstonemod.common.tileentity.TileEntityBrainStoneTrigger;
 import brainstonemod.network.BrainStoneGuiHandler;
 import brainstonemod.network.BrainStonePacketHelper;
+import edu.umd.cs.findbugs.annotations.Nullable;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
@@ -62,7 +62,7 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 
   @Override
   public int getStrongPower(
-      IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
+      IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, @Nullable EnumFacing side) {
     final TileEntityBrainStoneTrigger tileentityblockbrainstonetrigger =
         (TileEntityBrainStoneTrigger) blockAccess.getTileEntity(pos);
     return ((tileentityblockbrainstonetrigger != null)
@@ -147,12 +147,6 @@ public class BlockBrainStoneTrigger extends BlockBrainStoneHiders {
 
     for (int l = 0; (l < list.size()) && (count < 15); l++) {
       final Class<?> entity = ((Entity) list.get(l)).getClass();
-
-      if (entity == null) {
-        BSP.fatal("Fehler! Die Entity ist nicht vorhanden!");
-        continue;
-      }
-
       final int length = BrainStone.getSidedTriggerEntities().size();
       final String[] keys =
           BrainStone.getSidedTriggerEntities().keySet().toArray(new String[length]);

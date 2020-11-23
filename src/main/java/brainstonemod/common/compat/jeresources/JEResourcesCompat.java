@@ -6,6 +6,7 @@ import brainstonemod.BrainStoneItems;
 import brainstonemod.common.compat.IModIntegration;
 import brainstonemod.common.config.BrainStoneConfigWrapper;
 import brainstonemod.common.helper.BSP;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import jeresources.api.IJERAPI;
 import jeresources.api.JERPlugin;
 import jeresources.api.distributions.DistributionSquare;
@@ -21,7 +22,9 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public class JEResourcesCompat implements IModIntegration {
-  @JERPlugin public static IJERAPI jerAPI;
+  @SuppressFBWarnings(value = "MS_SHOULD_BE_FINAL", justification = "Initialized by JER")
+  @JERPlugin
+  public static IJERAPI jerAPI;
 
   @Override
   public void preInit(FMLPreInitializationEvent event) {

@@ -17,9 +17,11 @@ import brainstonemod.common.worldgenerator.BrainStoneOreWorldGenerator;
 import brainstonemod.network.BrainStoneGuiHandler;
 import brainstonemod.network.BrainStonePacketHelper;
 import brainstonemod.network.PacketDispatcher;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
@@ -84,6 +86,7 @@ public class BrainStone {
   public static final String GUI_FACTORY = "brainstonemod.client.gui.config.BrainStoneGuiFactory";
 
   /** The instance of this mod */
+  @SuppressFBWarnings(value = "MS_SHOULD_BE_FINAL", justification = "Initialized by Forge")
   @Instance(MOD_ID)
   public static BrainStone instance;
 
@@ -93,10 +96,14 @@ public class BrainStone {
   public static final boolean debug = VERSION.toLowerCase().contains("debug");
   /** States if the current mod version is a DEV version or not */
   public static final boolean DEV =
-      VERSION.toLowerCase().contains("dev") || VERSION.toLowerCase().contains("prerelease");
+      VERSION.toLowerCase().contains("dev") || VERSION.toLowerCase().contains("snapshot");
   /** States if this is the eclipse working environment or not */
-  public static boolean DEV_ENV = (Boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment");
+  public static final boolean DEV_ENV =
+      (Boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment");
   /** States if this jar is valid or not. */
+  @SuppressFBWarnings(
+      value = "MS_PKGPROTECT",
+      justification = "Variable can be used outside and can change during runtime")
   public static boolean VALID_JAR = true;
 
   /**
@@ -105,6 +112,7 @@ public class BrainStone {
    * - is client-proxy when this is the client<br>
    * - is server-proxy when this is the server
    */
+  @SuppressFBWarnings(value = "MS_SHOULD_BE_FINAL", justification = "Initialized by Forge")
   @SidedProxy(
       clientSide = "brainstonemod.client.ClientProxy",
       serverSide = "brainstonemod.common.CommonProxy")
@@ -136,6 +144,9 @@ public class BrainStone {
    *
    * @param event The MCForge PreInitializationEvent
    */
+  @SuppressFBWarnings(
+      value = "ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD",
+      justification = "Writing to VALID_JAR intentional")
   @EventHandler
   public void preInit(FMLPreInitializationEvent event) {
     PacketDispatcher.registerPackets();
@@ -384,8 +395,8 @@ public class BrainStone {
       LinkedHashMap<String, Class<?>[]> triggerEntities) {
     BSP.debug("Dumping triggerEntities in setClientSideTriggerEntities");
 
-    for (final String key : triggerEntities.keySet()) {
-      BSP.debug(key + ":" + Arrays.toString(triggerEntities.get(key)));
+    for (final Map.Entry<String, Class<?>[]> entry : triggerEntities.entrySet()) {
+      BSP.debug(entry.getKey() + ":" + Arrays.toString(entry.getValue()));
     }
 
     BSP.debug("End of Dump");

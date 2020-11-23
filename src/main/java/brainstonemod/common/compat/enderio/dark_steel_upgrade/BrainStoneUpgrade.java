@@ -61,7 +61,7 @@ public class BrainStoneUpgrade extends DarkSteelBaseUpgrade implements IHasPlaye
   }
 
   @SideOnly(Side.CLIENT)
-  private class Render implements IRenderUpgrade {
+  private static class Render implements IRenderUpgrade {
     private final ItemStack brainStone = new ItemStack(BrainStoneBlocks.brainStone());
 
     @Override

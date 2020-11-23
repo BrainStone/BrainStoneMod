@@ -3,6 +3,8 @@ package brainstonemod.common.config;
 import brainstonemod.common.compat.BrainStoneModules;
 import brainstonemod.common.compat.ModuleInformation;
 import brainstonemod.common.helper.BSP;
+import com.google.common.collect.ImmutableCollection;
+import com.google.common.collect.ImmutableList;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -30,10 +32,10 @@ public class BrainStoneConfigWrapper {
   @Getter private static boolean enableCreativeTab;
   @Getter private static double essenceOfLifeBaseChance;
   @Getter private static int pulsatingBrainStoneJumpChance;
-  @Getter private static int[] brainStoneOreDims;
+  @Getter private static ImmutableCollection<Integer> brainStoneOreDims;
   @Getter private static int brainStoneOreVeinCount;
   @Getter private static int brainStoneOreVeinSize;
-  @Getter private static int[] brainStoneHouseDims;
+  @Getter private static ImmutableCollection<Integer> brainStoneHouseDims;
   @Getter private static int brainStoneHouseRarity;
   @Getter @ServerOverride private static boolean BSLCallowStealing;
   @Getter @ServerOverride private static long BSLCRFperHalfHeart;
@@ -154,11 +156,14 @@ public class BrainStoneConfigWrapper {
 
   private static void loadWorldgenSettings() {
     brainStoneOreDims =
-        getIntList(
-            CAT_GEN,
-            "BrainStoneOreDimensionsWhitelist",
-            new int[] {0, 7, -100},
-            "In which dimensions should Brain Stone Ore be generated?");
+        Arrays.stream(
+                getIntList(
+                    CAT_GEN,
+                    "BrainStoneOreDimensionsWhitelist",
+                    new int[] {0, 7, -100},
+                    "In which dimensions should Brain Stone Ore be generated?"))
+            .boxed()
+            .collect(ImmutableList.toImmutableList());
     brainStoneOreVeinCount =
         getInt(
             CAT_GEN,
@@ -176,11 +181,14 @@ public class BrainStoneConfigWrapper {
             100,
             "How big should the BrainStoneOre veins be? (In blocks on average)");
     brainStoneHouseDims =
-        getIntList(
-            CAT_GEN,
-            "BrainStoneHouseDimensionsWhitelist",
-            new int[] {0},
-            "In which dimensions should the Brain Stone House be generated?");
+        Arrays.stream(
+                getIntList(
+                    CAT_GEN,
+                    "BrainStoneHouseDimensionsWhitelist",
+                    new int[] {0},
+                    "In which dimensions should the Brain Stone House be generated?"))
+            .boxed()
+            .collect(ImmutableList.toImmutableList());
     brainStoneHouseRarity =
         getInt(
             CAT_GEN,

@@ -4,6 +4,7 @@ import brainstonemod.BrainStoneBlocks;
 import brainstonemod.BrainStoneItems;
 import brainstonemod.common.compat.BrainStoneModules;
 import brainstonemod.common.helper.BrainStoneLifeCapacitorUpgrade;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import javax.annotation.Nonnull;
 import mezz.jei.api.IJeiHelpers;
 import mezz.jei.api.IModPlugin;
@@ -22,6 +23,9 @@ public class BrainstoneJEIPlugin implements IModPlugin {
     helpers.reload();
   }
 
+  @SuppressFBWarnings(
+      value = "ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD",
+      justification = "helpers needs to be initialized.")
   @Override
   public void register(@Nonnull IModRegistry modRegistry) {
     helpers = modRegistry.getJeiHelpers();

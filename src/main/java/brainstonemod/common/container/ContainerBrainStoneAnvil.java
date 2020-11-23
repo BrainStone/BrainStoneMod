@@ -207,10 +207,12 @@ public class ContainerBrainStoneAnvil extends ContainerRepair {
           boolean flag2 = false;
           boolean flag3 = false;
 
-          for (Enchantment enchantment1 : map1.keySet()) {
+          for (Map.Entry<Enchantment, Integer> entry1 : map1.entrySet()) {
+            final Enchantment enchantment1 = entry1.getKey();
+
             if (enchantment1 != null) {
               int i2 = map.containsKey(enchantment1) ? map.get(enchantment1).intValue() : 0;
-              int j2 = map1.get(enchantment1).intValue();
+              int j2 = entry1.getValue().intValue();
               j2 = i2 == j2 ? j2 + 1 : Math.max(j2, i2);
               boolean flag1 = enchantment1.canApply(itemstack);
 

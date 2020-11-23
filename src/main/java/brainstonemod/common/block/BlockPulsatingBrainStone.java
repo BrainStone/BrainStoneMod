@@ -10,6 +10,7 @@ import brainstonemod.common.compat.overlord.OverlordCompat;
 import brainstonemod.common.helper.BSP;
 import brainstonemod.common.item.ItemArmorBrainStone;
 import brainstonemod.network.BrainStonePacketHelper;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -37,6 +38,10 @@ public class BlockPulsatingBrainStone extends Block {
   private static Block hasEffectBlock, hasNoEffectBlock;
   private static long lastGravityChange = 0;
 
+  @SuppressFBWarnings(
+      value = "ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD",
+      justification =
+          "This initializes the different instance variables which are used internally only.")
   public BlockPulsatingBrainStone(boolean effect) {
     super(Material.ROCK);
 
@@ -97,6 +102,10 @@ public class BlockPulsatingBrainStone extends Block {
     return 2;
   }
 
+  @SuppressFBWarnings(
+      value = "ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD",
+      justification =
+          "Writing to lastGravityChange because we want to keep the blocks in sync and only do it once per tick.")
   @Override
   public void updateTick(World world, BlockPos pos, IBlockState state, Random random) {
     if (world.isRemote) return;

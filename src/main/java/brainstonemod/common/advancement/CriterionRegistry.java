@@ -4,10 +4,12 @@ import brainstonemod.common.advancement.criterion.CriterionClaimBrainStoneLifeCa
 import brainstonemod.common.advancement.criterion.CriterionEasterEgg;
 import brainstonemod.common.advancement.criterion.CriterionPulsatingBrainStoneEffect;
 import brainstonemod.common.advancement.criterion.CriterionUpgradeBrainStoneLifeCapacitor;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.experimental.UtilityClass;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.advancements.ICriterionTrigger;
 
+@SuppressFBWarnings(value = "MS_CANNOT_BE_FINAL", justification = "No easy way to fix this")
 @UtilityClass
 public class CriterionRegistry {
   public static CriterionClaimBrainStoneLifeCapacitor CLAIM_BRAIN_STONE_LIFE_CAPACITOR;

@@ -1,6 +1,7 @@
 package brainstonemod.client.render;
 
 import brainstonemod.BrainStone;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.experimental.UtilityClass;
@@ -44,9 +45,13 @@ public class BrainStoneRenderHelper {
     tessellator.draw();
   }
 
+  @SuppressFBWarnings(
+      value = "ICAST_IDIV_CAST_TO_DOUBLE",
+      justification = "Integer truncation is intended here")
   public static void drawCenteredString(String text, float x, float y, int color) {
     FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
 
+    // Intended truncation
     fontRenderer.drawStringWithShadow(text, x - (fontRenderer.getStringWidth(text) / 2), y, color);
   }
 
